@@ -37,6 +37,9 @@
     <Filter Include="Externals\YokosukaEngine\Include\Base\OutputLog">
       <UniqueIdentifier>{a1003834-b1f6-480c-8f9c-39be1069a703}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Base\DirectXCommon">
+      <UniqueIdentifier>{76475598-178b-4577-8171-0fc66cd01585}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,6 +57,9 @@
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp">
       <Filter>Externals\YokosukaEngine\Include\Base\OutputLog</Filter>
     </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Base\DirectXCommon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h">
@@ -67,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.h">
       <Filter>Externals\YokosukaEngine\Include\Base\OutputLog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h">
+      <Filter>Externals\YokosukaEngine\Include\Base\DirectXCommon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
