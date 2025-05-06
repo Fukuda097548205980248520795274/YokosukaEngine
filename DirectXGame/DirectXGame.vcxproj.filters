@@ -28,6 +28,15 @@
     <Filter Include="Externals\YokosukaEngine\Include\Base\WinApp">
       <UniqueIdentifier>{c29bf23f-d5ef-44f7-989c-68b67976123f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Func">
+      <UniqueIdentifier>{03d6fc5f-599e-410c-be7d-992896a4fd70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Func\String">
+      <UniqueIdentifier>{3d827cba-ab48-4cc8-8723-166539b8f26e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Base\OutputLog">
+      <UniqueIdentifier>{a1003834-b1f6-480c-8f9c-39be1069a703}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,6 +48,12 @@
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.cpp">
       <Filter>Externals\YokosukaEngine\Include\Base\WinApp</Filter>
     </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\String\String.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Func\String</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Base\OutputLog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h">
@@ -46,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.h">
       <Filter>Externals\YokosukaEngine\Include\Base\WinApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\String\String.h">
+      <Filter>Externals\YokosukaEngine\Include\Func\String</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.h">
+      <Filter>Externals\YokosukaEngine\Include\Base\OutputLog</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
