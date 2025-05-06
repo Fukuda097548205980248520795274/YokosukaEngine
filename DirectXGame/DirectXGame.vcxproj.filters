@@ -13,10 +13,39 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Externals">
+      <UniqueIdentifier>{c4323793-0208-4b71-b001-72680bd0cc08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine">
+      <UniqueIdentifier>{26de49c6-c22c-409a-9070-d83b08bb715e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include">
+      <UniqueIdentifier>{3a7af73e-d8e7-4a47-83ec-44506ea412b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Base">
+      <UniqueIdentifier>{8b37055f-0c46-4760-971d-a825617eb67e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Base\WinApp">
+      <UniqueIdentifier>{c29bf23f-d5ef-44f7-989c-68b67976123f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.cpp">
+      <Filter>Externals\YokosukaEngine\Include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Base\WinApp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h">
+      <Filter>Externals\YokosukaEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.h">
+      <Filter>Externals\YokosukaEngine\Include\Base\WinApp</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

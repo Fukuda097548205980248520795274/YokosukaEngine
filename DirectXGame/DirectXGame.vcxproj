@@ -82,7 +82,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
