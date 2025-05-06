@@ -40,6 +40,9 @@
     <Filter Include="Externals\YokosukaEngine\Include\Base\DirectXCommon">
       <UniqueIdentifier>{76475598-178b-4577-8171-0fc66cd01585}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Func\CrashHandler">
+      <UniqueIdentifier>{428ddbf1-4996-488e-b523-d2a688b7164c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h">
       <Filter>Externals\YokosukaEngine\Include\Base\DirectXCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h">
+      <Filter>Externals\YokosukaEngine\Include\Func\CrashHandler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

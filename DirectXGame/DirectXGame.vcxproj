@@ -93,6 +93,7 @@
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\String\String.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
