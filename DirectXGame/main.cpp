@@ -10,7 +10,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// メインループ
 	while (yokosukaEngine->ProcessMessage())
 	{
+		// フレーム開始
+		yokosukaEngine->BeginFrame();
 
+		///
+		/// ↓ 更新処理ここから
+		/// 
+
+		///
+		/// ↑ 更新処理ここまで
+		/// 
+
+		///
+		/// ↓ 描画処理ここから
+		/// 
+
+		///
+		/// ↑ 描画処理ここまで
+		/// 
+
+		// フレーム終了
+		yokosukaEngine->EndFrame();
 	}
 
 	// エンジンの解放

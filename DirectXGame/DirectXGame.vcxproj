@@ -86,6 +86,7 @@
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\String\String.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -95,6 +96,7 @@
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\String\String.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

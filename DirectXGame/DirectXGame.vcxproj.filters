@@ -43,6 +43,12 @@
     <Filter Include="Externals\YokosukaEngine\Include\Func\CrashHandler">
       <UniqueIdentifier>{428ddbf1-4996-488e-b523-d2a688b7164c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Math">
+      <UniqueIdentifier>{a602ed82-23f2-450d-b538-5b2969e1d3ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Math\Vector4">
+      <UniqueIdentifier>{a9e033a4-c3ad-40eb-ba63-32310a06d60e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -63,6 +69,9 @@
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp">
       <Filter>Externals\YokosukaEngine\Include\Base\DirectXCommon</Filter>
     </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Math\Vector4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h">
@@ -82,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h">
       <Filter>Externals\YokosukaEngine\Include\Func\CrashHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.h">
+      <Filter>Externals\YokosukaEngine\Include\Math\Vector4</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
