@@ -79,6 +79,9 @@
     <Filter Include="Externals\YokosukaEngine\Include\Math\Camera">
       <UniqueIdentifier>{17d9fc00-9481-4d34-a5c6-ca3918dcd589}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\ImGui">
+      <UniqueIdentifier>{5baf78fb-3f06-48a1-a3fd-5088e63f066b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -125,6 +128,27 @@
     </ClCompile>
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.cpp">
       <Filter>Externals\YokosukaEngine\Include\Math\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\ImGui\imgui.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\ImGui\imgui_demo.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\ImGui\imgui_draw.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\ImGui\imgui_tables.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\ImGui\imgui_widgets.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\ImGui\imgui_impl_dx12.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\ImGui\imgui_impl_win32.cpp">
+      <Filter>Externals\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +197,30 @@
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.h">
       <Filter>Externals\YokosukaEngine\Include\Math\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imconfig.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imgui.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imgui_internal.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imstb_rectpack.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imstb_textedit.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imstb_truetype.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imgui_impl_dx12.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imgui_impl_win32.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Externals\YokosukaEngine\Shader\Object3d.VS.hlsl">
@@ -181,5 +229,10 @@
     <FxCompile Include="..\Externals\YokosukaEngine\Shader\Object3d.PS.hlsl">
       <Filter>Externals\YokosukaEngine\Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Externals\ImGui\LICENSE.txt">
+      <Filter>Externals\ImGui</Filter>
+    </Text>
   </ItemGroup>
 </Project>
