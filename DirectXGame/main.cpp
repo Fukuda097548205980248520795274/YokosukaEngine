@@ -7,6 +7,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	YokosukaEngine* yokosukaEngine = new YokosukaEngine();
 	yokosukaEngine->Initialize(1280, 720);
 
+
+	/*--------------
+	    変数を作る
+	--------------*/
+
+	// 図形
+	WorldTransform* worldTransform = new WorldTransform();
+	worldTransform->Initialize();
+
+	// カメラ
+	Camera* camera = new Camera();
+	camera->Initialize(1280.0f , 720.0f);
+	camera->translation_.z = -5.0f;
+
+
 	// メインループ
 	while (yokosukaEngine->ProcessMessage())
 	{
@@ -17,6 +32,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 更新処理ここから
 		/// 
 
+		// 図形を回転させる
+		worldTransform->rotation_.y += 0.03f;
+
+		// ワールドトランスフォームを更新する
+		worldTransform->UpdateWorldMatrix();
+
+		// カメラを更新する
+		camera->UpdateMatrix();
+
+
 		///
 		/// ↑ 更新処理ここまで
 		/// 
@@ -25,7 +50,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-		yokosukaEngine->DrawTriangle();
+		// 三角形を描画する
+		yokosukaEngine->DrawTriangle(worldTransform, camera);
 
 		///
 		/// ↑ 描画処理ここまで

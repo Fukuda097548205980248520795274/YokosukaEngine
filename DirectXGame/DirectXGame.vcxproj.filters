@@ -64,6 +64,21 @@
     <Filter Include="Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal">
       <UniqueIdentifier>{eebb4e39-c71e-439d-9153-fd79feaef626}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Math\Vector3">
+      <UniqueIdentifier>{69d0549d-0fc3-4590-9f9d-20970e02de42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Math\Vector2">
+      <UniqueIdentifier>{99c3e253-dc01-48e3-983f-99b1e15cef84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Math\Matrix4x4">
+      <UniqueIdentifier>{dc3453f5-0e6c-41c4-957a-158b2c1790f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Math\WorldTransform">
+      <UniqueIdentifier>{708f4c9d-91e3-4c78-b894-63d0ea0d2985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Math\Camera">
+      <UniqueIdentifier>{17d9fc00-9481-4d34-a5c6-ca3918dcd589}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,6 +111,21 @@
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp">
       <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
     </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector3\Vector3.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Math\Vector3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector2\Vector2.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Math\Vector2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Math\Matrix4x4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Math\WorldTransform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Math\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h">
@@ -127,6 +157,21 @@
     </ClInclude>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h">
       <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector3\Vector3.h">
+      <Filter>Externals\YokosukaEngine\Include\Math\Vector3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector2\Vector2.h">
+      <Filter>Externals\YokosukaEngine\Include\Math\Vector2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.h">
+      <Filter>Externals\YokosukaEngine\Include\Math\Matrix4x4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h">
+      <Filter>Externals\YokosukaEngine\Include\Math\WorldTransform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.h">
+      <Filter>Externals\YokosukaEngine\Include\Math\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -97,7 +97,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\String\String.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector2\Vector2.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector3\Vector3.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -110,7 +115,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\String\String.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector2\Vector2.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector3\Vector3.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <ItemGroup>

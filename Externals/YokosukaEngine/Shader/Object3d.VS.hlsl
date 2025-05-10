@@ -1,8 +1,15 @@
 
+// 座標変換の行列
+struct TransformationMatrix
+{
+    float4x4 worldViewProjection;
+};
+ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
+
 // 頂点シェーダの出力
 struct VertexShaderOutput
 {
-    // 同時クリップ空間
+    // 同次クリップ空間
     float4 position : SV_POSITION;
 };
 
@@ -17,6 +24,8 @@ struct VertexShaderInput
 VertexShaderOutput main(VertexShaderInput input)
 {
     VertexShaderOutput output;
-    output.position = input.position;
+    
+    // 同次クリップ空間に変換する
+    output.position = mul(input.position, gTransformationMatrix.worldViewProjection);
     return output;
 }
