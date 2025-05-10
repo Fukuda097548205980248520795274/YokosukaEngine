@@ -80,7 +80,7 @@
       <UniqueIdentifier>{17d9fc00-9481-4d34-a5c6-ca3918dcd589}</UniqueIdentifier>
     </Filter>
     <Filter Include="Externals\ImGui">
-      <UniqueIdentifier>{5baf78fb-3f06-48a1-a3fd-5088e63f066b}</UniqueIdentifier>
+      <UniqueIdentifier>{9ead3b48-26bc-49e6-9cdc-2c28afdf9625}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,16 +138,16 @@
     <ClCompile Include="..\Externals\ImGui\imgui_draw.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\ImGui\imgui_tables.cpp">
-      <Filter>Externals\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Externals\ImGui\imgui_widgets.cpp">
-      <Filter>Externals\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="..\Externals\ImGui\imgui_impl_dx12.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Externals\ImGui\imgui_impl_win32.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\ImGui\imgui_tables.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\ImGui\imgui_widgets.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,6 +203,12 @@
     <ClInclude Include="..\Externals\ImGui\imgui.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imgui_impl_dx12.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\ImGui\imgui_impl_win32.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="..\Externals\ImGui\imgui_internal.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
@@ -213,12 +219,6 @@
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Externals\ImGui\imstb_truetype.h">
-      <Filter>Externals\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Externals\ImGui\imgui_impl_dx12.h">
-      <Filter>Externals\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Externals\ImGui\imgui_impl_win32.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
   </ItemGroup>

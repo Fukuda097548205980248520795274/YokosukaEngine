@@ -15,11 +15,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 図形
 	WorldTransform* worldTransform = new WorldTransform();
 	worldTransform->Initialize();
+	worldTransform->scale_ = { 5.0f , 5.0f , 5.0f };
 
 	// カメラ
 	Camera* camera = new Camera();
 	camera->Initialize(1280.0f , 720.0f);
-	camera->translation_.z = -5.0f;
+	camera->translation_.z = -50.0f;
 
 
 	// メインループ
@@ -31,6 +32,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 		/// ↓ 更新処理ここから
 		/// 
+
+		ImGui::Begin("Window");
+		ImGui::DragFloat3("translation", &worldTransform->translation_.x, 0.1f);
+		ImGui::End();
 
 		// 図形を回転させる
 		worldTransform->rotation_.y += 0.03f;
