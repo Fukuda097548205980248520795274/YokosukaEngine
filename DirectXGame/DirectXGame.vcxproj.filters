@@ -49,6 +49,21 @@
     <Filter Include="Externals\YokosukaEngine\Include\Math\Vector4">
       <UniqueIdentifier>{a9e033a4-c3ad-40eb-ba63-32310a06d60e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\YokosukaEngine\Shader">
+      <UniqueIdentifier>{91f9c939-f6d7-4787-9c6e-163365da9404}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Draw">
+      <UniqueIdentifier>{51abd248-96e2-4d67-9cf5-1866579b5f8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler">
+      <UniqueIdentifier>{8ee6ed87-991c-4530-bc1a-3cb0e601ffed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject">
+      <UniqueIdentifier>{d5046620-cdd1-4e51-bbba-ea96e2612ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal">
+      <UniqueIdentifier>{eebb4e39-c71e-439d-9153-fd79feaef626}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -71,6 +86,15 @@
     </ClCompile>
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.cpp">
       <Filter>Externals\YokosukaEngine\Include\Math\Vector4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,5 +119,22 @@
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.h">
       <Filter>Externals\YokosukaEngine\Include\Math\Vector4</Filter>
     </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h">
+      <Filter>Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h">
+      <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h">
+      <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Externals\YokosukaEngine\Shader\Object3d.VS.hlsl">
+      <Filter>Externals\YokosukaEngine\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Externals\YokosukaEngine\Shader\Object3d.PS.hlsl">
+      <Filter>Externals\YokosukaEngine\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

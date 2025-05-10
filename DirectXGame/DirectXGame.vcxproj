@@ -60,6 +60,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -80,11 +84,18 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\String\String.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.cpp" />
@@ -94,10 +105,27 @@
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\String\String.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Externals\YokosukaEngine\Shader\Object3d.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\Externals\YokosukaEngine\Shader\Object3d.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
