@@ -1,3 +1,4 @@
+#include "Object3d.hlsli"
 
 // マテリアル
 struct Material
@@ -6,6 +7,10 @@ struct Material
 };
 ConstantBuffer<Material> gMaterial : register(b0);
 
+// テクスチャの宣言
+Texture2D<float4> gTexture : register(t0);
+SamplerState gSampler : register(s0);
+
 // ピクセルシェーダの出力
 struct PixelShaderOutput
 {
@@ -13,9 +18,15 @@ struct PixelShaderOutput
 };
 
 // main関数
-PixelShaderOutput main()
+PixelShaderOutput main(VertexShaderOutput input)
 {
     PixelShaderOutput output;
-    output.color = gMaterial.color;
+    
+    // テクスチャの色を取得する
+    float4 textureColor = gTexture.Sample(gSampler, input.texcoord);
+    
+    // テクスチャと色を乗算する
+    output.color = gMaterial.color * textureColor;
+    
     return output;
 }

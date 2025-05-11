@@ -12,6 +12,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	    変数を作る
 	--------------*/
 
+	// uvChecker
+	uint32_t ghUvChecker = yokosukaEngine->LoadTexture("./Resources/Textures/uvChecker.png");
+	uint32_t ghMonsterBall = yokosukaEngine->LoadTexture("./Resources/Textures/monsterBall.png");
+
 	// 図形
 	WorldTransform* worldTransform = new WorldTransform();
 	worldTransform->Initialize();
@@ -21,6 +25,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Camera* camera = new Camera();
 	camera->Initialize(1280.0f , 720.0f);
 	camera->translation_.z = -50.0f;
+
+	bool flag = true;;
 
 
 	// メインループ
@@ -35,10 +41,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		ImGui::Begin("Window");
 		ImGui::DragFloat3("translation", &worldTransform->translation_.x, 0.1f);
-		ImGui::End();
+		
+		if (ImGui::Button("texture"))
+		{
+			if (flag)
+			{
+				flag = false;
+			}
+			else
+			{
+				flag = true;
+			}
+		}
 
-		// 図形を回転させる
-		worldTransform->rotation_.y += 0.03f;
+		ImGui::End();
 
 		// ワールドトランスフォームを更新する
 		worldTransform->UpdateWorldMatrix();
@@ -55,8 +71,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-		// 三角形を描画する
-		yokosukaEngine->DrawTriangle(worldTransform, camera);
+		if (flag)
+		{
+			// 三角形を描画する
+			yokosukaEngine->DrawTriangle(worldTransform, camera, ghUvChecker);
+		}
+		else
+		{
+			// 三角形を描画する
+			yokosukaEngine->DrawTriangle(worldTransform, camera, ghMonsterBall);
+		}
 
 		///
 		/// ↑ 描画処理ここまで

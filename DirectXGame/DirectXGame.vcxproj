@@ -103,6 +103,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\TextureStore\TextureStore.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\VertexData\VertexData.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\String\String.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.cpp" />
@@ -128,7 +131,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\TextureStore\TextureStore.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\VertexData\VertexData.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\String\String.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.h" />
@@ -154,6 +160,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Externals\ImGui\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Externals\YokosukaEngine\Shader\Object3d.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

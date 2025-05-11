@@ -82,6 +82,15 @@
     <Filter Include="Externals\ImGui">
       <UniqueIdentifier>{9ead3b48-26bc-49e6-9cdc-2c28afdf9625}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Func\LoadTexture">
+      <UniqueIdentifier>{befbc56e-805e-4238-8f6c-8221456463b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Draw\TextureStore">
+      <UniqueIdentifier>{be21ca6b-1e3d-40a4-ae09-3c5386f1e0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Draw\VertexData">
+      <UniqueIdentifier>{ba767dc2-fe49-4c71-be73-7557dc28dd6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -149,6 +158,15 @@
     </ClCompile>
     <ClCompile Include="..\Externals\ImGui\imgui_widgets.cpp">
       <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Func\LoadTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\TextureStore\TextureStore.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Draw\TextureStore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\VertexData\VertexData.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Draw\VertexData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +239,15 @@
     <ClInclude Include="..\Externals\ImGui\imstb_truetype.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.h">
+      <Filter>Externals\YokosukaEngine\Include\Func\LoadTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\TextureStore\TextureStore.h">
+      <Filter>Externals\YokosukaEngine\Include\Draw\TextureStore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\VertexData\VertexData.h">
+      <Filter>Externals\YokosukaEngine\Include\Draw\VertexData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Externals\YokosukaEngine\Shader\Object3d.VS.hlsl">
@@ -234,5 +261,10 @@
     <Text Include="..\Externals\ImGui\LICENSE.txt">
       <Filter>Externals\ImGui</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Externals\YokosukaEngine\Shader\Object3d.hlsli">
+      <Filter>Externals\YokosukaEngine\Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>
