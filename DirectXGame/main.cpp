@@ -41,6 +41,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		ImGui::Begin("Window");
 		ImGui::DragFloat3("translation", &worldTransform->translation_.x, 0.1f);
+		ImGui::DragFloat3("rotatoin", &worldTransform->rotation_.x, 0.01f);
 		
 		if (ImGui::Button("texture"))
 		{
