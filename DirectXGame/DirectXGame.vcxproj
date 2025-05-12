@@ -97,24 +97,24 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="..\Externals\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\Externals\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Base\WinApp\WinApp.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Draw\TextureStore\TextureStore.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Draw\VertexData\VertexData.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Func\String\String.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Math\Vector2\Vector2.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Math\Vector3\Vector3.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Math\Vector4\Vector4.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp" />
-    <ClCompile Include="..\YokosukaEngine\Include\YokosukaEngine.cpp" />
+    <ClCompile Include="..\Engine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
+    <ClCompile Include="..\Engine\Include\Base\OutputLog\OutputLog.cpp" />
+    <ClCompile Include="..\Engine\Include\Base\WinApp\WinApp.cpp" />
+    <ClCompile Include="..\Engine\Include\Camera\Camera2D\Camera2D.cpp" />
+    <ClCompile Include="..\Engine\Include\Camera\Camera3D\Camera3D.cpp" />
+    <ClCompile Include="..\Engine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp" />
+    <ClCompile Include="..\Engine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp" />
+    <ClCompile Include="..\Engine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
+    <ClCompile Include="..\Engine\Include\Draw\TextureStore\TextureStore.cpp" />
+    <ClCompile Include="..\Engine\Include\Draw\VertexData\VertexData.cpp" />
+    <ClCompile Include="..\Engine\Include\Func\LoadTexture\LoadTexture.cpp" />
+    <ClCompile Include="..\Engine\Include\Func\String\String.cpp" />
+    <ClCompile Include="..\Engine\Include\Math\Matrix4x4\Matrix4x4.cpp" />
+    <ClCompile Include="..\Engine\Include\Math\Vector2\Vector2.cpp" />
+    <ClCompile Include="..\Engine\Include\Math\Vector3\Vector3.cpp" />
+    <ClCompile Include="..\Engine\Include\Math\Vector4\Vector4.cpp" />
+    <ClCompile Include="..\Engine\Include\Math\WorldTransform\WorldTransform.cpp" />
+    <ClCompile Include="..\Engine\Include\YokosukaEngine.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -126,34 +126,34 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="..\Externals\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\Externals\ImGui\imstb_truetype.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Base\OutputLog\OutputLog.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Base\WinApp\WinApp.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Camera\Camera2D\Camera2D.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Camera\Camera3D\Camera3D.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Draw\TextureStore\TextureStore.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Draw\VertexData\VertexData.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Func\String\String.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Math\Vector2\Vector2.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Math\Vector3\Vector3.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Math\Vector4\Vector4.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h" />
-    <ClInclude Include="..\YokosukaEngine\Include\YokosukaEngine.h" />
+    <ClInclude Include="..\Engine\Include\Base\DirectXCommon\DirectXCommon.h" />
+    <ClInclude Include="..\Engine\Include\Base\OutputLog\OutputLog.h" />
+    <ClInclude Include="..\Engine\Include\Base\WinApp\WinApp.h" />
+    <ClInclude Include="..\Engine\Include\Camera\Camera2D\Camera2D.h" />
+    <ClInclude Include="..\Engine\Include\Camera\Camera3D\Camera3D.h" />
+    <ClInclude Include="..\Engine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h" />
+    <ClInclude Include="..\Engine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h" />
+    <ClInclude Include="..\Engine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
+    <ClInclude Include="..\Engine\Include\Draw\TextureStore\TextureStore.h" />
+    <ClInclude Include="..\Engine\Include\Draw\VertexData\VertexData.h" />
+    <ClInclude Include="..\Engine\Include\Func\CrashHandler\CrashHandler.h" />
+    <ClInclude Include="..\Engine\Include\Func\LoadTexture\LoadTexture.h" />
+    <ClInclude Include="..\Engine\Include\Func\String\String.h" />
+    <ClInclude Include="..\Engine\Include\Math\Matrix4x4\Matrix4x4.h" />
+    <ClInclude Include="..\Engine\Include\Math\Vector2\Vector2.h" />
+    <ClInclude Include="..\Engine\Include\Math\Vector3\Vector3.h" />
+    <ClInclude Include="..\Engine\Include\Math\Vector4\Vector4.h" />
+    <ClInclude Include="..\Engine\Include\Math\WorldTransform\WorldTransform.h" />
+    <ClInclude Include="..\Engine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\YokosukaEngine\Shader\Object3d.PS.hlsl">
+    <FxCompile Include="..\Engine\Shader\Object3d.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\YokosukaEngine\Shader\Object3d.VS.hlsl">
+    <FxCompile Include="..\Engine\Shader\Object3d.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -169,7 +169,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\YokosukaEngine\Shader\Object3d.hlsli" />
+    <None Include="..\Engine\Shader\Object3d.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
