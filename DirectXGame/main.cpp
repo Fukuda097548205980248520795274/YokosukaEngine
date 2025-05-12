@@ -1,4 +1,4 @@
-#include "../Externals/YokosukaEngine/Include/YokosukaEngine.h"
+#include "../YokosukaEngine/Include/YokosukaEngine.h"
 
 // Windowsアプリでのエントリーポイント（main関数）
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)

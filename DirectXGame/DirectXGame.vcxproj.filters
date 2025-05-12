@@ -16,130 +16,130 @@
     <Filter Include="Externals">
       <UniqueIdentifier>{c4323793-0208-4b71-b001-72680bd0cc08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Externals\YokosukaEngine">
-      <UniqueIdentifier>{26de49c6-c22c-409a-9070-d83b08bb715e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include">
-      <UniqueIdentifier>{3a7af73e-d8e7-4a47-83ec-44506ea412b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Base">
-      <UniqueIdentifier>{8b37055f-0c46-4760-971d-a825617eb67e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Base\WinApp">
-      <UniqueIdentifier>{c29bf23f-d5ef-44f7-989c-68b67976123f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Func">
-      <UniqueIdentifier>{03d6fc5f-599e-410c-be7d-992896a4fd70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Func\String">
-      <UniqueIdentifier>{3d827cba-ab48-4cc8-8723-166539b8f26e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Base\OutputLog">
-      <UniqueIdentifier>{a1003834-b1f6-480c-8f9c-39be1069a703}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Base\DirectXCommon">
-      <UniqueIdentifier>{76475598-178b-4577-8171-0fc66cd01585}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Func\CrashHandler">
-      <UniqueIdentifier>{428ddbf1-4996-488e-b523-d2a688b7164c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Math">
-      <UniqueIdentifier>{a602ed82-23f2-450d-b538-5b2969e1d3ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Math\Vector4">
-      <UniqueIdentifier>{a9e033a4-c3ad-40eb-ba63-32310a06d60e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Shader">
-      <UniqueIdentifier>{91f9c939-f6d7-4787-9c6e-163365da9404}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Draw">
-      <UniqueIdentifier>{51abd248-96e2-4d67-9cf5-1866579b5f8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler">
-      <UniqueIdentifier>{8ee6ed87-991c-4530-bc1a-3cb0e601ffed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject">
-      <UniqueIdentifier>{d5046620-cdd1-4e51-bbba-ea96e2612ab6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal">
-      <UniqueIdentifier>{eebb4e39-c71e-439d-9153-fd79feaef626}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Math\Vector3">
-      <UniqueIdentifier>{69d0549d-0fc3-4590-9f9d-20970e02de42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Math\Vector2">
-      <UniqueIdentifier>{99c3e253-dc01-48e3-983f-99b1e15cef84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Math\Matrix4x4">
-      <UniqueIdentifier>{dc3453f5-0e6c-41c4-957a-158b2c1790f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Math\WorldTransform">
-      <UniqueIdentifier>{708f4c9d-91e3-4c78-b894-63d0ea0d2985}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Externals\ImGui">
       <UniqueIdentifier>{9ead3b48-26bc-49e6-9cdc-2c28afdf9625}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Func\LoadTexture">
+    <Filter Include="YokosukaEngine">
+      <UniqueIdentifier>{26de49c6-c22c-409a-9070-d83b08bb715e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include">
+      <UniqueIdentifier>{3a7af73e-d8e7-4a47-83ec-44506ea412b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Base">
+      <UniqueIdentifier>{8b37055f-0c46-4760-971d-a825617eb67e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Base\WinApp">
+      <UniqueIdentifier>{c29bf23f-d5ef-44f7-989c-68b67976123f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Base\OutputLog">
+      <UniqueIdentifier>{a1003834-b1f6-480c-8f9c-39be1069a703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Base\DirectXCommon">
+      <UniqueIdentifier>{76475598-178b-4577-8171-0fc66cd01585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Func">
+      <UniqueIdentifier>{03d6fc5f-599e-410c-be7d-992896a4fd70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Func\String">
+      <UniqueIdentifier>{3d827cba-ab48-4cc8-8723-166539b8f26e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Func\CrashHandler">
+      <UniqueIdentifier>{428ddbf1-4996-488e-b523-d2a688b7164c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Func\LoadTexture">
       <UniqueIdentifier>{befbc56e-805e-4238-8f6c-8221456463b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Draw\TextureStore">
+    <Filter Include="YokosukaEngine\Include\Math">
+      <UniqueIdentifier>{a602ed82-23f2-450d-b538-5b2969e1d3ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\Vector4">
+      <UniqueIdentifier>{a9e033a4-c3ad-40eb-ba63-32310a06d60e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\Vector3">
+      <UniqueIdentifier>{69d0549d-0fc3-4590-9f9d-20970e02de42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\Vector2">
+      <UniqueIdentifier>{99c3e253-dc01-48e3-983f-99b1e15cef84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\Matrix4x4">
+      <UniqueIdentifier>{dc3453f5-0e6c-41c4-957a-158b2c1790f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\WorldTransform">
+      <UniqueIdentifier>{708f4c9d-91e3-4c78-b894-63d0ea0d2985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw">
+      <UniqueIdentifier>{51abd248-96e2-4d67-9cf5-1866579b5f8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler">
+      <UniqueIdentifier>{8ee6ed87-991c-4530-bc1a-3cb0e601ffed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\BasePipelineStateObject">
+      <UniqueIdentifier>{d5046620-cdd1-4e51-bbba-ea96e2612ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal">
+      <UniqueIdentifier>{eebb4e39-c71e-439d-9153-fd79feaef626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\TextureStore">
       <UniqueIdentifier>{be21ca6b-1e3d-40a4-ae09-3c5386f1e0b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Draw\VertexData">
+    <Filter Include="YokosukaEngine\Include\Draw\VertexData">
       <UniqueIdentifier>{ba767dc2-fe49-4c71-be73-7557dc28dd6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Camera">
+    <Filter Include="YokosukaEngine\Include\Camera">
       <UniqueIdentifier>{4a0f5a13-0393-4b83-921d-1d85c54c21aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Camera\Camera2D">
+    <Filter Include="YokosukaEngine\Include\Camera\Camera2D">
       <UniqueIdentifier>{0fa3084d-05f3-40c8-b998-65d3ac279a75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Camera\Camera3D">
+    <Filter Include="YokosukaEngine\Include\Camera\Camera3D">
       <UniqueIdentifier>{ff4ad4b2-1b77-4c49-8738-c6dbc249d5ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Shader">
+      <UniqueIdentifier>{91f9c939-f6d7-4787-9c6e-163365da9404}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.cpp">
-      <Filter>Externals\YokosukaEngine\Include</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\YokosukaEngine.cpp">
+      <Filter>YokosukaEngine\Include</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Base\WinApp</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Base\WinApp\WinApp.cpp">
+      <Filter>YokosukaEngine\Include\Base\WinApp</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\String\String.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Func\String</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Func\String\String.cpp">
+      <Filter>YokosukaEngine\Include\Func\String</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Base\OutputLog</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp">
+      <Filter>YokosukaEngine\Include\Base\OutputLog</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Base\DirectXCommon</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp">
+      <Filter>YokosukaEngine\Include\Base\DirectXCommon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Math\Vector4</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Math\Vector4\Vector4.cpp">
+      <Filter>YokosukaEngine\Include\Math\Vector4</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp">
+      <Filter>YokosukaEngine\Include\Draw\DirectXShaderCompiler</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp">
+      <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp">
+      <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector3\Vector3.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Math\Vector3</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Math\Vector3\Vector3.cpp">
+      <Filter>YokosukaEngine\Include\Math\Vector3</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector2\Vector2.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Math\Vector2</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Math\Vector2\Vector2.cpp">
+      <Filter>YokosukaEngine\Include\Math\Vector2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Math\Matrix4x4</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.cpp">
+      <Filter>YokosukaEngine\Include\Math\Matrix4x4</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Math\WorldTransform</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp">
+      <Filter>YokosukaEngine\Include\Math\WorldTransform</Filter>
     </ClCompile>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
       <Filter>Externals\ImGui</Filter>
@@ -162,64 +162,64 @@
     <ClCompile Include="..\Externals\ImGui\imgui_widgets.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Func\LoadTexture</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.cpp">
+      <Filter>YokosukaEngine\Include\Func\LoadTexture</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\TextureStore\TextureStore.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Draw\TextureStore</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Draw\TextureStore\TextureStore.cpp">
+      <Filter>YokosukaEngine\Include\Draw\TextureStore</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\VertexData\VertexData.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Draw\VertexData</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Draw\VertexData\VertexData.cpp">
+      <Filter>YokosukaEngine\Include\Draw\VertexData</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Camera\Camera2D</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp">
+      <Filter>YokosukaEngine\Include\Camera\Camera2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Camera\Camera3D</Filter>
+    <ClCompile Include="..\YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp">
+      <Filter>YokosukaEngine\Include\Camera\Camera3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\YokosukaEngine.h">
-      <Filter>Externals\YokosukaEngine\Include</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\YokosukaEngine.h">
+      <Filter>YokosukaEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.h">
-      <Filter>Externals\YokosukaEngine\Include\Base\WinApp</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Base\WinApp\WinApp.h">
+      <Filter>YokosukaEngine\Include\Base\WinApp</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\String\String.h">
-      <Filter>Externals\YokosukaEngine\Include\Func\String</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Func\String\String.h">
+      <Filter>YokosukaEngine\Include\Func\String</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.h">
-      <Filter>Externals\YokosukaEngine\Include\Base\OutputLog</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Base\OutputLog\OutputLog.h">
+      <Filter>YokosukaEngine\Include\Base\OutputLog</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h">
-      <Filter>Externals\YokosukaEngine\Include\Base\DirectXCommon</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h">
+      <Filter>YokosukaEngine\Include\Base\DirectXCommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h">
-      <Filter>Externals\YokosukaEngine\Include\Func\CrashHandler</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h">
+      <Filter>YokosukaEngine\Include\Func\CrashHandler</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector4\Vector4.h">
-      <Filter>Externals\YokosukaEngine\Include\Math\Vector4</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Math\Vector4\Vector4.h">
+      <Filter>YokosukaEngine\Include\Math\Vector4</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h">
-      <Filter>Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h">
+      <Filter>YokosukaEngine\Include\Draw\DirectXShaderCompiler</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h">
-      <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h">
+      <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h">
-      <Filter>Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h">
+      <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector3\Vector3.h">
-      <Filter>Externals\YokosukaEngine\Include\Math\Vector3</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Math\Vector3\Vector3.h">
+      <Filter>YokosukaEngine\Include\Math\Vector3</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector2\Vector2.h">
-      <Filter>Externals\YokosukaEngine\Include\Math\Vector2</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Math\Vector2\Vector2.h">
+      <Filter>YokosukaEngine\Include\Math\Vector2</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.h">
-      <Filter>Externals\YokosukaEngine\Include\Math\Matrix4x4</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.h">
+      <Filter>YokosukaEngine\Include\Math\Matrix4x4</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h">
-      <Filter>Externals\YokosukaEngine\Include\Math\WorldTransform</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h">
+      <Filter>YokosukaEngine\Include\Math\WorldTransform</Filter>
     </ClInclude>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
       <Filter>Externals\ImGui</Filter>
@@ -245,28 +245,28 @@
     <ClInclude Include="..\Externals\ImGui\imstb_truetype.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.h">
-      <Filter>Externals\YokosukaEngine\Include\Func\LoadTexture</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.h">
+      <Filter>YokosukaEngine\Include\Func\LoadTexture</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\TextureStore\TextureStore.h">
-      <Filter>Externals\YokosukaEngine\Include\Draw\TextureStore</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Draw\TextureStore\TextureStore.h">
+      <Filter>YokosukaEngine\Include\Draw\TextureStore</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\VertexData\VertexData.h">
-      <Filter>Externals\YokosukaEngine\Include\Draw\VertexData</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Draw\VertexData\VertexData.h">
+      <Filter>YokosukaEngine\Include\Draw\VertexData</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Camera\Camera2D\Camera2D.h">
-      <Filter>Externals\YokosukaEngine\Include\Camera\Camera2D</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Camera\Camera2D\Camera2D.h">
+      <Filter>YokosukaEngine\Include\Camera\Camera2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Camera\Camera3D\Camera3D.h">
-      <Filter>Externals\YokosukaEngine\Include\Camera\Camera3D</Filter>
+    <ClInclude Include="..\YokosukaEngine\Include\Camera\Camera3D\Camera3D.h">
+      <Filter>YokosukaEngine\Include\Camera\Camera3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Externals\YokosukaEngine\Shader\Object3d.VS.hlsl">
-      <Filter>Externals\YokosukaEngine\Shader</Filter>
+    <FxCompile Include="..\YokosukaEngine\Shader\Object3d.VS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Externals\YokosukaEngine\Shader\Object3d.PS.hlsl">
-      <Filter>Externals\YokosukaEngine\Shader</Filter>
+    <FxCompile Include="..\YokosukaEngine\Shader\Object3d.PS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,8 +275,8 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Externals\YokosukaEngine\Shader\Object3d.hlsli">
-      <Filter>Externals\YokosukaEngine\Shader</Filter>
+    <None Include="..\YokosukaEngine\Shader\Object3d.hlsli">
+      <Filter>YokosukaEngine\Shader</Filter>
     </None>
   </ItemGroup>
 </Project>
