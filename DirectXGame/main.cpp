@@ -5,7 +5,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	// エンジンの生成と初期化
 	YokosukaEngine* yokosukaEngine = new YokosukaEngine();
-	yokosukaEngine->Initialize(1280, 720);
+	yokosukaEngine->Initialize(1280, 720, "LE2A_11_フクダ_ソウワ_AL3");
 
 
 	/*--------------

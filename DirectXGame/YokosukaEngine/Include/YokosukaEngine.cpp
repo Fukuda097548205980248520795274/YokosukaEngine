@@ -30,7 +30,7 @@ YokosukaEngine::~YokosukaEngine()
 /// <summary>
 /// 初期化
 /// </summary>
-void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindowHeight)
+void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindowHeight, const std::string& titleName)
 {
 	// 乱数を設定する
 	currentTimer_ = static_cast<unsigned int>(time(nullptr));
@@ -48,7 +48,7 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 
 	// ウィンドウアプリケーションの生成と初期化
 	windowApplication_ = new WinApp();
-	windowApplication_->Initialize(kWindowWidth, kWindowHeight);
+	windowApplication_->Initialize(kWindowWidth, kWindowHeight, ConvertString(titleName));
 
 	// ログ出力の生成と初期化
 	log_ = new OutputLog();
