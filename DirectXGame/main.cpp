@@ -21,10 +21,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	worldTransform->Initialize();
 	worldTransform->scale_ = { 5.0f , 5.0f , 5.0f };
 
-	// カメラ
-	Camera3D* camera = new Camera3D();
-	camera->Initialize(1280.0f , 720.0f);
-	camera->translation_.z = -50.0f;
+	// スプライト
+	WorldTransform* sprite = new WorldTransform();
+	sprite->Initialize();
+
+	// 3Dカメラ
+	Camera3D* camera3d = new Camera3D();
+	camera3d->Initialize(1280.0f , 720.0f);
+	camera3d->translation_.z = -50.0f;
+
+	// 2Dカメラ
+	Camera2D* camera2d = new Camera2D();
+	camera2d->Initialize(1280.0f, 720.0f);
 
 	bool flag = true;;
 
@@ -59,9 +67,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// ワールドトランスフォームを更新する
 		worldTransform->UpdateWorldMatrix();
+		sprite->UpdateWorldMatrix();
 
 		// カメラを更新する
-		camera->UpdateMatrix();
+		camera3d->UpdateMatrix();
+		camera2d->UpdateMatrix();
 
 
 		///
@@ -75,12 +85,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		if (flag)
 		{
 			// 三角形を描画する
-			yokosukaEngine->DrawTriangle(worldTransform, camera, ghUvChecker);
+			yokosukaEngine->DrawTriangle(worldTransform, camera3d, ghUvChecker);
+			yokosukaEngine->DrawSprite(sprite, camera2d, ghUvChecker);
 		}
 		else
 		{
 			// 三角形を描画する
-			yokosukaEngine->DrawTriangle(worldTransform, camera, ghMonsterBall);
+			yokosukaEngine->DrawTriangle(worldTransform, camera3d, ghMonsterBall);
+			yokosukaEngine->DrawSprite(sprite, camera2d, ghMonsterBall);
 		}
 
 		///
