@@ -76,9 +76,6 @@
     <Filter Include="Externals\YokosukaEngine\Include\Math\WorldTransform">
       <UniqueIdentifier>{708f4c9d-91e3-4c78-b894-63d0ea0d2985}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Externals\YokosukaEngine\Include\Math\Camera">
-      <UniqueIdentifier>{17d9fc00-9481-4d34-a5c6-ca3918dcd589}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Externals\ImGui">
       <UniqueIdentifier>{9ead3b48-26bc-49e6-9cdc-2c28afdf9625}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,15 @@
     </Filter>
     <Filter Include="Externals\YokosukaEngine\Include\Draw\VertexData">
       <UniqueIdentifier>{ba767dc2-fe49-4c71-be73-7557dc28dd6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Camera">
+      <UniqueIdentifier>{4a0f5a13-0393-4b83-921d-1d85c54c21aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Camera\Camera2D">
+      <UniqueIdentifier>{0fa3084d-05f3-40c8-b998-65d3ac279a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\YokosukaEngine\Include\Camera\Camera3D">
+      <UniqueIdentifier>{ff4ad4b2-1b77-4c49-8738-c6dbc249d5ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,9 +141,6 @@
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp">
       <Filter>Externals\YokosukaEngine\Include\Math\WorldTransform</Filter>
     </ClCompile>
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.cpp">
-      <Filter>Externals\YokosukaEngine\Include\Math\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\Externals\ImGui\imgui.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
@@ -167,6 +170,12 @@
     </ClCompile>
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\VertexData\VertexData.cpp">
       <Filter>Externals\YokosukaEngine\Include\Draw\VertexData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Camera\Camera2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp">
+      <Filter>Externals\YokosukaEngine\Include\Camera\Camera3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +221,6 @@
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h">
       <Filter>Externals\YokosukaEngine\Include\Math\WorldTransform</Filter>
     </ClInclude>
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.h">
-      <Filter>Externals\YokosukaEngine\Include\Math\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Externals\ImGui\imconfig.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
@@ -247,6 +253,12 @@
     </ClInclude>
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\VertexData\VertexData.h">
       <Filter>Externals\YokosukaEngine\Include\Draw\VertexData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Camera\Camera2D\Camera2D.h">
+      <Filter>Externals\YokosukaEngine\Include\Camera\Camera2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Camera\Camera3D\Camera3D.h">
+      <Filter>Externals\YokosukaEngine\Include\Camera\Camera3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

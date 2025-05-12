@@ -100,6 +100,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp" />
+    <ClCompile Include="..\Externals\YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
@@ -107,7 +109,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Draw\VertexData\VertexData.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Func\String\String.cpp" />
-    <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector2\Vector2.cpp" />
     <ClCompile Include="..\Externals\YokosukaEngine\Include\Math\Vector3\Vector3.cpp" />
@@ -128,6 +129,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\OutputLog\OutputLog.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Base\WinApp\WinApp.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Camera\Camera2D\Camera2D.h" />
+    <ClInclude Include="..\Externals\YokosukaEngine\Include\Camera\Camera3D\Camera3D.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
@@ -136,7 +139,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\LoadTexture\LoadTexture.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Func\String\String.h" />
-    <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Camera\Camera.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector2\Vector2.h" />
     <ClInclude Include="..\Externals\YokosukaEngine\Include\Math\Vector3\Vector3.h" />

@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	worldTransform->scale_ = { 5.0f , 5.0f , 5.0f };
 
 	// カメラ
-	Camera* camera = new Camera();
+	Camera3D* camera = new Camera3D();
 	camera->Initialize(1280.0f , 720.0f);
 	camera->translation_.z = -50.0f;
 
