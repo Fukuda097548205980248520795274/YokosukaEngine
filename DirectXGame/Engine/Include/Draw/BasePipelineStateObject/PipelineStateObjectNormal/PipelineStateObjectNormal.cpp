@@ -172,11 +172,11 @@ void PipelineStateObjectNormal::Initialize(OutputLog* log, DirectXShaderCompiler
 	---------------------------*/
 
 	// 頂点シェーダをコンパイルする
-	vertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d.VS.hlsl", L"vs_6_0");
+	vertexShaderBlob_ = dxc_->CompileShader(L"Engine/Shader/Object3d.VS.hlsl", L"vs_6_0");
 	assert(vertexShaderBlob_ != nullptr);
 
 	// ピクセルシェーダをコンパイルする
-	pixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d.PS.hlsl", L"ps_6_0");
+	pixelShaderBlob_ = dxc_->CompileShader(L"Engine/Shader/Object3d.PS.hlsl", L"ps_6_0");
 	assert(pixelShaderBlob_ != nullptr);
 
 

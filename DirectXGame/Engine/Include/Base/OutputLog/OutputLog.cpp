@@ -6,7 +6,7 @@
 void OutputLog::Initialize()
 {
 	// ログのディレクトリを用意する
-	std::filesystem::create_directory("YokosukaEngine/Output/Logs");
+	std::filesystem::create_directory("Engine/Output/Logs");
 
 	// ログファイルを生成する
 	logStream_ = CreateLogFile();
@@ -41,7 +41,7 @@ std::ofstream OutputLog::CreateLogFile()
 	std::string dateString = std::format("{:%Y%m%d_%H%M%S}", localTime);
 
 	// 時刻を使ってファイル名を決定
-	std::string logFilePath = std::string("YokosukaEngine/Output/Logs/") + dateString + ".log";
+	std::string logFilePath = std::string("Engine/Output/Logs/") + dateString + ".log";
 
 	// ファイルを作って書き込み準備
 	std::ofstream logStream(logFilePath);

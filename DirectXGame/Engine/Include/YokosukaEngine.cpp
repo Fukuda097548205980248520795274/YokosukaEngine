@@ -41,7 +41,7 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// 出力用のディレクトリを用意する
-	std::filesystem::create_directory("YokosukaEngine/Output");
+	std::filesystem::create_directory("Engine/Output");
 
 	// CrashHandlerの登録
 	SetUnhandledExceptionFilter(ExportDump);
