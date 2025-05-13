@@ -97,6 +97,15 @@
     <Filter Include="YokosukaEngine\Shader">
       <UniqueIdentifier>{91f9c939-f6d7-4787-9c6e-163365da9404}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\Material">
+      <UniqueIdentifier>{c3c891ee-7eb1-451b-a528-3a2c008e7c31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\WorldTransformationMatrix">
+      <UniqueIdentifier>{9e0f4b29-8f78-4631-8b84-45bf8a593c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\DirectionalLight">
+      <UniqueIdentifier>{bfcf7414-fa9e-4787-aa27-ad425d97b641}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -176,6 +185,15 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp">
       <Filter>YokosukaEngine\Include\Camera\Camera3D</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Draw\Material\Material.cpp">
+      <Filter>YokosukaEngine\Include\Draw\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.cpp">
+      <Filter>YokosukaEngine\Include\Draw\WorldTransformationMatrix</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.cpp">
+      <Filter>YokosukaEngine\Include\Draw\DirectionalLight</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,12 +278,21 @@
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.h">
       <Filter>YokosukaEngine\Include\Camera\Camera3D</Filter>
     </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Draw\Material\Material.h">
+      <Filter>YokosukaEngine\Include\Draw\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.h">
+      <Filter>YokosukaEngine\Include\Draw\WorldTransformationMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.h">
+      <Filter>YokosukaEngine\Include\Draw\DirectionalLight</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\Shader\Object3d.VS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Object3d.VS.hlsl">
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Shader\Object3d.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Object3d.PS.hlsl">
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
   </ItemGroup>
@@ -275,7 +302,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Shader\Object3d.hlsli">
+    <None Include="YokosukaEngine\Shader\Object3d.hlsli">
       <Filter>YokosukaEngine\Shader</Filter>
     </None>
   </ItemGroup>

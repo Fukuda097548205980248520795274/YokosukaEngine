@@ -249,12 +249,13 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 	---------------*/
 
 	// マテリアル用のリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = CreateBufferResource(device_, sizeof(Engine::Vector4));
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = CreateBufferResource(device_, sizeof(Engine::Material));
 
 	// データを書き込む
-	Engine::Vector4* materialData = nullptr;
+	Engine::Material* materialData = nullptr;
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	*materialData = { 1.0f , 1.0f , 1.0f , 1.0f };
+	materialData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	materialData->enableLighting = false;
 
 
 	/*------------------
@@ -262,12 +263,14 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 	------------------*/
 
 	// 座標変換用のリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> worldViewProjectionResource = CreateBufferResource(device_, sizeof(Engine::Matrix4x4));
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResource = CreateBufferResource(device_, sizeof(Engine::TransformationMatrix));
 
 	// データを書き込む
-	Engine::Matrix4x4* worldViewProjectionData = nullptr;
-	worldViewProjectionResource->Map(0, nullptr, reinterpret_cast<void**>(&worldViewProjectionData));
-	*worldViewProjectionData = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	Engine::TransformationMatrix* transformationData = nullptr;
+	transformationResource->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->world = worldTransform->worldMatrix_;
+
 
 
 	/*------------------
@@ -293,7 +296,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 	commandList_->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, worldViewProjectionResource->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(1, transformationResource->GetGPUVirtualAddress());
 
 	// テクスチャ
 	textureStore_->SelectTexture(commandList_, textureHandle);
@@ -341,8 +344,8 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 	{
 		if (useResources_[i] == nullptr)
 		{
-			useResources_[i] = worldViewProjectionResource;
-			worldViewProjectionResource = nullptr;
+			useResources_[i] = transformationResource;
+			transformationResource = nullptr;
 
 			// 記録したリソースをカウントする
 			useResourceNum++;
@@ -409,6 +412,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 			vertexData[index].position.w = 1.0f;
 			vertexData[index].texcoord.x = static_cast<float>(lonIndex) / static_cast<float>(subdivisions);
 			vertexData[index].texcoord.y = 1.0f - static_cast<float>(latIndex) / static_cast<float>(subdivisions);
+			vertexData[index].normal.x = vertexData[index].position.x;
+			vertexData[index].normal.y = vertexData[index].position.y;
+			vertexData[index].normal.z = vertexData[index].position.z;
 
 			vertexData[index + 1].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
 			vertexData[index + 1].position.y = std::sin(lat + kLatEvery);
@@ -416,6 +422,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 			vertexData[index + 1].position.w = 1.0f;
 			vertexData[index + 1].texcoord.x = static_cast<float>(lonIndex) / static_cast<float>(subdivisions);
 			vertexData[index + 1].texcoord.y = 1.0f - static_cast<float>(latIndex + 1) / static_cast<float>(subdivisions);
+			vertexData[index + 1].normal.x = vertexData[index + 1].position.x;
+			vertexData[index + 1].normal.y = vertexData[index + 1].position.y;
+			vertexData[index + 1].normal.z = vertexData[index + 1].position.z;
 
 			vertexData[index + 2].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
 			vertexData[index + 2].position.y = std::sin(lat);
@@ -423,6 +432,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 			vertexData[index + 2].position.w = 1.0f;
 			vertexData[index + 2].texcoord.x = static_cast<float>(lonIndex + 1) / static_cast<float>(subdivisions);
 			vertexData[index + 2].texcoord.y = 1.0f - static_cast<float>(latIndex) / static_cast<float>(subdivisions);
+			vertexData[index + 2].normal.x = vertexData[index + 2].position.x;
+			vertexData[index + 2].normal.y = vertexData[index + 2].position.y;
+			vertexData[index + 2].normal.z = vertexData[index + 2].position.z;
 
 			vertexData[index + 3].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
 			vertexData[index + 3].position.y = std::sin(lat);
@@ -430,6 +442,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 			vertexData[index + 3].position.w = 1.0f;
 			vertexData[index + 3].texcoord.x = static_cast<float>(lonIndex + 1) / static_cast<float>(subdivisions);
 			vertexData[index + 3].texcoord.y = 1.0f - static_cast<float>(latIndex) / static_cast<float>(subdivisions);
+			vertexData[index + 3].normal.x = vertexData[index + 3].position.x;
+			vertexData[index + 3].normal.y = vertexData[index + 3].position.y;
+			vertexData[index + 3].normal.z = vertexData[index + 3].position.z;
 
 			vertexData[index + 4].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
 			vertexData[index + 4].position.y = std::sin(lat + kLatEvery);
@@ -437,6 +452,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 			vertexData[index + 4].position.w = 1.0f;
 			vertexData[index + 4].texcoord.x = static_cast<float>(lonIndex) / static_cast<float>(subdivisions);
 			vertexData[index + 4].texcoord.y = 1.0f - static_cast<float>(latIndex + 1) / static_cast<float>(subdivisions);
+			vertexData[index + 4].normal.x = vertexData[index + 4].position.x;
+			vertexData[index + 4].normal.y = vertexData[index + 4].position.y;
+			vertexData[index + 4].normal.z = vertexData[index + 4].position.z;
 
 			vertexData[index + 5].position.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
 			vertexData[index + 5].position.y = std::sin(lat + kLatEvery);
@@ -444,6 +462,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 			vertexData[index + 5].position.w = 1.0f;
 			vertexData[index + 5].texcoord.x = static_cast<float>(lonIndex + 1) / static_cast<float>(subdivisions);
 			vertexData[index + 5].texcoord.y = 1.0f - static_cast<float>(latIndex + 1) / static_cast<float>(subdivisions);
+			vertexData[index + 5].normal.x = vertexData[index + 5].position.x;
+			vertexData[index + 5].normal.y = vertexData[index + 5].position.y;
+			vertexData[index + 5].normal.z = vertexData[index + 5].position.z;
 		}
 	}
 
@@ -453,12 +474,13 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 	---------------*/
 
 	// マテリアル用のリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = CreateBufferResource(device_, sizeof(Engine::Vector4));
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = CreateBufferResource(device_, sizeof(Engine::Material));
 
 	// データを書き込む
-	Engine::Vector4* materialData = nullptr;
+	Engine::Material* materialData = nullptr;
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	*materialData = { 1.0f , 1.0f , 1.0f , 1.0f };
+	materialData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	materialData->enableLighting = true;
 
 
 	/*------------------
@@ -466,12 +488,28 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 	------------------*/
 
 	// 座標変換用のリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> worldViewProjectionResource = CreateBufferResource(device_, sizeof(Engine::Matrix4x4));
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResource = CreateBufferResource(device_, sizeof(Engine::TransformationMatrix));
 
 	// データを書き込む
-	Engine::Matrix4x4* worldViewProjectionData = nullptr;
-	worldViewProjectionResource->Map(0, nullptr, reinterpret_cast<void**>(&worldViewProjectionData));
-	*worldViewProjectionData = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	Engine::TransformationMatrix* transformationData = nullptr;
+	transformationResource->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->world = worldTransform->worldMatrix_;
+
+
+	/*-------------
+	    平行光源
+	-------------*/
+
+	// 平行光源用リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource = CreateBufferResource(device_, sizeof(Engine::DirectionalLight));
+
+	// データを書き込む
+	Engine::DirectionalLight* directionalLightData = nullptr;
+	directionalLightResource->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
+	directionalLightData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	directionalLightData->direction = Normalize({ 0.0f , -1.0f , 0.0f });
+	directionalLightData->intensity = 1.0f;
 
 
 	/*------------------
@@ -497,7 +535,10 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 	commandList_->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, worldViewProjectionResource->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(1, transformationResource->GetGPUVirtualAddress());
+
+	// 平行光源用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResource->GetGPUVirtualAddress());
 
 	// テクスチャ
 	textureStore_->SelectTexture(commandList_, textureHandle);
@@ -545,8 +586,23 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 	{
 		if (useResources_[i] == nullptr)
 		{
-			useResources_[i] = worldViewProjectionResource;
-			worldViewProjectionResource = nullptr;
+			useResources_[i] = transformationResource;
+			transformationResource = nullptr;
+
+			// 記録したリソースをカウントする
+			useResourceNum++;
+
+			break;
+		}
+	}
+
+	// 平行光源用リソース
+	for (int i = 0; i < _countof(useResources_); i++)
+	{
+		if (useResources_[i] == nullptr)
+		{
+			useResources_[i] = directionalLightResource;
+			directionalLightResource = nullptr;
 
 			// 記録したリソースをカウントする
 			useResourceNum++;
@@ -583,17 +639,23 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camer
 
 	vertexData[0].position = { 0.0f , 360.0f , 0.0f , 1.0f };
 	vertexData[0].texcoord = { 0.0f , 1.0f };
+	vertexData[0].normal = { 0.0f , 0.0f , -1.0f };
 	vertexData[1].position = { 0.0f , 0.0f , 0.0f , 1.0f };
 	vertexData[1].texcoord = { 0.0f , 0.0f };
+	vertexData[1].normal = { 0.0f , 0.0f , -1.0f };
 	vertexData[2].position = { 640.0f , 360.0f , 0.0f , 1.0f };
 	vertexData[2].texcoord = { 1.0f , 1.0f };
+	vertexData[2].normal = { 0.0f , 0.0f , -1.0f };
 
 	vertexData[3].position = { 0.0f , 0.0f , 0.0f , 1.0f };
 	vertexData[3].texcoord = { 0.0f , 0.0f };
+	vertexData[3].normal = { 0.0f , 0.0f , -1.0f };
 	vertexData[4].position = { 640.0f , 0.0f , 0.0f , 1.0f };
 	vertexData[4].texcoord = { 1.0f , 0.0f };
+	vertexData[4].normal = { 0.0f , 0.0f , -1.0f };
 	vertexData[5].position = { 640.0f , 360.0f , 0.0f , 1.0f };
 	vertexData[5].texcoord = { 1.0f , 1.0f };
+	vertexData[5].normal = { 0.0f , 0.0f , -1.0f };
 
 
 	/*---------------
@@ -601,12 +663,13 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camer
 	---------------*/
 
 	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = CreateBufferResource(device_, sizeof(Engine::Vector4));
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = CreateBufferResource(device_, sizeof(Engine::Material));
 
 	// マテリアルデータを書き込む
-	Engine::Vector4* materialData = nullptr;
+	Engine::Material* materialData = nullptr;
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	*materialData = { 1.0f , 1.0f , 1.0f , 1.0f };
+	materialData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	materialData->enableLighting = false;
 
 
 	/*--------------
@@ -614,12 +677,13 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camer
 	--------------*/
 
 	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> worldViewProjectionTransformResource = CreateBufferResource(device_, sizeof(Engine::Matrix4x4));
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResource = CreateBufferResource(device_, sizeof(Engine::TransformationMatrix));
 
 	// 座標変換用の行列に書き込む
-	Engine::Matrix4x4* worldViewProjectionTransformData = nullptr;
-	worldViewProjectionTransformResource->Map(0, nullptr, reinterpret_cast<void**>(&worldViewProjectionTransformData));
-	*worldViewProjectionTransformData = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	Engine::TransformationMatrix* transformationData = nullptr;
+	transformationResource->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->world = worldTransform->worldMatrix_;
 
 
 	/*------------------
@@ -645,7 +709,7 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camer
 	commandList_->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, worldViewProjectionTransformResource->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(1, transformationResource->GetGPUVirtualAddress());
 
 	// テクスチャ
 	textureStore_->SelectTexture(commandList_, textureHandle);
@@ -693,8 +757,8 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camer
 	{
 		if (useResources_[i] == nullptr)
 		{
-			useResources_[i] = worldViewProjectionTransformResource;
-			worldViewProjectionTransformResource = nullptr;
+			useResources_[i] = transformationResource;
+			transformationResource = nullptr;
 
 			// 記録したリソースをカウントする
 			useResourceNum++;

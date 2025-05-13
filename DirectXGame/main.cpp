@@ -26,6 +26,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	camera3d->Initialize(1280.0f , 720.0f);
 	camera3d->translation_.z = -50.0f;
 
+	// スプライト
+	WorldTransform* sprite = new WorldTransform();
+	sprite->Initialize();
+
+	// 2Dカメラ
+	Camera2D* camera2d = new Camera2D();
+	camera2d->Initialize(1280.0f , 720.0f);
+
 	bool flag = true;;
 
 
@@ -82,6 +90,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			// 三角形を描画する
 			yokosukaEngine->DrawSphere(worldTransform, camera3d,8, ghMonsterBall);
 		}
+
+		yokosukaEngine->DrawSprite(sprite, camera2d, ghUvChecker);
 
 		///
 		/// ↑ 描画処理ここまで

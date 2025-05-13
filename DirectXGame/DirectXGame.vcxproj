@@ -104,8 +104,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\Material\Material.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\TextureStore\TextureStore.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\VertexData\VertexData.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Func\LoadTexture\LoadTexture.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Func\String\String.cpp" />
@@ -133,8 +136,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\Material\Material.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\TextureStore\TextureStore.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\VertexData\VertexData.h" />
     <ClInclude Include="YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
     <ClInclude Include="YokosukaEngine\Include\Func\LoadTexture\LoadTexture.h" />
@@ -147,13 +153,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\Shader\Object3d.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Object3d.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\Shader\Object3d.VS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Object3d.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -164,7 +170,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <Text Include="Externals\ImGui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Shader\Object3d.hlsli" />
+    <None Include="YokosukaEngine\Shader\Object3d.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

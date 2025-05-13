@@ -16,6 +16,9 @@
 #include "../../Draw/BasePipelineStateObject/PipelineStateObjectNormal/PipelineStateObjectNormal.h"
 #include "../../Draw/VertexData/VertexData.h"
 #include "../../Draw/TextureStore/TextureStore.h"
+#include "../../Draw/Material/Material.h"
+#include "../../Draw/TransformationMatrix/TransformationMatrix.h"
+#include "../../Draw/DirectionalLight/DirectionalLight.h"
 
 #pragma comment(lib , "d3d12.lib")
 #pragma comment(lib , "dxgi.lib")
