@@ -7,5 +7,5 @@ namespace Engine
 	{
 		Matrix4x4 worldViewProjection;
 		Matrix4x4 world;
-	};
+	}TransformationMatrix;
 }
