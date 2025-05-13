@@ -52,6 +52,16 @@ public:
 	{directXCommon_->DrawTriangle(worldTransform, camera, textureHandle);}
 
 	/// <summary>
+	/// 球を描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="subdivision"></param>
+	/// <param name="textureHandle"></param>
+	void DrawSphere(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t subdivision, uint32_t textureHandle)
+	{directXCommon_->DrawSphere(worldTransform, camera, subdivision, textureHandle);}
+
+	/// <summary>
 	/// スプライトを描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>

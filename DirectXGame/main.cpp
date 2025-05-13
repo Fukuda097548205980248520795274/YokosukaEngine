@@ -75,12 +75,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		if (flag)
 		{
 			// 三角形を描画する
-			yokosukaEngine->DrawTriangle(worldTransform, camera3d, ghUvChecker);
+			yokosukaEngine->DrawSphere(worldTransform, camera3d,8, ghUvChecker);
 		}
 		else
 		{
 			// 三角形を描画する
-			yokosukaEngine->DrawTriangle(worldTransform, camera3d, ghMonsterBall);
+			yokosukaEngine->DrawSphere(worldTransform, camera3d,8, ghMonsterBall);
 		}
 
 		///
