@@ -48,8 +48,8 @@ public:
 	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
-	void DrawTriangle(const WorldTransform* worldTransform, const Camera3D* camera , uint32_t textureHandle) 
-	{directXCommon_->DrawTriangle(worldTransform, camera, textureHandle);}
+	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera , uint32_t textureHandle, Engine::Vector4 color)
+	{directXCommon_->DrawTriangle(worldTransform,uvTransform, camera, textureHandle,color);}
 
 	/// <summary>
 	/// 球を描画する
@@ -58,8 +58,8 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="subdivision"></param>
 	/// <param name="textureHandle"></param>
-	void DrawSphere(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t subdivision, uint32_t textureHandle)
-	{directXCommon_->DrawSphere(worldTransform, camera, subdivision, textureHandle);}
+	void DrawSphere(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t subdivision, uint32_t textureHandle, Engine::Vector4 color)
+	{directXCommon_->DrawSphere(worldTransform, camera, subdivision, textureHandle,color);}
 
 	/// <summary>
 	/// スプライトを描画する
@@ -67,8 +67,9 @@ public:
 	/// <param name="worldTransform"></param>
 	/// <param name="camera"></param>
 	/// <param name="textureHandle"></param>
-	void DrawSprite(const WorldTransform* worldTransform, const Camera2D* camera, uint32_t textureHandle)
-	{directXCommon_->DrawSprite(worldTransform, camera, textureHandle);}
+	void DrawSprite(const WorldTransform* worldTransform,const WorldTransform* uvTransform,
+		const Camera2D* camera, uint32_t textureHandle, Engine::Vector4 color)
+	{directXCommon_->DrawSprite(worldTransform,uvTransform, camera, textureHandle,color);}
 
 
 private:

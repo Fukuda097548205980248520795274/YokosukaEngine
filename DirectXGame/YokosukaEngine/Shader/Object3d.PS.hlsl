@@ -8,6 +8,9 @@ struct Material
     
     // ライティング有効化
     int enableLighting;
+    
+    // UVトランスフォーム
+    float4x4 uvTransform;
 };
 ConstantBuffer<Material> gMaterial : register(b0);
 
@@ -40,8 +43,11 @@ PixelShaderOutput main(VertexShaderOutput input)
 {
     PixelShaderOutput output;
     
-    // テクスチャの色を取得する
-    float4 textureColor = gTexture.Sample(gSampler, input.texcoord);
+    // 座標変換したテクスチャ　（テクスチャ座標系を4次元に変換する）
+    float4 transfomedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
+    
+    // 座標変換したテクスチャ座標系で、テクスチャの色を取得する
+    float4 textureColor = gTexture.Sample(gSampler, transfomedUV.xy);
     
     // ライティング適用
     if (gMaterial.enableLighting)
@@ -51,7 +57,7 @@ PixelShaderOutput main(VertexShaderOutput input)
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
         
         // 全て乗算する
-        output.color = textureColor * textureColor * gDirectionalLight.color * cos * gDirectionalLight.intensity;
+        output.color = gMaterial.color * textureColor * gDirectionalLight.color * cos * gDirectionalLight.intensity;
 
     }
     else

@@ -90,13 +90,31 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Externals\ImGui\imgui.cpp" />
-    <ClCompile Include="Externals\ImGui\imgui_demo.cpp" />
-    <ClCompile Include="Externals\ImGui\imgui_draw.cpp" />
-    <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp" />
-    <ClCompile Include="Externals\ImGui\imgui_impl_win32.cpp" />
-    <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
-    <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Class\GameScene\GameScene.cpp" />
+    <ClCompile Include="Class\GameScene\Player\Emitter\Emitter.cpp" />
+    <ClCompile Include="Class\GameScene\Player\Emitter\Particle\Particle.cpp" />
+    <ClCompile Include="Class\GameScene\Player\Player.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_demo.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_draw.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_impl_win32.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_tables.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_widgets.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\WinApp\WinApp.cpp" />
@@ -121,6 +139,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Class\GameScene\GameScene.h" />
+    <ClInclude Include="Class\GameScene\Player\Emitter\Emitter.h" />
+    <ClInclude Include="Class\GameScene\Player\Emitter\Particle\Particle.h" />
+    <ClInclude Include="Class\GameScene\Player\Player.h" />
     <ClInclude Include="Externals\ImGui\imconfig.h" />
     <ClInclude Include="Externals\ImGui\imgui.h" />
     <ClInclude Include="Externals\ImGui\imgui_impl_dx12.h" />

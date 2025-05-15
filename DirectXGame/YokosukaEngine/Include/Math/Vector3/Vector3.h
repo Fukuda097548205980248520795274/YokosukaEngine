@@ -150,3 +150,11 @@ float Length(const Engine::Vector3& vector);
 /// <param name="vector"></param>
 /// <returns></returns>
 Engine::Vector3 Normalize(const Engine::Vector3& vector);
+
+/// <summary>
+/// クロス積を求める
+/// </summary>
+/// <param name="v1"></param>
+/// <param name="v2"></param>
+/// <returns></returns>
+Engine::Vector3 Cross(const Engine::Vector3& v1, const Engine::Vector3& v2);

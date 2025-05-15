@@ -148,7 +148,7 @@ void DirectXCommon::PreDraw()
 	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBuffeIndex], false, &dsvHandle);
 
 	// 指定した色で画面全体をクリアする
-	float clearColor[] = { 0.1f , 0.25f , 0.5f , 1.0f };
+	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
 	commandList_->ClearRenderTargetView(rtvHandles_[backBuffeIndex], clearColor, 0, nullptr);
 
 	// 指定した深度で画面全体をクリアする
@@ -197,27 +197,21 @@ void DirectXCommon::PostDraw()
 	assert(SUCCEEDED(hr));
 
 	// 使用したリソースを削除する
-	for (int i = 0  ; i < useResourceNum ; i++)
-	{
-		if (useResources_[i])
-		{
-			useResources_[i] = nullptr;
-		}
-	}
-	useResourceNum = 0;
+	useResources_.clear();
 }
 
 /// <summary>
 /// 三角形を描画する
 /// </summary>
-void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Camera3D* camera , uint32_t textureHandle)
+void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const WorldTransform* uvTransform, const Camera3D* camera ,
+	uint32_t textureHandle, Engine::Vector4 color)
 {
 	/*----------
 		頂点
 	----------*/
 
 	// 頂点リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = CreateBufferResource(device_, sizeof(Engine::VertexData) * 3);
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = CreateBufferResource(device_, sizeof(Engine::VertexData) * 12);
 
 
 	// 頂点バッファビュー
@@ -227,7 +221,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 	vertexBufferView.BufferLocation = vertexResource->GetGPUVirtualAddress();
 
 	// 使用するリソースのサイズ
-	vertexBufferView.SizeInBytes = sizeof(Engine::VertexData) * 3;
+	vertexBufferView.SizeInBytes = sizeof(Engine::VertexData) * 12;
 
 	// 1頂点当たりのサイズ
 	vertexBufferView.StrideInBytes = sizeof(Engine::VertexData);
@@ -236,12 +230,69 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 	// 頂点データを書き込む
 	Engine::VertexData* vertexData = nullptr;
 	vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
-	vertexData[0].position = { 0.0f , 0.5f , 0.0f , 1.0f };
+
+	vertexData[0].position = { 0.0f , -0.5f , 0.5f , 1.0f };
 	vertexData[0].texcoord = { 0.5f , 0.0f };
-	vertexData[1].position = { 0.5f , -0.5f , 0.0f , 1.0f };
+	vertexData[1].position = { -0.5f , -0.5f , -0.5f , 1.0f };
 	vertexData[1].texcoord = { 1.0f , 1.0f };
-	vertexData[2].position = { -0.5f , -0.5f , 0.0f , 1.0f };
+	vertexData[2].position = { 0.5f , -0.5f , -0.5f , 1.0f };
 	vertexData[2].texcoord = { 0.0f , 1.0f };
+
+	Engine::Vector3 position0 = { vertexData[0].position.x , vertexData[0].position.y , vertexData[0].position.z };
+	Engine::Vector3 position1 = { vertexData[1].position.x , vertexData[1].position.y , vertexData[1].position.z };
+	Engine::Vector3 position2 = { vertexData[2].position.x , vertexData[2].position.y , vertexData[2].position.z };
+
+	vertexData[0].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+	vertexData[1].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+	vertexData[2].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+
+
+	vertexData[3].position = { 0.0f , 0.5f , 0.0f , 1.0f };
+	vertexData[3].texcoord = { 0.5f , 0.0f };
+	vertexData[4].position = { 0.5f , -0.5f , -0.5f , 1.0f };
+	vertexData[4].texcoord = { 1.0f , 1.0f };
+	vertexData[5].position = { -0.5f , -0.5f , -0.5f , 1.0f };
+	vertexData[5].texcoord = { 0.0f , 1.0f };
+
+	position0 = { vertexData[3].position.x , vertexData[3].position.y , vertexData[3].position.z };
+	position1 = { vertexData[4].position.x , vertexData[4].position.y , vertexData[4].position.z };
+	position2 = { vertexData[5].position.x , vertexData[5].position.y , vertexData[5].position.z };
+
+	vertexData[3].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+	vertexData[4].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+	vertexData[5].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+
+
+	vertexData[6].position = { 0.0f , 0.5f , 0.0f , 1.0f };
+	vertexData[6].texcoord = { 0.5f , 0.0f };
+	vertexData[7].position = { -0.5f , -0.5f , -0.5f , 1.0f };
+	vertexData[7].texcoord = { 1.0f , 1.0f };
+	vertexData[8].position = { 0.0f , -0.5f , 0.5f , 1.0f };
+	vertexData[8].texcoord = { 0.0f , 1.0f };
+
+	position0 = { vertexData[6].position.x , vertexData[6].position.y , vertexData[6].position.z };
+	position1 = { vertexData[7].position.x , vertexData[7].position.y , vertexData[7].position.z };
+	position2 = { vertexData[8].position.x , vertexData[8].position.y , vertexData[8].position.z };
+
+	vertexData[6].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+	vertexData[7].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+	vertexData[8].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+
+
+	vertexData[9].position = { 0.0f , 0.5f , 0.0f , 1.0f };
+	vertexData[9].texcoord = { 0.5f , 0.0f };
+	vertexData[10].position = { 0.0f , -0.5f , 0.5f , 1.0f };
+	vertexData[10].texcoord = { 1.0f , 1.0f };
+	vertexData[11].position = { 0.5f , -0.5f , -0.5f , 1.0f };
+	vertexData[11].texcoord = { 0.0f , 1.0f };
+
+	position0 = { vertexData[9].position.x , vertexData[9].position.y , vertexData[9].position.z };
+	position1 = { vertexData[10].position.x , vertexData[10].position.y , vertexData[10].position.z };
+	position2 = { vertexData[11].position.x , vertexData[11].position.y , vertexData[11].position.z };
+
+	vertexData[9].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+	vertexData[10].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
+	vertexData[11].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
 
 
 	/*---------------
@@ -254,8 +305,10 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 	// データを書き込む
 	Engine::Material* materialData = nullptr;
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	materialData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
-	materialData->enableLighting = false;
+	materialData->color = color;
+	materialData->enableLighting = true;
+	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
+		MakeTranslateMatrix(uvTransform->translation_));
 
 
 	/*------------------
@@ -270,6 +323,21 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 	transformationResource->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
 	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
 	transformationData->world = worldTransform->worldMatrix_;
+
+
+	/*-------------
+		平行光源
+	-------------*/
+
+	// 平行光源用リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource = CreateBufferResource(device_, sizeof(Engine::DirectionalLight));
+
+	// データを書き込む
+	Engine::DirectionalLight* directionalLightData = nullptr;
+	directionalLightResource->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
+	directionalLightData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	directionalLightData->direction = Normalize({ 0.0f , -1.0f , 0.0f });
+	directionalLightData->intensity = 1.0f;
 
 
 
@@ -298,61 +366,24 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 	// 座標変換用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(1, transformationResource->GetGPUVirtualAddress());
 
+	// 平行光源用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResource->GetGPUVirtualAddress());
+
 	// テクスチャ
 	textureStore_->SelectTexture(commandList_, textureHandle);
 
 	// 描画する
-	commandList_->DrawInstanced(3, 1, 0, 0);
+	commandList_->DrawInstanced(12, 1, 0, 0);
 
 
 	/*-----------------------------
 	    使用したリソースを記録する
 	-----------------------------*/
 	
-	// 頂点リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = vertexResource;
-			vertexResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
-
-	// マテリアル用リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = materialResource;
-			materialResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
-
-	// 座標変換用リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = transformationResource;
-			transformationResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
+	useResources_.push_back(vertexResource);
+	useResources_.push_back(materialResource);
+	useResources_.push_back(transformationResource);
+	useResources_.push_back(directionalLightResource);
 }
 
 /// <summary>
@@ -361,25 +392,57 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Ca
 /// <param name="worldTransform"></param>
 /// <param name="camera"></param>
 /// <param name="textureHandle"></param>
-void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t subdivisions, uint32_t textureHandle)
+void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t subdivisions,
+	uint32_t textureHandle,Engine::Vector4 color)
 {
+	/*-----------------
+	    インデックス
+	-----------------*/
+
+	// インデックス数
+	const uint32_t kIndexNum = subdivisions * subdivisions * 6;
+
+	// インデックスリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResource = CreateBufferResource(device_, sizeof(uint32_t) * kIndexNum);
+
+	// インデックスバッファビュー
+	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
+	indexBufferView.BufferLocation = indexResource->GetGPUVirtualAddress();
+	indexBufferView.SizeInBytes = sizeof(uint32_t) * kIndexNum;
+	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
+
+	// データを書き込む
+	uint32_t* indexData = nullptr;
+	indexResource->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
+	for (uint32_t latIndex = 0; latIndex < subdivisions; ++latIndex)
+	{
+		for (uint32_t lonIndex = 0; lonIndex < subdivisions; ++lonIndex)
+		{
+			uint32_t index = (latIndex * subdivisions + lonIndex) * 6;
+			uint32_t vertex = (latIndex * subdivisions + lonIndex) * 4;
+
+			indexData[index + 0] = 0 + vertex; indexData[index + 1] = 1 + vertex; indexData[index + 2] = 2 + vertex;
+			indexData[index + 3] = 2 + vertex; indexData[index + 4] = 1 + vertex; indexData[index + 5] = 3 + vertex;
+		}
+	}
+	
+
+
 	/*----------
 		頂点
 	----------*/
 
 	// 頂点数
-	const uint32_t kVertexNum = subdivisions * subdivisions * 6;
+	const uint32_t kVertexNum = subdivisions * subdivisions * 4;
 
 	// 頂点リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = CreateBufferResource(device_, kVertexNum * sizeof(Engine::VertexData));
-
 
 	// 頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 	vertexBufferView.BufferLocation = vertexResource->GetGPUVirtualAddress();
 	vertexBufferView.SizeInBytes = sizeof(Engine::VertexData) * kVertexNum;
 	vertexBufferView.StrideInBytes = sizeof(Engine::VertexData);
-
 
 	// 頂点データを書き込む
 	Engine::VertexData* vertexData = nullptr;
@@ -404,7 +467,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 			float lon = lonIndex * kLonEvery;
 
 			// 要素番号
-			uint32_t index = (latIndex * subdivisions + lonIndex) * 6;
+			uint32_t index = (latIndex * subdivisions + lonIndex) * 4;
 
 			vertexData[index].position.x = std::cos(lat) * std::cos(lon);
 			vertexData[index].position.y = std::sin(lat);
@@ -436,35 +499,15 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 			vertexData[index + 2].normal.y = vertexData[index + 2].position.y;
 			vertexData[index + 2].normal.z = vertexData[index + 2].position.z;
 
-			vertexData[index + 3].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
-			vertexData[index + 3].position.y = std::sin(lat);
-			vertexData[index + 3].position.z = std::cos(lat) * std::sin(lon + kLonEvery);
+			vertexData[index + 3].position.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
+			vertexData[index + 3].position.y = std::sin(lat + kLatEvery);
+			vertexData[index + 3].position.z = std::cos(lat + kLatEvery) * std::sin(lon + kLonEvery);
 			vertexData[index + 3].position.w = 1.0f;
 			vertexData[index + 3].texcoord.x = static_cast<float>(lonIndex + 1) / static_cast<float>(subdivisions);
-			vertexData[index + 3].texcoord.y = 1.0f - static_cast<float>(latIndex) / static_cast<float>(subdivisions);
-			vertexData[index + 3].normal.x = vertexData[index + 3].position.x;
-			vertexData[index + 3].normal.y = vertexData[index + 3].position.y;
-			vertexData[index + 3].normal.z = vertexData[index + 3].position.z;
-
-			vertexData[index + 4].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
-			vertexData[index + 4].position.y = std::sin(lat + kLatEvery);
-			vertexData[index + 4].position.z = std::cos(lat + kLatEvery) * std::sin(lon);
-			vertexData[index + 4].position.w = 1.0f;
-			vertexData[index + 4].texcoord.x = static_cast<float>(lonIndex) / static_cast<float>(subdivisions);
-			vertexData[index + 4].texcoord.y = 1.0f - static_cast<float>(latIndex + 1) / static_cast<float>(subdivisions);
-			vertexData[index + 4].normal.x = vertexData[index + 4].position.x;
-			vertexData[index + 4].normal.y = vertexData[index + 4].position.y;
-			vertexData[index + 4].normal.z = vertexData[index + 4].position.z;
-
-			vertexData[index + 5].position.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
-			vertexData[index + 5].position.y = std::sin(lat + kLatEvery);
-			vertexData[index + 5].position.z = std::cos(lat + kLatEvery) * std::sin(lon + kLonEvery);
-			vertexData[index + 5].position.w = 1.0f;
-			vertexData[index + 5].texcoord.x = static_cast<float>(lonIndex + 1) / static_cast<float>(subdivisions);
-			vertexData[index + 5].texcoord.y = 1.0f - static_cast<float>(latIndex + 1) / static_cast<float>(subdivisions);
-			vertexData[index + 5].normal.x = vertexData[index + 5].position.x;
-			vertexData[index + 5].normal.y = vertexData[index + 5].position.y;
-			vertexData[index + 5].normal.z = vertexData[index + 5].position.z;
+			vertexData[index + 3].texcoord.y = 1.0f - static_cast<float>(latIndex + 1) / static_cast<float>(subdivisions);
+			vertexData[index + 3].normal.x = vertexData[index + 5].position.x;
+			vertexData[index + 3].normal.y = vertexData[index + 5].position.y;
+			vertexData[index + 3].normal.z = vertexData[index + 5].position.z;
 		}
 	}
 
@@ -479,8 +522,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 	// データを書き込む
 	Engine::Material* materialData = nullptr;
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	materialData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	materialData->color = color;
 	materialData->enableLighting = true;
+	materialData->uvTransform = MakeIdenityMatirx();
 
 
 	/*------------------
@@ -525,6 +569,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 	// ルートシグネチャやPSOの設定
 	pso_->CommandListSet(commandList_);
 
+	// IBVを設定する
+	commandList_->IASetIndexBuffer(&indexBufferView);
+
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
 
@@ -544,72 +591,18 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 	textureStore_->SelectTexture(commandList_, textureHandle);
 
 	// 描画する
-	commandList_->DrawInstanced(kVertexNum, 1, 0, 0);
+	commandList_->DrawIndexedInstanced(kIndexNum, 1, 0, 0, 0);
 
 
 	/*-----------------------------
 		使用したリソースを記録する
 	-----------------------------*/
 
-	// 頂点リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = vertexResource;
-			vertexResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
-
-	// マテリアル用リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = materialResource;
-			materialResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
-
-	// 座標変換用リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = transformationResource;
-			transformationResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
-
-	// 平行光源用リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = directionalLightResource;
-			directionalLightResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
+	useResources_.push_back(indexResource);
+	useResources_.push_back(vertexResource);
+	useResources_.push_back(materialResource);
+	useResources_.push_back(transformationResource);
+	useResources_.push_back(directionalLightResource);
 }
 
 /// <summary>
@@ -618,19 +611,40 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 /// <param name="worldTransform"></param>
 /// <param name="camera"></param>
 /// <param name="textureHandle"></param>
-void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camera2D* camera, uint32_t textureHandle)
+void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera2D* camera,
+	uint32_t textureHandle, Engine::Vector4 color)
 {
+	/*----------------
+	    インデックス
+	----------------*/
+
+	// インデックスリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResource = CreateBufferResource(device_, sizeof(uint32_t) * 6);
+
+	// インデックスバッファビュー
+	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
+	indexBufferView.BufferLocation = indexResource->GetGPUVirtualAddress();
+	indexBufferView.SizeInBytes = sizeof(uint32_t) * 6;
+	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
+
+	// データを書き込む
+	uint32_t* indexData = nullptr;
+	indexResource->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
+	indexData[0] = 0; indexData[1] = 1; indexData[2] = 2;
+	indexData[3] = 1; indexData[4] = 3; indexData[5] = 2;
+
+
 	/*----------
 	    頂点
 	----------*/
 
 	// 頂点リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = CreateBufferResource(device_, sizeof(Engine::VertexData) * 6);
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = CreateBufferResource(device_, sizeof(Engine::VertexData) * 4);
 
 	// 頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 	vertexBufferView.BufferLocation = vertexResource->GetGPUVirtualAddress();
-	vertexBufferView.SizeInBytes = sizeof(Engine::VertexData) * 6;
+	vertexBufferView.SizeInBytes = sizeof(Engine::VertexData) * 4;
 	vertexBufferView.StrideInBytes = sizeof(Engine::VertexData);
 
 	// 頂点データを書き込む
@@ -646,16 +660,9 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camer
 	vertexData[2].position = { 640.0f , 360.0f , 0.0f , 1.0f };
 	vertexData[2].texcoord = { 1.0f , 1.0f };
 	vertexData[2].normal = { 0.0f , 0.0f , -1.0f };
-
-	vertexData[3].position = { 0.0f , 0.0f , 0.0f , 1.0f };
-	vertexData[3].texcoord = { 0.0f , 0.0f };
+	vertexData[3].position = { 640.0f , 0.0f , 0.0f , 1.0f };
+	vertexData[3].texcoord = { 1.0f , 0.0f };
 	vertexData[3].normal = { 0.0f , 0.0f , -1.0f };
-	vertexData[4].position = { 640.0f , 0.0f , 0.0f , 1.0f };
-	vertexData[4].texcoord = { 1.0f , 0.0f };
-	vertexData[4].normal = { 0.0f , 0.0f , -1.0f };
-	vertexData[5].position = { 640.0f , 360.0f , 0.0f , 1.0f };
-	vertexData[5].texcoord = { 1.0f , 1.0f };
-	vertexData[5].normal = { 0.0f , 0.0f , -1.0f };
 
 
 	/*---------------
@@ -668,8 +675,10 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camer
 	// マテリアルデータを書き込む
 	Engine::Material* materialData = nullptr;
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	materialData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	materialData->color = color;
 	materialData->enableLighting = false;
+	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
+		MakeTranslateMatrix(uvTransform->translation_));
 
 
 	/*--------------
@@ -699,6 +708,9 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camer
 	// ルートシグネチャやPSOの設定
 	pso_->CommandListSet(commandList_);
 
+	// IBVを設定する
+	commandList_->IASetIndexBuffer(&indexBufferView);
+
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
 
@@ -715,57 +727,17 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const Camer
 	textureStore_->SelectTexture(commandList_, textureHandle);
 
 	// 描画する
-	commandList_->DrawInstanced(6, 1, 0, 0);
+	commandList_->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
 
 	/*-----------------------------
 		使用したリソースを記録する
 	-----------------------------*/
 
-	// 頂点リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = vertexResource;
-			vertexResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
-
-	// マテリアル用リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = materialResource;
-			materialResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
-
-	// 座標変換用リソース
-	for (int i = 0; i < _countof(useResources_); i++)
-	{
-		if (useResources_[i] == nullptr)
-		{
-			useResources_[i] = transformationResource;
-			transformationResource = nullptr;
-
-			// 記録したリソースをカウントする
-			useResourceNum++;
-
-			break;
-		}
-	}
+	useResources_.push_back(indexResource);
+	useResources_.push_back(vertexResource);
+	useResources_.push_back(materialResource);
+	useResources_.push_back(transformationResource);
 }
 
 /// <summary>

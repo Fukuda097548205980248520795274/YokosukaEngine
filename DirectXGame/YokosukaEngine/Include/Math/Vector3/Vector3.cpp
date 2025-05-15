@@ -31,3 +31,21 @@ Engine::Vector3 Normalize(const Engine::Vector3& vector)
 
 	return normalize;
 }
+
+/// <summary>
+/// クロス積を求める
+/// </summary>
+/// <param name="v1"></param>
+/// <param name="v2"></param>
+/// <returns></returns>
+Engine::Vector3 Cross(const Engine::Vector3& v1, const Engine::Vector3& v2)
+{
+	// クロス積
+	Engine::Vector3 cross;
+
+	cross.x = v1.y * v2.z - v1.z * v2.y;
+	cross.y = v1.z * v2.x - v1.x * v2.z;
+	cross.z = v1.x * v2.y - v1.y * v2.x;
+
+	return cross;
+}

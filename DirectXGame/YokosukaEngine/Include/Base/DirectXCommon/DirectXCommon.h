@@ -62,7 +62,9 @@ public:
 	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
-	void DrawTriangle(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t textureHandle);
+	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+		const Camera3D* camera, uint32_t textureHandle, Engine::Vector4 color);
+
 
 	/// <summary>
 	/// 球を描画する
@@ -70,7 +72,7 @@ public:
 	/// <param name="worldTransform"></param>
 	/// <param name="camera"></param>
 	/// <param name="textureHandle"></param>
-	void DrawSphere(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t subdivisions, uint32_t textureHandle);
+	void DrawSphere(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t subdivisions, uint32_t textureHandle, Engine::Vector4 color);
 
 	/// <summary>
 	/// スプライトを描画する
@@ -78,7 +80,7 @@ public:
 	/// <param name="worldTransform"></param>
 	/// <param name="camera"></param>
 	/// <param name="textureHandle"></param>
-	void DrawSprite(const WorldTransform* worldTransform, const Camera2D* camera, uint32_t textureHandle);
+	void DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Engine::Vector4 color);
 
 	/// <summary>
 	/// ディスクリプタヒープを生成する
@@ -277,7 +279,6 @@ private:
 	D3D12_RECT scissorRect_{};
 
 	// 使用しているリソースを格納する
-	Microsoft::WRL::ComPtr<ID3D12Resource> useResources_[1024];
-	int useResourceNum = 0;
+	std::list<Microsoft::WRL::ComPtr<ID3D12Resource>> useResources_;
 };
 

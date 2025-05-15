@@ -1,4 +1,5 @@
 #include "YokosukaEngine/Include/YokosukaEngine.h"
+#include "Class/GameScene/GameScene.h"
 
 // Windowsアプリでのエントリーポイント（main関数）
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -7,35 +8,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	YokosukaEngine* yokosukaEngine = new YokosukaEngine();
 	yokosukaEngine->Initialize(1280, 720, "LE2A_11_フクダ_ソウワ_AL3");
 
-
-	/*--------------
-	    変数を作る
-	--------------*/
-
-	// uvChecker
-	uint32_t ghUvChecker = yokosukaEngine->LoadTexture("./Resources/Textures/uvChecker.png");
-	uint32_t ghMonsterBall = yokosukaEngine->LoadTexture("./Resources/Textures/monsterBall.png");
-
-	// 図形
-	WorldTransform* worldTransform = new WorldTransform();
-	worldTransform->Initialize();
-	worldTransform->scale_ = { 5.0f , 5.0f , 5.0f };
-
-	// 3Dカメラ
-	Camera3D* camera3d = new Camera3D();
-	camera3d->Initialize(1280.0f , 720.0f);
-	camera3d->translation_.z = -50.0f;
-
-	// スプライト
-	WorldTransform* sprite = new WorldTransform();
-	sprite->Initialize();
-
-	// 2Dカメラ
-	Camera2D* camera2d = new Camera2D();
-	camera2d->Initialize(1280.0f , 720.0f);
-
-	bool flag = true;;
-
+	// ゲームシーンの生成と初期化
+	GameScene* gameScene = new GameScene();
+	gameScene->Initialize(yokosukaEngine);
 
 	// メインループ
 	while (yokosukaEngine->ProcessMessage())
@@ -47,29 +22,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 更新処理ここから
 		/// 
 
-		ImGui::Begin("Triangle");
-		ImGui::DragFloat3("translation", &worldTransform->translation_.x, 0.1f);
-		ImGui::DragFloat3("rotatoin", &worldTransform->rotation_.x, 0.01f);
-		if (ImGui::Button("texture"))
-		{
-			if (flag)
-			{
-				flag = false;
-			}
-			else
-			{
-				flag = true;
-			}
-		}
-		ImGui::End();
-
-
-		// ワールドトランスフォームを更新する
-		worldTransform->UpdateWorldMatrix();
-
-		// カメラを更新する
-		camera3d->UpdateMatrix();
-
+		// ゲームシーン更新
+		gameScene->Update();
 
 		///
 		/// ↑ 更新処理ここまで
@@ -79,19 +33,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-		// テクスチャ切り替え
-		if (flag)
-		{
-			// 三角形を描画する
-			yokosukaEngine->DrawSphere(worldTransform, camera3d,8, ghUvChecker);
-		}
-		else
-		{
-			// 三角形を描画する
-			yokosukaEngine->DrawSphere(worldTransform, camera3d,8, ghMonsterBall);
-		}
-
-		yokosukaEngine->DrawSprite(sprite, camera2d, ghUvChecker);
+		// ゲームシーン描画
+		gameScene->Draw();
 
 		///
 		/// ↑ 描画処理ここまで
@@ -100,6 +43,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// フレーム終了
 		yokosukaEngine->EndFrame();
 	}
+
+	// ゲームシーン解放
+	delete gameScene;
 
 	// エンジンの解放
 	delete yokosukaEngine;
