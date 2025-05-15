@@ -45,6 +45,7 @@ void Player::Initialize(YokosukaEngine* engine, Camera3D* camera)
 	// テクスチャを読み込む
 	textureHandleTable_[0] = engine_->LoadTexture("./Resources/Textures/uvChecker.png");
 	textureHandleTable_[1] = engine_->LoadTexture("./Resources/Textures/monsterBall.png");
+	textureHandleTable_[2] = engine_->LoadTexture("./Resources/Textures/white.png");
 
 	textureHandle_ = textureHandleTable_[int(TextureHandle::UvChecker)];
 
@@ -93,6 +94,10 @@ void Player::Update()
 			textureHandle_ = textureHandleTable_[int(TextureHandle::MonsterBall)];
 		}
 		else if (textureHandle_ == textureHandleTable_[int(TextureHandle::MonsterBall)])
+		{
+			textureHandle_ = textureHandleTable_[int(TextureHandle::White)];
+		}
+		else if (textureHandle_ == textureHandleTable_[int(TextureHandle::White)])
 		{
 			textureHandle_ = textureHandleTable_[int(TextureHandle::UvChecker)];
 		}

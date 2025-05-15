@@ -50,12 +50,13 @@ private:
 
 	// テクスチャ
 	uint32_t textureHandle_;
-	uint32_t textureHandleTable_[2];
+	uint32_t textureHandleTable_[3];
 
 	enum class TextureHandle
 	{
 		UvChecker,
-		MonsterBall
+		MonsterBall,
+		White
 	};
 
 	// 色
