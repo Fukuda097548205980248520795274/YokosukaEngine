@@ -65,23 +65,6 @@ public:
 	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t textureHandle, Engine::Vector4 color);
 
-
-	/// <summary>
-	/// 球を描画する
-	/// </summary>
-	/// <param name="worldTransform"></param>
-	/// <param name="camera"></param>
-	/// <param name="textureHandle"></param>
-	void DrawSphere(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t subdivisions, uint32_t textureHandle, Engine::Vector4 color);
-
-	/// <summary>
-	/// スプライトを描画する
-	/// </summary>
-	/// <param name="worldTransform"></param>
-	/// <param name="camera"></param>
-	/// <param name="textureHandle"></param>
-	void DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Engine::Vector4 color);
-
 	/// <summary>
 	/// ディスクリプタヒープを生成する
 	/// </summary>
@@ -278,7 +261,25 @@ private:
 	// シザーレクト
 	D3D12_RECT scissorRect_{};
 
-	// 使用しているリソースを格納する
-	std::list<Microsoft::WRL::ComPtr<ID3D12Resource>> useResources_;
+
+
+	/*---------------------------
+	    三角錐で使用するリソース
+	---------------------------*/
+
+	// 頂点バッファリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceTriangularPyramid_[512] = {nullptr};
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceTriangularPyramid_[512] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceTriangularPyramid_[512] = { nullptr };
+
+	// 平行光源リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceTriangularPyramid_[512] = { nullptr };
+
+	// 使用したリソースをカウントする
+	uint32_t useNumResourceTriangularPyramid_ = 0;
 };
 

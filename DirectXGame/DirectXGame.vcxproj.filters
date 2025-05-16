@@ -109,21 +109,6 @@
     <Filter Include="Class">
       <UniqueIdentifier>{525fdbc3-8e70-4e39-9d60-86a8432e8648}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Class\GameScene">
-      <UniqueIdentifier>{f26b0982-8a7f-40c7-bbae-9bb3283ecf9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\GameScene\Player">
-      <UniqueIdentifier>{fb77802d-7846-4c6c-9c55-06419aff7051}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\GameScene\Player\Emitter">
-      <UniqueIdentifier>{6b153f22-8b5a-45d9-a835-47a846334235}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\GameScene\Player\Emitter\Particle">
-      <UniqueIdentifier>{f8cf5e09-3492-4e6c-8554-0e5a8d9094fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\GameScene\Player\Emitter\MiniTriangle">
-      <UniqueIdentifier>{9b179e38-3dce-4f1d-9055-03c59c5c52bb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -212,21 +197,6 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.cpp">
       <Filter>YokosukaEngine\Include\Draw\DirectionalLight</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\GameScene\GameScene.cpp">
-      <Filter>Class\GameScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\GameScene\Player\Player.cpp">
-      <Filter>Class\GameScene\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\GameScene\Player\Emitter\Emitter.cpp">
-      <Filter>Class\GameScene\Player\Emitter</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\GameScene\Player\Emitter\Particle\Particle.cpp">
-      <Filter>Class\GameScene\Player\Emitter\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\GameScene\Player\Emitter\MiniTriangle\MiniTriangle.cpp">
-      <Filter>Class\GameScene\Player\Emitter\MiniTriangle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -319,21 +289,6 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.h">
       <Filter>YokosukaEngine\Include\Draw\DirectionalLight</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\GameScene\GameScene.h">
-      <Filter>Class\GameScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\GameScene\Player\Player.h">
-      <Filter>Class\GameScene\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\GameScene\Player\Emitter\Emitter.h">
-      <Filter>Class\GameScene\Player\Emitter</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\GameScene\Player\Emitter\Particle\Particle.h">
-      <Filter>Class\GameScene\Player\Emitter\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\GameScene\Player\Emitter\MiniTriangle\MiniTriangle.h">
-      <Filter>Class\GameScene\Player\Emitter\MiniTriangle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
