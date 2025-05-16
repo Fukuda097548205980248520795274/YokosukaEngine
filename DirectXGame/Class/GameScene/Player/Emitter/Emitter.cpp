@@ -5,6 +5,13 @@
 /// </summary>
 Emitter::~Emitter()
 {
+	// 小さい三角錐
+	for (MiniTriangle* miniTriangle : miniTriangles_)
+	{
+		delete miniTriangle;
+	}
+	miniTriangles_.clear();
+
 	// パーティクル
 	for (Particle* particle : particles_)
 	{
@@ -39,7 +46,7 @@ void Emitter::Initialize(YokosukaEngine* engine,Camera3D* camera,WorldTransform*
 	worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
 	worldTransform_->translation_ = position;
-	worldTransform_->scale_ = { 0.1f, 0.1f , 0.1f };
+	worldTransform_->scale_ = { 0.5f, 0.5f , 0.5f };
 
 	// UVトランスフォームを初期化する
 	uvTransform_ = new WorldTransform();
@@ -47,6 +54,33 @@ void Emitter::Initialize(YokosukaEngine* engine,Camera3D* camera,WorldTransform*
 
 	// 親 : プレイヤーをセットする
 	worldTransform_->SetParent(parent);
+
+
+	// 小さい三角錐を登録する
+	for (uint32_t i = 0; i < 4; i++)
+	{
+		MiniTriangle* newMiniTriangle = new MiniTriangle();
+
+		if (i == 0)
+		{
+			newMiniTriangle->Initialize(engine_, camera_, worldTransform_, { 0.0f , 2.0f , 0.0f }, textureHandle_);
+		} 
+		else if (i == 1)
+		{
+			newMiniTriangle->Initialize(engine_, camera_, worldTransform_, { 0.0f , -2.0f , 0.0f }, textureHandle_);
+		} 
+		else if (i == 2)
+		{
+			newMiniTriangle->Initialize(engine_, camera_, worldTransform_, { 0.0f , 0.0f , -2.0f }, textureHandle_);
+		}
+		else if (i == 3)
+		{
+			newMiniTriangle->Initialize(engine_, camera_, worldTransform_, { 0.0f , 0.0f , 2.0f }, textureHandle_);
+		}
+
+
+		miniTriangles_.push_back(newMiniTriangle);
+	}
 }
 
 /// <summary>
@@ -97,6 +131,12 @@ void Emitter::Update()
 	{
 		particle->Update();
 	}
+
+	// 三角錐
+	for (MiniTriangle* miniTriangle : miniTriangles_)
+	{
+		miniTriangle->Update();
+	}
 }
 
 /// <summary>
@@ -111,6 +151,12 @@ void Emitter::Draw()
 	for (Particle* particle : particles_)
 	{
 		particle->Draw();
+	}
+
+	// 三角錐
+	for (MiniTriangle* miniTriangle : miniTriangles_)
+	{
+		miniTriangle->Draw();
 	}
 }
 

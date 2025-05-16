@@ -1,16 +1,14 @@
 #pragma once
-#include "../../../../YokosukaEngine/Include/YokosukaEngine.h"
-#include "Particle/Particle.h"
-#include "MiniTriangle/MiniTriangle.h"
+#include "../../../../../YokosukaEngine/Include/YokosukaEngine.h"
 
-class Emitter
+class MiniTriangle
 {
 public:
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Emitter();
+	~MiniTriangle();
 
 	/// <summary>
 	/// 初期化
@@ -52,20 +50,6 @@ private:
 	uint32_t* textureHandle_ = nullptr;
 
 	// 色
-	Engine::Vector4 color = { 0.0f , 1.0f , 0.0f , 1.0f };
-
-
-	// パーティクルのリスト
-	std::list<Particle*> particles_;
-
-	
-	// 放出時間
-	const float kEmissionTime = 0.05f;
-
-	// 放出の復活処理
-	float emissionRespawnTimer = 0.0f;
-
-	// 小さい三角錐のリスト
-	std::list<MiniTriangle*> miniTriangles_;
+	Engine::Vector4 color = { 1.0f , 0.0f , 0.0f , 1.0f };
 };
 

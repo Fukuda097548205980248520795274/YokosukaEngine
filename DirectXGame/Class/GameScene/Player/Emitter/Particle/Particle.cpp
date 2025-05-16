@@ -57,10 +57,10 @@ void Particle::Update()
 	// 徐々に小さくする
 	float rate = deathTimer_ / kLifeTime;
 	float easeIn = std::pow(rate, 4.0f);
-	worldTransform_->scale_ = (1.0f - easeIn) * Engine::Vector3(0.1f, 0.1f, 0.1f) + easeIn * Engine::Vector3(0.0f, 0.0f, 0.0f);
+	worldTransform_->scale_ = (1.0f - easeIn) * Engine::Vector3(0.3f, 0.3f, 0.3f) + easeIn * Engine::Vector3(0.0f, 0.0f, 0.0f);
 
 	// 明るい青 -> 青
-	color_ = (1.0f - rate) * Engine::Vector4(0.5f, 0.5f, 1.0f , 1.0f) + rate * Engine::Vector4(0.0f, 0.0f, 1.0f , 1.0f);
+	color_ = (1.0f - rate) * Engine::Vector4(0.8f, 0.8f, 1.0f , 1.0f) + rate * Engine::Vector4(0.0f, 0.0f, 1.0f , 1.0f);
 
 	// 回転させる
 	worldTransform_->rotation_ += {0.1f, 0.05f, 0.0f};
@@ -81,6 +81,5 @@ void Particle::Update()
 void Particle::Draw()
 {
 	// 三角形を描画する
-	if (static_cast<int>(deathTimer_ * 100) % 5 >= 3)
-	engine_->DrawTriangle(worldTransform_,uvTransform_, camera_, *textureHandle_, color_);
+	engine_->DrawTriangle(worldTransform_, uvTransform_, camera_, *textureHandle_, color_);
 }

@@ -52,6 +52,7 @@ private:
 	uint32_t textureHandle_;
 	uint32_t textureHandleTable_[3];
 
+	// テクスチャの種類
 	enum class TextureHandle
 	{
 		UvChecker,

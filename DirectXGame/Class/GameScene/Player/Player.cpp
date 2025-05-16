@@ -57,20 +57,20 @@ void Player::Initialize(YokosukaEngine* engine, Camera3D* camera)
 
 		if (i == 0)
 		{
-			newEmitter->Initialize(engine_, camera_, worldTransform_, { 0.0f , 0.5f , 0.0f } , &textureHandle_);
+			newEmitter->Initialize(engine_, camera_, worldTransform_, { 0.0f , 2.0f , 0.0f } , &textureHandle_);
 		}
 		else if (i == 1)
 		{
-			newEmitter->Initialize(engine_, camera_, worldTransform_, { 0.5f , -0.5f , -0.5f }, &textureHandle_);
+			newEmitter->Initialize(engine_, camera_, worldTransform_, { 0.0f , -2.0f , 0.0f }, &textureHandle_);
 		}
 		else if (i == 2)
 		{
-			newEmitter->Initialize(engine_, camera_, worldTransform_, { -0.5f , -0.5f , -0.5f }, &textureHandle_);
-		}
-		else if (i == 3)
+			newEmitter->Initialize(engine_, camera_, worldTransform_, { 0.0f , 0.0f , -2.0f }, &textureHandle_);
+		} else if (i == 3)
 		{
-			newEmitter->Initialize(engine_, camera_, worldTransform_, { 0.0f , -0.5f , 0.5f }, &textureHandle_);
+			newEmitter->Initialize(engine_, camera_, worldTransform_, { 0.0f , 0.0f , 2.0f }, &textureHandle_);
 		}
+		
 
 		emitters_.push_back(newEmitter);
 	}

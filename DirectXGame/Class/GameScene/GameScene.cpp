@@ -7,6 +7,9 @@ GameScene::~GameScene()
 {
 	// カメラ
 	delete camera_;
+
+	// プレイヤー
+	delete player_;
 }
 
 /// <summary>
@@ -23,7 +26,7 @@ void GameScene::Initialize(YokosukaEngine* engine)
 	// カメラを初期化する
 	camera_ = new Camera3D();
 	camera_->Initialize(1280.0f, 720.0f);
-	camera_->translation_.z = -5.0f;
+	camera_->translation_.z = -20.0f;
 
 	// プレイヤーの生成と初期化
 	player_ = new Player();

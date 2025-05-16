@@ -121,6 +121,9 @@
     <Filter Include="Class\GameScene\Player\Emitter\Particle">
       <UniqueIdentifier>{f8cf5e09-3492-4e6c-8554-0e5a8d9094fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\GameScene\Player\Emitter\MiniTriangle">
+      <UniqueIdentifier>{9b179e38-3dce-4f1d-9055-03c59c5c52bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -221,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="Class\GameScene\Player\Emitter\Particle\Particle.cpp">
       <Filter>Class\GameScene\Player\Emitter\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\GameScene\Player\Emitter\MiniTriangle\MiniTriangle.cpp">
+      <Filter>Class\GameScene\Player\Emitter\MiniTriangle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -325,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="Class\GameScene\Player\Emitter\Particle\Particle.h">
       <Filter>Class\GameScene\Player\Emitter\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\GameScene\Player\Emitter\MiniTriangle\MiniTriangle.h">
+      <Filter>Class\GameScene\Player\Emitter\MiniTriangle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

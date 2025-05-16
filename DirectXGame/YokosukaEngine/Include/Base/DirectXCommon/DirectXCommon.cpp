@@ -157,6 +157,16 @@ void DirectXCommon::PreDraw()
 	// 描画用のディスクリプタヒープの設定
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
 	commandList_->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
+
+
+	// ビューポート設定
+	commandList_->RSSetViewports(1, &viewport_);
+
+	// シザーレクト設定
+	commandList_->RSSetScissorRects(1, &scissorRect_);
+
+	// ルートシグネチャやPSOの設定
+	pso_->CommandListSet(commandList_);
 }
 
 /// <summary>
@@ -224,8 +234,8 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	vertexBufferView.SizeInBytes = sizeof(Engine::VertexData) * 12;
 
 	// 1頂点当たりのサイズ
-	vertexBufferView.StrideInBytes = sizeof(Engine::VertexData);
 
+	vertexBufferView.StrideInBytes = sizeof(Engine::VertexData);
 
 	// 頂点データを書き込む
 	Engine::VertexData* vertexData = nullptr;
@@ -344,15 +354,6 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	/*------------------
 	    コマンドを積む
 	------------------*/
-
-	// ビューポート設定
-	commandList_->RSSetViewports(1, &viewport_);
-	
-	// シザーレクト設定
-	commandList_->RSSetScissorRects(1, &scissorRect_);
-
-	// ルートシグネチャやPSOの設定
-	pso_->CommandListSet(commandList_);
 
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
@@ -505,9 +506,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 			vertexData[index + 3].position.w = 1.0f;
 			vertexData[index + 3].texcoord.x = static_cast<float>(lonIndex + 1) / static_cast<float>(subdivisions);
 			vertexData[index + 3].texcoord.y = 1.0f - static_cast<float>(latIndex + 1) / static_cast<float>(subdivisions);
-			vertexData[index + 3].normal.x = vertexData[index + 5].position.x;
-			vertexData[index + 3].normal.y = vertexData[index + 5].position.y;
-			vertexData[index + 3].normal.z = vertexData[index + 5].position.z;
+			vertexData[index + 3].normal.x = vertexData[index + 3].position.x;
+			vertexData[index + 3].normal.y = vertexData[index + 3].position.y;
+			vertexData[index + 3].normal.z = vertexData[index + 3].position.z;
 		}
 	}
 
@@ -559,15 +560,6 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const Camer
 	/*------------------
 		コマンドを積む
 	------------------*/
-
-	// ビューポート設定
-	commandList_->RSSetViewports(1, &viewport_);
-
-	// シザーレクト設定
-	commandList_->RSSetScissorRects(1, &scissorRect_);
-
-	// ルートシグネチャやPSOの設定
-	pso_->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
@@ -698,15 +690,6 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const World
 	/*------------------
 	    コマンドを積む
 	------------------*/
-
-	// ビューポート設定
-	commandList_->RSSetViewports(1, &viewport_);
-
-	// シザーレクト設定
-	commandList_->RSSetScissorRects(1, &scissorRect_);
-
-	// ルートシグネチャやPSOの設定
-	pso_->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
