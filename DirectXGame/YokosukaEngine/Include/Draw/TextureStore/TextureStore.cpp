@@ -8,6 +8,15 @@
 uint32_t TextureStore::GetTextureHandle(const std::string& filePath ,Microsoft::WRL::ComPtr<ID3D12Device> device ,
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList)
 {
+	// 既に格納されているファイルパスを探す
+	for (uint32_t i = 0; i < textureNum_; i++)
+	{
+		if (strcmp(filePath.c_str(),filePath_[i].c_str()))
+		{
+			return textureHandle_[i];
+		}
+	}
+
 	// 格納されていない場所から格納する
 	for (uint32_t i = 0; i < 256; i++)
 	{
@@ -19,7 +28,7 @@ uint32_t TextureStore::GetTextureHandle(const std::string& filePath ,Microsoft::
 		{
 			textureHandle_[i] = rand() % 100000 + 1;
 
-			for (uint32_t j = 0; j < 256; j++)
+			for (uint32_t j = 0; j < textureNum_; j++)
 			{
 				// 同じ要素番号は比較しない
 				if (i == j)

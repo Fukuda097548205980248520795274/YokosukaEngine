@@ -63,7 +63,18 @@ public:
 	/// 三角形を描画する
 	/// </summary>
 	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, Engine::Vector4 color);
+		const Camera3D* camera, uint32_t textureHandle, Vector4 color);
+
+	/// <summary>
+	/// 球を表がする
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="textureHandle"></param>
+	/// <param name="color"></param>
+	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+		const Camera3D* camera, uint32_t textureHandle, Vector4 color);
 
 	/// <summary>
 	/// ディスクリプタヒープを生成する
@@ -281,5 +292,31 @@ private:
 
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceTriangularPyramid_ = 0;
+
+
+	/*-----------------------
+	    球で使用するリソース
+	-----------------------*/
+
+	// 分割数
+	const uint32_t kSubdivision = 16;
+
+	// インデックスリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_[512] = { nullptr };
+
+	// 頂点バッファリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSphere_[512] = { nullptr };
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSphere_[512] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSphere_[512] = { nullptr };
+
+	// 平行光源リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceSphere_[512] = { nullptr };
+
+	// 使用したリソースをカウントする
+	uint32_t useNumResourceSphere_ = 0;
 };
 

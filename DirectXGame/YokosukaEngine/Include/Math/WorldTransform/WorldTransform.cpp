@@ -29,6 +29,6 @@ void WorldTransform::UpdateWorldMatrix()
 	// 親のワールド行列で座標変換する
 	if (parent_)
 	{
-		worldMatrix_ = Multiply(worldMatrix_, parent_->worldMatrix_);
+		worldMatrix_ = Multiply(worldMatrix_, Multiply(MakeRotateMatrix(parent_->rotation_), MakeTranslateMatrix(parent_->translation_)));
 	}
 }

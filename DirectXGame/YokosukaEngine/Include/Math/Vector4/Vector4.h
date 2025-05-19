@@ -2,71 +2,68 @@
 #include <cmath>
 
 // エンジン用の4次元ベクトル
-namespace Engine
+typedef struct Vector4
 {
-	typedef struct Vector4
+	float x;
+	float y;
+	float z;
+	float w;
+
+	// 加算する
+	Vector4 operator+=(const Vector4& vector)
 	{
-		float x;
-		float y;
-		float z;
-		float w;
+		this->x += vector.x;
+		this->y += vector.y;
+		this->z += vector.z;
+		this->w += vector.w;
 
-		// 加算する
-		Vector4 operator+=(const Vector4& vector)
-		{
-			this->x += vector.x;
-			this->y += vector.y;
-			this->z += vector.z;
-			this->w += vector.w;
+		return *this;
+	}
 
-			return *this;
-		}
+	// 減算する
+	Vector4 operator-=(const Vector4& vector)
+	{
+		this->x -= vector.x;
+		this->y -= vector.y;
+		this->z -= vector.z;
+		this->w -= vector.w;
 
-		// 減算する
-		Vector4 operator-=(const Vector4& vector)
-		{
-			this->x -= vector.x;
-			this->y -= vector.y;
-			this->z -= vector.z;
-			this->w -= vector.w;
+		return *this;
+	}
 
-			return *this;
-		}
+	// スカラー倍
+	Vector4 operator*=(float scalar)
+	{
+		this->x *= scalar;
+		this->y *= scalar;
+		this->z *= scalar;
+		this->w *= scalar;
 
-		// スカラー倍
-		Vector4 operator*=(float scalar)
-		{
-			this->x *= scalar;
-			this->y *= scalar;
-			this->z *= scalar;
-			this->w *= scalar;
+		return *this;
+	}
 
-			return *this;
-		}
+	// スカラー除算
+	Vector4 operator/=(float scalar)
+	{
+		this->x /= scalar;
+		this->y /= scalar;
+		this->z /= scalar;
+		this->w /= scalar;
 
-		// スカラー除算
-		Vector4 operator/=(float scalar)
-		{
-			this->x /= scalar;
-			this->y /= scalar;
-			this->z /= scalar;
-			this->w /= scalar;
+		return *this;
+	}
 
-			return *this;
-		}
-
-	}Vector4;
-}
+}Vector4;
 
 
 namespace
 {
 
 	// 加算する
-	Engine::Vector4 operator+(const Engine::Vector4& v1, const Engine::Vector4& v2)
+	Vector4 operator+(const Vector4& v1, const Vector4& v2)
 	{
 		// 加算
-		Engine::Vector4 add;
+		Vector4 add;
 
 		add.x = v1.x + v2.x;
 		add.y = v1.y + v2.y;
@@ -77,10 +74,10 @@ namespace
 	}
 
 	// 減算する
-	Engine::Vector4 operator-(const Engine::Vector4& v1, const Engine::Vector4& v2)
+	Vector4 operator-(const Vector4& v1, const Vector4& v2)
 	{
 		// 減算
-		Engine::Vector4 subtract;
+		Vector4 subtract;
 
 		subtract.x = v1.x - v2.x;
 		subtract.y = v1.y - v2.y;
@@ -91,10 +88,10 @@ namespace
 	}
 
 	// スカラー倍
-	Engine::Vector4 operator*(const Engine::Vector4& vector, float scalar)
+	Vector4 operator*(const Vector4& vector, float scalar)
 	{
 		// スカラー倍
-		Engine::Vector4 scalarMultiply;
+		Vector4 scalarMultiply;
 
 		scalarMultiply.x = vector.x * scalar;
 		scalarMultiply.y = vector.y * scalar;
@@ -105,10 +102,10 @@ namespace
 	}
 
 	// スカラー倍
-	Engine::Vector4 operator*(float scalar, const Engine::Vector4& vector)
+	Vector4 operator*(float scalar, const Vector4& vector)
 	{
 		// スカラー倍
-		Engine::Vector4 scalarMultiply;
+		Vector4 scalarMultiply;
 
 		scalarMultiply.x = scalar * vector.x;
 		scalarMultiply.y = scalar * vector.y;
@@ -119,10 +116,10 @@ namespace
 	}
 
 	// スカラー除算
-	Engine::Vector4 operator/(const Engine::Vector4& vector, float scalar)
+	Vector4 operator/(const Vector4& vector, float scalar)
 	{
 		// スカラー除算
-		Engine::Vector4 scalarDivision;
+		Vector4 scalarDivision;
 
 		scalarDivision.x = vector.x / scalar;
 		scalarDivision.y = vector.y / scalar;
@@ -133,10 +130,10 @@ namespace
 	}
 
 	// スカラー除算
-	Engine::Vector4 operator/(float scalar, const Engine::Vector4& vector)
+	Vector4 operator/(float scalar, const Vector4& vector)
 	{
 		// スカラー除算
-		Engine::Vector4 scalarDivision;
+		Vector4 scalarDivision;
 
 		scalarDivision.x = scalar / vector.x;
 		scalarDivision.y = scalar / vector.y;
@@ -153,11 +150,11 @@ namespace
 /// </summary>
 /// <param name="vector"></param>
 /// <returns></returns>
-float Length(const Engine::Vector4& vector);
+float Length(const Vector4& vector);
 
 /// <summary>
 /// 正規化したベクトルを求める
 /// </summary>
 /// <param name="vector"></param>
 /// <returns></returns>
-Engine::Vector4 NormalizeVector4(const Engine::Vector4& vector);
+Vector4 NormalizeVector4(const Vector4& vector);

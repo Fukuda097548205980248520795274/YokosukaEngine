@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="vector"></param>
 /// <returns></returns>
-float Length(const Engine::Vector4& vector)
+float Length(const Vector4& vector)
 {
 	float length = std::sqrt(std::pow(vector.x, 2.0f) + std::pow(vector.y, 2.0f) + std::pow(vector.z, 2.0f));
 	return length;
@@ -16,10 +16,10 @@ float Length(const Engine::Vector4& vector)
 /// </summary>
 /// <param name="vector"></param>
 /// <returns></returns>
-Engine::Vector4 NormalizeVector4(const Engine::Vector4& vector)
+Vector4 NormalizeVector4(const Vector4& vector)
 {
 	// 正規化したベクトル
-	Engine::Vector4 normalize = { 0.0f , 0.0f , 0.0f ,vector.w};
+	Vector4 normalize = { 0.0f , 0.0f , 0.0f ,vector.w};
 
 	// 長さ
 	float length = Length(vector);

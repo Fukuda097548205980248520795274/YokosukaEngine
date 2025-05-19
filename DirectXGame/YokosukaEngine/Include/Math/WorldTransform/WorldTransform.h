@@ -22,16 +22,16 @@ public:
 	void UpdateWorldMatrix();
 
 	// 拡縮
-	Engine::Vector3 scale_;
+	Vector3 scale_;
 
 	// 回転
-	Engine::Vector3 rotation_;
+	Vector3 rotation_;
 
 	// 移動
-	Engine::Vector3 translation_;
+	Vector3 translation_;
 
 	// ワールド行列
-	Engine::Matrix4x4 worldMatrix_{};
+	Matrix4x4 worldMatrix_{};
 
 	// 親ワールドトランスフォーム
 	WorldTransform* parent_ = nullptr;

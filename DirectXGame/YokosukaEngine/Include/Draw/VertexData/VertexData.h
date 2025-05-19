@@ -4,17 +4,14 @@
 #include "../../Math/Vector3/Vector3.h"
 
 // エンジン用の頂点情報
-namespace Engine
+typedef struct VertexData
 {
-	typedef struct VertexData
-	{
-		// ローカル座標
-		Vector4 position;
+	// ローカル座標
+	Vector4 position;
 
-		// テクスチャ座標
-		Vector2 texcoord;
+	// テクスチャ座標
+	Vector2 texcoord;
 
-		// 頂点法線
-		Vector3 normal;
-	}VertexData;
-}
+	// 頂点法線
+	Vector3 normal;
+}VertexData;

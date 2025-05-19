@@ -48,8 +48,16 @@ public:
 	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
-	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera , uint32_t textureHandle, Engine::Vector4 color)
+	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera , uint32_t textureHandle, Vector4 color)
 	{directXCommon_->DrawTriangle(worldTransform,uvTransform, camera, textureHandle,color);}
+
+	/// <summary>
+	/// 球を描画する
+	/// </summary>
+	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera, uint32_t textureHandle, Vector4 color)
+	{
+		directXCommon_->DrawSphere(worldTransform, uvTransform, camera, textureHandle, color);
+	}
 
 
 private:

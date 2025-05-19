@@ -136,10 +136,18 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	for (uint32_t i = 0; i < 512; i++)
 	{
-		vertexBufferResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(Engine::VertexData) * 12);
-		MaterialResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(Engine::Material));
-		TransformationResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(Engine::TransformationMatrix));
-		directionalLightResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(Engine::DirectionalLight));
+		// 三角錐
+		vertexBufferResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(VertexData) * 12);
+		MaterialResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(Material));
+		TransformationResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		directionalLightResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
+
+		// 球
+		indexResourceSphere_[i] = CreateBufferResource(device_, (kSubdivision * kSubdivision * 6) * sizeof(uint32_t));
+		vertexBufferResourceSphere_[i] = CreateBufferResource(device_, (kSubdivision * kSubdivision * 4) * sizeof(VertexData));
+		MaterialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
+		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		directionalLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
 	}
 }
 
@@ -225,13 +233,14 @@ void DirectXCommon::PostDraw()
 
 	// カウントしたリソースを初期化する
 	useNumResourceTriangularPyramid_ = 0;
+	useNumResourceSphere_ = 0;
 }
 
 /// <summary>
 /// 三角形を描画する
 /// </summary>
 void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const WorldTransform* uvTransform, const Camera3D* camera ,
-	uint32_t textureHandle, Engine::Vector4 color)
+	uint32_t textureHandle, Vector4 color)
 {
 	/*----------
 		頂点
@@ -239,38 +248,31 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 
 	// 頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-
-	// リソースの先頭のアドレスから使う
 	vertexBufferView.BufferLocation = vertexBufferResourceTriangularPyramid_[useNumResourceTriangularPyramid_]->GetGPUVirtualAddress();
-
-	// 使用するリソースのサイズ
-	vertexBufferView.SizeInBytes = sizeof(Engine::VertexData) * 12;
-
-	// 1頂点当たりのサイズ
-
-	vertexBufferView.StrideInBytes = sizeof(Engine::VertexData);
+	vertexBufferView.SizeInBytes = sizeof(VertexData) * 12;
+	vertexBufferView.StrideInBytes = sizeof(VertexData);
 
 	// 頂点データを書き込む
-	Engine::VertexData* vertexData = nullptr;
+	VertexData* vertexData = nullptr;
 	vertexBufferResourceTriangularPyramid_[useNumResourceTriangularPyramid_]->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
 
-	vertexData[0].position = { 0.0f , -0.5f , 0.5f , 1.0f };
+	vertexData[0].position = { 0.0f , -0.5f , 0.6f , 1.0f };
 	vertexData[0].texcoord = { 0.5f , 0.0f };
 	vertexData[1].position = { -0.5f , -0.5f , -0.5f , 1.0f };
 	vertexData[1].texcoord = { 1.0f , 1.0f };
 	vertexData[2].position = { 0.5f , -0.5f , -0.5f , 1.0f };
 	vertexData[2].texcoord = { 0.0f , 1.0f };
 
-	Engine::Vector3 position0 = { vertexData[0].position.x , vertexData[0].position.y , vertexData[0].position.z };
-	Engine::Vector3 position1 = { vertexData[1].position.x , vertexData[1].position.y , vertexData[1].position.z };
-	Engine::Vector3 position2 = { vertexData[2].position.x , vertexData[2].position.y , vertexData[2].position.z };
+	Vector3 position0 = { vertexData[0].position.x , vertexData[0].position.y , vertexData[0].position.z };
+	Vector3 position1 = { vertexData[1].position.x , vertexData[1].position.y , vertexData[1].position.z };
+	Vector3 position2 = { vertexData[2].position.x , vertexData[2].position.y , vertexData[2].position.z };
 
 	vertexData[0].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
 	vertexData[1].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
 	vertexData[2].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
 
 
-	vertexData[3].position = { 0.0f , 0.5f , 0.0f , 1.0f };
+	vertexData[3].position = { 0.0f , 0.4f , 0.0f , 1.0f };
 	vertexData[3].texcoord = { 0.5f , 0.0f };
 	vertexData[4].position = { 0.5f , -0.5f , -0.5f , 1.0f };
 	vertexData[4].texcoord = { 1.0f , 1.0f };
@@ -286,11 +288,11 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	vertexData[5].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
 
 
-	vertexData[6].position = { 0.0f , 0.5f , 0.0f , 1.0f };
+	vertexData[6].position = { 0.0f , 0.4f , 0.0f , 1.0f };
 	vertexData[6].texcoord = { 0.5f , 0.0f };
 	vertexData[7].position = { -0.5f , -0.5f , -0.5f , 1.0f };
 	vertexData[7].texcoord = { 1.0f , 1.0f };
-	vertexData[8].position = { 0.0f , -0.5f , 0.5f , 1.0f };
+	vertexData[8].position = { 0.0f , -0.5f , 0.6f , 1.0f };
 	vertexData[8].texcoord = { 0.0f , 1.0f };
 
 	position0 = { vertexData[6].position.x , vertexData[6].position.y , vertexData[6].position.z };
@@ -302,9 +304,9 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	vertexData[8].normal = Normalize(Cross((position1 - position0), (position2 - position0)));
 
 
-	vertexData[9].position = { 0.0f , 0.5f , 0.0f , 1.0f };
+	vertexData[9].position = { 0.0f , 0.4f , 0.0f , 1.0f };
 	vertexData[9].texcoord = { 0.5f , 0.0f };
-	vertexData[10].position = { 0.0f , -0.5f , 0.5f , 1.0f };
+	vertexData[10].position = { 0.0f , -0.5f , 0.6f , 1.0f };
 	vertexData[10].texcoord = { 1.0f , 1.0f };
 	vertexData[11].position = { 0.5f , -0.5f , -0.5f , 1.0f };
 	vertexData[11].texcoord = { 0.0f , 1.0f };
@@ -323,7 +325,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	---------------*/
 
 	// データを書き込む
-	Engine::Material* materialData = nullptr;
+	Material* materialData = nullptr;
 	MaterialResourceTriangularPyramid_[useNumResourceTriangularPyramid_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = true;
@@ -336,7 +338,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	------------------*/
 
 	// データを書き込む
-	Engine::TransformationMatrix* transformationData = nullptr;
+	TransformationMatrix* transformationData = nullptr;
 	TransformationResourceTriangularPyramid_[useNumResourceTriangularPyramid_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
 	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
 	transformationData->world = worldTransform->worldMatrix_;
@@ -347,7 +349,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	-------------*/
 
 	// データを書き込む
-	Engine::DirectionalLight* directionalLightData = nullptr;
+	DirectionalLight* directionalLightData = nullptr;
 	directionalLightResourceTriangularPyramid_[useNumResourceTriangularPyramid_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
 	directionalLightData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
 	directionalLightData->direction = Normalize({ 0.0f , -1.0f , 0.0f });
@@ -382,6 +384,187 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 
 	// カウントする
 	useNumResourceTriangularPyramid_++;
+}
+
+/// <summary>
+/// 球を描画する
+/// </summary>
+/// <param name="worldTransform"></param>
+/// <param name="uvTransform"></param>
+/// <param name="camera"></param>
+/// <param name="textureHandle"></param>
+/// <param name="color"></param>
+void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	const Camera3D* camera, uint32_t textureHandle, Vector4 color)
+{
+	/*-----------------
+	    インデックス
+	-----------------*/
+
+	// ビューを作成する
+	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
+	indexBufferView.BufferLocation = indexResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress();
+	indexBufferView.SizeInBytes = (kSubdivision * kSubdivision * 6) * sizeof(uint32_t);
+	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
+
+	// データを書き込む
+	uint32_t* indexData = nullptr;
+	indexResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
+
+	for (uint32_t latIndex = 0; latIndex < kSubdivision; latIndex++)
+	{
+		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; lonIndex++)
+		{
+			// 要素数
+			uint32_t indexNum = (latIndex * kSubdivision + lonIndex) * 6;
+
+			// 書き込むインデックス
+			uint32_t index = (latIndex * kSubdivision + lonIndex) * 4;
+
+			indexData[indexNum + 0] = 0 + index; indexData[indexNum + 1] = 1 + index; indexData[indexNum + 2] = 2 + index;
+			indexData[indexNum + 3] = 2 + index; indexData[indexNum + 4] = 1 + index; indexData[indexNum + 5] = 3 + index;
+		}
+	}
+
+
+	/*---------
+	    頂点
+	---------*/
+
+	// ビューを作成する
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
+	vertexBufferView.BufferLocation = vertexBufferResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress();
+	vertexBufferView.SizeInBytes = (kSubdivision * kSubdivision * 4) * sizeof(VertexData);
+	vertexBufferView.StrideInBytes = sizeof(VertexData);
+
+	// データを書き込む
+	VertexData* vertexData = nullptr;
+	vertexBufferResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+
+	// 経度分割1つ分φ
+	const float kLonEvery = float(std::numbers::pi) * 2.0f / float(kSubdivision);
+
+	// 緯度分割1つ分Θ
+	const float kLatEvery = float(std::numbers::pi) / float(kSubdivision);
+
+	// 緯度方向に分割
+	for (uint32_t latIndex = 0; latIndex < kSubdivision; latIndex++)
+	{
+		// 現在の緯度Θ
+		float lat = -float(std::numbers::pi) / 2.0f + kLatEvery * latIndex;
+
+		// 経度方向に分割
+		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; lonIndex++)
+		{
+			// 現在の経度φ
+			float lon = kLonEvery * lonIndex;
+
+			// 要素番号
+			uint32_t indexNum = (latIndex * kSubdivision + lonIndex) * 4;
+
+			vertexData[indexNum].position.x = std::cos(lat) * std::cos(lon);
+			vertexData[indexNum].position.y = std::sin(lat);
+			vertexData[indexNum].position.z = std::cos(lat) * std::sin(lon);
+			vertexData[indexNum].position.w = 1.0f;
+			vertexData[indexNum].texcoord.x = float(lonIndex) / float(kSubdivision);
+			vertexData[indexNum].texcoord.y = 1.0f - float(latIndex) / float(kSubdivision);
+			vertexData[indexNum].normal = { vertexData[indexNum].position.x ,vertexData[indexNum].position.y , vertexData[indexNum].position.z };
+
+			vertexData[indexNum + 1].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
+			vertexData[indexNum + 1].position.y = std::sin(lat + kLatEvery);
+			vertexData[indexNum + 1].position.z = std::cos(lat + kLatEvery) * std::sin(lon);
+			vertexData[indexNum + 1].position.w = 1.0f;
+			vertexData[indexNum + 1].texcoord.x = float(lonIndex) / float(kSubdivision);
+			vertexData[indexNum + 1].texcoord.y = 1.0f - float(latIndex + 1) / float(kSubdivision);
+			vertexData[indexNum + 1].normal = { vertexData[indexNum + 1].position.x ,vertexData[indexNum + 1].position.y , vertexData[indexNum + 1].position.z };
+
+			vertexData[indexNum + 2].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
+			vertexData[indexNum + 2].position.y = std::sin(lat);
+			vertexData[indexNum + 2].position.z = std::cos(lat) * std::sin(lon + kLonEvery);
+			vertexData[indexNum + 2].position.w = 1.0f;
+			vertexData[indexNum + 2].texcoord.x = float(lonIndex + 1) / float(kSubdivision);
+			vertexData[indexNum + 2].texcoord.y = 1.0f - float(latIndex) / float(kSubdivision);
+			vertexData[indexNum + 2].normal = { vertexData[indexNum + 2].position.x ,vertexData[indexNum + 2].position.y , vertexData[indexNum + 2].position.z };
+
+			vertexData[indexNum + 3].position.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
+			vertexData[indexNum + 3].position.y = std::sin(lat + kLatEvery);
+			vertexData[indexNum + 3].position.z = std::cos(lat + kLatEvery) * std::sin(lon + kLonEvery);
+			vertexData[indexNum + 3].position.w = 1.0f;
+			vertexData[indexNum + 3].texcoord.x = float(lonIndex + 1) / float(kSubdivision);
+			vertexData[indexNum + 3].texcoord.y = 1.0f - float(latIndex + 1) / float(kSubdivision);
+			vertexData[indexNum + 3].normal = { vertexData[indexNum + 3].position.x ,vertexData[indexNum + 3].position.y , vertexData[indexNum + 3].position.z };
+		}
+	}
+
+
+	/*---------------
+		マテリアル
+	---------------*/
+
+	// データを書き込む
+	Material* materialData = nullptr;
+	MaterialResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialData->color = color;
+	materialData->enableLighting = true;
+	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
+		MakeTranslateMatrix(uvTransform->translation_));
+
+
+	/*------------------
+		座標変換の行列
+	------------------*/
+
+	// データを書き込む
+	TransformationMatrix* transformationData = nullptr;
+	TransformationResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->world = worldTransform->worldMatrix_;
+
+
+	/*-------------
+		平行光源
+	-------------*/
+
+	// データを書き込む
+	DirectionalLight* directionalLightData = nullptr;
+	directionalLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
+	directionalLightData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	directionalLightData->direction = Normalize({ 0.0f , -1.0f , 0.0f });
+	directionalLightData->intensity = 1.0f;
+
+
+
+	/*------------------
+		コマンドを積む
+	------------------*/
+
+	// IBVを設定する
+	commandList_->IASetIndexBuffer(&indexBufferView);
+
+	// VBVを設定する
+	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+
+	// 形状を設定
+	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// マテリアル用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+
+	// 座標変換用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+
+	// 平行光源用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+
+	// テクスチャ
+	textureStore_->SelectTexture(commandList_, textureHandle);
+
+	// 描画する
+	commandList_->DrawIndexedInstanced(kSubdivision* kSubdivision * 6, 1, 0, 0, 0);
+
+
+	// カウントする
+	useNumResourceSphere_++;
 }
 
 /// <summary>

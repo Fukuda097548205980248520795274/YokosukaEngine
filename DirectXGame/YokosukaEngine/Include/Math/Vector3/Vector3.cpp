@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="vector"></param>
 /// <returns></returns>
-float Length(const Engine::Vector3& vector)
+float Length(const Vector3& vector)
 {
 	float length = std::sqrt(std::pow(vector.x, 2.0f) + std::pow(vector.y, 2.0f) + std::pow(vector.z, 2.0f));
 	return length;
@@ -16,10 +16,10 @@ float Length(const Engine::Vector3& vector)
 /// </summary>
 /// <param name="vector"></param>
 /// <returns></returns>
-Engine::Vector3 Normalize(const Engine::Vector3& vector)
+Vector3 Normalize(const Vector3& vector)
 {
 	// 正規化したベクトル
-	Engine::Vector3 normalize = { 0.0f , 0.0f , 0.0f };
+	Vector3 normalize = { 0.0f , 0.0f , 0.0f };
 
 	// 長さ
 	float length = Length(vector);
@@ -38,10 +38,10 @@ Engine::Vector3 Normalize(const Engine::Vector3& vector)
 /// <param name="v1"></param>
 /// <param name="v2"></param>
 /// <returns></returns>
-Engine::Vector3 Cross(const Engine::Vector3& v1, const Engine::Vector3& v2)
+Vector3 Cross(const Vector3& v1, const Vector3& v2)
 {
 	// クロス積
-	Engine::Vector3 cross;
+	Vector3 cross;
 
 	cross.x = v1.y * v2.z - v1.z * v2.y;
 	cross.y = v1.z * v2.x - v1.x * v2.z;

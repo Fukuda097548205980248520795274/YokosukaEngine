@@ -106,9 +106,6 @@
     <Filter Include="YokosukaEngine\Include\Draw\DirectionalLight">
       <UniqueIdentifier>{bfcf7414-fa9e-4787-aa27-ad425d97b641}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Class">
-      <UniqueIdentifier>{525fdbc3-8e70-4e39-9d60-86a8432e8648}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
