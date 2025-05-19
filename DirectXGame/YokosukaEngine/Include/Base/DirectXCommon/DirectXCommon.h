@@ -11,11 +11,13 @@
 #include "../../Camera/Camera3D/Camera3D.h"
 #include "../../Camera/Camera2D/Camera2D.h"
 #include "../../Func/String/String.h"
+#include "../../Func/LoadModelData/LoadModelData.h"
 #include "../OutputLog/OutputLog.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
 #include "../../Draw/BasePipelineStateObject/PipelineStateObjectNormal/PipelineStateObjectNormal.h"
 #include "../../Draw/VertexData/VertexData.h"
 #include "../../Draw/TextureStore/TextureStore.h"
+#include "../../Draw/ModelDataStore/ModelDataStore.h"
 #include "../../Draw/Material/Material.h"
 #include "../../Draw/TransformationMatrix/TransformationMatrix.h"
 #include "../../Draw/DirectionalLight/DirectionalLight.h"
@@ -60,6 +62,17 @@ public:
 	uint32_t LoadTexture(const std::string& filePath) { return textureStore_->GetTextureHandle(filePath, device_, srvDescriptorHeap_, commandList_); }
 
 	/// <summary>
+	/// モデルデータを読み込む
+	/// </summary>
+	/// <param name="directory"></param>
+	/// <param name="fileName"></param>
+	/// <returns></returns>
+	uint32_t LoadModelData(const std::string& directory , const std::string& fileName)
+	{
+		return modelDataStore_->GetModelHandle(directory, fileName, device_, srvDescriptorHeap_, commandList_);
+	}
+
+	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
 	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
@@ -75,6 +88,16 @@ public:
 	/// <param name="color"></param>
 	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t textureHandle, Vector4 color);
+
+	/// <summary>
+	/// モデルを描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="color"></param>
+	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color);
 
 	/// <summary>
 	/// ディスクリプタヒープを生成する
@@ -205,6 +228,9 @@ private:
 	// テクスチャストア
 	TextureStore* textureStore_ = nullptr;
 
+	// モデルデータストア
+	ModelDataStore* modelDataStore_ = nullptr;
+
 
 	// デバッグコントローラ
 	Microsoft::WRL::ComPtr<ID3D12Debug1> debugController_ = nullptr;
@@ -318,5 +344,22 @@ private:
 
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceSphere_ = 0;
+
+
+	/*----------------------------
+	    モデルで使用するリソース
+	----------------------------*/
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceModel_[512] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceModel_[512] = { nullptr };
+
+	// 平行光源リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceModel_[512] = { nullptr };
+
+	// 使用したリソースをカウントする
+	uint32_t useNumResourceModel_ = 0;
 };
 

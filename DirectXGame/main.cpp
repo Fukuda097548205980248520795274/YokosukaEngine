@@ -20,14 +20,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	WorldTransform* uvTransform = new WorldTransform();
 	uvTransform->Initialize();
 
-	// テクスチャ
-	uint32_t textureHandle = yokosukaEngine->LoadTexture("./Resources/Textures/uvChecker.png");
-	uint32_t textureHandle1 = yokosukaEngine->LoadTexture("./Resources/Textures/uvChecker.png");
-
 	// カメラ
 	Camera3D* camera = new Camera3D();
 	camera->Initialize(1280.0f , 720.0f);
 	camera->translation_.z = -10.0f;
+
+	// モデル
+	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/plane", "plane.obj");
 
 
 	// メインループ
@@ -39,6 +38,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 		/// ↓ 更新処理ここから
 		/// 
+
+		ImGui::Begin("Model");
+		ImGui::DragFloat3("Scale", &worldTransform->scale_.x, 0.01f);
+		ImGui::DragFloat3("Rotation", &worldTransform->rotation_.x, 0.01f);
+		ImGui::DragFloat3("Translation", &worldTransform->translation_.x, 0.1f);
+		ImGui::End();
 
 		// カメラを更新する
 		camera->UpdateMatrix();
@@ -56,7 +61,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// 
 
 		// 球を描画する
-		yokosukaEngine->DrawSphere(worldTransform, uvTransform, camera, textureHandle, { 1.0f , 1.0f , 1.0f , 1.0f });
+		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera, modelHandle, { 1.0f , 1.0f , 1.0f , 1.0f });
 
 		///
 		/// ↑ 描画処理ここまで

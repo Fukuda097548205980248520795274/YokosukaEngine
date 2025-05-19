@@ -46,6 +46,14 @@ public:
 	uint32_t LoadTexture(const std::string& filePath) { return directXCommon_->LoadTexture(filePath); }
 
 	/// <summary>
+	/// モデルデータを読み込む
+	/// </summary>
+	/// <param name="directory"></param>
+	/// <param name="fileName"></param>
+	/// <returns></returns>
+	uint32_t LoadModelData(const std::string& directory, const std::string& fileName) { return directXCommon_->LoadModelData(directory, fileName); }
+
+	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
 	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera , uint32_t textureHandle, Vector4 color)
@@ -57,6 +65,14 @@ public:
 	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera, uint32_t textureHandle, Vector4 color)
 	{
 		directXCommon_->DrawSphere(worldTransform, uvTransform, camera, textureHandle, color);
+	}
+
+	/// <summary>
+	/// モデルを描画する
+	/// </summary>
+	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera, uint32_t modelHandle, Vector4 color)
+	{
+		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color);
 	}
 
 

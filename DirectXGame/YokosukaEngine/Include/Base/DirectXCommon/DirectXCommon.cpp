@@ -20,6 +20,9 @@ DirectXCommon::~DirectXCommon()
 	// イベント
 	CloseHandle(fenceEvent_);
 
+	// モデルデータストア
+	delete modelDataStore_;
+
 	// テクスチャストア
 	delete textureStore_;
 }
@@ -40,6 +43,10 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// テクスチャストアを初期化する
 	textureStore_ = new TextureStore();
+
+	// モデルデータストアを初期化する
+	modelDataStore_ = new ModelDataStore();
+	modelDataStore_->Initialize(textureStore_);
 
 #ifdef _DEBUG
 
@@ -148,6 +155,11 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		MaterialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		directionalLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
+
+		// モデル
+		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
+		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		directionalLightResourceModel_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
 	}
 }
 
@@ -234,6 +246,7 @@ void DirectXCommon::PostDraw()
 	// カウントしたリソースを初期化する
 	useNumResourceTriangularPyramid_ = 0;
 	useNumResourceSphere_ = 0;
+	useNumResourceModel_ = 0;
 }
 
 /// <summary>
@@ -565,6 +578,101 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 
 	// カウントする
 	useNumResourceSphere_++;
+}
+
+/// <summary>
+/// モデルを描画する
+/// </summary>
+/// <param name="worldTransform"></param>
+/// <param name="uvTransform"></param>
+/// <param name="camera"></param>
+/// <param name="color"></param>
+void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	const Camera3D* camera, uint32_t modelHandle, Vector4 color)
+{
+
+	/*----------
+		頂点
+	----------*/
+
+	// 頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
+	vertexBufferView.BufferLocation = modelDataStore_->GetVertexResource(modelHandle)->GetGPUVirtualAddress();
+	vertexBufferView.SizeInBytes = UINT(sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
+	vertexBufferView.StrideInBytes = sizeof(VertexData);
+
+	// 頂点データを書き込む
+	VertexData* vertexData = nullptr;
+	modelDataStore_->GetVertexResource(modelHandle)->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+	std::memcpy(vertexData, modelDataStore_->GetModelData(modelHandle).vertices.data(),
+		sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
+
+
+	/*---------------
+		マテリアル
+	---------------*/
+
+	// データを書き込む
+	Material* materialData = nullptr;
+	MaterialResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialData->color = color;
+	materialData->enableLighting = true;
+	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
+		MakeTranslateMatrix(uvTransform->translation_));
+
+
+	/*------------------
+		座標変換の行列
+	------------------*/
+
+	// データを書き込む
+	TransformationMatrix* transformationData = nullptr;
+	TransformationResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->world = worldTransform->worldMatrix_;
+
+
+	/*-------------
+		平行光源
+	-------------*/
+
+	// データを書き込む
+	DirectionalLight* directionalLightData = nullptr;
+	directionalLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
+	directionalLightData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	directionalLightData->direction = Normalize({ 0.0f , -1.0f , 0.0f });
+	directionalLightData->intensity = 1.0f;
+
+
+
+	/*------------------
+		コマンドを積む
+	------------------*/
+
+	// VBVを設定する
+	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+
+	// 形状を設定
+	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// マテリアル用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+	// 座標変換用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+	// 平行光源用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+	// テクスチャ
+	textureStore_->SelectTexture(commandList_, modelDataStore_->GetTextureHandle(modelHandle));
+
+	// 描画する
+	commandList_->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), 1, 0, 0);
+
+
+	// カウントする
+	useNumResourceModel_++;
 }
 
 /// <summary>

@@ -47,28 +47,28 @@ private:
 
 
 	// ファイルパス
-	std::string filePath_[256];
+	std::string filePath_[512];
 
 	// ミップマップ
-	DirectX::ScratchImage mipImages_[256]{};
+	DirectX::ScratchImage mipImages_[512]{};
 
 	// テクスチャリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> textureResource_[256] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> textureResource_[512] = { nullptr };
 
 	// 中間リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource_[256] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource_[512] = { nullptr };
 
 	// srvの設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc_[256]{};
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc_[512]{};
 
 	// CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[256];
+	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[512];
 
 	// GPUハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[256];
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[512];
 
 	// テクスチャハンドル
-	uint32_t textureHandle_[256] = { 0 };
+	uint32_t textureHandle_[512] = { 0 };
 
 	// 格納したテクスチャの数
 	uint32_t textureNum_ = 0;
