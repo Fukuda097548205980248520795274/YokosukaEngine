@@ -583,10 +583,11 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 /// <summary>
 /// モデルを描画する
 /// </summary>
-/// <param name="worldTransform"></param>
-/// <param name="uvTransform"></param>
-/// <param name="camera"></param>
-/// <param name="color"></param>
+/// <param name="worldTransform">ワールドトランスフォーム</param>
+/// <param name="uvTransform">UVトランスフォーム</param>
+/// <param name="camera">カメラ</param>
+/// <param name="modelHandle">モデルハンドル</param>
+/// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 	const Camera3D* camera, uint32_t modelHandle, Vector4 color)
 {

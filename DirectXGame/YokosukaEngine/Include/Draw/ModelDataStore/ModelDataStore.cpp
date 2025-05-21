@@ -60,8 +60,16 @@ uint32_t ModelDataStore::GetModelHandle(const std::string& directoryPath, const 
 	vertexResource_[useModelDataNum_] = CreateBufferResource(device, sizeof(VertexData) * modelData_[useModelDataNum_].vertices.size());
 
 	// テクスチャハンドルを取得する
-	textureHandle_[useModelDataNum_] = textureStore_->GetTextureHandle(modelData_[useModelDataNum_].material.textureFilePath,
-		device, srvDescriptorHeap, commandList);
+	if (strcmp(modelData_[useModelDataNum_].material.textureFilePath.c_str(), "") == 0)
+	{
+		textureHandle_[useModelDataNum_] = textureStore_->GetTextureHandle("./Resources/Textures/white2x2.png",
+			device, srvDescriptorHeap, commandList);
+	}
+	else
+	{
+		textureHandle_[useModelDataNum_] = textureStore_->GetTextureHandle(modelData_[useModelDataNum_].material.textureFilePath,
+			device, srvDescriptorHeap, commandList);
+	}
 
 
 	// カウントする
