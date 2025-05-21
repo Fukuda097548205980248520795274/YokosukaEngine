@@ -28,6 +28,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// モデル
 	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/plane", "plane.obj");
 
+	// サウンド
+	uint32_t soundHandle1 = yokosukaEngine->LoadSound("./Resources/Sounds/Se/Alarm01.wav");
+	uint32_t soundHandle2 = yokosukaEngine->LoadSound("./Resources/Sounds/Se/Alarm02.wav");
+	uint32_t soundHandle3 = yokosukaEngine->LoadSound("./Resources/Sounds/Se/Alarm03.wav");
+	uint32_t soundHandle4 = yokosukaEngine->LoadSound("./Resources/Sounds/Se/Alarm01.wav");
+
+
 
 	// メインループ
 	while (yokosukaEngine->ProcessMessage())
@@ -65,6 +72,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 球を描画する
 		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera, modelHandle, { 1.0f , 1.0f , 1.0f , 1.0f });
+
+		if (yokosukaEngine->GetKeyTrigger(DIK_S))
+		{
+			yokosukaEngine->PlayerSoundData(soundHandle1);
+		}
+
+		if (yokosukaEngine->GetKeyTrigger(DIK_A))
+		{
+			yokosukaEngine->PlayerSoundData(soundHandle2);
+		}
+
+		if (yokosukaEngine->GetKeyTrigger(DIK_D))
+		{
+			yokosukaEngine->PlayerSoundData(soundHandle3);
+		}
 
 		///
 		/// ↑ 描画処理ここまで

@@ -118,6 +118,15 @@
     <Filter Include="YokosukaEngine\Include\Base\Input">
       <UniqueIdentifier>{43abeb0e-7683-4ca5-af89-8370d34c953a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Audio">
+      <UniqueIdentifier>{8ff71b87-7838-4366-90e7-e5d67d7cbe0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Camera\DebugCamera">
+      <UniqueIdentifier>{ff055e45-3784-4c11-8915-0799b62a4ac3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Audio\AudioStore">
+      <UniqueIdentifier>{a286df51-8447-483b-9dbe-996c19ab367f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -218,6 +227,12 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp">
       <Filter>YokosukaEngine\Include\Base\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.cpp">
+      <Filter>YokosukaEngine\Include\Audio\AudioStore</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.cpp">
+      <Filter>YokosukaEngine\Include\Camera\DebugCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +337,12 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h">
       <Filter>YokosukaEngine\Include\Base\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.h">
+      <Filter>YokosukaEngine\Include\Audio\AudioStore</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.h">
+      <Filter>YokosukaEngine\Include\Camera\DebugCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

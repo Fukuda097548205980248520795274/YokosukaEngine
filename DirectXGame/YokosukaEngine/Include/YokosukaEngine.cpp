@@ -5,6 +5,9 @@
 /// </summary>
 YokosukaEngine::~YokosukaEngine()
 {
+	// AudioStore
+	delete audioStore_;
+
 	// Input
 	delete input_;
 
@@ -64,4 +67,8 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	// Inputの生成と初期化
 	input_ = new Input();
 	input_->Initialize(windowApplication_);
+
+	// AudioStoreの生成と初期化
+	audioStore_ = new AudioStore();
+	audioStore_->Initialize();
 }

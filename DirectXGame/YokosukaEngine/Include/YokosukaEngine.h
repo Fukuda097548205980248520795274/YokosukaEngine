@@ -6,6 +6,7 @@
 #include "Base/OutputLog/OutputLog.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/Input/Input.h"
+#include "Audio/AudioStore/AudioStore.h"
 
 class YokosukaEngine
 {
@@ -53,6 +54,19 @@ public:
 	/// <param name="fileName"></param>
 	/// <returns></returns>
 	uint32_t LoadModelData(const std::string& directory, const std::string& fileName) { return directXCommon_->LoadModelData(directory, fileName); }
+
+	/// <summary>
+	/// 音声データを読み込む
+	/// </summary>
+	/// <param name="filePath"></param>
+	/// <returns></returns>
+	uint32_t LoadSound(const std::string& filePath) { return audioStore_->GetSoundHandle(filePath); }
+
+	/// <summary>
+	/// 音声データを再生する
+	/// </summary>
+	/// <param name="soundHandle"></param>
+	void PlayerSoundData(uint32_t soundHandle) { audioStore_->SelectHandlePlayAudio(soundHandle); }
 
 	/// <summary>
 	/// 三角形を描画する
@@ -125,5 +139,8 @@ private:
 
 	// Input
 	Input* input_ = nullptr;
+
+	// オーディオストア
+	AudioStore* audioStore_ = nullptr;
 };
 
