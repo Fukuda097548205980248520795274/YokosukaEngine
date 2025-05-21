@@ -111,7 +111,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	dxc_->Initialize(log_);
 
 	// PSOの生成と初期化
-	pso_ = new PipelineStateObjectNormal();
+	pso_ = new PipelineStateObjectNormalModel();
 	pso_->Initialize(log_, dxc_, device_);
 
 	// ビューポート

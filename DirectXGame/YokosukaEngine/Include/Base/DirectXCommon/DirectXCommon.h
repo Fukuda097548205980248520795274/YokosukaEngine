@@ -14,7 +14,7 @@
 #include "../../Func/LoadModelData/LoadModelData.h"
 #include "../OutputLog/OutputLog.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
-#include "../../Draw/BasePipelineStateObject/PipelineStateObjectNormal/PipelineStateObjectNormal.h"
+#include "../../Draw/BasePipelineStateObject/PipelineStateObjectNormalModel/PipelineStateObjectNormalModel.h"
 #include "../../Draw/VertexData/VertexData.h"
 #include "../../Draw/TextureStore/TextureStore.h"
 #include "../../Draw/ModelDataStore/ModelDataStore.h"
@@ -290,7 +290,7 @@ private:
 	DirectXShaderCompiler* dxc_ = nullptr;
 
 	// PSO
-	PipelineStateObjectNormal* pso_ = nullptr;
+	PipelineStateObjectNormalModel* pso_ = nullptr;
 
 	// ビューポート
 	D3D12_VIEWPORT viewport_{};

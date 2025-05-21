@@ -76,9 +76,6 @@
     <Filter Include="YokosukaEngine\Include\Draw\BasePipelineStateObject">
       <UniqueIdentifier>{d5046620-cdd1-4e51-bbba-ea96e2612ab6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal">
-      <UniqueIdentifier>{eebb4e39-c71e-439d-9153-fd79feaef626}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Draw\TextureStore">
       <UniqueIdentifier>{be21ca6b-1e3d-40a4-ae09-3c5386f1e0b3}</UniqueIdentifier>
     </Filter>
@@ -115,6 +112,12 @@
     <Filter Include="YokosukaEngine\Include\Func\LoadMaterialData">
       <UniqueIdentifier>{fa85f681-fec0-4e24-910a-173b675fd85a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormalModel">
+      <UniqueIdentifier>{eebb4e39-c71e-439d-9153-fd79feaef626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Base\Input">
+      <UniqueIdentifier>{43abeb0e-7683-4ca5-af89-8370d34c953a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -144,8 +147,8 @@
     <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp">
       <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.cpp">
-      <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
+    <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormalModel\PipelineStateObjectNormalModel.cpp">
+      <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormalModel</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Math\Vector3\Vector3.cpp">
       <Filter>YokosukaEngine\Include\Math\Vector3</Filter>
@@ -213,6 +216,9 @@
     <ClCompile Include="YokosukaEngine\Include\Func\LoadMaterialData\LoadMaterialData.cpp">
       <Filter>YokosukaEngine\Include\Func\LoadMaterialData</Filter>
     </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp">
+      <Filter>YokosukaEngine\Include\Base\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h">
@@ -242,8 +248,8 @@
     <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h">
       <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal\PipelineStateObjectNormal.h">
-      <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormal</Filter>
+    <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormalModel\PipelineStateObjectNormalModel.h">
+      <Filter>YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormalModel</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Math\Vector3\Vector3.h">
       <Filter>YokosukaEngine\Include\Math\Vector3</Filter>
@@ -313,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Func\LoadMaterialData\LoadMaterialData.h">
       <Filter>YokosukaEngine\Include\Func\LoadMaterialData</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h">
+      <Filter>YokosukaEngine\Include\Base\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

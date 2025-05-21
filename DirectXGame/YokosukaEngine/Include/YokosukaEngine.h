@@ -5,6 +5,7 @@
 #include "Base/WinApp/WinApp.h"
 #include "Base/OutputLog/OutputLog.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
+#include "Base/Input/Input.h"
 
 class YokosukaEngine
 {
@@ -74,6 +75,38 @@ public:
 	{
 		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color);
 	}
+	
+	/// <summary>
+	/// 全てのキーの入力情報を取得する
+	/// </summary>
+	/// <param name="keys"></param>
+	void CheckAllKeyInfo() { input_->CheckAllKeyInfo(); }
+
+	/// <summary>
+	/// 全てのキーの入力情報をコピーする
+	/// </summary>
+	void CopyAllKeyInfo() { input_->CopyAllKeyInfo(); }
+
+	/// <summary>
+	/// キー入力（Press）
+	/// </summary>
+	/// <param name="key">キー</param>
+	/// <returns></returns>
+	bool GetKeyPress(BYTE key) { return input_->GetKeyPress(key); }
+
+	/// <summary>
+	/// キー入力（Trigger）
+	/// </summary>
+	/// <param name="key">キー</param>
+	/// <returns></returns>
+	bool GetKeyTrigger(BYTE key) { return input_->GetKeyTrigger(key); }
+
+	/// <summary>
+	/// キー入力（Release）
+	/// </summary>
+	/// <param name="key">キー</param>
+	/// <returns></returns>
+	bool GetKeyRelease(BYTE key) { return input_->GetKeyRelease(key); }
 
 
 private:
@@ -89,5 +122,8 @@ private:
 
 	// DirectXCommon
 	DirectXCommon* directXCommon_ = nullptr;
+
+	// Input
+	Input* input_ = nullptr;
 };
 

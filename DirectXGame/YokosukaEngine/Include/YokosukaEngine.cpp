@@ -5,6 +5,9 @@
 /// </summary>
 YokosukaEngine::~YokosukaEngine()
 {
+	// Input
+	delete input_;
+
 	// DirectXCommon
 	delete directXCommon_;
 
@@ -57,4 +60,8 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	// DirectXCommonの生成と初期化
 	directXCommon_ = new DirectXCommon();
 	directXCommon_->Initialize(log_, windowApplication_);
+
+	// Inputの生成と初期化
+	input_ = new Input();
+	input_->Initialize(windowApplication_);
 }

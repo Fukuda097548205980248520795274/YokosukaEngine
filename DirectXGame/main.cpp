@@ -32,6 +32,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// メインループ
 	while (yokosukaEngine->ProcessMessage())
 	{
+		// 全キーの入力情報を取得する
+		yokosukaEngine->CheckAllKeyInfo();
+
 		// フレーム開始
 		yokosukaEngine->BeginFrame();
 
@@ -69,6 +72,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// フレーム終了
 		yokosukaEngine->EndFrame();
+
+		// 全てのキーの入力情報をコピーする
+		yokosukaEngine->CopyAllKeyInfo();
 	}
 
 	// エンジンの解放

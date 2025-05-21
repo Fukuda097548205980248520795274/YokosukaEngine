@@ -51,6 +51,12 @@ public:
 	/// <returns></returns>
 	HWND GetHwnd() { return hwnd_; }
 
+	/// <summary>
+	/// ウィンドウクラスのGetter
+	/// </summary>
+	/// <returns></returns>
+	WNDCLASS GetWndClass() { return wc_; }
+
 
 private:
 

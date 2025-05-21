@@ -1,9 +1,9 @@
-#include "PipelineStateObjectNormal.h"
+#include "PipelineStateObjectNormalModel.h"
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-PipelineStateObjectNormal::~PipelineStateObjectNormal()
+PipelineStateObjectNormalModel::~PipelineStateObjectNormalModel()
 {
 	pixelShaderBlob_->Release();
 	vertexShaderBlob_->Release();
@@ -18,7 +18,7 @@ PipelineStateObjectNormal::~PipelineStateObjectNormal()
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void PipelineStateObjectNormal::Initialize(OutputLog* log, DirectXShaderCompiler* dxc , Microsoft::WRL::ComPtr<ID3D12Device> device)
+void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCompiler* dxc , Microsoft::WRL::ComPtr<ID3D12Device> device)
 {
 	// nullptrチェック
 	assert(dxc);
