@@ -25,6 +25,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	camera->Initialize(1280.0f , 720.0f);
 	camera->translation_.z = -10.0f;
 
+	// テクスチャ
+	uint32_t textureHandle = yokosukaEngine->LoadTexture("./Resources/Textures/uvChecker.png");
+
 	// モデル
 	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/plane", "plane.obj");
 
@@ -71,7 +74,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// 
 
 		// 球を描画する
-		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera, modelHandle, { 1.0f , 1.0f , 1.0f , 1.0f });
+		yokosukaEngine->DrawSphere(worldTransform, uvTransform, camera, textureHandle, { 1.0f , 1.0f , 1.0f , 1.0f });
 
 		if (yokosukaEngine->GetKeyTrigger(DIK_S))
 		{
