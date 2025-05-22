@@ -113,6 +113,19 @@ public:
 	}
 
 	/// <summary>
+	/// スプライトを描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="textureHandle"></param>
+	/// <param name="color"></param>
+	void DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color)
+	{
+		directXCommon_->DrawSprite(worldTransform, uvTransform, camera, textureHandle, color);
+	}
+
+	/// <summary>
 	/// ブレンドモードを設定する
 	/// </summary>
 	/// <param name="blendMode"></param>

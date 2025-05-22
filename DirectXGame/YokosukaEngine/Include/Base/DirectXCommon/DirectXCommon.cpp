@@ -180,6 +180,12 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		directionalLightResourceModel_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
+
+		// スプライト
+		indexResourceSprite_[i] = CreateBufferResource(device_,sizeof(uint32_t) * 6);
+		vertexBufferResourceSprite_[i] = CreateBufferResource(device_, sizeof(VertexData) * 4);
+		MaterialResourceSprite_[i] = CreateBufferResource(device_, sizeof(Material));
+		TransformationResourceSprite_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 	}
 }
 
@@ -266,6 +272,7 @@ void DirectXCommon::PostDraw()
 	useNumResourceTriangularPyramid_ = 0;
 	useNumResourceSphere_ = 0;
 	useNumResourceModel_ = 0;
+	useNumResourceSprite_ = 0;
 }
 
 /// <summary>
@@ -702,6 +709,128 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 
 	// カウントする
 	useNumResourceModel_++;
+}
+
+/// <summary>
+/// スプライトを描画する
+/// </summary>
+/// <param name="worldTransform">ワールドトランスフォーム</param>
+/// <param name="uvTransform">UVトランスフォーム</param>
+/// <param name="camera">カメラ</param>
+/// <param name="textureHandle">テクスチャハンドル</param>
+/// <param name="color">色</param>
+void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	const Camera2D* camera, uint32_t textureHandle, Vector4 color)
+{
+	/*-----------------
+		インデックス
+	-----------------*/
+
+	// ビューを作成する
+	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
+	indexBufferView.BufferLocation = indexResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress();
+	indexBufferView.SizeInBytes = sizeof(uint32_t) * 6;
+	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
+
+	// データを書き込む
+	uint32_t* indexData = nullptr;
+	indexResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
+	indexData[0] = 0; indexData[1] = 1; indexData[2] = 2;
+	indexData[3] = 1; indexData[4] = 3; indexData[5] = 2;
+
+
+	/*---------
+		頂点
+	---------*/
+
+	// ビューを作成する
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
+	vertexBufferView.BufferLocation = vertexBufferResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress();
+	vertexBufferView.SizeInBytes = sizeof(VertexData) * 4;
+	vertexBufferView.StrideInBytes = sizeof(VertexData);
+
+	// データを書き込む
+	VertexData* vertexData = nullptr;
+	vertexBufferResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+
+
+	// 左下
+	vertexData[0].position = { -1.0f , -1.0f , 0.0f , 1.0f };
+	vertexData[0].texcoord = { 0.0f , 1.0f };
+	vertexData[0].normal = { 0.0f , 0.0f , -1.0f };
+
+	// 左上
+	vertexData[1].position = { -1.0f , 1.0f , 0.0f , 1.0f };
+	vertexData[1].texcoord = { 0.0f , 0.0f };
+	vertexData[1].normal = { 0.0f , 0.0f , -1.0f };
+
+	// 右下
+	vertexData[2].position = { 1.0f , -1.0f , 0.0f , 1.0f };
+	vertexData[2].texcoord = { 1.0f , 1.0f };
+	vertexData[2].normal = { 0.0f , 0.0f , -1.0f };
+
+	// 右上
+	vertexData[3].position = { 1.0f , 1.0f , 0.0f , 1.0f };
+	vertexData[3].texcoord = { 1.0f , 0.0f };
+	vertexData[3].normal = { 0.0f , 0.0f , -1.0f };
+
+
+	/*---------------
+		マテリアル
+	---------------*/
+
+	// データを書き込む
+	Material* materialData = nullptr;
+	MaterialResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialData->color = color;
+	materialData->enableLighting = false;
+	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
+		MakeTranslateMatrix(uvTransform->translation_));
+
+
+	/*------------------
+		座標変換の行列
+	------------------*/
+
+	// データを書き込む
+	TransformationMatrix* transformationData = nullptr;
+	TransformationResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->world = worldTransform->worldMatrix_;
+
+
+
+	/*------------------
+		コマンドを積む
+	------------------*/
+
+	// ルートシグネチャやPSOの設定
+	pos_[useBlendMode_]->CommandListSet(commandList_);
+
+	// IBVを設定する
+	commandList_->IASetIndexBuffer(&indexBufferView);
+
+	// VBVを設定する
+	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+
+	// 形状を設定
+	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// マテリアル用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
+
+	// 座標変換用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
+
+	// テクスチャ
+	textureStore_->SelectTexture(commandList_, textureHandle);
+
+	// 描画する
+	commandList_->DrawIndexedInstanced(6, 1, 0, 0, 0);
+
+
+	// カウントする
+	useNumResourceSprite_++;
 }
 
 /// <summary>

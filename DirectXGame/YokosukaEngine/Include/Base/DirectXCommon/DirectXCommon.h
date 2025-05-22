@@ -136,6 +136,17 @@ public:
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color);
 
 	/// <summary>
+	/// スプライトを描画する
+	/// </summary>
+	/// <param name="worldTransform">ワールドトランスフォーム</param>
+	/// <param name="uvTransform">UVトランスフォーム</param>
+	/// <param name="camera">カメラ</param>
+	/// <param name="textureHandle">テクスチャハンドル</param>
+	/// <param name="color">色</param>
+	void DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+		const Camera2D* camera, uint32_t textureHandle, Vector4 color);
+
+	/// <summary>
 	/// ブレンドモードのSetter
 	/// </summary>
 	/// <param name="blendMode"></param>
@@ -406,5 +417,25 @@ private:
 
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceModel_ = 0;
+
+
+	/*-----------------------------
+	    スプライトで使用するリソース
+	-----------------------------*/
+
+	// インデックスリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSprite_[512] = { nullptr };
+
+	// 頂点バッファリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSprite_[512] = { nullptr };
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSprite_[512] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSprite_[512] = { nullptr };
+
+	// 使用したリソースをカウントする
+	uint32_t useNumResourceSprite_ = 0;
 };
 

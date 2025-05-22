@@ -8,31 +8,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	yokosukaEngine->Initialize(1280, 720, "LE2A_11_フクダ_ソウワ");
 
 
-	/*----------------
-	    変数を作る
-	----------------*/
-
-	// ワールドトランスフォーム
-	WorldTransform* worldTransform = new WorldTransform();
-	worldTransform->Initialize();
-
-	// UVトランスフォーム
-	WorldTransform* uvTransform = new WorldTransform();
-	uvTransform->Initialize();
-
-	// カメラ
-	Camera3D* camera = new Camera3D();
-	camera->Initialize(1280.0f , 720.0f);
-	camera->translation_.z = -10.0f;
-
-	// 色
-	Vector4 color = { 1.0f , 1.0f , 1.0f , 1.0f };
-
-	// モデル
-	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
-
-
-
 	// メインループ
 	while (yokosukaEngine->ProcessMessage())
 	{
@@ -46,20 +21,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 更新処理ここから
 		/// 
 
-		ImGui::Begin("Model");
-		ImGui::DragFloat3("Scale", &worldTransform->scale_.x, 0.01f);
-		ImGui::DragFloat3("Rotation", &worldTransform->rotation_.x, 0.01f);
-		ImGui::DragFloat3("Translation", &worldTransform->translation_.x, 0.1f);
-		ImGui::ColorEdit4("color", &color.x);
-		ImGui::End();
-
-		// カメラを更新する
-		camera->UpdateMatrix();
-
-		// トランスフォームを更新する
-		worldTransform->UpdateWorldMatrix();
-		uvTransform->UpdateWorldMatrix();
-
 		///
 		/// ↑ 更新処理ここまで
 		/// 
@@ -67,9 +28,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 		/// ↓ 描画処理ここから
 		/// 
-
-		// モデルを描画する
-		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera, modelHandle, color);
 
 		///
 		/// ↑ 描画処理ここまで
