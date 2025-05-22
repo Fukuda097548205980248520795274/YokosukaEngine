@@ -8,6 +8,28 @@
 #include "Base/Input/Input.h"
 #include "Audio/AudioStore/AudioStore.h"
 
+// ブレンドモード
+enum BlendMode
+{
+	// ブレンドなし
+	kBlendModeNone,
+
+	// 通常αブレンド
+	kBlendModeNormal,
+
+	// 加算合成
+	kBlendModeAdd,
+
+	// 減算合成
+	kBlendModeSubtract,
+
+	// 乗算合成
+	kBlendModeMultiply,
+
+	// スクリーン合成
+	kBlendModeScreen
+};
+
 class YokosukaEngine
 {
 public:
@@ -89,6 +111,12 @@ public:
 	{
 		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color);
 	}
+
+	/// <summary>
+	/// ブレンドモードを設定する
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetBlendModel(BlendMode blendMode) { directXCommon_->SetBlendMode(static_cast<uint32_t>(blendMode)); }
 	
 	/// <summary>
 	/// 全てのキーの入力情報を取得する

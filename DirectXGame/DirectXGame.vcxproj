@@ -120,7 +120,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormalModel\PipelineStateObjectNormalModel.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendAdd\BlendAdd.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendMultiply\BlendMultiply.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendNone\BlendNone.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendNormal\BlendNormal.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendScreen\BlendScreen.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendSubtract\BlendSubtract.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\Material\Material.cpp" />
@@ -158,7 +163,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.h" />
     <ClInclude Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BasePipelineStateObject.h" />
-    <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\PipelineStateObjectNormalModel\PipelineStateObjectNormalModel.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendAdd\BlendAdd.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendMultiply\BlendMultiply.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendNone\BlendNone.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendNormal\BlendNormal.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendScreen\BlendScreen.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\BasePipelineStateObject\BlendSubtract\BlendSubtract.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\Material\Material.h" />

@@ -1,9 +1,9 @@
-#include "PipelineStateObjectNormalModel.h"
+#include "BlendAdd.h"
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-PipelineStateObjectNormalModel::~PipelineStateObjectNormalModel()
+BlendAdd::~BlendAdd()
 {
 	pixelShaderBlob_->Release();
 	vertexShaderBlob_->Release();
@@ -18,7 +18,7 @@ PipelineStateObjectNormalModel::~PipelineStateObjectNormalModel()
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCompiler* dxc , Microsoft::WRL::ComPtr<ID3D12Device> device)
+void BlendAdd::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
 {
 	// nullptrチェック
 	assert(dxc);
@@ -30,11 +30,11 @@ void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCom
 
 
 	/*-----------------------------
-	    ルートシグネチャを生成する
+		ルートシグネチャを生成する
 	-----------------------------*/
 
 	/*   ディスクリプタレンジ   */
-	
+
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
 
 	// 0から始まる
@@ -69,7 +69,7 @@ void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCom
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptorRange;
 	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);
-	
+
 	// CBV PixelShader b1
 	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
@@ -127,7 +127,7 @@ void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCom
 
 
 	/*-------------------------------
-	    インプットレイアウトを設定する
+		インプットレイアウトを設定する
 	-------------------------------*/
 
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
@@ -156,7 +156,7 @@ void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCom
 
 
 	/*-----------------------------
-	    ブレンドステートを設定する
+		ブレンドステートを設定する
 	-----------------------------*/
 
 	D3D12_BLEND_DESC blendDesc{};
@@ -164,9 +164,18 @@ void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCom
 	// 全ての色要素を書き込む
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
+	blendDesc.RenderTarget[0].BlendEnable = TRUE;
+	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+
+
 
 	/*--------------------------------
-	    ラスタライザステートを設定する
+		ラスタライザステートを設定する
 	--------------------------------*/
 
 	D3D12_RASTERIZER_DESC rasterizeDesc{};
@@ -179,7 +188,7 @@ void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCom
 
 
 	/*---------------------------
-	    シェーダをコンパイルする
+		シェーダをコンパイルする
 	---------------------------*/
 
 	// 頂点シェーダをコンパイルする
@@ -192,7 +201,7 @@ void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCom
 
 
 	/*------------------------------------
-	    デプスステンシルステートを設定する
+		デプスステンシルステートを設定する
 	------------------------------------*/
 
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
@@ -208,7 +217,7 @@ void PipelineStateObjectNormalModel::Initialize(OutputLog* log, DirectXShaderCom
 
 
 	/*------------------
-	    PSOを生成する
+		PSOを生成する
 	------------------*/
 
 	// 設定を入れる

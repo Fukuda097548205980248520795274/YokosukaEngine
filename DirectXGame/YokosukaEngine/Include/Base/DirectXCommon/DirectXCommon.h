@@ -14,7 +14,15 @@
 #include "../../Func/LoadModelData/LoadModelData.h"
 #include "../OutputLog/OutputLog.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
-#include "../../Draw/BasePipelineStateObject/PipelineStateObjectNormalModel/PipelineStateObjectNormalModel.h"
+
+#include "../../Draw/BasePipelineStateObject/BasePipelineStateObject.h"
+#include "../../Draw/BasePipelineStateObject/BlendNone/BlendNone.h"
+#include "../../Draw/BasePipelineStateObject/BlendNormal/BlendNormal.h"
+#include "../../Draw/BasePipelineStateObject/BlendAdd/BlendAdd.h"
+#include "../../Draw/BasePipelineStateObject/BlendSubtract/BlendSubtract.h"
+#include "../../Draw/BasePipelineStateObject/BlendMultiply/BlendMultiply.h"
+#include "../../Draw/BasePipelineStateObject/BlendScreen/BlendScreen.h"
+
 #include "../../Draw/VertexData/VertexData.h"
 #include "../../Draw/TextureStore/TextureStore.h"
 #include "../../Draw/ModelDataStore/ModelDataStore.h"
@@ -30,6 +38,34 @@ class WinApp;
 
 class DirectXCommon
 {
+private:
+
+	// ブレンドモード
+	enum BlendMode
+	{
+		// ブレンドなし
+		kBlendModeNone,
+
+		// 通常αブレンド
+		kBlendModeNormal,
+
+		// 加算合成
+		kBlendModeAdd,
+
+		// 減算合成
+		kBlendModeSubtract,
+
+		// 乗算合成
+		kBlendModeMultiply,
+
+		// スクリーン合成
+		kBlendModeScreen,
+
+		// これは使用してはいけない
+		kBlendModekCountOfBlendMode
+	};
+
+
 public:
 
 	/// <summary>
@@ -98,6 +134,12 @@ public:
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color);
+
+	/// <summary>
+	/// ブレンドモードのSetter
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetBlendMode(uint32_t blendMode) { useBlendMode_ = blendMode; }
 
 	/// <summary>
 	/// ディスクリプタヒープを生成する
@@ -289,14 +331,17 @@ private:
 	// DXC
 	DirectXShaderCompiler* dxc_ = nullptr;
 
-	// PSO
-	PipelineStateObjectNormalModel* pso_ = nullptr;
-
 	// ビューポート
 	D3D12_VIEWPORT viewport_{};
 	
 	// シザーレクト
 	D3D12_RECT scissorRect_{};
+
+	// PSO
+	BasePipelineStateObject* pos_[kBlendModekCountOfBlendMode] = { nullptr };
+
+	// 使用しているブレンドモード
+	uint32_t useBlendMode_ = kBlendModeNormal;
 
 
 

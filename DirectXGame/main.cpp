@@ -25,6 +25,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	camera->Initialize(1280.0f , 720.0f);
 	camera->translation_.z = -10.0f;
 
+	// 色
+	Vector4 color = { 1.0f , 1.0f , 1.0f , 1.0f };
+
 	// モデル
 	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
 
@@ -47,6 +50,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ImGui::DragFloat3("Scale", &worldTransform->scale_.x, 0.01f);
 		ImGui::DragFloat3("Rotation", &worldTransform->rotation_.x, 0.01f);
 		ImGui::DragFloat3("Translation", &worldTransform->translation_.x, 0.1f);
+		ImGui::ColorEdit4("color", &color.x);
 		ImGui::End();
 
 		// カメラを更新する
@@ -65,7 +69,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// 
 
 		// モデルを描画する
-		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera, modelHandle, { 1.0f , 0.0f , 0.0f , 1.0f });
+		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera, modelHandle, color);
 
 		///
 		/// ↑ 描画処理ここまで

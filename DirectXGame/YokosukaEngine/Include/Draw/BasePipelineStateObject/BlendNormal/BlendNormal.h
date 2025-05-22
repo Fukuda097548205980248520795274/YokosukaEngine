@@ -1,14 +1,14 @@
 #pragma once
 #include "../BasePipelineStateObject.h"
 
-class PipelineStateObjectNormalModel : public BasePipelineStateObject
+class BlendNormal : public BasePipelineStateObject
 {
 public:
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~PipelineStateObjectNormalModel();
+	~BlendNormal();
 
 	/// <summary>
 	/// 初期化

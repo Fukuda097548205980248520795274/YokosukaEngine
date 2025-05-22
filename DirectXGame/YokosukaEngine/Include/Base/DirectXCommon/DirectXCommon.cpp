@@ -12,7 +12,10 @@ DirectXCommon::~DirectXCommon()
 	ImGui::DestroyContext();
 
 	// PSO
-	delete pso_;
+	for (uint32_t i = 0; i < kBlendModekCountOfBlendMode; i++)
+	{
+		delete pos_[i];
+	}
 
 	// DXC
 	delete dxc_;
@@ -110,9 +113,26 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	dxc_ = new DirectXShaderCompiler();
 	dxc_->Initialize(log_);
 
+
 	// PSOの生成と初期化
-	pso_ = new PipelineStateObjectNormalModel();
-	pso_->Initialize(log_, dxc_, device_);
+	pos_[kBlendModeNone] = new BlendAdd();
+	pos_[kBlendModeNone]->Initialize(log_, dxc_, device_);
+
+	pos_[kBlendModeNormal] = new BlendNormal();
+	pos_[kBlendModeNormal]->Initialize(log_, dxc_, device_);
+
+	pos_[kBlendModeAdd] = new BlendAdd();
+	pos_[kBlendModeAdd]->Initialize(log_, dxc_, device_);
+
+	pos_[kBlendModeSubtract] = new BlendSubtract();
+	pos_[kBlendModeSubtract]->Initialize(log_, dxc_, device_);
+
+	pos_[kBlendModeMultiply] = new BlendMultiply();
+	pos_[kBlendModeMultiply]->Initialize(log_, dxc_, device_);
+
+	pos_[kBlendModeScreen] = new BlendScreen();
+	pos_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
+
 
 	// ビューポート
 	viewport_.Width = static_cast<float>(windowApplication_->GetWindowWidth());
@@ -195,15 +215,14 @@ void DirectXCommon::PreDraw()
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
 	commandList_->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
 
-
 	// ビューポート設定
 	commandList_->RSSetViewports(1, &viewport_);
 
 	// シザーレクト設定
 	commandList_->RSSetScissorRects(1, &scissorRect_);
 
-	// ルートシグネチャやPSOの設定
-	pso_->CommandListSet(commandList_);
+	// 使用したブレンドモードを初期化する
+	useBlendMode_ = kBlendModeNormal;
 }
 
 /// <summary>
@@ -373,6 +392,9 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	/*------------------
 	    コマンドを積む
 	------------------*/
+
+	// ルートシグネチャやPSOの設定
+	pos_[useBlendMode_]->CommandListSet(commandList_);
 
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
@@ -551,6 +573,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 		コマンドを積む
 	------------------*/
 
+	// ルートシグネチャやPSOの設定
+	pos_[useBlendMode_]->CommandListSet(commandList_);
+
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
 
@@ -649,6 +674,9 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	/*------------------
 		コマンドを積む
 	------------------*/
+
+	// ルートシグネチャやPSOの設定
+	pos_[useBlendMode_]->CommandListSet(commandList_);
 
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
