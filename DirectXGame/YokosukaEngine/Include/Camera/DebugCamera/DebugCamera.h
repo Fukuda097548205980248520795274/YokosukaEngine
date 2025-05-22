@@ -27,5 +27,14 @@ public:
 
 	// 射影行列
 	Matrix4x4 projectionMatrix_ = {};
+
+
+private:
+
+	// 画面の横幅
+	float screenWidth_ = 0.0f;
+
+	// 画面の縦幅
+	float screenHeight_ = 0.0f;
 };
 

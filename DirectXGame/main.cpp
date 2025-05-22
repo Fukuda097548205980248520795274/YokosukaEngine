@@ -7,6 +7,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	YokosukaEngine* yokosukaEngine = new YokosukaEngine();
 	yokosukaEngine->Initialize(1280, 720, "LE2A_11_フクダ_ソウワ");
 
+	int x = 0;
+	int y = 0;
+	int z = 0;
+
 
 	// メインループ
 	while (yokosukaEngine->ProcessMessage())
@@ -20,6 +24,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 		/// ↓ 更新処理ここから
 		/// 
+
+		ImGui::Begin("mouse");
+		ImGui::Text("x : %d , y : %d , z : %d", x, y, z);
+		ImGui::End();
+
+		if (yokosukaEngine->GetMouseButtonRelease(kMouseButtonLeft))
+		{
+			x++;
+		}
+
+		if (yokosukaEngine->GetMouseButtonRelease(kMouseButtonRight))
+		{
+			y++;
+		}
+
+		if (yokosukaEngine->GetMouseButtonRelease(kMouseButtonCenter))
+		{
+			z++;
+		}
 
 		///
 		/// ↑ 更新処理ここまで

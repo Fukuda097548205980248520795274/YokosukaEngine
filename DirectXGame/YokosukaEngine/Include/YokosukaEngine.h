@@ -30,6 +30,19 @@ enum BlendMode
 	kBlendModeScreen
 };
 
+// マウスボタン
+enum MouseButton
+{
+	// 左ボタン
+	kMouseButtonLeft,
+
+	// 右ボタン
+	kMouseButtonRight,
+
+	// 中央ボタン
+	kMouseButtonCenter
+};
+
 class YokosukaEngine
 {
 public:
@@ -135,12 +148,12 @@ public:
 	/// 全てのキーの入力情報を取得する
 	/// </summary>
 	/// <param name="keys"></param>
-	void CheckAllKeyInfo() { input_->CheckAllKeyInfo(); }
+	void CheckAllKeyInfo() { input_->CheckInputInfo(); }
 
 	/// <summary>
 	/// 全てのキーの入力情報をコピーする
 	/// </summary>
-	void CopyAllKeyInfo() { input_->CopyAllKeyInfo(); }
+	void CopyAllKeyInfo() { input_->CopyInputInfo(); }
 
 	/// <summary>
 	/// キー入力（Press）
@@ -162,6 +175,27 @@ public:
 	/// <param name="key">キー</param>
 	/// <returns></returns>
 	bool GetKeyRelease(BYTE key) { return input_->GetKeyRelease(key); }
+
+	/// <summary>
+	/// マウスボタン（Press）
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	bool GetMouseButtonPress(MouseButton mouseButton) { return input_->GetMousePress(static_cast<uint32_t>(mouseButton)); };
+
+	/// <summary>
+	/// マウスボタン（Trigger）
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	bool GetMouseButtonTrigger(MouseButton mouseButton) { return input_->GetMouseTrigger(static_cast<uint32_t>(mouseButton)); };
+
+	/// <summary>
+	/// マウスボタン（Release）
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	bool GetMouseButtonRelease(MouseButton mouseButton) { return input_->GetMouseRelease(static_cast<uint32_t>(mouseButton)); };
 
 
 private:

@@ -27,6 +27,14 @@ public:
 	/// </summary>
 	void UpdateProjectionMatrix();
 
+	/// <summary>
+	/// ビュープロジェクション行列のSetter
+	/// </summary>
+	/// <param name="viewMatrix"></param>
+	/// <param name="projectionMatrix"></param>
+	void SetViewProjectionMatrix(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) 
+	{ viewMatrix_ = viewMatrix; projectionMatrix_ = projectionMatrix; }
+
 	// 拡縮
 	Vector3 scale_{};
 
