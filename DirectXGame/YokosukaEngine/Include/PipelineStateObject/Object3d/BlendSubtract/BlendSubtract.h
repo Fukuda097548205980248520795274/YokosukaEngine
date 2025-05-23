@@ -1,14 +1,14 @@
 #pragma once
-#include "../BasePipelineStateObject.h"
+#include "../BaseObject3d.h"
 
-class BlendMultiply : public BasePipelineStateObject
+class BlendSubtract : public BaseObject3d
 {
 public:
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~BlendMultiply();
+	~BlendSubtract();
 
 	/// <summary>
 	/// 初期化
@@ -17,3 +17,4 @@ public:
 	/// <param name="dxc">シェーダコンパイラ</param>
 	void Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device) override;
 };
+

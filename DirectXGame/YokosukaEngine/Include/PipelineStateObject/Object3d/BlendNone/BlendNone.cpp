@@ -1,5 +1,5 @@
 #include "BlendNone.h"
-#include "../BasePipelineStateObject.h"
+#include "../BaseObject3d.h"
 
 /// <summary>
 /// デストラクタ

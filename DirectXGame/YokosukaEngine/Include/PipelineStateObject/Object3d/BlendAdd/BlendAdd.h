@@ -1,7 +1,7 @@
 #pragma once
-#include "../BasePipelineStateObject.h"
+#include "../BaseObject3d.h"
 
-class BlendAdd : public BasePipelineStateObject
+class BlendAdd : public BaseObject3d
 {
 public:
 

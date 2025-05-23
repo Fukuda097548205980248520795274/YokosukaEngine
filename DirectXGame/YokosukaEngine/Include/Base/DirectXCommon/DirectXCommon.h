@@ -15,13 +15,13 @@
 #include "../OutputLog/OutputLog.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
 
-#include "../../Draw/BasePipelineStateObject/BasePipelineStateObject.h"
-#include "../../Draw/BasePipelineStateObject/BlendNone/BlendNone.h"
-#include "../../Draw/BasePipelineStateObject/BlendNormal/BlendNormal.h"
-#include "../../Draw/BasePipelineStateObject/BlendAdd/BlendAdd.h"
-#include "../../Draw/BasePipelineStateObject/BlendSubtract/BlendSubtract.h"
-#include "../../Draw/BasePipelineStateObject/BlendMultiply/BlendMultiply.h"
-#include "../../Draw/BasePipelineStateObject/BlendScreen/BlendScreen.h"
+#include "../../PipelineStateObject/Object3d/BaseObject3d.h"
+#include "../../PipelineStateObject/Object3d/BlendNone/BlendNone.h"
+#include "../../PipelineStateObject/Object3d/BlendNormal/BlendNormal.h"
+#include "../../PipelineStateObject/Object3d/BlendAdd/BlendAdd.h"
+#include "../../PipelineStateObject/Object3d/BlendSubtract/BlendSubtract.h"
+#include "../../PipelineStateObject/Object3d/BlendMultiply/BlendMultiply.h"
+#include "../../PipelineStateObject/Object3d/BlendScreen/BlendScreen.h"
 
 #include "../../Draw/VertexData/VertexData.h"
 #include "../../Draw/TextureStore/TextureStore.h"
@@ -348,8 +348,8 @@ private:
 	// シザーレクト
 	D3D12_RECT scissorRect_{};
 
-	// PSO
-	BasePipelineStateObject* pos_[kBlendModekCountOfBlendMode] = { nullptr };
+	// Object3d用のPSO
+	BaseObject3d* psoObject3d_[kBlendModekCountOfBlendMode] = { nullptr };
 
 	// 使用しているブレンドモード
 	uint32_t useBlendMode_ = kBlendModeNormal;

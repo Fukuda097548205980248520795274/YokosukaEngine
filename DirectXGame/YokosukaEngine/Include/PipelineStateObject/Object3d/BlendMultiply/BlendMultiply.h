@@ -1,14 +1,14 @@
 #pragma once
-#include "../BasePipelineStateObject.h"
+#include "../BaseObject3d.h"
 
-class BlendNone : public BasePipelineStateObject
+class BlendMultiply : public BaseObject3d
 {
 public:
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~BlendNone();
+	~BlendMultiply();
 
 	/// <summary>
 	/// 初期化

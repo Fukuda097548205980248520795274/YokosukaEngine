@@ -14,7 +14,7 @@ DirectXCommon::~DirectXCommon()
 	// PSO
 	for (uint32_t i = 0; i < kBlendModekCountOfBlendMode; i++)
 	{
-		delete pos_[i];
+		delete psoObject3d_[i];
 	}
 
 	// DXC
@@ -51,12 +51,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	modelDataStore_ = new ModelDataStore();
 	modelDataStore_->Initialize(textureStore_);
 
-#ifdef _DEBUG
-
 	// デバッグレイヤーを有効化する
 	ActiveDebugLayer();
-
-#endif
 
 	// DXGIファクトリーを生成する
 	GenerateDXGIFactory();
@@ -114,24 +110,24 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	dxc_->Initialize(log_);
 
 
-	// PSOの生成と初期化
-	pos_[kBlendModeNone] = new BlendAdd();
-	pos_[kBlendModeNone]->Initialize(log_, dxc_, device_);
+	// Object3D用のPSOの生成と初期化
+	psoObject3d_[kBlendModeNone] = new BlendAdd();
+	psoObject3d_[kBlendModeNone]->Initialize(log_, dxc_, device_);
 
-	pos_[kBlendModeNormal] = new BlendNormal();
-	pos_[kBlendModeNormal]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeNormal] = new BlendNormal();
+	psoObject3d_[kBlendModeNormal]->Initialize(log_, dxc_, device_);
 
-	pos_[kBlendModeAdd] = new BlendAdd();
-	pos_[kBlendModeAdd]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeAdd] = new BlendAdd();
+	psoObject3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_);
 
-	pos_[kBlendModeSubtract] = new BlendSubtract();
-	pos_[kBlendModeSubtract]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeSubtract] = new BlendSubtract();
+	psoObject3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_);
 
-	pos_[kBlendModeMultiply] = new BlendMultiply();
-	pos_[kBlendModeMultiply]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeMultiply] = new BlendMultiply();
+	psoObject3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_);
 
-	pos_[kBlendModeScreen] = new BlendScreen();
-	pos_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeScreen] = new BlendScreen();
+	psoObject3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
 
 
 	// ビューポート
@@ -401,7 +397,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	pos_[useBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useBlendMode_]->CommandListSet(commandList_);
 
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
@@ -581,7 +577,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	pos_[useBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useBlendMode_]->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
@@ -683,7 +679,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	pos_[useBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useBlendMode_]->CommandListSet(commandList_);
 
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
@@ -805,7 +801,7 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const World
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	pos_[useBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useBlendMode_]->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
