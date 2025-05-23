@@ -1,6 +1,9 @@
 #pragma once
 #include "../../Math/Matrix4x4/Matrix4x4.h"
 
+// 前方宣言
+class YokosukaEngine;
+
 class DebugCamera
 {
 public:
@@ -8,7 +11,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(float screenWidth , float screenHeight);
+	void Initialize(YokosukaEngine* engine);
 
 	/// <summary>
 	/// 更新処理
@@ -16,25 +19,13 @@ public:
 	void Update();
 
 
+	// エンジン
+	YokosukaEngine* engine_ = nullptr;;
+
 	// X,Y,Z軸回りのローカル回転角
 	Vector3 rotation_ = { 0.0f , 0.0f , 0.0f };
 
 	// ローカル座標
-	Vector3 translation_{ 0.0f , 0.0f , -50.0f };
-
-	// ビュー行列
-	Matrix4x4 viewMatrix_ = {};
-
-	// 射影行列
-	Matrix4x4 projectionMatrix_ = {};
-
-
-private:
-
-	// 画面の横幅
-	float screenWidth_ = 0.0f;
-
-	// 画面の縦幅
-	float screenHeight_ = 0.0f;
+	Vector3 translation_ = { 0.0f , 0.0f , 0.0f };
 };
 

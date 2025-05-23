@@ -7,6 +7,7 @@
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/Input/Input.h"
 #include "Audio/AudioStore/AudioStore.h"
+#include "Camera/DebugCamera/DebugCamera.h"
 
 // ブレンドモード
 enum BlendMode
@@ -58,7 +59,7 @@ public:
 	/// <param name="kWindowWidth">ウィンドウの横幅</param>
 	/// <param name="kWindowHeight">ウィンドウの縦幅</param>
 	/// <param name="titleName">ウィンドウのタイトル名</param>
-	void Initialize(const int32_t kWindowWidth , const int32_t kWindowHeight , const std::string& titleName);
+	void Initialize(const int32_t kWindowWidth, const int32_t kWindowHeight, const std::string& titleName);
 
 	/// <summary>
 	/// メッセージを処理する
@@ -106,8 +107,10 @@ public:
 	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
-	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera , uint32_t textureHandle, Vector4 color)
-	{directXCommon_->DrawTriangle(worldTransform,uvTransform, camera, textureHandle,color);}
+	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera, uint32_t textureHandle, Vector4 color)
+	{
+		directXCommon_->DrawTriangle(worldTransform, uvTransform, camera, textureHandle, color);
+	}
 
 	/// <summary>
 	/// 球を描画する
@@ -143,7 +146,7 @@ public:
 	/// </summary>
 	/// <param name="blendMode"></param>
 	void SetBlendModel(BlendMode blendMode) { directXCommon_->SetBlendMode(static_cast<uint32_t>(blendMode)); }
-	
+
 	/// <summary>
 	/// 全てのキーの入力情報を取得する
 	/// </summary>
@@ -203,6 +206,17 @@ public:
 	/// <returns></returns>
 	Vector3 GetMouseVelocity() { return input_->GetMouseVelocity(); }
 
+	/// <summary>
+	/// デバッグカメラを更新する
+	/// </summary>
+	void DebugCameraUpdate() { debugCamera_->Update(); }
+	
+	/// <summary>
+	/// デバッグカメラのインスタンスを初期化する
+	/// </summary>
+	/// <returns></returns>
+	DebugCamera* GetDebugCameraInstance() { return debugCamera_; }
+
 
 private:
 
@@ -223,5 +237,7 @@ private:
 
 	// オーディオストア
 	AudioStore* audioStore_ = nullptr;
-};
 
+	// デバッグカメラ
+	DebugCamera* debugCamera_ = nullptr;
+};

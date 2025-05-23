@@ -1,20 +1,22 @@
 #include "DebugCamera.h"
+#include "../../YokosukaEngine.h"
 
 /// <summary>
 /// 初期化
 /// </summary>
-void DebugCamera::Initialize(float screenWidth, float screenHeight)
+void DebugCamera::Initialize(YokosukaEngine* engine)
 {
+	// nullptrチェック
+	assert(engine);
+
 	// 引数を受け取る
-	screenWidth_ = screenWidth;
-	screenHeight_ = screenHeight;
+	engine_ = engine;
 
+	// X,Y,Z軸回りのローカル回転角
+	rotation_ = { 0.0f , 0.0f , 0.0f };
 
-	// ビュー行列
-	viewMatrix_ = MakeInverseMatrix(MakeAffineMatrix({ 1.0f , 1.0f , 1.0f }, rotation_, translation_));
-
-	// 射影行列
-	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, screenWidth_ / screenHeight_, 0.1f, 1000.0f);
+	// ローカル座標
+	translation_ = { 0.0f , 0.0f , -50.0f };
 }
 
 /// <summary>
@@ -22,5 +24,8 @@ void DebugCamera::Initialize(float screenWidth, float screenHeight)
 /// </summary>
 void DebugCamera::Update()
 {
-	
+	ImGui::Begin("DebugCamera");
+	ImGui::DragFloat3("translation", &translation_.x, 0.1f);
+	ImGui::DragFloat3("rotation", &rotation_.x, 0.01f);
+	ImGui::End();
 }

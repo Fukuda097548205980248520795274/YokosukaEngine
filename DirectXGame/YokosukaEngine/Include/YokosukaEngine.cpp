@@ -5,6 +5,9 @@
 /// </summary>
 YokosukaEngine::~YokosukaEngine()
 {
+	// デバッグカメラ
+	delete debugCamera_;
+
 	// AudioStore
 	delete audioStore_;
 
@@ -71,4 +74,12 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	// AudioStoreの生成と初期化
 	audioStore_ = new AudioStore();
 	audioStore_->Initialize();
+
+#ifdef _DEBUG
+
+	// デバッグカメラの生成と初期化
+	debugCamera_ = new DebugCamera();
+	debugCamera_->Initialize(this);
+
+#endif
 }

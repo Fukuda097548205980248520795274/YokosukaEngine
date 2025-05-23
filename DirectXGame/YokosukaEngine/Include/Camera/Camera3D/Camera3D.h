@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Math/Matrix4x4/Matrix4x4.h"
+#include "../DebugCamera/DebugCamera.h"
 
 class Camera3D
 {
@@ -34,6 +35,12 @@ public:
 	/// <param name="projectionMatrix"></param>
 	void SetViewProjectionMatrix(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) 
 	{ viewMatrix_ = viewMatrix; projectionMatrix_ = projectionMatrix; }
+
+	/// <summary>
+	/// デバッグカメラの値で更新する
+	/// </summary>
+	/// <param name="debugCamera"></param>
+	void UpdateDebugCameraData(const DebugCamera* debugCamera);
 
 	// 拡縮
 	Vector3 scale_{};
