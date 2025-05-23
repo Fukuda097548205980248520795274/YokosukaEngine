@@ -1,9 +1,9 @@
-#include "BlendSubtract.h"
+#include "Object3dBlendNone.h"
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-BlendSubtract::~BlendSubtract()
+Object3dBlendNone::~Object3dBlendNone()
 {
 	pixelShaderBlob_->Release();
 	vertexShaderBlob_->Release();
@@ -18,7 +18,7 @@ BlendSubtract::~BlendSubtract()
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void BlendSubtract::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
+void Object3dBlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
 {
 	// nullptrチェック
 	assert(dxc);
@@ -163,14 +163,6 @@ void BlendSubtract::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Micro
 
 	// 全ての色要素を書き込む
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-
-	blendDesc.RenderTarget[0].BlendEnable = TRUE;
-	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
-	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
-	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 
 
 

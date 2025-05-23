@@ -1,14 +1,14 @@
 #pragma once
 #include "../BaseObject3d.h"
 
-class BlendSubtract : public BaseObject3d
+class Object3dBlendNormal : public BaseObject3d
 {
 public:
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~BlendSubtract();
+	~Object3dBlendNormal();
 
 	/// <summary>
 	/// 初期化

@@ -1,9 +1,9 @@
-#include "BlendMultiply.h"
+#include "Object3dBlendAdd.h"
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-BlendMultiply::~BlendMultiply()
+Object3dBlendAdd::~Object3dBlendAdd()
 {
 	pixelShaderBlob_->Release();
 	vertexShaderBlob_->Release();
@@ -18,7 +18,7 @@ BlendMultiply::~BlendMultiply()
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void BlendMultiply::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
+void Object3dBlendAdd::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
 {
 	// nullptrチェック
 	assert(dxc);
@@ -165,9 +165,9 @@ void BlendMultiply::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Micro
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
-	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_ZERO;
+	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
 	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_SRC_COLOR;
+	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;

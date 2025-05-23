@@ -1,9 +1,9 @@
-#include "BlendAdd.h"
+#include "Object3dBlendSubtract.h"
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-BlendAdd::~BlendAdd()
+Object3dBlendSubtract::~Object3dBlendSubtract()
 {
 	pixelShaderBlob_->Release();
 	vertexShaderBlob_->Release();
@@ -18,7 +18,7 @@ BlendAdd::~BlendAdd()
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void BlendAdd::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
+void Object3dBlendSubtract::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
 {
 	// nullptrチェック
 	assert(dxc);
@@ -166,7 +166,7 @@ void BlendAdd::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft:
 
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
 	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
 	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;

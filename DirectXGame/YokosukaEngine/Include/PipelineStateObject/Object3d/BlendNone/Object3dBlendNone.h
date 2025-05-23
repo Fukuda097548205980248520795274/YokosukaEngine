@@ -1,14 +1,14 @@
 #pragma once
 #include "../BaseObject3d.h"
 
-class BlendAdd : public BaseObject3d
+class Object3dBlendNone : public BaseObject3d
 {
 public:
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~BlendAdd();
+	~Object3dBlendNone();
 
 	/// <summary>
 	/// 初期化
@@ -17,4 +17,3 @@ public:
 	/// <param name="dxc">シェーダコンパイラ</param>
 	void Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device) override;
 };
-

@@ -1,14 +1,14 @@
 #pragma once
 #include "../BaseObject3d.h"
 
-class BlendNormal : public BaseObject3d
+class Object3dBlendScreen : public BaseObject3d
 {
 public:
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~BlendNormal();
+	~Object3dBlendScreen();
 
 	/// <summary>
 	/// 初期化

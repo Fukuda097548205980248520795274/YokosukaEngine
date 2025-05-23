@@ -1,14 +1,14 @@
 #pragma once
 #include "../BaseObject3d.h"
 
-class BlendMultiply : public BaseObject3d
+class Object3dBlendMultiply : public BaseObject3d
 {
 public:
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~BlendMultiply();
+	~Object3dBlendMultiply();
 
 	/// <summary>
 	/// 初期化

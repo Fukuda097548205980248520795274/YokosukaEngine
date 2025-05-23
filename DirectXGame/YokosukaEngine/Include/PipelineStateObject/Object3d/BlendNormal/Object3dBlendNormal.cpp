@@ -1,10 +1,9 @@
-#include "BlendNone.h"
-#include "../BaseObject3d.h"
+#include "Object3dBlendNormal.h"
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-BlendNone::~BlendNone()
+Object3dBlendNormal::~Object3dBlendNormal()
 {
 	pixelShaderBlob_->Release();
 	vertexShaderBlob_->Release();
@@ -19,7 +18,7 @@ BlendNone::~BlendNone()
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void BlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
+void Object3dBlendNormal::Initialize(OutputLog* log, DirectXShaderCompiler* dxc , Microsoft::WRL::ComPtr<ID3D12Device> device)
 {
 	// nullptrチェック
 	assert(dxc);
@@ -31,11 +30,11 @@ void BlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft
 
 
 	/*-----------------------------
-		ルートシグネチャを生成する
+	    ルートシグネチャを生成する
 	-----------------------------*/
 
 	/*   ディスクリプタレンジ   */
-
+	
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
 
 	// 0から始まる
@@ -70,7 +69,7 @@ void BlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptorRange;
 	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);
-
+	
 	// CBV PixelShader b1
 	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
@@ -128,7 +127,7 @@ void BlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft
 
 
 	/*-------------------------------
-		インプットレイアウトを設定する
+	    インプットレイアウトを設定する
 	-------------------------------*/
 
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
@@ -157,7 +156,7 @@ void BlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft
 
 
 	/*-----------------------------
-		ブレンドステートを設定する
+	    ブレンドステートを設定する
 	-----------------------------*/
 
 	D3D12_BLEND_DESC blendDesc{};
@@ -165,10 +164,18 @@ void BlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft
 	// 全ての色要素を書き込む
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
+	blendDesc.RenderTarget[0].BlendEnable = TRUE;
+	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+
 
 
 	/*--------------------------------
-		ラスタライザステートを設定する
+	    ラスタライザステートを設定する
 	--------------------------------*/
 
 	D3D12_RASTERIZER_DESC rasterizeDesc{};
@@ -181,7 +188,7 @@ void BlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft
 
 
 	/*---------------------------
-		シェーダをコンパイルする
+	    シェーダをコンパイルする
 	---------------------------*/
 
 	// 頂点シェーダをコンパイルする
@@ -194,7 +201,7 @@ void BlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft
 
 
 	/*------------------------------------
-		デプスステンシルステートを設定する
+	    デプスステンシルステートを設定する
 	------------------------------------*/
 
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
@@ -210,7 +217,7 @@ void BlendNone::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft
 
 
 	/*------------------
-		PSOを生成する
+	    PSOを生成する
 	------------------*/
 
 	// 設定を入れる

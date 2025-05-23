@@ -16,12 +16,12 @@
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
 
 #include "../../PipelineStateObject/Object3d/BaseObject3d.h"
-#include "../../PipelineStateObject/Object3d/BlendNone/BlendNone.h"
-#include "../../PipelineStateObject/Object3d/BlendNormal/BlendNormal.h"
-#include "../../PipelineStateObject/Object3d/BlendAdd/BlendAdd.h"
-#include "../../PipelineStateObject/Object3d/BlendSubtract/BlendSubtract.h"
-#include "../../PipelineStateObject/Object3d/BlendMultiply/BlendMultiply.h"
-#include "../../PipelineStateObject/Object3d/BlendScreen/BlendScreen.h"
+#include "../../PipelineStateObject/Object3d/BlendNone/Object3dBlendNone.h"
+#include "../../PipelineStateObject/Object3d/BlendNormal/Object3dBlendNormal.h"
+#include "../../PipelineStateObject/Object3d/BlendAdd/Object3dBlendAdd.h"
+#include "../../PipelineStateObject/Object3d/BlendSubtract/Object3dBlendSubtract.h"
+#include "../../PipelineStateObject/Object3d/BlendMultiply/Object3dBlendMultiply.h"
+#include "../../PipelineStateObject/Object3d/BlendScreen/Object3dBlendScreen.h"
 
 #include "../../Draw/VertexData/VertexData.h"
 #include "../../Draw/TextureStore/TextureStore.h"
