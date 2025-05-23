@@ -197,6 +197,12 @@ public:
 	/// <returns></returns>
 	bool GetMouseButtonRelease(MouseButton mouseButton) { return input_->GetMouseRelease(static_cast<uint32_t>(mouseButton)); };
 
+	/// <summary>
+	/// マウスの移動量のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetMouseVelocity() { return input_->GetMouseVelocity(); }
+
 
 private:
 

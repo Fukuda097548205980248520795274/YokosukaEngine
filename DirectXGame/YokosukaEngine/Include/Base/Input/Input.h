@@ -70,6 +70,12 @@ public:
 	/// <returns></returns>
 	bool GetMouseRelease(uint32_t mouseButtonNumber);
 
+	/// <summary>
+	/// マウスの移動量のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetMouseVelocity() { return mouseVelocity_; }
+
 
 private:
 
