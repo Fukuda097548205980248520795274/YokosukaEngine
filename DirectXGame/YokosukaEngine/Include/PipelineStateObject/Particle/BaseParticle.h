@@ -30,19 +30,19 @@ protected:
 	DirectXShaderCompiler* dxc_ = nullptr;
 
 	// シグネチャのバイナリ
-	ID3DBlob* signatureBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> signatureBlob_ = nullptr;
 
 	// エラーのバイナリ
-	ID3DBlob* errorBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob_ = nullptr;
 
 	// ルートシグネチャ
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_ = nullptr;
 
 	// 頂点シェーダのバイナリ
-	IDxcBlob* vertexShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> vertexShaderBlob_ = nullptr;
 
 	// ピクセルシェーダのバイナリ
-	IDxcBlob* pixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> pixelShaderBlob_ = nullptr;
 
 	// パイプラインステート
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> grahpicsPipelineState_ = nullptr;

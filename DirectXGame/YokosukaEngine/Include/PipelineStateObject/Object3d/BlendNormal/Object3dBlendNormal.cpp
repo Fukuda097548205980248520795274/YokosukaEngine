@@ -5,13 +5,7 @@
 /// </summary>
 Object3dBlendNormal::~Object3dBlendNormal()
 {
-	pixelShaderBlob_->Release();
-	vertexShaderBlob_->Release();
-	if (errorBlob_)
-	{
-		errorBlob_->Release();
-	}
-	signatureBlob_->Release();
+	
 }
 
 /// <summary>

@@ -15,17 +15,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ワールドトランスフォーム
 	WorldTransform* worldTransform = new WorldTransform();
 	worldTransform->Initialize();
+	worldTransform->scale_ = { 3.0f , 3.0f , 3.0f };
 
 	// UVトランスフォーム
 	WorldTransform* uvTransform = new WorldTransform();
 	uvTransform->Initialize();
 
+	// 色
+	Vector4 color = { 1.0f , 1.0f , 1.0f , 1.0f };
+
 	// カメラ
 	Camera3D* camera3d = new Camera3D();
 	camera3d->Initialize(1280.0f , 720.0f);
 
-	// テクスチャハンドル
-	uint32_t textureHandle = yokosukaEngine->LoadTexture("./Resources/Textures/uvChecker.png");
+	// モデルハンドル
+	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/Suzanne" , "Suzanne.obj");
 
 
 	// メインループ
@@ -41,6 +45,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 更新処理ここから
 		/// 
 
+		ImGui::Begin("Suzanne");
+		ImGui::ColorEdit4("color", &color.x);
+		ImGui::End();
+
 		yokosukaEngine->DebugCameraUpdate();
 		camera3d->UpdateDebugCameraData(yokosukaEngine->GetDebugCameraInstance());
 
@@ -55,7 +63,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-		yokosukaEngine->DrawTriangle(worldTransform, uvTransform, camera3d, textureHandle, { 1.0f , 1.0f, 1.0f , 1.0f });
+		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera3d, modelHandle, color);
 
 		///
 		/// ↑ 描画処理ここまで

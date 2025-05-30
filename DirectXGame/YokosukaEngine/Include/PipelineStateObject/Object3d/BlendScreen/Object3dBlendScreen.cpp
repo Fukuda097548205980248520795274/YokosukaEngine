@@ -5,13 +5,7 @@
 /// </summary>
 Object3dBlendScreen::~Object3dBlendScreen()
 {
-	pixelShaderBlob_->Release();
-	vertexShaderBlob_->Release();
-	if (errorBlob_)
-	{
-		errorBlob_->Release();
-	}
-	signatureBlob_->Release();
+	
 }
 
 /// <summary>

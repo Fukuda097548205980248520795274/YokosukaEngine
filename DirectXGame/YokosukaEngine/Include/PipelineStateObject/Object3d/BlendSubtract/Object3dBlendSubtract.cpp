@@ -5,13 +5,7 @@
 /// </summary>
 Object3dBlendSubtract::~Object3dBlendSubtract()
 {
-	pixelShaderBlob_->Release();
-	vertexShaderBlob_->Release();
-	if (errorBlob_)
-	{
-		errorBlob_->Release();
-	}
-	signatureBlob_->Release();
+	
 }
 
 /// <summary>
