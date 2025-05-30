@@ -148,6 +148,15 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendSubtract">
       <UniqueIdentifier>{97ae0498-9c9d-4f83-a7a3-7ac745ccfbf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNormal">
+      <UniqueIdentifier>{baddb874-6c77-4ffd-8243-52e6e782b486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\Transform3D">
+      <UniqueIdentifier>{661d76fa-774d-4f5f-99ba-421e5e1f6763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\Particle">
+      <UniqueIdentifier>{adb730a0-6ec8-4852-a470-d280d8b77eab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -272,6 +281,15 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNormal\ParticleBlendNormal.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.cpp">
+      <Filter>YokosukaEngine\Include\Math\Transform3D</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Draw\Particle\Particle.cpp">
+      <Filter>YokosukaEngine\Include\Draw\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -400,6 +418,15 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNormal\ParticleBlendNormal.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.h">
+      <Filter>YokosukaEngine\Include\Math\Transform3D</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Draw\Particle\Particle.h">
+      <Filter>YokosukaEngine\Include\Draw\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

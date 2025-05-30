@@ -119,6 +119,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\Particle\Particle.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BaseObject3d.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendAdd\Object3dBlendAdd.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendMultiply\Object3dBlendMultiply.cpp" />
@@ -143,6 +145,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Math\Vector4\Vector4.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNormal\ParticleBlendNormal.cpp" />
     <ClCompile Include="YokosukaEngine\Include\YokosukaEngine.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -163,6 +166,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.h" />
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.h" />
     <ClInclude Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\Particle\Particle.h" />
+    <ClInclude Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BaseObject3d.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendAdd\Object3dBlendAdd.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendMultiply\Object3dBlendMultiply.h" />
@@ -188,6 +193,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Math\Vector4\Vector4.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNormal\ParticleBlendNormal.h" />
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <ItemGroup>

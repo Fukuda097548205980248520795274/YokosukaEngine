@@ -14,20 +14,6 @@ struct Material
 };
 ConstantBuffer<Material> gMaterial : register(b0);
 
-// 平行光源
-struct DirectionalLight
-{
-    // 色
-    float4 color;
-    
-    // 向き
-    float3 direction;
-    
-    // 輝度
-    float intensity;
-};
-ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
-
 // テクスチャの宣言
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
@@ -48,32 +34,9 @@ PixelShaderOutput main(VertexShaderOutput input)
     
     // 座標変換したテクスチャ座標系で、テクスチャの色を取得する
     float4 textureColor = gTexture.Sample(gSampler, transfomedUV.xy);
-    
-    // テクスチャの色のα値が0.0fのときにPixelを棄却する
-    if (textureColor.a == 0.0f)
-    {
-        discard;
-    }
-    
-    // ライティング適用
-    if (gMaterial.enableLighting)
-    {
-        // 角度で光が入る明るさを求める 0 ~ 1
-        float NdotL = dot(normalize(input.normal), -gDirectionalLight.direction);
-        float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
         
-        // 全て乗算する
-        output.color.rgb = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
-        output.color.a = gMaterial.color.a * textureColor.a;
-
-    }
-    else
-    {
-        // ライディング無効
-        
-        // テクスチャと色を乗算する
-        output.color = gMaterial.color * textureColor;
-    }
+    // テクスチャと色を乗算する
+    output.color = gMaterial.color * textureColor;
     
     // 出力する色のα値が0.0fのときにPixelを棄却する
     if (output.color.a == 0.0f)

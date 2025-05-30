@@ -11,7 +11,11 @@ DirectXCommon::~DirectXCommon()
 	ImGui_ImplDX12_Shutdown();
 	ImGui::DestroyContext();
 
-	// PSO
+
+	// Particle
+	delete posParticle_;
+
+	// Object3d
 	for (uint32_t i = 0; i < kBlendModekCountOfBlendMode; i++)
 	{
 		delete psoObject3d_[i];
@@ -36,6 +40,10 @@ DirectXCommon::~DirectXCommon()
 /// <param name="log">ログ</param>
 void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 {
+	// 乱数生成器の初期化
+	std::random_device seedGenerater;
+	std::mt19937 randomEngine(seedGenerater());
+
 	//nullptrチェック
 	assert(log);
 	assert(windowApplication);
@@ -130,6 +138,11 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	psoObject3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
 
 
+	// Particle用のPSOの生成と初期化
+	posParticle_ = new ParticleBlendNormal();
+	posParticle_->Initialize(log_, dxc_, device_);
+
+
 	// ビューポート
 	viewport_.Width = static_cast<float>(windowApplication_->GetWindowWidth());
 	viewport_.Height = static_cast<float>(windowApplication_->GetWindowHeight());
@@ -182,6 +195,30 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		vertexBufferResourceSprite_[i] = CreateBufferResource(device_, sizeof(VertexData) * 4);
 		MaterialResourceSprite_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceSprite_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+	}
+
+	// パーティクル
+	instancingResourcesParticle_ = CreateBufferResource(device_, sizeof(TransformationMatrix) * kNumInstance);
+	materialResourceParticle_ = CreateBufferResource(device_, sizeof(Material));
+
+	// パーティクルのビュー
+	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
+	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	instancingSrvDesc.Buffer.FirstElement = 0;
+	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	instancingSrvDesc.Buffer.NumElements = kNumInstance;
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(TransformationMatrix);
+
+	// ポインタのハンドル（住所）を取得する
+	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 1);
+	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 1);
+	device_->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
+
+	for (uint32_t i = 0; i < kNumInstance; i++)
+	{
+		particles_[i] = MakeNewParticle(randomEngine);
 	}
 }
 
@@ -705,6 +742,89 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 
 	// カウントする
 	useNumResourceModel_++;
+}
+
+/// <summary>
+/// パーティクルを描画する
+/// </summary>
+/// <param name="camera"></param>
+/// <param name="modelHandle"></param>
+void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color)
+{
+	/*----------
+		頂点
+	----------*/
+
+	// 頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
+	vertexBufferView.BufferLocation = modelDataStore_->GetVertexResource(modelHandle)->GetGPUVirtualAddress();
+	vertexBufferView.SizeInBytes = UINT(sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
+	vertexBufferView.StrideInBytes = sizeof(VertexData);
+
+	// 頂点データを書き込む
+	VertexData* vertexData = nullptr;
+	modelDataStore_->GetVertexResource(modelHandle)->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+	std::memcpy(vertexData, modelDataStore_->GetModelData(modelHandle).vertices.data(),
+		sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
+
+
+	/*---------------
+		マテリアル
+	---------------*/
+
+	// データを書き込む
+	Material* materialData = nullptr;
+	materialResourceParticle_->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialData->color = color;
+	materialData->enableLighting = false;
+	materialData->uvTransform = MakeIdenityMatirx();
+
+
+	/*-------------------
+	    インスタンシング
+	-------------------*/
+
+	// データを書き込む
+	TransformationMatrix* instancingData = nullptr;
+	instancingResourcesParticle_->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
+	for (uint32_t i = 0; i < kNumInstance; i++)
+	{
+		// 移動させる
+		particles_[i].transform.translation += particles_[i].velocity * kDeltaTime;
+
+		instancingData[i].worldViewProjection =
+			Multiply(MakeAffineMatrix(particles_[i].transform.scale, particles_[i].transform.rotation, particles_[i].transform.translation),
+				Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+
+		instancingData[i].world = MakeAffineMatrix(particles_[i].transform.scale, particles_[i].transform.rotation, particles_[i].transform.translation);
+	}
+
+
+
+	/*------------------
+		コマンドを積む
+	------------------*/
+
+	// ルートシグネチャやPSOの設定
+	posParticle_->CommandListSet(commandList_);
+
+	// VBVを設定する
+	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+
+	// 形状を設定
+	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// マテリアル用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceParticle_->GetGPUVirtualAddress());
+
+	// インスタンシング用のTableを設定
+	commandList_->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU_);
+
+	// テクスチャ
+	textureStore_->SelectTexture(commandList_, modelDataStore_->GetTextureHandle(modelHandle));
+
+	// 描画する
+	commandList_->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), kNumInstance, 0, 0);
 }
 
 /// <summary>

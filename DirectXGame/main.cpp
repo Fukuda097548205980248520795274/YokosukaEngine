@@ -12,15 +12,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	    変数を作る
 	--------------*/
 
-	// ワールドトランスフォーム
-	WorldTransform* worldTransform = new WorldTransform();
-	worldTransform->Initialize();
-	worldTransform->scale_ = { 3.0f , 3.0f , 3.0f };
-
-	// UVトランスフォーム
-	WorldTransform* uvTransform = new WorldTransform();
-	uvTransform->Initialize();
-
 	// 色
 	Vector4 color = { 1.0f , 1.0f , 1.0f , 1.0f };
 
@@ -52,9 +43,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		yokosukaEngine->DebugCameraUpdate();
 		camera3d->UpdateDebugCameraData(yokosukaEngine->GetDebugCameraInstance());
 
-		worldTransform->UpdateWorldMatrix();
-		uvTransform->UpdateWorldMatrix();
-
 		///
 		/// ↑ 更新処理ここまで
 		/// 
@@ -63,7 +51,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera3d, modelHandle, color);
+		yokosukaEngine->DrawParticle( camera3d, modelHandle, color);
 
 		///
 		/// ↑ 描画処理ここまで
@@ -77,8 +65,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	delete camera3d;
-	delete uvTransform;
-	delete worldTransform;
 
 
 	// エンジンの解放

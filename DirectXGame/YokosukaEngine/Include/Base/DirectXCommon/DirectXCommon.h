@@ -6,6 +6,7 @@
 #include <vector>
 #include <numbers>
 #include <list>
+#include <random>
 #include "../../Math/Vector4/Vector4.h"
 #include "../../Math/WorldTransform/WorldTransform.h"
 #include "../../Camera/Camera3D/Camera3D.h"
@@ -22,6 +23,11 @@
 #include "../../PipelineStateObject/Object3d/BlendSubtract/Object3dBlendSubtract.h"
 #include "../../PipelineStateObject/Object3d/BlendMultiply/Object3dBlendMultiply.h"
 #include "../../PipelineStateObject/Object3d/BlendScreen/Object3dBlendScreen.h"
+
+#include "../../Draw/Particle/Particle.h"
+#include "../../PipelineStateObject/Particle/BaseParticle.h"
+#include "../../PipelineStateObject/Particle/BlendNormal/ParticleBlendNormal.h"
+
 
 #include "../../Draw/VertexData/VertexData.h"
 #include "../../Draw/TextureStore/TextureStore.h"
@@ -134,6 +140,15 @@ public:
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color);
+
+	/// <summary>
+	/// パーティクルを描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="color"></param>
+	void DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color);
 
 	/// <summary>
 	/// スプライトを描画する
@@ -348,11 +363,17 @@ private:
 	// シザーレクト
 	D3D12_RECT scissorRect_{};
 
+
+	/*-----------------------
+	    パイプラインステート
+	-----------------------*/
+
 	// Object3d用のPSO
 	BaseObject3d* psoObject3d_[kBlendModekCountOfBlendMode] = { nullptr };
-
-	// 使用しているブレンドモード
 	uint32_t useBlendMode_ = kBlendModeNormal;
+
+	// Particle用のPSO
+	BaseParticle* posParticle_ = nullptr;
 
 
 
@@ -437,5 +458,29 @@ private:
 
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceSprite_ = 0;
+
+
+	/*--------------------------------
+	    パーティクルで使用するリソース
+	--------------------------------*/
+
+	// デルタタイム
+	const float kDeltaTime = 1.0f / 60.0f;
+
+	// パーティクルの数
+	const uint32_t kNumInstance = 10;
+
+	// マテリアル用のリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceParticle_ = nullptr;
+
+	// インスタンシングリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> instancingResourcesParticle_ = nullptr;
+
+	// ハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_{};
+
+	// パーティクル
+	Particle particles_[10] = {};
 };
 
