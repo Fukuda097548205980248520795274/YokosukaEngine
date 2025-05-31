@@ -46,7 +46,7 @@ void Object3dBlendMultiply::Initialize(OutputLog* log, DirectXShaderCompiler* dx
 
 	/*   ルートパラメータ   */
 
-	D3D12_ROOT_PARAMETER rootParameters[5] = {};
+	D3D12_ROOT_PARAMETER rootParameters[6] = {};
 
 	// CBV PixeShader b0
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -73,6 +73,11 @@ void Object3dBlendMultiply::Initialize(OutputLog* log, DirectXShaderCompiler* dx
 	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[4].Descriptor.ShaderRegister = 2;
+
+	// CBV PixelShader b3
+	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[5].Descriptor.ShaderRegister = 3;
 
 
 	/*   サンプラー   */

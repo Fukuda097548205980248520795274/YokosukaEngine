@@ -196,12 +196,14 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		MaterialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		directionalLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
+		pointLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(PointLight));
 		cameraResourceSphere_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// モデル
 		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		directionalLightResourceModel_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
+		pointLightResourceModel_[i] = CreateBufferResource(device_, sizeof(PointLight));
 		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// スプライト
@@ -488,7 +490,8 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 /// <param name="textureHandle"></param>
 /// <param name="color"></param>
 void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle, Vector4 color, const DirectionalLight& light)
+	const Camera3D* camera, uint32_t textureHandle, Vector4 color,
+	const DirectionalLight& directionalLight, const PointLight& pointLight)
 {
 	/*-----------------
 	    インデックス
@@ -623,9 +626,21 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	// データを書き込む
 	DirectionalLight* directionalLightData = nullptr;
 	directionalLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-	directionalLightData->color = light.color;
-	directionalLightData->direction = Normalize(light.direction);
-	directionalLightData->intensity = light.intensity;
+	directionalLightData->color = directionalLight.color;
+	directionalLightData->direction = Normalize(directionalLight.direction);
+	directionalLightData->intensity = directionalLight.intensity;
+
+
+	/*------------
+	    点光源
+	------------*/
+
+	// データを書き込む
+	PointLight* pointLightData = nullptr;
+	pointLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData));
+	pointLightData->color = pointLight.color;
+	pointLightData->position = pointLight.position;
+	pointLightData->intensity = pointLight.intensity;
 
 
 	/*-----------
@@ -664,6 +679,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	// 平行光源用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
+	// 点光源用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(5, pointLightResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+
 	// カメラのCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
@@ -687,7 +705,8 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 /// <param name="modelHandle">モデルハンドル</param>
 /// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
-	const Camera3D* camera, uint32_t modelHandle, Vector4 color, const DirectionalLight& light)
+	const Camera3D* camera, uint32_t modelHandle, Vector4 color,
+	const DirectionalLight& directionalLight, const PointLight& pointLight)
 {
 
 	/*----------
@@ -740,9 +759,22 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	// データを書き込む
 	DirectionalLight* directionalLightData = nullptr;
 	directionalLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-	directionalLightData->color = light.color;
-	directionalLightData->direction = Normalize(light.direction);
-	directionalLightData->intensity = light.intensity;
+	directionalLightData->color = directionalLight.color;
+	directionalLightData->direction = Normalize(directionalLight.direction);
+	directionalLightData->intensity = directionalLight.intensity;
+
+	/*------------
+		点光源
+	------------*/
+
+	// データを書き込む
+	PointLight* pointLightData = nullptr;
+	pointLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData));
+	pointLightData->color = pointLight.color;
+	pointLightData->position = pointLight.position;
+	pointLightData->intensity = pointLight.intensity;
+	pointLightData->radius = pointLight.radius;
+	pointLightData->decay = pointLight.decay;
 
 
 	/*-----------
@@ -777,6 +809,9 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 
 	// 平行光源用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+	// 点光源用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(5, pointLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
