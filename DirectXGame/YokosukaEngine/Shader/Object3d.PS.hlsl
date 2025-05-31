@@ -11,6 +11,9 @@ struct Material
     
     // UVトランスフォーム
     float4x4 uvTransform;
+    
+    // 光沢度
+    float shininesse;
 };
 ConstantBuffer<Material> gMaterial : register(b0);
 
@@ -27,6 +30,13 @@ struct DirectionalLight
     float intensity;
 };
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
+
+// カメラ
+struct Camera
+{
+    float3 worldPosition;
+};
+ConstantBuffer<Camera> gCamera : register(b2);
 
 // テクスチャの宣言
 Texture2D<float4> gTexture : register(t0);
@@ -62,8 +72,24 @@ PixelShaderOutput main(VertexShaderOutput input)
         float NdotL = dot(normalize(input.normal), -gDirectionalLight.direction);
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
         
+        // カメラへの方向
+        float3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
+        
+        // 入射光の反射ベクトル
+        float3 halfVector = normalize(-gDirectionalLight.direction + toEye);
+        float NDotH = dot(normalize(input.normal), halfVector);
+        float speculerPow = pow(saturate(NDotH), gMaterial.shininesse);
+        
+        // 拡散反射
+        float3 diffuse = 
+        gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
+        
+        // 鏡面反射
+        float3 speculer = 
+        gDirectionalLight.color.rgb * gDirectionalLight.intensity * speculerPow * float3(1.0f, 1.0f, 1.0f);
+        
         // 全て乗算する
-        output.color.rgb = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
+        output.color.rgb = diffuse + speculer;
         output.color.a = gMaterial.color.a * textureColor.a;
 
     }

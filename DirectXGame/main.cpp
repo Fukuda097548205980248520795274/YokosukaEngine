@@ -15,12 +15,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 色
 	Vector4 color = { 1.0f , 1.0f , 1.0f , 1.0f };
 
+	// ワールドトランスフォーム
+	WorldTransform* worldTransform = new WorldTransform();
+	worldTransform->Initialize();
+	worldTransform->scale_ = { 6.0f , 6.0f , 6.0f };
+
+	// UVトランスフォーム
+	WorldTransform* uvTransform = new WorldTransform();
+	uvTransform->Initialize();
+
 	// カメラ
 	Camera3D* camera3d = new Camera3D();
 	camera3d->Initialize(1280.0f , 720.0f);
 
-	// モデルハンドル
-	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/Particle" , "Particle.obj");
+	// ライト
+	DirectionalLight light;
+	light.color = { 1.0f , 1.0f ,1.0f , 1.0f };
+	light.direction = { 0.0f , -1.0f , 0.0f };
+	light.intensity = 1.0f;
+
+	// テクスチャ
+	uint32_t textureHandle_ = yokosukaEngine->LoadTexture("./Resources/Textures/monsterBall.png");
 
 
 	// メインループ
@@ -36,14 +51,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 更新処理ここから
 		/// 
 
-		ImGui::Begin("Camera");
+		ImGui::Begin("Sphere");
+		ImGui::DragFloat3("translation", &worldTransform->translation_.x, 0.1f);
+		ImGui::DragFloat3("rotation", &worldTransform->rotation_.x, 0.01f);
+		ImGui::DragFloat3("scale", &worldTransform->scale_.x, 0.01f);
+		ImGui::ColorEdit4("light", &light.color.x);
+		ImGui::SliderFloat3("direction", &light.direction.x , -1.0f , 1.0f);
+		ImGui::End();
+
+		ImGui::Begin("camera");
 		ImGui::DragFloat3("translation", &camera3d->translation_.x, 0.1f);
-		ImGui::DragFloat3("rotation", &camera3d->rotation_.x, 0.1f);
-		ImGui::DragFloat3("scale", &camera3d->scale_.x, 0.1f);
+		ImGui::DragFloat3("rotation", &camera3d->rotation_.x, 0.01f);
 		ImGui::End();
 
 		// カメラ更新
+		
 		camera3d->UpdateMatrix();
+
+		worldTransform->UpdateWorldMatrix();
+		uvTransform->UpdateWorldMatrix();
 
 		///
 		/// ↑ 更新処理ここまで
@@ -53,8 +79,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-		// パーティクルを描画する
-		yokosukaEngine->DrawParticle( camera3d, modelHandle, color);
+		yokosukaEngine->DrawSphere(worldTransform, uvTransform, camera3d, textureHandle_, color , light);
 
 		///
 		/// ↑ 描画処理ここまで
@@ -67,6 +92,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		yokosukaEngine->CopyAllKeyInfo();
 	}
 
+	delete uvTransform;
+	delete worldTransform;
 	delete camera3d;
 
 

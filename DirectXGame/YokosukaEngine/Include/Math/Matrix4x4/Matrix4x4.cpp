@@ -477,3 +477,36 @@ Matrix4x4 MakeIdenityMatirx()
 
 	return idenityMatrix;
 }
+
+/// <summary>
+/// 転置行列を作る
+/// </summary>
+/// <param name="m">行列</param>
+/// <returns></returns>
+Matrix4x4 MakeTransposeMatrix(Matrix4x4 m)
+{
+	// 転置行列
+	Matrix4x4 transposeMatrix;
+
+	transposeMatrix.m[0][0] = m.m[0][0];
+	transposeMatrix.m[0][1] = m.m[1][0];
+	transposeMatrix.m[0][2] = m.m[2][0];
+	transposeMatrix.m[0][3] = m.m[3][0];
+	
+	transposeMatrix.m[1][0] = m.m[0][1];
+	transposeMatrix.m[1][1] = m.m[1][1];
+	transposeMatrix.m[1][2] = m.m[2][1];
+	transposeMatrix.m[1][3] = m.m[3][1];
+
+	transposeMatrix.m[2][0] = m.m[0][2];
+	transposeMatrix.m[2][1] = m.m[1][2];
+	transposeMatrix.m[2][2] = m.m[2][2];
+	transposeMatrix.m[2][3] = m.m[3][2];
+
+	transposeMatrix.m[3][0] = m.m[0][3];
+	transposeMatrix.m[3][1] = m.m[1][3];
+	transposeMatrix.m[3][2] = m.m[2][3];
+	transposeMatrix.m[3][3] = m.m[3][3];
+
+	return transposeMatrix;
+}

@@ -134,7 +134,7 @@ public:
 	/// <param name="textureHandle"></param>
 	/// <param name="color"></param>
 	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, Vector4 color);
+		const Camera3D* camera, uint32_t textureHandle, Vector4 color, const DirectionalLight& light);
 
 	/// <summary>
 	/// モデルを描画する
@@ -144,7 +144,7 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color);
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color , const DirectionalLight& light);
 
 	/// <summary>
 	/// パーティクルを描画する
@@ -414,7 +414,7 @@ private:
 	-----------------------*/
 
 	// 分割数
-	const uint32_t kSubdivision = 16;
+	const uint32_t kSubdivision = 24;
 
 	// インデックスリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_[512] = { nullptr };
@@ -430,6 +430,9 @@ private:
 
 	// 平行光源リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceSphere_[512] = { nullptr };
+
+	// カメラリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceSphere_[512] = { nullptr };
 
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceSphere_ = 0;

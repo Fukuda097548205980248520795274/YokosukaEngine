@@ -18,4 +18,7 @@ typedef struct Material
 	//  UVトランスフォーム
 	Matrix4x4 uvTransform;
 
+	// 光沢度
+	float shininess;
+
 }Material;

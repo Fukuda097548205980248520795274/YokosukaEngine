@@ -196,6 +196,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		MaterialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		directionalLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
+		cameraResourceSphere_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// モデル
 		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
@@ -221,7 +222,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(TransformationMatrix);
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
 	// ポインタのハンドル（住所）を取得する
 	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 1);
@@ -486,7 +487,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 /// <param name="textureHandle"></param>
 /// <param name="color"></param>
 void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle, Vector4 color)
+	const Camera3D* camera, uint32_t textureHandle, Vector4 color, const DirectionalLight& light)
 {
 	/*-----------------
 	    インデックス
@@ -599,6 +600,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	materialData->enableLighting = true;
 	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
 		MakeTranslateMatrix(uvTransform->translation_));
+	materialData->shininess = 18.0f;
 
 
 	/*------------------
@@ -610,6 +612,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	TransformationResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
 	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
 	transformationData->world = worldTransform->worldMatrix_;
+	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
 
 
 	/*-------------
@@ -619,9 +622,19 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	// データを書き込む
 	DirectionalLight* directionalLightData = nullptr;
 	directionalLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-	directionalLightData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
-	directionalLightData->direction = Normalize({ 0.0f , -1.0f , 0.0f });
-	directionalLightData->intensity = 1.0f;
+	directionalLightData->color = light.color;
+	directionalLightData->direction = Normalize(light.direction);
+	directionalLightData->intensity = light.intensity;
+
+
+	/*-----------
+	    カメラ
+	-----------*/
+
+	// データを書き込む
+	CameraForGPU* cameraData = nullptr;
+	cameraResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&cameraData));
+	cameraData->worldPosition = camera->translation_;
 
 
 
@@ -650,6 +663,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	// 平行光源用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
+	// カメラのCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+
 	// テクスチャ
 	textureStore_->SelectTexture(commandList_, textureHandle);
 
@@ -670,7 +686,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 /// <param name="modelHandle">モデルハンドル</param>
 /// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
-	const Camera3D* camera, uint32_t modelHandle, Vector4 color)
+	const Camera3D* camera, uint32_t modelHandle, Vector4 color, const DirectionalLight& light)
 {
 
 	/*----------
@@ -721,9 +737,9 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	// データを書き込む
 	DirectionalLight* directionalLightData = nullptr;
 	directionalLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-	directionalLightData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
-	directionalLightData->direction = Normalize({ 0.0f , -1.0f , 0.0f });
-	directionalLightData->intensity = 1.0f;
+	directionalLightData->color = light.color;
+	directionalLightData->direction = Normalize(light.direction);
+	directionalLightData->intensity = light.intensity;
 
 
 
@@ -827,6 +843,7 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 		emitter_.frequencyTime -= emitter_.frequency;
 	}
 
+	// ビルボード行列
 	Matrix4x4 billboardMatrix = MakeAffineMatrix(camera->scale_, camera->rotation_, camera->translation_);
 	billboardMatrix.m[3][0] = 0.0f;
 	billboardMatrix.m[3][1] = 0.0f;

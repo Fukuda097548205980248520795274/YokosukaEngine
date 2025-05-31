@@ -119,3 +119,10 @@ Matrix4x4 MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip
 /// </summary>
 /// <returns>単位行列</returns>
 Matrix4x4 MakeIdenityMatirx();
+
+/// <summary>
+/// 転置行列を作る
+/// </summary>
+/// <param name="m">行列</param>
+/// <returns></returns>
+Matrix4x4 MakeTransposeMatrix(Matrix4x4 m);
