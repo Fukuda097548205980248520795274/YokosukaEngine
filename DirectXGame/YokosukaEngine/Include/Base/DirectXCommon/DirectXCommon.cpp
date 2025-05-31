@@ -228,10 +228,13 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 1);
 	device_->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 
-	for (uint32_t i = 0; i < kNumMaxInstance; i++)
-	{
-		particles_[i] = MakeNewParticle(randomEngine);
-	}
+	// エミッター
+	emitter_.count = 3;
+	emitter_.frequency = 0.5f;
+	emitter_.frequencyTime = 0.0f;
+	emitter_.transform.scale = { 1.0f , 1.0f , 1.0f };
+	emitter_.transform.rotation = { 0.0f , 0.0f , 0.0f };
+	emitter_.transform.translation = { 0.0f , 0.0f , 0.0f };
 }
 
 /// <summary>
@@ -764,6 +767,14 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 /// <param name="modelHandle"></param>
 void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color)
 {
+	// 乱数生成器の初期化
+	std::random_device seedGenerater;
+	std::mt19937 randomEngine(seedGenerater());
+
+	ImGui::Begin("Particle");
+	ImGui::DragFloat3("translation", &emitter_.transform.translation.x, 0.1f);
+	ImGui::End();
+
 	/*----------
 		頂点
 	----------*/
@@ -804,33 +815,62 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 	// 描画できたパーティクルの数
 	uint32_t numInstance = 0;
 
-	for (uint32_t i = 0; i < kNumMaxInstance; i++)
+	// 発生する時間を進める
+	emitter_.frequencyTime += kDeltaTime;
+
+	// 到達したら発生させる
+	if (emitter_.frequencyTime >= emitter_.frequency)
 	{
-		// 寿命を超えたパーティクルは描画させない
-		if (particles_[i].currentTime >= particles_[i].lifeTime)
+		particles_.splice(particles_.end(), Emit(emitter_, randomEngine));
+
+		// 時間を初期化する
+		emitter_.frequencyTime -= emitter_.frequency;
+	}
+
+	Matrix4x4 billboardMatrix = MakeAffineMatrix(camera->scale_, camera->rotation_, camera->translation_);
+	billboardMatrix.m[3][0] = 0.0f;
+	billboardMatrix.m[3][1] = 0.0f;
+	billboardMatrix.m[3][2] = 0.0f;
+
+	for (std::list<Particle>::iterator particleIterator = particles_.begin(); particleIterator != particles_.end();)
+	{
+		// 寿命を越えたら、リストから消す
+		if ((*particleIterator).currentTime >= (*particleIterator).lifeTime)
+		{
+			particleIterator = particles_.erase(particleIterator);
 			continue;
+		}
 
-		// 徐々に透明にさせる
-		float alpha = 1.0f - (particles_[i].currentTime / particles_[i].lifeTime);
+		// 最大数を越えないようにする
+		if (numInstance < kNumMaxInstance)
+		{
 
-		// 時間をカウントする
-		particles_[i].currentTime += kDeltaTime;
+			// 徐々に透明にさせる
+			float alpha = 1.0f - ((*particleIterator).currentTime / (*particleIterator).lifeTime);
 
-		// 移動させる
-		particles_[i].transform.translation += particles_[i].velocity * kDeltaTime;
+			// 時間をカウントする
+			(*particleIterator).currentTime += kDeltaTime;
 
-		// ワールド行列
-		Matrix4x4 worldMatrix = MakeAffineMatrix(particles_[i].transform.scale, particles_[i].transform.rotation, particles_[i].transform.translation);
+			// 移動させる
+			(*particleIterator).transform.translation += (*particleIterator).velocity * kDeltaTime;
+
+			// ワールド行列
+			Matrix4x4 worldMatrix = Multiply(Multiply(MakeScaleMatrix((*particleIterator).transform.scale), billboardMatrix),
+				MakeTranslateMatrix((*particleIterator).transform.translation));
 
 
-		// データを書き込む
-		instancingData[numInstance].worldViewProjection = Multiply(worldMatrix,Multiply(camera->viewMatrix_, camera->projectionMatrix_));
-		instancingData[numInstance].world = worldMatrix;
-		instancingData[numInstance].color = particles_[i].color;
-		instancingData[numInstance].color.w = alpha;	
+			// データを書き込む
+			instancingData[numInstance].worldViewProjection = Multiply(worldMatrix, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+			instancingData[numInstance].world = worldMatrix;
+			instancingData[numInstance].color = (*particleIterator).color;
+			instancingData[numInstance].color.w = alpha;
 
-		// 描画できたからカウントする
-		numInstance++;
+			// カウントする
+			numInstance++;
+		}
+
+		// イテレータを進める
+		particleIterator++;
 	}
 
 

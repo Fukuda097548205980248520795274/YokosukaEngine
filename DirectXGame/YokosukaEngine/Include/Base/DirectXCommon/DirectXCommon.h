@@ -480,7 +480,7 @@ private:
 	const float kDeltaTime = 1.0f / 60.0f;
 
 	// パーティクルの数
-	const uint32_t kNumMaxInstance = 10;
+	const uint32_t kNumMaxInstance = 100;
 
 	// マテリアル用のリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceParticle_ = nullptr;
@@ -493,6 +493,9 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_{};
 
 	// パーティクル
-	Particle particles_[10] = {};
+	std::list<Particle> particles_ = {};
+
+	// エミッター
+	Emitter emitter_{};
 };
 

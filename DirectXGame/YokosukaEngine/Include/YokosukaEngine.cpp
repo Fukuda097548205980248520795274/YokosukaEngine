@@ -45,7 +45,6 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	currentTimer_ = static_cast<unsigned int>(time(nullptr));
 	srand(currentTimer_);
 
-
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 

@@ -22,6 +22,9 @@ public:
 	// エンジン
 	YokosukaEngine* engine_ = nullptr;;
 
+	// ローカル拡縮
+	Vector3 scale_ = { 1.0f , 1.0f , 1.0f };
+
 	// X,Y,Z軸回りのローカル回転角
 	Vector3 rotation_ = { 0.0f , 0.0f , 0.0f };
 

@@ -36,12 +36,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 更新処理ここから
 		/// 
 
-		ImGui::Begin("Suzanne");
-		ImGui::ColorEdit4("color", &color.x);
+		ImGui::Begin("Camera");
+		ImGui::DragFloat3("translation", &camera3d->translation_.x, 0.1f);
+		ImGui::DragFloat3("rotation", &camera3d->rotation_.x, 0.1f);
+		ImGui::DragFloat3("scale", &camera3d->scale_.x, 0.1f);
 		ImGui::End();
 
-		yokosukaEngine->DebugCameraUpdate();
-		camera3d->UpdateDebugCameraData(yokosukaEngine->GetDebugCameraInstance());
+		// カメラ更新
+		camera3d->UpdateMatrix();
 
 		///
 		/// ↑ 更新処理ここまで
@@ -51,7 +53,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-
+		// パーティクルを描画する
 		yokosukaEngine->DrawParticle( camera3d, modelHandle, color);
 
 		///
