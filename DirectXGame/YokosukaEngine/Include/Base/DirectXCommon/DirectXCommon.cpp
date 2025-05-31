@@ -202,6 +202,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		directionalLightResourceModel_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
+		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// スプライト
 		indexResourceSprite_[i] = CreateBufferResource(device_,sizeof(uint32_t) * 6);
@@ -717,6 +718,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	materialData->enableLighting = true;
 	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
 		MakeTranslateMatrix(uvTransform->translation_));
+	materialData->shininess = 18.0f;
 
 
 	/*------------------
@@ -728,6 +730,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	TransformationResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
 	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
 	transformationData->world = worldTransform->worldMatrix_;
+	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
 
 
 	/*-------------
@@ -740,6 +743,16 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	directionalLightData->color = light.color;
 	directionalLightData->direction = Normalize(light.direction);
 	directionalLightData->intensity = light.intensity;
+
+
+	/*-----------
+	    カメラ
+	-----------*/
+
+	// データを書き込む
+	CameraForGPU* cameraData = nullptr;
+	cameraResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&cameraData));
+	cameraData->worldPosition = camera->translation_;
 
 
 
@@ -764,6 +777,9 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 
 	// 平行光源用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+	// カメラ用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// テクスチャ
 	textureStore_->SelectTexture(commandList_, modelDataStore_->GetTextureHandle(modelHandle));

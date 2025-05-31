@@ -34,8 +34,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	light.direction = { 0.0f , -1.0f , 0.0f };
 	light.intensity = 1.0f;
 
-	// テクスチャ
-	uint32_t textureHandle_ = yokosukaEngine->LoadTexture("./Resources/Textures/monsterBall.png");
+	// モデル
+	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/terrain" , "terrain.obj");
 
 
 	// メインループ
@@ -79,7 +79,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-		yokosukaEngine->DrawSphere(worldTransform, uvTransform, camera3d, textureHandle_, color , light);
+		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera3d, modelHandle, color , light);
 
 		///
 		/// ↑ 描画処理ここまで

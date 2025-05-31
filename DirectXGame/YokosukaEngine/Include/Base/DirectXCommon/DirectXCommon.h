@@ -451,6 +451,9 @@ private:
 	// 平行光源リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceModel_[512] = { nullptr };
 
+	// カメラリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceModel_[512] = { nullptr };
+
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceModel_ = 0;
 
