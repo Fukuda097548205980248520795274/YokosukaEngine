@@ -145,7 +145,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Math\Vector4\Vector4.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendMultiply\ParticleBlendMultiply.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNone\ParticleBlendNone.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNormal\ParticleBlendNormal.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen\ParticleBlendScreen.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendSubtract\ParticleBlendSubtract.cpp" />
     <ClCompile Include="YokosukaEngine\Include\YokosukaEngine.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -193,7 +198,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Math\Vector4\Vector4.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendMultiply\ParticleBlendMultiply.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNone\ParticleBlendNone.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNormal\ParticleBlendNormal.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen\ParticleBlendScreen.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendSubtract\ParticleBlendSubtract.h" />
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <ItemGroup>

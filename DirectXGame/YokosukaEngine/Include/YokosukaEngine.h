@@ -153,7 +153,13 @@ public:
 	/// ブレンドモードを設定する
 	/// </summary>
 	/// <param name="blendMode"></param>
-	void SetBlendModel(BlendMode blendMode) { directXCommon_->SetBlendMode(static_cast<uint32_t>(blendMode)); }
+	void SetObject3dBlendMode(BlendMode blendMode) { directXCommon_->SetObject3dBlendMode(static_cast<uint32_t>(blendMode)); }
+
+	/// <summary>
+	/// ブレンドモードを設定する
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetParticleBlendMode(BlendMode blendMode) { directXCommon_->SetParticleBlendMode(static_cast<uint32_t>(blendMode)); }
 
 	/// <summary>
 	/// 全てのキーの入力情報を取得する

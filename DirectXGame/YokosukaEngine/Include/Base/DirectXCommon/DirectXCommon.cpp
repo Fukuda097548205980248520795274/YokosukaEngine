@@ -11,14 +11,11 @@ DirectXCommon::~DirectXCommon()
 	ImGui_ImplDX12_Shutdown();
 	ImGui::DestroyContext();
 
-
-	// Particle
-	delete posParticle_;
-
-	// Object3d
+	// PSO
 	for (uint32_t i = 0; i < kBlendModekCountOfBlendMode; i++)
 	{
 		delete psoObject3d_[i];
+		delete psoParticle_[i];
 	}
 
 	// DXC
@@ -119,7 +116,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 
 	// Object3D用のPSOの生成と初期化
-	psoObject3d_[kBlendModeNone] = new Object3dBlendAdd();
+	psoObject3d_[kBlendModeNone] = new Object3dBlendNone();
 	psoObject3d_[kBlendModeNone]->Initialize(log_, dxc_, device_);
 
 	psoObject3d_[kBlendModeNormal] = new Object3dBlendNormal();
@@ -139,8 +136,23 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 
 	// Particle用のPSOの生成と初期化
-	posParticle_ = new ParticleBlendNormal();
-	posParticle_->Initialize(log_, dxc_, device_);
+	psoParticle_[kBlendModeNone] = new ParticleBlendNone();
+	psoParticle_[kBlendModeNone]->Initialize(log_, dxc_, device_);
+
+	psoParticle_[kBlendModeNormal] = new ParticleBlendNormal();
+	psoParticle_[kBlendModeNormal]->Initialize(log_, dxc_, device_);
+
+	psoParticle_[kBlendModeAdd] = new ParticleBlendAdd();
+	psoParticle_[kBlendModeAdd]->Initialize(log_, dxc_, device_);
+
+	psoParticle_[kBlendModeSubtract] = new ParticleBlendSubtract();
+	psoParticle_[kBlendModeSubtract]->Initialize(log_, dxc_, device_);
+
+	psoParticle_[kBlendModeMultiply] = new ParticleBlendMultiply();
+	psoParticle_[kBlendModeMultiply]->Initialize(log_, dxc_, device_);
+
+	psoParticle_[kBlendModeScreen] = new ParticleBlendScreen();
+	psoParticle_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
 
 
 	// ビューポート
@@ -198,7 +210,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	}
 
 	// パーティクル
-	instancingResourcesParticle_ = CreateBufferResource(device_, sizeof(TransformationMatrix) * kNumInstance);
+	instancingResourcesParticle_ = CreateBufferResource(device_, sizeof(ParticleForGPU) * kNumMaxInstance);
 	materialResourceParticle_ = CreateBufferResource(device_, sizeof(Material));
 
 	// パーティクルのビュー
@@ -208,7 +220,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumInstance;
+	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(TransformationMatrix);
 
 	// ポインタのハンドル（住所）を取得する
@@ -216,7 +228,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 1);
 	device_->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 
-	for (uint32_t i = 0; i < kNumInstance; i++)
+	for (uint32_t i = 0; i < kNumMaxInstance; i++)
 	{
 		particles_[i] = MakeNewParticle(randomEngine);
 	}
@@ -261,7 +273,8 @@ void DirectXCommon::PreDraw()
 	commandList_->RSSetScissorRects(1, &scissorRect_);
 
 	// 使用したブレンドモードを初期化する
-	useBlendMode_ = kBlendModeNormal;
+	useObject3dBlendMode_ = kBlendModeNormal;
+	useParticleBlendMode_ = kBlendModeAdd;
 }
 
 /// <summary>
@@ -434,7 +447,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
 
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
@@ -614,7 +627,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
@@ -716,7 +729,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
 
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
@@ -785,18 +798,39 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 	-------------------*/
 
 	// データを書き込む
-	TransformationMatrix* instancingData = nullptr;
+	ParticleForGPU* instancingData = nullptr;
 	instancingResourcesParticle_->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
-	for (uint32_t i = 0; i < kNumInstance; i++)
+
+	// 描画できたパーティクルの数
+	uint32_t numInstance = 0;
+
+	for (uint32_t i = 0; i < kNumMaxInstance; i++)
 	{
+		// 寿命を超えたパーティクルは描画させない
+		if (particles_[i].currentTime >= particles_[i].lifeTime)
+			continue;
+
+		// 徐々に透明にさせる
+		float alpha = 1.0f - (particles_[i].currentTime / particles_[i].lifeTime);
+
+		// 時間をカウントする
+		particles_[i].currentTime += kDeltaTime;
+
 		// 移動させる
 		particles_[i].transform.translation += particles_[i].velocity * kDeltaTime;
 
-		instancingData[i].worldViewProjection =
-			Multiply(MakeAffineMatrix(particles_[i].transform.scale, particles_[i].transform.rotation, particles_[i].transform.translation),
-				Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+		// ワールド行列
+		Matrix4x4 worldMatrix = MakeAffineMatrix(particles_[i].transform.scale, particles_[i].transform.rotation, particles_[i].transform.translation);
 
-		instancingData[i].world = MakeAffineMatrix(particles_[i].transform.scale, particles_[i].transform.rotation, particles_[i].transform.translation);
+
+		// データを書き込む
+		instancingData[numInstance].worldViewProjection = Multiply(worldMatrix,Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+		instancingData[numInstance].world = worldMatrix;
+		instancingData[numInstance].color = particles_[i].color;
+		instancingData[numInstance].color.w = alpha;	
+
+		// 描画できたからカウントする
+		numInstance++;
 	}
 
 
@@ -806,7 +840,7 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	posParticle_->CommandListSet(commandList_);
+	psoParticle_[useParticleBlendMode_]->CommandListSet(commandList_);
 
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
@@ -824,7 +858,7 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 	textureStore_->SelectTexture(commandList_, modelDataStore_->GetTextureHandle(modelHandle));
 
 	// 描画する
-	commandList_->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), kNumInstance, 0, 0);
+	commandList_->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), numInstance, 0, 0);
 }
 
 /// <summary>
@@ -921,7 +955,7 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const World
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);

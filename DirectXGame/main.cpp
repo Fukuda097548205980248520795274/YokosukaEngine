@@ -20,7 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	camera3d->Initialize(1280.0f , 720.0f);
 
 	// モデルハンドル
-	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/Suzanne" , "Suzanne.obj");
+	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/Particle" , "Particle.obj");
 
 
 	// メインループ
@@ -50,6 +50,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 		/// ↓ 描画処理ここから
 		/// 
+
 
 		yokosukaEngine->DrawParticle( camera3d, modelHandle, color);
 

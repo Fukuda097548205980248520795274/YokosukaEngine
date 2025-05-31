@@ -1,12 +1,13 @@
 #include "Particle.hlsli"
 
-// 座標変換の行列
-struct TransformationMatrix
+// パーティクル
+struct ParticleForGPU
 {
     float4x4 worldViewProjection;
     float4x4 world;
+    float4 color;
 };
-StructuredBuffer<TransformationMatrix> gTransformationMatrices : register(t0);
+StructuredBuffer<ParticleForGPU> gParticle : register(t0);
 
 // 入力された値
 struct VertexShaderInput
@@ -27,9 +28,9 @@ VertexShaderOutput main(VertexShaderInput input , uint instanceId : SV_InstanceI
     VertexShaderOutput output;
     
     // 同次クリップ空間に変換する
-    output.position = mul(input.position, gTransformationMatrices[instanceId].worldViewProjection);
+    output.position = mul(input.position, gParticle[instanceId].worldViewProjection);
     output.texcoord = input.texcoord;
-    output.normal = normalize(mul(input.normal, (float3x3) gTransformationMatrices[instanceId].world));
+    output.color = gParticle[instanceId].color;
     
     return output;
 }

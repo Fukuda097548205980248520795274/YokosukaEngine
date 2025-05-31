@@ -157,6 +157,21 @@
     <Filter Include="YokosukaEngine\Include\Draw\Particle">
       <UniqueIdentifier>{adb730a0-6ec8-4852-a470-d280d8b77eab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd">
+      <UniqueIdentifier>{36781d30-4d3d-486c-83e8-3596c79ab7a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNone">
+      <UniqueIdentifier>{bc1cff5c-4d4e-4503-8b5d-04b857449f41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendSubtract">
+      <UniqueIdentifier>{047cd924-44cb-44c1-9453-80a778531623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendMultiply">
+      <UniqueIdentifier>{fb6fb3fa-4147-44ee-9cf5-e1b491c88be0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen">
+      <UniqueIdentifier>{f591ef5d-f467-4308-a94e-8b620c409326}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -290,6 +305,21 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Draw\Particle\Particle.cpp">
       <Filter>YokosukaEngine\Include\Draw\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNone\ParticleBlendNone.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendNone</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendSubtract\ParticleBlendSubtract.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendSubtract</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendMultiply\ParticleBlendMultiply.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendMultiply</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen\ParticleBlendScreen.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -427,6 +457,21 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Draw\Particle\Particle.h">
       <Filter>YokosukaEngine\Include\Draw\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendNone\ParticleBlendNone.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendNone</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendSubtract\ParticleBlendSubtract.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendSubtract</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendMultiply\ParticleBlendMultiply.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendMultiply</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen\ParticleBlendScreen.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

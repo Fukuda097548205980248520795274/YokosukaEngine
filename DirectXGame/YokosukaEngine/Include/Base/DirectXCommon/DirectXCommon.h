@@ -26,7 +26,12 @@
 
 #include "../../Draw/Particle/Particle.h"
 #include "../../PipelineStateObject/Particle/BaseParticle.h"
+#include "../../PipelineStateObject/Particle/BlendNone/ParticleBlendNone.h"
 #include "../../PipelineStateObject/Particle/BlendNormal/ParticleBlendNormal.h"
+#include "../../PipelineStateObject/Particle/BlendAdd/ParticleBlendAdd.h"
+#include "../../PipelineStateObject/Particle/BlendSubtract/ParticleBlendSubtract.h"
+#include "../../PipelineStateObject/Particle/BlendMultiply/ParticleBlendMultiply.h"
+#include "../../PipelineStateObject/Particle/BlendScreen/ParticleBlendScreen.h"
 
 
 #include "../../Draw/VertexData/VertexData.h"
@@ -165,7 +170,13 @@ public:
 	/// ブレンドモードのSetter
 	/// </summary>
 	/// <param name="blendMode"></param>
-	void SetBlendMode(uint32_t blendMode) { useBlendMode_ = blendMode; }
+	void SetObject3dBlendMode(uint32_t blendMode) { useObject3dBlendMode_ = blendMode; }
+
+	/// <summary>
+	/// ブレンドモードのSetter
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetParticleBlendMode(uint32_t blendMode) { useParticleBlendMode_ = blendMode; }
 
 	/// <summary>
 	/// ディスクリプタヒープを生成する
@@ -370,10 +381,11 @@ private:
 
 	// Object3d用のPSO
 	BaseObject3d* psoObject3d_[kBlendModekCountOfBlendMode] = { nullptr };
-	uint32_t useBlendMode_ = kBlendModeNormal;
+	uint32_t useObject3dBlendMode_ = kBlendModeNormal;
 
 	// Particle用のPSO
-	BaseParticle* posParticle_ = nullptr;
+	BaseParticle* psoParticle_[kBlendModekCountOfBlendMode] = { nullptr };
+	uint32_t useParticleBlendMode_ = kBlendModeAdd;
 
 
 
@@ -468,7 +480,7 @@ private:
 	const float kDeltaTime = 1.0f / 60.0f;
 
 	// パーティクルの数
-	const uint32_t kNumInstance = 10;
+	const uint32_t kNumMaxInstance = 10;
 
 	// マテリアル用のリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceParticle_ = nullptr;
