@@ -197,6 +197,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		directionalLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
 		pointLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(PointLight));
+		spotLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(SpotLight));
 		cameraResourceSphere_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// モデル
@@ -204,6 +205,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		directionalLightResourceModel_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
 		pointLightResourceModel_[i] = CreateBufferResource(device_, sizeof(PointLight));
+		spotLightResourceModel_[i] = CreateBufferResource(device_, sizeof(SpotLight));
 		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// スプライト
@@ -491,7 +493,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 /// <param name="color"></param>
 void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 	const Camera3D* camera, uint32_t textureHandle, Vector4 color,
-	const DirectionalLight& directionalLight, const PointLight& pointLight)
+	const DirectionalLight& directionalLight, const PointLight& pointLight, const SpotLight& spotLight)
 {
 	/*-----------------
 	    インデックス
@@ -638,9 +640,17 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	// データを書き込む
 	PointLight* pointLightData = nullptr;
 	pointLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData));
-	pointLightData->color = pointLight.color;
-	pointLightData->position = pointLight.position;
-	pointLightData->intensity = pointLight.intensity;
+	*pointLightData = pointLight;
+
+
+	/*------------------
+	    スポットライト
+	------------------*/
+
+	// データを書き込む
+	SpotLight* spotLightData = nullptr;
+	spotLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData));
+	*spotLightData = spotLight;
 
 
 	/*-----------
@@ -682,6 +692,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	// 点光源用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(5, pointLightResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
+	// スポットライト用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(6, spotLightResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+
 	// カメラのCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
@@ -706,7 +719,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 /// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 	const Camera3D* camera, uint32_t modelHandle, Vector4 color,
-	const DirectionalLight& directionalLight, const PointLight& pointLight)
+	const DirectionalLight& directionalLight, const PointLight& pointLight, const SpotLight& spotLight)
 {
 
 	/*----------
@@ -770,11 +783,17 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	// データを書き込む
 	PointLight* pointLightData = nullptr;
 	pointLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData));
-	pointLightData->color = pointLight.color;
-	pointLightData->position = pointLight.position;
-	pointLightData->intensity = pointLight.intensity;
-	pointLightData->radius = pointLight.radius;
-	pointLightData->decay = pointLight.decay;
+	*pointLightData = pointLight;
+
+
+	/*------------------
+	    スポットライト
+	------------------*/
+
+	// データを書き込む
+	SpotLight* spotLightData = nullptr;
+	spotLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData));
+	*spotLightData = spotLight;
 
 
 	/*-----------
@@ -812,6 +831,9 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 
 	// 点光源用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(5, pointLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+	// スポットライトのCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(6, spotLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());

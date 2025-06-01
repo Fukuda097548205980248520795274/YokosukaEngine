@@ -116,18 +116,20 @@ public:
 	/// 球を描画する
 	/// </summary>
 	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, Vector4 color, const DirectionalLight& directionalLight, const PointLight& pointLight)
+		const Camera3D* camera, uint32_t textureHandle, Vector4 color,
+		const DirectionalLight& directionalLight, const PointLight& pointLight , const SpotLight& spotLight)
 	{
-		directXCommon_->DrawSphere(worldTransform, uvTransform, camera, textureHandle, color, directionalLight, pointLight);
+		directXCommon_->DrawSphere(worldTransform, uvTransform, camera, textureHandle, color, directionalLight, pointLight, spotLight);
 	}
 
 	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color, const DirectionalLight& directionalLight, const PointLight& pointLight)
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color,
+		const DirectionalLight& directionalLight, const PointLight& pointLight, const SpotLight& spotLight)
 	{
-		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color, directionalLight, pointLight);
+		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color, directionalLight, pointLight, spotLight);
 	}
 
 	/// <summary>

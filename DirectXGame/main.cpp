@@ -38,9 +38,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	PointLight pointLight;
 	pointLight.color = { 1.0f , 1.0f , 1.0f , 1.0f };
 	pointLight.position = { 0.0f , 2.0f , 0.0f };
-	pointLight.intensity = 1.0f;
+	pointLight.intensity = 0.0f;
 	pointLight.radius = 2.0f;
 	pointLight.decay = 1.0f;
+
+	// スポットライト
+	SpotLight spotLight;
+	spotLight.color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	spotLight.position = { 2.0f , 1.25f , 0.0f };
+	spotLight.distance = 7.0f;
+	spotLight.direction = Normalize({ -1.0f , -1.0f , 0.0f });
+	spotLight.intensity = 4.0f;
+	spotLight.decay = 2.0f;
+	spotLight.cosAngle = std::cos(std::numbers::pi_v<float> / 3.0f);
+	spotLight.fallofStart = 1.0f;
 
 	// モデル
 	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/terrain" , "terrain.obj");
@@ -63,11 +74,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ImGui::DragFloat3("translation", &worldTransform->translation_.x, 0.1f);
 		ImGui::DragFloat3("rotation", &worldTransform->rotation_.x, 0.01f);
 		ImGui::DragFloat3("scale", &worldTransform->scale_.x, 0.01f);
-		ImGui::ColorEdit4("lightColor", &pointLight.color.x);
-		ImGui::DragFloat3("lightPosition", &pointLight.position.x , -1.0f , 1.0f);
-		ImGui::DragFloat("lightIntensity", &pointLight.intensity, 0.1f);
-		ImGui::DragFloat("lightRadius", &pointLight.radius, 0.1f);
-		ImGui::DragFloat("lightDecay", &pointLight.decay, 0.01f);
+		ImGui::End();
+		
+		ImGui::Begin("PointLight");
+		ImGui::ColorEdit4("Color", &pointLight.color.x);
+		ImGui::DragFloat3("Position", &pointLight.position.x, -1.0f, 1.0f);
+		ImGui::DragFloat("Intensity", &pointLight.intensity, 0.1f);
+		ImGui::DragFloat("Radius", &pointLight.radius, 0.1f);
+		ImGui::DragFloat("Decay", &pointLight.decay, 0.01f);
+		ImGui::End();
+
+		ImGui::Begin("SpotLight");
+		ImGui::DragFloat3("position", &spotLight.position.x, 0.1f);
+		ImGui::DragFloat("intensity", &spotLight.intensity, 0.1f);
+		ImGui::DragFloat("decay", &spotLight.decay, 0.1f);
+		ImGui::DragFloat("cosAngle", &spotLight.cosAngle, 0.01f);
+		ImGui::DragFloat("distance", &spotLight.distance, 0.01f);
+		ImGui::DragFloat3("direction", &spotLight.direction.x, 0.01f);
+		ImGui::DragFloat("fallofStart", &spotLight.fallofStart, 0.01f);
 		ImGui::End();
 
 		ImGui::Begin("camera");
@@ -90,7 +114,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera3d, modelHandle, color , directionalLight, pointLight);
+		yokosukaEngine->DrawModel(worldTransform, uvTransform, camera3d, modelHandle, color , directionalLight, pointLight, spotLight);
 
 		///
 		/// ↑ 描画処理ここまで

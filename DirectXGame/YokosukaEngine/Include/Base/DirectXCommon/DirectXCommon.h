@@ -135,7 +135,7 @@ public:
 	/// <param name="color"></param>
 	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t textureHandle, Vector4 color, 
-		const DirectionalLight& directionalLight , const PointLight& pointLight);
+		const DirectionalLight& directionalLight , const PointLight& pointLight , const SpotLight& spotLight);
 
 	/// <summary>
 	/// モデルを描画する
@@ -146,7 +146,7 @@ public:
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,
-		const DirectionalLight& directionalLight, const PointLight& pointLight);
+		const DirectionalLight& directionalLight, const PointLight& pointLight, const SpotLight& spotLight);
 
 	/// <summary>
 	/// パーティクルを描画する
@@ -436,6 +436,9 @@ private:
 	// 点光源リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceSphere_[512] = { nullptr };
 
+	// スポットライトリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceSphere_[512] = { nullptr };
+
 	// カメラリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceSphere_[512] = { nullptr };
 
@@ -458,6 +461,9 @@ private:
 
 	// 点光源リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceModel_[512] = { nullptr };
+
+	// スポットライトリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceModel_[512] = { nullptr };
 
 	// カメラリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceModel_[512] = { nullptr };
