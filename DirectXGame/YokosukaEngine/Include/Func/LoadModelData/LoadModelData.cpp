@@ -79,6 +79,11 @@ ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileN
 	}
 
 
+	/*   ノードを解析する   */
+
+	modelData.rootNode = ReadNode(scene->mRootNode);
+
+
 	/*   マテリアルを解析する   */
 
 	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex)
@@ -95,4 +100,43 @@ ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileN
 
 
 	return modelData;
+}
+
+/// <summary>
+/// ノードを読む
+/// </summary>
+/// <param name="node"></param>
+/// <returns></returns>
+Node ReadNode(aiNode* node)
+{
+	Node result;
+
+	// ノードのローカル行列を取得
+	aiMatrix4x4 aiLocalMatrix = node->mTransformation;
+
+	// 列ベクトルを行ベクトルに転置
+	aiLocalMatrix.Transpose();
+
+	// 行列の値を渡す
+	for (uint32_t i = 0; i < 4; i++)
+	{
+		for (uint32_t j = 0; j < 4; j++)
+		{
+			result.localMatrix.m[i][j] = aiLocalMatrix[i][j];
+		}
+	}
+
+	// ノード名を格納
+	result.name = node->mName.C_Str();
+
+	// 子供の数だけを確保
+	result.children.resize(node->mNumChildren);
+
+	for (uint32_t childIndex = 0; childIndex < node->mNumChildren; ++childIndex)
+	{
+		// 再帰的に読み込んで階層構造を作っていく
+		result.children[childIndex] = ReadNode(node->mChildren[childIndex]);
+	}
+
+	return result;
 }

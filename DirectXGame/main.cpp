@@ -19,6 +19,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	WorldTransform* worldTransform = new WorldTransform();
 	worldTransform->Initialize();
 	worldTransform->scale_ = { 6.0f , 6.0f , 6.0f };
+	worldTransform->rotation_.y = float(std::numbers::pi);
 
 	// UVトランスフォーム
 	WorldTransform* uvTransform = new WorldTransform();
@@ -54,7 +55,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	spotLight.fallofStart = 1.0f;
 
 	// モデル
-	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/terrain" , "terrain.obj");
+	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/plane" , "plane.obj");
 
 
 	// メインループ
