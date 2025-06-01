@@ -8,24 +8,8 @@
 /// <returns></returns>
 ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileName)
 {
-	/*------------------------
-	    必要となる変数の宣言
-	------------------------*/
-
 	// 構築するモデルデータ
 	ModelData modelData;
-
-	// 位置（ローカル座標）
-	std::vector<Vector4> positions;
-
-	// 法線
-	std::vector<Vector3> normals;
-
-	// テクスチャ座標
-	std::vector<Vector2> texcoords;
-
-	// ファイルから読んだ1行を格納するもの
-	std::string line;
 
 
 	/*------------------
@@ -33,94 +17,82 @@ ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileN
 	------------------*/
 
 	// ファイルを開く
-	std::ifstream file(directoryPath + "/" + fileName);
-	assert(file.is_open());
+	Assimp::Importer importer;
+	std::string filePath = directoryPath + "/" + fileName;
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
+
+	// メッシュがないのは対応しない
+	assert(scene->HasMeshes());
 
 
-	/*--------------------------------------
-	    ファイルを読み、モデルデータを構築する
-	--------------------------------------*/
+	/*--------------------
+	    データを読み込む
+	--------------------*/
 
-	while (std::getline(file, line))
+	/*   メッシュを解析する   */
+
+	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
 	{
-		std::string identifier;
-		std::istringstream s(line);
 
-		// 先頭の識別子を読む
-		s >> identifier;
+		aiMesh* mesh = scene->mMeshes[meshIndex];
 
-		
-		/*   頂点情報を読む   */
+		// 法線がないMeshは今回は非対応
+		assert(mesh->HasNormals());
 
-		// 位置（ローカル座標）
-		if (identifier == "v")
+		// テクスチャ座標系がないMeshは非対応
+		assert(mesh->HasTextureCoords(0));
+
+
+		/*   フェイスを解析する   */
+
+		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex)
 		{
-			Vector4 position;
-			s >> position.x >> position.y >> position.z;
-			position.x *= -1.0f;
-			position.w = 1.0f;
-			positions.push_back(position);
-		}
-		else if (identifier == "vt")
-		{
-			// テクスチャ座標
-			Vector2 texcoord;
-			s >> texcoord.x >> texcoord.y;
-			texcoord.y = 1.0f - texcoord.y;
-			texcoords.push_back(texcoord);
-		}
-		else if (identifier == "vn")
-		{
-			// 法線
-			Vector3 normal;
-			s >> normal.x >> normal.y >> normal.z;
-			normal.x *= -1.0f;
+			aiFace& face = mesh->mFaces[faceIndex];
 
-			normals.push_back(normal);
-		}
-		else if (identifier == "f")
-		{
-			/*   三角形を作る   */
+			// 三角形のみサポート
+			assert(face.mNumIndices == 3);
 
-			VertexData triangle[3] = {};
 
-			// 面は三角形限定
-			for (uint32_t faceVertex = 0; faceVertex < 3; ++faceVertex)
+			/*   フェイスの中身（頂点）の解析を行う   */
+
+			for (uint32_t element = 0; element < face.mNumIndices; ++element)
 			{
-				std::string vertexDefinition;
-				s >> vertexDefinition;
+				uint32_t vertexIndex = face.mIndices[element];
+				aiVector3D& position = mesh->mVertices[vertexIndex];
+				aiVector3D& normal = mesh->mNormals[vertexIndex];
+				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
 
-				// 頂点の要素へのインデックスは「位置 /UV/法線」で格納されているので、分解してインデックスを取得する
-				std::istringstream v(vertexDefinition);
-				uint32_t elementIndices[3];
-				for (uint32_t element = 0; element < 3; ++element)
-				{
-					std::string index;
+				// 頂点
+				VertexData vertex;
+				vertex.position = { position.x , position.y , position.z , 1.0f };
+				vertex.normal = { normal.x , normal.y , normal.z };
+				vertex.texcoord = { texcoord.x , texcoord.y };
 
-					// 区切りでインデックスを読んでいく
-					std::getline(v, index, '/');
-					elementIndices[element] = std::stoi(index);
-				}
+				// 右手座標系 -> 左手座標系
+				vertex.position.x *= -1.0f;
+				vertex.normal.x *= -1.0f;
 
-				// 要素へのインデックスから、実際の要素の値を取得して、頂点を構築する
-				Vector4 position = positions[elementIndices[0] - 1];
-				Vector2 texcoord = texcoords[elementIndices[1] - 1];
-				Vector3 normal = normals[elementIndices[2] - 1];
-
-				triangle[faceVertex] = {position , texcoord , normal};
+				// 頂点を登録する
+				modelData.vertices.push_back(vertex);
 			}
-
-			modelData.vertices.push_back(triangle[2]);
-			modelData.vertices.push_back(triangle[1]);
-			modelData.vertices.push_back(triangle[0]);
-		}
-		else if (identifier == "mtllib")
-		{
-			std::string materialFileName;
-			s >> materialFileName;
-			modelData.material = LoadMtlFile(directoryPath, materialFileName);
 		}
 	}
+
+
+	/*   マテリアルを解析する   */
+
+	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex)
+	{
+		aiMaterial* material = scene->mMaterials[materialIndex];
+
+		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0)
+		{
+			aiString textureFilePath;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
+			modelData.material.textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
+		}
+	}
+
 
 	return modelData;
 }
