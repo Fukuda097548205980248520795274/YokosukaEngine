@@ -4,7 +4,9 @@
 #include "../../Math/Transform3D/Transform3D.h"
 #include "../../Math/Vector4/Vector4.h"
 #include "../../Math/Matrix4x4/Matrix4x4.h"
+#include "../../Math/AABB/AABB.h"
 
+// パーティクル
 struct Particle
 {
 	// トランスフォーム
@@ -23,6 +25,7 @@ struct Particle
 	float currentTime;
 };
 
+// GPUに送るパーティクルのデータ
 struct ParticleForGPU
 {
 	Matrix4x4 worldViewProjection;
@@ -30,6 +33,7 @@ struct ParticleForGPU
 	Vector4 color;
 };
 
+// 発生源
 struct Emitter
 {
 	// トランスフォーム
@@ -43,6 +47,16 @@ struct Emitter
 
 	// 発生頻度のための時間
 	float frequencyTime;
+};
+
+// 場
+struct Feild
+{
+	// 加速度
+	Vector3 acceleration;
+
+	// AABB
+	AABB area;
 };
 
 /// <summary>

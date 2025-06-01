@@ -172,6 +172,12 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen">
       <UniqueIdentifier>{f591ef5d-f467-4308-a94e-8b620c409326}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\AABB">
+      <UniqueIdentifier>{f1fde6df-22b7-43a5-9168-f5293c45b5d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Func\Collision">
+      <UniqueIdentifier>{6f8fbd5a-7514-402f-ab47-270658511e4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -320,6 +326,12 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen\ParticleBlendScreen.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Math\AABB\AABB.cpp">
+      <Filter>YokosukaEngine\Include\Math\AABB</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Func\Collision\Collision.cpp">
+      <Filter>YokosukaEngine\Include\Func\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -472,6 +484,12 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen\ParticleBlendScreen.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Math\AABB\AABB.h">
+      <Filter>YokosukaEngine\Include\Math\AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Func\Collision\Collision.h">
+      <Filter>YokosukaEngine\Include\Func\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

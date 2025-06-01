@@ -15,6 +15,7 @@
 #include "../../Func/LoadModelData/LoadModelData.h"
 #include "../OutputLog/OutputLog.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
+#include "../../Func/Collision/Collision.h"
 
 #include "../../PipelineStateObject/Object3d/BaseObject3d.h"
 #include "../../PipelineStateObject/Object3d/BlendNone/Object3dBlendNone.h"
@@ -517,5 +518,8 @@ private:
 
 	// エミッター
 	Emitter emitter_{};
+
+	// 場
+	Feild accelerationFeild_{};
 };
 

@@ -241,6 +241,11 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	emitter_.transform.scale = { 1.0f , 1.0f , 1.0f };
 	emitter_.transform.rotation = { 0.0f , 0.0f , 0.0f };
 	emitter_.transform.translation = { 0.0f , 0.0f , 0.0f };
+
+	// 場所
+	accelerationFeild_.acceleration = { 15.0f , 0.0f , 0.0f };
+	accelerationFeild_.area.min = { -1.0f , -1.0f , -1.0f };
+	accelerationFeild_.area.max = { 1.0f , 1.0f , 1.0f };
 }
 
 /// <summary>
@@ -940,6 +945,12 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 
 			// 時間をカウントする
 			(*particleIterator).currentTime += kDeltaTime;
+
+			// フィールドの範囲内で、加速度が上昇する
+			if (IsCollision(accelerationFeild_.area, (*particleIterator).transform.translation))
+			{
+				(*particleIterator).velocity += accelerationFeild_.acceleration * kDeltaTime;
+			}
 
 			// 移動させる
 			(*particleIterator).transform.translation += (*particleIterator).velocity * kDeltaTime;
