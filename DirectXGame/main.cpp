@@ -8,21 +8,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	yokosukaEngine->Initialize(1280, 720, "LE2A_11_フクダ_ソウワ");
 
 
-	/*--------------
-	    変数を作る
-	--------------*/
-
-	// 色
-	Vector4 color = { 1.0f , 1.0f , 1.0f , 1.0f };
-
-	// カメラ
-	Camera3D* camera3d = new Camera3D();
-	camera3d->Initialize(1280.0f , 720.0f);
-
-	// モデルハンドル
-	uint32_t modelHandle = yokosukaEngine->LoadModelData("./Resources/Models/Particle", "Particle.obj");
-
-
 	// メインループ
 	while (yokosukaEngine->ProcessMessage())
 	{
@@ -35,13 +20,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 		/// ↓ 更新処理ここから
 		/// 
-		
-		ImGui::Begin("camera");
-		ImGui::DragFloat3("translation", &camera3d->translation_.x, 0.1f);
-		ImGui::End();
-
-		// カメラ更新
-		camera3d->UpdateMatrix();
 
 		///
 		/// ↑ 更新処理ここまで
@@ -50,8 +28,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 		/// ↓ 描画処理ここから
 		/// 
-
-		yokosukaEngine->DrawParticle(camera3d, modelHandle, color);
 
 		///
 		/// ↑ 描画処理ここまで
@@ -63,8 +39,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 全てのキーの入力情報をコピーする
 		yokosukaEngine->CopyAllKeyInfo();
 	}
-
-	delete camera3d;
 
 
 	// エンジンの解放
