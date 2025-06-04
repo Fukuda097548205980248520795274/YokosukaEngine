@@ -1,55 +1,22 @@
 #pragma once
+#define NOMINMAX
 #include <wrl.h>
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
 #include <xaudio2.h>
 #include <fstream>
 #include <assert.h>
 #include <stdlib.h>
+#include <vector>
+#include "../../Func/String/String.h"
+
+#pragma comment(lib, "Mf.lib")
+#pragma comment(lib, "mfplat.lib")
+#pragma comment(lib, "Mfreadwrite.lib")
+#pragma comment(lib, "mfuuid.lib")
 #pragma comment(lib , "xaudio2.lib")
 
-// チャンクヘッダ
-typedef struct ChunkHeader
-{
-	// チャンク毎のID
-	char id[4];
-
-	// チャンクサイズ
-	int32_t size;
-
-}ChunkHeader;
-
-// RIFFヘッダチャンク
-typedef struct RiffHeader
-{
-	// "RIFF"
-	ChunkHeader chunk;
-
-	// "WAVE"
-	char type[4];
-
-}RiffHeader;
-
-// FMTチャンク
-typedef struct formatChunk
-{
-	// "fmt"
-	ChunkHeader chunk;
-
-	// 波形フォーマット
-	WAVEFORMATEX fmt;
-}formatChunk;
-
-// 音声データ
-typedef struct SoundData
-{
-	// 波形フォーマット
-	WAVEFORMATEX wfex;
-
-	// バッファの先頭アドレス
-	BYTE* pBuffer;
-
-	// バッファのサイズ
-	unsigned int bufferSize;
-}SoundData;
 
 class AudioStore
 {
@@ -76,7 +43,7 @@ public:
 	/// 指定したハンドルで音声データを再生する
 	/// </summary>
 	/// <param name="soundHandle"></param>
-	void SelectHandlePlayAudio(uint32_t soundHandle);
+	void SelectHandlePlayAudio(uint32_t soundHandle, float soundVolume);
 
 
 private:
@@ -86,19 +53,13 @@ private:
 	/// </summary>
 	/// <param name="fileName"></param>
 	/// <returns></returns>
-	SoundData SoundLoadWave(const std::string& fileName);
-
-	/// <summary>
-	/// 音声データを解放する
-	/// </summary>
-	/// <param name="soundData"></param>
-	void SoundUnload(SoundData* soundData);
+	void SoundLoadWave(const std::string& filePath);
 
 	/// <summary>
 	/// 音声を再生する
 	/// </summary>
 	/// <param name="soundData"></param>
-	void SoundPlayWave(const SoundData& soundData);
+	void SoundPlayWave(uint32_t index, float soundVolume);
 
 	// XAudio2
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2_ = nullptr;
@@ -109,8 +70,11 @@ private:
 	// ファイルパス
 	std::string filePath_[512];
 
-	// 音声データ
-	SoundData soundData_[512];
+	// フォーマット
+	WAVEFORMATEX* waveFormat_[512];
+
+
+	std::vector<BYTE> mediaData_[512];
 
 	// サウンドハンドル
 	uint32_t soundHandle_[512] = { 0 };

@@ -102,7 +102,7 @@ public:
 	/// 音声データを再生する
 	/// </summary>
 	/// <param name="soundHandle"></param>
-	void PlayerSoundData(uint32_t soundHandle) { audioStore_->SelectHandlePlayAudio(soundHandle); }
+	void PlayerSoundData(uint32_t soundHandle, float soundVolume) { audioStore_->SelectHandlePlayAudio(soundHandle , soundVolume); }
 
 	/// <summary>
 	/// 三角形を描画する

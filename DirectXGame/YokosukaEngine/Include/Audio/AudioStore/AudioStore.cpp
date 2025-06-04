@@ -5,13 +5,13 @@
 /// </summary>
 AudioStore::~AudioStore()
 {
-	xAudio2_.Reset();
-
-	// 音声データを消す
 	for (uint32_t i = 0; i < useNumSoundData_; i++)
 	{
-		SoundUnload(&soundData_[i]);
+		CoTaskMemFree(waveFormat_[i]);
 	}
+
+	MFShutdown();
+	xAudio2_.Reset();
 }
 
 /// <summary>
@@ -19,6 +19,8 @@ AudioStore::~AudioStore()
 /// </summary>
 void AudioStore::Initialize()
 {
+	MFStartup(MF_VERSION, MFSTARTUP_NOSOCKET);
+
 	// XAudio2を初期化する
 	HRESULT hr = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
 	assert(SUCCEEDED(hr));
@@ -33,132 +35,83 @@ void AudioStore::Initialize()
 /// </summary>
 /// <param name="fileName"></param>
 /// <returns></returns>
-SoundData AudioStore::SoundLoadWave(const std::string& fileName)
+void AudioStore::SoundLoadWave(const std::string& filePath)
 {
-	/*--------------------
-	    ファイルオープン
-	--------------------*/
-
-	// ファイル入力ストリームのインスタンス
-	std::ifstream file;
-
-	// .wavファイルをバイナリモードで開く
-	file.open(fileName.c_str(), std::ios_base::binary);
-	assert(file.is_open());
+	const std::wstring filePathW = ConvertString(filePath);
+	IMFSourceReader* pMFSourceReader{ nullptr };
+	MFCreateSourceReaderFromURL(filePathW.c_str(), NULL, &pMFSourceReader);
 
 
-	/*-----------------------
-	    .wavデータ読み込み
-	-----------------------*/
+	IMFMediaType* pMFMediaType{ nullptr };
+	MFCreateMediaType(&pMFMediaType);
+	pMFMediaType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
+	pMFMediaType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
+	pMFSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, nullptr, pMFMediaType);
 
-	// RIFFヘッダー読み込み
-	RiffHeader riff;
-	file.read((char*)&riff, sizeof(riff));
+	pMFMediaType->Release();
+	pMFMediaType = nullptr;
+	pMFSourceReader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, &pMFMediaType);
 
-	// ファイルがRIFFかチェック
-	if (strncmp(riff.chunk.id, "RIFF", 4) != 0)
+	MFCreateWaveFormatExFromMFMediaType(pMFMediaType, &waveFormat_[useNumSoundData_], nullptr);
+
+
+	while (true)
 	{
-		assert(false);
+		IMFSample* pMFSample{ nullptr };
+		DWORD dwStreamFlags{ 0 };
+		pMFSourceReader->ReadSample(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, nullptr, &dwStreamFlags, nullptr, &pMFSample);
+
+		if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
+		{
+			break;
+		}
+
+		IMFMediaBuffer* pMFMediaBuffer{ nullptr };
+		pMFSample->ConvertToContiguousBuffer(&pMFMediaBuffer);
+
+		BYTE* pBuffer{ nullptr };
+		DWORD cbCurrentLength{ 0 };
+		pMFMediaBuffer->Lock(&pBuffer, nullptr, &cbCurrentLength);
+
+		mediaData_[useNumSoundData_].resize(mediaData_[useNumSoundData_].size() + cbCurrentLength);
+		memcpy(mediaData_[useNumSoundData_].data() + mediaData_[useNumSoundData_].size() - cbCurrentLength, pBuffer, cbCurrentLength);
+
+		pMFMediaBuffer->Unlock();
+
+		pMFMediaBuffer->Release();
+		pMFSample->Release();
 	}
 
-	// タイプがWAVEかチェック
-	if (strncmp(riff.type, "WAVE", 4) != 0)
-	{
-		assert(false);
-	}
 
-
-	// FMTチャンクの読み込み
-	formatChunk format = {};
-
-	// チャンクヘッダーの確認
-	file.read((char*)&format, sizeof(ChunkHeader));
-	if (strncmp(format.chunk.id, "fmt ", 4) != 0)
-	{
-		assert(false);
-	}
-
-	// チャンク本体の読み込み
-	assert(format.chunk.size <= sizeof(format.fmt));
-	file.read((char*)&format.fmt, format.chunk.size);
-
-	
-	// Dataチャンクの読み込み
-	ChunkHeader data;
-	file.read((char*)&data, sizeof(data));
-
-	// JUNKチャンクを検出した場合
-	if (strncmp(data.id, "JUNK", 4) == 0)
-	{
-		// 読み取り位置をJUNKチャンクの終わりまで進める
-		file.seekg(data.size, std::ios_base::cur);
-
-		// 再読み込み
-		file.read((char*)&data, sizeof(data));
-	}
-
-	if (strncmp(data.id, "data", 4) != 0)
-	{
-		assert(false);
-	}
-
-	// Dataチャンクのデータ部（波形データ）の読み込み
-	char* pBuffer = new char[data.size];
-	file.read(pBuffer, data.size);
-
-	// Waveファイルを閉じる
-	file.close();
-
-
-	/*----------------------------
-	    読み込んだ音声データを返却
-	----------------------------*/
-
-	SoundData soundData = {};
-
-	soundData.wfex = format.fmt;
-	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
-	soundData.bufferSize = data.size;
-
-	return soundData;
-}
-
-/// <summary>
-/// 音声データを解放する
-/// </summary>
-/// <param name="soundData"></param>
-void AudioStore::SoundUnload(SoundData* soundData)
-{
-	// バッファのメモリ開放
-	delete[] soundData->pBuffer;
-
-	soundData->pBuffer = 0;
-	soundData->bufferSize = 0;
-	soundData->wfex = {};
+	pMFMediaType->Release();
+	pMFSourceReader->Release();
 }
 
 /// <summary>
 /// 音声を再生する
 /// </summary>
 /// <param name="soundData"></param>
-void AudioStore::SoundPlayWave(const SoundData& soundData)
+void AudioStore::SoundPlayWave(uint32_t index , float soundVolume)
 {
-	// 波形フォーマットを元にSourceVoiceを生成
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	HRESULT hr = xAudio2_->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
-	assert(SUCCEEDED(hr));
+	IXAudio2SourceVoice* pSourceVoice{ nullptr };
+	xAudio2_->CreateSourceVoice(&pSourceVoice, waveFormat_[index]);
 
-	// 再生する波形のデータの設定
-	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData.pBuffer;
-	buf.AudioBytes = soundData.bufferSize;
+	XAUDIO2_BUFFER buffer{ 0 };
+	buffer.pAudioData = mediaData_[index].data();
+	buffer.Flags = XAUDIO2_END_OF_STREAM;
+	buffer.AudioBytes = sizeof(BYTE) * static_cast<UINT32>( mediaData_[index].size());
+	pSourceVoice->SubmitSourceBuffer(&buffer);
 
-	// 波形データのサイズ
-	hr = pSourceVoice->SubmitSourceBuffer(&buf);
-	assert(SUCCEEDED(hr));
+	const float kMaxSoundVolume = 1.0f;
+	const float kMinSoundVolume = 0.0f;
 
-	hr = pSourceVoice->Start();
-	assert(SUCCEEDED(hr));
+	// 規格外の音にならぬようにする
+	soundVolume = std::max(kMinSoundVolume, soundVolume);
+	soundVolume = std::min(kMaxSoundVolume, soundVolume);
+
+	pSourceVoice->SetVolume(soundVolume);
+
+	pSourceVoice->Start(0);
 }
 
 /// <summary>
@@ -196,7 +149,7 @@ uint32_t AudioStore::GetSoundHandle(const std::string& filePath)
 	filePath_[useNumSoundData_] = filePath;
 
 	// 読み込む
-	soundData_[useNumSoundData_] = SoundLoadWave(filePath);
+	SoundLoadWave(filePath);
 
 	// 使用した音声データをカウントする
 	useNumSoundData_++;
@@ -208,13 +161,13 @@ uint32_t AudioStore::GetSoundHandle(const std::string& filePath)
 /// 指定したハンドルで音声データを流す
 /// </summary>
 /// <param name="soundHandle"></param>
-void AudioStore::SelectHandlePlayAudio(uint32_t soundHandle)
+void AudioStore::SelectHandlePlayAudio(uint32_t soundHandle, float soundVolume)
 {
 	for (uint32_t i = 0; i < useNumSoundData_; i++)
 	{
 		if (soundHandle == soundHandle_[i])
 		{
-			SoundPlayWave(soundData_[i]);
+			SoundPlayWave(i , soundVolume);
 
 			return;
 		}

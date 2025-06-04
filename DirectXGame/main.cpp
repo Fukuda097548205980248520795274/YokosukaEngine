@@ -49,9 +49,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	spotLight.position = { 0.0f , 10.0f , -10.0f };
 	spotLight.distance = 32.0f;
 
-
 	// モデル
-	uint32_t modelHandle = engine->LoadModelData("./Resources/Models/plane", "plane.gltf");
+	uint32_t modelHandle = engine->LoadModelData("./Resources/Models/UtahTeapot", "UtahTeapot.gltf");
+
+	// bgm
+	uint32_t soundHandle1 = engine->LoadSound("./Resources/Sounds/Bgm/oboreruKaiba.mp3");
+	uint32_t soundHandle2 = engine->LoadSound("./Resources/Sounds/Bgm/ZinroNoTameNoKomoriuta.mp3");
+	uint32_t soundHandle3 = engine->LoadSound("./Resources/Sounds/Bgm/oboreruKaiba.mp3");
+
+	engine->PlayerSoundData(soundHandle1 , 0.5f);
 
 
 	// メインループ
