@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	uint32_t soundHandle2 = engine->LoadSound("./Resources/Sounds/Bgm/ZinroNoTameNoKomoriuta.mp3");
 	uint32_t soundHandle3 = engine->LoadSound("./Resources/Sounds/Bgm/oboreruKaiba.mp3");
 
-	engine->PlayerSoundData(soundHandle1 , 0.5f);
+	engine->PlayerSoundData(soundHandle2 , 0.3f);
 
 
 	// メインループ
@@ -87,6 +87,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		worldTransform->UpdateWorldMatrix();
 		uvTransform->UpdateWorldMatrix();
+
+		if (engine->GetKeyTrigger(DIK_SPACE))
+		{
+			engine->PlayerSoundData(soundHandle3, 0.0f);
+		}
 
 		///
 		/// ↑ 更新処理ここまで

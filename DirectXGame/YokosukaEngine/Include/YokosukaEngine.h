@@ -236,6 +236,66 @@ public:
 	DebugCamera* GetDebugCameraInstance() { return debugCamera_; }
 
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="gamepadNumber"></param>
+	/// <returns></returns>
+	bool IsGamepadEnable(DWORD gamepadNumber) { return input_->IsGamepadEnable(gamepadNumber); }
+
+	/// <summary>
+	/// ゲームパッドのボタンの入力情報（Press）
+	/// </summary>
+	/// <param name="gamepadNumber">ゲームパッドの番号</param>
+	/// <param name="wButtons">指定のボタン</param>
+	/// <returns></returns>
+	bool GetGamepadButtonPress(DWORD gamepadNumber, DWORD wButtons) { return input_->GetGamepadButtonPress(gamepadNumber, wButtons); }
+
+	/// <summary>
+	/// ゲームパッドのボタンの入力情報（Press）
+	/// </summary>
+	/// <param name="gamepadNumber">ゲームパッドの番号</param>
+	/// <param name="wButtons">指定のボタン</param>
+	/// <returns></returns>
+	bool GetGamepadButtonTrigger(DWORD gamepadNumber, DWORD wButtons) { return input_->GetGamepadButtonTrigger(gamepadNumber, wButtons); }
+
+	/// <summary>
+	/// ゲームパッドのボタンの入力情報（Press）
+	/// </summary>
+	/// <param name="gamepadNumber">ゲームパッドの番号</param>
+	/// <param name="wButtons">指定のボタン</param>
+	/// <returns></returns>
+	bool GetGamepadButtonRelease(DWORD gamepadNumber, DWORD wButtons) { return input_->GetGamepadButtonRelease(gamepadNumber, wButtons); }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="gamepadNumber"></param>
+	/// <returns></returns>
+	Vector2 GetGamepadLeftStick(DWORD gamepadNumber) { return input_->GetGamepadLeftStick(gamepadNumber); }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="gamepadNumber"></param>
+	/// <returns></returns>
+	Vector2 GetGamepadRightStick(DWORD gamepadNumber) { return input_->GetGamepadRightStick(gamepadNumber); }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="gamepadNumber"></param>
+	/// <returns></returns>
+	float GetGamepadLeftTrigger(DWORD gamepadNumber) { return input_->GetGamepadLeftTrigger(gamepadNumber); }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="gamepadNumber"></param>
+	/// <returns></returns>
+	float GetGamepadRightTrigger(DWORD gamepadNumber) { return input_->GetGamepadRightTrigger(gamepadNumber); }
+
+
 private:
 
 	// 現在の時間
