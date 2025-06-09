@@ -221,6 +221,36 @@ bool Input::GetMouseRelease(uint32_t mouseButtonNumber)
 	return false;
 }
 
+
+/// <summary>
+/// マウスホイールが上回転したかどうか
+/// </summary>
+/// <returns></returns>
+bool Input::GetMouseWheelUp()
+{
+	if (static_cast<float>(mouseState_.lZ) > 0.0f)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+/// <summary>
+/// マウスホイールが下回転したかどうか
+/// </summary>
+/// <returns></returns>
+bool Input::GetMouseWheelDown()
+{
+	if (static_cast<float>(mouseState_.lZ) < 0.0f)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
 /// <summary>
 /// ゲームパッドが有効化を判断する
 /// </summary>

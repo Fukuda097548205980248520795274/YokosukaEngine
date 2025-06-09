@@ -47,6 +47,24 @@ Vector4 Transform(const Vector4& vector, const Matrix4x4& matrix)
 }
 
 /// <summary>
+/// 法線の座標変換
+/// </summary>
+/// <param name="vector"></param>
+/// <param name="matrix"></param>
+/// <returns></returns>
+Vector3 TransformNormal(const Vector3& vector, const Matrix4x4 matrix)
+{
+	// 座標変換したベクトル
+	Vector3 transform;
+
+	transform.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0];
+	transform.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1];
+	transform.z = vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2];
+
+	return transform;
+}
+
+/// <summary>
 /// 行列の積を求める
 /// </summary>
 /// <param name="m1">行列1</param>

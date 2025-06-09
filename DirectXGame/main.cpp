@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	uint32_t soundHandle2 = engine->LoadSound("./Resources/Sounds/Bgm/ZinroNoTameNoKomoriuta.mp3");
 	uint32_t soundHandle3 = engine->LoadSound("./Resources/Sounds/Bgm/oboreruKaiba.mp3");
 
-	engine->PlayerSoundData(soundHandle2 , 0.3f);
+	engine->PlayerSoundData(soundHandle1 , 0.5f);
 
 
 	// メインループ
@@ -77,20 +77,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ImGui::DragFloat3("rotation", &worldTransform->rotation_.x, 0.01f);
 		ImGui::End();
 
-		ImGui::Begin("Camera");
-		ImGui::DragFloat3("translation", &camera->translation_.x, 0.1f);
-		ImGui::DragFloat3("rotation", &camera->rotation_.x, 0.01f);
-		ImGui::End();
-
-
-		camera->UpdateMatrix();
+		engine->DebugCameraUpdate();
+		camera->UpdateDebugCameraData(engine->GetDebugCameraInstance());
 
 		worldTransform->UpdateWorldMatrix();
 		uvTransform->UpdateWorldMatrix();
 
 		if (engine->GetKeyTrigger(DIK_SPACE))
 		{
-			engine->PlayerSoundData(soundHandle3, 0.0f);
+			engine->PlayerSoundData(soundHandle2, 0.3f);
 		}
 
 		///

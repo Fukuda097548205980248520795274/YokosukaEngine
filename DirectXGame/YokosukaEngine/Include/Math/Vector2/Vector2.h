@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 // エンジン用の2次元ベクトル
 typedef struct Vector2
@@ -121,3 +122,17 @@ namespace
 	}
 
 }
+
+/// <summary>
+/// ベクトルの距離を求める
+/// </summary>
+/// <param name="vector">ベクトル</param>
+/// <returns></returns>
+float Length(const Vector2& vector);
+
+/// <summary>
+/// 正規化する
+/// </summary>
+/// <param name="vector">ベクトル</param>
+/// <returns></returns>
+Vector2 Normalize(const Vector2& vector);

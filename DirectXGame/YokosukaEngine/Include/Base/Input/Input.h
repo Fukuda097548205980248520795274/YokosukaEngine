@@ -74,7 +74,25 @@ public:
 	/// マウスの移動量のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetMouseVelocity() { return mouseVelocity_; }
+	Vector2 GetMouseVelocity() { return Vector2{ mouseVelocity_.x , mouseVelocity_.y }; }
+
+	/// <summary>
+	/// マウスホイールが上回転したかどうか
+	/// </summary>
+	/// <returns></returns>
+	bool GetMouseWheelUp();
+
+	/// <summary>
+	/// マウスホイールが下回転したかどうか
+	/// </summary>
+	/// <returns></returns>
+	bool GetMouseWheelDown();
+
+	/// <summary>
+	/// マウスホイールの移動量のGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetMouseWheelVelocity() { return mouseVelocity_.z; }
 
 	/// <summary>
 	/// ゲームパッドが有効化を判断する

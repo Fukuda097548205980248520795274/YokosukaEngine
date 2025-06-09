@@ -27,6 +27,14 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
 Vector4 Transform(const Vector4& vector, const Matrix4x4& matrix);
 
 /// <summary>
+/// 法線の座標変換
+/// </summary>
+/// <param name="vector"></param>
+/// <param name="matrix"></param>
+/// <returns></returns>
+Vector3 TransformNormal(const Vector3& vector, const Matrix4x4 matrix);
+
+/// <summary>
 /// 行列の積を求める
 /// </summary>
 /// <param name="m1">行列1</param>

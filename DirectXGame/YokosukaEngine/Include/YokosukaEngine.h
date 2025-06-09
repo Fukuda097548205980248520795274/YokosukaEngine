@@ -222,12 +222,30 @@ public:
 	/// マウスの移動量のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetMouseVelocity() { return input_->GetMouseVelocity(); }
+	Vector2 GetMouseVelocity() { return input_->GetMouseVelocity(); }
+
+	/// <summary>
+	/// マウスホイールが上回転しているかどうか
+	/// </summary>
+	/// <returns></returns>
+	bool GetMouseWheelUp() { return input_->GetMouseWheelUp(); }
+
+	/// <summary>
+	/// マウスホイールが下回転しているかどうか
+	/// </summary>
+	/// <returns></returns>
+	bool GetMouseWheelDown() { return input_->GetMouseWheelDown(); }
 
 	/// <summary>
 	/// デバッグカメラを更新する
 	/// </summary>
 	void DebugCameraUpdate() { debugCamera_->Update(); }
+
+	/// <summary>
+	/// マウスホイールの移動量のGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetMouseWheelVelocity() { return input_->GetMouseWheelVelocity(); }
 	
 	/// <summary>
 	/// デバッグカメラのインスタンスを初期化する
