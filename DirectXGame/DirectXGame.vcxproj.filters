@@ -199,12 +199,6 @@
     <Filter Include="YokosukaEngine\Include\Transform\UvTransform">
       <UniqueIdentifier>{c67260fd-7ab3-4043-9756-0f3500a5400d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object">
-      <UniqueIdentifier>{d6d195ba-7663-4039-b2f9-3fa64ebe61ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Sprite">
-      <UniqueIdentifier>{5deb49f5-ee89-4d9b-9fe5-0dc80f578dd6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -374,12 +368,6 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.cpp">
       <Filter>YokosukaEngine\Include\Transform\UvTransform</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Object\Object.cpp">
-      <Filter>Game\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Sprite\Sprite.cpp">
-      <Filter>Game\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -553,12 +541,6 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.h">
       <Filter>YokosukaEngine\Include\Transform\UvTransform</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Object\Object.h">
-      <Filter>Game\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Sprite\Sprite.h">
-      <Filter>Game\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -41,18 +41,6 @@ void Game::Initialize(const YokosukaEngine* engine)
 #endif
 
 
-	
-	// オブジェクトの生成と初期化
-	object_ = std::make_unique<Object>();
-	object_->Initialize(engine_, camera3d_.get());
-
-	// スプライトの生成と初期化
-	sprite_ = std::make_unique<Sprite>();
-	sprite_->Initialize(engine_, camera2d_.get());
-
-	// 音源
-	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Scream_A10.mp3");
-	engine_->PlayerSoundData(soundHandle_, 0.3f);
 }
 
 /// <summary>
@@ -100,11 +88,7 @@ void Game::Update()
 
 
 
-	// オブジェクト更新
-	object_->Update();
 
-	// スプライトの更新
-	sprite_->Update();
 }
 
 /// <summary>
@@ -123,9 +107,5 @@ void Game::Draw()
 
 #endif
 
-	// オブジェクト描画
-	object_->Draw();
-
-	// スプライトの描画
-	sprite_->Draw();
+	
 }

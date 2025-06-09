@@ -1,8 +1,6 @@
 #pragma once
 #include "../YokosukaEngine/Include/YokosukaEngine.h"
 #include "GameCamera/GameCamera.h"
-#include "Object/Object.h"
-#include "Sprite/Sprite.h"
 
 class Game
 {
@@ -54,16 +52,9 @@ private:
 
 
 	/*-------------------
-	    ゲームで使用する
+		ゲームで使用する
 	-------------------*/
 
-	// オブジェクト
-	std::unique_ptr<Object> object_ = nullptr;
 
-	// スプライト
-	std::unique_ptr<Sprite> sprite_ = nullptr;
 
-	// 音源
-	uint32_t soundHandle_ = 0;
 };
-
