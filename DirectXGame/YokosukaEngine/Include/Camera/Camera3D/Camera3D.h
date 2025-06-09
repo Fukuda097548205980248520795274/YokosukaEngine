@@ -48,6 +48,13 @@ public:
 	/// <param name="debugCamera"></param>
 	void UpdateDebugCameraData(const DebugCamera* debugCamera);
 
+	/// <summary>
+	/// 別のカメラの値で更新する
+	/// </summary>
+	/// <param name="otherCamera"></param>
+	void UpdateOthersCameraData(const Camera3D* otherCamera);
+
+
 	// 拡縮
 	Vector3 scale_{};
 

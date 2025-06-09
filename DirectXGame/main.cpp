@@ -1,4 +1,5 @@
 #include "YokosukaEngine/Include/YokosukaEngine.h"
+#include "Game/Game.h"
 
 // Windowsアプリでのエントリーポイント（main関数）
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -7,46 +8,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	YokosukaEngine* engine = new YokosukaEngine();
 	engine->Initialize(1280, 720, "LE2A_11_フクダ_ソウワ");
 
-
-	/*----------------
-	    変数を作る
-	----------------*/
-
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform = std::make_unique<WorldTransform>();
-	worldTransform->Initialize();
-
-	//  UVトランスフォーム
-	std::unique_ptr<WorldTransform> uvTransform = std::make_unique<WorldTransform>();
-	uvTransform->Initialize();
-
-	// カメラ
-	std::unique_ptr<Camera3D> camera = std::make_unique<Camera3D>();
-	camera->Initialize(1280.0f , 720.0f);
-
-	// 平行光源
-	std::unique_ptr<DirectionalLight> directionalLight = std::make_unique<DirectionalLight>();
-	directionalLight->Initialize();
-	directionalLight->intensity_ = 0.0f;
-
-	// ポイントライト
-	std::unique_ptr<PointLight> pointLight = std::make_unique<PointLight>();
-	pointLight->Initialize();
-	pointLight->intensity_ = 0.0f;
-
-	// スポットライト
-	std::unique_ptr<SpotLight> spotLight = std::make_unique<SpotLight>();
-	spotLight->Initialize();
-
-	// モデル
-	uint32_t modelHandle = engine->LoadModelData("./Resources/Models/terrain", "terrain.obj");
-
-	// bgm
-	uint32_t soundHandle1 = engine->LoadSound("./Resources/Sounds/Bgm/oboreruKaiba.mp3");
-	uint32_t soundHandle2 = engine->LoadSound("./Resources/Sounds/Bgm/ZinroNoTameNoKomoriuta.mp3");
-	uint32_t soundHandle3 = engine->LoadSound("./Resources/Sounds/Bgm/oboreruKaiba.mp3");
-
-	engine->PlayerSoundData(soundHandle1 , 0.5f);
+	// ゲームインスタンスの生成と初期化
+	Game* game = new Game();
+	game->Initialize(engine);
 
 
 	// メインループ
@@ -62,20 +26,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 更新処理ここから
 		/// 
 
-		ImGui::Begin("spotLight");
-		ImGui::DragFloat3("position", &spotLight->position_.x, 0.01f);
-		ImGui::End();
-
-		engine->DebugCameraUpdate();
-		camera->UpdateDebugCameraData(engine->GetDebugCameraInstance());
-
-		worldTransform->UpdateWorldMatrix();
-		uvTransform->UpdateWorldMatrix();
-
-		if (engine->GetKeyTrigger(DIK_SPACE))
-		{
-			engine->PlayerSoundData(soundHandle2, 0.3f);
-		}
+		// ゲームの更新
+		game->Update();
 
 		///
 		/// ↑ 更新処理ここまで
@@ -85,8 +37,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 描画処理ここから
 		/// 
 
-		engine->DrawModel(worldTransform.get(), uvTransform.get(), camera.get(), modelHandle, { 1.0f , 1.0f , 1.0f , 1.0f },
-			directionalLight.get(), pointLight.get(), spotLight.get());
+		// ゲームの描画
+		game->Draw();
 
 		///
 		/// ↑ 描画処理ここまで
@@ -99,9 +51,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		engine->CopyAllKeyInfo();
 	}
 
+	// ゲームの解放
+	delete game;
+	game = nullptr;
 
 	// エンジンの解放
 	delete engine;
+	engine = nullptr;
 
 	return 0;
 }

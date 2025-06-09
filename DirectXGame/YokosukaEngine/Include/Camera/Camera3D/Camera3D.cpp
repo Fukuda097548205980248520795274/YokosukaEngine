@@ -85,3 +85,23 @@ void Camera3D::UpdateDebugCameraData(const DebugCamera* debugCamera)
 	// 射影行列
 	projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, aspectRatio_, nearClip_, farClip_);
 }
+
+/// <summary>
+/// 別のカメラの値で更新する
+/// </summary>
+	/// <param name="otherCamera"></param>
+void Camera3D::UpdateOthersCameraData(const Camera3D* otherCamera)
+{
+	// nullptrチェック
+	assert(otherCamera);
+
+	scale_ = otherCamera->scale_;
+	rotation_ = otherCamera->rotation_;
+	translation_ = otherCamera->translation_;
+
+	// ビュー行列
+	viewMatrix_ = MakeInverseMatrix(MakeAffineMatrix(scale_, rotation_, translation_));
+
+	// 射影行列
+	projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, aspectRatio_, nearClip_, farClip_);
+}

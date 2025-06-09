@@ -81,7 +81,7 @@ public:
 	/// </summary>
 	/// <param name="filePath">ファイルパス</param>
 	/// <returns></returns>
-	uint32_t LoadTexture(const std::string& filePath) { return directXCommon_->LoadTexture(filePath); }
+	uint32_t LoadTexture(const std::string& filePath) const { return directXCommon_->LoadTexture(filePath); }
 
 	/// <summary>
 	/// モデルデータを読み込む
@@ -89,25 +89,26 @@ public:
 	/// <param name="directory"></param>
 	/// <param name="fileName"></param>
 	/// <returns></returns>
-	uint32_t LoadModelData(const std::string& directory, const std::string& fileName) { return directXCommon_->LoadModelData(directory, fileName); }
+	uint32_t LoadModelData(const std::string& directory, const std::string& fileName) const { return directXCommon_->LoadModelData(directory, fileName); }
 
 	/// <summary>
 	/// 音声データを読み込む
 	/// </summary>
 	/// <param name="filePath"></param>
 	/// <returns></returns>
-	uint32_t LoadSound(const std::string& filePath) { return audioStore_->GetSoundHandle(filePath); }
+	uint32_t LoadSound(const std::string& filePath) const { return audioStore_->GetSoundHandle(filePath); }
 
 	/// <summary>
 	/// 音声データを再生する
 	/// </summary>
 	/// <param name="soundHandle"></param>
-	void PlayerSoundData(uint32_t soundHandle, float soundVolume) { audioStore_->SelectHandlePlayAudio(soundHandle , soundVolume); }
+	void PlayerSoundData(uint32_t soundHandle, float soundVolume) const { audioStore_->SelectHandlePlayAudio(soundHandle , soundVolume); }
 
 	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
-	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera3D* camera, uint32_t textureHandle, Vector4 color)
+	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+		const Camera3D* camera, uint32_t textureHandle, Vector4 color) const
 	{
 		directXCommon_->DrawTriangle(worldTransform, uvTransform, camera, textureHandle, color);
 	}
@@ -117,7 +118,7 @@ public:
 	/// </summary>
 	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t textureHandle, Vector4 color,
-		const DirectionalLight* directionalLight, const PointLight* pointLight , const SpotLight* spotLight)
+		const DirectionalLight* directionalLight, const PointLight* pointLight , const SpotLight* spotLight) const
 	{
 		directXCommon_->DrawSphere(worldTransform, uvTransform, camera, textureHandle, color, directionalLight, pointLight, spotLight);
 	}
@@ -127,7 +128,7 @@ public:
 	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color,
-		const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight)
+		const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight) const
 	{
 		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color, directionalLight, pointLight, spotLight);
 	}
@@ -138,7 +139,7 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="modelHandle"></param>
 	/// <param name="color"></param>
-	void DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color) { directXCommon_->DrawParticle(camera, modelHandle, color); }
+	void DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color) const { directXCommon_->DrawParticle(camera, modelHandle, color); }
 
 	/// <summary>
 	/// スプライトを描画する
@@ -148,7 +149,7 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="textureHandle"></param>
 	/// <param name="color"></param>
-	void DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color)
+	void DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color) const
 	{
 		directXCommon_->DrawSprite(worldTransform, uvTransform, camera, textureHandle, color);
 	}
@@ -157,101 +158,101 @@ public:
 	/// ブレンドモードを設定する
 	/// </summary>
 	/// <param name="blendMode"></param>
-	void SetObject3dBlendMode(BlendMode blendMode) { directXCommon_->SetObject3dBlendMode(static_cast<uint32_t>(blendMode)); }
+	void SetObject3dBlendMode(BlendMode blendMode) const { directXCommon_->SetObject3dBlendMode(static_cast<uint32_t>(blendMode)); }
 
 	/// <summary>
 	/// ブレンドモードを設定する
 	/// </summary>
 	/// <param name="blendMode"></param>
-	void SetParticleBlendMode(BlendMode blendMode) { directXCommon_->SetParticleBlendMode(static_cast<uint32_t>(blendMode)); }
+	void SetParticleBlendMode(BlendMode blendMode) const { directXCommon_->SetParticleBlendMode(static_cast<uint32_t>(blendMode)); }
 
 	/// <summary>
 	/// 全てのキーの入力情報を取得する
 	/// </summary>
 	/// <param name="keys"></param>
-	void CheckAllKeyInfo() { input_->CheckInputInfo(); }
+	void CheckAllKeyInfo() const { input_->CheckInputInfo(); }
 
 	/// <summary>
 	/// 全てのキーの入力情報をコピーする
 	/// </summary>
-	void CopyAllKeyInfo() { input_->CopyInputInfo(); }
+	void CopyAllKeyInfo() const { input_->CopyInputInfo(); }
 
 	/// <summary>
 	/// キー入力（Press）
 	/// </summary>
 	/// <param name="key">キー</param>
 	/// <returns></returns>
-	bool GetKeyPress(BYTE key) { return input_->GetKeyPress(key); }
+	bool GetKeyPress(BYTE key) const { return input_->GetKeyPress(key); }
 
 	/// <summary>
 	/// キー入力（Trigger）
 	/// </summary>
 	/// <param name="key">キー</param>
 	/// <returns></returns>
-	bool GetKeyTrigger(BYTE key) { return input_->GetKeyTrigger(key); }
+	bool GetKeyTrigger(BYTE key) const { return input_->GetKeyTrigger(key); }
 
 	/// <summary>
 	/// キー入力（Release）
 	/// </summary>
 	/// <param name="key">キー</param>
 	/// <returns></returns>
-	bool GetKeyRelease(BYTE key) { return input_->GetKeyRelease(key); }
+	bool GetKeyRelease(BYTE key) const { return input_->GetKeyRelease(key); }
 
 	/// <summary>
 	/// マウスボタン（Press）
 	/// </summary>
 	/// <param name=""></param>
 	/// <returns></returns>
-	bool GetMouseButtonPress(MouseButton mouseButton) { return input_->GetMousePress(static_cast<uint32_t>(mouseButton)); };
+	bool GetMouseButtonPress(MouseButton mouseButton) const { return input_->GetMousePress(static_cast<uint32_t>(mouseButton)); };
 
 	/// <summary>
 	/// マウスボタン（Trigger）
 	/// </summary>
 	/// <param name=""></param>
 	/// <returns></returns>
-	bool GetMouseButtonTrigger(MouseButton mouseButton) { return input_->GetMouseTrigger(static_cast<uint32_t>(mouseButton)); };
+	bool GetMouseButtonTrigger(MouseButton mouseButton) const { return input_->GetMouseTrigger(static_cast<uint32_t>(mouseButton)); };
 
 	/// <summary>
 	/// マウスボタン（Release）
 	/// </summary>
 	/// <param name=""></param>
 	/// <returns></returns>
-	bool GetMouseButtonRelease(MouseButton mouseButton) { return input_->GetMouseRelease(static_cast<uint32_t>(mouseButton)); };
+	bool GetMouseButtonRelease(MouseButton mouseButton) const { return input_->GetMouseRelease(static_cast<uint32_t>(mouseButton)); };
 
 	/// <summary>
 	/// マウスの移動量のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector2 GetMouseVelocity() { return input_->GetMouseVelocity(); }
+	Vector2 GetMouseVelocity() const { return input_->GetMouseVelocity(); }
 
 	/// <summary>
 	/// マウスホイールが上回転しているかどうか
 	/// </summary>
 	/// <returns></returns>
-	bool GetMouseWheelUp() { return input_->GetMouseWheelUp(); }
+	bool GetMouseWheelUp() const { return input_->GetMouseWheelUp(); }
 
 	/// <summary>
 	/// マウスホイールが下回転しているかどうか
 	/// </summary>
 	/// <returns></returns>
-	bool GetMouseWheelDown() { return input_->GetMouseWheelDown(); }
+	bool GetMouseWheelDown()  const { return input_->GetMouseWheelDown(); }
+
+	/// <summary>
+	/// マウスホイールの回転量のGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetMouseWheelVelocity() const { return input_->GetMouseWheelVelocity(); }
 
 	/// <summary>
 	/// デバッグカメラを更新する
 	/// </summary>
-	void DebugCameraUpdate() { debugCamera_->Update(); }
-
-	/// <summary>
-	/// マウスホイールの移動量のGetter
-	/// </summary>
-	/// <returns></returns>
-	float GetMouseWheelVelocity() { return input_->GetMouseWheelVelocity(); }
+	void DebugCameraUpdate() const { debugCamera_->Update(); }
 	
 	/// <summary>
 	/// デバッグカメラのインスタンスを初期化する
 	/// </summary>
 	/// <returns></returns>
-	DebugCamera* GetDebugCameraInstance() { return debugCamera_; }
+	DebugCamera* GetDebugCameraInstance() const { return debugCamera_; }
 
 
 	/// <summary>
@@ -259,7 +260,7 @@ public:
 	/// </summary>
 	/// <param name="gamepadNumber"></param>
 	/// <returns></returns>
-	bool IsGamepadEnable(DWORD gamepadNumber) { return input_->IsGamepadEnable(gamepadNumber); }
+	bool IsGamepadEnable(DWORD gamepadNumber) const { return input_->IsGamepadEnable(gamepadNumber); }
 
 	/// <summary>
 	/// ゲームパッドのボタンの入力情報（Press）
@@ -267,7 +268,7 @@ public:
 	/// <param name="gamepadNumber">ゲームパッドの番号</param>
 	/// <param name="wButtons">指定のボタン</param>
 	/// <returns></returns>
-	bool GetGamepadButtonPress(DWORD gamepadNumber, DWORD wButtons) { return input_->GetGamepadButtonPress(gamepadNumber, wButtons); }
+	bool GetGamepadButtonPress(DWORD gamepadNumber, DWORD wButtons) const { return input_->GetGamepadButtonPress(gamepadNumber, wButtons); }
 
 	/// <summary>
 	/// ゲームパッドのボタンの入力情報（Press）
@@ -275,7 +276,7 @@ public:
 	/// <param name="gamepadNumber">ゲームパッドの番号</param>
 	/// <param name="wButtons">指定のボタン</param>
 	/// <returns></returns>
-	bool GetGamepadButtonTrigger(DWORD gamepadNumber, DWORD wButtons) { return input_->GetGamepadButtonTrigger(gamepadNumber, wButtons); }
+	bool GetGamepadButtonTrigger(DWORD gamepadNumber, DWORD wButtons) const { return input_->GetGamepadButtonTrigger(gamepadNumber, wButtons); }
 
 	/// <summary>
 	/// ゲームパッドのボタンの入力情報（Press）
@@ -283,35 +284,35 @@ public:
 	/// <param name="gamepadNumber">ゲームパッドの番号</param>
 	/// <param name="wButtons">指定のボタン</param>
 	/// <returns></returns>
-	bool GetGamepadButtonRelease(DWORD gamepadNumber, DWORD wButtons) { return input_->GetGamepadButtonRelease(gamepadNumber, wButtons); }
+	bool GetGamepadButtonRelease(DWORD gamepadNumber, DWORD wButtons) const { return input_->GetGamepadButtonRelease(gamepadNumber, wButtons); }
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="gamepadNumber"></param>
 	/// <returns></returns>
-	Vector2 GetGamepadLeftStick(DWORD gamepadNumber) { return input_->GetGamepadLeftStick(gamepadNumber); }
+	Vector2 GetGamepadLeftStick(DWORD gamepadNumber) const { return input_->GetGamepadLeftStick(gamepadNumber); }
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="gamepadNumber"></param>
 	/// <returns></returns>
-	Vector2 GetGamepadRightStick(DWORD gamepadNumber) { return input_->GetGamepadRightStick(gamepadNumber); }
+	Vector2 GetGamepadRightStick(DWORD gamepadNumber) const { return input_->GetGamepadRightStick(gamepadNumber); }
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="gamepadNumber"></param>
 	/// <returns></returns>
-	float GetGamepadLeftTrigger(DWORD gamepadNumber) { return input_->GetGamepadLeftTrigger(gamepadNumber); }
+	float GetGamepadLeftTrigger(DWORD gamepadNumber) const { return input_->GetGamepadLeftTrigger(gamepadNumber); }
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="gamepadNumber"></param>
 	/// <returns></returns>
-	float GetGamepadRightTrigger(DWORD gamepadNumber) { return input_->GetGamepadRightTrigger(gamepadNumber); }
+	float GetGamepadRightTrigger(DWORD gamepadNumber) const { return input_->GetGamepadRightTrigger(gamepadNumber); }
 
 
 private:

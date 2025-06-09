@@ -187,6 +187,12 @@
     <Filter Include="YokosukaEngine\Include\Light\SpotLight">
       <UniqueIdentifier>{d0237a7e-8f34-4bad-a890-306b1c05ff5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{8805619e-f798-46ef-b3f5-19d33281b017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameCamera">
+      <UniqueIdentifier>{c7c33f08-9bfc-40f4-8497-7755ecc838f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -347,6 +353,12 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Light\PointLight\PointLight.cpp">
       <Filter>YokosukaEngine\Include\Light\PointLight</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameCamera\GameCamera.cpp">
+      <Filter>Game\GameCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -511,6 +523,12 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Light\PointLight\PointLight.h">
       <Filter>YokosukaEngine\Include\Light\PointLight</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameCamera\GameCamera.h">
+      <Filter>Game\GameCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
