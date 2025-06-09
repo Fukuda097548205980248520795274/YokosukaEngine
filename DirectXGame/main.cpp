@@ -25,32 +25,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	camera->Initialize(1280.0f , 720.0f);
 
 	// 平行光源
-	DirectionalLight directionalLight;
-	directionalLight.color = { 1.0f , 1.0f , 1.0f ,1.0f };
-	directionalLight.direction = Normalize({ 0.0f , -1.0f , 1.0f });
-	directionalLight.intensity = 1.0f;
+	std::unique_ptr<DirectionalLight> directionalLight = std::make_unique<DirectionalLight>();
+	directionalLight->Initialize();
+	directionalLight->intensity_ = 0.0f;
 
 	// ポイントライト
-	PointLight pointLight;
-	pointLight.intensity = 1.0f;
-	pointLight.color = { 1.0f , 1.0f , 1.0f , 1.0f };
-	pointLight.position = { -2.0f , 2.0f , 0.0f};
-	pointLight.radius = 32.0f;
-	pointLight.decay = 2.0f;
+	std::unique_ptr<PointLight> pointLight = std::make_unique<PointLight>();
+	pointLight->Initialize();
+	pointLight->intensity_ = 0.0f;
 
 	// スポットライト
-	SpotLight spotLight;
-	spotLight.intensity = 0.0f;
-	spotLight.color = { 1.0f , 1.0f , 1.0f , 1.0f };
-	spotLight.direction = { 0.0f , -1.0f , 0.0f };
-	spotLight.fallofStart = 0.0f;
-	spotLight.cosAngle = 2.0f;
-	spotLight.decay = 2.0f;
-	spotLight.position = { 0.0f , 10.0f , -10.0f };
-	spotLight.distance = 32.0f;
+	std::unique_ptr<SpotLight> spotLight = std::make_unique<SpotLight>();
+	spotLight->Initialize();
 
 	// モデル
-	uint32_t modelHandle = engine->LoadModelData("./Resources/Models/UtahTeapot", "UtahTeapot.gltf");
+	uint32_t modelHandle = engine->LoadModelData("./Resources/Models/terrain", "terrain.obj");
 
 	// bgm
 	uint32_t soundHandle1 = engine->LoadSound("./Resources/Sounds/Bgm/oboreruKaiba.mp3");
@@ -72,9 +61,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		///
 		/// ↓ 更新処理ここから
 		/// 
-		
-		ImGui::Begin("Plane");
-		ImGui::DragFloat3("rotation", &worldTransform->rotation_.x, 0.01f);
+
+		ImGui::Begin("spotLight");
+		ImGui::DragFloat3("position", &spotLight->position_.x, 0.01f);
 		ImGui::End();
 
 		engine->DebugCameraUpdate();
@@ -97,7 +86,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// 
 
 		engine->DrawModel(worldTransform.get(), uvTransform.get(), camera.get(), modelHandle, { 1.0f , 1.0f , 1.0f , 1.0f },
-			directionalLight, pointLight, spotLight);
+			directionalLight.get(), pointLight.get(), spotLight.get());
 
 		///
 		/// ↑ 描画処理ここまで

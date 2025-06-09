@@ -40,7 +40,10 @@
 #include "../../Draw/ModelDataStore/ModelDataStore.h"
 #include "../../Draw/Material/Material.h"
 #include "../../Draw/TransformationMatrix/TransformationMatrix.h"
+
 #include "../../Light/DirectionalLight/DirectionalLight.h"
+#include "../../Light/PointLight/PointLight.h"
+#include "../../Light/SpotLight/SpotLight.h"
 
 #pragma comment(lib , "d3d12.lib")
 #pragma comment(lib , "dxgi.lib")
@@ -127,7 +130,7 @@ public:
 		const Camera3D* camera, uint32_t textureHandle, Vector4 color);
 
 	/// <summary>
-	/// 球を表がする
+	/// 球を描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
 	/// <param name="uvTransform"></param>
@@ -136,7 +139,7 @@ public:
 	/// <param name="color"></param>
 	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t textureHandle, Vector4 color, 
-		const DirectionalLight& directionalLight , const PointLight& pointLight , const SpotLight& spotLight);
+		const DirectionalLight* directionalLight , const PointLight* pointLight , const SpotLight* spotLight);
 
 	/// <summary>
 	/// モデルを描画する
@@ -147,7 +150,7 @@ public:
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,
-		const DirectionalLight& directionalLight, const PointLight& pointLight, const SpotLight& spotLight);
+		const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight);
 
 	/// <summary>
 	/// パーティクルを描画する

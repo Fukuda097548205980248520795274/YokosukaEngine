@@ -188,24 +188,24 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		vertexBufferResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(VertexData) * 12);
 		MaterialResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		directionalLightResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
+		directionalLightResourceTriangularPyramid_[i] = CreateBufferResource(device_, sizeof(DirectionalLightForGPU));
 
 		// 球
 		indexResourceSphere_[i] = CreateBufferResource(device_, (kSubdivision * kSubdivision * 6) * sizeof(uint32_t));
 		vertexBufferResourceSphere_[i] = CreateBufferResource(device_, (kSubdivision * kSubdivision * 4) * sizeof(VertexData));
 		MaterialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		directionalLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
-		pointLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(PointLight));
-		spotLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(SpotLight));
+		directionalLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(DirectionalLightForGPU));
+		pointLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(PointLightFoirGPU));
+		spotLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(SpotLightForGPU));
 		cameraResourceSphere_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// モデル
 		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		directionalLightResourceModel_[i] = CreateBufferResource(device_, sizeof(DirectionalLight));
-		pointLightResourceModel_[i] = CreateBufferResource(device_, sizeof(PointLight));
-		spotLightResourceModel_[i] = CreateBufferResource(device_, sizeof(SpotLight));
+		directionalLightResourceModel_[i] = CreateBufferResource(device_, sizeof(DirectionalLightForGPU));
+		pointLightResourceModel_[i] = CreateBufferResource(device_, sizeof(PointLightFoirGPU));
+		spotLightResourceModel_[i] = CreateBufferResource(device_, sizeof(SpotLightForGPU));
 		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// スプライト
@@ -448,7 +448,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 	-------------*/
 
 	// データを書き込む
-	DirectionalLight* directionalLightData = nullptr;
+	DirectionalLightForGPU* directionalLightData = nullptr;
 	directionalLightResourceTriangularPyramid_[useNumResourceTriangularPyramid_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
 	directionalLightData->color = { 1.0f , 1.0f , 1.0f , 1.0f };
 	directionalLightData->direction = Normalize({ 0.0f , -1.0f , 0.0f });
@@ -498,7 +498,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 /// <param name="color"></param>
 void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 	const Camera3D* camera, uint32_t textureHandle, Vector4 color,
-	const DirectionalLight& directionalLight, const PointLight& pointLight, const SpotLight& spotLight)
+	const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight)
 {
 	/*-----------------
 	    インデックス
@@ -631,11 +631,11 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	-------------*/
 
 	// データを書き込む
-	DirectionalLight* directionalLightData = nullptr;
+	DirectionalLightForGPU* directionalLightData = nullptr;
 	directionalLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-	directionalLightData->color = directionalLight.color;
-	directionalLightData->direction = Normalize(directionalLight.direction);
-	directionalLightData->intensity = directionalLight.intensity;
+	directionalLightData->color = directionalLight->color_;
+	directionalLightData->direction = Normalize(directionalLight->direction_);
+	directionalLightData->intensity = directionalLight->intensity_;
 
 
 	/*------------
@@ -643,9 +643,13 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	------------*/
 
 	// データを書き込む
-	PointLight* pointLightData = nullptr;
+	PointLightFoirGPU* pointLightData = nullptr;
 	pointLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData));
-	*pointLightData = pointLight;
+	(*pointLightData).color = pointLight->color_;
+	(*pointLightData).position = pointLight->position_;
+	(*pointLightData).intensity = pointLight->intensity_;
+	(*pointLightData).radius = pointLight->radius_;
+	(*pointLightData).decay = pointLight->decay_;
 
 
 	/*------------------
@@ -653,9 +657,16 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 	------------------*/
 
 	// データを書き込む
-	SpotLight* spotLightData = nullptr;
+	SpotLightForGPU* spotLightData = nullptr;
 	spotLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData));
-	*spotLightData = spotLight;
+	(*spotLightData).color = spotLight->color_;
+	(*spotLightData).position = spotLight->position_;
+	(*spotLightData).direction = Normalize(spotLight->direction_);
+	(*spotLightData).intensity = spotLight->intensity_;
+	(*spotLightData).distance = spotLight->distance_;
+	(*spotLightData).decay = spotLight->decay_;
+	(*spotLightData).cosAngle = spotLight->cosAngle_;
+	(*spotLightData).fallofStart = spotLight->fallofStart_;
 
 
 	/*-----------
@@ -724,7 +735,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 /// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
 	const Camera3D* camera, uint32_t modelHandle, Vector4 color,
-	const DirectionalLight& directionalLight, const PointLight& pointLight, const SpotLight& spotLight)
+	const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight)
 {
 
 	/*----------
@@ -775,20 +786,24 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	-------------*/
 
 	// データを書き込む
-	DirectionalLight* directionalLightData = nullptr;
+	DirectionalLightForGPU* directionalLightData = nullptr;
 	directionalLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-	directionalLightData->color = directionalLight.color;
-	directionalLightData->direction = Normalize(directionalLight.direction);
-	directionalLightData->intensity = directionalLight.intensity;
+	directionalLightData->color = directionalLight->color_;
+	directionalLightData->direction = Normalize(directionalLight->direction_);
+	directionalLightData->intensity = directionalLight->intensity_;
 
 	/*------------
 		点光源
 	------------*/
 
 	// データを書き込む
-	PointLight* pointLightData = nullptr;
+	PointLightFoirGPU* pointLightData = nullptr;
 	pointLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData));
-	*pointLightData = pointLight;
+	(*pointLightData).color = pointLight->color_;
+	(*pointLightData).position = pointLight->position_;
+	(*pointLightData).intensity = pointLight->intensity_;
+	(*pointLightData).radius = pointLight->radius_;
+	(*pointLightData).decay = pointLight->decay_;
 
 
 	/*------------------
@@ -796,9 +811,16 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldT
 	------------------*/
 
 	// データを書き込む
-	SpotLight* spotLightData = nullptr;
+	SpotLightForGPU* spotLightData = nullptr;
 	spotLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData));
-	*spotLightData = spotLight;
+	(*spotLightData).color = spotLight->color_;
+	(*spotLightData).position = spotLight->position_;
+	(*spotLightData).direction = Normalize(spotLight->direction_);
+	(*spotLightData).intensity = spotLight->intensity_;
+	(*spotLightData).distance = spotLight->distance_;
+	(*spotLightData).decay = spotLight->decay_;
+	(*spotLightData).cosAngle = spotLight->cosAngle_;
+	(*spotLightData).fallofStart = spotLight->fallofStart_;
 
 
 	/*-----------

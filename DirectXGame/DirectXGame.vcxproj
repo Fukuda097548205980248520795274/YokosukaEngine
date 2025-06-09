@@ -128,6 +128,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\Particle\Particle.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Func\Collision\Collision.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Light\PointLight\PointLight.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Light\SpotLight\SpotLight.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\AABB\AABB.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BaseObject3d.cpp" />
@@ -182,6 +184,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\Particle\Particle.h" />
     <ClInclude Include="YokosukaEngine\Include\Func\Collision\Collision.h" />
+    <ClInclude Include="YokosukaEngine\Include\Light\PointLight\PointLight.h" />
+    <ClInclude Include="YokosukaEngine\Include\Light\SpotLight\SpotLight.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\AABB\AABB.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BaseObject3d.h" />

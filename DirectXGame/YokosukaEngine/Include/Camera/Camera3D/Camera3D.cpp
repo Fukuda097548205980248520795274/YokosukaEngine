@@ -75,9 +75,12 @@ void Camera3D::UpdateDebugCameraData(const DebugCamera* debugCamera)
 	// nullptrチェック
 	assert(debugCamera);
 	
+	scale_ = debugCamera->scale_;
+	rotation_ = debugCamera->rotation_;
+	translation_ = debugCamera->translation_;
 
 	// ビュー行列
-	viewMatrix_ = MakeInverseMatrix(MakeAffineMatrix(debugCamera->scale_, debugCamera->rotation_, debugCamera->translation_));
+	viewMatrix_ = MakeInverseMatrix(MakeAffineMatrix(scale_, rotation_, translation_));
 
 	// 射影行列
 	projectionMatrix_ = MakePerspectiveFovMatrix(fovY_, aspectRatio_, nearClip_, farClip_);

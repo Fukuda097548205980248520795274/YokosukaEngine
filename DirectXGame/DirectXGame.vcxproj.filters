@@ -181,6 +181,12 @@
     <Filter Include="YokosukaEngine\Include\Light\DirectionalLight">
       <UniqueIdentifier>{bfcf7414-fa9e-4787-aa27-ad425d97b641}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Light\PointLight">
+      <UniqueIdentifier>{e35e0be4-d6f7-4ba2-8bec-5ffd6bebf038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Light\SpotLight">
+      <UniqueIdentifier>{d0237a7e-8f34-4bad-a890-306b1c05ff5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -335,6 +341,12 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Func\Collision\Collision.cpp">
       <Filter>YokosukaEngine\Include\Func\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Light\SpotLight\SpotLight.cpp">
+      <Filter>YokosukaEngine\Include\Light\SpotLight</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Light\PointLight\PointLight.cpp">
+      <Filter>YokosukaEngine\Include\Light\PointLight</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -493,6 +505,12 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Func\Collision\Collision.h">
       <Filter>YokosukaEngine\Include\Func\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Light\SpotLight\SpotLight.h">
+      <Filter>YokosukaEngine\Include\Light\SpotLight</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Light\PointLight\PointLight.h">
+      <Filter>YokosukaEngine\Include\Light\PointLight</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
