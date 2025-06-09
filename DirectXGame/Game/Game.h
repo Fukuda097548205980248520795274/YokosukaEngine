@@ -45,7 +45,7 @@ private:
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
 	// UVトランスフォーム
-	std::unique_ptr<WorldTransform> uvTransform_ = nullptr;
+	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
 
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;
@@ -58,5 +58,9 @@ private:
 
 	// スポットライト
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
+
+
+	// 音源
+	uint32_t soundHandle_ = 0;
 };
 

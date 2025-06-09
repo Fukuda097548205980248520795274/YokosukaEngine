@@ -156,7 +156,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Math\Vector2\Vector2.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Vector3\Vector3.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Vector4\Vector4.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Transform\WorldTransform\WorldTransform.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendMultiply\ParticleBlendMultiply.cpp" />
@@ -215,7 +216,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Math\Vector2\Vector2.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Vector3\Vector3.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Vector4\Vector4.h" />
-    <ClInclude Include="YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h" />
+    <ClInclude Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.h" />
+    <ClInclude Include="YokosukaEngine\Include\Transform\WorldTransform\WorldTransform.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendMultiply\ParticleBlendMultiply.h" />

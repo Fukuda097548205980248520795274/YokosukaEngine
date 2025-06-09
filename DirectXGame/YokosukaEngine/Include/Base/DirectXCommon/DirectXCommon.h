@@ -8,13 +8,11 @@
 #include <list>
 #include <random>
 #include "../../Math/Vector4/Vector4.h"
-#include "../../Math/WorldTransform/WorldTransform.h"
 #include "../../Camera/Camera3D/Camera3D.h"
 #include "../../Camera/Camera2D/Camera2D.h"
 #include "../../Func/String/String.h"
 #include "../../Func/LoadModelData/LoadModelData.h"
 #include "../OutputLog/OutputLog.h"
-#include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
 #include "../../Func/Collision/Collision.h"
 
 #include "../../PipelineStateObject/Object3d/BaseObject3d.h"
@@ -26,6 +24,8 @@
 #include "../../PipelineStateObject/Object3d/BlendScreen/Object3dBlendScreen.h"
 
 #include "../../Draw/Particle/Particle.h"
+#include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
+
 #include "../../PipelineStateObject/Particle/BaseParticle.h"
 #include "../../PipelineStateObject/Particle/BlendNone/ParticleBlendNone.h"
 #include "../../PipelineStateObject/Particle/BlendNormal/ParticleBlendNormal.h"
@@ -33,6 +33,9 @@
 #include "../../PipelineStateObject/Particle/BlendSubtract/ParticleBlendSubtract.h"
 #include "../../PipelineStateObject/Particle/BlendMultiply/ParticleBlendMultiply.h"
 #include "../../PipelineStateObject/Particle/BlendScreen/ParticleBlendScreen.h"
+
+#include "../../Transform/WorldTransform/WorldTransform.h"
+#include "../../Transform/UvTransform/UvTransform.h"
 
 
 #include "../../Draw/VertexData/VertexData.h"
@@ -126,7 +129,7 @@ public:
 	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
-	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	void DrawTriangle(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t textureHandle, Vector4 color);
 
 	/// <summary>
@@ -137,7 +140,7 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="textureHandle"></param>
 	/// <param name="color"></param>
-	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t textureHandle, Vector4 color, 
 		const DirectionalLight* directionalLight , const PointLight* pointLight , const SpotLight* spotLight);
 
@@ -148,7 +151,7 @@ public:
 	/// <param name="uvTransform"></param>
 	/// <param name="camera"></param>
 	/// <param name="color"></param>
-	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,
 		const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight);
 
@@ -169,7 +172,7 @@ public:
 	/// <param name="camera">カメラ</param>
 	/// <param name="textureHandle">テクスチャハンドル</param>
 	/// <param name="color">色</param>
-	void DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	void DrawSprite(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera2D* camera, uint32_t textureHandle, Vector4 color);
 
 	/// <summary>

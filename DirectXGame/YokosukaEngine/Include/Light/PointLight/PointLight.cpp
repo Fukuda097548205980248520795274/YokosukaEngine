@@ -12,10 +12,10 @@ void PointLight::Initialize()
 	position_ = { 0.0f , 0.0f , 0.0f };
 
 	// 輝度
-	intensity_ = 1.0f;
+	intensity_ = 3.0f;
 
 	// ライトの届く距離
-	radius_ = 3.0f;
+	radius_ = 6.0f;
 
 	// 減衰率
 	decay_ = 10.0f;

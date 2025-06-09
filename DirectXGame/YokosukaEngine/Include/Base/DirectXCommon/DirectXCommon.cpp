@@ -338,7 +338,7 @@ void DirectXCommon::PostDraw()
 /// <summary>
 /// 三角形を描画する
 /// </summary>
-void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const WorldTransform* uvTransform, const Camera3D* camera ,
+void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const UvTransform* uvTransform, const Camera3D* camera ,
 	uint32_t textureHandle, Vector4 color)
 {
 	/*----------
@@ -496,7 +496,7 @@ void DirectXCommon::DrawTriangle(const WorldTransform* worldTransform , const Wo
 /// <param name="camera"></param>
 /// <param name="textureHandle"></param>
 /// <param name="color"></param>
-void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 	const Camera3D* camera, uint32_t textureHandle, Vector4 color,
 	const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight)
 {
@@ -733,7 +733,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const World
 /// <param name="camera">カメラ</param>
 /// <param name="modelHandle">モデルハンドル</param>
 /// <param name="color">色</param>
-void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 	const Camera3D* camera, uint32_t modelHandle, Vector4 color,
 	const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight)
 {
@@ -1032,7 +1032,7 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 /// <param name="camera">カメラ</param>
 /// <param name="textureHandle">テクスチャハンドル</param>
 /// <param name="color">色</param>
-void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 	const Camera2D* camera, uint32_t textureHandle, Vector4 color)
 {
 	/*-----------------

@@ -64,9 +64,6 @@
     <Filter Include="YokosukaEngine\Include\Math\Matrix4x4">
       <UniqueIdentifier>{dc3453f5-0e6c-41c4-957a-158b2c1790f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Math\WorldTransform">
-      <UniqueIdentifier>{708f4c9d-91e3-4c78-b894-63d0ea0d2985}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Draw">
       <UniqueIdentifier>{51abd248-96e2-4d67-9cf5-1866579b5f8a}</UniqueIdentifier>
     </Filter>
@@ -193,6 +190,15 @@
     <Filter Include="Game\GameCamera">
       <UniqueIdentifier>{c7c33f08-9bfc-40f4-8497-7755ecc838f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Transform">
+      <UniqueIdentifier>{dd26c87e-8376-41ef-bf0b-1ad025d0d7c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Transform\WorldTransform">
+      <UniqueIdentifier>{708f4c9d-91e3-4c78-b894-63d0ea0d2985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Transform\UvTransform">
+      <UniqueIdentifier>{c67260fd-7ab3-4043-9756-0f3500a5400d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -231,8 +237,8 @@
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.cpp">
       <Filter>YokosukaEngine\Include\Math\Matrix4x4</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Math\WorldTransform\WorldTransform.cpp">
-      <Filter>YokosukaEngine\Include\Math\WorldTransform</Filter>
+    <ClCompile Include="YokosukaEngine\Include\Transform\WorldTransform\WorldTransform.cpp">
+      <Filter>YokosukaEngine\Include\Transform\WorldTransform</Filter>
     </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui.cpp">
       <Filter>Externals\ImGui</Filter>
@@ -360,6 +366,9 @@
     <ClCompile Include="Game\GameCamera\GameCamera.cpp">
       <Filter>Game\GameCamera</Filter>
     </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.cpp">
+      <Filter>YokosukaEngine\Include\Transform\UvTransform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h">
@@ -398,8 +407,8 @@
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.h">
       <Filter>YokosukaEngine\Include\Math\Matrix4x4</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Math\WorldTransform\WorldTransform.h">
-      <Filter>YokosukaEngine\Include\Math\WorldTransform</Filter>
+    <ClInclude Include="YokosukaEngine\Include\Transform\WorldTransform\WorldTransform.h">
+      <Filter>YokosukaEngine\Include\Transform\WorldTransform</Filter>
     </ClInclude>
     <ClInclude Include="Externals\ImGui\imconfig.h">
       <Filter>Externals\ImGui</Filter>
@@ -529,6 +538,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameCamera\GameCamera.h">
       <Filter>Game\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.h">
+      <Filter>YokosukaEngine\Include\Transform\UvTransform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

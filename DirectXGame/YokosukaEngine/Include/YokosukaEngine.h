@@ -107,7 +107,7 @@ public:
 	/// <summary>
 	/// 三角形を描画する
 	/// </summary>
-	void DrawTriangle(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	void DrawTriangle(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t textureHandle, Vector4 color) const
 	{
 		directXCommon_->DrawTriangle(worldTransform, uvTransform, camera, textureHandle, color);
@@ -116,7 +116,7 @@ public:
 	/// <summary>
 	/// 球を描画する
 	/// </summary>
-	void DrawSphere(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t textureHandle, Vector4 color,
 		const DirectionalLight* directionalLight, const PointLight* pointLight , const SpotLight* spotLight) const
 	{
@@ -126,7 +126,7 @@ public:
 	/// <summary>
 	/// モデルを描画する
 	/// </summary>
-	void DrawModel(const WorldTransform* worldTransform, const WorldTransform* uvTransform,
+	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color,
 		const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight) const
 	{
@@ -149,7 +149,7 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="textureHandle"></param>
 	/// <param name="color"></param>
-	void DrawSprite(const WorldTransform* worldTransform, const WorldTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color) const
+	void DrawSprite(const WorldTransform* worldTransform, const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color) const
 	{
 		directXCommon_->DrawSprite(worldTransform, uvTransform, camera, textureHandle, color);
 	}
