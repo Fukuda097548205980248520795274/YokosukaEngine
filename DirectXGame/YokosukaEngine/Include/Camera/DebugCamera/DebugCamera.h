@@ -18,6 +18,11 @@ public:
 	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw();
+
 
 	// ローカル拡縮
 	Vector3 scale_ = { 1.0f , 1.0f , 1.0f };

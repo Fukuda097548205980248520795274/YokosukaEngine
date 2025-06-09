@@ -86,7 +86,4 @@ void DebugCamera::Update()
 		rotation_.x += rotationVelocity.y;
 		rotation_.y += rotationVelocity.x;
 	}
-
-
-	
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include "../YokosukaEngine/Include/YokosukaEngine.h"
 #include "GameCamera/GameCamera.h"
+#include "Object/Object.h"
+#include "Sprite/Sprite.h"
 
 class Game
 {
@@ -40,25 +42,26 @@ private:
 	// ゲームカメラ
 	std::unique_ptr<GameCamera> gameCamera_ = nullptr;
 
+	// デバッグカメラの表示
+#ifdef _DEBUG
 
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+	std::unique_ptr<WorldTransform> debugCameraWorldTransform_ = nullptr;
+	std::unique_ptr<UvTransform> debugCameraUvTransform_ = nullptr;
+	uint32_t debugCameraModelHandle_ = 0;
 
-	// UVトランスフォーム
-	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+#endif
 
-	// モデルハンドル
-	uint32_t modelHandle_ = 0;
 
-	// 平行光源
-	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 
-	// ポイントライト
-	std::unique_ptr<PointLight> pointLight_ = nullptr;
+	/*-------------------
+	    ゲームで使用する
+	-------------------*/
 
-	// スポットライト
-	std::unique_ptr<SpotLight> spotLight_ = nullptr;
+	// オブジェクト
+	std::unique_ptr<Object> object_ = nullptr;
 
+	// スプライト
+	std::unique_ptr<Sprite> sprite_ = nullptr;
 
 	// 音源
 	uint32_t soundHandle_ = 0;

@@ -25,34 +25,30 @@ void Game::Initialize(const YokosukaEngine* engine)
 	gameCamera_->Initialize(1280.0f , 720.0f);
 
 
-	// ワールドトランスフォームの生成と初期化
-	worldTransform_ = std::make_unique<WorldTransform>();
-	worldTransform_->Initialize();
-	worldTransform_->rotation_.y = float(std::numbers::pi);
+	// デバッグカメラの表示の初期化
+#ifdef _DEBUG
 
-	// UVトランスフォームの生成と初期化
-	uvTransform_ = std::make_unique<UvTransform>();
-	uvTransform_->Initialize();
+	debugCameraWorldTransform_ = std::make_unique<WorldTransform>();
+	debugCameraWorldTransform_->Initialize();
+	debugCameraWorldTransform_->scale_ = { 144.0f , 16.0f , 1.0f };
+	debugCameraWorldTransform_->translation_ = { 1280.0f - debugCameraWorldTransform_->scale_.x , debugCameraWorldTransform_->scale_.y , 0.0f };
 
-	// モデルを読み込む
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.gltf");
+	debugCameraUvTransform_ = std::make_unique<UvTransform>();
+	debugCameraUvTransform_->Initialize();
 
-	// 平行光源の生成と初期化
-	directionalLight_ = std::make_unique<DirectionalLight>();
-	directionalLight_->Initialize();
-	directionalLight_->intensity_ = 0.0f;
+	debugCameraModelHandle_ = engine_->LoadTexture("./Resources/Textures/DebugCameraOn.png");
 
-	// ポイントライトの生成と初期化
-	pointLight_ = std::make_unique<PointLight>();
-	pointLight_->Initialize();
-	pointLight_->position_ = { -1.0f , 1.0f , -1.0f };
-	pointLight_->intensity_ = 0.0f;
+#endif
 
-	// スポットライトの生成と初期化
-	spotLight_ = std::make_unique<SpotLight>();
-	spotLight_->Initialize();
-	spotLight_->position_ = { 0.0f , 5.0f , 0.0f };
 
+	
+	// オブジェクトの生成と初期化
+	object_ = std::make_unique<Object>();
+	object_->Initialize(engine_, camera3d_.get());
+
+	// スプライトの生成と初期化
+	sprite_ = std::make_unique<Sprite>();
+	sprite_->Initialize(engine_, camera2d_.get());
 
 	// 音源
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Scream_A10.mp3");
@@ -80,6 +76,9 @@ void Game::Update()
 		}
 	}
 
+	debugCameraWorldTransform_->UpdateWorldMatrix();
+	debugCameraUvTransform_->UpdateWorldMatrix();
+
 #endif
 
 	// カメラの値を渡して更新　ゲームカメラ
@@ -101,8 +100,11 @@ void Game::Update()
 
 
 
-	worldTransform_->UpdateWorldMatrix();
-	uvTransform_->UpdateWorldMatrix();
+	// オブジェクト更新
+	object_->Update();
+
+	// スプライトの更新
+	sprite_->Update();
 }
 
 /// <summary>
@@ -110,7 +112,20 @@ void Game::Update()
 /// </summary>
 void Game::Draw()
 {
-	// モデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f ,1.0f ,1.0f },
-		directionalLight_.get(), pointLight_.get(), spotLight_.get());
+	// デバッグカメラの表示
+#ifdef _DEBUG
+
+	if (isDebugCameraActive_)
+	{
+		engine_->DrawSprite(debugCameraWorldTransform_.get(), debugCameraUvTransform_.get(),
+			camera2d_.get(), debugCameraModelHandle_, { 1.0f , 1.0f , 1.0f ,1.0f });
+	}
+
+#endif
+
+	// オブジェクト描画
+	object_->Draw();
+
+	// スプライトの描画
+	sprite_->Draw();
 }
