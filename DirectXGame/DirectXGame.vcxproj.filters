@@ -97,9 +97,6 @@
     <Filter Include="YokosukaEngine\Include\Draw\WorldTransformationMatrix">
       <UniqueIdentifier>{9e0f4b29-8f78-4631-8b84-45bf8a593c3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Draw\DirectionalLight">
-      <UniqueIdentifier>{bfcf7414-fa9e-4787-aa27-ad425d97b641}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Func\LoadModelData">
       <UniqueIdentifier>{aaefeee9-b573-42b0-944a-bbb846a5daa5}</UniqueIdentifier>
     </Filter>
@@ -177,6 +174,12 @@
     </Filter>
     <Filter Include="YokosukaEngine\Include\Func\Collision">
       <UniqueIdentifier>{6f8fbd5a-7514-402f-ab47-270658511e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Light">
+      <UniqueIdentifier>{5dbb1ae0-aaf6-4aba-b688-77611cd3a83e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Light\DirectionalLight">
+      <UniqueIdentifier>{bfcf7414-fa9e-4787-aa27-ad425d97b641}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -261,8 +264,8 @@
     <ClCompile Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.cpp">
       <Filter>YokosukaEngine\Include\Draw\WorldTransformationMatrix</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.cpp">
-      <Filter>YokosukaEngine\Include\Draw\DirectionalLight</Filter>
+    <ClCompile Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.cpp">
+      <Filter>YokosukaEngine\Include\Light\DirectionalLight</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Func\LoadModelData\LoadModelData.cpp">
       <Filter>YokosukaEngine\Include\Func\LoadModelData</Filter>
@@ -419,8 +422,8 @@
     <ClInclude Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.h">
       <Filter>YokosukaEngine\Include\Draw\WorldTransformationMatrix</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.h">
-      <Filter>YokosukaEngine\Include\Draw\DirectionalLight</Filter>
+    <ClInclude Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.h">
+      <Filter>YokosukaEngine\Include\Light\DirectionalLight</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Func\LoadModelData\LoadModelData.h">
       <Filter>YokosukaEngine\Include\Func\LoadModelData</Filter>

@@ -40,7 +40,7 @@
 #include "../../Draw/ModelDataStore/ModelDataStore.h"
 #include "../../Draw/Material/Material.h"
 #include "../../Draw/TransformationMatrix/TransformationMatrix.h"
-#include "../../Draw/DirectionalLight/DirectionalLight.h"
+#include "../../Light/DirectionalLight/DirectionalLight.h"
 
 #pragma comment(lib , "d3d12.lib")
 #pragma comment(lib , "dxgi.lib")

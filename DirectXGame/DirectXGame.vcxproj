@@ -137,7 +137,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNormal\Object3dBlendNormal.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendScreen\Object3dBlendScreen.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendSubtract\Object3dBlendSubtract.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\Material\Material.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\ModelDataStore\ModelDataStore.cpp" />
@@ -191,7 +191,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNormal\Object3dBlendNormal.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendScreen\Object3dBlendScreen.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendSubtract\Object3dBlendSubtract.h" />
-    <ClInclude Include="YokosukaEngine\Include\Draw\DirectionalLight\DirectionalLight.h" />
+    <ClInclude Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\Material\Material.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\ModelDataStore\ModelDataStore.h" />
