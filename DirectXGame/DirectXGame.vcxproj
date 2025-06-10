@@ -134,6 +134,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Func\Collision\Collision.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Light\PointLight\PointLight.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Light\SpotLight\SpotLight.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendAdd\Line3dBlendAdd.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendMultiply\Line3dBlendMultiply.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNone\Line3dBlendNone.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen\Line3dBlendScreen.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendSubtract\Line3dBlendSubtract.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Shape\AABB\AABB.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BaseLine3d.cpp" />
@@ -198,6 +203,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Func\Collision\Collision.h" />
     <ClInclude Include="YokosukaEngine\Include\Light\PointLight\PointLight.h" />
     <ClInclude Include="YokosukaEngine\Include\Light\SpotLight\SpotLight.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendAdd\Line3dBlendAdd.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendMultiply\Line3dBlendMultiply.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNone\Line3dBlendNone.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen\Line3dBlendScreen.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendSubtract\Line3dBlendSubtract.h" />
     <ClInclude Include="YokosukaEngine\Include\Shape\AABB\AABB.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BaseLine3d.h" />

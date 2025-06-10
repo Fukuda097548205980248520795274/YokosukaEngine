@@ -220,6 +220,21 @@
     <Filter Include="YokosukaEngine\Include\ParticleEffect\Feild">
       <UniqueIdentifier>{85ff0990-6f27-4eb4-b894-8dbc83bb39e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNone">
+      <UniqueIdentifier>{dcda4814-3aeb-458b-8a94-6fb4c997a847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendAdd">
+      <UniqueIdentifier>{ec0845f1-1511-42b9-964c-68fba41595bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendSubtract">
+      <UniqueIdentifier>{3baf2808-7759-43ed-983d-127df81f0598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendMultiply">
+      <UniqueIdentifier>{edbed98e-69e1-406a-81a6-d38375ef2083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen">
+      <UniqueIdentifier>{8b1135a1-7d1b-42f7-8f84-6f03b0da6ebf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -404,6 +419,21 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\ParticleEffect\Feild\Feild.cpp">
       <Filter>YokosukaEngine\Include\ParticleEffect\Feild</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNone\Line3dBlendNone.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNone</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendAdd\Line3dBlendAdd.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendAdd</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendSubtract\Line3dBlendSubtract.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendSubtract</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendMultiply\Line3dBlendMultiply.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendMultiply</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen\Line3dBlendScreen.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -592,6 +622,21 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\ParticleEffect\Feild\Feild.h">
       <Filter>YokosukaEngine\Include\ParticleEffect\Feild</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNone\Line3dBlendNone.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNone</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendAdd\Line3dBlendAdd.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendAdd</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendSubtract\Line3dBlendSubtract.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendSubtract</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendMultiply\Line3dBlendMultiply.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendMultiply</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen\Line3dBlendScreen.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

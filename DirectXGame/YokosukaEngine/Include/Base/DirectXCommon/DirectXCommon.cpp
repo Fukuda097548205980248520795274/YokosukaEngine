@@ -11,13 +11,12 @@ DirectXCommon::~DirectXCommon()
 	ImGui_ImplDX12_Shutdown();
 	ImGui::DestroyContext();
 
-	delete posLine3d_;
-
 	// PSO
 	for (uint32_t i = 0; i < kBlendModekCountOfBlendMode; i++)
 	{
 		delete psoObject3d_[i];
 		delete psoParticle_[i];
+		delete psoLine3d_[i];
 	}
 
 	// DXC
@@ -158,8 +157,23 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	
 	// Line3d用のPSOの生成と初期化
-	posLine3d_ = new Line3dBlendNormal();
-	posLine3d_->Initialize(log_, dxc_, device_);
+	psoLine3d_[kBlendModeNone] = new Line3dBlendNone();
+	psoLine3d_[kBlendModeNone]->Initialize(log_, dxc_, device_);
+
+	psoLine3d_[kBlendModeNormal] = new Line3dBlendNormal();
+	psoLine3d_[kBlendModeNormal]->Initialize(log_, dxc_, device_);
+
+	psoLine3d_[kBlendModeAdd] = new Line3dBlendAdd();
+	psoLine3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_);
+
+	psoLine3d_[kBlendModeSubtract] = new Line3dBlendSubtract();
+	psoLine3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_);
+
+	psoLine3d_[kBlendModeMultiply] = new Line3dBlendMultiply();
+	psoLine3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_);
+
+	psoLine3d_[kBlendModeScreen] = new Line3dBlendScreen();
+	psoLine3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
 
 
 	// ビューポート
@@ -955,7 +969,7 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 	    コマンドを積む
 	------------------*/
 
-	posLine3d_->CommandListSet(commandList_);
+	psoLine3d_[useLine3dBlendMode_]->CommandListSet(commandList_);
 
 	// VBVを設定する
 	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);

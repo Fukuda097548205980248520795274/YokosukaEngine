@@ -188,6 +188,12 @@ public:
 	void SetParticleBlendMode(BlendMode blendMode) const { directXCommon_->SetParticleBlendMode(static_cast<uint32_t>(blendMode)); }
 
 	/// <summary>
+	/// ブレンドモードを設定する
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetLine3dBlendMode(BlendMode blendMode) const { directXCommon_->SetLine3dBlendMode(static_cast<uint32_t>(blendMode)); }
+
+	/// <summary>
 	/// 全てのキーの入力情報を取得する
 	/// </summary>
 	/// <param name="keys"></param>

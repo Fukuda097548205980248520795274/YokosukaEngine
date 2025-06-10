@@ -24,7 +24,12 @@
 #include "../../PipelineStateObject/Object3d/BlendScreen/Object3dBlendScreen.h"
 
 #include "../../PipelineStateObject/Line3d/BaseLine3d.h"
+#include "../../PipelineStateObject/Line3d/BlendNone/Line3dBlendNone.h"
 #include "../../PipelineStateObject/Line3d/BlendNormal/Line3dBlendNormal.h"
+#include "../../PipelineStateObject/Line3d/BlendAdd/Line3dBlendAdd.h"
+#include "../../PipelineStateObject/Line3d/BlendSubtract/Line3dBlendSubtract.h"
+#include "../../PipelineStateObject/Line3d/BlendMultiply/Line3dBlendMultiply.h"
+#include "../../PipelineStateObject/Line3d/BlendScreen/Line3dBlendScreen.h"
 
 #include "../../ParticleEffect/Particle/Particle.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
@@ -192,6 +197,12 @@ public:
 	/// </summary>
 	/// <param name="blendMode"></param>
 	void SetParticleBlendMode(uint32_t blendMode) { useParticleBlendMode_ = blendMode; }
+
+	/// <summary>
+	/// ブレンドモードのSetter
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetLine3dBlendMode(uint32_t blendMode) { useLine3dBlendMode_ = blendMode; }
 
 	/// <summary>
 	/// ディスクリプタヒープを生成する
@@ -403,7 +414,8 @@ private:
 	uint32_t useParticleBlendMode_ = kBlendModeAdd;
 
 	// Line3d用のPSO
-	BaseLine3d* posLine3d_ = nullptr;
+	BaseLine3d* psoLine3d_[kBlendModekCountOfBlendMode] = { nullptr };
+	uint32_t useLine3dBlendMode_ = kBlendModeNormal;
 
 
 
