@@ -1,5 +1,5 @@
 #pragma once
-#include "../Vector3/Vector3.h"
+#include "../../Math/Vector3/Vector3.h"
 
 struct AABB
 {

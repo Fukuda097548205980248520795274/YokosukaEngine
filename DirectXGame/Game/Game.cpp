@@ -14,15 +14,15 @@ void Game::Initialize(const YokosukaEngine* engine)
 
 	// 3Dカメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
-	camera3d_->Initialize(1280.0f , 720.0f);
+	camera3d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
 
 	// 2Dカメラの生成と初期化
 	camera2d_ = std::make_unique<Camera2D>();
-	camera2d_->Initialize(1280.0f , 720.0f);
+	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
 
 	// ゲームカメラの生成と初期化
 	gameCamera_ = std::make_unique<GameCamera>();
-	gameCamera_->Initialize(1280.0f , 720.0f);
+	gameCamera_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
 
 
 	// デバッグカメラの表示の初期化
@@ -31,7 +31,8 @@ void Game::Initialize(const YokosukaEngine* engine)
 	debugCameraWorldTransform_ = std::make_unique<WorldTransform>();
 	debugCameraWorldTransform_->Initialize();
 	debugCameraWorldTransform_->scale_ = { 144.0f , 16.0f , 1.0f };
-	debugCameraWorldTransform_->translation_ = { 1280.0f - debugCameraWorldTransform_->scale_.x , debugCameraWorldTransform_->scale_.y , 0.0f };
+	debugCameraWorldTransform_->translation_ = 
+	{ static_cast<float>(engine_->GetScreenWidth()) - debugCameraWorldTransform_->scale_.x , debugCameraWorldTransform_->scale_.y , 0.0f };
 
 	debugCameraUvTransform_ = std::make_unique<UvTransform>();
 	debugCameraUvTransform_->Initialize();
@@ -108,8 +109,6 @@ void Game::Update()
 	// 2Dカメラを更新
 	camera2d_->UpdateMatrix();
 
-
-
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();
@@ -134,6 +133,5 @@ void Game::Draw()
 
 #endif
 
-	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(),
-		modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f }, directionalLight_.get(), pointLight_.get(), spotLight_.get());
+	engine_->DrawParticle(camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f });
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Math/AABB/AABB.h"
+#include "../../Shape/AABB/AABB.h"
 #include "../../Math/Vector3/Vector3.h"
 
 /// <summary>

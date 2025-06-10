@@ -148,9 +148,6 @@
     <Filter Include="YokosukaEngine\Include\Math\Transform3D">
       <UniqueIdentifier>{661d76fa-774d-4f5f-99ba-421e5e1f6763}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Draw\Particle">
-      <UniqueIdentifier>{adb730a0-6ec8-4852-a470-d280d8b77eab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd">
       <UniqueIdentifier>{36781d30-4d3d-486c-83e8-3596c79ab7a5}</UniqueIdentifier>
     </Filter>
@@ -165,9 +162,6 @@
     </Filter>
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen">
       <UniqueIdentifier>{f591ef5d-f467-4308-a94e-8b620c409326}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="YokosukaEngine\Include\Math\AABB">
-      <UniqueIdentifier>{f1fde6df-22b7-43a5-9168-f5293c45b5d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="YokosukaEngine\Include\Func\Collision">
       <UniqueIdentifier>{6f8fbd5a-7514-402f-ab47-270658511e4b}</UniqueIdentifier>
@@ -204,6 +198,27 @@
     </Filter>
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal">
       <UniqueIdentifier>{4211becd-ef13-4b44-b6ac-74106777c565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Shape">
+      <UniqueIdentifier>{fdc25f05-c106-4c72-ba7e-1b8427b1fc4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Shape\AABB">
+      <UniqueIdentifier>{f1fde6df-22b7-43a5-9168-f5293c45b5d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Shape\Sphere">
+      <UniqueIdentifier>{f597cb5f-6f2e-4ff1-92d1-886941437032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\ParticleEffect">
+      <UniqueIdentifier>{3774c7a6-44ab-4d58-9a2d-3bc3c82b31e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\ParticleEffect\Particle">
+      <UniqueIdentifier>{adb730a0-6ec8-4852-a470-d280d8b77eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\ParticleEffect\Emitter">
+      <UniqueIdentifier>{02b13603-4d9f-4182-8c22-34b9400cbb85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\ParticleEffect\Feild">
+      <UniqueIdentifier>{85ff0990-6f27-4eb4-b894-8dbc83bb39e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -336,8 +351,8 @@
     <ClCompile Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.cpp">
       <Filter>YokosukaEngine\Include\Math\Transform3D</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Draw\Particle\Particle.cpp">
-      <Filter>YokosukaEngine\Include\Draw\Particle</Filter>
+    <ClCompile Include="YokosukaEngine\Include\ParticleEffect\Particle\Particle.cpp">
+      <Filter>YokosukaEngine\Include\ParticleEffect\Particle</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd</Filter>
@@ -354,8 +369,8 @@
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen\ParticleBlendScreen.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Math\AABB\AABB.cpp">
-      <Filter>YokosukaEngine\Include\Math\AABB</Filter>
+    <ClCompile Include="YokosukaEngine\Include\Shape\AABB\AABB.cpp">
+      <Filter>YokosukaEngine\Include\Shape\AABB</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Func\Collision\Collision.cpp">
       <Filter>YokosukaEngine\Include\Func\Collision</Filter>
@@ -380,6 +395,15 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal\Line3dBlendNormal.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Shape\Sphere\Sphere.cpp">
+      <Filter>YokosukaEngine\Include\Shape\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\ParticleEffect\Emitter\Emitter.cpp">
+      <Filter>YokosukaEngine\Include\ParticleEffect\Emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\ParticleEffect\Feild\Feild.cpp">
+      <Filter>YokosukaEngine\Include\ParticleEffect\Feild</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,8 +539,8 @@
     <ClInclude Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.h">
       <Filter>YokosukaEngine\Include\Math\Transform3D</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Draw\Particle\Particle.h">
-      <Filter>YokosukaEngine\Include\Draw\Particle</Filter>
+    <ClInclude Include="YokosukaEngine\Include\ParticleEffect\Particle\Particle.h">
+      <Filter>YokosukaEngine\Include\ParticleEffect\Particle</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd</Filter>
@@ -533,8 +557,8 @@
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen\ParticleBlendScreen.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Particle\BlendScreen</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Math\AABB\AABB.h">
-      <Filter>YokosukaEngine\Include\Math\AABB</Filter>
+    <ClInclude Include="YokosukaEngine\Include\Shape\AABB\AABB.h">
+      <Filter>YokosukaEngine\Include\Shape\AABB</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Func\Collision\Collision.h">
       <Filter>YokosukaEngine\Include\Func\Collision</Filter>
@@ -559,6 +583,15 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal\Line3dBlendNormal.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Shape\Sphere\Sphere.h">
+      <Filter>YokosukaEngine\Include\Shape\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\ParticleEffect\Emitter\Emitter.h">
+      <Filter>YokosukaEngine\Include\ParticleEffect\Emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\ParticleEffect\Feild\Feild.h">
+      <Filter>YokosukaEngine\Include\ParticleEffect\Feild</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

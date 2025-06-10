@@ -1,10 +1,11 @@
 #pragma once
 #include <random>
 #include <list>
+#include "../Emitter/Emitter.h"
+#include "../Feild/Feild.h"
 #include "../../Math/Transform3D/Transform3D.h"
 #include "../../Math/Vector4/Vector4.h"
 #include "../../Math/Matrix4x4/Matrix4x4.h"
-#include "../../Math/AABB/AABB.h"
 
 // パーティクル
 struct Particle
@@ -31,32 +32,6 @@ struct ParticleForGPU
 	Matrix4x4 worldViewProjection;
 	Matrix4x4 world;
 	Vector4 color;
-};
-
-// 発生源
-struct Emitter
-{
-	// トランスフォーム
-	Transform3D transform;
-
-	// 発生数
-	uint32_t count;
-
-	// 発生頻度
-	float frequency;
-
-	// 発生頻度のための時間
-	float frequencyTime;
-};
-
-// 場
-struct Feild
-{
-	// 加速度
-	Vector3 acceleration;
-
-	// AABB
-	AABB area;
 };
 
 /// <summary>

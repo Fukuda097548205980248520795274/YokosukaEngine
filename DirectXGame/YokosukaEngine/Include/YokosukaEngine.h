@@ -77,6 +77,18 @@ public:
 	void EndFrame() { directXCommon_->PostDraw(); }
 
 	/// <summary>
+	/// 画面の横幅のGetter
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetScreenWidth() const { return windowApplication_->GetWindowWidth(); }
+
+	/// <summary>
+	/// 画面の縦幅のGetter
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetScreenHeight() const { return windowApplication_->GetWindowHeight(); }
+
+	/// <summary>
 	/// テクスチャを読み込む
 	/// </summary>
 	/// <param name="filePath">ファイルパス</param>

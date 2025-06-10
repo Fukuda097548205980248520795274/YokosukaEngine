@@ -26,7 +26,7 @@
 #include "../../PipelineStateObject/Line3d/BaseLine3d.h"
 #include "../../PipelineStateObject/Line3d/BlendNormal/Line3dBlendNormal.h"
 
-#include "../../Draw/Particle/Particle.h"
+#include "../../ParticleEffect/Particle/Particle.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
 
 #include "../../PipelineStateObject/Particle/BaseParticle.h"
@@ -517,7 +517,7 @@ private:
 	const float kDeltaTime = 1.0f / 60.0f;
 
 	// パーティクルの数
-	const uint32_t kNumMaxInstance = 100;
+	const uint32_t kNumMaxInstance = 1000000;
 
 	// マテリアル用のリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceParticle_ = nullptr;
