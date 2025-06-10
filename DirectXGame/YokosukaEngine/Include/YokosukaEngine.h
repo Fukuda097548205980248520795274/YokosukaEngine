@@ -105,15 +105,6 @@ public:
 	void PlayerSoundData(uint32_t soundHandle, float soundVolume) const { audioStore_->SelectHandlePlayAudio(soundHandle , soundVolume); }
 
 	/// <summary>
-	/// 三角形を描画する
-	/// </summary>
-	void DrawTriangle(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, Vector4 color) const
-	{
-		directXCommon_->DrawTriangle(worldTransform, uvTransform, camera, textureHandle, color);
-	}
-
-	/// <summary>
 	/// 球を描画する
 	/// </summary>
 	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
@@ -165,6 +156,12 @@ public:
 	{
 		directXCommon_->DrawSprite(worldTransform, uvTransform, camera, textureHandle, color);
 	}
+
+	/// <summary>
+	/// グリッドを描画する
+	/// </summary>
+	/// <param name="camera"></param>
+	void DrawGrid(const Camera3D* camera) const;
 
 	/// <summary>
 	/// ブレンドモードを設定する

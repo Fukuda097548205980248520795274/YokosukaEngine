@@ -127,12 +127,13 @@ void Game::Draw()
 	{
 		engine_->DrawSprite(debugCameraWorldTransform_.get(), debugCameraUvTransform_.get(),
 			camera2d_.get(), debugCameraModelHandle_, { 1.0f , 1.0f , 1.0f ,1.0f });
+
+		// グリッドを描画する
+		engine_->DrawGrid(camera3d_.get());
 	}
 
 #endif
 
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(),
 		modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f }, directionalLight_.get(), pointLight_.get(), spotLight_.get());
-
-	engine_->DrawLine({ -2.0f , 0.0f , 3.0f }, { 2.0f , 0.0f , 3.0f }, camera3d_.get(), { 0.0f,1.0f,0.0f,1.0f });
 }

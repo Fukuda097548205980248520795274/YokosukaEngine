@@ -130,12 +130,6 @@ public:
 	}
 
 	/// <summary>
-	/// 三角形を描画する
-	/// </summary>
-	void DrawTriangle(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, Vector4 color);
-
-	/// <summary>
 	/// 球を描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -413,122 +407,106 @@ private:
 
 
 
-	/*---------------------------
-	    三角錐で使用するリソース
-	---------------------------*/
-
-	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceTriangularPyramid_[512] = {nullptr};
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceTriangularPyramid_[512] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceTriangularPyramid_[512] = { nullptr };
-
-	// 平行光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceTriangularPyramid_[512] = { nullptr };
-
-	// 使用したリソースをカウントする
-	uint32_t useNumResourceTriangularPyramid_ = 0;
+	// リソースの最大数
+	const uint32_t kMaxNumResource = 1024;
 
 
 	/*-----------------------
 	    球で使用するリソース
 	-----------------------*/
 
+	// 使用したリソースをカウントする
+	uint32_t useNumResourceSphere_ = 0;
+
 	// 分割数
 	const uint32_t kSubdivision = 24;
 
 	// インデックスリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_[512] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_[1024] = { nullptr };
 
 	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSphere_[512] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSphere_[1024] = { nullptr };
 
 	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSphere_[512] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSphere_[1024] = { nullptr };
 
 	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSphere_[512] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSphere_[1024] = { nullptr };
 
 	// 平行光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceSphere_[512] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceSphere_[1024] = { nullptr };
 
 	// 点光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceSphere_[512] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceSphere_[1024] = { nullptr };
 
 	// スポットライトリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceSphere_[512] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceSphere_[1024] = { nullptr };
 
 	// カメラリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceSphere_[512] = { nullptr };
-
-	// 使用したリソースをカウントする
-	uint32_t useNumResourceSphere_ = 0;
+	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceSphere_[1024] = { nullptr };
 
 
 	/*----------------------------
 	    モデルで使用するリソース
 	----------------------------*/
 
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceModel_[512] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceModel_[512] = { nullptr };
-
-	// 平行光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceModel_[512] = { nullptr };
-
-	// 点光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceModel_[512] = { nullptr };
-
-	// スポットライトリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceModel_[512] = { nullptr };
-
-	// カメラリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceModel_[512] = { nullptr };
-
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceModel_ = 0;
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceModel_[1024] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceModel_[1024] = { nullptr };
+
+	// 平行光源リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceModel_[1024] = { nullptr };
+
+	// 点光源リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceModel_[1024] = { nullptr };
+
+	// スポットライトリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceModel_[1024] = { nullptr };
+
+	// カメラリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceModel_[1024] = { nullptr };
 
 
 	/*-----------------------------
 	    スプライトで使用するリソース
 	-----------------------------*/
 
-	// インデックスリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSprite_[512] = { nullptr };
-
-	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSprite_[512] = { nullptr };
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSprite_[512] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSprite_[512] = { nullptr };
-
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceSprite_ = 0;
+
+	// インデックスリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSprite_[1024] = { nullptr };
+
+	// 頂点バッファリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSprite_[1024] = { nullptr };
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSprite_[1024] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSprite_[1024] = { nullptr };
 
 
 	/*-----------------------
 	    線で使用するリソース
 	-----------------------*/
 
-	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceLine_[512] = { nullptr };
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceLine_[512] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceLine_[512] = { nullptr };
-
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceLine_ = 0;
+
+	// 頂点バッファリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceLine_[1024] = { nullptr };
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceLine_[1024] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceLine_[1024] = { nullptr };
 
 
 	/*--------------------------------

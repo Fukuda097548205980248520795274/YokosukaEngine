@@ -78,3 +78,55 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	debugCamera_ = new DebugCamera();
 	debugCamera_->Initialize(this);
 }
+
+/// <summary>
+/// グリッドを描画する
+/// </summary>
+/// <param name="camera"></param>
+void YokosukaEngine::DrawGrid(const Camera3D* camera) const
+{
+	// グリッドの半径
+	const float kGridRadius = 500.0f;
+
+	// 分割数
+	const uint32_t kSubdivisions = 200;
+
+	// 1マスの大きさ
+	const float kSquareSize = kGridRadius * 2.0f / static_cast<float>(kSubdivisions);
+
+	for (uint32_t index = 0; index <= kSubdivisions; ++index)
+	{
+		// 中心線
+		if (index == kSubdivisions / 2)
+		{
+			// X軸の赤線
+			DrawLine(Vector3{ -kGridRadius , 0.0f , -kGridRadius + kSquareSize * index },
+				Vector3{ kGridRadius , 0.0f , -kGridRadius + kSquareSize * index }, camera, Vector4{ 1.0f , 0.3f , 0.3f , 0.5f });
+
+			// Y軸の赤線
+			DrawLine(Vector3{ -kGridRadius + kSquareSize * index , 0.0f , -kGridRadius },
+				Vector3{ -kGridRadius + kSquareSize * index , 0.0f , kGridRadius }, camera, Vector4{ 0.3f , 0.3f , 1.0f , 0.5f });
+		}
+		else
+		{
+			// それ以外の線
+
+			if (index % 5 == 0)
+			{
+				DrawLine(Vector3{ -kGridRadius , 0.0f , -kGridRadius + kSquareSize * index },
+					Vector3{ kGridRadius , 0.0f , -kGridRadius + kSquareSize * index }, camera, Vector4{ 0.3f , 0.3f , 0.3f , 0.5f });
+
+				DrawLine(Vector3{ -kGridRadius + kSquareSize * index , 0.0f , -kGridRadius },
+					Vector3{ -kGridRadius + kSquareSize * index , 0.0f , kGridRadius }, camera, Vector4{ 0.3f , 0.3f , 0.3f , 0.5f });
+			}
+			else
+			{
+				DrawLine(Vector3{ -kGridRadius , 0.0f , -kGridRadius + kSquareSize * index },
+					Vector3{ kGridRadius , 0.0f , -kGridRadius + kSquareSize * index }, camera, Vector4{ 0.3f , 0.3f , 0.3f , 0.1f });
+
+				DrawLine(Vector3{ -kGridRadius + kSquareSize * index , 0.0f , -kGridRadius },
+					Vector3{ -kGridRadius + kSquareSize * index , 0.0f , kGridRadius }, camera, Vector4{ 0.3f , 0.3f , 0.3f , 0.1f });
+			}
+		}
+	}
+}
