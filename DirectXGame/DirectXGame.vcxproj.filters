@@ -199,6 +199,12 @@
     <Filter Include="YokosukaEngine\Include\Transform\UvTransform">
       <UniqueIdentifier>{c67260fd-7ab3-4043-9756-0f3500a5400d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Line3d">
+      <UniqueIdentifier>{87972e88-be92-4dd9-bf6c-efcf1e39dd58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal">
+      <UniqueIdentifier>{4211becd-ef13-4b44-b6ac-74106777c565}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -368,6 +374,12 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.cpp">
       <Filter>YokosukaEngine\Include\Transform\UvTransform</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BaseLine3d.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal\Line3dBlendNormal.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,6 +554,12 @@
     <ClInclude Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.h">
       <Filter>YokosukaEngine\Include\Transform\UvTransform</Filter>
     </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BaseLine3d.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal\Line3dBlendNormal.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="YokosukaEngine\Shader\Object3d.VS.hlsl">
@@ -556,6 +574,12 @@
     <FxCompile Include="YokosukaEngine\Shader\Particle.PS.hlsl">
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\Line3d.VS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\Line3d.PS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
@@ -567,6 +591,9 @@
       <Filter>YokosukaEngine\Shader</Filter>
     </None>
     <None Include="YokosukaEngine\Shader\Particle.hlsli">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </None>
+    <None Include="YokosukaEngine\Shader\Line3d.hlsli">
       <Filter>YokosukaEngine\Shader</Filter>
     </None>
   </ItemGroup>

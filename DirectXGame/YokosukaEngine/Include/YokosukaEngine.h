@@ -134,6 +134,18 @@ public:
 	}
 
 	/// <summary>
+	/// 線を描画する
+	/// </summary>
+	/// <param name="start"></param>
+	/// <param name="end"></param>
+	/// <param name="camera"></param>
+	/// <param name="color"></param>
+	void DrawLine(const Vector3& start, const Vector3& end, const Camera3D* camera, const Vector4& color) const
+	{
+		directXCommon_->DrawLine(start, end, camera, color);
+	}
+
+	/// <summary>
 	/// パーティクルを描画する
 	/// </summary>
 	/// <param name="camera"></param>

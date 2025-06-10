@@ -23,6 +23,9 @@
 #include "../../PipelineStateObject/Object3d/BlendMultiply/Object3dBlendMultiply.h"
 #include "../../PipelineStateObject/Object3d/BlendScreen/Object3dBlendScreen.h"
 
+#include "../../PipelineStateObject/Line3d/BaseLine3d.h"
+#include "../../PipelineStateObject/Line3d/BlendNormal/Line3dBlendNormal.h"
+
 #include "../../Draw/Particle/Particle.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
 
@@ -163,6 +166,15 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="color"></param>
 	void DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color);
+
+	/// <summary>
+	/// 線を描画する
+	/// </summary>
+	/// <param name="start">始点</param>
+	/// <param name="end">終点</param>
+	/// <param name="camera">カメラ</param>
+	/// <param name="color">色</param>
+	void DrawLine(const Vector3& start, const Vector3& end, const Camera3D* camera, Vector4 color);
 
 	/// <summary>
 	/// スプライトを描画する
@@ -396,6 +408,9 @@ private:
 	BaseParticle* psoParticle_[kBlendModekCountOfBlendMode] = { nullptr };
 	uint32_t useParticleBlendMode_ = kBlendModeAdd;
 
+	// Line3d用のPSO
+	BaseLine3d* posLine3d_ = nullptr;
+
 
 
 	/*---------------------------
@@ -497,6 +512,23 @@ private:
 
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceSprite_ = 0;
+
+
+	/*-----------------------
+	    線で使用するリソース
+	-----------------------*/
+
+	// 頂点バッファリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceLine_[512] = { nullptr };
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceLine_[512] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceLine_[512] = { nullptr };
+
+	// 使用したリソースをカウントする
+	uint32_t useNumResourceLine_ = 0;
 
 
 	/*--------------------------------

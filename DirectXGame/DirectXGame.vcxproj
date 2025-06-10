@@ -134,6 +134,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Light\SpotLight\SpotLight.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\AABB\AABB.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BaseLine3d.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal\Line3dBlendNormal.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BaseObject3d.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendAdd\Object3dBlendAdd.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendMultiply\Object3dBlendMultiply.cpp" />
@@ -193,6 +195,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Light\SpotLight\SpotLight.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\AABB\AABB.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Transform3D\Transform3D.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BaseLine3d.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendNormal\Line3dBlendNormal.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BaseObject3d.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendAdd\Object3dBlendAdd.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendMultiply\Object3dBlendMultiply.h" />
@@ -228,6 +232,18 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="YokosukaEngine\Shader\Line3d.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\Line3d.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\Object3d.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -257,6 +273,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <Text Include="Externals\ImGui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="YokosukaEngine\Shader\Line3d.hlsli" />
     <None Include="YokosukaEngine\Shader\Object3d.hlsli" />
     <None Include="YokosukaEngine\Shader\Particle.hlsli" />
   </ItemGroup>

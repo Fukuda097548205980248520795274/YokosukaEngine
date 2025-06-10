@@ -41,6 +41,28 @@ void Game::Initialize(const YokosukaEngine* engine)
 #endif
 
 
+	// ワールドトランスフォームの生成と初期化
+	worldTransform_ = std::make_unique<WorldTransform>();
+	worldTransform_->Initialize();
+
+	// UVトランスフォームの生成と初期化
+	uvTransform_ = std::make_unique<UvTransform>();
+	uvTransform_->Initialize();
+
+	// モデルを読み込む
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/StanfordBunny", "StanfordBunny.obj");
+
+	// 平行光源の生成と初期化
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
+
+	// ポイントライトの生成と初期化
+	pointLight_ = std::make_unique<PointLight>();
+	pointLight_->Initialize();
+
+	// スポットライトの生成と初期化
+	spotLight_ = std::make_unique<SpotLight>();
+	spotLight_->Initialize();
 }
 
 /// <summary>
@@ -88,7 +110,9 @@ void Game::Update()
 
 
 
-
+	// トランスフォームを更新する
+	worldTransform_->UpdateWorldMatrix();
+	uvTransform_->UpdateWorldMatrix();
 }
 
 /// <summary>
@@ -107,5 +131,8 @@ void Game::Draw()
 
 #endif
 
-	
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(),
+		modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f }, directionalLight_.get(), pointLight_.get(), spotLight_.get());
+
+	engine_->DrawLine({ -2.0f , 0.0f , 3.0f }, { 2.0f , 0.0f , 3.0f }, camera3d_.get(), { 0.0f,1.0f,0.0f,1.0f });
 }

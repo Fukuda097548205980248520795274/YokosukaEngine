@@ -11,6 +11,8 @@ DirectXCommon::~DirectXCommon()
 	ImGui_ImplDX12_Shutdown();
 	ImGui::DestroyContext();
 
+	delete posLine3d_;
+
 	// PSO
 	for (uint32_t i = 0; i < kBlendModekCountOfBlendMode; i++)
 	{
@@ -154,6 +156,11 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	psoParticle_[kBlendModeScreen] = new ParticleBlendScreen();
 	psoParticle_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
 
+	
+	// Line3d用のPSOの生成と初期化
+	posLine3d_ = new Line3dBlendNormal();
+	posLine3d_->Initialize(log_, dxc_, device_);
+
 
 	// ビューポート
 	viewport_.Width = static_cast<float>(windowApplication_->GetWindowWidth());
@@ -213,6 +220,11 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		vertexBufferResourceSprite_[i] = CreateBufferResource(device_, sizeof(VertexData) * 4);
 		MaterialResourceSprite_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceSprite_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+
+		// 線
+		vertexBufferResourceLine_[i] = CreateBufferResource(device_, sizeof(Vector4) * 2);
+		MaterialResourceLine_[i] = CreateBufferResource(device_, sizeof(Material));
+		TransformationResourceLine_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 	}
 
 	// パーティクル
@@ -333,6 +345,7 @@ void DirectXCommon::PostDraw()
 	useNumResourceSphere_ = 0;
 	useNumResourceModel_ = 0;
 	useNumResourceSprite_ = 0;
+	useNumResourceLine_ = 0;
 }
 
 /// <summary>
@@ -1022,6 +1035,87 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 
 	// 描画する
 	commandList_->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), numInstance, 0, 0);
+}
+
+/// <summary>
+/// 線を描画する
+/// </summary>
+/// <param name="start">始点</param>
+/// <param name="end">終点</param>
+/// <param name="camera">カメラ</param>
+/// <param name="color">色</param>
+void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Camera3D* camera, Vector4 color)
+{
+	/*----------
+		頂点
+	----------*/
+
+	// 頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
+	vertexBufferView.BufferLocation = vertexBufferResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress();
+	vertexBufferView.SizeInBytes = sizeof(Vector4) * 2;
+	vertexBufferView.StrideInBytes = sizeof(Vector4);
+
+	// 頂点データを書き込む
+	Vector4* vertexData = nullptr;
+	vertexBufferResourceLine_[useNumResourceLine_]->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+
+	vertexData[0] = { start.x,start.y,start.z,1.0f };
+	vertexData[1] = { end.x,end.y,end.z,1.0f };
+
+
+	/*---------------
+	    マテリアル
+	---------------*/
+
+	// データを書き込む
+	Material* materialData = nullptr;
+	MaterialResourceLine_[useNumResourceLine_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialData->color = color;
+	materialData->enableLighting = false;
+	materialData->shininess = 0.0f;
+	materialData->uvTransform = MakeIdenityMatirx();
+
+
+	/*-------------
+	    座標変換
+	-------------*/
+
+	// データを書き込む
+	TransformationMatrix* transformationData = nullptr;
+	TransformationResourceLine_[useNumResourceLine_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+
+	// ワールド行列
+	Matrix4x4 worldMatrix = MakeAffineMatrix({ 1.0f , 1.0f , 1.0f }, { 0.0f , 0.0f , 0.0f }, { 0.0f , 0.0f , 0.0f });
+
+	transformationData->worldViewProjection = Multiply(Multiply(worldMatrix, camera->viewMatrix_), camera->projectionMatrix_);
+	transformationData->world = MakeIdenityMatirx();
+	transformationData->worldInverseTranspose = MakeIdenityMatirx();
+
+
+	/*------------------
+	    コマンドを積む
+	------------------*/
+
+	posLine3d_->CommandListSet(commandList_);
+
+	// VBVを設定する
+	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+
+	// 形状を設定
+	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+	// マテリアル用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
+
+	// 座標変換用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
+
+	// 描画する
+	commandList_->DrawInstanced(2, 1, 0, 0);
+
+
+	useNumResourceLine_++;
 }
 
 /// <summary>
