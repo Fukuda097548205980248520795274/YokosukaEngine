@@ -45,6 +45,14 @@ void Game::Initialize(const YokosukaEngine* engine)
 
 #endif
 
+
+	/*--------------
+	    ゲーム制作
+	--------------*/
+
+	// ゲームシーンの生成と初期化
+	gameScene_ = std::make_unique<GameScene>();
+	gameScene_->Initialize(engine_, camera3d_.get());
 }
 
 /// <summary>
@@ -92,6 +100,14 @@ void Game::Update()
 
 	// 2Dカメラを更新
 	camera2d_->UpdateMatrix();
+
+
+	/*--------------
+	    ゲーム制作
+	--------------*/
+
+	// ゲームシーン更新
+	gameScene_->Update();
 }
 
 /// <summary>
@@ -116,5 +132,10 @@ void Game::Draw()
 
 #endif
 
+	/*---------------
+	    ゲーム制作
+	---------------*/
 
+	// ゲームシーン描画
+	gameScene_->Draw();
 }

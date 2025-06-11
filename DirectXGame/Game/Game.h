@@ -2,6 +2,7 @@
 #include "../YokosukaEngine/Include/YokosukaEngine.h"
 #include "GameCamera/GameCamera.h"
 #include "Axis/Axis.h"
+#include "GameScene/GameScene.h"
 
 class Game
 {
@@ -54,4 +55,10 @@ private:
 #endif
 
 
+	/*--------------
+	    ゲーム制作
+	--------------*/
+
+	// ゲームシーン
+	std::unique_ptr<GameScene> gameScene_ = nullptr;
 };
