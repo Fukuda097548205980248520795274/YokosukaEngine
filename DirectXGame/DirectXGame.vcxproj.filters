@@ -235,6 +235,9 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen">
       <UniqueIdentifier>{8b1135a1-7d1b-42f7-8f84-6f03b0da6ebf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Axis">
+      <UniqueIdentifier>{92202544-31ee-471d-af01-f9eba7dfe154}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -434,6 +437,9 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen\Line3dBlendScreen.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Axis\Axis.cpp">
+      <Filter>Game\Axis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -637,6 +643,9 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen\Line3dBlendScreen.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Line3d\BlendScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Axis\Axis.h">
+      <Filter>Game\Axis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

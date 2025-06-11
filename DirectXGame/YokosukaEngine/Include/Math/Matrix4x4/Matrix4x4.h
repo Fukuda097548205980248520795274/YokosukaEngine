@@ -123,6 +123,18 @@ Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float botto
 Matrix4x4 MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip, float farClip);
 
 /// <summary>
+/// ビューポート変換行列を作る
+/// </summary>
+/// <param name="left"></param>
+/// <param name="top"></param>
+/// <param name="width"></param>
+/// <param name="height"></param>
+/// <param name="minDepth"></param>
+/// <param name="maxDepth"></param>
+/// <returns></returns>
+Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth);
+
+/// <summary>
 /// 単位行列を作る
 /// </summary>
 /// <returns>単位行列</returns>

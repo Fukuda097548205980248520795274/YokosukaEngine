@@ -118,6 +118,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
+    <ClCompile Include="Game\Axis\Axis.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameCamera\GameCamera.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.cpp" />
@@ -187,6 +188,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Game\Axis\Axis.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameCamera\GameCamera.h" />
     <ClInclude Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.h" />

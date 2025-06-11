@@ -137,6 +137,15 @@ public:
 	}
 
 	/// <summary>
+	/// モデルを描画する
+	/// </summary>
+	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color) const
+	{
+		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color);
+	}
+
+	/// <summary>
 	/// 線を描画する
 	/// </summary>
 	/// <param name="start"></param>

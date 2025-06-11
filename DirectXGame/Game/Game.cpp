@@ -39,29 +39,23 @@ void Game::Initialize(const YokosukaEngine* engine)
 
 	debugCameraModelHandle_ = engine_->LoadTexture("./Resources/Textures/DebugCameraOn.png");
 
+	// 軸方向表示の生成と初期化
+	axis_ = std::make_unique<Axis>();
+	axis_->Initialize(engine_);
+
 #endif
 
 
 	// ワールドトランスフォームの生成と初期化
-	worldTransform1_ = std::make_unique<WorldTransform>();
-	worldTransform1_->Initialize();
+	worldTransform_ = std::make_unique<WorldTransform>();
+	worldTransform_->Initialize();
 
 	// UVトランスフォームの生成と初期化
-	uvTransform1_ = std::make_unique<UvTransform>();
-	uvTransform1_->Initialize();
-
-	// ワールドトランスフォームの生成と初期化
-	worldTransform2_ = std::make_unique<WorldTransform>();
-	worldTransform2_->Initialize();
-	worldTransform2_->translation_.y += 2.0f;
-
-	// UVトランスフォームの生成と初期化
-	uvTransform2_ = std::make_unique<UvTransform>();
-	uvTransform2_->Initialize();
-
+	uvTransform_ = std::make_unique<UvTransform>();
+	uvTransform_->Initialize();
 
 	// モデルを読み込む
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/StanfordBunny", "StanfordBunny.obj");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
 
 	// テクスチャを読み込む
 	textureHandle_ = engine->LoadTexture("./Resources/Textures/uvChecker.png");
@@ -110,6 +104,9 @@ void Game::Update()
 	debugCameraWorldTransform_->UpdateWorldMatrix();
 	debugCameraUvTransform_->UpdateWorldMatrix();
 
+	// 軸方向表示の更新
+	axis_->Update(camera3d_->rotation_);
+
 #endif
 
 	// カメラの値を渡して更新　ゲームカメラ
@@ -133,12 +130,8 @@ void Game::Update()
 
 
 	// トランスフォームを更新する
-	worldTransform1_->UpdateWorldMatrix();
-	uvTransform1_->UpdateWorldMatrix();
-
-	// トランスフォームを更新する
-	worldTransform2_->UpdateWorldMatrix();
-	uvTransform2_->UpdateWorldMatrix();
+	worldTransform_->UpdateWorldMatrix();
+	uvTransform_->UpdateWorldMatrix();
 }
 
 /// <summary>
@@ -158,11 +151,11 @@ void Game::Draw()
 		engine_->DrawGrid(camera3d_.get());
 	}
 
+	// 軸方向表示の描画
+	axis_->Draw();
+
 #endif
 
-	engine_->DrawSphere(worldTransform1_.get(), uvTransform1_.get(), camera3d_.get(), textureHandle_, { 1.0f , 1.0f , 1.0f , 1.0f },
-		directionalLight_.get() , pointLight_.get() , spotLight_.get());
-
-	engine_->DrawSphere(worldTransform2_.get(), uvTransform2_.get(), camera3d_.get(), textureHandle_, { 1.0f , 0.0f , 0.0f , 1.0f },
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f },
 		directionalLight_.get(), pointLight_.get(), spotLight_.get());
 }
