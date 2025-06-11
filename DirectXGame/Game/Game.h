@@ -49,21 +49,11 @@ private:
 
 #endif
 
-
-
-	/*-------------------
-		ゲームで使用する
-	-------------------*/
-
-
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
-
-	// UVトランスフォーム
-	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
-
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;
+
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0;
 
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
@@ -73,4 +63,22 @@ private:
 
 	// スポットライト
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
+
+	/*-------------------
+		ゲームで使用する
+	-------------------*/
+
+
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform1_ = nullptr;
+
+	// UVトランスフォーム
+	std::unique_ptr<UvTransform> uvTransform1_ = nullptr;
+
+
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform2_ = nullptr;
+
+	// UVトランスフォーム
+	std::unique_ptr<UvTransform> uvTransform2_ = nullptr;
 };

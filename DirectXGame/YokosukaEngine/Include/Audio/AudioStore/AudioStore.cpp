@@ -114,6 +114,11 @@ void AudioStore::SoundPlayWave(uint32_t index , float soundVolume)
 	pSourceVoice->Start(0);
 }
 
+void AudioStore::SoundStopWave(uint32_t index)
+{
+	(void)index;
+}
+
 /// <summary>
 /// ファイル名でサウンドハンドルを取得する
 /// </summary>

@@ -61,6 +61,12 @@ private:
 	/// <param name="soundData"></param>
 	void SoundPlayWave(uint32_t index, float soundVolume);
 
+	/// <summary>
+	/// 音声を停止する
+	/// </summary>
+	/// <param name="index"></param>
+	void SoundStopWave(uint32_t index);
+
 	// XAudio2
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2_ = nullptr;
 

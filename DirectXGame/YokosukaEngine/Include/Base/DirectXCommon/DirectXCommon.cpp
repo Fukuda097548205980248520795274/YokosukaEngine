@@ -203,12 +203,19 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	    バッファリソースを作成する
 	-----------------------------*/
 
+	// インデックスリソース
+	indexResourceSphere_ = CreateBufferResource(device_, (kSubdivision * kSubdivision * 6) * sizeof(uint32_t));
+	indexResourceSprite_ = CreateBufferResource(device_, sizeof(uint32_t) * 6);
+
+	// 頂点リソース
+	vertexBufferResourceSphere_ = CreateBufferResource(device_, (kSubdivision * kSubdivision * 4) * sizeof(VertexData));
+	vertexBufferResourceSprite_ = CreateBufferResource(device_, sizeof(VertexData) * 4);
+
+
 	for (uint32_t i = 0; i < kMaxNumResource; i++)
 	{
 
 		// 球
-		indexResourceSphere_[i] = CreateBufferResource(device_, (kSubdivision * kSubdivision * 6) * sizeof(uint32_t));
-		vertexBufferResourceSphere_[i] = CreateBufferResource(device_, (kSubdivision * kSubdivision * 4) * sizeof(VertexData));
 		MaterialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		directionalLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(DirectionalLightForGPU));
@@ -225,8 +232,6 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// スプライト
-		indexResourceSprite_[i] = CreateBufferResource(device_,sizeof(uint32_t) * 6);
-		vertexBufferResourceSprite_[i] = CreateBufferResource(device_, sizeof(VertexData) * 4);
 		MaterialResourceSprite_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceSprite_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 
@@ -380,13 +385,13 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 
 	// ビューを作成する
 	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
-	indexBufferView.BufferLocation = indexResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress();
+	indexBufferView.BufferLocation = indexResourceSphere_->GetGPUVirtualAddress();
 	indexBufferView.SizeInBytes = (kSubdivision * kSubdivision * 6) * sizeof(uint32_t);
 	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
 
 	// データを書き込む
 	uint32_t* indexData = nullptr;
-	indexResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
+	indexResourceSphere_->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
 
 	for (uint32_t latIndex = 0; latIndex < kSubdivision; latIndex++)
 	{
@@ -410,13 +415,13 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 
 	// ビューを作成する
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	vertexBufferView.BufferLocation = vertexBufferResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress();
+	vertexBufferView.BufferLocation = vertexBufferResourceSphere_->GetGPUVirtualAddress();
 	vertexBufferView.SizeInBytes = (kSubdivision * kSubdivision * 4) * sizeof(VertexData);
 	vertexBufferView.StrideInBytes = sizeof(VertexData);
 
 	// データを書き込む
 	VertexData* vertexData = nullptr;
-	vertexBufferResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+	vertexBufferResourceSphere_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
 
 	// 経度分割1つ分φ
 	const float kLonEvery = float(std::numbers::pi) * 2.0f / float(kSubdivision);
@@ -1013,13 +1018,13 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 
 	// ビューを作成する
 	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
-	indexBufferView.BufferLocation = indexResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress();
+	indexBufferView.BufferLocation = indexResourceSprite_->GetGPUVirtualAddress();
 	indexBufferView.SizeInBytes = sizeof(uint32_t) * 6;
 	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
 
 	// データを書き込む
 	uint32_t* indexData = nullptr;
-	indexResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
+	indexResourceSprite_->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
 	indexData[0] = 0; indexData[1] = 1; indexData[2] = 2;
 	indexData[3] = 1; indexData[4] = 3; indexData[5] = 2;
 
@@ -1030,13 +1035,13 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 
 	// ビューを作成する
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	vertexBufferView.BufferLocation = vertexBufferResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress();
+	vertexBufferView.BufferLocation = vertexBufferResourceSprite_->GetGPUVirtualAddress();
 	vertexBufferView.SizeInBytes = sizeof(VertexData) * 4;
 	vertexBufferView.StrideInBytes = sizeof(VertexData);
 
 	// データを書き込む
 	VertexData* vertexData = nullptr;
-	vertexBufferResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+	vertexBufferResourceSprite_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
 
 
 	// 左下

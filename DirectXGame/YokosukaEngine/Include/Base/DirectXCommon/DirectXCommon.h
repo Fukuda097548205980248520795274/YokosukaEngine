@@ -434,10 +434,10 @@ private:
 	const uint32_t kSubdivision = 24;
 
 	// インデックスリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_ = { nullptr };
 
 	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSphere_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSphere_ = { nullptr };
 
 	// マテリアルリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSphere_[1024] = { nullptr };
@@ -492,10 +492,10 @@ private:
 	uint32_t useNumResourceSprite_ = 0;
 
 	// インデックスリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSprite_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSprite_ = { nullptr };
 
 	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSprite_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSprite_ = { nullptr };
 
 	// マテリアルリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSprite_[1024] = { nullptr };

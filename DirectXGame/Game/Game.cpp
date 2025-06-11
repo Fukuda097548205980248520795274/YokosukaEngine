@@ -43,15 +43,28 @@ void Game::Initialize(const YokosukaEngine* engine)
 
 
 	// ワールドトランスフォームの生成と初期化
-	worldTransform_ = std::make_unique<WorldTransform>();
-	worldTransform_->Initialize();
+	worldTransform1_ = std::make_unique<WorldTransform>();
+	worldTransform1_->Initialize();
 
 	// UVトランスフォームの生成と初期化
-	uvTransform_ = std::make_unique<UvTransform>();
-	uvTransform_->Initialize();
+	uvTransform1_ = std::make_unique<UvTransform>();
+	uvTransform1_->Initialize();
+
+	// ワールドトランスフォームの生成と初期化
+	worldTransform2_ = std::make_unique<WorldTransform>();
+	worldTransform2_->Initialize();
+	worldTransform2_->translation_.y += 2.0f;
+
+	// UVトランスフォームの生成と初期化
+	uvTransform2_ = std::make_unique<UvTransform>();
+	uvTransform2_->Initialize();
+
 
 	// モデルを読み込む
 	modelHandle_ = engine_->LoadModelData("./Resources/Models/StanfordBunny", "StanfordBunny.obj");
+
+	// テクスチャを読み込む
+	textureHandle_ = engine->LoadTexture("./Resources/Textures/uvChecker.png");
 
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
@@ -60,10 +73,12 @@ void Game::Initialize(const YokosukaEngine* engine)
 	// ポイントライトの生成と初期化
 	pointLight_ = std::make_unique<PointLight>();
 	pointLight_->Initialize();
+	pointLight_->intensity_ = 0.0f;
 
 	// スポットライトの生成と初期化
 	spotLight_ = std::make_unique<SpotLight>();
 	spotLight_->Initialize();
+	spotLight_->intensity_ = 0.0f;
 }
 
 /// <summary>
@@ -109,9 +124,16 @@ void Game::Update()
 	// 2Dカメラを更新
 	camera2d_->UpdateMatrix();
 
+
+
+
 	// トランスフォームを更新する
-	worldTransform_->UpdateWorldMatrix();
-	uvTransform_->UpdateWorldMatrix();
+	worldTransform1_->UpdateWorldMatrix();
+	uvTransform1_->UpdateWorldMatrix();
+
+	// トランスフォームを更新する
+	worldTransform2_->UpdateWorldMatrix();
+	uvTransform2_->UpdateWorldMatrix();
 }
 
 /// <summary>
@@ -133,5 +155,9 @@ void Game::Draw()
 
 #endif
 
-	engine_->DrawParticle(camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f });
+	engine_->DrawSphere(worldTransform1_.get(), uvTransform1_.get(), camera3d_.get(), textureHandle_, { 1.0f , 1.0f , 1.0f , 1.0f },
+		directionalLight_.get() , pointLight_.get() , spotLight_.get());
+
+	engine_->DrawSphere(worldTransform2_.get(), uvTransform2_.get(), camera3d_.get(), textureHandle_, { 1.0f , 0.0f , 0.0f , 1.0f },
+		directionalLight_.get(), pointLight_.get(), spotLight_.get());
 }
