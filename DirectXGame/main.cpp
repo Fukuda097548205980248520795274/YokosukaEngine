@@ -26,10 +26,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 更新処理ここから
 		/// 
 
-		ImGui::Begin("Control panel");
-		ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
-		ImGui::End();
-
 		// ゲームの更新
 		game->Update();
 
