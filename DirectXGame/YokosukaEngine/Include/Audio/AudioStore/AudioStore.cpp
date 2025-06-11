@@ -93,6 +93,7 @@ void AudioStore::SoundLoadWave(const std::string& filePath)
 /// <param name="soundData"></param>
 void AudioStore::SoundPlayWave(uint32_t index , float soundVolume)
 {
+
 	IXAudio2SourceVoice* pSourceVoice{ nullptr };
 	xAudio2_->CreateSourceVoice(&pSourceVoice, loadAudioStructure_[index].waveFormat);
 
@@ -168,6 +169,7 @@ uint32_t AudioStore::GetSoundHandle(const std::string& filePath)
 /// <param name="soundHandle"></param>
 void AudioStore::SelectHandlePlayAudio(uint32_t soundHandle, float soundVolume)
 {
+	// 指定したハンドルのある要素をさがす
 	for (uint32_t i = 0; i < useNumSoundData_; i++)
 	{
 		if (soundHandle == loadAudioStructure_[i].soundHandle)

@@ -48,24 +48,31 @@ private:
 	// テクスチャ格納場所
 	TextureStore* textureStore_ = nullptr;
 
+	// モデルの情報の構造体
+	struct ModelInfoStructure
+	{
+		// ディレクトリパス
+		std::string directoryPath;
 
-	// ディレクトリパス
-	std::string directoryPath_[256];
+		// ファイル名
+		std::string fileName;
 
-	// ファイル名
-	std::string fileName_[256];
+		// モデルデータ
+		ModelData modelData;
 
-	// モデルデータ
-	ModelData modelData_[256];
+		// 頂点リソース
+		Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource;
 
-	// 頂点リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource_[256] = { nullptr };
+		// モデルハンドル
+		uint32_t modelHandle;
 
-	// モデルハンドル
-	uint32_t modelHandle_[256];
+		// テクスチャハンドル
+		uint32_t textureHandle;
+	};
 
-	// テクスチャハンドル
-	uint32_t textureHandle_[256];
+	// モデルの情報の構造体
+	ModelInfoStructure modelInfoStructure_[256] = {};
+	
 
 	// 使用したモデルデータをカウントする
 	uint32_t useModelDataNum_ = 0;

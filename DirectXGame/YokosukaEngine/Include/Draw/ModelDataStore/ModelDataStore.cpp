@@ -6,7 +6,7 @@
 void ModelDataStore::Initialize(TextureStore* textureStore)
 {
 	// nullptrチェック
-	assert(textureHandle_);
+	assert(textureStore);
 
 	// 引数を受け取る
 	textureStore_ = textureStore;
@@ -24,16 +24,16 @@ uint32_t ModelDataStore::GetModelHandle(const std::string& directoryPath, const 
 	// 同じモデルデータを使われているか
 	for (uint32_t i = 0; i < useModelDataNum_; i++)
 	{
-		if (strcmp(directoryPath.c_str(), directoryPath_[i].c_str())) { continue; }
-		if (strcmp(fileName.c_str(), fileName_[i].c_str())) { continue; }
+		if (strcmp(directoryPath.c_str(), modelInfoStructure_[i].directoryPath.c_str())) { continue; }
+		if (strcmp(fileName.c_str(), modelInfoStructure_[i].fileName.c_str())) { continue; }
 
-		return modelHandle_[i];
+		return modelInfoStructure_[i].modelHandle;
 	}
 
 	// モデルハンドルを決める
-	while (modelHandle_[useModelDataNum_] == 0)
+	while (modelInfoStructure_[useModelDataNum_].modelHandle == 0)
 	{
-		modelHandle_[useModelDataNum_] = rand() % 100000 + 1;
+		modelInfoStructure_[useModelDataNum_].modelHandle = rand() % 100000 + 1;
 
 		// モデルハンドルが被らないようにする
 		for (uint32_t j = 0; j < useModelDataNum_; j++)
@@ -41,41 +41,42 @@ uint32_t ModelDataStore::GetModelHandle(const std::string& directoryPath, const 
 			if (useModelDataNum_ == j)
 				continue;
 
-			if (modelHandle_[useModelDataNum_] == modelHandle_[j])
+			if (modelInfoStructure_[useModelDataNum_].modelHandle == modelInfoStructure_[j].modelHandle)
 			{
-				modelHandle_[useModelDataNum_] = 0;
+				modelInfoStructure_[useModelDataNum_].modelHandle = 0;
 				break;
 			}
 		}
 	}
 
 	// パスを受け取る
-	directoryPath_[useModelDataNum_] = directoryPath;
-	fileName_[useModelDataNum_] = fileName;
+	modelInfoStructure_[useModelDataNum_].directoryPath = directoryPath;
+	modelInfoStructure_[useModelDataNum_].fileName = fileName;
 
 	// モデルを読み込む
-	modelData_[useModelDataNum_] = LoadObjFile(directoryPath, fileName);
+	modelInfoStructure_[useModelDataNum_].modelData = LoadObjFile(directoryPath, fileName);
 
 	// 頂点リソースを作る
-	vertexResource_[useModelDataNum_] = CreateBufferResource(device, sizeof(VertexData) * modelData_[useModelDataNum_].vertices.size());
+	modelInfoStructure_[useModelDataNum_].vertexResource = 
+		CreateBufferResource(device, sizeof(VertexData) * modelInfoStructure_[useModelDataNum_].modelData.vertices.size());
 
 	// テクスチャハンドルを取得する
-	if (strcmp(modelData_[useModelDataNum_].material.textureFilePath.c_str(), "") == 0)
+	if (strcmp(modelInfoStructure_[useModelDataNum_].modelData.material.textureFilePath.c_str(), "") == 0)
 	{
-		textureHandle_[useModelDataNum_] = textureStore_->GetTextureHandle("./Resources/Textures/white2x2.png",
+		modelInfoStructure_[useModelDataNum_].textureHandle = textureStore_->GetTextureHandle("./Resources/Textures/white2x2.png",
 			device, srvDescriptorHeap, commandList);
 	}
 	else
 	{
-		textureHandle_[useModelDataNum_] = textureStore_->GetTextureHandle(modelData_[useModelDataNum_].material.textureFilePath,
-			device, srvDescriptorHeap, commandList);
+		modelInfoStructure_[useModelDataNum_].textureHandle = 
+			textureStore_->GetTextureHandle(modelInfoStructure_[useModelDataNum_].modelData.material.textureFilePath,device, srvDescriptorHeap, commandList);
 	}
 
 
 	// カウントする
 	useModelDataNum_++;
 
-	return modelHandle_[useModelDataNum_ - 1];
+	return modelInfoStructure_[useModelDataNum_ - 1].modelHandle;
 }
 
 /// <summary>
@@ -87,9 +88,9 @@ ModelData ModelDataStore::GetModelData(uint32_t modelHandle)
 {
 	for (uint32_t i = 0; i < useModelDataNum_; i++)
 	{
-		if (modelHandle == modelHandle_[i])
+		if (modelHandle == modelInfoStructure_[i].modelHandle)
 		{
-			return modelData_[i];
+			return modelInfoStructure_[i].modelData;
 		}
 	}
 
@@ -108,9 +109,9 @@ Microsoft::WRL::ComPtr<ID3D12Resource> ModelDataStore::GetVertexResource(uint32_
 {
 	for (uint32_t i = 0; i < useModelDataNum_; i++)
 	{
-		if (modelHandle == modelHandle_[i])
+		if (modelHandle == modelInfoStructure_[i].modelHandle)
 		{
-			return vertexResource_[i];
+			return modelInfoStructure_[i].vertexResource;
 		}
 	}
 
@@ -127,9 +128,9 @@ uint32_t ModelDataStore::GetTextureHandle(uint32_t modelHandle)
 {
 	for (uint32_t i = 0; i < useModelDataNum_; i++)
 	{
-		if (modelHandle == modelHandle_[i])
+		if (modelHandle == modelInfoStructure_[i].modelHandle)
 		{
-			return textureHandle_[i];
+			return modelInfoStructure_[i].textureHandle;
 		}
 	}
 

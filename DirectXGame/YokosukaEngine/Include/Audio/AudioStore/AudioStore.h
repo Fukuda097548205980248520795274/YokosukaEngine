@@ -73,7 +73,7 @@ private:
 	// マスターボイス
 	IXAudio2MasteringVoice* masterVoice_ = nullptr;
 
-
+	// ロードに使用する構造体
 	struct LoadAudioStructure
 	{
 		// ファイルパス
@@ -87,6 +87,16 @@ private:
 
 		// サウンドハンドル
 		uint32_t soundHandle;
+	};
+
+	// サウンドプレイに使用する構造体
+	struct SoundPlayStructure
+	{
+		// プレイハンドル
+		uint32_t playHandle;
+
+		// ソースボイス
+		IXAudio2SourceVoice* pSourceVoice;
 	};
 
 
