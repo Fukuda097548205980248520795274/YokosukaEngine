@@ -73,17 +73,26 @@ private:
 	// マスターボイス
 	IXAudio2MasteringVoice* masterVoice_ = nullptr;
 
-	// ファイルパス
-	std::string filePath_[512];
 
-	// フォーマット
-	WAVEFORMATEX* waveFormat_[512];
+	struct LoadAudioStructure
+	{
+		// ファイルパス
+		std::string filePath;
+
+		// フォーマット
+		WAVEFORMATEX* waveFormat;
+
+		// メディアデータ
+		std::vector<BYTE> mediaData;
+
+		// サウンドハンドル
+		uint32_t soundHandle;
+	};
 
 
-	std::vector<BYTE> mediaData_[512];
+	// ロードに使用する構造体
+	LoadAudioStructure loadAudioStructure_[512] = {};
 
-	// サウンドハンドル
-	uint32_t soundHandle_[512] = { 0 };
 
 	// 使用した音声データ数
 	uint32_t useNumSoundData_ = 0;

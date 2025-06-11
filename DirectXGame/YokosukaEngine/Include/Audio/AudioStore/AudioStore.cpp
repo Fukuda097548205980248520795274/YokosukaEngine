@@ -7,7 +7,7 @@ AudioStore::~AudioStore()
 {
 	for (uint32_t i = 0; i < useNumSoundData_; i++)
 	{
-		CoTaskMemFree(waveFormat_[i]);
+		CoTaskMemFree(loadAudioStructure_[i].waveFormat);
 	}
 
 	MFShutdown();
@@ -52,7 +52,7 @@ void AudioStore::SoundLoadWave(const std::string& filePath)
 	pMFMediaType = nullptr;
 	pMFSourceReader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, &pMFMediaType);
 
-	MFCreateWaveFormatExFromMFMediaType(pMFMediaType, &waveFormat_[useNumSoundData_], nullptr);
+	MFCreateWaveFormatExFromMFMediaType(pMFMediaType, &loadAudioStructure_[useNumSoundData_].waveFormat, nullptr);
 
 
 	while (true)
@@ -73,8 +73,8 @@ void AudioStore::SoundLoadWave(const std::string& filePath)
 		DWORD cbCurrentLength{ 0 };
 		pMFMediaBuffer->Lock(&pBuffer, nullptr, &cbCurrentLength);
 
-		mediaData_[useNumSoundData_].resize(mediaData_[useNumSoundData_].size() + cbCurrentLength);
-		memcpy(mediaData_[useNumSoundData_].data() + mediaData_[useNumSoundData_].size() - cbCurrentLength, pBuffer, cbCurrentLength);
+		loadAudioStructure_[useNumSoundData_].mediaData.resize(loadAudioStructure_[useNumSoundData_].mediaData.size() + cbCurrentLength);
+		memcpy(loadAudioStructure_[useNumSoundData_].mediaData.data() + loadAudioStructure_[useNumSoundData_].mediaData.size() - cbCurrentLength, pBuffer, cbCurrentLength);
 
 		pMFMediaBuffer->Unlock();
 
@@ -94,12 +94,12 @@ void AudioStore::SoundLoadWave(const std::string& filePath)
 void AudioStore::SoundPlayWave(uint32_t index , float soundVolume)
 {
 	IXAudio2SourceVoice* pSourceVoice{ nullptr };
-	xAudio2_->CreateSourceVoice(&pSourceVoice, waveFormat_[index]);
+	xAudio2_->CreateSourceVoice(&pSourceVoice, loadAudioStructure_[index].waveFormat);
 
 	XAUDIO2_BUFFER buffer{ 0 };
-	buffer.pAudioData = mediaData_[index].data();
+	buffer.pAudioData = loadAudioStructure_[index].mediaData.data();
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
-	buffer.AudioBytes = sizeof(BYTE) * static_cast<UINT32>( mediaData_[index].size());
+	buffer.AudioBytes = sizeof(BYTE) * static_cast<UINT32>(loadAudioStructure_[index].mediaData.size());
 	pSourceVoice->SubmitSourceBuffer(&buffer);
 
 	const float kMaxSoundVolume = 1.0f;
@@ -129,29 +129,29 @@ uint32_t AudioStore::GetSoundHandle(const std::string& filePath)
 	// 同じ音声データを探す
 	for (uint32_t i = 0; i < useNumSoundData_; i++)
 	{
-		if (strcmp(filePath.c_str(), filePath_[i].c_str()) == 0)
+		if (strcmp(filePath.c_str(), loadAudioStructure_[i].filePath.c_str()) == 0)
 		{
-			return soundHandle_[i];
+			return loadAudioStructure_[i].soundHandle;
 		}
 	}
 
 	// テクスチャハンドルを作成する
-	while (soundHandle_[useNumSoundData_] == 0)
+	while (loadAudioStructure_[useNumSoundData_].soundHandle == 0)
 	{
-		soundHandle_[useNumSoundData_] = rand() % 1000000 + 1;
+		loadAudioStructure_[useNumSoundData_].soundHandle = rand() % 1000000 + 1;
 
 		for (uint32_t i = 0; i < useNumSoundData_; i++)
 		{
-			if (soundHandle_[useNumSoundData_] == soundHandle_[i])
+			if (loadAudioStructure_[useNumSoundData_].soundHandle == loadAudioStructure_[i].soundHandle)
 			{
-				soundHandle_[useNumSoundData_] = 0;
+				loadAudioStructure_[useNumSoundData_].soundHandle = 0;
 				break;
 			}
 		}
 	}
 
 	// ファイルパス
-	filePath_[useNumSoundData_] = filePath;
+	loadAudioStructure_[useNumSoundData_].filePath = filePath;
 
 	// 読み込む
 	SoundLoadWave(filePath);
@@ -159,7 +159,7 @@ uint32_t AudioStore::GetSoundHandle(const std::string& filePath)
 	// 使用した音声データをカウントする
 	useNumSoundData_++;
 
-	return soundHandle_[useNumSoundData_ - 1];
+	return loadAudioStructure_[useNumSoundData_ - 1].soundHandle;
 }
 
 /// <summary>
@@ -170,7 +170,7 @@ void AudioStore::SelectHandlePlayAudio(uint32_t soundHandle, float soundVolume)
 {
 	for (uint32_t i = 0; i < useNumSoundData_; i++)
 	{
-		if (soundHandle == soundHandle_[i])
+		if (soundHandle == loadAudioStructure_[i].soundHandle)
 		{
 			SoundPlayWave(i , soundVolume);
 

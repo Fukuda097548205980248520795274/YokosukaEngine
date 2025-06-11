@@ -66,6 +66,11 @@ void Game::Initialize(const YokosukaEngine* engine)
 	// テクスチャを読み込む
 	textureHandle_ = engine->LoadTexture("./Resources/Textures/uvChecker.png");
 
+	// サウンドを読み込む
+	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/oboreruKaiba.mp3");
+	engine_->PlayerSoundData(soundHandle_ , 0.5f);
+
+
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
