@@ -7,6 +7,7 @@
 #include <numbers>
 #include <list>
 #include <random>
+#include "../../Math/Vector1/Vector1.h"
 #include "../../Math/Vector4/Vector4.h"
 #include "../../Camera/Camera3D/Camera3D.h"
 #include "../../Camera/Camera2D/Camera2D.h"

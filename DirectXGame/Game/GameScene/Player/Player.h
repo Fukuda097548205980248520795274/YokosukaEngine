@@ -11,7 +11,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="directionalLight"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,const Vector3& position, const DirectionalLight* directionalLight);
 
 	/// <summary>
 	/// 更新処理
@@ -51,5 +51,43 @@ private:
 
 	// スポットライト
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
-};
 
+
+
+	// 加算するための加速度
+	const float kAddAcceleration = 0.05f;
+
+	// 速度減衰率
+	const float kAttenuation = 0.3f;
+
+	// 最大移動速度
+	const float kMaxMoveSpeed = 0.5f;
+
+	// 速度ベクトル
+	Vector3 velocity_ = { 0.0f , 0.0f , 0.0f };
+
+
+	/// <summary>
+	/// 旋回制御
+	/// </summary>
+	void Turn();
+
+	// 左右の向き
+	enum class LRDirection
+	{
+		kRight,
+		kLeft
+	};
+
+	// 左右の向き
+	LRDirection lrDirection_ = LRDirection::kRight;
+
+	// 旋回時間<秒>
+	const float kTimeTurn = 0.3f;
+
+	// 旋回開始時の角度
+	float turnFirstRotationY_ = 0.0f;
+
+	// 旋回タイマー
+	float turnTimer_ = 0.0f;
+};

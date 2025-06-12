@@ -244,6 +244,18 @@
     <Filter Include="Game\GameScene\Player">
       <UniqueIdentifier>{5dfb55a4-9776-47ef-9e29-957d4a748eb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Skydome">
+      <UniqueIdentifier>{f99638b2-ebfb-4573-90fd-1f89ee06539b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Blocks">
+      <UniqueIdentifier>{d005c0c5-d584-428b-9844-0e99c6b80513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\MapChipField">
+      <UniqueIdentifier>{daffec78-754a-4549-9a24-7a97a80c4f41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\Vector1">
+      <UniqueIdentifier>{1daa044c-097c-40f3-b93c-937c3a0cd844}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -452,6 +464,18 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Player\Player.cpp">
       <Filter>Game\GameScene\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp">
+      <Filter>Game\GameScene\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Blocks\Blocks.cpp">
+      <Filter>Game\GameScene\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\MapChipField\MapChipField.cpp">
+      <Filter>Game\GameScene\MapChipField</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Math\Vector1\Vector1.cpp">
+      <Filter>YokosukaEngine\Include\Math\Vector1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -664,6 +688,18 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Player\Player.h">
       <Filter>Game\GameScene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Skydome\Skydome.h">
+      <Filter>Game\GameScene\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Blocks\Blocks.h">
+      <Filter>Game\GameScene\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\MapChipField\MapChipField.h">
+      <Filter>Game\GameScene\MapChipField</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Math\Vector1\Vector1.h">
+      <Filter>YokosukaEngine\Include\Math\Vector1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

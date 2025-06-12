@@ -1,6 +1,14 @@
 #include "GameScene.h"
 
 /// <summary>
+/// デストラクタ
+/// </summary>
+GameScene::~GameScene()
+{
+	
+}
+
+/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
@@ -19,9 +27,23 @@ void GameScene::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
 
+	// マップチップフィールドの生成と初期化
+	mapChipField_ = std::make_unique<MapChipField>();
+	mapChipField_->LoadMapChipCsv("./Resources/MapChip/blocks.csv");
+
+
+	// 天球の生成と初期化
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(engine_, camera3d_);
+
+	// ブロックの生成と初期化
+	blocks_ = std::make_unique<Blocks>();
+	blocks_->Initialize(engine_ ,mapChipField_.get(), camera3d_, directionalLight_.get());
+
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_, directionalLight_.get());
+	Vector3 playerPosition = mapChipField_->GetMapCihpPositionByIndex(1, 18);
+	player_->Initialize(engine_, camera3d_, playerPosition, directionalLight_.get());
 }
 
 /// <summary>
@@ -29,6 +51,12 @@ void GameScene::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void GameScene::Update()
 {
+	// 天球を更新する
+	skydome_->Update();
+
+	// ブロックを更新する
+	blocks_->Update();
+
 	// プレイヤーを更新する
 	player_->Update();
 }
@@ -38,6 +66,13 @@ void GameScene::Update()
 /// </summary>
 void GameScene::Draw()
 {
+
+	// 天球を描画する
+	skydome_->Draw();
+
+	// ブロックを描画する
+	blocks_->Draw();
+
 	// プレイヤーを描画する
 	player_->Draw();
 }

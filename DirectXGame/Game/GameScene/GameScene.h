@@ -1,10 +1,18 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "Player/Player.h"
+#include "Skydome/Skydome.h"
+#include "Blocks/Blocks.h"
+#include "MapChipField/MapChipField.h"
 
 class GameScene
 {
 public:
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~GameScene();
 
 	/// <summary>
 	/// 初期化
@@ -35,6 +43,15 @@ private:
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 
+	// マップチップフィールド
+	std::unique_ptr<MapChipField> mapChipField_ = nullptr;
+
+
+	// 天球
+	std::unique_ptr<Skydome> skydome_ = nullptr;
+
+	// ブロック
+	std::unique_ptr<Blocks> blocks_ = nullptr;
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
