@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
 class Player
@@ -55,13 +56,13 @@ private:
 
 
 	// 加算するための加速度
-	const float kAddAcceleration = 0.05f;
+	const float kAddAcceleration = 0.03f;
 
 	// 速度減衰率
 	const float kAttenuation = 0.3f;
 
 	// 最大移動速度
-	const float kMaxMoveSpeed = 0.5f;
+	const float kMaxMoveSpeed = 0.3f;
 
 	// 速度ベクトル
 	Vector3 velocity_ = { 0.0f , 0.0f , 0.0f };
@@ -90,4 +91,17 @@ private:
 
 	// 旋回タイマー
 	float turnTimer_ = 0.0f;
+
+
+	// 地面接地フラグ
+	bool isGround_ = true;
+
+	// 重力加速度
+	const float kGravityAcceleration = 0.03f;
+
+	// 最大落下速度
+	const float kMaxFallSpeed = 1.0f;
+
+	// ジャンプ初速
+	const float kJumpStartAcceleration = 0.8f;
 };

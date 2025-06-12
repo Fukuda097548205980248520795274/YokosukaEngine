@@ -54,6 +54,11 @@ void Player::Update()
 		// 加速度ベクトル
 		Vector3 acceleration = { 0.0f , 0.0f , 0.0f };
 
+
+		/*----------
+		    移動
+		----------*/
+
 		// 操作中
 		if (engine_->GetGamepadLeftStick(0).x != 0.0f)
 		{
@@ -112,6 +117,66 @@ void Player::Update()
 
 		// 最大速度を越えないようにする
 		velocity_.x = std::clamp(velocity_.x, -kMaxMoveSpeed, kMaxMoveSpeed);
+
+
+		/*-------------
+		    ジャンプ
+		-------------*/
+
+		// 地上に接地しているとき
+		if (isGround_)
+		{
+			// Aボタンでジャンプする
+			if (engine_->GetGamepadButtonTrigger(0,XINPUT_GAMEPAD_A))
+			{
+				// ジャンプ初速を加算する
+				velocity_ += Vector3(0.0f, kJumpStartAcceleration, 0.0f);
+
+				// 接地しなくなる
+				isGround_ = false;
+			}
+		} 
+		else
+		{
+			// 地上に接地していないとき
+
+			// 落下速度
+			velocity_ += Vector3(0.0f, -kGravityAcceleration, 0.0f);
+
+			// 落下速度制限
+			velocity_.y = std::max(velocity_.y, -kMaxFallSpeed);
+
+
+			// 着地フラグ
+			bool isLanding = false;
+
+			// 地面との当たり判定
+			// 落下中に地面についたら着地する
+			if (velocity_.y < 0.0f)
+			{
+				if (worldTransform_->translation_.y <= 2.0f)
+				{
+					isLanding = true;
+				}
+			}
+
+
+			// 着地したら、設置したことになる
+			if (isLanding)
+			{
+				// めり込み排斥
+				worldTransform_->translation_.y = 2.0f;
+
+				// 摩擦で横方向速度が減衰する
+				velocity_.x *= (1.0f - kAttenuation);
+
+				// 下方向速度をリセット
+				velocity_.y = 0.0f;
+
+				// 接地状態に移行
+				isGround_ = true;
+			}
+		}
 	}
 
 
