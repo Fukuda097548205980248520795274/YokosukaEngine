@@ -53,6 +53,13 @@ void Game::Initialize(const YokosukaEngine* engine)
 	// ゲームシーンの生成と初期化
 	gameScene_ = std::make_unique<GameScene>();
 	gameScene_->Initialize(engine_, camera3d_.get());
+
+	// ゲームカメラの追従対象を設定する
+	gameCamera_->SetTarget(gameScene_->GetPlayerInstance());
+	gameCamera_->Reset();
+
+	// ゲームカメラの移動範囲
+	gameCamera_->SetMovableArea(GameCamera::Rect{ 15.0f , 100.0f , 8.0f , 100.0f });
 }
 
 /// <summary>

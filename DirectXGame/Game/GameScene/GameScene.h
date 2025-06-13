@@ -31,6 +31,12 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// プレイヤーのインスタンスのGetter
+	/// </summary>
+	/// <returns></returns>
+	Player* GetPlayerInstance() { return player_.get(); }
+
 
 private:
 

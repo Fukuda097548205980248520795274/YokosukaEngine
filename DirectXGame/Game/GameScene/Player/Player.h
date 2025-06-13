@@ -1,6 +1,7 @@
 #pragma once
 #define NOMINMAX
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../Player/Player.h"
 
 class Player
 {
@@ -23,6 +24,18 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// ワールドトランスフォームのインスタンスのGetter
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetWorldTransform() const { return worldTransform_.get(); }
+
+	/// <summary>
+	/// 速度ベクトルのGetter
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetVelocity() const { return velocity_; }
 
 
 private:

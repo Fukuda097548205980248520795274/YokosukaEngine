@@ -49,3 +49,15 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2)
 
 	return cross;
 }
+
+/// <summary>
+/// 線形補間を行う
+/// </summary>
+/// <param name="start">始点</param>
+/// <param name="end">終点</param>
+/// <param name="t">媒介変数</param>
+/// <returns></returns>
+Vector3 Lerp(const Vector3& start, const Vector3& end, float t)
+{
+	return (1.0f - t) * start + t * end;
+}
