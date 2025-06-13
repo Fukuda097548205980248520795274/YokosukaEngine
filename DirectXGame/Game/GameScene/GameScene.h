@@ -5,6 +5,7 @@
 #include "Blocks/Blocks.h"
 #include "MapChipField/MapChipField.h"
 #include "Enemy/Enemy.h"
+#include "DeathParticle/DeathParticle.h"
 
 class GameScene
 {
@@ -67,6 +68,9 @@ private:
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+	// デスパーティクル
+	std::unique_ptr<DeathParticle> deathParticle_ = nullptr;
 
 
 	// 敵の数

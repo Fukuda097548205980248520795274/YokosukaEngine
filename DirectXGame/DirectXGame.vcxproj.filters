@@ -259,6 +259,9 @@
     <Filter Include="Game\GameScene\Enemy">
       <UniqueIdentifier>{2d7acc7b-6a9f-4741-aa6c-beaff04e4a01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\DeathParticle">
+      <UniqueIdentifier>{bd0c97d9-685f-44c1-9701-c7be6066ffb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -482,6 +485,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Enemy\Enemy.cpp">
       <Filter>Game\GameScene\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\DeathParticle\DeathParticle.cpp">
+      <Filter>Game\GameScene\DeathParticle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -709,6 +715,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Enemy\Enemy.h">
       <Filter>Game\GameScene\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\DeathParticle\DeathParticle.h">
+      <Filter>Game\GameScene\DeathParticle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

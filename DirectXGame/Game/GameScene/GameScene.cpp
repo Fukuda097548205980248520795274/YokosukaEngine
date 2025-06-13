@@ -51,6 +51,10 @@ void GameScene::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 	player_->Initialize(engine_, camera3d_, playerPosition, directionalLight_.get());
 	player_->SetMapChipField(mapChipField_.get());
 
+	// デスパーティクルの生成と初期化
+	deathParticle_ = std::make_unique<DeathParticle>();
+	deathParticle_->Initialize(engine_, camera3d_, mapChipField_->GetMapCihpPositionByIndex(3, 18));
+
 	// 敵の生成と初期化
 	for (uint32_t i = 0; i < 3; ++i)
 	{
@@ -77,6 +81,12 @@ void GameScene::Update()
 	// プレイヤーを更新する
 	player_->Update();
 
+	if (deathParticle_)
+	{
+		// デスパーティクルを更新する
+		deathParticle_->Update();
+	}
+
 	// 敵を更新する
 	for (Enemy* enemy : enemies_)
 	{
@@ -101,6 +111,12 @@ void GameScene::Draw()
 
 	// プレイヤーを描画する
 	player_->Draw();
+
+	if (deathParticle_)
+	{
+		// デスパーティクルを描画する
+		deathParticle_->Draw();
+	}
 
 	// 敵を描画する
 	for (Enemy* enemy : enemies_)
