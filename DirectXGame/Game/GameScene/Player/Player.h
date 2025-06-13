@@ -6,6 +6,7 @@
 
 // 前方宣言
 class MapChipField;
+class Enemy;
 
 class Player
 {
@@ -46,6 +47,24 @@ public:
 	/// </summary>
 	/// <param name="mapChipField"></param>
 	void SetMapChipField(const MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+
+	/// <summary>
+	/// ワールド座標を取得する
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition() const;
+
+	/// <summary>
+	/// AABBを取得する
+	/// </summary>
+	/// <returns></returns>
+	AABB GetAABB() const;
+
+	/// <summary>
+	/// 衝突応答処理
+	/// </summary>
+	/// <param name="enemy">敵</param>
+	void OnCollision(const Enemy* enemy);
 
 
 private:
@@ -115,7 +134,7 @@ private:
 	};
 
 	// 当たり判定のサイズ
-	const float kCollisionSize = 0.8f;
+	const float kCollisionSize = 1.8f;
 
 	/// <summary>
 	/// マップとの当たり判定
@@ -190,7 +209,7 @@ private:
 	const float kAttenuationLanding = 0.1f;
 
 	// 地面に吸着しないようにするため
-	const float kAdsorptionMargin = 0.05f;
+	const float kAdsorptionMargin = 0.1f;
 
 	// 最大移動速度
 	const float kMaxMoveSpeed = 0.3f;

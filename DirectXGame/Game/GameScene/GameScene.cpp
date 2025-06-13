@@ -5,7 +5,12 @@
 /// </summary>
 GameScene::~GameScene()
 {
-	
+	// 敵のリスト
+	for (Enemy* enemy : enemies_)
+	{
+		delete enemy;
+	}
+	enemies_.clear();
 }
 
 /// <summary>
@@ -45,6 +50,17 @@ void GameScene::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 	Vector3 playerPosition = mapChipField_->GetMapCihpPositionByIndex(1, 18);
 	player_->Initialize(engine_, camera3d_, playerPosition, directionalLight_.get());
 	player_->SetMapChipField(mapChipField_.get());
+
+	// 敵の生成と初期化
+	for (uint32_t i = 0; i < 3; ++i)
+	{
+		// 生成と初期化
+		Enemy* enemy = new Enemy();
+		enemy->Initialize(engine_, camera3d_, directionalLight_.get(), mapChipField_->GetMapCihpPositionByIndex(10 + i * 5, 18 - i * 3));
+
+		// リストに登録する
+		enemies_.push_back(enemy);
+	}
 }
 
 /// <summary>
@@ -60,6 +76,15 @@ void GameScene::Update()
 
 	// プレイヤーを更新する
 	player_->Update();
+
+	// 敵を更新する
+	for (Enemy* enemy : enemies_)
+	{
+		enemy->Update();
+	}
+
+	// 当たり判定
+	CheckAllCollisions();
 }
 
 /// <summary>
@@ -76,4 +101,44 @@ void GameScene::Draw()
 
 	// プレイヤーを描画する
 	player_->Draw();
+
+	// 敵を描画する
+	for (Enemy* enemy : enemies_)
+	{
+		enemy->Draw();
+	}
+}
+
+
+/// <summary>
+/// 全ての当たり判定を行う
+/// </summary>
+void GameScene::CheckAllCollisions()
+{
+	// プレイヤーと敵の当たり判定
+	CheckPlayerAndEnemyCollision();
+}
+
+/// <summary>
+/// プレイヤーと敵の当たり判定
+/// </summary>
+void GameScene::CheckPlayerAndEnemyCollision()
+{
+	// プレイヤーのAABB
+	AABB aabbPlayer = player_->GetAABB();
+
+	// 敵のAABB
+	AABB aabbEnemy;
+
+	for (Enemy* enemy : enemies_)
+	{
+		aabbEnemy = enemy->GetAABB();
+
+		// AABB同士の当たり判定
+		if (IsCollision(aabbPlayer, aabbEnemy))
+		{
+			player_->OnCollision(enemy);
+			enemy->OnCollision(player_.get());
+		}
+	}
 }

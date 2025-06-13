@@ -73,7 +73,7 @@ private:
 
 
 	// 座標補間割合
-	const float kInterpolationRate = 0.3f;
+	const float kInterpolationRate = 0.1f;
 
 	// 速度掛け率
 	const float kVelocityBias = 20.0f;

@@ -4,6 +4,7 @@
 #include "Skydome/Skydome.h"
 #include "Blocks/Blocks.h"
 #include "MapChipField/MapChipField.h"
+#include "Enemy/Enemy.h"
 
 class GameScene
 {
@@ -37,6 +38,11 @@ public:
 	/// <returns></returns>
 	Player* GetPlayerInstance() { return player_.get(); }
 
+	/// <summary>
+	/// 全ての当たり判定を行う
+	/// </summary>
+	void CheckAllCollisions();
+
 
 private:
 
@@ -61,5 +67,18 @@ private:
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+
+	// 敵の数
+	const uint32_t kNumEnemy = 3;
+
+	// 敵のリスト
+	std::list<Enemy*> enemies_ = {};
+
+
+	/// <summary>
+	/// プレイヤーと敵の当たり判定
+	/// </summary>
+	void CheckPlayerAndEnemyCollision();
 };
 

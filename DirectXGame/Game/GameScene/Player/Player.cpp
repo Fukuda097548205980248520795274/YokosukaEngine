@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../Enemy/Enemy.h"
 #include "../MapChipField/MapChipField.h"
 
 /// <summary>
@@ -509,10 +510,10 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 {
 	Vector3 offsetTable[kNumCorner] =
 	{
-		{kCollisionSize, -kCollisionSize, 0.0f},
-		{-kCollisionSize, -kCollisionSize, 0.0f},
-		{kCollisionSize, kCollisionSize, 0.0f},
-		{-kCollisionSize, kCollisionSize, 0.0f}
+		{kCollisionSize / 2.0f, -kCollisionSize / 2.0f, 0.0f},
+		{-kCollisionSize / 2.0f, -kCollisionSize / 2.0f, 0.0f},
+		{kCollisionSize / 2.0f, kCollisionSize / 2.0f, 0.0f},
+		{-kCollisionSize / 2.0f, kCollisionSize / 2.0f, 0.0f}
 	};
 
 	return center + offsetTable[static_cast<uint32_t>(corner)];
@@ -624,4 +625,46 @@ void Player::GroundOnSwitch(const CollisionMapInfo& info)
 			velocity_.y = 0.0f;
 		}
 	}
+}
+
+
+/// <summary>
+/// ワールド座標を取得する
+/// </summary>
+/// <returns></returns>
+Vector3 Player::GetWorldPosition() const
+{
+	// ワールド座標
+	Vector3 worldPosition;
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+	return worldPosition;
+}
+
+
+/// <summary>
+/// AABBを取得する
+/// </summary>
+/// <returns></returns>
+AABB Player::GetAABB() const
+{
+	// ワールド座標
+	Vector3 worldPosition = GetWorldPosition();
+
+	AABB aabb;
+	aabb.min = worldPosition - Vector3(1.0f, 1.0f, 1.0f);
+	aabb.max = worldPosition + Vector3(1.0f, 1.0f, 1.0f);
+
+	return aabb;
+}
+
+/// <summary>
+/// 衝突応答処理
+/// </summary>
+/// <param name="enemy">敵</param>
+void Player::OnCollision(const Enemy* enemy)
+{
+	(void)enemy;
+	velocity_ += Vector3(0.0f, 0.5f, 0.0f);
 }

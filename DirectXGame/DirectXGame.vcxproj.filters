@@ -256,6 +256,9 @@
     <Filter Include="YokosukaEngine\Include\Math\Vector1">
       <UniqueIdentifier>{1daa044c-097c-40f3-b93c-937c3a0cd844}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Enemy">
+      <UniqueIdentifier>{2d7acc7b-6a9f-4741-aa6c-beaff04e4a01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -476,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Math\Vector1\Vector1.cpp">
       <Filter>YokosukaEngine\Include\Math\Vector1</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Enemy\Enemy.cpp">
+      <Filter>Game\GameScene\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -700,6 +706,9 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Math\Vector1\Vector1.h">
       <Filter>YokosukaEngine\Include\Math\Vector1</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Enemy\Enemy.h">
+      <Filter>Game\GameScene\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
