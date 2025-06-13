@@ -1,7 +1,11 @@
 #pragma once
 #define NOMINMAX
+#include <array>
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../Player/Player.h"
+
+// 前方宣言
+class MapChipField;
 
 class Player
 {
@@ -37,8 +41,20 @@ public:
 	/// <returns></returns>
 	const Vector3& GetVelocity() const { return velocity_; }
 
+	/// <summary>
+	/// マップチップフィールドのSetter
+	/// </summary>
+	/// <param name="mapChipField"></param>
+	void SetMapChipField(const MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+
 
 private:
+
+	/// <summary>
+	/// 移動入力
+	/// </summary>
+	void InputMove();
+
 
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
@@ -48,6 +64,9 @@ private:
 
 	// 平行光源
 	const DirectionalLight* directionalLight_ = nullptr;
+
+	// マップチップフィールド
+	const MapChipField* mapChipField_ = nullptr;
 
 
 
@@ -67,12 +86,105 @@ private:
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
 
 
+	// マップとの当たり判定情報
+	struct CollisionMapInfo
+	{
+		// 天井衝突フラグ
+		bool isCeilingCollision = false;
+
+		// 着地フラグ
+		bool isLanding = false;
+
+		// 壁接触フラグ
+		bool isWallCollision = false;
+
+		// 当たり判定に伴う移動量
+		Vector3 velocity = { 0.0f , 0.0f , 0.0f };
+	};
+
+	// 角
+	enum Corner
+	{
+		kRightBottom,
+		kLeftBottom,
+		kRightTop,
+		kLeftTop,
+
+		// 要素数
+		kNumCorner
+	};
+
+	// 当たり判定のサイズ
+	const float kCollisionSize = 0.8f;
+
+	/// <summary>
+	/// マップとの当たり判定
+	/// </summary>
+	/// <param name="info">マップとの当たり判定情報</param>
+	void MapCollision(CollisionMapInfo& info);
+
+	/// <summary>
+	/// マップとの上方向当たり判定
+	/// </summary>
+	/// <param name="info"></param>
+	void MapCollisionTop(CollisionMapInfo& info);
+
+	/// <summary>
+	/// マップとの下方向当たり判定
+	/// </summary>
+	/// <param name="info"></param>
+	void MapCollisionBottom(CollisionMapInfo& info);
+
+	/// <summary>
+	/// マップとの右方向当たり判定
+	/// </summary>
+	/// <param name="info"></param>
+	void MapCollisionRight(CollisionMapInfo& info);
+
+	/// <summary>
+	/// マップとの左方向当たり判定
+	/// </summary>
+	/// <param name="info"></param>
+	void MapCollisionLeft(CollisionMapInfo& info);
+
+	/// <summary>
+	/// 角の座標を取得する
+	/// </summary>
+	/// <param name="center"></param>
+	/// <param name="corner"></param>
+	/// <returns></returns>
+	Vector3 CornerPosition(const Vector3& center, Corner corner);
+
+	/// <summary>
+	/// 判定結果を反映して移動させる
+	/// </summary>
+	/// <param name="info"></param>
+	void CollisionMove(const CollisionMapInfo& info);
+
+	/// <summary>
+	/// 天井に当たったときの判定処理
+	/// </summary>
+	/// <param name="info"></param>
+	void CeilingCollision(const CollisionMapInfo& info);
+
+	/// <summary>
+	/// 接地状態の切り替え処理
+	/// </summary>
+	/// <param name="info"></param>
+	void GroundOnSwitch(const CollisionMapInfo& info);
+
 
 	// 加算するための加速度
 	const float kAddAcceleration = 0.03f;
 
 	// 速度減衰率
 	const float kAttenuation = 0.3f;
+
+	// 着地時の速度減衰率
+	const float kAttenuationLanding = 0.5f;
+
+	// 地面に吸着しないようにするため
+	const float kAdsorptionMargin = 0.05f;
 
 	// 最大移動速度
 	const float kMaxMoveSpeed = 0.3f;

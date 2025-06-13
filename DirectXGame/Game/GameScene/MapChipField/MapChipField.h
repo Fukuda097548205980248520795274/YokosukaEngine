@@ -28,6 +28,24 @@ class MapChipField
 {
 public:
 
+	// マップ番号
+	struct IndexSet
+	{
+		uint32_t xIndex;
+		uint32_t yIndex;
+	};
+
+	// 範囲矩形
+	struct Rect
+	{
+		float left;
+		float right;
+		float bottom;
+		float top;
+	};
+
+public:
+
 	/// <summary>
 	/// 読み込み前のリセット
 	/// </summary>
@@ -66,6 +84,21 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	uint32_t GetBlockColumn() const { return kBlockColumn; }
+
+	/// <summary>
+	/// 座標で、マップチップ番号を取得する
+	/// </summary>
+	/// <param name="poisition"></param>
+	/// <returns></returns>
+	IndexSet GetMapChipIndexSetByPosition(const Vector3& position) const;
+
+	/// <summary>
+	/// マップチップ番号で、ブロックの矩形範囲を求める
+	/// </summary>
+	/// <param name="xIndex"></param>
+	/// <param name="yIndex"></param>
+	/// <returns></returns>
+	Rect GetRectByIndex(uint32_t xIndex, uint32_t yIndex) const;
 
 
 private:

@@ -44,6 +44,7 @@ void GameScene::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 	player_ = std::make_unique<Player>();
 	Vector3 playerPosition = mapChipField_->GetMapCihpPositionByIndex(1, 18);
 	player_->Initialize(engine_, camera3d_, playerPosition, directionalLight_.get());
+	player_->SetMapChipField(mapChipField_.get());
 }
 
 /// <summary>

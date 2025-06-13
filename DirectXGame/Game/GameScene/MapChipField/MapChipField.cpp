@@ -116,3 +116,40 @@ Vector3 MapChipField::GetMapCihpPositionByIndex(uint32_t xIndex, uint32_t yIndex
 
 	return mapChipPosition;
 }
+
+
+/// <summary>
+/// 座標で、マップチップ番号を取得する
+/// </summary>
+/// <param name="poisition"></param>
+/// <returns></returns>
+MapChipField::IndexSet MapChipField::GetMapChipIndexSetByPosition(const Vector3& position) const
+{
+	IndexSet indexSet;
+	indexSet.xIndex = static_cast<uint32_t>((position.x + (kBlockSize / 2.0f)) / kBlockSize);
+	indexSet.yIndex = kBlockRow - 1 - static_cast<uint32_t>((position.y + (kBlockSize / 2.0f)) / kBlockSize);
+
+	return indexSet;
+}
+
+
+/// <summary>
+/// マップチップ番号で、ブロックの矩形範囲を求める
+/// </summary>
+/// <param name="xIndex"></param>
+/// <param name="yIndex"></param>
+/// <returns></returns>
+MapChipField::Rect MapChipField::GetRectByIndex(uint32_t xIndex, uint32_t yIndex) const
+{
+
+	// ブロックの中心点
+	Vector3 center = GetMapCihpPositionByIndex(xIndex, yIndex);
+
+	Rect rect;
+	rect.left = center.x - kBlockSize / 2.0f;
+	rect.right = center.x + kBlockSize / 2.0f;
+	rect.bottom = center.y - kBlockSize / 2.0f;
+	rect.top = center.y + kBlockSize / 2.0f;
+
+	return rect;
+}
