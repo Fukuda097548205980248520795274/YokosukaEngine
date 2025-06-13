@@ -168,6 +168,12 @@ private:
 	void CeilingCollision(const CollisionMapInfo& info);
 
 	/// <summary>
+	/// 壁に当たったときの判定処理
+	/// </summary>
+	/// <param name="info"></param>
+	void WallCollision(const CollisionMapInfo& info);
+
+	/// <summary>
 	/// 接地状態の切り替え処理
 	/// </summary>
 	/// <param name="info"></param>
@@ -181,7 +187,7 @@ private:
 	const float kAttenuation = 0.3f;
 
 	// 着地時の速度減衰率
-	const float kAttenuationLanding = 0.5f;
+	const float kAttenuationLanding = 0.1f;
 
 	// 地面に吸着しないようにするため
 	const float kAdsorptionMargin = 0.05f;

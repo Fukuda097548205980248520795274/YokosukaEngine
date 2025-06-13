@@ -82,6 +82,6 @@ private:
 	Vector3 goalPosition_ = { 0.0f , 0.0f , 0.0f };
 
 	// 追従対象へのカメラ移動範囲
-	Rect targetMargin_ = { -6.0f , 6.0f , -3.0f , 3.0f };
+	Rect targetMargin_ = { -6.0f , 6.0f , -0.1f , 0.1f };
 };
 

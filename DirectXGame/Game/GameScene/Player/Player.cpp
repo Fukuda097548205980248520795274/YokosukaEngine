@@ -63,6 +63,8 @@ void Player::Update()
 
 	CeilingCollision(collisionMapInfo);
 
+	WallCollision(collisionMapInfo);
+
 	GroundOnSwitch(collisionMapInfo);
 
 	// 旋回制御
@@ -244,7 +246,7 @@ void Player::MapCollision(CollisionMapInfo& info)
 void Player::MapCollisionTop(CollisionMapInfo& info)
 {
 	// 上移動していないときはスルー
-	if (info.velocity.y < 0.0f)
+	if (info.velocity.y <= 0.0f)
 	{
 		return;
 	}
@@ -309,7 +311,7 @@ void Player::MapCollisionTop(CollisionMapInfo& info)
 void Player::MapCollisionBottom(CollisionMapInfo& info)
 {
 	// 落下していないときはスルー
-	if (info.velocity.y > 0.0f)
+	if (info.velocity.y >= 0.0f)
 	{
 		return;
 	}
@@ -336,7 +338,7 @@ void Player::MapCollisionBottom(CollisionMapInfo& info)
 	// マップチップ番号
 	MapChipField::IndexSet indexSet;
 
-	// 左上の当たり判定
+	// 左下の当たり判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition({ positionCurrent[kLeftBottom].x , positionNew[kLeftBottom].y , 0.0f });
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock)
@@ -344,8 +346,8 @@ void Player::MapCollisionBottom(CollisionMapInfo& info)
 		isCollision = true;
 	}
 
-	// 右上の当たり判定
-	indexSet = mapChipField_->GetMapChipIndexSetByPosition({ positionCurrent[kRightBottom].x , positionNew[kRightBottom].y , 0.0f });
+	// 右下の当たり判定
+	indexSet = mapChipField_->GetMapChipIndexSetByPosition({ positionCurrent[kRightBottom].x , positionNew[kLeftBottom].y , 0.0f });
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock)
 	{
@@ -356,11 +358,11 @@ void Player::MapCollisionBottom(CollisionMapInfo& info)
 	if (isCollision)
 	{
 		// めり込みを排除する方向に移動量を設定する
-		indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightBottom]);
+		indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kLeftBottom]);
 
 		// めり込み先ブロックの範囲矩形
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
-		info.velocity.y = std::min(0.0f, rect.top -  worldTransform_->translation_.y + 1.0f);
+		info.velocity.y = std::min(0.0f, rect.top - worldTransform_->translation_.y + 1.0f);
 
 		// 天井に当たった子を記録する
 		info.isLanding = true;
@@ -374,7 +376,7 @@ void Player::MapCollisionBottom(CollisionMapInfo& info)
 void Player::MapCollisionRight(CollisionMapInfo& info)
 {
 	// 上移動していないときはスルー
-	if (info.velocity.x < 0.0f)
+	if (info.velocity.x <= 0.0f)
 	{
 		return;
 	}
@@ -439,7 +441,7 @@ void Player::MapCollisionRight(CollisionMapInfo& info)
 void Player::MapCollisionLeft(CollisionMapInfo& info)
 {
 	// 左移動していないときはスルー
-	if (info.velocity.x > 0.0f)
+	if (info.velocity.x >= 0.0f)
 	{
 		return;
 	}
@@ -507,10 +509,10 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 {
 	Vector3 offsetTable[kNumCorner] =
 	{
-		{kCollisionSize / 2.0f, -kCollisionSize / 2.0f, 0.0f},
-		{-kCollisionSize / 2.0f, -kCollisionSize / 2.0f, 0.0f},
-		{kCollisionSize / 2.0f, kCollisionSize / 2.0f, 0.0f},
-		{-kCollisionSize / 2.0f, kCollisionSize / 2.0f, 0.0f}
+		{kCollisionSize, -kCollisionSize, 0.0f},
+		{-kCollisionSize, -kCollisionSize, 0.0f},
+		{kCollisionSize, kCollisionSize, 0.0f},
+		{-kCollisionSize, kCollisionSize, 0.0f}
 	};
 
 	return center + offsetTable[static_cast<uint32_t>(corner)];
@@ -537,6 +539,17 @@ void Player::CeilingCollision(const CollisionMapInfo& info)
 	}
 }
 
+/// <summary>
+/// 壁に当たったときの判定処理
+/// </summary>
+/// <param name="info"></param>
+void Player::WallCollision(const CollisionMapInfo& info)
+{
+	if (info.isWallCollision)
+	{
+		velocity_.x = 0.0f;
+	}
+}
 
 /// <summary>
 /// 接地状態の切り替え処理
