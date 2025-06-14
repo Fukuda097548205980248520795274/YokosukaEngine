@@ -2,9 +2,26 @@
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../MainCamera/MainCamera.h"
 #include "../Axis/Axis.h"
+#include "../Fade/Fade.h"
 
 class TitleScene
 {
+public:
+
+	// フェーズ
+	enum class Phase
+	{
+		// フェードイン
+		kFadeIn,
+
+		// メイン部
+		kMain,
+
+		// フェードアウト
+		kFadeOut
+	};
+
+
 public:
 
 	/// <summary>
@@ -29,6 +46,16 @@ public:
 	/// <returns></returns>
 	bool IsFinished() { return isFinished_; }
 
+	/// <summary>
+	/// フェーズの状態遷移
+	/// </summary>
+	void ChangePhase();
+
+	/// <summary>
+	/// メイン部の更新処理
+	/// </summary>
+	void MainUpdate();
+
 
 private:
 
@@ -52,6 +79,15 @@ private:
 	std::unique_ptr<Axis> axis_ = nullptr;
 
 #endif
+
+	// フェード
+	std::unique_ptr<Fade> fade_ = nullptr;
+
+	// 現在のフェーズ
+	Phase phase_ = Phase::kFadeOut;
+
+	// フェードする時間
+	const float kFadeTime = 1.0f;
 
 
 	// 終了フラグ

@@ -45,8 +45,8 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 
 
-	// ゲームプレイフェーズから
-	phase_ = Phase::kPlay;
+	// フェーズを初期化する
+	phase_ = Phase::kFadeOut;
 
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
@@ -91,6 +91,14 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 		// リストに登録する
 		enemies_.push_back(enemy);
 	}
+
+
+	// フェードの生成と初期化
+	fade_ = std::make_unique<Fade>();
+	fade_->Initialize(engine_);
+
+	// フェードアウト
+	fade_->Start(Fade::Status::kFadeOut, kFadeTime);
 }
 
 /// <summary>
@@ -136,60 +144,26 @@ void GameScene::Update()
 	// フェーズ切り替え
 	ChangePhase();
 
+	// フェーズの更新処理
 	switch (phase_)
 	{
 	case Phase::kPlay:
 		// ゲームプレイ
 
-		// 天球を更新する
-		skydome_->Update();
-
-		// ブロックを更新する
-		blocks_->Update();
-
-		// プレイヤーを更新する
-		player_->Update();
-
-		// 敵を更新する
-		for (Enemy* enemy : enemies_)
-		{
-			enemy->Update();
-		}
-
-		// 当たり判定
-		CheckAllCollisions();
+		GamePlayUpdate();
 
 		break;
 
 	case Phase::kDeath:
 		// デス演出
 
-		// 天球を更新する
-		skydome_->Update();
-
-		// ブロックを更新する
-		blocks_->Update();
-
-		// デスパーティクルを更新する
-		if (deathParticle_)
-		{
-			deathParticle_->Update();
-
-			// 消滅したらゲームシーンを終了する
-			if (deathParticle_->IsFinished())
-			{
-				isFinished_ = true;
-			}
-		}
-
-		// 敵を更新する
-		for (Enemy* enemy : enemies_)
-		{
-			enemy->Update();
-		}
+		DeathUpdate();
 
 		break;
 	}
+
+	// フェードの更新
+	fade_->Update();
 }
 
 /// <summary>
@@ -225,6 +199,9 @@ void GameScene::Draw()
 	{
 		enemy->Draw();
 	}
+
+	// フェードの描画
+	fade_->Draw();
 }
 
 
@@ -268,6 +245,17 @@ void GameScene::ChangePhase()
 {
 	switch (phase_)
 	{
+	case Phase::kFadeOut:
+		// フェードアウト
+
+		// フェードが終了したら、ゲームプレイに遷移する
+		if (fade_->IsFinished())
+		{
+			phase_ = Phase::kPlay;
+		}
+
+		break;
+
 	case Phase::kPlay:
 		// ゲームプレイ
 
@@ -289,6 +277,76 @@ void GameScene::ChangePhase()
 	case Phase::kDeath:
 		// デス演出
 
+		// デスパーティクルが消滅したらフェードイン
+		if (deathParticle_)
+		{
+			if (deathParticle_->IsFinished())
+			{
+				phase_ = Phase::kFadeIn;
+				fade_->Start(Fade::Status::kFadeIn, kFadeTime);
+			}
+		}
+
 		break;
+
+	case Phase::kFadeIn:
+		// フェードイン
+
+		// フェードが終了したら、ゲームシーンを終了する
+		if (fade_->IsFinished())
+		{
+			isFinished_ = true;
+		}
+
+		break;
+	}
+}
+
+
+/// <summary>
+/// ゲームプレイの更新処理
+/// </summary>
+void GameScene::GamePlayUpdate()
+{
+	// 天球を更新する
+	skydome_->Update();
+
+	// ブロックを更新する
+	blocks_->Update();
+
+	// プレイヤーを更新する
+	player_->Update();
+
+	// 敵を更新する
+	for (Enemy* enemy : enemies_)
+	{
+		enemy->Update();
+	}
+
+	// 当たり判定
+	CheckAllCollisions();
+}
+
+/// <summary>
+/// デス演出の更新処理
+/// </summary>
+void GameScene::DeathUpdate()
+{
+	// 天球を更新する
+	skydome_->Update();
+
+	// ブロックを更新する
+	blocks_->Update();
+
+	// デスパーティクルを更新する
+	if (deathParticle_)
+	{
+		deathParticle_->Update();
+	}
+
+	// 敵を更新する
+	for (Enemy* enemy : enemies_)
+	{
+		enemy->Update();
 	}
 }

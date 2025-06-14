@@ -8,6 +8,7 @@
 #include "Enemy/Enemy.h"
 #include "DeathParticle/DeathParticle.h"
 #include "../Axis/Axis.h"
+#include "../Fade/Fade.h"
 
 class GameScene
 {
@@ -16,11 +17,17 @@ public:
 	// フェーズ
 	enum class Phase
 	{
+		// フェードアウト
+		kFadeOut,
+
 		// ゲームプレイ
 		kPlay,
 
 		// デス演出
-		kDeath
+		kDeath,
+
+		// フェードイン
+		kFadeIn,
 	};
 
 
@@ -64,6 +71,16 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	bool IsFinished() { return isFinished_; }
+
+	/// <summary>
+	/// ゲームプレイの更新処理
+	/// </summary>
+	void GamePlayUpdate();
+
+	/// <summary>
+	/// デス演出の更新処理
+	/// </summary>
+	void DeathUpdate();
 
 
 private:
@@ -121,7 +138,14 @@ private:
 
 
 	// 現在のフェーズ
-	Phase phase_;
+	Phase phase_ = Phase::kFadeOut;
+
+
+	// フェード
+	std::unique_ptr<Fade> fade_ = nullptr;
+
+	// フェードする時間
+	const float kFadeTime = 1.0f;
 
 
 	/// <summary>

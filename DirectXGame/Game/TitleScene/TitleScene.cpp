@@ -12,6 +12,9 @@ void TitleScene::Initialize(const YokosukaEngine* engine)
 	// 引数を受け取る
 	engine_ = engine;
 
+	// フェーズ初期化
+	phase_ = Phase::kFadeOut;
+
 
 	// 3Dカメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
@@ -29,6 +32,13 @@ void TitleScene::Initialize(const YokosukaEngine* engine)
 	axis_->Initialize(engine_);
 
 #endif
+
+	// フェードの生成と初期化
+	fade_ = std::make_unique<Fade>();
+	fade_->Initialize(engine_);
+
+	// フェードアウトする
+	fade_->Start(Fade::Status::kFadeOut, kFadeTime);
 }
 
 /// <summary>
@@ -70,14 +80,22 @@ void TitleScene::Update()
 	}
 
 
-	// スペースキーで、ゲームシーンに移行するため、終了する
-	if (engine_->IsGamepadEnable(0))
+	// フェーズの更新処理
+	switch (phase_)
 	{
-		if (engine_->GetGamepadButtonTrigger(0,XINPUT_GAMEPAD_A))
-		{
-			isFinished_ = true;
-		}
+	case Phase::kMain:
+		// メイン部
+
+		MainUpdate();
+
+		break;
 	}
+
+	// フェーズ切り替え
+	ChangePhase();
+
+	// フェードの更新
+	fade_->Update();
 }
 
 /// <summary>
@@ -92,4 +110,59 @@ void TitleScene::Draw()
 	axis_->Draw();
 
 #endif
+
+	// フェードの描画
+	fade_->Draw();
+}
+
+/// <summary>
+/// フェーズの状態遷移
+/// </summary>
+void TitleScene::ChangePhase()
+{
+	switch (phase_)
+	{
+	case Phase::kFadeOut:
+		// フェードアウト
+
+		// フェードが終了したら、メイン部に遷移する
+		if (fade_->IsFinished())
+		{
+			phase_ = Phase::kMain;
+		}
+
+		break;
+
+	case Phase::kMain:
+		// メイン部
+
+		break;
+
+	case Phase::kFadeIn:
+		// フェードイン
+
+		// フェードが終了したら、タイトルシーンを終了させる
+		if (fade_->IsFinished())
+		{
+			isFinished_ = true;
+		}
+
+		break;
+	}
+}
+
+/// <summary>
+/// メイン部の更新処理
+/// </summary>
+void TitleScene::MainUpdate()
+{
+	// スペースキーで、フェードインに移行する
+	if (engine_->IsGamepadEnable(0))
+	{
+		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
+		{
+			phase_ = Phase::kFadeIn;
+			fade_->Start(Fade::Status::kFadeIn, kFadeTime);
+		}
+	}
 }
