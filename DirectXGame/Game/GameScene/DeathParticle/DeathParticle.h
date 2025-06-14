@@ -28,6 +28,12 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 終了フラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished() { return isFinished_;  }
+
 
 private:
 

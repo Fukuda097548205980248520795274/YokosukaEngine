@@ -59,6 +59,12 @@ public:
 	/// </summary>
 	void CheckAllCollisions();
 
+	/// <summary>
+	/// 終了フラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished() { return isFinished_; }
+
 
 private:
 
@@ -81,6 +87,9 @@ private:
 	std::unique_ptr<Axis> axis_ = nullptr;
 
 #endif
+
+	// 終了フラグ
+	bool isFinished_ = false;
 
 
 

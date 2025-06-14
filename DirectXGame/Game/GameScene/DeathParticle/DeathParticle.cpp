@@ -60,6 +60,7 @@ void DeathParticle::Update()
 	if (counter_ >= kDuration)
 	{
 		isFinished_ = true;
+		return;
 	}
 
 	// 徐々に透明になる

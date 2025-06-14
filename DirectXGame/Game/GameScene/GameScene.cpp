@@ -170,10 +170,16 @@ void GameScene::Update()
 		// ブロックを更新する
 		blocks_->Update();
 
+		// デスパーティクルを更新する
 		if (deathParticle_)
 		{
-			// デスパーティクルを更新する
 			deathParticle_->Update();
+
+			// 消滅したらゲームシーンを終了する
+			if (deathParticle_->IsFinished())
+			{
+				isFinished_ = true;
+			}
 		}
 
 		// 敵を更新する

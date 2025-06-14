@@ -17,6 +17,9 @@ void Game::Initialize(const YokosukaEngine* engine)
 	    ゲーム制作
 	--------------*/
 
+	// 最初のシーン初期化
+	scene_ = Scene::kTitle;
+
 	// タイトルシーンの生成と初期化
 	titleScene_ = std::make_unique<TitleScene>();
 	titleScene_->Initialize(engine_);
@@ -32,15 +35,11 @@ void Game::Initialize(const YokosukaEngine* engine)
 void Game::Update()
 {
 
-	/*--------------
-	    ゲーム制作
-	--------------*/
+	// シーン状態遷移
+	ChangeScene();
 
-	// タイトルシーン更新
-	titleScene_->Update();
-
-	// ゲームシーン更新
-	//gameScene_->Update();
+	// シーン更新
+	UpdateScene();
 }
 
 /// <summary>
@@ -49,13 +48,97 @@ void Game::Update()
 void Game::Draw()
 {
 
-	/*---------------
-	    ゲーム制作
-	---------------*/
+	// シーン描画
+	DrawScene();
+}
 
-	// タイトルシーン描画
-	titleScene_->Draw();
+/// <summary>
+/// シーン状態遷移
+/// </summary>
+void Game::ChangeScene()
+{
+	switch (scene_)
+	{
+	case Scene::kTitle:
+		// タイトルシーン
+		
+		// タイトルシーンが終了したら、ゲームシーンに遷移する
+		if (titleScene_->IsFinished())
+		{
+			scene_ = Scene::kGame;
 
-	// ゲームシーン描画
-	//gameScene_->Draw();
+			// タイトルシーンの解放
+			titleScene_.release();
+
+			// ゲームシーンの生成と初期化
+			gameScene_ = std::make_unique<GameScene>();
+			gameScene_->Initialize(engine_);
+		}
+
+		break;
+
+	case Scene::kGame:
+		// ゲームシーン
+
+		// ゲームシーンが終了したら、タイトルシーンに遷移する
+		if (gameScene_->IsFinished())
+		{
+			scene_ = Scene::kTitle;
+
+			// ゲームシーンの解放
+			gameScene_.release();
+
+			// タイトルシーンの生成と初期化
+			titleScene_ = std::make_unique<TitleScene>();
+			titleScene_->Initialize(engine_);
+		}
+
+		break;
+	}
+}
+
+/// <summary>
+/// シーンを更新する
+/// </summary>
+void Game::UpdateScene()
+{
+	switch (scene_)
+	{
+	case Scene::kTitle:
+		// タイトルシーン
+
+		titleScene_->Update();
+
+		break;
+
+	case Scene::kGame:
+		// ゲームシーン
+
+		gameScene_->Update();
+
+		break;
+	}
+}
+
+/// <summary>
+/// シーンを描画する
+/// </summary>
+void Game::DrawScene()
+{
+	switch (scene_)
+	{
+	case Scene::kTitle:
+		// タイトルシーン
+
+		titleScene_->Draw();
+
+		break;
+
+	case Scene::kGame:
+		// ゲームシーン
+
+		gameScene_->Draw();
+
+		break;
+	}
 }

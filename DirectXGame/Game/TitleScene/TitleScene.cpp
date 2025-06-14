@@ -68,6 +68,16 @@ void TitleScene::Update()
 		engine_->DebugCameraUpdate();
 		camera3d_->UpdateDebugCameraData(engine_->GetDebugCameraInstance());
 	}
+
+
+	// スペースキーで、ゲームシーンに移行するため、終了する
+	if (engine_->IsGamepadEnable(0))
+	{
+		if (engine_->GetGamepadButtonTrigger(0,XINPUT_GAMEPAD_A))
+		{
+			isFinished_ = true;
+		}
+	}
 }
 
 /// <summary>
