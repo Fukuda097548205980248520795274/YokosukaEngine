@@ -17,16 +17,36 @@ GameScene::~GameScene()
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
-/// <param name="camera3d"></param>
-void GameScene::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
+void GameScene::Initialize(const YokosukaEngine* engine)
 {
 	// nullptrチェック
 	assert(engine);
-	assert(camera3d);
 
 	// 引数を受け取る
 	engine_ = engine;
-	camera3d_ = camera3d;
+
+
+	// 3Dカメラの生成と初期化
+	camera3d_ = std::make_unique<Camera3D>();
+	camera3d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+	// メインカメラの生成と初期化
+	mainCamera_ = std::make_unique<MainCamera>();
+	mainCamera_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+	// デバッグカメラの表示の初期化
+#ifdef _DEBUG
+
+	// 軸方向表示の生成と初期化
+	axis_ = std::make_unique<Axis>();
+	axis_->Initialize(engine_);
+
+#endif
+
+
+
+	// ゲームプレイフェーズから
+	phase_ = Phase::kPlay;
 
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
@@ -39,28 +59,34 @@ void GameScene::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
-	skydome_->Initialize(engine_, camera3d_);
+	skydome_->Initialize(engine_, camera3d_.get());
+
 
 	// ブロックの生成と初期化
 	blocks_ = std::make_unique<Blocks>();
-	blocks_->Initialize(engine_ ,mapChipField_.get(), camera3d_, directionalLight_.get());
+	blocks_->Initialize(engine_ ,mapChipField_.get(), camera3d_.get(), directionalLight_.get());
+
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
 	Vector3 playerPosition = mapChipField_->GetMapCihpPositionByIndex(1, 18);
-	player_->Initialize(engine_, camera3d_, playerPosition, directionalLight_.get());
+	player_->Initialize(engine_, camera3d_.get(), playerPosition, directionalLight_.get());
 	player_->SetMapChipField(mapChipField_.get());
 
-	// デスパーティクルの生成と初期化
-	deathParticle_ = std::make_unique<DeathParticle>();
-	deathParticle_->Initialize(engine_, camera3d_, mapChipField_->GetMapCihpPositionByIndex(3, 18));
+	// ゲームカメラの追従対象を設定する
+	mainCamera_->SetTarget(player_.get());
+	mainCamera_->Reset();
+
+	// ゲームカメラの移動範囲
+	mainCamera_->SetMovableArea(MainCamera::Rect{ 15.0f , 100.0f , 8.0f , 100.0f });
+
 
 	// 敵の生成と初期化
 	for (uint32_t i = 0; i < 3; ++i)
 	{
 		// 生成と初期化
 		Enemy* enemy = new Enemy();
-		enemy->Initialize(engine_, camera3d_, directionalLight_.get(), mapChipField_->GetMapCihpPositionByIndex(10 + i * 5, 18 - i * 3));
+		enemy->Initialize(engine_, camera3d_.get(), directionalLight_.get(), mapChipField_->GetMapCihpPositionByIndex(10 + i * 5, 18 - i * 3));
 
 		// リストに登録する
 		enemies_.push_back(enemy);
@@ -72,29 +98,92 @@ void GameScene::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void GameScene::Update()
 {
-	// 天球を更新する
-	skydome_->Update();
+	// ゲームカメラ・デバッグカメラ切り替え
+#ifdef _DEBUG
 
-	// ブロックを更新する
-	blocks_->Update();
-
-	// プレイヤーを更新する
-	player_->Update();
-
-	if (deathParticle_)
+	// Pキーで、カメラを切り替える
+	if (engine_->GetKeyTrigger(DIK_P))
 	{
-		// デスパーティクルを更新する
-		deathParticle_->Update();
+		if (isDebugCameraActive_ == false)
+		{
+			isDebugCameraActive_ = true;
+		} else
+		{
+			isDebugCameraActive_ = false;
+		}
 	}
 
-	// 敵を更新する
-	for (Enemy* enemy : enemies_)
+	// 軸方向表示の更新
+	axis_->Update(camera3d_->rotation_);
+
+#endif
+
+	// カメラの値を渡して更新　ゲームカメラ
+	if (isDebugCameraActive_ == false)
 	{
-		enemy->Update();
+		// ゲームカメラの更新
+		mainCamera_->Update();
+		camera3d_->UpdateOthersCameraData(mainCamera_->GetGameCameraInstance());
+	}
+	else
+	{
+		// デバッグカメラの更新
+		engine_->DebugCameraUpdate();
+		camera3d_->UpdateDebugCameraData(engine_->GetDebugCameraInstance());
 	}
 
-	// 当たり判定
-	CheckAllCollisions();
+
+	// フェーズ切り替え
+	ChangePhase();
+
+	switch (phase_)
+	{
+	case Phase::kPlay:
+		// ゲームプレイ
+
+		// 天球を更新する
+		skydome_->Update();
+
+		// ブロックを更新する
+		blocks_->Update();
+
+		// プレイヤーを更新する
+		player_->Update();
+
+		// 敵を更新する
+		for (Enemy* enemy : enemies_)
+		{
+			enemy->Update();
+		}
+
+		// 当たり判定
+		CheckAllCollisions();
+
+		break;
+
+	case Phase::kDeath:
+		// デス演出
+
+		// 天球を更新する
+		skydome_->Update();
+
+		// ブロックを更新する
+		blocks_->Update();
+
+		if (deathParticle_)
+		{
+			// デスパーティクルを更新する
+			deathParticle_->Update();
+		}
+
+		// 敵を更新する
+		for (Enemy* enemy : enemies_)
+		{
+			enemy->Update();
+		}
+
+		break;
+	}
 }
 
 /// <summary>
@@ -102,6 +191,13 @@ void GameScene::Update()
 /// </summary>
 void GameScene::Draw()
 {
+	// デバッグカメラの表示
+#ifdef _DEBUG
+
+	// 軸方向表示の描画
+	axis_->Draw();
+
+#endif
 
 	// 天球を描画する
 	skydome_->Draw();
@@ -156,5 +252,37 @@ void GameScene::CheckPlayerAndEnemyCollision()
 			player_->OnCollision(enemy);
 			enemy->OnCollision(player_.get());
 		}
+	}
+}
+
+/// <summary>
+/// フェーズを切り替える
+/// </summary>
+void GameScene::ChangePhase()
+{
+	switch (phase_)
+	{
+	case Phase::kPlay:
+		// ゲームプレイ
+
+		if (player_->IsDead())
+		{
+			// 切り替え
+			phase_ = Phase::kDeath;
+
+			// プレイヤーの座標を取得
+			const Vector3& playerPosition = player_->GetWorldPosition();
+
+			// デスパーティクルを発生
+			deathParticle_ = std::make_unique<DeathParticle>();
+			deathParticle_->Initialize(engine_, camera3d_.get(), playerPosition);
+		}
+		
+		break;
+
+	case Phase::kDeath:
+		// デス演出
+
+		break;
 	}
 }

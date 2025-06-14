@@ -82,6 +82,9 @@ void Player::Update()
 /// </summary>
 void Player::Draw()
 {
+	if (isDead_)
+		return;
+
 	// モデルを描画する
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f },
 		directionalLight_, pointLight_.get(), spotLight_.get());
@@ -666,5 +669,7 @@ AABB Player::GetAABB() const
 void Player::OnCollision(const Enemy* enemy)
 {
 	(void)enemy;
-	velocity_ += Vector3(0.0f, 0.5f, 0.0f);
+
+	// 死亡する
+	isDead_ = true;
 }

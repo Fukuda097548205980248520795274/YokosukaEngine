@@ -1,14 +1,29 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../MainCamera/MainCamera.h"
 #include "Player/Player.h"
 #include "Skydome/Skydome.h"
 #include "Blocks/Blocks.h"
 #include "MapChipField/MapChipField.h"
 #include "Enemy/Enemy.h"
 #include "DeathParticle/DeathParticle.h"
+#include "../Axis/Axis.h"
 
 class GameScene
 {
+public:
+
+	// フェーズ
+	enum class Phase
+	{
+		// ゲームプレイ
+		kPlay,
+
+		// デス演出
+		kDeath
+	};
+
+
 public:
 
 	/// <summary>
@@ -21,7 +36,7 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	void Initialize(const YokosukaEngine* engine , const Camera3D* camera3d);
+	void Initialize(const YokosukaEngine* engine);
 
 	/// <summary>
 	/// 更新処理
@@ -50,8 +65,24 @@ private:
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
 
+	// デバッグカメラ有効化
+	bool isDebugCameraActive_ = false;
+
 	// 3Dカメラ
-	const Camera3D* camera3d_ = nullptr;
+	std::unique_ptr<Camera3D> camera3d_ = nullptr;
+
+	// メインカメラ
+	std::unique_ptr<MainCamera> mainCamera_ = nullptr;
+
+	// デバッグのみで使用する
+#ifdef _DEBUG
+
+	// 軸方向表示
+	std::unique_ptr<Axis> axis_ = nullptr;
+
+#endif
+
+
 
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
@@ -80,9 +111,18 @@ private:
 	std::list<Enemy*> enemies_ = {};
 
 
+	// 現在のフェーズ
+	Phase phase_;
+
+
 	/// <summary>
 	/// プレイヤーと敵の当たり判定
 	/// </summary>
 	void CheckPlayerAndEnemyCollision();
+
+	/// <summary>
+	/// フェーズを切り替える
+	/// </summary>
+	void ChangePhase();
 };
 

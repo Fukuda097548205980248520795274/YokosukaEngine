@@ -6,7 +6,7 @@
 // 前方宣言
 class Player;
 
-class GameCamera
+class MainCamera
 {
 public:
 

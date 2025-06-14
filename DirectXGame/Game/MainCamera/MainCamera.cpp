@@ -1,4 +1,4 @@
-#include "GameCamera.h"
+#include "MainCamera.h"
 #include "../GameScene/Player/Player.h"
 
 /// <summary>
@@ -6,7 +6,7 @@
 /// </summary>
 /// <param name="screenWidth">画面の横幅</param>
 /// <param name="screenHeight">画面の縦幅</param>
-void GameCamera::Initialize(float screenWidth, float screenHeight)
+void MainCamera::Initialize(float screenWidth, float screenHeight)
 {
 	// カメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
@@ -16,7 +16,7 @@ void GameCamera::Initialize(float screenWidth, float screenHeight)
 /// <summary>
 /// 更新処理
 /// </summary>
-void GameCamera::Update()
+void MainCamera::Update()
 {
 	// 追従対象がいるときだけ
 	if (target_)
@@ -51,7 +51,7 @@ void GameCamera::Update()
 /// <summary>
 /// リセット関数
 /// </summary>
-void GameCamera::Reset()
+void MainCamera::Reset()
 {
 	// 追従対象がいるときだけ
 	if (target_)

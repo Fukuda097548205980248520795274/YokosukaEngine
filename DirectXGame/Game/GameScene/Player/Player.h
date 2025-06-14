@@ -66,6 +66,12 @@ public:
 	/// <param name="enemy">敵</param>
 	void OnCollision(const Enemy* enemy);
 
+	/// <summary>
+	/// デスフラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsDead() const { return isDead_; }
+
 
 private:
 
@@ -254,4 +260,8 @@ private:
 
 	// ジャンプ初速
 	const float kJumpStartAcceleration = 0.8f;
+
+
+	// デスフラグ
+	bool isDead_ = false;
 };

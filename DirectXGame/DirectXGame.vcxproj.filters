@@ -181,9 +181,6 @@
     <Filter Include="Game">
       <UniqueIdentifier>{8805619e-f798-46ef-b3f5-19d33281b017}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameCamera">
-      <UniqueIdentifier>{c7c33f08-9bfc-40f4-8497-7755ecc838f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Transform">
       <UniqueIdentifier>{dd26c87e-8376-41ef-bf0b-1ad025d0d7c5}</UniqueIdentifier>
     </Filter>
@@ -261,6 +258,12 @@
     </Filter>
     <Filter Include="Game\GameScene\DeathParticle">
       <UniqueIdentifier>{bd0c97d9-685f-44c1-9701-c7be6066ffb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TitleScene">
+      <UniqueIdentifier>{99726a64-5ae0-410a-a9b9-168f1ae5c077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameCamera">
+      <UniqueIdentifier>{c7c33f08-9bfc-40f4-8497-7755ecc838f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -426,7 +429,7 @@
     <ClCompile Include="Game\Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameCamera\GameCamera.cpp">
+    <ClCompile Include="Game\MainCamera\MainCamera.cpp">
       <Filter>Game\GameCamera</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.cpp">
@@ -488,6 +491,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\DeathParticle\DeathParticle.cpp">
       <Filter>Game\GameScene\DeathParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TitleScene\TitleScene.cpp">
+      <Filter>Game\TitleScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -656,7 +662,7 @@
     <ClInclude Include="Game\Game.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameCamera\GameCamera.h">
+    <ClInclude Include="Game\MainCamera\MainCamera.h">
       <Filter>Game\GameCamera</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.h">
@@ -718,6 +724,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\DeathParticle\DeathParticle.h">
       <Filter>Game\GameScene\DeathParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TitleScene\TitleScene.h">
+      <Filter>Game\TitleScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,7 @@
 #pragma once
 #include "../YokosukaEngine/Include/YokosukaEngine.h"
-#include "GameCamera/GameCamera.h"
-#include "Axis/Axis.h"
 #include "GameScene/GameScene.h"
+#include "TitleScene/TitleScene.h"
 
 class Game
 {
@@ -30,34 +29,13 @@ private:
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
 
-	// デバッグカメラ有効化
-	bool isDebugCameraActive_ = false;
-
-	// 3Dカメラ
-	std::unique_ptr<Camera3D> camera3d_ = nullptr;
-
-	// 2Dカメラ
-	std::unique_ptr<Camera2D> camera2d_ = nullptr;
-
-	// ゲームカメラ
-	std::unique_ptr<GameCamera> gameCamera_ = nullptr;
-
-	// デバッグのみで使用する
-#ifdef _DEBUG
-
-	// 軸方向表示
-	std::unique_ptr<Axis> axis_ = nullptr;
-
-	std::unique_ptr<WorldTransform> debugCameraWorldTransform_ = nullptr;
-	std::unique_ptr<UvTransform> debugCameraUvTransform_ = nullptr;
-	uint32_t debugCameraModelHandle_ = 0;
-
-#endif
-
 
 	/*--------------
 	    ゲーム制作
 	--------------*/
+
+	// タイトルシーン
+	std::unique_ptr<TitleScene> titleScene_ = nullptr;
 
 	// ゲームシーン
 	std::unique_ptr<GameScene> gameScene_ = nullptr;
