@@ -19,9 +19,28 @@ public:
 	void Update();
 
 	/// <summary>
-	/// 描画処理
+	/// ローカル拡縮のGetter
 	/// </summary>
-	void Draw();
+	/// <returns></returns>
+	Vector3 GetLocalScale() const { return scale_; }
+
+	/// <summary>
+	/// ローカル回転角のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetLocalRotation() const { return rotation_; }
+
+	/// <summary>
+	/// ローカル座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetLocalTranslation() const { return translation_; }
+
+
+private:
+
+	// エンジン
+	YokosukaEngine* engine_ = nullptr;
 
 
 	// ローカル拡縮
@@ -32,11 +51,5 @@ public:
 
 	// ローカル座標
 	Vector3 translation_ = { 0.0f , 0.0f , 0.0f };
-
-
-private:
-
-	// エンジン
-	YokosukaEngine* engine_ = nullptr;
 };
 

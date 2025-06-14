@@ -1,8 +1,8 @@
 #pragma once
 #include <cmath>
 
-// エンジン用の3次元ベクトル
-typedef struct Vector3
+// 3次元ベクトル
+struct Vector3
 {
 	float x;
 	float y;
@@ -48,7 +48,7 @@ typedef struct Vector3
 		return *this;
 	}
 
-}Vector3;
+};
 
 
 namespace
@@ -149,9 +149,26 @@ float Length(const Vector3& vector);
 Vector3 Normalize(const Vector3& vector);
 
 /// <summary>
+/// 内積を求める
+/// </summary>
+/// <param name="v1">ベクトル1</param>
+/// <param name="v2">ベクトル2</param>
+/// <returns></returns>
+float Dot(const Vector3& v1, const Vector3& v2);
+
+/// <summary>
 /// クロス積を求める
 /// </summary>
 /// <param name="v1"></param>
 /// <param name="v2"></param>
 /// <returns></returns>
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
+
+/// <summary>
+/// 線形補間を行う
+/// </summary>
+/// <param name="start">始点</param>
+/// <param name="end">終点</param>
+/// <param name="t">媒介変数</param>
+/// <returns></returns>
+Vector3 Lerp(const Vector3& start, const Vector3& end, float t);

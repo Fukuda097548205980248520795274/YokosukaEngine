@@ -26,7 +26,7 @@ void Axis::Initialize(const YokosukaEngine* engine)
 		static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()), 0.0f, 1.0f);
 
 	// ビュープロジェクションビューポート行列
-	Matrix4x4 viewProjectionViewportMatrix = Multiply(Multiply(camera3d_->viewMatrix_, camera3d_->projectionMatrix_), viewportMatrix);
+	Matrix4x4 viewProjectionViewportMatrix = camera3d_->viewMatrix_ * camera3d_->projectionMatrix_ * viewportMatrix;
 
 	// 逆行列にする
 	Matrix4x4 InverseViewProjectionViewportMatrix = MakeInverseMatrix(viewProjectionViewportMatrix);

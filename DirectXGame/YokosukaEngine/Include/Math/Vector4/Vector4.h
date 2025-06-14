@@ -1,8 +1,8 @@
 #pragma once
 #include <cmath>
 
-// エンジン用の4次元ベクトル
-typedef struct Vector4
+// 4次元ベクトル
+struct Vector4
 {
 	float x;
 	float y;
@@ -53,7 +53,7 @@ typedef struct Vector4
 		return *this;
 	}
 
-}Vector4;
+};
 
 
 namespace

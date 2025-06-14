@@ -7,7 +7,7 @@
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/Input/Input.h"
 #include "Audio/AudioStore/AudioStore.h"
-#include "Camera/DebugCamera/DebugCamera.h"
+#include "DebugTool/DebugCamera/DebugCamera.h"
 
 // ブレンドモード
 enum BlendMode

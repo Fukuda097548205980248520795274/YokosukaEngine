@@ -4,11 +4,210 @@
 #include "../Vector3/Vector3.h"
 #include "../Vector4/Vector4.h"
 
-// エンジン用の4x4行列
-typedef struct Matrix4x4
+// 4x4行列
+struct Matrix4x4
 {
 	float m[4][4];
-}Matrix4x4;
+
+	// 加算
+	Matrix4x4 operator+=(const Matrix4x4& matrix)
+	{
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 4; ++j)
+			{
+				this->m[i][j] += matrix.m[i][j];
+			}
+		}
+
+		return *this;
+	}
+
+	// 減算
+	Matrix4x4 operator-=(const Matrix4x4& matrix)
+	{
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 4; ++j)
+			{
+				this->m[i][j] -= matrix.m[i][j];
+			}
+		}
+
+		return *this;
+	}
+
+	// スカラー倍
+	Matrix4x4 operator*=(float scalar)
+	{
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 4; ++j)
+			{
+				this->m[i][j] *= scalar;
+			}
+		}
+
+		return *this;
+	}
+
+	// 乗算
+	Matrix4x4 operator*=(const Matrix4x4& matrix)
+	{
+		// 乗算
+		Matrix4x4 multiply;
+
+		multiply.m[0][0] = this->m[0][0] * matrix.m[0][0] + this->m[0][1] * matrix.m[1][0] + this->m[0][2] * matrix.m[2][0] + this->m[0][3] * matrix.m[3][0];
+		multiply.m[0][1] = this->m[0][0] * matrix.m[0][1] + this->m[0][1] * matrix.m[1][1] + this->m[0][2] * matrix.m[2][1] + this->m[0][3] * matrix.m[3][1];
+		multiply.m[0][2] = this->m[0][0] * matrix.m[0][2] + this->m[0][1] * matrix.m[1][2] + this->m[0][2] * matrix.m[2][2] + this->m[0][3] * matrix.m[3][2];
+		multiply.m[0][3] = this->m[0][0] * matrix.m[0][3] + this->m[0][1] * matrix.m[1][3] + this->m[0][2] * matrix.m[2][3] + this->m[0][3] * matrix.m[3][3];
+
+		multiply.m[1][0] = this->m[1][0] * matrix.m[0][0] + this->m[1][1] * matrix.m[1][0] + this->m[1][2] * matrix.m[2][0] + this->m[1][3] * matrix.m[3][0];
+		multiply.m[1][1] = this->m[1][0] * matrix.m[0][1] + this->m[1][1] * matrix.m[1][1] + this->m[1][2] * matrix.m[2][1] + this->m[1][3] * matrix.m[3][1];
+		multiply.m[1][2] = this->m[1][0] * matrix.m[0][2] + this->m[1][1] * matrix.m[1][2] + this->m[1][2] * matrix.m[2][2] + this->m[1][3] * matrix.m[3][2];
+		multiply.m[1][3] = this->m[1][0] * matrix.m[0][3] + this->m[1][1] * matrix.m[1][3] + this->m[1][2] * matrix.m[2][3] + this->m[1][3] * matrix.m[3][3];
+
+		multiply.m[2][0] = this->m[2][0] * matrix.m[0][0] + this->m[2][1] * matrix.m[1][0] + this->m[2][2] * matrix.m[2][0] + this->m[2][3] * matrix.m[3][0];
+		multiply.m[2][1] = this->m[2][0] * matrix.m[0][1] + this->m[2][1] * matrix.m[1][1] + this->m[2][2] * matrix.m[2][1] + this->m[2][3] * matrix.m[3][1];
+		multiply.m[2][2] = this->m[2][0] * matrix.m[0][2] + this->m[2][1] * matrix.m[1][2] + this->m[2][2] * matrix.m[2][2] + this->m[2][3] * matrix.m[3][2];
+		multiply.m[2][3] = this->m[2][0] * matrix.m[0][3] + this->m[2][1] * matrix.m[1][3] + this->m[2][2] * matrix.m[2][3] + this->m[2][3] * matrix.m[3][3];
+
+		multiply.m[3][0] = this->m[3][0] * matrix.m[0][0] + this->m[3][1] * matrix.m[1][0] + this->m[3][2] * matrix.m[2][0] + this->m[3][3] * matrix.m[3][0];
+		multiply.m[3][1] = this->m[3][0] * matrix.m[0][1] + this->m[3][1] * matrix.m[1][1] + this->m[3][2] * matrix.m[2][1] + this->m[3][3] * matrix.m[3][1];
+		multiply.m[3][2] = this->m[3][0] * matrix.m[0][2] + this->m[3][1] * matrix.m[1][2] + this->m[3][2] * matrix.m[2][2] + this->m[3][3] * matrix.m[3][2];
+		multiply.m[3][3] = this->m[3][0] * matrix.m[0][3] + this->m[3][1] * matrix.m[1][3] + this->m[3][2] * matrix.m[2][3] + this->m[3][3] * matrix.m[3][3];
+
+		*this = multiply;
+		return *this;
+	}
+
+	// スカラー除算
+	Matrix4x4 operator/=(float scalar)
+	{
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 4; ++j)
+			{
+				this->m[i][j] /= scalar;
+			}
+		}
+
+		return *this;
+	}
+
+};
+
+namespace
+{
+	// 加算
+	Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2)
+	{
+		// 加算
+		Matrix4x4 add;
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 4; ++j)
+			{
+				add.m[i][j] = m1.m[i][j] + m2.m[i][j];
+			}
+		}
+
+		return add;
+	}
+
+	// 減算
+	Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2)
+	{
+		// 加算
+		Matrix4x4 subtract;
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 4; ++j)
+			{
+				subtract.m[i][j] = m1.m[i][j] - m2.m[i][j];
+			}
+		}
+
+		return subtract;
+	}
+
+	// スカラー倍
+	Matrix4x4 operator*(const Matrix4x4 matrix, float scalar)
+	{
+		// スカラー倍
+		Matrix4x4 multiplyScalar;
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 4; ++j)
+			{
+				multiplyScalar.m[i][j] = matrix.m[i][j] * scalar;
+			}
+		}
+
+		return multiplyScalar;
+	}
+
+	// スカラー倍
+	Matrix4x4 operator*(float scalar, const Matrix4x4 matrix)
+	{
+		// スカラー倍
+		Matrix4x4 multiplyScalar;
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 4; ++j)
+			{
+				multiplyScalar.m[i][j] = scalar * matrix.m[i][j];
+			}
+		}
+
+		return multiplyScalar;
+	}
+
+	// 乗算
+	Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2)
+	{
+		// 積
+		Matrix4x4 multiply;
+
+		multiply.m[0][0] = m1.m[0][0] * m2.m[0][0] + m1.m[0][1] * m2.m[1][0] + m1.m[0][2] * m2.m[2][0] + m1.m[0][3] * m2.m[3][0];
+		multiply.m[0][1] = m1.m[0][0] * m2.m[0][1] + m1.m[0][1] * m2.m[1][1] + m1.m[0][2] * m2.m[2][1] + m1.m[0][3] * m2.m[3][1];
+		multiply.m[0][2] = m1.m[0][0] * m2.m[0][2] + m1.m[0][1] * m2.m[1][2] + m1.m[0][2] * m2.m[2][2] + m1.m[0][3] * m2.m[3][2];
+		multiply.m[0][3] = m1.m[0][0] * m2.m[0][3] + m1.m[0][1] * m2.m[1][3] + m1.m[0][2] * m2.m[2][3] + m1.m[0][3] * m2.m[3][3];
+
+		multiply.m[1][0] = m1.m[1][0] * m2.m[0][0] + m1.m[1][1] * m2.m[1][0] + m1.m[1][2] * m2.m[2][0] + m1.m[1][3] * m2.m[3][0];
+		multiply.m[1][1] = m1.m[1][0] * m2.m[0][1] + m1.m[1][1] * m2.m[1][1] + m1.m[1][2] * m2.m[2][1] + m1.m[1][3] * m2.m[3][1];
+		multiply.m[1][2] = m1.m[1][0] * m2.m[0][2] + m1.m[1][1] * m2.m[1][2] + m1.m[1][2] * m2.m[2][2] + m1.m[1][3] * m2.m[3][2];
+		multiply.m[1][3] = m1.m[1][0] * m2.m[0][3] + m1.m[1][1] * m2.m[1][3] + m1.m[1][2] * m2.m[2][3] + m1.m[1][3] * m2.m[3][3];
+
+		multiply.m[2][0] = m1.m[2][0] * m2.m[0][0] + m1.m[2][1] * m2.m[1][0] + m1.m[2][2] * m2.m[2][0] + m1.m[2][3] * m2.m[3][0];
+		multiply.m[2][1] = m1.m[2][0] * m2.m[0][1] + m1.m[2][1] * m2.m[1][1] + m1.m[2][2] * m2.m[2][1] + m1.m[2][3] * m2.m[3][1];
+		multiply.m[2][2] = m1.m[2][0] * m2.m[0][2] + m1.m[2][1] * m2.m[1][2] + m1.m[2][2] * m2.m[2][2] + m1.m[2][3] * m2.m[3][2];
+		multiply.m[2][3] = m1.m[2][0] * m2.m[0][3] + m1.m[2][1] * m2.m[1][3] + m1.m[2][2] * m2.m[2][3] + m1.m[2][3] * m2.m[3][3];
+
+		multiply.m[3][0] = m1.m[3][0] * m2.m[0][0] + m1.m[3][1] * m2.m[1][0] + m1.m[3][2] * m2.m[2][0] + m1.m[3][3] * m2.m[3][0];
+		multiply.m[3][1] = m1.m[3][0] * m2.m[0][1] + m1.m[3][1] * m2.m[1][1] + m1.m[3][2] * m2.m[2][1] + m1.m[3][3] * m2.m[3][1];
+		multiply.m[3][2] = m1.m[3][0] * m2.m[0][2] + m1.m[3][1] * m2.m[1][2] + m1.m[3][2] * m2.m[2][2] + m1.m[3][3] * m2.m[3][2];
+		multiply.m[3][3] = m1.m[3][0] * m2.m[0][3] + m1.m[3][1] * m2.m[1][3] + m1.m[3][2] * m2.m[2][3] + m1.m[3][3] * m2.m[3][3];
+
+		return multiply;
+	}
+
+	// スカラー除算
+	Matrix4x4 operator/(const Matrix4x4 matrix, float scalar)
+	{
+		// スカラー除算
+		Matrix4x4 subdivisionScalar;
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 4; ++j)
+			{
+				subdivisionScalar.m[i][j] = matrix.m[i][j] / scalar;
+			}
+		}
+
+		return subdivisionScalar;
+	}
+}
 
 /// <summary>
 /// 座標変換を行う
@@ -33,14 +232,6 @@ Vector4 Transform(const Vector4& vector, const Matrix4x4& matrix);
 /// <param name="matrix"></param>
 /// <returns></returns>
 Vector3 TransformNormal(const Vector3& vector, const Matrix4x4 matrix);
-
-/// <summary>
-/// 行列の積を求める
-/// </summary>
-/// <param name="m1">行列1</param>
-/// <param name="m2">行列2</param>
-/// <returns>行列の積</returns>
-Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 
 /// <summary>
 /// 拡大縮小行列を作る

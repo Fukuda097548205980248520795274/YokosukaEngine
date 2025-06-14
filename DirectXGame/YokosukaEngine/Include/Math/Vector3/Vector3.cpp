@@ -33,6 +33,19 @@ Vector3 Normalize(const Vector3& vector)
 }
 
 /// <summary>
+/// 内積を求める
+/// </summary>
+/// <param name="v1">ベクトル1</param>
+/// <param name="v2">ベクトル2</param>
+/// <returns></returns>
+float Dot(const Vector3& v1, const Vector3& v2)
+{
+	// 内積
+	float dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+	return dot;
+}
+
+/// <summary>
 /// クロス積を求める
 /// </summary>
 /// <param name="v1"></param>
@@ -48,4 +61,16 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2)
 	cross.z = v1.x * v2.y - v1.y * v2.x;
 
 	return cross;
+}
+
+/// <summary>
+/// 線形補間を行う
+/// </summary>
+/// <param name="start">始点</param>
+/// <param name="end">終点</param>
+/// <param name="t">媒介変数</param>
+/// <returns></returns>
+Vector3 Lerp(const Vector3& start, const Vector3& end, float t)
+{
+	return (1.0f - t) * start + t * end;
 }

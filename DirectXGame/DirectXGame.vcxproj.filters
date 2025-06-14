@@ -109,9 +109,6 @@
     <Filter Include="YokosukaEngine\Include\Audio">
       <UniqueIdentifier>{8ff71b87-7838-4366-90e7-e5d67d7cbe0d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Camera\DebugCamera">
-      <UniqueIdentifier>{ff055e45-3784-4c11-8915-0799b62a4ac3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Audio\AudioStore">
       <UniqueIdentifier>{a286df51-8447-483b-9dbe-996c19ab367f}</UniqueIdentifier>
     </Filter>
@@ -238,6 +235,15 @@
     <Filter Include="Game\Axis">
       <UniqueIdentifier>{92202544-31ee-471d-af01-f9eba7dfe154}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\Vector1">
+      <UniqueIdentifier>{19adbe13-7f58-4788-8516-0992f76d5b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\DebugTool">
+      <UniqueIdentifier>{25c0069b-302c-4039-b15a-ce08ac88475b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\DebugTool\DebugCamera">
+      <UniqueIdentifier>{ff055e45-3784-4c11-8915-0799b62a4ac3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -339,8 +345,8 @@
     <ClCompile Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.cpp">
       <Filter>YokosukaEngine\Include\Audio\AudioStore</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.cpp">
-      <Filter>YokosukaEngine\Include\Camera\DebugCamera</Filter>
+    <ClCompile Include="YokosukaEngine\Include\DebugTool\DebugCamera\DebugCamera.cpp">
+      <Filter>YokosukaEngine\Include\DebugTool\DebugCamera</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone\Object3dBlendNone.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone</Filter>
@@ -440,6 +446,9 @@
     </ClCompile>
     <ClCompile Include="Game\Axis\Axis.cpp">
       <Filter>Game\Axis</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Math\Vector1\Vector1.cpp">
+      <Filter>YokosukaEngine\Include\Math\Vector1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -545,8 +554,8 @@
     <ClInclude Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.h">
       <Filter>YokosukaEngine\Include\Audio\AudioStore</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Camera\DebugCamera\DebugCamera.h">
-      <Filter>YokosukaEngine\Include\Camera\DebugCamera</Filter>
+    <ClInclude Include="YokosukaEngine\Include\DebugTool\DebugCamera\DebugCamera.h">
+      <Filter>YokosukaEngine\Include\DebugTool\DebugCamera</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone\Object3dBlendNone.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone</Filter>
@@ -646,6 +655,9 @@
     </ClInclude>
     <ClInclude Include="Game\Axis\Axis.h">
       <Filter>Game\Axis</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Math\Vector1\Vector1.h">
+      <Filter>YokosukaEngine\Include\Math\Vector1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

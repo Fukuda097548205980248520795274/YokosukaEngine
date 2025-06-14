@@ -19,6 +19,27 @@ void WorldTransform::Initialize()
 }
 
 /// <summary>
+/// 初期化
+/// </summary>
+/// <param name="scale"></param>
+/// <param name="rotation"></param>
+/// <param name="translation"></param>
+void WorldTransform::Initialize(const Vector3& scale, const Vector3& rotation, const Vector3& translation)
+{
+	// 拡縮
+	scale_ = scale;
+
+	// 回転
+	rotation_ = rotation;
+
+	// 移動
+	translation_ = translation;
+
+	// ワールド行列
+	worldMatrix_ = MakeAffineMatrix(scale_, rotation_, translation_);
+}
+
+/// <summary>
 /// ワールド行列を更新する
 /// </summary>
 void WorldTransform::UpdateWorldMatrix()
@@ -29,6 +50,6 @@ void WorldTransform::UpdateWorldMatrix()
 	// 親のワールド行列で座標変換する
 	if (parent_)
 	{
-		worldMatrix_ = Multiply(worldMatrix_, Multiply(MakeRotateMatrix(parent_->rotation_), MakeTranslateMatrix(parent_->translation_)));
+		worldMatrix_ = worldMatrix_ * MakeAffineMatrix(parent_->scale_, parent_->rotation_, parent_->translation_);
 	}
 }

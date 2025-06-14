@@ -488,8 +488,8 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	MaterialResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = true;
-	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
-		MakeTranslateMatrix(uvTransform->translation_));
+	materialData->uvTransform = 
+		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 	materialData->shininess = 18.0f;
 
 
@@ -500,7 +500,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
 	TransformationResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
-	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ *camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
 
@@ -648,8 +648,8 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	MaterialResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = true;
-	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
-		MakeTranslateMatrix(uvTransform->translation_));
+	materialData->uvTransform = 
+		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 	materialData->shininess = 18.0f;
 
 
@@ -660,7 +660,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
 	TransformationResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
-	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
 
@@ -803,8 +803,8 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	MaterialResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = false;
-	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
-		MakeTranslateMatrix(uvTransform->translation_));
+	materialData->uvTransform =
+		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 	materialData->shininess = 18.0f;
 
 
@@ -815,7 +815,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
 	TransformationResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
-	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
 
@@ -956,12 +956,12 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 			(*particleIterator).transform.translation += (*particleIterator).velocity * kDeltaTime;
 
 			// ワールド行列
-			Matrix4x4 worldMatrix = Multiply(Multiply(MakeScaleMatrix((*particleIterator).transform.scale), billboardMatrix),
-				MakeTranslateMatrix((*particleIterator).transform.translation));
+			Matrix4x4 worldMatrix = 
+				MakeScaleMatrix((*particleIterator).transform.scale) * billboardMatrix * MakeTranslateMatrix((*particleIterator).transform.translation);
 
 
 			// データを書き込む
-			instancingData[numInstance].worldViewProjection = Multiply(worldMatrix, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+			instancingData[numInstance].worldViewProjection = worldMatrix * camera->viewMatrix_ * camera->projectionMatrix_;
 			instancingData[numInstance].world = worldMatrix;
 			instancingData[numInstance].color = (*particleIterator).color;
 			instancingData[numInstance].color.w = alpha;
@@ -1059,7 +1059,7 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 	// ワールド行列
 	Matrix4x4 worldMatrix = MakeAffineMatrix({ 1.0f , 1.0f , 1.0f }, { 0.0f , 0.0f , 0.0f }, { 0.0f , 0.0f , 0.0f });
 
-	transformationData->worldViewProjection = Multiply(Multiply(worldMatrix, camera->viewMatrix_), camera->projectionMatrix_);
+	transformationData->worldViewProjection = worldMatrix * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = MakeIdenityMatirx();
 	transformationData->worldInverseTranspose = MakeIdenityMatirx();
 
@@ -1168,8 +1168,8 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 	MaterialResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = false;
-	materialData->uvTransform = Multiply(Multiply(MakeScaleMatrix(uvTransform->scale_), MakeRotateZMatrix(uvTransform->rotation_.z)),
-		MakeTranslateMatrix(uvTransform->translation_));
+	materialData->uvTransform = 
+		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 
 
 	/*------------------
@@ -1179,7 +1179,7 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
 	TransformationResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
-	transformationData->worldViewProjection = Multiply(worldTransform->worldMatrix_, Multiply(camera->viewMatrix_, camera->projectionMatrix_));
+	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 
 

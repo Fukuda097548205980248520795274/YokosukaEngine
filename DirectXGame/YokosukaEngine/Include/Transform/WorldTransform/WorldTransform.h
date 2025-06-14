@@ -13,6 +13,14 @@ public:
 	void Initialize();
 
 	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="scale"></param>
+	/// <param name="rotation"></param>
+	/// <param name="translation"></param>
+	void Initialize(const Vector3& scale, const Vector3& rotation, const Vector3& translation);
+
+	/// <summary>
 	/// 親のワールドトランスフォームのSetter
 	/// </summary>
 	/// <param name="parent"></param>
