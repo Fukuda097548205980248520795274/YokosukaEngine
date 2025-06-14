@@ -7,7 +7,6 @@
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/Input/Input.h"
 #include "Audio/AudioStore/AudioStore.h"
-#include "Tool/DebugCamera/DebugCamera.h"
 #include "Tool/MainCamera/MainCamera.h"
 
 // ブレンドモード
@@ -344,17 +343,6 @@ public:
 	/// <param name="camera"></param>
 	void DrawGrid(const Camera3D* camera) const;
 
-	/// <summary>
-	/// デバッグカメラを更新する
-	/// </summary>
-	void DebugCameraUpdate() const { debugCamera_->Update(); }
-
-	/// <summary>
-	/// デバッグカメラのインスタンスを初期化する
-	/// </summary>
-	/// <returns></returns>
-	DebugCamera* GetDebugCameraInstance() const { return debugCamera_.get(); }
-
 #endif
 
 
@@ -377,17 +365,42 @@ private:
 
 	// オーディオストア
 	AudioStore* audioStore_ = nullptr;
-
-
-	// デバッグツール
-#ifdef _DEBUG
-
-	// デバッグカメラ
-	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
-
-#endif
 };
 
+
+// デバッグツール
+#ifdef _DEBUG
+
+// デバッグカメラ
+class DebugCamera
+{
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(const YokosukaEngine* engine);
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// 3Dカメラのインスタンスを取得する
+	/// </summary>
+	/// <returns></returns>
+	Camera3D* GetCamera3DInstance() { return camera3d_.get(); }
+
+
+private:
+
+	// エンジン
+	const YokosukaEngine* engine_ = nullptr;
+
+	// 3Dカメラ
+	std::unique_ptr<Camera3D> camera3d_ = nullptr;
+};
 
 // 軸方向表示
 class AxialDirectionDisplay
@@ -430,6 +443,8 @@ private:
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;
 };
+
+#endif
 
 // シーン
 class Scene
@@ -475,6 +490,9 @@ private:
 
 	// デバッグツール
 #ifdef _DEBUG
+
+	// デバッグカメラ
+	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 
 	// 軸方向表示
 	std::unique_ptr<AxialDirectionDisplay> axialDirectoinDisplay_ = nullptr;

@@ -70,16 +70,6 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	// AudioStoreの生成と初期化
 	audioStore_ = new AudioStore();
 	audioStore_->Initialize();
-
-
-	// デバッグツールの初期化
-#ifdef _DEBUG
-
-	// デバッグカメラの生成と初期化
-	debugCamera_ = std::make_unique<DebugCamera>();
-	debugCamera_->Initialize(this);
-
-#endif
 }
 
 
@@ -139,6 +129,95 @@ void YokosukaEngine::DrawGrid(const Camera3D* camera) const
 }
 
 #endif
+
+// デバッグツール
+#ifdef _DEBUG
+
+/*------------------
+    デバッグカメラ
+------------------*/
+
+/// <summary>
+/// 初期化
+/// </summary>
+/// <param name="engine"></param>
+void DebugCamera::Initialize(const YokosukaEngine* engine)
+{
+	// nullptrチェック
+	assert(engine);
+
+	// 引数を受け取る
+	engine_ = engine;
+
+	// 3Dカメラの生成と初期化
+	camera3d_ = std::make_unique<Camera3D>();
+	camera3d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+}
+
+/// <summary>
+/// 更新処理
+/// </summary>
+void DebugCamera::Update()
+{
+	// マウスホイールを上回転させると、向いている方向にズームイン
+	if (engine_->GetMouseWheelUp())
+	{
+		// 回転行列で進む方向を取得する
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(camera3d_->rotation_);
+		Vector3 velocity = TransformNormal(Vector3{ 0.0f,0.0f,1.0f }, rotateMatrix);
+
+		// 移動する
+		camera3d_->translation_ += velocity;
+	}
+
+	// マウスホイールを下回転させると、向いている方向にズームアウト
+	if (engine_->GetMouseWheelDown())
+	{
+		// 回転行列で進む方向を取得する
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(camera3d_->rotation_);
+		Vector3 velocity = TransformNormal(Vector3{ 0.0f,0.0f,-1.0f }, rotateMatrix);
+
+		// 移動する
+		camera3d_->translation_ += velocity;
+	}
+
+	// LShift + マウスホイールを押して動かすと、向いている方向の左右に移動できる
+	if (engine_->GetKeyPress(DIK_LSHIFT) && engine_->GetMouseButtonPress(kMouseButtonCenter))
+	{
+		// マウスのベクトルと距離を取得し、正規化する
+		Vector2 mouseVector = engine_->GetMouseVelocity();
+		float mouseVectorLength = Length(mouseVector);
+		mouseVector = Normalize(mouseVector);
+
+		// 移動量制御
+		const float kSpeedController = mouseVectorLength * 0.01f;
+
+		// 回転行列で進む方向を取得する
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(camera3d_->rotation_);
+		Vector3 velocity = TransformNormal({ -mouseVector.x , mouseVector.y , 0.0f }, rotateMatrix);
+
+		// 移動する
+		camera3d_->translation_ += velocity * kSpeedController;
+	} else if (engine_->GetMouseButtonPress(kMouseButtonCenter))
+	{
+		// マウスホイールを押して動かすと、向いている方向を回転できる
+
+		// マウスのベクトルと距離を取得し、正規化する
+		Vector2 mouseVector = engine_->GetMouseVelocity();
+		float mouseVectorLength = Length(mouseVector);
+		mouseVector = Normalize(mouseVector);
+
+		// 回転量制御
+		const float kSpeedController = mouseVectorLength * 0.001f;
+
+		// 回転量
+		Vector2 rotationVelocity = mouseVector * kSpeedController;
+
+		// 回転させる
+		camera3d_->rotation_.x += rotationVelocity.y;
+		camera3d_->rotation_.y += rotationVelocity.x;
+	}
+}
 
 
 /*---------------
@@ -216,6 +295,8 @@ void AxialDirectionDisplay::Draw()
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f  ,1.0f , 1.0f });
 }
 
+#endif
+
 
 /*----------------
     シーンクラス
@@ -249,6 +330,10 @@ void Scene::Initialize(const YokosukaEngine* engine)
 	// デバッグツール
 #ifdef _DEBUG
 
+	// デバッグカメラの生成と初期化
+	debugCamera_ = std::make_unique<DebugCamera>();
+	debugCamera_->Initialize(engine_);
+
 	// 軸方向表示の生成と初期化
 	axialDirectoinDisplay_ = std::make_unique<AxialDirectionDisplay>();
 	axialDirectoinDisplay_->Initialize(engine_);
@@ -279,8 +364,8 @@ void Scene::Update()
 	// デバッグカメラの値を渡して更新
 	if (isDebugCameraActive_)
 	{
-		engine_->DebugCameraUpdate();
-		camera3d_->UpdateDebugCameraData(engine_->GetDebugCameraInstance());
+		debugCamera_->Update();
+		camera3d_->UpdateOtherCamera(debugCamera_->GetCamera3DInstance());
 	}
 
 	// 軸方向表示を更新
@@ -292,7 +377,7 @@ void Scene::Update()
 	if (isDebugCameraActive_ == false)
 	{
 		mainCamera_->Update();
-		camera3d_->UpdateOthersCameraData(mainCamera_->GetGameCameraInstance());
+		camera3d_->UpdateOtherCamera(mainCamera_->GetGameCameraInstance());
 	}
 
 	// 2Dカメラを更新

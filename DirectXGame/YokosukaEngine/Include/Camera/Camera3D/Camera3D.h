@@ -1,6 +1,5 @@
 #pragma once
 #include "../../Math/Matrix4x4/Matrix4x4.h"
-#include "../../Tool/DebugCamera/DebugCamera.h"
 
 // GPUに持っていくカメラのデータ
 struct CameraForGPU
@@ -43,16 +42,10 @@ public:
 	{ viewMatrix_ = viewMatrix; projectionMatrix_ = projectionMatrix; }
 
 	/// <summary>
-	/// デバッグカメラの値で更新する
-	/// </summary>
-	/// <param name="debugCamera"></param>
-	void UpdateDebugCameraData(const DebugCamera* debugCamera);
-
-	/// <summary>
 	/// 別のカメラの値で更新する
 	/// </summary>
-	/// <param name="otherCamera"></param>
-	void UpdateOthersCameraData(const Camera3D* otherCamera);
+	/// <param name="camera3d"></param>
+	void UpdateOtherCamera(const Camera3D* camera3d);
 
 
 	// 拡縮

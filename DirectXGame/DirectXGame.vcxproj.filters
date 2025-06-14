@@ -238,9 +238,6 @@
     <Filter Include="YokosukaEngine\Include\Tool">
       <UniqueIdentifier>{25c0069b-302c-4039-b15a-ce08ac88475b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Tool\DebugCamera">
-      <UniqueIdentifier>{ff055e45-3784-4c11-8915-0799b62a4ac3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Tool\MainCamera">
       <UniqueIdentifier>{c7c33f08-9bfc-40f4-8497-7755ecc838f3}</UniqueIdentifier>
     </Filter>
@@ -344,9 +341,6 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.cpp">
       <Filter>YokosukaEngine\Include\Audio\AudioStore</Filter>
-    </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Tool\DebugCamera\DebugCamera.cpp">
-      <Filter>YokosukaEngine\Include\Tool\DebugCamera</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone\Object3dBlendNone.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone</Filter>
@@ -553,9 +547,6 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.h">
       <Filter>YokosukaEngine\Include\Audio\AudioStore</Filter>
-    </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Tool\DebugCamera\DebugCamera.h">
-      <Filter>YokosukaEngine\Include\Tool\DebugCamera</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone\Object3dBlendNone.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone</Filter>
