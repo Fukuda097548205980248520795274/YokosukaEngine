@@ -39,10 +39,6 @@ void Game::Initialize(const YokosukaEngine* engine)
 
 	debugCameraModelHandle_ = engine_->LoadTexture("./Resources/Textures/DebugCameraOn.png");
 
-	// 軸方向表示の生成と初期化
-	axis_ = std::make_unique<Axis>();
-	axis_->Initialize(engine_);
-
 #endif
 
 }
@@ -70,9 +66,6 @@ void Game::Update()
 
 	debugCameraWorldTransform_->UpdateWorldMatrix();
 	debugCameraUvTransform_->UpdateWorldMatrix();
-
-	// 軸方向表示の更新
-	axis_->Update(camera3d_->rotation_);
 
 #endif
 
@@ -110,9 +103,6 @@ void Game::Draw()
 		// グリッドを描画する
 		engine_->DrawGrid(camera3d_.get());
 	}
-
-	// 軸方向表示の描画
-	axis_->Draw();
 
 #endif
 

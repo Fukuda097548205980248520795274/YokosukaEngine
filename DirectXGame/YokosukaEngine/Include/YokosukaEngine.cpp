@@ -5,9 +5,6 @@
 /// </summary>
 YokosukaEngine::~YokosukaEngine()
 {
-	// デバッグカメラ
-	delete debugCamera_;
-
 	// AudioStore
 	delete audioStore_;
 
@@ -74,10 +71,20 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	audioStore_ = new AudioStore();
 	audioStore_->Initialize();
 
+
+	// デバッグツールの初期化
+#ifdef _DEBUG
+
 	// デバッグカメラの生成と初期化
-	debugCamera_ = new DebugCamera();
+	debugCamera_ = std::make_unique<DebugCamera>();
 	debugCamera_->Initialize(this);
+
+#endif
 }
+
+
+// デバッグツールメソッド
+#ifdef _DEBUG
 
 /// <summary>
 /// グリッドを描画する
@@ -130,3 +137,5 @@ void YokosukaEngine::DrawGrid(const Camera3D* camera) const
 		}
 	}
 }
+
+#endif

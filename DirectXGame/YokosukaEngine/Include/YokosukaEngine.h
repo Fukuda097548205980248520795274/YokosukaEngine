@@ -179,12 +179,6 @@ public:
 	}
 
 	/// <summary>
-	/// グリッドを描画する
-	/// </summary>
-	/// <param name="camera"></param>
-	void DrawGrid(const Camera3D* camera) const;
-
-	/// <summary>
 	/// ブレンドモードを設定する
 	/// </summary>
 	/// <param name="blendMode"></param>
@@ -280,18 +274,6 @@ public:
 	float GetMouseWheelVelocity() const { return input_->GetMouseWheelVelocity(); }
 
 	/// <summary>
-	/// デバッグカメラを更新する
-	/// </summary>
-	void DebugCameraUpdate() const { debugCamera_->Update(); }
-	
-	/// <summary>
-	/// デバッグカメラのインスタンスを初期化する
-	/// </summary>
-	/// <returns></returns>
-	DebugCamera* GetDebugCameraInstance() const { return debugCamera_; }
-
-
-	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="gamepadNumber"></param>
@@ -351,6 +333,29 @@ public:
 	float GetGamepadRightTrigger(DWORD gamepadNumber) const { return input_->GetGamepadRightTrigger(gamepadNumber); }
 
 
+	// デバッグツールメソッド
+#ifdef _DEBUG
+
+	/// <summary>
+	/// グリッドを描画する
+	/// </summary>
+	/// <param name="camera"></param>
+	void DrawGrid(const Camera3D* camera) const;
+
+	/// <summary>
+	/// デバッグカメラを更新する
+	/// </summary>
+	void DebugCameraUpdate() const { debugCamera_->Update(); }
+
+	/// <summary>
+	/// デバッグカメラのインスタンスを初期化する
+	/// </summary>
+	/// <returns></returns>
+	DebugCamera* GetDebugCameraInstance() const { return debugCamera_.get(); }
+
+#endif
+
+
 private:
 
 	// 現在の時間
@@ -371,6 +376,12 @@ private:
 	// オーディオストア
 	AudioStore* audioStore_ = nullptr;
 
+
+	// デバッグツール
+#ifdef _DEBUG
+
 	// デバッグカメラ
-	DebugCamera* debugCamera_ = nullptr;
+	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
+
+#endif
 };

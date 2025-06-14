@@ -1,7 +1,6 @@
 #pragma once
 #include "../YokosukaEngine/Include/YokosukaEngine.h"
 #include "GameCamera/GameCamera.h"
-#include "Axis/Axis.h"
 
 class Game
 {
@@ -43,9 +42,6 @@ private:
 
 	// デバッグのみで使用する
 #ifdef _DEBUG
-
-	// 軸方向表示
-	std::unique_ptr<Axis> axis_ = nullptr;
 
 	std::unique_ptr<WorldTransform> debugCameraWorldTransform_ = nullptr;
 	std::unique_ptr<UvTransform> debugCameraUvTransform_ = nullptr;
