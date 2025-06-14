@@ -67,6 +67,9 @@ void Game::Update()
 	debugCameraWorldTransform_->UpdateWorldMatrix();
 	debugCameraUvTransform_->UpdateWorldMatrix();
 
+	// 軸方向表示を更新
+	engine_->AxisUpdate(camera3d_->rotation_);
+
 #endif
 
 	// カメラの値を渡して更新　ゲームカメラ
@@ -103,6 +106,9 @@ void Game::Draw()
 		// グリッドを描画する
 		engine_->DrawGrid(camera3d_.get());
 	}
+
+	// 軸方向表示を描画
+	engine_->AxisDraw();
 
 #endif
 

@@ -353,6 +353,17 @@ public:
 	/// <returns></returns>
 	DebugCamera* GetDebugCameraInstance() const { return debugCamera_.get(); }
 
+	/// <summary>
+	/// 軸方向表示の更新処理
+	/// </summary>
+	/// <param name="cameraRotation">カメラの回転</param>
+	void AxisUpdate(const Vector3& cameraRotation)const;
+
+	/// <summary>
+	/// 軸方向表示の描画処理
+	/// </summary>
+	void AxisDraw()const;
+
 #endif
 
 
@@ -382,6 +393,12 @@ private:
 
 	// デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
+
+	// 軸
+	std::unique_ptr<WorldTransform> axisWorldTransform_ = nullptr;
+	std::unique_ptr<UvTransform> axisUvTransform_ = nullptr;
+	std::unique_ptr<Camera3D> axisCamera3d_ = nullptr;
+	uint32_t axisModelHandle_ = 0;
 
 #endif
 };
