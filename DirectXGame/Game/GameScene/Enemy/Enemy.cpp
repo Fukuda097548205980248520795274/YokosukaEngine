@@ -24,6 +24,7 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 	worldTransform_->Initialize();
 	worldTransform_->translation_ = position;
 	worldTransform_->rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	worldTransform_->UpdateWorldMatrix();
 
 	// UVトランスフォームの生成と初期化
 	uvTransform_ = std::make_unique<UvTransform>();

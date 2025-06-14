@@ -55,6 +55,7 @@ void Blocks::Initialize(const YokosukaEngine* engine, const MapChipField* mapChi
 
 			// 配置する
 			worldTransformBlock->translation_ = mapChipField_->GetMapCihpPositionByIndex(column, row);
+			worldTransformBlock->UpdateWorldMatrix();
 
 			// 登録する
 			worldTransformBlocksRow.push_back(worldTransformBlock);
