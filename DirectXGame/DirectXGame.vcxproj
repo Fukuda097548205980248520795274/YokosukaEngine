@@ -119,7 +119,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
-    <ClCompile Include="Game\GameCamera\GameCamera.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Tool\MainCamera\MainCamera.cpp" />
+    <ClCompile Include="Game\GameScene\GameScene.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp" />
@@ -127,7 +128,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Base\WinApp\WinApp.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\DebugTool\DebugCamera\DebugCamera.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Tool\DebugCamera\DebugCamera.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Vector1\Vector1.cpp" />
     <ClCompile Include="YokosukaEngine\Include\ParticleEffect\Emitter\Emitter.cpp" />
     <ClCompile Include="YokosukaEngine\Include\ParticleEffect\Feild\Feild.cpp" />
@@ -189,7 +190,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Game.h" />
-    <ClInclude Include="Game\GameCamera\GameCamera.h" />
+    <ClInclude Include="YokosukaEngine\Include\Tool\MainCamera\MainCamera.h" />
+    <ClInclude Include="Game\GameScene\GameScene.h" />
     <ClInclude Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h" />
@@ -197,7 +199,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Base\WinApp\WinApp.h" />
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.h" />
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.h" />
-    <ClInclude Include="YokosukaEngine\Include\DebugTool\DebugCamera\DebugCamera.h" />
+    <ClInclude Include="YokosukaEngine\Include\Tool\DebugCamera\DebugCamera.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Vector1\Vector1.h" />
     <ClInclude Include="YokosukaEngine\Include\ParticleEffect\Emitter\Emitter.h" />
     <ClInclude Include="YokosukaEngine\Include\ParticleEffect\Feild\Feild.h" />

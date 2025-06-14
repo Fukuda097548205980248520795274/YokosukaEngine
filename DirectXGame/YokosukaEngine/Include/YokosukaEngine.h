@@ -7,7 +7,8 @@
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/Input/Input.h"
 #include "Audio/AudioStore/AudioStore.h"
-#include "DebugTool/DebugCamera/DebugCamera.h"
+#include "Tool/DebugCamera/DebugCamera.h"
+#include "Tool/MainCamera/MainCamera.h"
 
 // ブレンドモード
 enum BlendMode
@@ -46,6 +47,21 @@ enum MouseButton
 
 class YokosukaEngine
 {
+private:
+
+#ifdef _DEBUG
+
+	// 軸方向表示
+	struct Axis
+	{
+		std::unique_ptr<WorldTransform> worldTransform = nullptr;
+		std::unique_ptr<UvTransform> uvTransform = nullptr;
+		std::unique_ptr<Camera3D> camera3d = nullptr;
+		uint32_t modelHandle = 0;
+	};
+
+#endif
+
 public:
 
 	/// <summary>
@@ -395,10 +411,7 @@ private:
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 
 	// 軸
-	std::unique_ptr<WorldTransform> axisWorldTransform_ = nullptr;
-	std::unique_ptr<UvTransform> axisUvTransform_ = nullptr;
-	std::unique_ptr<Camera3D> axisCamera3d_ = nullptr;
-	uint32_t axisModelHandle_ = 0;
+	Axis axis_{};
 
 #endif
 };

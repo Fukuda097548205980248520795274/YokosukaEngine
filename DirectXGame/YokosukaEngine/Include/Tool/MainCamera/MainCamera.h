@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
-#include "../../YokosukaEngine/Include/Camera/Camera3D/Camera3D.h"
+#include "../../Camera/Camera3D/Camera3D.h"
 
-class GameCamera
+class MainCamera
 {
 public:
 

@@ -1,8 +1,7 @@
 #pragma once
-#include "../YokosukaEngine/Include/YokosukaEngine.h"
-#include "GameScene/GameScene.h"
+#include "../../YokosukaEngine/Include/YokosukaEngine.h"
 
-class Game
+class GameScene
 {
 public:
 
@@ -28,6 +27,16 @@ private:
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
 
-	// ゲームシーン
-	std::unique_ptr<GameScene> gameScene_ = nullptr;
+	// デバッグカメラ有効化
+	bool isDebugCameraActive_ = false;
+
+	// 3Dカメラ
+	std::unique_ptr<Camera3D> camera3d_ = nullptr;
+
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
+
+	// メインカメラ
+	std::unique_ptr<MainCamera> mainCamera_ = nullptr;
 };
+

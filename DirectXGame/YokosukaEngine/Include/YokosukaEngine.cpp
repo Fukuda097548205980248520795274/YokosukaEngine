@@ -85,20 +85,20 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	---------------*/
 
 	// 軸の生成と初期化
-	axisCamera3d_ = std::make_unique<Camera3D>();
-	axisCamera3d_->Initialize(static_cast<float>(windowApplication_->GetWindowWidth()), static_cast<float>(windowApplication_->GetWindowHeight()));
+	axis_.camera3d = std::make_unique<Camera3D>();
+	axis_.camera3d->Initialize(static_cast<float>(windowApplication_->GetWindowWidth()), static_cast<float>(windowApplication_->GetWindowHeight()));
 
 
 	// ワールドトランスフォーム
-	axisWorldTransform_ = std::make_unique<WorldTransform>();
-	axisWorldTransform_->Initialize();
+	axis_.worldTransform = std::make_unique<WorldTransform>();
+	axis_.worldTransform->Initialize();
 
 	// ビューポート行列
 	Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f,
 		static_cast<float>(windowApplication_->GetWindowWidth()), static_cast<float>(windowApplication_->GetWindowHeight()), 0.0f, 1.0f);
 
 	// ビュープロジェクションビューポート行列
-	Matrix4x4 viewProjectionViewportMatrix = axisCamera3d_->viewMatrix_ * axisCamera3d_->projectionMatrix_ * viewportMatrix;
+	Matrix4x4 viewProjectionViewportMatrix = axis_.camera3d->viewMatrix_ * axis_.camera3d->projectionMatrix_ * viewportMatrix;
 
 	// 逆行列にする
 	Matrix4x4 InverseViewProjectionViewportMatrix = MakeInverseMatrix(viewProjectionViewportMatrix);
@@ -109,15 +109,15 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	// ワールド座標に変換する
 	Vector3 world = Transform(screen, InverseViewProjectionViewportMatrix);
 
-	axisWorldTransform_->translation_ = world;
-	axisWorldTransform_->scale_ = { 0.0025f , 0.0025f , 0.0025f };
+	axis_.worldTransform->translation_ = world;
+	axis_.worldTransform->scale_ = { 0.0025f , 0.0025f , 0.0025f };
 
 
 	// UVトランスフォーム
-	axisUvTransform_ = std::make_unique<UvTransform>();
-	axisUvTransform_->Initialize();
+	axis_.uvTransform = std::make_unique<UvTransform>();
+	axis_.uvTransform->Initialize();
 
-	axisModelHandle_ = LoadModelData("./Resources/Models/Axis", "Axis.obj");
+	axis_.modelHandle = LoadModelData("./Resources/Models/Axis", "Axis.obj");
 
 #endif
 }
@@ -184,11 +184,11 @@ void YokosukaEngine::DrawGrid(const Camera3D* camera) const
 void YokosukaEngine::AxisUpdate(const Vector3& cameraRotation)const
 {
 	// 逆に回転させる
-	axisWorldTransform_->rotation_ = { -cameraRotation.x , -cameraRotation.y , -cameraRotation.z };
+	axis_.worldTransform->rotation_ = { -cameraRotation.x , -cameraRotation.y , -cameraRotation.z };
 
 	// 軸方向表示のトランスフォームを更新する
-	axisWorldTransform_->UpdateWorldMatrix();
-	axisUvTransform_->UpdateWorldMatrix();
+	axis_.worldTransform->UpdateWorldMatrix();
+	axis_.uvTransform->UpdateWorldMatrix();
 }
 
 /// <summary>
@@ -197,7 +197,7 @@ void YokosukaEngine::AxisUpdate(const Vector3& cameraRotation)const
 void YokosukaEngine::AxisDraw()const
 {
 	// 軸方向表示のモデルを描画する
-	DrawModel(axisWorldTransform_.get(), axisUvTransform_.get(), axisCamera3d_.get(), axisModelHandle_, { 1.0f , 1.0f  ,1.0f , 1.0f });
+	DrawModel(axis_.worldTransform.get(), axis_.uvTransform.get(), axis_.camera3d.get(), axis_.modelHandle, { 1.0f , 1.0f  ,1.0f , 1.0f });
 }
 
 #endif

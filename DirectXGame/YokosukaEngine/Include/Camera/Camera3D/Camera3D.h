@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Math/Matrix4x4/Matrix4x4.h"
-#include "../../DebugTool/DebugCamera/DebugCamera.h"
+#include "../../Tool/DebugCamera/DebugCamera.h"
 
 // GPUに持っていくカメラのデータ
 struct CameraForGPU
