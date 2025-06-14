@@ -79,46 +79,6 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	debugCamera_ = std::make_unique<DebugCamera>();
 	debugCamera_->Initialize(this);
 
-
-	/*---------------
-	    軸方向表示
-	---------------*/
-
-	// 軸の生成と初期化
-	axis_.camera3d = std::make_unique<Camera3D>();
-	axis_.camera3d->Initialize(static_cast<float>(windowApplication_->GetWindowWidth()), static_cast<float>(windowApplication_->GetWindowHeight()));
-
-
-	// ワールドトランスフォーム
-	axis_.worldTransform = std::make_unique<WorldTransform>();
-	axis_.worldTransform->Initialize();
-
-	// ビューポート行列
-	Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f,
-		static_cast<float>(windowApplication_->GetWindowWidth()), static_cast<float>(windowApplication_->GetWindowHeight()), 0.0f, 1.0f);
-
-	// ビュープロジェクションビューポート行列
-	Matrix4x4 viewProjectionViewportMatrix = axis_.camera3d->viewMatrix_ * axis_.camera3d->projectionMatrix_ * viewportMatrix;
-
-	// 逆行列にする
-	Matrix4x4 InverseViewProjectionViewportMatrix = MakeInverseMatrix(viewProjectionViewportMatrix);
-
-	// スクリーン座標
-	Vector3 screen = { static_cast<float>(windowApplication_->GetWindowWidth()) - 64.0f , 64.0f , 0.0f };
-
-	// ワールド座標に変換する
-	Vector3 world = Transform(screen, InverseViewProjectionViewportMatrix);
-
-	axis_.worldTransform->translation_ = world;
-	axis_.worldTransform->scale_ = { 0.0025f , 0.0025f , 0.0025f };
-
-
-	// UVトランスフォーム
-	axis_.uvTransform = std::make_unique<UvTransform>();
-	axis_.uvTransform->Initialize();
-
-	axis_.modelHandle = LoadModelData("./Resources/Models/Axis", "Axis.obj");
-
 #endif
 }
 
@@ -178,26 +138,185 @@ void YokosukaEngine::DrawGrid(const Camera3D* camera) const
 	}
 }
 
+#endif
+
+
+/*---------------
+    軸方向表示
+---------------*/
+
 /// <summary>
-/// 軸方向表示の更新処理
+/// 初期化
 /// </summary>
-void YokosukaEngine::AxisUpdate(const Vector3& cameraRotation)const
+/// <param name="engine"></param>
+void AxialDirectionDisplay::Initialize(const YokosukaEngine* engine)
+{
+	// nullptrチェック
+	assert(engine);
+
+	// 引数を受け取る
+	engine_ = engine;
+
+	// 軸の生成と初期化
+	camera3d_ = std::make_unique<Camera3D>();
+	camera3d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+
+	// ワールドトランスフォーム
+	worldTransform_ = std::make_unique<WorldTransform>();
+	worldTransform_->Initialize();
+
+	// ビューポート行列
+	Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f,
+		static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()), 0.0f, 1.0f);
+
+	// ビュープロジェクションビューポート行列
+	Matrix4x4 viewProjectionViewportMatrix = camera3d_->viewMatrix_ * camera3d_->projectionMatrix_ * viewportMatrix;
+
+	// 逆行列にする
+	Matrix4x4 InverseViewProjectionViewportMatrix = MakeInverseMatrix(viewProjectionViewportMatrix);
+
+	// スクリーン座標
+	Vector3 screen = { static_cast<float>(engine_->GetScreenWidth()) - 64.0f , 64.0f , 0.0f };
+
+	// ワールド座標に変換する
+	Vector3 world = Transform(screen, InverseViewProjectionViewportMatrix);
+
+	worldTransform_->translation_ = world;
+	worldTransform_->scale_ = { 0.0025f , 0.0025f , 0.0025f };
+
+
+	// UVトランスフォーム
+	uvTransform_ = std::make_unique<UvTransform>();
+	uvTransform_->Initialize();
+
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/Axis", "Axis.obj");
+}
+
+/// <summary>
+/// 更新処理
+/// </summary>
+/// <param name="cameraRotation"></param>
+void AxialDirectionDisplay::Update(const Vector3& cameraRotation)
 {
 	// 逆に回転させる
-	axis_.worldTransform->rotation_ = { -cameraRotation.x , -cameraRotation.y , -cameraRotation.z };
+	worldTransform_->rotation_ = { -cameraRotation.x , -cameraRotation.y , -cameraRotation.z };
 
 	// 軸方向表示のトランスフォームを更新する
-	axis_.worldTransform->UpdateWorldMatrix();
-	axis_.uvTransform->UpdateWorldMatrix();
+	worldTransform_->UpdateWorldMatrix();
+	uvTransform_->UpdateWorldMatrix();
 }
 
 /// <summary>
-/// 軸方向表示の描画処理
+/// 描画処理
 /// </summary>
-void YokosukaEngine::AxisDraw()const
+void AxialDirectionDisplay::Draw()
 {
 	// 軸方向表示のモデルを描画する
-	DrawModel(axis_.worldTransform.get(), axis_.uvTransform.get(), axis_.camera3d.get(), axis_.modelHandle, { 1.0f , 1.0f  ,1.0f , 1.0f });
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f  ,1.0f , 1.0f });
 }
 
+
+/*----------------
+    シーンクラス
+----------------*/
+
+/// <summary>
+/// 初期化
+/// </summary>
+/// <param name="engine"></param>
+void Scene::Initialize(const YokosukaEngine* engine)
+{
+	// nullptrチェック
+	assert(engine);
+
+	// 引数を受け取る
+	engine_ = engine;
+
+	// 3Dカメラの生成と初期化
+	camera3d_ = std::make_unique<Camera3D>();
+	camera3d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+	// 2Dカメラの生成と初期化
+	camera2d_ = std::make_unique<Camera2D>();
+	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+	// メインカメラの生成と初期化
+	mainCamera_ = std::make_unique<MainCamera>();
+	mainCamera_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+
+	// デバッグツール
+#ifdef _DEBUG
+
+	// 軸方向表示の生成と初期化
+	axialDirectoinDisplay_ = std::make_unique<AxialDirectionDisplay>();
+	axialDirectoinDisplay_->Initialize(engine_);
+
 #endif
+}
+
+/// <summary>
+/// 更新処理
+/// </summary>
+void Scene::Update()
+{
+	// メインカメラ・デバッグカメラ切り替え
+#ifdef _DEBUG
+
+	// Pキーで、カメラを切り替える
+	if (engine_->GetKeyTrigger(DIK_P))
+	{
+		if (isDebugCameraActive_ == false)
+		{
+			isDebugCameraActive_ = true;
+		} else
+		{
+			isDebugCameraActive_ = false;
+		}
+	}
+
+	// デバッグカメラの値を渡して更新
+	if (isDebugCameraActive_)
+	{
+		engine_->DebugCameraUpdate();
+		camera3d_->UpdateDebugCameraData(engine_->GetDebugCameraInstance());
+	}
+
+	// 軸方向表示を更新
+	axialDirectoinDisplay_->Update(camera3d_->rotation_);
+
+#endif
+
+	// メインカメラの値を渡して更新
+	if (isDebugCameraActive_ == false)
+	{
+		mainCamera_->Update();
+		camera3d_->UpdateOthersCameraData(mainCamera_->GetGameCameraInstance());
+	}
+
+	// 2Dカメラを更新
+	camera2d_->UpdateMatrix();
+}
+
+/// <summary>
+/// 描画処理
+/// </summary>
+void Scene::Draw()
+{
+	// デバッグカメラの表示
+#ifdef _DEBUG
+
+	if (isDebugCameraActive_)
+	{
+		// グリッドを描画する
+		engine_->DrawGrid(camera3d_.get());
+	}
+
+	// 軸方向表示を描画
+	axialDirectoinDisplay_->Draw();
+
+#endif
+
+
+}

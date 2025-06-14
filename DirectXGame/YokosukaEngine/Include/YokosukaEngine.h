@@ -47,20 +47,6 @@ enum MouseButton
 
 class YokosukaEngine
 {
-private:
-
-#ifdef _DEBUG
-
-	// 軸方向表示
-	struct Axis
-	{
-		std::unique_ptr<WorldTransform> worldTransform = nullptr;
-		std::unique_ptr<UvTransform> uvTransform = nullptr;
-		std::unique_ptr<Camera3D> camera3d = nullptr;
-		uint32_t modelHandle = 0;
-	};
-
-#endif
 
 public:
 
@@ -369,17 +355,6 @@ public:
 	/// <returns></returns>
 	DebugCamera* GetDebugCameraInstance() const { return debugCamera_.get(); }
 
-	/// <summary>
-	/// 軸方向表示の更新処理
-	/// </summary>
-	/// <param name="cameraRotation">カメラの回転</param>
-	void AxisUpdate(const Vector3& cameraRotation)const;
-
-	/// <summary>
-	/// 軸方向表示の描画処理
-	/// </summary>
-	void AxisDraw()const;
-
 #endif
 
 
@@ -410,8 +385,99 @@ private:
 	// デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 
-	// 軸
-	Axis axis_{};
+#endif
+};
 
+
+// 軸方向表示
+class AxialDirectionDisplay
+{
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="engine"></param>
+	void Initialize(const YokosukaEngine* engine);
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name="cameraRotation"></param>
+	void Update(const Vector3& cameraRotation);
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw();
+
+
+private:
+
+	// エンジン
+	const YokosukaEngine* engine_ = nullptr;
+
+
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// UVトランスフォーム
+	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+
+	// 3Dカメラ
+	std::unique_ptr<Camera3D> camera3d_ = nullptr;
+
+	// モデルハンドル
+	uint32_t modelHandle_ = 0;
+};
+
+// シーン
+class Scene
+{
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="engine"></param>
+	virtual void Initialize(const YokosukaEngine* engine);
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	virtual void Update();
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	virtual void Draw();
+
+
+protected:
+
+	// エンジン
+	const YokosukaEngine* engine_ = nullptr;
+
+	// 3Dカメラ
+	std::unique_ptr<Camera3D> camera3d_ = nullptr;
+
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
+
+	// メインカメラ
+	std::unique_ptr<MainCamera> mainCamera_ = nullptr;
+
+
+private:
+
+	// デバッグカメラ有効化
+	bool isDebugCameraActive_ = false;
+
+	// デバッグツール
+#ifdef _DEBUG
+
+	// 軸方向表示
+	std::unique_ptr<AxialDirectionDisplay> axialDirectoinDisplay_ = nullptr;
+	
 #endif
 };
