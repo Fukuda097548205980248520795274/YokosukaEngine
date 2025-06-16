@@ -241,6 +241,9 @@
     <Filter Include="Game\GameScene\Player\PlayerBullet">
       <UniqueIdentifier>{656d3351-6c7a-4640-a4dc-3344bebe6366}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Enemy">
+      <UniqueIdentifier>{0581de64-a9d7-436d-8d23-e19efeacd169}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -446,6 +449,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.cpp">
       <Filter>Game\GameScene\Player\PlayerBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Enemy\Enemy.cpp">
+      <Filter>Game\GameScene\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -655,6 +661,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.h">
       <Filter>Game\GameScene\Player\PlayerBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Enemy\Enemy.h">
+      <Filter>Game\GameScene\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

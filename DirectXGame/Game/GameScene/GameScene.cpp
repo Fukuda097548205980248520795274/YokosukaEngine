@@ -22,6 +22,10 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get());
+
+	// 敵の生成と初期化
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 2.0f, 15.0f));
 }
 
 /// <summary>
@@ -34,6 +38,12 @@ void GameScene::Update()
 
 	// プレイヤーの更新
 	player_->Update();
+
+	// 敵の更新
+	if (enemy_)
+	{
+		enemy_->Update();
+	}
 }
 
 /// <summary>
@@ -46,4 +56,10 @@ void GameScene::Draw()
 
 	// プレイヤーの描画
 	player_->Draw();
+
+	// 敵の描画
+	if (enemy_)
+	{
+		enemy_->Draw();
+	}
 }

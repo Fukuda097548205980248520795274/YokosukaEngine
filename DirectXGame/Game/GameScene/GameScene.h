@@ -1,6 +1,7 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "Player/Player.h"
+#include "Enemy/Enemy.h"
 
 class GameScene : public Scene
 {
@@ -30,5 +31,8 @@ private:
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+	//　敵
+	std::unique_ptr<Enemy> enemy_ = nullptr;
 };
 
