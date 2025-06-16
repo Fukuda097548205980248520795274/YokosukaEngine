@@ -56,6 +56,12 @@ public:
 	/// <param name="area"></param>
 	void SetMovableArea(Rect area) { movableArea_ = area; }
 
+	/// <summary>
+	/// カメラの位置のSetter
+	/// </summary>
+	/// <param name="position"></param>
+	void SetCameraPosition(const Vector3& position) { camera3d_->translation_ = position; }
+
 
 private:
 

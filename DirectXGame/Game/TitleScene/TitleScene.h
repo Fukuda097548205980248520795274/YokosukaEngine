@@ -3,6 +3,9 @@
 #include "../MainCamera/MainCamera.h"
 #include "../Axis/Axis.h"
 #include "../Fade/Fade.h"
+#include "../GameScene/Skydome/Skydome.h"
+#include "GameTitle/GameTitle.h"
+#include "TitlePlayer/TitlePlayer.h"
 
 class TitleScene
 {
@@ -72,6 +75,10 @@ private:
 	// ゲームカメラ
 	std::unique_ptr<MainCamera> mainCamera_ = nullptr;
 
+	// 平行光源
+	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
+
+
 	// デバッグのみで使用する
 #ifdef _DEBUG
 
@@ -79,6 +86,16 @@ private:
 	std::unique_ptr<Axis> axis_ = nullptr;
 
 #endif
+
+	// 天球
+	std::unique_ptr<Skydome> skydome_ = nullptr;
+
+	// ゲームタイトル
+	std::unique_ptr<GameTitle> gameTitle_ = nullptr;
+
+	// タイトル用のプレイヤー
+	std::unique_ptr<TitlePlayer> titlePlayer_ = nullptr;
+
 
 	// フェード
 	std::unique_ptr<Fade> fade_ = nullptr;

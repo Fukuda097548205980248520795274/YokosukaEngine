@@ -268,6 +268,12 @@
     <Filter Include="Game\Fade">
       <UniqueIdentifier>{1c7801a1-6d00-4159-bba5-749544d2d56b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\TitleScene\GameTitle">
+      <UniqueIdentifier>{dff11419-6ca5-4be0-915e-4d3e964b6038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TitleScene\TitlePlayer">
+      <UniqueIdentifier>{a4c715a9-c8c2-40e0-a431-d85574afbf86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -500,6 +506,12 @@
     </ClCompile>
     <ClCompile Include="Game\Fade\Fade.cpp">
       <Filter>Game\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TitleScene\GameTitle\GameTitle.cpp">
+      <Filter>Game\TitleScene\GameTitle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TitleScene\TitlePlayer\TitlePlayer.cpp">
+      <Filter>Game\TitleScene\TitlePlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -736,6 +748,12 @@
     </ClInclude>
     <ClInclude Include="Game\Fade\Fade.h">
       <Filter>Game\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TitleScene\GameTitle\GameTitle.h">
+      <Filter>Game\TitleScene\GameTitle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TitleScene\TitlePlayer\TitlePlayer.h">
+      <Filter>Game\TitleScene\TitlePlayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

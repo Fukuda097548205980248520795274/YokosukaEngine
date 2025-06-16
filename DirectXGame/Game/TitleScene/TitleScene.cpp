@@ -23,6 +23,12 @@ void TitleScene::Initialize(const YokosukaEngine* engine)
 	// メインカメラの生成と初期化
 	mainCamera_ = std::make_unique<MainCamera>();
 	mainCamera_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+	mainCamera_->SetCameraPosition(Vector3(0.0f, 0.0f, -15.0f));
+
+	// 平行光源
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
+	directionalLight_->direction_ = Normalize(Vector3{ 0.0f , -1.0f , 1.0f });
 
 	// デバッグカメラの表示の初期化
 #ifdef _DEBUG
@@ -32,6 +38,18 @@ void TitleScene::Initialize(const YokosukaEngine* engine)
 	axis_->Initialize(engine_);
 
 #endif
+
+	// 天球の生成と初期化
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(engine_, camera3d_.get());
+
+	// ゲームタイトルの生成と初期化
+	gameTitle_ = std::make_unique<GameTitle>();
+	gameTitle_->Initialize(engine_, camera3d_.get(), directionalLight_.get());
+
+	// タイトル用のプレイヤーの生成と初期化
+	titlePlayer_ = std::make_unique<TitlePlayer>();
+	titlePlayer_->Initialize(engine_, camera3d_.get(), directionalLight_.get());
 
 	// フェードの生成と初期化
 	fade_ = std::make_unique<Fade>();
@@ -79,6 +97,15 @@ void TitleScene::Update()
 		camera3d_->UpdateDebugCameraData(engine_->GetDebugCameraInstance());
 	}
 
+	// 天球を更新する
+	skydome_->Update();
+
+	// ゲームタイトルを更新する
+	gameTitle_->Update();
+
+	// タイトル用のプレイヤー
+	titlePlayer_->Update();
+
 
 	// フェーズの更新処理
 	switch (phase_)
@@ -110,6 +137,15 @@ void TitleScene::Draw()
 	axis_->Draw();
 
 #endif
+
+	// 天球を描画する
+	skydome_->Draw();
+
+	// ゲームタイトルを描画する
+	gameTitle_->Draw();
+
+	// タイトル用のプレイヤーを描画する
+	titlePlayer_->Draw();
 
 	// フェードの描画
 	fade_->Draw();
