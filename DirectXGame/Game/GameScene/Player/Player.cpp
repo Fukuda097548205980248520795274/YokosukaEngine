@@ -46,6 +46,38 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
+
+	/*---------
+	    移動
+	---------*/
+
+	// プレイヤーの移動ベクトル
+	Vector3 move = { 0.0f , 0.0f , 0.0f };
+
+	// プレイヤー移動の速さ
+	const float kMoveSpeed = 0.4f;
+
+	// 左スティックを傾けた方向に移動する
+	if (engine_->IsGamepadEnable(0))
+	{
+		move.x = kMoveSpeed * engine_->GetGamepadLeftStick(0).x;
+		move.y = kMoveSpeed * engine_->GetGamepadLeftStick(0).y;
+	}
+
+	// 座標移動する
+	worldTransform_->translation_ += move;
+
+	
+	// 移動限界座標
+	const float kMoveLimitX = 18.0f;
+	const float kMoveLimitY = 10.0f;
+
+	// 範囲を越えないようにする
+	worldTransform_->translation_.x = std::clamp(worldTransform_->translation_.x, -kMoveLimitX, kMoveLimitX);
+	worldTransform_->translation_.y = std::clamp(worldTransform_->translation_.y, -kMoveLimitY, kMoveLimitY);
+
+
+
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();
