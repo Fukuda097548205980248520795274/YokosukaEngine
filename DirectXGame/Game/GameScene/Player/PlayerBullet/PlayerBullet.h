@@ -1,15 +1,9 @@
 #pragma once
-#include "../../../YokosukaEngine/Include/YokosukaEngine.h"
-#include "PlayerBullet/PlayerBullet.h"
+#include "../../../../YokosukaEngine/Include/YokosukaEngine.h"
 
-class Player
+class PlayerBullet
 {
 public:
-
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~Player();
 
 	/// <summary>
 	/// 初期化
@@ -17,7 +11,8 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="directionalLight"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight,
+		const Vector3& position, const Vector3& velocity);
 
 	/// <summary>
 	/// 更新処理
@@ -30,15 +25,10 @@ public:
 	void Draw();
 
 	/// <summary>
-	/// 弾を発射する
-	/// </summary>
-	void BulletShot();
-
-	/// <summary>
-	/// ワールド座標のGetter
+	/// 終了フラグのGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetWorldPosition();
+	bool IsFinished() { return isFinished_; }
 
 
 private:
@@ -69,7 +59,16 @@ private:
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
 
 
-	// 弾
-	std::list<PlayerBullet*> bullets_;
+	// 速度ベクトル
+	Vector3 velocity_ = { 0.0f , 0.0f , 0.0f };
+
+	// 生存時間
+	const float kLifeTime = 2.0f;
+
+	// 生存タイマー
+	float lifeTimer_ = 0.0f;
+
+	// 終了フラグ
+	bool isFinished_ = false;
 };
 

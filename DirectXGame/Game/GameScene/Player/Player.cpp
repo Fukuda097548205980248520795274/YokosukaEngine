@@ -1,6 +1,19 @@
 #include "Player.h"
 
 /// <summary>
+/// デストラクタ
+/// </summary>
+Player::~Player()
+{
+	// 弾
+	for (PlayerBullet* bullet : bullets_)
+	{
+		delete bullet;
+	}
+	bullets_.clear();
+}
+
+/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
@@ -77,6 +90,45 @@ void Player::Update()
 	worldTransform_->translation_.y = std::clamp(worldTransform_->translation_.y, -kMoveLimitY, kMoveLimitY);
 
 
+	/*----------
+	    旋回
+	----------*/
+
+	// 旋回のY軸回転速度
+	float kTurnYSpeed = 0.02f;
+
+	// RB / LBで旋回する
+	if (engine_->GetGamepadButtonPress(0, XINPUT_GAMEPAD_LEFT_SHOULDER))
+	{
+		worldTransform_->rotation_.y -= kTurnYSpeed;
+	}
+	else if (engine_->GetGamepadButtonPress(0, XINPUT_GAMEPAD_RIGHT_SHOULDER))
+	{
+		worldTransform_->rotation_.y += kTurnYSpeed;
+	}
+
+
+	// 弾を発射する
+	BulletShot();
+
+	// 弾の更新
+	for (PlayerBullet* bullet : bullets_)
+	{
+		bullet->Update();
+	}
+
+	// 消滅した弾をリストから排除する
+	bullets_.remove_if([](PlayerBullet* bullet)
+		{
+			if (bullet->IsFinished())
+			{
+				delete bullet;
+				return true;
+			}
+			return false;
+		}
+	);
+
 
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
@@ -91,4 +143,58 @@ void Player::Draw()
 	// モデルを描画する
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, { 0.0f, 0.0f, 0.0f , 1.0f },
 		directionalLight_, pointLight_.get(), spotLight_.get());
+
+	// 弾の描画
+	for (PlayerBullet* bullet : bullets_)
+	{
+		bullet->Draw();
+	}
+}
+
+
+/// <summary>
+/// 弾を発射する
+/// </summary>
+void Player::BulletShot()
+{
+	// Aボタンで弾を発射する
+	if (engine_->IsGamepadEnable(0))
+	{
+		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
+		{
+			// 弾の速度
+			const float kBulletSpeed = 1.0f;
+			Vector3 velocity = Vector3{ 0.0f , 0.0f , kBulletSpeed };
+
+			// プレイヤーの回転行列
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
+
+			// 速度ベクトルと回転行列で座標変換
+			velocity = TransformNormal(velocity, rotateMatrix);
+
+
+			// 弾の生成と初期化
+			PlayerBullet* newBullet = new PlayerBullet();
+			newBullet->Initialize(engine_, camera3d_, directionalLight_, GetWorldPosition(), velocity);
+
+			// 弾を登録する
+			bullets_.push_back(newBullet);
+		}
+	}
+}
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 Player::GetWorldPosition()
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
 }

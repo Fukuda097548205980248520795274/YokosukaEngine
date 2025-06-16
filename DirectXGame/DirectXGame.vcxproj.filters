@@ -238,6 +238,9 @@
     <Filter Include="Game\GameScene\Player">
       <UniqueIdentifier>{3c1669d4-2b01-4f31-87eb-633886b7cd4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Player\PlayerBullet">
+      <UniqueIdentifier>{656d3351-6c7a-4640-a4dc-3344bebe6366}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -440,6 +443,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Player\Player.cpp">
       <Filter>Game\GameScene\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.cpp">
+      <Filter>Game\GameScene\Player\PlayerBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -646,6 +652,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Player\Player.h">
       <Filter>Game\GameScene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.h">
+      <Filter>Game\GameScene\Player\PlayerBullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
