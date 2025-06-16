@@ -152,6 +152,7 @@ void DebugCamera::Initialize(const YokosukaEngine* engine)
 	// 3Dカメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
 	camera3d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+	camera3d_->translation_ = { 0.0f , 0.0f , -50.0f };
 }
 
 /// <summary>

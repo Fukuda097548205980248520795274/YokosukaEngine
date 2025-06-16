@@ -1,5 +1,6 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "Player/Player.h"
 
 class GameScene : public Scene
 {
@@ -20,5 +21,14 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw()override;
+
+
+private:
+
+	// 平行光源
+	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
+
+	// プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
 };
 
