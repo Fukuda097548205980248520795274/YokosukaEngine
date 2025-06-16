@@ -319,6 +319,10 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 /// </summary>
 void MainCamera::Update()
 {
+	// 値をカメラに入れる
+	camera3d_->translation_ = translation_;
+	camera3d_->rotation_ = rotation_;
+
 	// 3Dカメラ更新
 	camera3d_->UpdateMatrix();
 }

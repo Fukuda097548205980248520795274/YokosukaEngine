@@ -468,6 +468,12 @@ public:
 	/// <returns></returns>
 	Camera3D* GetGameCameraInstance() { return camera3d_.get(); }
 
+	// ローカル座標
+	Vector3 translation_ = { 0.0f , 0.0f , 0.0f };
+
+	// 回転
+	Vector3 rotation_ = { 0.0f , 0.0f , 0.0f };
+
 
 private:
 
