@@ -132,78 +132,79 @@ void Player::InputMove()
 		// 加速度ベクトル
 		Vector3 acceleration = { 0.0f , 0.0f , 0.0f };
 
-
-		/*----------
-			移動
-		----------*/
-
-		// 操作中
-		if (engine_->GetGamepadLeftStick(0).x != 0.0f)
-		{
-			// 右スティックを右で、右移動
-			if (engine_->GetGamepadLeftStick(0).x >= 0.9f)
-			{
-				// 左移動中に右に移動すると速度減衰
-				if (velocity_.x < 0.0f)
-				{
-					velocity_.x *= (1.0f - kAttenuation);
-				}
-
-				// 右に振り向く
-				if (lrDirection_ != LRDirection::kRight)
-				{
-					lrDirection_ = LRDirection::kRight;
-
-					// 旋回開始する
-					turnFirstRotationY_ = worldTransform_->rotation_.y;
-					turnTimer_ = 0.0f;
-				}
-
-				acceleration.x += kAddAcceleration;
-			} else if (engine_->GetGamepadLeftStick(0).x <= -0.9f)
-			{
-				// 左スティックを左で、左移動
-
-				// 右移動中に左に移動すると速度減衰
-				if (velocity_.x > 0.0f)
-				{
-					velocity_.x *= (1.0f - kAttenuation);
-				}
-
-				// 左に振り向く
-				if (lrDirection_ != LRDirection::kLeft)
-				{
-					lrDirection_ = LRDirection::kLeft;
-
-					// 旋回開始する
-					turnFirstRotationY_ = worldTransform_->rotation_.y;
-					turnTimer_ = 0.0f;
-				}
-
-				acceleration.x -= kAddAcceleration;
-			}
-		} else
-		{
-			// 操作していないと、移動速度が減衰する
-			velocity_.x *= (1.0f - kAttenuation);
-		}
-
-		// 速度ベクトルに加速度ベクトルを加算する
-		velocity_ += acceleration;
-
-		// 最大速度を越えないようにする
-		velocity_.x = std::clamp(velocity_.x, -kMaxMoveSpeed, kMaxMoveSpeed);
-
-
-		/*-------------
-			ジャンプ
-		-------------*/
-
 		// 地上に接地しているとき
 		if (isGround_)
 		{
+			/*----------
+				移動
+			----------*/
+
+			// 操作中
+			if (engine_->GetGamepadLeftStick(0).x != 0.0f || engine_->GetKeyPress(DIK_LEFT) || engine_->GetKeyPress(DIK_RIGHT))
+			{
+				// 右スティックを右で、右移動
+				if (engine_->GetGamepadLeftStick(0).x >= 0.9f || engine_->GetKeyPress(DIK_RIGHT))
+				{
+					// 左移動中に右に移動すると速度減衰
+					if (velocity_.x < 0.0f)
+					{
+						velocity_.x *= (1.0f - kAttenuation);
+					}
+
+					// 右に振り向く
+					if (lrDirection_ != LRDirection::kRight)
+					{
+						lrDirection_ = LRDirection::kRight;
+
+						// 旋回開始する
+						turnFirstRotationY_ = worldTransform_->rotation_.y;
+						turnTimer_ = 0.0f;
+					}
+
+					acceleration.x += kAddAcceleration;
+				}
+				else if (engine_->GetGamepadLeftStick(0).x <= -0.9f || engine_->GetKeyPress(DIK_LEFT))
+				{
+					// 左スティックを左で、左移動
+
+					// 右移動中に左に移動すると速度減衰
+					if (velocity_.x > 0.0f)
+					{
+						velocity_.x *= (1.0f - kAttenuation);
+					}
+
+					// 左に振り向く
+					if (lrDirection_ != LRDirection::kLeft)
+					{
+						lrDirection_ = LRDirection::kLeft;
+
+						// 旋回開始する
+						turnFirstRotationY_ = worldTransform_->rotation_.y;
+						turnTimer_ = 0.0f;
+					}
+
+					acceleration.x -= kAddAcceleration;
+				}
+			} 
+			else
+			{
+				// 操作していないと、移動速度が減衰する
+				velocity_.x *= (1.0f - kAttenuation);
+			}
+
+			// 速度ベクトルに加速度ベクトルを加算する
+			velocity_ += acceleration;
+
+			// 最大速度を越えないようにする
+			velocity_.x = std::clamp(velocity_.x, -kMaxMoveSpeed, kMaxMoveSpeed);
+
+
+			/*-----------------
+			    ジャンプする
+			-----------------*/
+
 			// Aボタンでジャンプする
-			if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
+			if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A) || engine_->GetKeyTrigger(DIK_SPACE))
 			{
 				// ジャンプ初速を加算する
 				velocity_ += Vector3(0.0f, kJumpStartAcceleration, 0.0f);
@@ -212,6 +213,105 @@ void Player::InputMove()
 				isGround_ = false;
 			}
 		} 
+		else
+		{
+			// 地上に接地していないとき
+
+			// 落下速度
+			velocity_ += Vector3(0.0f, -kGravityAcceleration, 0.0f);
+
+			// 落下速度制限
+			velocity_.y = std::max(velocity_.y, -kMaxFallSpeed);
+		}
+	}
+	else
+	{
+		// ゲームパッドが無効な時はキーボードのみ
+
+		// 加速度ベクトル
+		Vector3 acceleration = { 0.0f , 0.0f , 0.0f };
+
+		// 地上に接地しているとき
+		if (isGround_)
+		{
+			/*----------
+				移動
+			----------*/
+
+			// 操作中
+			if (engine_->GetKeyPress(DIK_LEFT) || engine_->GetKeyPress(DIK_RIGHT))
+			{
+				// 右矢印キーで、右移動
+				if (engine_->GetKeyPress(DIK_RIGHT))
+				{
+					// 左移動中に右に移動すると速度減衰
+					if (velocity_.x < 0.0f)
+					{
+						velocity_.x *= (1.0f - kAttenuation);
+					}
+
+					// 右に振り向く
+					if (lrDirection_ != LRDirection::kRight)
+					{
+						lrDirection_ = LRDirection::kRight;
+
+						// 旋回開始する
+						turnFirstRotationY_ = worldTransform_->rotation_.y;
+						turnTimer_ = 0.0f;
+					}
+
+					acceleration.x += kAddAcceleration;
+				} 
+				else if (engine_->GetKeyPress(DIK_LEFT))
+				{
+					// 左矢印キーで、左移動
+
+					// 右移動中に左に移動すると速度減衰
+					if (velocity_.x > 0.0f)
+					{
+						velocity_.x *= (1.0f - kAttenuation);
+					}
+
+					// 左に振り向く
+					if (lrDirection_ != LRDirection::kLeft)
+					{
+						lrDirection_ = LRDirection::kLeft;
+
+						// 旋回開始する
+						turnFirstRotationY_ = worldTransform_->rotation_.y;
+						turnTimer_ = 0.0f;
+					}
+
+					acceleration.x -= kAddAcceleration;
+				}
+			} 
+			else
+			{
+				// 操作していないと、移動速度が減衰する
+				velocity_.x *= (1.0f - kAttenuation);
+			}
+
+			// 速度ベクトルに加速度ベクトルを加算する
+			velocity_ += acceleration;
+
+			// 最大速度を越えないようにする
+			velocity_.x = std::clamp(velocity_.x, -kMaxMoveSpeed, kMaxMoveSpeed);
+
+
+			/*-------------
+				ジャンプ
+			-------------*/
+
+			// スペースキーでジャンプする
+			if (engine_->GetKeyTrigger(DIK_SPACE))
+			{
+				// ジャンプ初速を加算する
+				velocity_ += Vector3(0.0f, kJumpStartAcceleration, 0.0f);
+
+				// 接地しなくなる
+				isGround_ = false;
+			}
+		}
 		else
 		{
 			// 地上に接地していないとき

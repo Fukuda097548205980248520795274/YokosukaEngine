@@ -192,10 +192,19 @@ void TitleScene::ChangePhase()
 /// </summary>
 void TitleScene::MainUpdate()
 {
-	// スペースキーで、フェードインに移行する
+	// Aボタンで、フェードインに移行する
 	if (engine_->IsGamepadEnable(0))
 	{
-		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
+		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A) || engine_->GetKeyTrigger(DIK_SPACE))
+		{
+			phase_ = Phase::kFadeIn;
+			fade_->Start(Fade::Status::kFadeIn, kFadeTime);
+		}
+	}
+	else
+	{
+		// スペースキーで、フェードインに移行する
+		if (engine_->GetKeyTrigger(DIK_SPACE))
 		{
 			phase_ = Phase::kFadeIn;
 			fade_->Start(Fade::Status::kFadeIn, kFadeTime);

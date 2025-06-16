@@ -86,7 +86,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	{
 		// 生成と初期化
 		Enemy* enemy = new Enemy();
-		enemy->Initialize(engine_, camera3d_.get(), directionalLight_.get(), mapChipField_->GetMapCihpPositionByIndex(10 + i * 5, 18 - i * 3));
+		enemy->Initialize(engine_, camera3d_.get(), directionalLight_.get(), mapChipField_->GetMapCihpPositionByIndex(10 + i * 5, 17 - i * 3));
 
 		// リストに登録する
 		enemies_.push_back(enemy);
