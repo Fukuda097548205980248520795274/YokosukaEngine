@@ -1,5 +1,19 @@
 #include "Enemy.h"
 
+// フェーズの初期化テーブル
+void (Enemy::* Enemy::phaseInitializeTable[])() =
+{
+	&Enemy::PhaseApproachInitialize,
+	&Enemy::PhaseLeaveInitialize
+};
+
+// フェーズの更新処理テーブル
+void (Enemy::* Enemy::phaseUpdateTable[])() =
+{
+	&Enemy::PhaseApproachUpdate,
+	&Enemy::PhaseLeaveUpdate
+};
+
 /// <summary>
 /// デストラクタ
 /// </summary>
@@ -57,7 +71,8 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 
 
 	// 接近フェーズを初期化する
-	PhaseApproachInitialize();
+	phase_ = Phase::kApproach;
+	(this->*phaseUpdateTable[static_cast<size_t>(phase_)])();
 }
 
 /// <summary>
@@ -66,22 +81,7 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 void Enemy::Update()
 {
 	// 行動フェーズでの動き
-	switch (phase_)
-	{
-	case Phase::kApproach:
-		// 接近
-
-		PhaseApproachUpdate();
-
-		break;
-
-	case Phase::kLeave:
-		// 離脱
-
-		PhaseLeaveUpdate();
-		
-		break;
-	}
+	(this->*phaseUpdateTable[static_cast<size_t>(phase_)])();
 
 	// 弾の更新
 	for (EnemyBullet* bullet : bullets_)
@@ -151,6 +151,7 @@ void Enemy::PhaseApproachUpdate()
 	if (worldTransform_->translation_.z <= 0.0f)
 	{
 		phase_ = Phase::kLeave;
+		(this->*phaseUpdateTable[static_cast<size_t>(phase_)])();
 	}
 }
 
@@ -161,6 +162,14 @@ void Enemy::PhaseApproachInitialize()
 {
 	// 発射タイマーを初期化する
 	shotTiemer_ = 0.0f;
+}
+
+/// <summary>
+/// 離脱フェーズの初期化
+/// </summary>
+void Enemy::PhaseLeaveInitialize()
+{
+	
 }
 
 /// <summary>

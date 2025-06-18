@@ -95,12 +95,23 @@ private:
 	void PhaseApproachUpdate();
 
 	/// <summary>
+	/// 離脱フェーズの初期化
+	/// </summary>
+	void PhaseLeaveInitialize();
+
+	/// <summary>
 	/// 離脱フェーズの更新処理
 	/// </summary>
 	void PhaseLeaveUpdate();
 
 	// 現在のフェーズ
 	Phase phase_ = Phase::kApproach;
+
+	// フェーズの初期化テーブル
+	static void(Enemy::*phaseInitializeTable[])();
+
+	// フェーズの更新処理テーブル
+	static void (Enemy::*phaseUpdateTable[])();
 
 
 	// 弾のリスト
