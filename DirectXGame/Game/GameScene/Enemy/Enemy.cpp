@@ -124,8 +124,8 @@ void Enemy::Draw()
 
 
 /// <summary>
-	/// 接近フェーズの更新処理
-	/// </summary>
+/// 接近フェーズの更新処理
+/// </summary>
 void Enemy::PhaseApproachUpdate()
 {
 	// 移動速度
@@ -134,8 +134,18 @@ void Enemy::PhaseApproachUpdate()
 	// 座標移動する
 	worldTransform_->translation_.z -= kMoveSpeed;
 
-	// 弾を発射する
-	BulletShot();
+
+
+	// 発射するタイマーを進める
+	shotTiemer_ += 1.0f / 60.0f;
+
+	// 発射間隔を越えたら、発射する
+	if (shotTiemer_ >= kShotInterval)
+	{
+		BulletShot();
+	}
+
+
 
 	// 離脱フェーズに切り替える
 	if (worldTransform_->translation_.z <= 0.0f)
@@ -173,28 +183,22 @@ void Enemy::PhaseLeaveUpdate()
 /// </summary>
 void Enemy::BulletShot()
 {
-	shotTiemer_ += 1.0f / 60.0f;
+	// 弾の移動速度
+	const float kBulletMoveSpeed = 1.0f;
 
-	// 発射間隔を越えたら、発射する
-	if (shotTiemer_ >= kShotInterval)
-	{
-		// 弾の移動速度
-		const float kBulletMoveSpeed = 1.0f;
+	// 速度ベクトル
+	Vector3 velocity = { 0.0f , 0.0f , -kBulletMoveSpeed };
 
-		// 速度ベクトル
-		Vector3 velocity = { 0.0f , 0.0f , -kBulletMoveSpeed };
+	// 弾の生成と初期化
+	EnemyBullet* newBullet = new EnemyBullet();
+	newBullet->Initialize(engine_, camera3d_, directionalLight_, GetWorldPosition(), velocity);
 
-		// 弾の生成と初期化
-		EnemyBullet* newBullet = new EnemyBullet();
-		newBullet->Initialize(engine_, camera3d_, directionalLight_, GetWorldPosition(), velocity);
-
-		// リストに登録する
-		bullets_.push_back(newBullet);
+	// リストに登録する
+	bullets_.push_back(newBullet);
 
 
-		// 発射タイマーを初期化する
-		shotTiemer_ = 0.0f;
-	}
+	// 発射タイマーを初期化する
+	shotTiemer_ = 0.0f;
 }
 
 /// <summary>
