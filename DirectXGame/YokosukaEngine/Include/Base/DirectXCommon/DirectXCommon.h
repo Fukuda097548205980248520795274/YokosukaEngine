@@ -315,6 +315,11 @@ private:
 	void GenerateRTV();
 
 	/// <summary>
+	/// オフスクリーン用のSRVを生成する
+	/// </summary>
+	void GenetateOffScreenSRV();
+
+	/// <summary>
 	/// DSVを生成する
 	/// </summary>
 	void GenerateDSV();
@@ -371,7 +376,7 @@ private:
 
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;
-	const UINT kNumRtvDescriptors = 2;
+	const UINT kNumRtvDescriptors = 3;
 
 	// SRV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_ = nullptr;
@@ -386,11 +391,20 @@ private:
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc_{};
 
 	// スワップチェーン用のリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> swapChainResources_[2] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> swapChainResources_[3] = { nullptr };
 
 	// RTV
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc_{};
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2] = {};
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[3] = {};
+
+
+	// オフスクリーン用のリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> offScreenResource_ = nullptr;
+
+	// オフスクリーン用のSRVハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE offScreenSrvHandleCPU_ = {};
+	D3D12_GPU_DESCRIPTOR_HANDLE offScreenSrvHandleGPU_ = {};
+
 
 	// 深度情報のリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
