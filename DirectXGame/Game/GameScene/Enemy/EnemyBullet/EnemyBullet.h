@@ -1,28 +1,9 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
-#include "EnemyBullet/EnemyBullet.h"
 
-class Enemy
+class EnemyBullet
 {
 public:
-
-	// 行動フェーズ
-	enum class Phase
-	{
-		// 接近
-		kApproach,
-
-		// 離脱
-		kLeave
-	};
-
-
-public:
-
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~Enemy();
 
 	/// <summary>
 	/// 初期化
@@ -31,7 +12,7 @@ public:
 	/// <param name="camera3d"></param>
 	/// <param name="directionalLight"></param>
 	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight,
-		const Vector3& position);
+		const Vector3& position, const Vector3& velocity);
 
 	/// <summary>
 	/// 更新処理
@@ -44,19 +25,13 @@ public:
 	void Draw();
 
 	/// <summary>
-	/// 弾を発射する
-	/// </summary>
-	void BulletShot();
-
-	/// <summary>
-	/// ワールド座標のGetter
+	/// 終了フラグのGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetWorldPosition();
+	bool IsFinished() { return isFinished_; }
 
 
 private:
-
 
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
@@ -84,32 +59,16 @@ private:
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
 
 
-	/// <summary>
-	/// 接近フェーズ初期化
-	/// </summary>
-	void PhaseApproachInitialize();
+	// 速度ベクトル
+	Vector3 velocity_ = { 0.0f , 0.0f , 0.0f };
 
-	/// <summary>
-	/// 接近フェーズの更新処理
-	/// </summary>
-	void PhaseApproachUpdate();
+	// 生存時間
+	const float kLifeTime = 2.0f;
 
-	/// <summary>
-	/// 離脱フェーズの更新処理
-	/// </summary>
-	void PhaseLeaveUpdate();
+	// 生存タイマー
+	float lifeTimer_ = 0.0f;
 
-	// 現在のフェーズ
-	Phase phase_ = Phase::kApproach;
-
-
-	// 弾のリスト
-	std::list<EnemyBullet*> bullets_;
-
-	// 発射間隔
-	const float kShotInterval = 1.0f;
-
-	// 発射タイマー
-	float shotTiemer_ = 0.0f;
+	// 終了フラグ
+	bool isFinished_ = false;
 };
 

@@ -1,6 +1,19 @@
 #include "Enemy.h"
 
 /// <summary>
+/// デストラクタ
+/// </summary>
+Enemy::~Enemy()
+{
+	// 弾のリスト
+	for (EnemyBullet* bullet : bullets_)
+	{
+		delete bullet;
+	}
+	bullets_.clear();
+}
+
+/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
@@ -41,6 +54,10 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 	spotLight_ = std::make_unique<SpotLight>();
 	spotLight_->Initialize();
 	spotLight_->intensity_ = 0.0f;
+
+
+	// 接近フェーズを初期化する
+	PhaseApproachInitialize();
 }
 
 /// <summary>
@@ -66,6 +83,24 @@ void Enemy::Update()
 		break;
 	}
 
+	// 弾の更新
+	for (EnemyBullet* bullet : bullets_)
+	{
+		bullet->Update();
+	}
+
+	// 消滅した弾をリストから削除する
+	bullets_.remove_if([](EnemyBullet* bullet)
+		{
+			if (bullet->IsFinished())
+			{
+				delete bullet;
+				return true;
+			}
+			return false;
+		}
+	);
+
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();
@@ -79,6 +114,12 @@ void Enemy::Draw()
 	// モデルを描画する
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, { 1.0f, 0.0f, 0.0f , 1.0f },
 		directionalLight_, pointLight_.get(), spotLight_.get());
+
+	// 弾の描画
+	for (EnemyBullet* bullet : bullets_)
+	{
+		bullet->Draw();
+	}
 }
 
 
@@ -93,11 +134,23 @@ void Enemy::PhaseApproachUpdate()
 	// 座標移動する
 	worldTransform_->translation_.z -= kMoveSpeed;
 
+	// 弾を発射する
+	BulletShot();
+
 	// 離脱フェーズに切り替える
 	if (worldTransform_->translation_.z <= 0.0f)
 	{
 		phase_ = Phase::kLeave;
 	}
+}
+
+/// <summary>
+/// 接近フェーズ初期化
+/// </summary>
+void Enemy::PhaseApproachInitialize()
+{
+	// 発射タイマーを初期化する
+	shotTiemer_ = 0.0f;
 }
 
 /// <summary>
@@ -113,4 +166,49 @@ void Enemy::PhaseLeaveUpdate()
 
 	// 座標移動する
 	worldTransform_->translation_ += kMoveSpeed * velocity;
+}
+
+/// <summary>
+/// 弾を発射する
+/// </summary>
+void Enemy::BulletShot()
+{
+	shotTiemer_ += 1.0f / 60.0f;
+
+	// 発射間隔を越えたら、発射する
+	if (shotTiemer_ >= kShotInterval)
+	{
+		// 弾の移動速度
+		const float kBulletMoveSpeed = 1.0f;
+
+		// 速度ベクトル
+		Vector3 velocity = { 0.0f , 0.0f , -kBulletMoveSpeed };
+
+		// 弾の生成と初期化
+		EnemyBullet* newBullet = new EnemyBullet();
+		newBullet->Initialize(engine_, camera3d_, directionalLight_, GetWorldPosition(), velocity);
+
+		// リストに登録する
+		bullets_.push_back(newBullet);
+
+
+		// 発射タイマーを初期化する
+		shotTiemer_ = 0.0f;
+	}
+}
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 Enemy::GetWorldPosition()
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
 }
