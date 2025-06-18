@@ -1,18 +1,6 @@
 #include "Enemy.h"
-
-// フェーズの初期化テーブル
-void (Enemy::* Enemy::phaseInitializeTable[])() =
-{
-	&Enemy::PhaseApproachInitialize,
-	&Enemy::PhaseLeaveInitialize
-};
-
-// フェーズの更新処理テーブル
-void (Enemy::* Enemy::phaseUpdateTable[])() =
-{
-	&Enemy::PhaseApproachUpdate,
-	&Enemy::PhaseLeaveUpdate
-};
+#include "BaseEnemyPhase/EnemyPhaseApproach/EnemyPhaseApproach.h"
+#include "BaseEnemyPhase/EnemyPhaseLeave/EnemyPhaseLeave.h"
 
 /// <summary>
 /// デストラクタ
@@ -71,8 +59,7 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 
 
 	// 接近フェーズを初期化する
-	phase_ = Phase::kApproach;
-	(this->*phaseUpdateTable[static_cast<size_t>(phase_)])();
+	ChangePhase(std::make_unique<EnemyPhaseApproach>(this));
 }
 
 /// <summary>
@@ -81,7 +68,7 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 void Enemy::Update()
 {
 	// 行動フェーズでの動き
-	(this->*phaseUpdateTable[static_cast<size_t>(phase_)])();
+	phase_->Update();
 
 	// 弾の更新
 	for (EnemyBullet* bullet : bullets_)
@@ -122,69 +109,13 @@ void Enemy::Draw()
 	}
 }
 
-
 /// <summary>
-/// 接近フェーズの更新処理
+/// フェーズの状態を切り替える
 /// </summary>
-void Enemy::PhaseApproachUpdate()
+/// <param name="phaseState"></param>
+void Enemy::ChangePhase(std::unique_ptr<BaseEnemyPhase> phase)
 {
-	// 移動速度
-	const float kMoveSpeed = 0.1f;
-
-	// 座標移動する
-	worldTransform_->translation_.z -= kMoveSpeed;
-
-
-
-	// 発射するタイマーを進める
-	shotTiemer_ += 1.0f / 60.0f;
-
-	// 発射間隔を越えたら、発射する
-	if (shotTiemer_ >= kShotInterval)
-	{
-		BulletShot();
-	}
-
-
-
-	// 離脱フェーズに切り替える
-	if (worldTransform_->translation_.z <= 0.0f)
-	{
-		phase_ = Phase::kLeave;
-		(this->*phaseUpdateTable[static_cast<size_t>(phase_)])();
-	}
-}
-
-/// <summary>
-/// 接近フェーズ初期化
-/// </summary>
-void Enemy::PhaseApproachInitialize()
-{
-	// 発射タイマーを初期化する
-	shotTiemer_ = 0.0f;
-}
-
-/// <summary>
-/// 離脱フェーズの初期化
-/// </summary>
-void Enemy::PhaseLeaveInitialize()
-{
-	
-}
-
-/// <summary>
-/// 離脱フェーズの更新処理
-/// </summary>
-void Enemy::PhaseLeaveUpdate()
-{
-	// 移動速度
-	const float kMoveSpeed = 0.3f;
-
-	// 速度ベクトル
-	Vector3 velocity = { 0.0f , 1.0f , 0.0f };
-
-	// 座標移動する
-	worldTransform_->translation_ += kMoveSpeed * velocity;
+	phase_ = std::move(phase);
 }
 
 /// <summary>

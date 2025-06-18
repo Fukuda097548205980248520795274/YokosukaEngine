@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "EnemyBullet/EnemyBullet.h"
+#include "BaseEnemyPhase/BaseEnemyPhase.h"
 
 class Enemy
 {
@@ -49,10 +50,47 @@ public:
 	void BulletShot();
 
 	/// <summary>
+	/// フェーズを切り替える
+	/// </summary>
+	/// <param name="phaseState"></param>
+	void ChangePhase(std::unique_ptr<BaseEnemyPhase> phase);
+
+	/// <summary>
 	/// ワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
 	Vector3 GetWorldPosition();
+
+
+	/// <summary>
+	/// ワールドトランスフォームの移動のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldTransformTranslation() { return worldTransform_->translation_; }
+
+	/// <summary>
+	/// ワールドトランスフォームの移動のSetter
+	/// </summary>
+	/// <param name="translation"></param>
+	void SetWorldTransformTranslation(const Vector3& translation) { worldTransform_->translation_ = translation; }
+
+	/// <summary>
+	/// 発射タイマーのGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetShotTimer() { return shotTiemer_; }
+
+	/// <summary>
+	/// 発射タイマーのSetter
+	/// </summary>
+	/// <param name="shotTimer"></param>
+	void SetShotTimer(float shotTimer) { shotTiemer_ = shotTimer; }
+
+	/// <summary>
+	/// 発射間隔のGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetKShotInterval() { return kShotInterval; }
 
 
 private:
@@ -84,28 +122,9 @@ private:
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
 
 
-	/// <summary>
-	/// 接近フェーズ初期化
-	/// </summary>
-	void PhaseApproachInitialize();
+	// フェーズの状態
+	std::unique_ptr<BaseEnemyPhase> phase_;
 
-	/// <summary>
-	/// 接近フェーズの更新処理
-	/// </summary>
-	void PhaseApproachUpdate();
-
-	/// <summary>
-	/// 離脱フェーズの初期化
-	/// </summary>
-	void PhaseLeaveInitialize();
-
-	/// <summary>
-	/// 離脱フェーズの更新処理
-	/// </summary>
-	void PhaseLeaveUpdate();
-
-	// 現在のフェーズ
-	Phase phase_ = Phase::kApproach;
 
 	// フェーズの初期化テーブル
 	static void(Enemy::*phaseInitializeTable[])();

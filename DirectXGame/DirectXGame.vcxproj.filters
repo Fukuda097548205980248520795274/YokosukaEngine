@@ -247,6 +247,15 @@
     <Filter Include="Game\GameScene\Enemy\EnemyBullet">
       <UniqueIdentifier>{6e164435-404e-4bcc-9a60-500a2d13a7c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Enemy\BaseEnemyPhase">
+      <UniqueIdentifier>{17e10624-febd-42a2-92dc-f1fd03322731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach">
+      <UniqueIdentifier>{613b9c8a-7282-4a08-907a-6803be9ff05b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave">
+      <UniqueIdentifier>{8c2068d1-c1d9-4a99-b4d2-e559e1660102}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -458,6 +467,15 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Enemy\EnemyBullet\EnemyBullet.cpp">
       <Filter>Game\GameScene\Enemy\EnemyBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\BaseEnemyPhase.cpp">
+      <Filter>Game\GameScene\Enemy\BaseEnemyPhase</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach\EnemyPhaseApproach.cpp">
+      <Filter>Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.cpp">
+      <Filter>Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -673,6 +691,15 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Enemy\EnemyBullet\EnemyBullet.h">
       <Filter>Game\GameScene\Enemy\EnemyBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\BaseEnemyPhase.h">
+      <Filter>Game\GameScene\Enemy\BaseEnemyPhase</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach\EnemyPhaseApproach.h">
+      <Filter>Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.h">
+      <Filter>Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

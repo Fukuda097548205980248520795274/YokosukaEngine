@@ -119,6 +119,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\BaseEnemyPhase.cpp" />
+    <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach\EnemyPhaseApproach.cpp" />
+    <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.cpp" />
     <ClCompile Include="Game\GameScene\Enemy\Enemy.cpp" />
     <ClCompile Include="Game\GameScene\Enemy\EnemyBullet\EnemyBullet.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
@@ -192,6 +195,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\BaseEnemyPhase.h" />
+    <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach\EnemyPhaseApproach.h" />
+    <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.h" />
     <ClInclude Include="Game\GameScene\Enemy\Enemy.h" />
     <ClInclude Include="Game\GameScene\Enemy\EnemyBullet\EnemyBullet.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
