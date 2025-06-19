@@ -30,11 +30,12 @@ private:
 	// UVトランスフォーム
 	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
 
-	// モデルハンドル
+	// テクスチャハンドル
 	uint32_t modelHandle_ = 0;
 
 	// 平行光源
-	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
+	std::unique_ptr<DirectionalLight> directionalLight0_ = nullptr;
+	std::unique_ptr<DirectionalLight> directionalLight1_ = nullptr;
 
 	// ポイントライト
 	std::unique_ptr<PointLight> pointLight_ = nullptr;

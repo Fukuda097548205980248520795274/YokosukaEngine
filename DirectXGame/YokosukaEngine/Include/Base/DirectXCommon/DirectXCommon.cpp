@@ -203,30 +203,16 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	    バッファリソースを作成する
 	-----------------------------*/
 
-	// インデックスリソース
-	indexResourceSphere_ = CreateBufferResource(device_, (kSubdivision * kSubdivision * 6) * sizeof(uint32_t));
-	indexResourceSprite_ = CreateBufferResource(device_, sizeof(uint32_t) * 6);
-
-	// 頂点リソース
-	vertexBufferResourceSphere_ = CreateBufferResource(device_, (kSubdivision * kSubdivision * 4) * sizeof(VertexData));
-	vertexBufferResourceSprite_ = CreateBufferResource(device_, sizeof(VertexData) * 4);
-
+	// 平行光源リソース
+	directionalLightResource_ = CreateBufferResource(device_, sizeof(DirectionalLightForGPU));
+	directionalLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData_));
+	directionalLightData_->setNum = useNumDirectionalLight_;
 
 	for (uint32_t i = 0; i < kMaxNumResource; i++)
 	{
-
-		// 球
-		MaterialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
-		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		directionalLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(DirectionalLightForGPU));
-		pointLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(PointLightFoirGPU));
-		spotLightResourceSphere_[i] = CreateBufferResource(device_, sizeof(SpotLightForGPU));
-		cameraResourceSphere_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
-
 		// モデル
 		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		directionalLightResourceModel_[i] = CreateBufferResource(device_, sizeof(DirectionalLightForGPU));
 		pointLightResourceModel_[i] = CreateBufferResource(device_, sizeof(PointLightFoirGPU));
 		spotLightResourceModel_[i] = CreateBufferResource(device_, sizeof(SpotLightForGPU));
 		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
@@ -354,256 +340,41 @@ void DirectXCommon::PostDraw()
 	hr = commandList_->Reset(commandAllocator_.Get(), nullptr);
 	assert(SUCCEEDED(hr));
 
+
 	// カウントしたリソースを初期化する
-	useNumResourceSphere_ = 0;
 	useNumResourceModel_ = 0;
 	useNumResourceSprite_ = 0;
 	useNumResourceLine_ = 0;
+
+
+	// カウントしたライトを初期化する
+	useNumDirectionalLight_ = 0;
+	directionalLightData_->setNum = useNumDirectionalLight_;
+
+	useNumPointLight_ = 0;
+
+	useNumSpotLight_ = 0;
 }
 
 /// <summary>
-/// 球を描画する
+/// 平行光源を設置する
 /// </summary>
-/// <param name="worldTransform"></param>
-/// <param name="uvTransform"></param>
-/// <param name="camera"></param>
-/// <param name="textureHandle"></param>
-/// <param name="color"></param>
-void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle, Vector4 color,
-	const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight)
+/// <param name="directionalLight"></param>
+void DirectXCommon::SetDirectionalLight(const DirectionalLight* directionalLight)
 {
-	// 使用できるリソース数を越えないようにする
-	if (useNumResourceSphere_ >= kMaxNumResource)
-	{
+	if (useNumDirectionalLight_ >= kMaxNumResource)
 		return;
-	}
 
-	/*-----------------
-	    インデックス
-	-----------------*/
+	// 色
+	directionalLightData_->color[useNumDirectionalLight_] = directionalLight->color_ * directionalLight->intensity_;
 
-	// ビューを作成する
-	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
-	indexBufferView.BufferLocation = indexResourceSphere_->GetGPUVirtualAddress();
-	indexBufferView.SizeInBytes = (kSubdivision * kSubdivision * 6) * sizeof(uint32_t);
-	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
-
-	// データを書き込む
-	uint32_t* indexData = nullptr;
-	indexResourceSphere_->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
-
-	for (uint32_t latIndex = 0; latIndex < kSubdivision; latIndex++)
-	{
-		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; lonIndex++)
-		{
-			// 要素数
-			uint32_t indexNum = (latIndex * kSubdivision + lonIndex) * 6;
-
-			// 書き込むインデックス
-			uint32_t index = (latIndex * kSubdivision + lonIndex) * 4;
-
-			indexData[indexNum + 0] = 0 + index; indexData[indexNum + 1] = 1 + index; indexData[indexNum + 2] = 2 + index;
-			indexData[indexNum + 3] = 2 + index; indexData[indexNum + 4] = 1 + index; indexData[indexNum + 5] = 3 + index;
-		}
-	}
-
-
-	/*---------
-	    頂点
-	---------*/
-
-	// ビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	vertexBufferView.BufferLocation = vertexBufferResourceSphere_->GetGPUVirtualAddress();
-	vertexBufferView.SizeInBytes = (kSubdivision * kSubdivision * 4) * sizeof(VertexData);
-	vertexBufferView.StrideInBytes = sizeof(VertexData);
-
-	// データを書き込む
-	VertexData* vertexData = nullptr;
-	vertexBufferResourceSphere_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
-
-	// 経度分割1つ分φ
-	const float kLonEvery = float(std::numbers::pi) * 2.0f / float(kSubdivision);
-
-	// 緯度分割1つ分Θ
-	const float kLatEvery = float(std::numbers::pi) / float(kSubdivision);
-
-	// 緯度方向に分割
-	for (uint32_t latIndex = 0; latIndex < kSubdivision; latIndex++)
-	{
-		// 現在の緯度Θ
-		float lat = -float(std::numbers::pi) / 2.0f + kLatEvery * latIndex;
-
-		// 経度方向に分割
-		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; lonIndex++)
-		{
-			// 現在の経度φ
-			float lon = kLonEvery * lonIndex;
-
-			// 要素番号
-			uint32_t indexNum = (latIndex * kSubdivision + lonIndex) * 4;
-
-			vertexData[indexNum].position.x = std::cos(lat) * std::cos(lon);
-			vertexData[indexNum].position.y = std::sin(lat);
-			vertexData[indexNum].position.z = std::cos(lat) * std::sin(lon);
-			vertexData[indexNum].position.w = 1.0f;
-			vertexData[indexNum].texcoord.x = float(lonIndex) / float(kSubdivision);
-			vertexData[indexNum].texcoord.y = 1.0f - float(latIndex) / float(kSubdivision);
-			vertexData[indexNum].normal = { vertexData[indexNum].position.x ,vertexData[indexNum].position.y , vertexData[indexNum].position.z };
-
-			vertexData[indexNum + 1].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
-			vertexData[indexNum + 1].position.y = std::sin(lat + kLatEvery);
-			vertexData[indexNum + 1].position.z = std::cos(lat + kLatEvery) * std::sin(lon);
-			vertexData[indexNum + 1].position.w = 1.0f;
-			vertexData[indexNum + 1].texcoord.x = float(lonIndex) / float(kSubdivision);
-			vertexData[indexNum + 1].texcoord.y = 1.0f - float(latIndex + 1) / float(kSubdivision);
-			vertexData[indexNum + 1].normal = { vertexData[indexNum + 1].position.x ,vertexData[indexNum + 1].position.y , vertexData[indexNum + 1].position.z };
-
-			vertexData[indexNum + 2].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
-			vertexData[indexNum + 2].position.y = std::sin(lat);
-			vertexData[indexNum + 2].position.z = std::cos(lat) * std::sin(lon + kLonEvery);
-			vertexData[indexNum + 2].position.w = 1.0f;
-			vertexData[indexNum + 2].texcoord.x = float(lonIndex + 1) / float(kSubdivision);
-			vertexData[indexNum + 2].texcoord.y = 1.0f - float(latIndex) / float(kSubdivision);
-			vertexData[indexNum + 2].normal = { vertexData[indexNum + 2].position.x ,vertexData[indexNum + 2].position.y , vertexData[indexNum + 2].position.z };
-
-			vertexData[indexNum + 3].position.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
-			vertexData[indexNum + 3].position.y = std::sin(lat + kLatEvery);
-			vertexData[indexNum + 3].position.z = std::cos(lat + kLatEvery) * std::sin(lon + kLonEvery);
-			vertexData[indexNum + 3].position.w = 1.0f;
-			vertexData[indexNum + 3].texcoord.x = float(lonIndex + 1) / float(kSubdivision);
-			vertexData[indexNum + 3].texcoord.y = 1.0f - float(latIndex + 1) / float(kSubdivision);
-			vertexData[indexNum + 3].normal = { vertexData[indexNum + 3].position.x ,vertexData[indexNum + 3].position.y , vertexData[indexNum + 3].position.z };
-		}
-	}
-
-
-	/*---------------
-		マテリアル
-	---------------*/
-
-	// データを書き込む
-	Material* materialData = nullptr;
-	MaterialResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	materialData->color = color;
-	materialData->enableLighting = true;
-	materialData->uvTransform = 
-		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
-	materialData->shininess = 18.0f;
-
-
-	/*------------------
-		座標変換の行列
-	------------------*/
-
-	// データを書き込む
-	TransformationMatrix* transformationData = nullptr;
-	TransformationResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
-	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ *camera->projectionMatrix_;
-	transformationData->world = worldTransform->worldMatrix_;
-	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
-
-
-	/*-------------
-		平行光源
-	-------------*/
-
-	// データを書き込む
-	DirectionalLightForGPU* directionalLightData = nullptr;
-	directionalLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-
-	float intensity = 1.0f;
-	directionalLightData->color[0] = directionalLight->color_ * intensity;
+	// 向き
 	Vector3 direction = Normalize(directionalLight->direction_);
-	directionalLightData->direction[0] = Vector4(direction.x, direction.y, direction.z, 0.0f);
-
-
-	/*------------
-	    点光源
-	------------*/
-
-	// データを書き込む
-	PointLightFoirGPU* pointLightData = nullptr;
-	pointLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData));
-	(*pointLightData).color = pointLight->color_;
-	(*pointLightData).position = pointLight->position_;
-	(*pointLightData).intensity = pointLight->intensity_;
-	(*pointLightData).radius = pointLight->radius_;
-	(*pointLightData).decay = pointLight->decay_;
-
-
-	/*------------------
-	    スポットライト
-	------------------*/
-
-	// データを書き込む
-	SpotLightForGPU* spotLightData = nullptr;
-	spotLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData));
-	(*spotLightData).color = spotLight->color_;
-	(*spotLightData).position = spotLight->position_;
-	(*spotLightData).direction = Normalize(spotLight->direction_);
-	(*spotLightData).intensity = spotLight->intensity_;
-	(*spotLightData).distance = spotLight->distance_;
-	(*spotLightData).decay = spotLight->decay_;
-	(*spotLightData).cosAngle = spotLight->cosAngle_;
-	(*spotLightData).fallofStart = spotLight->fallofStart_;
-
-
-	/*-----------
-	    カメラ
-	-----------*/
-
-	// データを書き込む
-	CameraForGPU* cameraData = nullptr;
-	cameraResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&cameraData));
-	cameraData->worldPosition = camera->translation_;
-
-
-
-	/*------------------
-		コマンドを積む
-	------------------*/
-
-	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
-
-	// IBVを設定する
-	commandList_->IASetIndexBuffer(&indexBufferView);
-
-	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
-
-	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
-
-	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
-
-	// 平行光源用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
-
-	// 点光源用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(5, pointLightResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
-
-	// スポットライト用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(6, spotLightResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
-
-	// カメラのCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
-
-	// テクスチャ
-	textureStore_->SelectTexture(commandList_, textureHandle);
-
-	// 描画する
-	commandList_->DrawIndexedInstanced(kSubdivision* kSubdivision * 6, 1, 0, 0, 0);
-
+	directionalLightData_->direction[useNumDirectionalLight_] = Vector4(direction.x, direction.y, direction.z, 0.0f);
 
 	// カウントする
-	useNumResourceSphere_++;
+	useNumDirectionalLight_++;
+	directionalLightData_->setNum = useNumDirectionalLight_;
 }
 
 /// <summary>
@@ -616,7 +387,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 /// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 	const Camera3D* camera, uint32_t modelHandle, Vector4 color,
-	const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight)
+	const PointLight* pointLight, const SpotLight* spotLight)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceModel_ >= kMaxNumResource)
@@ -665,30 +436,6 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
-
-
-	/*-------------
-		平行光源
-	-------------*/
-
-	// データを書き込む
-	DirectionalLightForGPU* directionalLightData = nullptr;
-	directionalLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-
-	float intensity1 = 0.0f;
-	directionalLightData->color[0] = Vector4(0.0f, 0.0f, 1.0f, 1.0f) * intensity1;
-	Vector3 direction = Normalize(directionalLight->direction_);
-	directionalLightData->direction[0] = Vector4(direction.x, direction.y, direction.z, 0.0f);
-
-
-	float intensity2 = 0.0f;
-	directionalLightData->color[1] = Vector4(1.0f , 0.0f , 0.0f , 1.0f) * intensity2;
-	directionalLightData->direction[1] = Vector4(direction.y, direction.x, direction.z, 0.0f);
-
-
-	float intensity3 = 0.0f;
-	directionalLightData->color[2] = Vector4(0.0f, 1.0f, 0.0f, 1.0f) * intensity3;
-	directionalLightData->direction[2] = Vector4(direction.y, direction.x, direction.z, 0.0f);
 
 
 	/*------------
@@ -753,7 +500,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// 平行光源用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 
 	// 点光源用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(5, pointLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());

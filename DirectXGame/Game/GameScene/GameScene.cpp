@@ -22,21 +22,28 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	uvTransform_->Initialize();
 
 	// モデルハンドル
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/terrain", "terrain.obj");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
 
 	// 平行光源
-	directionalLight_ = std::make_unique<DirectionalLight>();
-	directionalLight_->Initialize();
+	directionalLight0_ = std::make_unique<DirectionalLight>();
+	directionalLight0_->Initialize();
+
+	directionalLight1_ = std::make_unique<DirectionalLight>();
+	directionalLight1_->Initialize();
+	directionalLight1_->color_ = { 0.0f , 0.0f , 1.0f , 1.0f };
+	directionalLight1_->direction_ = Normalize(Vector3(0.0f, 1.0f, 0.0f));
 
 	// ポイントライト
 	pointLight_ = std::make_unique<PointLight>();
 	pointLight_->Initialize();
 	pointLight_->position_ = { -5.0f ,  1.0f , 0.0f };
+	pointLight_->intensity_ = 0.0f;
 
 	// スポットライト
 	spotLight_ = std::make_unique<SpotLight>();
 	spotLight_->Initialize();
 	spotLight_->position_ = { 5.0f , 5.0f , 0.0f };
+	spotLight_->intensity_ = 0.0f;
 }
 
 /// <summary>
@@ -60,7 +67,10 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 
+	engine_->SetDirectionalLight(directionalLight0_.get());
+	engine_->SetDirectionalLight(directionalLight1_.get());
+
 	// 描画する
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f },
-		directionalLight_.get(), pointLight_.get(), spotLight_.get());
+		pointLight_.get(), spotLight_.get());
 }

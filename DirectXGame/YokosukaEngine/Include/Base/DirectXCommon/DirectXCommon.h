@@ -135,16 +135,10 @@ public:
 	}
 
 	/// <summary>
-	/// 球を描画する
+	/// 平行光源を設置する
 	/// </summary>
-	/// <param name="worldTransform"></param>
-	/// <param name="uvTransform"></param>
-	/// <param name="camera"></param>
-	/// <param name="textureHandle"></param>
-	/// <param name="color"></param>
-	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, Vector4 color, 
-		const DirectionalLight* directionalLight , const PointLight* pointLight , const SpotLight* spotLight);
+	/// <param name="directionalLight"></param>
+	void SetDirectionalLight(const DirectionalLight* directionalLight);
 
 	/// <summary>
 	/// モデルを描画する
@@ -155,7 +149,7 @@ public:
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,
-		const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight);
+		const PointLight* pointLight, const SpotLight* spotLight);
 
 	/// <summary>
 	/// モデルを描画する
@@ -433,41 +427,6 @@ private:
 	const uint32_t kMaxNumResource = 1024;
 
 
-	/*-----------------------
-	    球で使用するリソース
-	-----------------------*/
-
-	// 使用したリソースをカウントする
-	uint32_t useNumResourceSphere_ = 0;
-
-	// 分割数
-	const uint32_t kSubdivision = 24;
-
-	// インデックスリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_ = { nullptr };
-
-	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSphere_ = { nullptr };
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSphere_[1024] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSphere_[1024] = { nullptr };
-
-	// 平行光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceSphere_[1024] = { nullptr };
-
-	// 点光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceSphere_[1024] = { nullptr };
-
-	// スポットライトリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceSphere_[1024] = { nullptr };
-
-	// カメラリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceSphere_[1024] = { nullptr };
-
-
 	/*----------------------------
 	    モデルで使用するリソース
 	----------------------------*/
@@ -480,9 +439,6 @@ private:
 
 	// 座標変換リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceModel_[1024] = { nullptr };
-
-	// 平行光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResourceModel_[1024] = { nullptr };
 
 	// 点光源リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceModel_[1024] = { nullptr };
@@ -568,13 +524,22 @@ private:
 	// ライトの最大数
 	const uint32_t kMaxNumLightingResource = 1024;
 
-	// 平行光源のリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> instancingDirectionalLight_ = nullptr;
 
-	// ポイントライトのリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> instancingPointLight_ = nullptr;
+	// 使用した平行光源の数
+	uint32_t useNumDirectionalLight_ = 0;
 
-	// スポットライトのリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> instancingSpotLight_ = nullptr;
+	// 平行光源リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> directionalLightResource_ = nullptr;
+
+	// 平行光源データ
+	DirectionalLightForGPU* directionalLightData_ = nullptr;
+
+
+	// 使用したポイントライトの数
+	uint32_t useNumPointLight_ = 0;
+
+
+	// 使用したスポットライトの数
+	uint32_t useNumSpotLight_ = 0;
 };
 

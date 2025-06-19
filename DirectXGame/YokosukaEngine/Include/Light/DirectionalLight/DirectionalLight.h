@@ -30,4 +30,7 @@ struct DirectionalLightForGPU
 
 	// 向き
 	Vector4 direction[1024];
+
+	// 配置したライト数
+	uint32_t setNum = 0;
 };
