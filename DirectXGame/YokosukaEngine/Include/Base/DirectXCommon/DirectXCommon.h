@@ -429,7 +429,6 @@ private:
 	uint32_t useLine3dBlendMode_ = kBlendModeNormal;
 
 
-
 	// リソースの最大数
 	const uint32_t kMaxNumResource = 1024;
 
@@ -560,5 +559,22 @@ private:
 
 	// 場
 	Feild accelerationFeild_{};
+
+
+	/*---------------------------
+	    ライトで使用するリソース
+	---------------------------*/
+
+	// ライトの最大数
+	const uint32_t kMaxNumLightingResource = 1024;
+
+	// 平行光源のリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> instancingDirectionalLight_ = nullptr;
+
+	// ポイントライトのリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> instancingPointLight_ = nullptr;
+
+	// スポットライトのリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> instancingSpotLight_ = nullptr;
 };
 

@@ -21,13 +21,10 @@ ConstantBuffer<Material> gMaterial : register(b0);
 struct DirectionalLight
 {
     // êF
-    float4 color;
+    float4 color[1024];
     
     // å¸Ç´
-    float3 direction;
-    
-    // ãPìx
-    float intensity;
+    float4 direction[1024];
 };
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 
@@ -126,21 +123,42 @@ PixelShaderOutput main(VertexShaderOutput input)
         -------------*/
         
         // ì¸éÀåı
-        float directionalLightNdotL = dot(normalize(input.normal), -gDirectionalLight.direction);
-        float directionalLightCos = pow(directionalLightNdotL * 0.5f + 0.5f, 2.0f);
+        float directionalLightNdotL0 = dot(normalize(input.normal), -(float3) gDirectionalLight.direction[0]);
+        float directionalLightCos0 = pow(directionalLightNdotL0 * 0.5f + 0.5f, 2.0f);
+        
+        float directionalLightNdotL1 = dot(normalize(input.normal), -(float3) gDirectionalLight.direction[1]);
+        float directionalLightCos1 = pow(directionalLightNdotL1 * 0.5f + 0.5f, 2.0f);
+        
+        float directionalLightNdotL2 = dot(normalize(input.normal), -(float3) gDirectionalLight.direction[2]);
+        float directionalLightCos2 = pow(directionalLightNdotL2 * 0.5f + 0.5f, 2.0f);
+        
         
         // ì¸éÀåıÇÃîΩéÀÉxÉNÉgÉã
-        float3 directionalLightHalfVector = normalize(-gDirectionalLight.direction + toEye);
-        float directionalLightNDotH = dot(normalize(input.normal), directionalLightHalfVector);
-        float directionalLightSpeculerPow = pow(saturate(directionalLightNDotH), gMaterial.shininesse);
+        float3 directionalLightHalfVector0 = normalize(-(float3)gDirectionalLight.direction[0] + toEye);
+        float directionalLightNDotH0 = dot(normalize(input.normal), directionalLightHalfVector0);
+        float directionalLightSpeculerPow0 = pow(saturate(directionalLightNDotH0), gMaterial.shininesse);
+        
+        float3 directionalLightHalfVector1 = normalize(-(float3) gDirectionalLight.direction[1] + toEye);
+        float directionalLightNDotH1 = dot(normalize(input.normal), directionalLightHalfVector1);
+        float directionalLightSpeculerPow1 = pow(saturate(directionalLightNDotH1), gMaterial.shininesse);
+        
+        float3 directionalLightHalfVector2 = normalize(-(float3) gDirectionalLight.direction[2] + toEye);
+        float directionalLightNDotH2 = dot(normalize(input.normal), directionalLightHalfVector2);
+        float directionalLightSpeculerPow2 = pow(saturate(directionalLightNDotH2), gMaterial.shininesse);
         
          // ägéUîΩéÀ
         float3 diffuseDirectionalLight =
-        gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * directionalLightCos * gDirectionalLight.intensity;
+        gMaterial.color.rgb * textureColor.rgb * 
+        (gDirectionalLight.color[0].rgb * directionalLightCos0 +
+        gDirectionalLight.color[1].rgb * directionalLightCos1 +
+        gDirectionalLight.color[2].rgb * directionalLightCos2);
         
         // ãæñ îΩéÀ
         float3 speculerDirectionalLight =
-        gDirectionalLight.color.rgb * gDirectionalLight.intensity * directionalLightSpeculerPow * float3(1.0f, 1.0f, 1.0f);
+        (gDirectionalLight.color[0].rgb * directionalLightSpeculerPow0 +
+        gDirectionalLight.color[1].rgb * directionalLightSpeculerPow1 +
+        gDirectionalLight.color[2].rgb * directionalLightSpeculerPow2) *
+        float3(1.0f, 1.0f, 1.0f);
         
         
         /*-----------

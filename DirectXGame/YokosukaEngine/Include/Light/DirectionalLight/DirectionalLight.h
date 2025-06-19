@@ -26,11 +26,8 @@ public:
 struct DirectionalLightForGPU
 {
 	// 色
-	Vector4 color;
+	Vector4 color[1024];
 
 	// 向き
-	Vector3 direction;
-
-	// 輝度
-	float intensity;
+	Vector4 direction[1024];
 };

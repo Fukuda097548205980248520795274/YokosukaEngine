@@ -512,9 +512,11 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	// データを書き込む
 	DirectionalLightForGPU* directionalLightData = nullptr;
 	directionalLightResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-	directionalLightData->color = directionalLight->color_;
-	directionalLightData->direction = Normalize(directionalLight->direction_);
-	directionalLightData->intensity = directionalLight->intensity_;
+
+	float intensity = 1.0f;
+	directionalLightData->color[0] = directionalLight->color_ * intensity;
+	Vector3 direction = Normalize(directionalLight->direction_);
+	directionalLightData->direction[0] = Vector4(direction.x, direction.y, direction.z, 0.0f);
 
 
 	/*------------
@@ -672,9 +674,22 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	// データを書き込む
 	DirectionalLightForGPU* directionalLightData = nullptr;
 	directionalLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData));
-	directionalLightData->color = directionalLight->color_;
-	directionalLightData->direction = Normalize(directionalLight->direction_);
-	directionalLightData->intensity = directionalLight->intensity_;
+
+	float intensity1 = 0.0f;
+	directionalLightData->color[0] = Vector4(0.0f, 0.0f, 1.0f, 1.0f) * intensity1;
+	Vector3 direction = Normalize(directionalLight->direction_);
+	directionalLightData->direction[0] = Vector4(direction.x, direction.y, direction.z, 0.0f);
+
+
+	float intensity2 = 0.0f;
+	directionalLightData->color[1] = Vector4(1.0f , 0.0f , 0.0f , 1.0f) * intensity2;
+	directionalLightData->direction[1] = Vector4(direction.y, direction.x, direction.z, 0.0f);
+
+
+	float intensity3 = 0.0f;
+	directionalLightData->color[2] = Vector4(0.0f, 1.0f, 0.0f, 1.0f) * intensity3;
+	directionalLightData->direction[2] = Vector4(direction.y, direction.x, direction.z, 0.0f);
+
 
 	/*------------
 		点光源
