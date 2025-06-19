@@ -156,6 +156,6 @@ private:
 	std::list<EnemyBullet*> bullets_;
 
 	// 発射間隔
-	const float kShotInterval = 1.0f;
+	const float kShotInterval = 3.0f;
 };
 

@@ -63,7 +63,7 @@ private:
 	Vector3 velocity_ = { 0.0f , 0.0f , 0.0f };
 
 	// 生存時間
-	const float kLifeTime = 2.0f;
+	const float kLifeTime = 6.0f;
 
 	// 生存タイマー
 	float lifeTimer_ = 0.0f;

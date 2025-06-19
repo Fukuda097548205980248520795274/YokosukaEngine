@@ -25,7 +25,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// 敵の生成と初期化
 	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 2.0f, 30.0f));
+	enemy_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 2.0f, 128.0f));
 	enemy_->SetPlayerInstance(player_.get());
 }
 

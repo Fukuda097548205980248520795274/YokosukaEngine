@@ -27,7 +27,7 @@ void EnemyPhaseApproach::Update()
 
 
 	// 離脱フェーズに切り替える
-	if (enemy_->GetWorldTransformTranslation().z <= 0.0f)
+	if (enemy_->GetWorldTransformTranslation().z <= 12.0f)
 	{
 		// 弾発射の時限発動を消す
 		enemy_->BulletShotTimerDelete();

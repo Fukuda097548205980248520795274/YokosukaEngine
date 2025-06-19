@@ -63,6 +63,13 @@ void EnemyBullet::Update()
 	// 座標移動させる
 	worldTransform_->translation_ += velocity_;
 
+
+	// プレイヤーの方向
+	worldTransform_->rotation_.y = std::atan2(velocity_.x, velocity_.z);
+	float velocityXZ = Length(Vector3{ velocity_.x , 0.0f , velocity_.z });
+	worldTransform_->rotation_.x = std::atan2(-velocity_.y, velocityXZ);
+
+
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();
