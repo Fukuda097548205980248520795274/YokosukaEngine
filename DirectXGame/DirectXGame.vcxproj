@@ -127,6 +127,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
     <ClCompile Include="Game\GameScene\Player\Player.cpp" />
     <ClCompile Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.cpp" />
+    <ClCompile Include="Game\GameScene\TimedCall\TimedCall.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp" />
@@ -203,6 +204,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\GameScene.h" />
     <ClInclude Include="Game\GameScene\Player\Player.h" />
     <ClInclude Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.h" />
+    <ClInclude Include="Game\GameScene\TimedCall\TimedCall.h" />
     <ClInclude Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h" />

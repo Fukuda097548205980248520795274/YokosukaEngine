@@ -35,6 +35,7 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->translation_.y = -2.0f;
 
 	// UVトランスフォームの生成と初期化
 	uvTransform_ = std::make_unique<UvTransform>();

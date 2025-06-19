@@ -256,6 +256,9 @@
     <Filter Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave">
       <UniqueIdentifier>{8c2068d1-c1d9-4a99-b4d2-e559e1660102}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\TimedCall">
+      <UniqueIdentifier>{7c3490a2-4490-44fb-aa2f-4dc523d4787a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -476,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.cpp">
       <Filter>Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\TimedCall\TimedCall.cpp">
+      <Filter>Game\GameScene\TimedCall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -700,6 +706,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.h">
       <Filter>Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\TimedCall\TimedCall.h">
+      <Filter>Game\GameScene\TimedCall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

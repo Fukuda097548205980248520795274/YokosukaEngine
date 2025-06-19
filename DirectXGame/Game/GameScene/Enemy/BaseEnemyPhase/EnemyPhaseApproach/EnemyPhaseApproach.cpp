@@ -7,7 +7,10 @@
 /// </summary>
 /// <param name="enemy"></param>
 EnemyPhaseApproach::EnemyPhaseApproach(Enemy* enemy)
-	: BaseEnemyPhase("State Approach", enemy) {
+	: BaseEnemyPhase("State Approach", enemy) 
+{
+	// 弾発射前のタイマーリセット
+	enemy_->BulletShotPrevReset();
 };
 
 /// <summary>
@@ -23,20 +26,12 @@ void EnemyPhaseApproach::Update()
 
 
 
-	// 発射するタイマーを進める
-	enemy_->SetShotTimer(enemy_->GetShotTimer() + (1.0f / 60.0f));
-
-	// 発射間隔を越えたら、発射する
-	if (enemy_->GetShotTimer() >= enemy_->GetKShotInterval())
-	{
-		enemy_->BulletShot();
-	}
-
-
-
 	// 離脱フェーズに切り替える
 	if (enemy_->GetWorldTransformTranslation().z <= 0.0f)
 	{
+		// 弾発射の時限発動を消す
+		enemy_->BulletShotTimerDelete();
+
 		enemy_->ChangePhase(std::make_unique<EnemyPhaseLeave>(enemy_));
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "../BaseEnemyPhase.h"
+#include "../../../TimedCall/TimedCall.h"
 
 class EnemyPhaseApproach : public BaseEnemyPhase
 {

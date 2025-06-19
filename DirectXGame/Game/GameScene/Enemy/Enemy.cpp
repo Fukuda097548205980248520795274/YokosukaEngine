@@ -1,12 +1,20 @@
 #include "Enemy.h"
 #include "BaseEnemyPhase/EnemyPhaseApproach/EnemyPhaseApproach.h"
 #include "BaseEnemyPhase/EnemyPhaseLeave/EnemyPhaseLeave.h"
+#include "../Player/Player.h"
 
 /// <summary>
 /// デストラクタ
 /// </summary>
 Enemy::~Enemy()
 {
+	// 時限発動リスト
+	for (TimedCall* timedCall : timedCalls_)
+	{
+		delete timedCall;
+	}
+	timedCalls_.clear();
+
 	// 弾のリスト
 	for (EnemyBullet* bullet : bullets_)
 	{
@@ -70,12 +78,6 @@ void Enemy::Update()
 	// 行動フェーズでの動き
 	phase_->Update();
 
-	// 弾の更新
-	for (EnemyBullet* bullet : bullets_)
-	{
-		bullet->Update();
-	}
-
 	// 消滅した弾をリストから削除する
 	bullets_.remove_if([](EnemyBullet* bullet)
 		{
@@ -87,6 +89,31 @@ void Enemy::Update()
 			return false;
 		}
 	);
+
+	// 弾の更新
+	for (EnemyBullet* bullet : bullets_)
+	{
+		bullet->Update();
+	}
+
+
+	// 完了した時限発動を削除する
+	timedCalls_.remove_if([](TimedCall* timedCall)
+		{
+			if (timedCall->IsComplate())
+			{
+				delete timedCall;
+				return true;
+			}
+			return false;
+		}
+	);
+
+	// 時限発動の更新
+	for (TimedCall* timedCall : timedCalls_)
+	{
+		timedCall->Update();
+	}
 
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
@@ -124,10 +151,17 @@ void Enemy::ChangePhase(std::unique_ptr<BaseEnemyPhase> phase)
 void Enemy::BulletShot()
 {
 	// 弾の移動速度
-	const float kBulletMoveSpeed = 1.0f;
+	const float kBulletMoveSpeed = 0.5f;
+
+	// プレイヤーの位置
+	Vector3 playerPositioin = player_->GetWorldPosition();
+
+	// 敵の位置
+	Vector3 enemyPosition = GetWorldPosition();
+
 
 	// 速度ベクトル
-	Vector3 velocity = { 0.0f , 0.0f , -kBulletMoveSpeed };
+	Vector3 velocity = Normalize(playerPositioin - enemyPosition) * kBulletMoveSpeed;
 
 	// 弾の生成と初期化
 	EnemyBullet* newBullet = new EnemyBullet();
@@ -135,10 +169,41 @@ void Enemy::BulletShot()
 
 	// リストに登録する
 	bullets_.push_back(newBullet);
+}
 
+/// <summary>
+/// 弾を発射する前にタイマーをリセットする
+/// </summary>
+void Enemy::BulletShotPrevReset()
+{
+	// 発射タイマーをセットする
+	timedCalls_.push_back(new TimedCall(std::bind(&Enemy::BulletShotedReset, this), kShotInterval));
+}
 
-	// 発射タイマーを初期化する
-	shotTiemer_ = 0.0f;
+/// <summary>
+/// 弾を発射して、タイマーをリセットする
+/// </summary>
+void Enemy::BulletShotedReset()
+{
+	// 弾を発射する
+	BulletShot();
+
+	// 発射タイマーをセットする
+	timedCalls_.push_back(new TimedCall(std::bind(&Enemy::BulletShotedReset, this), kShotInterval));
+}
+
+/// <summary>
+/// 弾を発射する時間を消す
+/// </summary>
+void Enemy::BulletShotTimerDelete()
+{
+	// 完了した時限発動を削除する
+	timedCalls_.remove_if([](TimedCall* timedCall)
+		{
+			delete timedCall;
+			return true;
+		}
+	);
 }
 
 /// <summary>

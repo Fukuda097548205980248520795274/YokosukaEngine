@@ -2,6 +2,10 @@
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "EnemyBullet/EnemyBullet.h"
 #include "BaseEnemyPhase/BaseEnemyPhase.h"
+#include "../TimedCall/TimedCall.h"
+
+// 前方宣言
+class Player;
 
 class Enemy
 {
@@ -50,6 +54,21 @@ public:
 	void BulletShot();
 
 	/// <summary>
+	/// 弾を発射する前にタイマーをリセットする
+	/// </summary>
+	void BulletShotPrevReset();
+
+	/// <summary>
+	/// 弾を発射して、タイマーをリセットする
+	/// </summary>
+	void BulletShotedReset();
+
+	/// <summary>
+	/// 弾を発射する時間を消す
+	/// </summary>
+	void BulletShotTimerDelete();
+
+	/// <summary>
 	/// フェーズを切り替える
 	/// </summary>
 	/// <param name="phaseState"></param>
@@ -63,6 +82,12 @@ public:
 
 
 	/// <summary>
+	/// プレイヤーのインスタンスのGetter
+	/// </summary>
+	/// <param name="player"></param>
+	void SetPlayerInstance(Player* player) { player_ = player; }
+
+	/// <summary>
 	/// ワールドトランスフォームの移動のGetter
 	/// </summary>
 	/// <returns></returns>
@@ -73,18 +98,6 @@ public:
 	/// </summary>
 	/// <param name="translation"></param>
 	void SetWorldTransformTranslation(const Vector3& translation) { worldTransform_->translation_ = translation; }
-
-	/// <summary>
-	/// 発射タイマーのGetter
-	/// </summary>
-	/// <returns></returns>
-	float GetShotTimer() { return shotTiemer_; }
-
-	/// <summary>
-	/// 発射タイマーのSetter
-	/// </summary>
-	/// <param name="shotTimer"></param>
-	void SetShotTimer(float shotTimer) { shotTiemer_ = shotTimer; }
 
 	/// <summary>
 	/// 発射間隔のGetter
@@ -104,6 +117,9 @@ private:
 
 	// 平行光源
 	const DirectionalLight* directionalLight_ = nullptr;
+
+	// プレイヤーのポインタ
+	Player* player_ = nullptr;
 
 
 	// ワールドトランスフォーム
@@ -133,13 +149,13 @@ private:
 	static void (Enemy::*phaseUpdateTable[])();
 
 
+	// 時限発動のリスト
+	std::list<TimedCall*> timedCalls_;
+
 	// 弾のリスト
 	std::list<EnemyBullet*> bullets_;
 
 	// 発射間隔
 	const float kShotInterval = 1.0f;
-
-	// 発射タイマー
-	float shotTiemer_ = 0.0f;
 };
 

@@ -25,6 +25,7 @@ void EnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camer
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
 	worldTransform_->translation_ = position;
+	worldTransform_->UpdateWorldMatrix();
 
 	// UVトランスフォームの生成と初期化
 	uvTransform_ = std::make_unique<UvTransform>();
