@@ -30,7 +30,10 @@ struct DirectionalLightForGPU
 
 	// 向き
 	Vector3 direction;
+};
 
-	// 輝度
-	float intensity;
+// 使用している平行光源の数
+struct UseNumDirectionalLight
+{
+	uint32_t num;
 };

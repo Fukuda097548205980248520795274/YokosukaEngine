@@ -29,7 +29,7 @@ public:
 };
 
 // GPUに送るポイントライト
-struct PointLightFoirGPU
+struct PointLightForGPU
 {
 	// 色
 	Vector4 color;
@@ -37,15 +37,16 @@ struct PointLightFoirGPU
 	// 位置
 	Vector3 position;
 
-	// 輝度
-	float intensity;
-
 	// ライトの届く最大距離
 	float radius;
 
 	// 減衰率
 	float decay;
 
-	float padding[2];
+};
 
+// 使用しているポイントライトの数
+struct UseNumPointLight
+{
+	uint32_t num;
 };

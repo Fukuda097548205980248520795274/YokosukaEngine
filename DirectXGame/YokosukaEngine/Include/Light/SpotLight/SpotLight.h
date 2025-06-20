@@ -48,9 +48,6 @@ struct SpotLightForGPU
 	// 位置
 	Vector3 position;
 
-	// 輝度
-	float intensity;
-
 	// 方向
 	Vector3 direction;
 
@@ -65,6 +62,11 @@ struct SpotLightForGPU
 
 	// フォールオフ開始値
 	float fallofStart;
+	
+};
 
-	float padding[1];
+// 使用しているスポットライトの数
+struct UseNumSpotLight
+{
+	uint32_t num;
 };
