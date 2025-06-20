@@ -17,6 +17,7 @@ struct Material
 };
 ConstantBuffer<Material> gMaterial : register(b0);
 
+
 // 平行光源
 struct DirectionalLight
 {
@@ -25,11 +26,16 @@ struct DirectionalLight
     
     // 向き
     float3 direction;
-    
-    // 輝度
-    float intensity;
 };
-ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
+StructuredBuffer<DirectionalLight> gDirectionalLight : register(t1);
+
+// 使用している平行光源の数
+struct UseNumDirectionalLight
+{
+    uint num;
+};
+ConstantBuffer<UseNumDirectionalLight> gUseNumDirectionalLight : register(b1);
+
 
 // カメラ
 struct Camera
@@ -125,22 +131,32 @@ PixelShaderOutput main(VertexShaderOutput input)
             平行光源
         -------------*/
         
-        // 入射光
-        float directionalLightNdotL = dot(normalize(input.normal), -gDirectionalLight.direction);
-        float directionalLightCos = pow(directionalLightNdotL * 0.5f + 0.5f, 2.0f);
+        // 拡散反射の色
+        float3 diffuseDirectionalLightColor = { 0.0f, 0.0f, 0.0f };
         
-        // 入射光の反射ベクトル
-        float3 directionalLightHalfVector = normalize(-gDirectionalLight.direction + toEye);
-        float directionalLightNDotH = dot(normalize(input.normal), directionalLightHalfVector);
-        float directionalLightSpeculerPow = pow(saturate(directionalLightNDotH), gMaterial.shininesse);
+        // 鏡面反射の色
+        float3 speculerDirectionalLightColor = { 0.0f, 0.0f, 0.0f };
+        
+        for (uint i = 0; i < gUseNumDirectionalLight.num; i++)
+        {
+            // 入射光
+            float directionalLightNdotL = dot(normalize(input.normal), -gDirectionalLight[i].direction);
+            float directionalLightCos = pow(directionalLightNdotL * 0.5f + 0.5f, 2.0f);
+        
+            // 入射光の反射ベクトル
+            float3 directionalLightHalfVector = normalize(-gDirectionalLight[i].direction + toEye);
+            float directionalLightNDotH = dot(normalize(input.normal), directionalLightHalfVector);
+            float directionalLightSpeculerPow = pow(saturate(directionalLightNDotH), gMaterial.shininesse);
+        
+            diffuseDirectionalLightColor += gDirectionalLight[i].color.rgb * directionalLightCos;
+            speculerDirectionalLightColor += gDirectionalLight[i].color.rgb * directionalLightSpeculerPow;
+        }
         
          // 拡散反射
-        float3 diffuseDirectionalLight =
-        gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * directionalLightCos * gDirectionalLight.intensity;
+        float3 diffuseDirectionalLight = gMaterial.color.rgb * textureColor.rgb * diffuseDirectionalLightColor;
         
         // 鏡面反射
-        float3 speculerDirectionalLight =
-        gDirectionalLight.color.rgb * gDirectionalLight.intensity * directionalLightSpeculerPow * float3(1.0f, 1.0f, 1.0f);
+        float3 speculerDirectionalLight = speculerDirectionalLightColor * float3(1.0f, 1.0f, 1.0f);
         
         
         /*-----------

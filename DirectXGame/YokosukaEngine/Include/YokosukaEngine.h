@@ -117,23 +117,19 @@ public:
 	void PlayerSoundData(uint32_t soundHandle, float soundVolume) const { audioStore_->SelectHandlePlayAudio(soundHandle , soundVolume); }
 
 	/// <summary>
-	/// 球を描画する
+	/// 平行光源を設置する
 	/// </summary>
-	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, Vector4 color,
-		const DirectionalLight* directionalLight, const PointLight* pointLight , const SpotLight* spotLight) const
-	{
-		directXCommon_->DrawSphere(worldTransform, uvTransform, camera, textureHandle, color, directionalLight, pointLight, spotLight);
-	}
+	/// <param name="directionalLight"></param>
+	void SetDirectionalLight(const DirectionalLight* directionalLight)const { directXCommon_->SetDirectionalLight(directionalLight); }
 
 	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color,
-		const DirectionalLight* directionalLight, const PointLight* pointLight, const SpotLight* spotLight) const
+		const PointLight* pointLight, const SpotLight* spotLight) const
 	{
-		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color, directionalLight, pointLight, spotLight);
+		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color,pointLight, spotLight);
 	}
 
 	/// <summary>

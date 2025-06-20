@@ -30,23 +30,21 @@ void Object3dBlendNormal::Initialize(OutputLog* log, DirectXShaderCompiler* dxc 
 	/*   ディスクリプタレンジ   */
 	
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
-
-	// 0から始まる
 	descriptorRange[0].BaseShaderRegister = 0;
-
-	// 数は1つ
 	descriptorRange[0].NumDescriptors = 1;
-
-	// SRVを使う
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-
-	// Offestを自動計算
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
+	descriptorRangeForInstancing[0].BaseShaderRegister = 1;
+	descriptorRangeForInstancing[0].NumDescriptors = 1;
+	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 
 	/*   ルートパラメータ   */
 
-	D3D12_ROOT_PARAMETER rootParameters[7] = {};
+	D3D12_ROOT_PARAMETER rootParameters[8] = {};
 
 	// CBV PixeShader b0
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -83,6 +81,12 @@ void Object3dBlendNormal::Initialize(OutputLog* log, DirectXShaderCompiler* dxc 
 	rootParameters[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[6].Descriptor.ShaderRegister = 4;
+
+	// DescriptorTable PixelShader
+	rootParameters[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[7].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
+	rootParameters[7].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
 
 
 	/*   サンプラー   */

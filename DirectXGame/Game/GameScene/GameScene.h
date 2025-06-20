@@ -20,5 +20,12 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw()override;
+
+
+	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+	uint32_t modelHandle_ = 0;
+	std::unique_ptr<PointLight> pointLight_ = nullptr;
+	std::unique_ptr<SpotLight> spotLight_ = nullptr;
 };
 
