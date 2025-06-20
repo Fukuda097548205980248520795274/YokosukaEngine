@@ -44,6 +44,7 @@ struct Camera
 };
 ConstantBuffer<Camera> gCamera : register(b2);
 
+
 // “_ŒõŒ¹
 struct PointLight
 {

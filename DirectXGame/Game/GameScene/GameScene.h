@@ -27,5 +27,11 @@ public:
 	uint32_t modelHandle_ = 0;
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
+
+
+	std::unique_ptr<DirectionalLight> directionalLight0_ = nullptr;
+	std::unique_ptr<DirectionalLight> directionalLight1_ = nullptr;
+	std::unique_ptr<DirectionalLight> directionalLight2_ = nullptr;
+	std::unique_ptr<DirectionalLight> directionalLight3_ = nullptr;
 };
 
