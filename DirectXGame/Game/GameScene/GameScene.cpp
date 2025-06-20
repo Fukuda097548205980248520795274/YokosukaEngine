@@ -78,9 +78,29 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	pointLight3_->decay_ = 6.0f;
 
 	// スポットライト
-	spotLight_ = std::make_unique<SpotLight>();
-	spotLight_->Initialize();
-	spotLight_->intensity_ = 0.0f;
+	spotLight0_ = std::make_unique<SpotLight>();
+	spotLight0_->Initialize();
+	spotLight0_->position_ = { -6.0f , 4.0f , 0.0f };
+	spotLight0_->color_ = { 1.0f , 1.0f , 1.0f , 1.0f };
+	spotLight0_->decay_ = 1.0f;
+
+	spotLight1_ = std::make_unique<SpotLight>();
+	spotLight1_->Initialize();
+	spotLight1_->position_ = { 6.0f , 4.0f , 0.0f };
+	spotLight1_->color_ = { 1.0f , 0.0f , 0.0f , 1.0f };
+	spotLight1_->decay_ = 1.0f;
+
+	spotLight2_ = std::make_unique<SpotLight>();
+	spotLight2_->Initialize();
+	spotLight2_->position_ = { 0.0f , 4.0f , 6.0f };
+	spotLight2_->color_ = { 0.0f , 1.0f , 0.0f , 1.0f };
+	spotLight2_->decay_ = 1.0f;
+
+	spotLight3_ = std::make_unique<SpotLight>();
+	spotLight3_->Initialize();
+	spotLight3_->position_ = { 0.0f , 4.0f , -6.0f };
+	spotLight3_->color_ = { 0.0f , 0.0f , 1.0f , 1.0f };
+	spotLight3_->decay_ = 1.0f;
 }
 
 /// <summary>
@@ -117,12 +137,19 @@ void GameScene::Draw()
 	ImGui::End();
 
 	// ポイントライト
+	/*
 	engine_->SetPointLight(pointLight2_.get());
 	engine_->SetPointLight(pointLight1_.get());
 	engine_->SetPointLight(pointLight3_.get());
 	engine_->SetPointLight(pointLight0_.get());
+	*/
 
+	// スポットライトを設置する
+	engine_->SetSpotLight(spotLight0_.get());
+	engine_->SetSpotLight(spotLight1_.get());
+	engine_->SetSpotLight(spotLight2_.get());
+	engine_->SetSpotLight(spotLight3_.get());
 
 	// モデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f }, spotLight_.get());
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f });
 }

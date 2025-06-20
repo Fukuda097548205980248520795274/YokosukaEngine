@@ -78,9 +78,6 @@ struct SpotLight
     // 位置
     float3 position;
     
-    // 輝度
-    float intensity;
-    
     // 方向
     float3 direction;
     
@@ -96,7 +93,14 @@ struct SpotLight
     // フォールオフの開始値
     float fallofStart;
 };
-ConstantBuffer<SpotLight> gSpotLight : register(b4);
+StructuredBuffer<SpotLight> gSpotLight : register(t3);
+
+// 使用しているスポットライトの数
+struct UseNumSpotLight
+{
+    uint num;
+};
+ConstantBuffer<UseNumSpotLight> gUseNumSpotLight : register(b4);
 
 // テクスチャの宣言
 Texture2D<float4> gTexture : register(t0);
@@ -208,33 +212,45 @@ PixelShaderOutput main(VertexShaderOutput input)
             スポットライト
         ------------------*/
         
-        // スポットライトへの距離
-        float spotLightDistance = length(gSpotLight.position - input.worldPosition);
+        // 拡散反射の色
+        float3 diffuseSpotLightColor = { 0.0f, 0.0f, 0.0f };
         
-        // 逆二乗則による減衰係数
-        float spotLightFactor = pow(saturate(-spotLightDistance / gSpotLight.distance + 1.0f), gSpotLight.decay);
+        // 鏡面反射の色
+        float3 speculerSpotLightColor = { 0.0f, 0.0f, 0.0f };
         
-        // 入射光を求める
-        float3 spotLightDirectionOnSurface = normalize(input.worldPosition - gSpotLight.position);
-        float spotLightNdotL = dot(normalize(input.normal), -spotLightDirectionOnSurface);
-        float spotLightCos = pow(spotLightNdotL * 0.5f + 0.5f, 2.0f);
+        for (uint i = 0; i < gUseNumSpotLight.num; ++i)
+        {
+            // スポットライトへの距離
+            float spotLightDistance = length(gSpotLight[i].position - input.worldPosition);
         
-        // 入射光の反射ベクトル
-        float3 spotLightHalfVector = normalize(-spotLightDirectionOnSurface + toEye);
-        float spotLightNdotH = dot(normalize(input.normal), spotLightHalfVector);
-        float spotLightSpeculerPow = pow(saturate(spotLightNdotH), gMaterial.shininesse);
+            // 逆二乗則による減衰係数
+            float spotLightFactor = pow(saturate(-spotLightDistance / gSpotLight[i].distance + 1.0f), gSpotLight[i].decay);
         
-        // フォールオフ
-        float cosAngle = dot(spotLightDirectionOnSurface, gSpotLight.direction);
-        float falloffFactor = saturate((cosAngle - gSpotLight.cosAngle) / (gSpotLight.fallofStart - gSpotLight.cosAngle));
+            // 入射光を求める
+            float3 spotLightDirectionOnSurface = normalize(input.worldPosition - gSpotLight[i].position);
+            float spotLightNdotL = dot(normalize(input.normal), -spotLightDirectionOnSurface);
+            float spotLightCos = pow(spotLightNdotL * 0.5f + 0.5f, 2.0f);
+        
+            // 入射光の反射ベクトル
+            float3 spotLightHalfVector = normalize(-spotLightDirectionOnSurface + toEye);
+            float spotLightNdotH = dot(normalize(input.normal), spotLightHalfVector);
+            float spotLightSpeculerPow = pow(saturate(spotLightNdotH), gMaterial.shininesse);
+        
+            // フォールオフ
+            float cosAngle = dot(spotLightDirectionOnSurface, gSpotLight[i].direction);
+            float falloffFactor = saturate((cosAngle - gSpotLight[i].cosAngle) / (gSpotLight[i].fallofStart - gSpotLight[i].cosAngle));
+            
+            diffuseSpotLightColor += gSpotLight[i].color.rgb * spotLightCos * spotLightFactor * falloffFactor;
+            speculerSpotLightColor += gSpotLight[i].color.rgb * spotLightFactor * falloffFactor * spotLightSpeculerPow;
+
+        }
         
         // 拡散反射
-        float3 diffuseSpotLight =
-        gMaterial.color.rgb * textureColor.rgb * gSpotLight.color.rgb * spotLightCos * gSpotLight.intensity * spotLightFactor * falloffFactor;
+        float3 diffuseSpotLight = gMaterial.color.rgb * textureColor.rgb * diffuseSpotLightColor;
         
         // 鏡面反射
-        float3 speculerSpotLight =
-        gSpotLight.color.rgb * gSpotLight.intensity * spotLightFactor * falloffFactor * spotLightSpeculerPow * float3(1.0f, 1.0f, 1.0f);
+        float3 speculerSpotLight = speculerSpotLightColor * float3(1.0f, 1.0f, 1.0f);
+        
         
         
         // 全て乗算する

@@ -215,7 +215,6 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		// モデル
 		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		spotLightResourceModel_[i] = CreateBufferResource(device_, sizeof(SpotLightForGPU));
 		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// スプライト
@@ -285,6 +284,34 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	device_->CreateShaderResourceView(instancingPointLightResource_.Get(), &instancingPointLightSrvDesc, instancingPointLightSrvHandleCPU_);
 
 
+	/*------------------
+	    スポットライト
+	------------------*/
+
+	// リソース
+	instancingSpotLightResource_ = CreateBufferResource(device_, sizeof(SpotLightForGPU) * kMaxNumSpotLight);
+	instancingSpotLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData_));
+
+	useNumSpotLightResource_ = CreateBufferResource(device_, sizeof(UseNumSpotLight));
+	useNumSpotLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&useNumSpotLightData_));
+	useNumSpotLightData_->num = 0;
+
+	// ビュー
+	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSpotLightSrvDesc{};
+	instancingSpotLightSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	instancingSpotLightSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	instancingSpotLightSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	instancingSpotLightSrvDesc.Buffer.FirstElement = 0;
+	instancingSpotLightSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	instancingSpotLightSrvDesc.Buffer.NumElements = kMaxNumSpotLight;
+	instancingSpotLightSrvDesc.Buffer.StructureByteStride = sizeof(SpotLightForGPU);
+
+	// ポインタのハンドル（住所）を取得する
+	instancingSpotLightSrvHandleCPU_ = GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 3);
+	instancingSpotLightSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 3);
+	device_->CreateShaderResourceView(instancingSpotLightResource_.Get(), &instancingSpotLightSrvDesc, instancingSpotLightSrvHandleCPU_);
+
+
 	/*----------------
 	    パーティクル
 	----------------*/
@@ -304,8 +331,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 3);
-	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 3);
+	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 4);
+	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 4);
 	device_->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 
 	// エミッター
@@ -412,6 +439,8 @@ void DirectXCommon::PostDraw()
 	useNumDirectionLightData_->num = useNumDirectionalLightCount_;
 	useNumPointLightCount_ = 0;
 	useNumPointLightData_->num = useNumPointLightCount_;
+	useNumSpotLightCount_ = 0;
+	useNumSpotLightData_->num = useNumSpotLightCount_;
 }
 
 /// <summary>
@@ -464,6 +493,43 @@ void DirectXCommon::SetPointLight(const PointLight* pointLight)
 }
 
 /// <summary>
+/// スポットライトを設置する
+/// </summary>
+/// <param name="spotLight"></param>
+void DirectXCommon::SetSpotLight(const SpotLight* spotLight)
+{
+	// 最大数を越えないようにする
+	if (useNumSpotLightCount_ >= kMaxNumSpotLight)
+		return;
+
+	// 色
+	spotLightData_[useNumSpotLightCount_].color = spotLight->color_ * spotLight->intensity_;
+
+	// 位置
+	spotLightData_[useNumSpotLightCount_].position = spotLight->position_;
+
+	// 向き
+	spotLightData_[useNumSpotLightCount_].direction = Normalize(spotLight->direction_);
+
+	// スポットライトの余弦
+	spotLightData_[useNumSpotLightCount_].cosAngle = spotLight->cosAngle_;
+
+	// 減衰率
+	spotLightData_[useNumSpotLightCount_].decay = spotLight->decay_;
+
+	// フォールオフ開始値
+	spotLightData_[useNumSpotLightCount_].fallofStart = spotLight->fallofStart_;
+
+	// ライトの光が届く距離
+	spotLightData_[useNumSpotLightCount_].distance = spotLight->distance_;
+
+
+	// カウントする
+	useNumSpotLightCount_++;
+	useNumSpotLightData_->num = useNumSpotLightCount_;
+}
+
+/// <summary>
 /// モデルを描画する
 /// </summary>
 /// <param name="worldTransform">ワールドトランスフォーム</param>
@@ -472,8 +538,7 @@ void DirectXCommon::SetPointLight(const PointLight* pointLight)
 /// <param name="modelHandle">モデルハンドル</param>
 /// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t modelHandle, Vector4 color,
-	const SpotLight* spotLight)
+	const Camera3D* camera, uint32_t modelHandle, Vector4 color)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceModel_ >= kMaxNumResource)
@@ -524,23 +589,6 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
 
 
-	/*------------------
-	    スポットライト
-	------------------*/
-
-	// データを書き込む
-	SpotLightForGPU* spotLightData = nullptr;
-	spotLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData));
-	(*spotLightData).color = spotLight->color_;
-	(*spotLightData).position = spotLight->position_;
-	(*spotLightData).direction = Normalize(spotLight->direction_);
-	(*spotLightData).intensity = spotLight->intensity_;
-	(*spotLightData).distance = spotLight->distance_;
-	(*spotLightData).decay = spotLight->decay_;
-	(*spotLightData).cosAngle = spotLight->cosAngle_;
-	(*spotLightData).fallofStart = spotLight->fallofStart_;
-
-
 	/*-----------
 	    カメラ
 	-----------*/
@@ -580,101 +628,8 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	commandList_->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(6, spotLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
-
-	// カメラ用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
-
-	// テクスチャ
-	textureStore_->SelectTexture(commandList_, modelDataStore_->GetTextureHandle(modelHandle));
-
-	// 描画する
-	commandList_->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), 1, 0, 0);
-
-
-	// カウントする
-	useNumResourceModel_++;
-}
-
-/// <summary>
-/// モデルを描画する
-/// </summary>
-/// <param name="worldTransform"></param>
-/// <param name="uvTransform"></param>
-/// <param name="camera"></param>
-/// <param name="modelHandle"></param>
-/// <param name="color"></param>
-void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t modelHandle, Vector4 color)
-{
-	// 使用できるリソース数を越えないようにする
-	if (useNumResourceModel_ >= kMaxNumResource)
-	{
-		return;
-	}
-
-	/*----------
-		頂点
-	----------*/
-
-	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	vertexBufferView.BufferLocation = modelDataStore_->GetVertexResource(modelHandle)->GetGPUVirtualAddress();
-	vertexBufferView.SizeInBytes = UINT(sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
-	vertexBufferView.StrideInBytes = sizeof(VertexData);
-
-	// 頂点データを書き込む
-	VertexData* vertexData = nullptr;
-	modelDataStore_->GetVertexResource(modelHandle)->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
-	std::memcpy(vertexData, modelDataStore_->GetModelData(modelHandle).vertices.data(),
-		sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
-
-
-	/*---------------
-		マテリアル
-	---------------*/
-
-	// データを書き込む
-	Material* materialData = nullptr;
-	MaterialResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	materialData->color = color;
-	materialData->enableLighting = false;
-	materialData->uvTransform =
-		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
-	materialData->shininess = 18.0f;
-
-
-	/*------------------
-		座標変換の行列
-	------------------*/
-
-	// データを書き込む
-	TransformationMatrix* transformationData = nullptr;
-	TransformationResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
-	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
-	transformationData->world = worldTransform->worldMatrix_;
-	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
-
-
-
-	/*------------------
-		コマンドを積む
-	------------------*/
-
-	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
-
-	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
-
-	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
-
-	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	commandList_->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());

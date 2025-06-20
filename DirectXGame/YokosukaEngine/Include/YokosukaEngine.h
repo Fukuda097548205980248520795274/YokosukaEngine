@@ -129,14 +129,10 @@ public:
 	void SetPointLight(const PointLight* pointLight)const { directXCommon_->SetPointLight(pointLight); }
 
 	/// <summary>
-	/// モデルを描画する
+	/// スポットライトを設置する
 	/// </summary>
-	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color,
-		const SpotLight* spotLight) const
-	{
-		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color, spotLight);
-	}
+	/// <param name="spotLight"></param>
+	void SetSpotLight(const SpotLight* spotLight)const { directXCommon_->SetSpotLight(spotLight); }
 
 	/// <summary>
 	/// モデルを描画する

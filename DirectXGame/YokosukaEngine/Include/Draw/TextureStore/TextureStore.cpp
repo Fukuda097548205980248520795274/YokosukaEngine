@@ -57,10 +57,10 @@ uint32_t TextureStore::GetTextureHandle(const std::string& filePath, Microsoft::
 
 	// SRVを作成するディスクリプタヒープの場所を確保する
 	textureSrvHandleCPU_[textureNum_] = GetCPUDescriptorHandle(srvDescriptorHeap,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 4 + textureNum_);
+		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 5 + textureNum_);
 
 	textureSrvHandleGPU_[textureNum_] = GetGPUDescriptorHandle(srvDescriptorHeap,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 4 + textureNum_);
+		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 5 + textureNum_);
 
 	// SRVを生成する
 	device->CreateShaderResourceView(textureResource_[textureNum_].Get(), &srvDesc_[textureNum_], textureSrvHandleCPU_[textureNum_]);

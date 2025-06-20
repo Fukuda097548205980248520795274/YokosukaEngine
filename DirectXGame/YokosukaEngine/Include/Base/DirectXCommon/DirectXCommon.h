@@ -147,15 +147,10 @@ public:
 	void SetPointLight(const PointLight* pointLight);
 
 	/// <summary>
-	/// モデルを描画する
+	/// スポットライトを設置する
 	/// </summary>
-	/// <param name="worldTransform"></param>
-	/// <param name="uvTransform"></param>
-	/// <param name="camera"></param>
-	/// <param name="color"></param>
-	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,
-		const SpotLight* spotLight);
+	/// <param name="spotLight"></param>
+	void SetSpotLight(const SpotLight* spotLight);
 
 	/// <summary>
 	/// モデルを描画する
@@ -163,7 +158,6 @@ public:
 	/// <param name="worldTransform"></param>
 	/// <param name="uvTransform"></param>
 	/// <param name="camera"></param>
-	/// <param name="modelHandle"></param>
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color);
@@ -447,9 +441,6 @@ private:
 	// 座標変換リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceModel_[1024] = { nullptr };
 
-	// スポットライトリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceModel_[1024] = { nullptr };
-
 	// カメラリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceModel_[1024] = { nullptr };
 
@@ -535,6 +526,29 @@ private:
 	// ハンドル
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingPointLightSrvHandleCPU_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingPointLightSrvHandleGPU_{};
+
+
+	/*------------------
+	    スポットライト 
+	------------------*/
+
+	// 最大数
+	const uint32_t kMaxNumSpotLight = 1024;
+
+	// 使用数
+	uint32_t useNumSpotLightCount_ = 0;
+
+	// 使用数リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> useNumSpotLightResource_ = nullptr;
+	UseNumSpotLight* useNumSpotLightData_ = nullptr;
+
+	// インスタンシングリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> instancingSpotLightResource_ = nullptr;
+	SpotLightForGPU* spotLightData_ = nullptr;
+
+	// ハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSpotLightSrvHandleCPU_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSpotLightSrvHandleGPU_{};
 
 
 	/*--------------------------------

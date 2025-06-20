@@ -35,11 +35,11 @@ void Object3dBlendNormal::Initialize(OutputLog* log, DirectXShaderCompiler* dxc 
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
-	descriptorRangeForInstancing[0].BaseShaderRegister = 1;
-	descriptorRangeForInstancing[0].NumDescriptors = 1;
-	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	D3D12_DESCRIPTOR_RANGE directionalLightForInstancing[1] = {};
+	directionalLightForInstancing[0].BaseShaderRegister = 1;
+	directionalLightForInstancing[0].NumDescriptors = 1;
+	directionalLightForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	directionalLightForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	D3D12_DESCRIPTOR_RANGE pointLightForInstancing[1] = {};
 	pointLightForInstancing[0].BaseShaderRegister = 2;
@@ -47,10 +47,16 @@ void Object3dBlendNormal::Initialize(OutputLog* log, DirectXShaderCompiler* dxc 
 	pointLightForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	pointLightForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
+	D3D12_DESCRIPTOR_RANGE spotLightForInstancing[1] = {};
+	spotLightForInstancing[0].BaseShaderRegister = 3;
+	spotLightForInstancing[0].NumDescriptors = 1;
+	spotLightForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	spotLightForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 
 	/*   ルートパラメータ   */
 
-	D3D12_ROOT_PARAMETER rootParameters[9] = {};
+	D3D12_ROOT_PARAMETER rootParameters[10] = {};
 
 	// CBV PixeShader b0
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -91,14 +97,20 @@ void Object3dBlendNormal::Initialize(OutputLog* log, DirectXShaderCompiler* dxc 
 	// DescriptorTable PixelShader
 	rootParameters[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 	rootParameters[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParameters[7].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
-	rootParameters[7].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+	rootParameters[7].DescriptorTable.pDescriptorRanges = directionalLightForInstancing;
+	rootParameters[7].DescriptorTable.NumDescriptorRanges = _countof(directionalLightForInstancing);
 
 	// DescriptorTable PixelShader
 	rootParameters[8].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 	rootParameters[8].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[8].DescriptorTable.pDescriptorRanges = pointLightForInstancing;
 	rootParameters[8].DescriptorTable.NumDescriptorRanges = _countof(pointLightForInstancing);
+
+	// DescriptorTable PixelShader
+	rootParameters[9].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[9].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[9].DescriptorTable.pDescriptorRanges = spotLightForInstancing;
+	rootParameters[9].DescriptorTable.NumDescriptorRanges = _countof(spotLightForInstancing);
 
 
 	/*   サンプラー   */
