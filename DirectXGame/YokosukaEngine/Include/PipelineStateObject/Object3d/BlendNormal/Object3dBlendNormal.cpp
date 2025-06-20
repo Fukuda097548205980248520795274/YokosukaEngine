@@ -41,10 +41,16 @@ void Object3dBlendNormal::Initialize(OutputLog* log, DirectXShaderCompiler* dxc 
 	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
+	D3D12_DESCRIPTOR_RANGE pointLightForInstancing[1] = {};
+	pointLightForInstancing[0].BaseShaderRegister = 2;
+	pointLightForInstancing[0].NumDescriptors = 1;
+	pointLightForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	pointLightForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 
 	/*   ルートパラメータ   */
 
-	D3D12_ROOT_PARAMETER rootParameters[8] = {};
+	D3D12_ROOT_PARAMETER rootParameters[9] = {};
 
 	// CBV PixeShader b0
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -87,6 +93,12 @@ void Object3dBlendNormal::Initialize(OutputLog* log, DirectXShaderCompiler* dxc 
 	rootParameters[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[7].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
 	rootParameters[7].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+
+	// DescriptorTable PixelShader
+	rootParameters[8].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[8].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[8].DescriptorTable.pDescriptorRanges = pointLightForInstancing;
+	rootParameters[8].DescriptorTable.NumDescriptorRanges = _countof(pointLightForInstancing);
 
 
 	/*   サンプラー   */

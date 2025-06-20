@@ -23,6 +23,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 平行光源
 	directionalLight0_ = std::make_unique<DirectionalLight>();
 	directionalLight0_->Initialize();
+	directionalLight0_->intensity_ = 0.3f;
 
 	directionalLight1_ = std::make_unique<DirectionalLight>();
 	directionalLight1_->Initialize();
@@ -42,12 +43,39 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 
 	// モデルハンドル
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/terrain", "terrain.obj");
 
 	// ポイントライト
-	pointLight_ = std::make_unique<PointLight>();
-	pointLight_->Initialize();
-	pointLight_->intensity_ = 0.0f;
+	pointLight0_ = std::make_unique<PointLight>();
+	pointLight0_->Initialize();
+	pointLight0_->position_ = { -2.0f , 1.5f , 0.0f };
+	pointLight0_->color_ = { 1.0f , 1.0f , 1.0f , 1.0f };
+	pointLight0_->intensity_ = 62.0f;
+	pointLight0_->radius_ = 6.0f;
+	pointLight0_->decay_ = 6.0f;
+
+	pointLight1_ = std::make_unique<PointLight>();
+	pointLight1_->Initialize();
+	pointLight1_->position_ = { 0.0f , 1.5f , 2.0f };
+	pointLight1_->color_ = { 1.0f , 0.0f , 0.0f , 1.0f };
+	pointLight1_->intensity_ = 62.0f;
+	pointLight1_->radius_ = 6.0f;
+	pointLight1_->decay_ = 6.0f;
+
+	pointLight2_ = std::make_unique<PointLight>();
+	pointLight2_->Initialize();
+	pointLight2_->position_ = { 0.0f , 1.5f , -2.0f };
+	pointLight2_->color_ = { 0.0f , 1.0f , 0.0f , 1.0f };
+	pointLight2_->intensity_ = 62.0f;
+	pointLight2_->radius_ = 6.0f;
+	pointLight2_->decay_ = 6.0f;
+
+	pointLight3_ = std::make_unique<PointLight>();
+	pointLight3_->Initialize();
+	pointLight3_->position_ = { 0.0f , 2.0f , 2.0f };
+	pointLight3_->color_ = { 0.0f , 0.0f , 1.0f , 1.0f };
+	pointLight3_->intensity_ = 62.0f;
+	pointLight3_->decay_ = 6.0f;
 
 	// スポットライト
 	spotLight_ = std::make_unique<SpotLight>();
@@ -76,17 +104,25 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 
-	/*
+	ImGui::Begin("pointLight0");
+	ImGui::DragFloat3("position", &pointLight0_->position_.x, 0.1f);
+	ImGui::End();
 
-	// 平行光源設置
-	engine_->SetDirectionalLight(directionalLight0_.get());
-	engine_->SetDirectionalLight(directionalLight1_.get());
-	engine_->SetDirectionalLight(directionalLight2_.get());
-	engine_->SetDirectionalLight(directionalLight3_.get());
+	ImGui::Begin("pointLigh1");
+	ImGui::DragFloat3("position", &pointLight1_->position_.x, 0.1f);
+	ImGui::End();
 
-	*/
+	ImGui::Begin("pointLigh2");
+	ImGui::DragFloat3("position", &pointLight2_->position_.x, 0.1f);
+	ImGui::End();
+
+	// ポイントライト
+	engine_->SetPointLight(pointLight2_.get());
+	engine_->SetPointLight(pointLight1_.get());
+	engine_->SetPointLight(pointLight3_.get());
+	engine_->SetPointLight(pointLight0_.get());
+
 
 	// モデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f },
-		pointLight_.get(), spotLight_.get());
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f }, spotLight_.get());
 }

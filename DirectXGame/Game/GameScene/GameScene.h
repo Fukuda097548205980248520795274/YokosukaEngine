@@ -25,7 +25,6 @@ public:
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
 	uint32_t modelHandle_ = 0;
-	std::unique_ptr<PointLight> pointLight_ = nullptr;
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
 
 
@@ -33,5 +32,10 @@ public:
 	std::unique_ptr<DirectionalLight> directionalLight1_ = nullptr;
 	std::unique_ptr<DirectionalLight> directionalLight2_ = nullptr;
 	std::unique_ptr<DirectionalLight> directionalLight3_ = nullptr;
+
+	std::unique_ptr<PointLight> pointLight0_ = nullptr;
+	std::unique_ptr<PointLight> pointLight1_ = nullptr;
+	std::unique_ptr<PointLight> pointLight2_ = nullptr;
+	std::unique_ptr<PointLight> pointLight3_ = nullptr;
 };
 

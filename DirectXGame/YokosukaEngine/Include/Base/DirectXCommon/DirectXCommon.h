@@ -141,6 +141,12 @@ public:
 	void SetDirectionalLight(const DirectionalLight* directionalLight);
 
 	/// <summary>
+	/// ポイントライトを設置する
+	/// </summary>
+	/// <param name="pointLight"></param>
+	void SetPointLight(const PointLight* pointLight);
+
+	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -149,7 +155,7 @@ public:
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,
-		const PointLight* pointLight, const SpotLight* spotLight);
+		const SpotLight* spotLight);
 
 	/// <summary>
 	/// モデルを描画する
@@ -441,9 +447,6 @@ private:
 	// 座標変換リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceModel_[1024] = { nullptr };
 
-	// 点光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceModel_[1024] = { nullptr };
-
 	// スポットライトリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceModel_[1024] = { nullptr };
 
@@ -504,10 +507,34 @@ private:
 
 	// インスタンシングリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> instancingDirectionalLightResource_ = nullptr;
+	DirectionalLightForGPU* directionalLightData_ = nullptr;
 
 	// ハンドル
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingDirectionalLightSrvHandleCPU_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingDirectionalLightSrvHandleGPU_{};
+
+
+	/*------------------
+	    ポイントライト
+	------------------*/
+
+	// 最大数
+	const uint32_t kMaxNumPointLight = 1024;
+
+	// 使用数
+	uint32_t useNumPointLightCount_ = 0;
+
+	// 使用数リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> useNumPointLightResource_ = nullptr;
+	UseNumPointLight* useNumPointLightData_ = nullptr;
+
+	// インスタンシングリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> instancingPointLightResource_ = nullptr;
+	PointLightForGPU* pointLightData_ = nullptr;
+
+	// ハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingPointLightSrvHandleCPU_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingPointLightSrvHandleGPU_{};
 
 
 	/*--------------------------------

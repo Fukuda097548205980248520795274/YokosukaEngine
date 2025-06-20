@@ -45,7 +45,7 @@ struct Camera
 ConstantBuffer<Camera> gCamera : register(b2);
 
 
-// 点光源
+// ポイントライト
 struct PointLight
 {
     // 色
@@ -54,16 +54,20 @@ struct PointLight
     // 位置
     float3 position;
     
-    // 輝度
-    float intensity;
-    
     // ライトの届く最大距離
     float radius;
     
     // 減衰率
     float decay;
 };
-ConstantBuffer<PointLight> gPointLight : register(b3);
+StructuredBuffer<PointLight> gPointLight : register(t2);
+
+// 使用しているポイントライトの数
+struct UseNumPointLight
+{
+    uint num;
+};
+ConstantBuffer<UseNumPointLight> gUseNumPointLight : register(b3);
 
 // スポットライト
 struct SpotLight
@@ -163,30 +167,41 @@ PixelShaderOutput main(VertexShaderOutput input)
         /*-----------
             点光源
         -----------*/
-        
-        // 点光源への距離
-        float distance = length(gPointLight.position - input.worldPosition);
-        
-        // 逆二乗則による減速係数
-        float factor = pow(saturate(-distance / gPointLight.radius + 1.0f), gPointLight.decay);
-        
-        // 入射光
-        float3 pointLightDirection = normalize(input.worldPosition - gPointLight.position);
-        float pointLightNdotL = dot(normalize(input.normal), -pointLightDirection);
-        float pointLightCos = pow(pointLightNdotL * 0.5f + 0.5f, 2.0f);
-        
-        // 入射光の反射ベクトル
-        float3 pointLightHalfVector = normalize(-pointLightDirection + toEye);
-        float pointLightNdotH = dot(normalize(input.normal), pointLightHalfVector);
-        float pointLightSpeculerPow = pow(saturate(pointLightNdotH), gMaterial.shininesse);
-        
+
+        // 拡散反射の色
+        float3 diffusePointLightColor = { 0.0f, 0.0f, 0.0f }; 
+
+         // 鏡面反射
+        float3 speculerPointLightColor = { 0.0f, 0.0f, 0.0f }; 
+
+        for (uint i = 0; i < gUseNumPointLight.num; i++) 
+        {
+            // 点光源への距離
+            float distance = length(gPointLight[i].position - input.worldPosition);
+
+            // 逆二乗則による減速係数
+            float factor = pow(saturate(-distance / gPointLight[i].radius + 1.0f), gPointLight[i].decay);
+
+            // 入射光
+            float3 pointLightDirection = normalize(input.worldPosition - gPointLight[i].position);
+            float pointLightNdotL = dot(normalize(input.normal), -pointLightDirection);
+            float pointLightCos = pow(pointLightNdotL * 0.5f + 0.5f, 2.0f);
+
+            // 入射光の反射ベクトル
+            float3 pointLightHalfVector = normalize(-pointLightDirection + toEye);
+            float pointLightNdotH = dot(normalize(input.normal), pointLightHalfVector);
+            float pointLightSpeculerPow = pow(saturate(pointLightNdotH), gMaterial.shininesse);
+    
+            // 各ライトの寄与を加算
+            diffusePointLightColor += gPointLight[i].color.rgb * (pointLightCos * factor);
+            speculerPointLightColor += gPointLight[i].color.rgb * (factor * pointLightSpeculerPow);
+        }
+
         // 拡散反射
-        float3 diffusePointLight =
-        gMaterial.color.rgb * textureColor.rgb * gPointLight.color.rgb * pointLightCos * gPointLight.intensity * factor;
-        
+        float3 diffusePointLight = gMaterial.color.rgb * textureColor.rgb * diffusePointLightColor;
+
         // 鏡面反射
-        float3 speculerPointLight =
-        gPointLight.color.rgb * gPointLight.intensity * factor * pointLightSpeculerPow * float3(1.0f, 1.0f, 1.0f);
+        float3 speculerPointLight = speculerPointLightColor * float3(1.0f, 1.0f, 1.0f);
         
         
         /*------------------
@@ -219,7 +234,7 @@ PixelShaderOutput main(VertexShaderOutput input)
         
         // 鏡面反射
         float3 speculerSpotLight =
-        gPointLight.color.rgb * gSpotLight.intensity * spotLightFactor * falloffFactor * spotLightSpeculerPow * float3(1.0f, 1.0f, 1.0f);
+        gSpotLight.color.rgb * gSpotLight.intensity * spotLightFactor * falloffFactor * spotLightSpeculerPow * float3(1.0f, 1.0f, 1.0f);
         
         
         // 全て乗算する
