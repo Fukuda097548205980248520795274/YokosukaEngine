@@ -20,5 +20,23 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw()override;
+
+
+private:
+
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// UVトランスフォーム
+	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+
+	// モデルハンドル
+	uint32_t modelHandle_ = 0;
+
+	// 赤いポイントライト
+	std::unique_ptr<PointLight> redPointLight_ = nullptr;
+
+	// 青いポイントライト
+	std::unique_ptr<PointLight> bluePointLight_ = nullptr;
 };
 

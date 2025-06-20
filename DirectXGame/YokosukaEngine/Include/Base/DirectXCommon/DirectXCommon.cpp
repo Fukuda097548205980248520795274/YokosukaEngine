@@ -538,7 +538,7 @@ void DirectXCommon::SetSpotLight(const SpotLight* spotLight)
 /// <param name="modelHandle">モデルハンドル</param>
 /// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t modelHandle, Vector4 color)
+	const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceModel_ >= kMaxNumResource)
@@ -571,7 +571,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	Material* materialData = nullptr;
 	MaterialResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
-	materialData->enableLighting = true;
+	materialData->enableLighting = isLighting;
 	materialData->uvTransform = 
 		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 	materialData->shininess = 18.0f;

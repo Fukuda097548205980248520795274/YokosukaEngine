@@ -160,8 +160,9 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="modelHandle"></param>
 	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color);
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,bool isLighting);
 
 	/// <summary>
 	/// パーティクルを描画する

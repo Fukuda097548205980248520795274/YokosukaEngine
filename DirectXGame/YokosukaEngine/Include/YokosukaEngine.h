@@ -138,9 +138,9 @@ public:
 	/// モデルを描画する
 	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color) const
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting) const
 	{
-		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color);
+		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color, isLighting);
 	}
 
 	/// <summary>
