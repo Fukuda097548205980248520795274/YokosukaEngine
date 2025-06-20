@@ -32,20 +32,17 @@ public:
 struct PointLightFoirGPU
 {
 	// 色
-	Vector4 color;
+	Vector4 color[1024];
 
 	// 位置
-	Vector3 position;
-
-	// 輝度
-	float intensity;
+	Vector4 position[1024];
 
 	// ライトの届く最大距離
-	float radius;
+	float radius[1024];
 
 	// 減衰率
-	float decay;
+	float decay[1024];
 
-	float padding[2];
-
+	// 設置したライトの数
+	uint32_t setNum;
 };

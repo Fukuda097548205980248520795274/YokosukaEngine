@@ -208,12 +208,16 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	directionalLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData_));
 	directionalLightData_->setNum = useNumDirectionalLight_;
 
+	// ポイントライトリソース
+	pointLightResource_ = CreateBufferResource(device_, sizeof(PointLightFoirGPU));
+	pointLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
+	pointLightData_->setNum = useNumPointLight_;
+
 	for (uint32_t i = 0; i < kMaxNumResource; i++)
 	{
 		// モデル
 		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		pointLightResourceModel_[i] = CreateBufferResource(device_, sizeof(PointLightFoirGPU));
 		spotLightResourceModel_[i] = CreateBufferResource(device_, sizeof(SpotLightForGPU));
 		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
@@ -352,6 +356,7 @@ void DirectXCommon::PostDraw()
 	directionalLightData_->setNum = useNumDirectionalLight_;
 
 	useNumPointLight_ = 0;
+	pointLightData_->setNum = useNumPointLight_;
 
 	useNumSpotLight_ = 0;
 }
@@ -378,6 +383,28 @@ void DirectXCommon::SetDirectionalLight(const DirectionalLight* directionalLight
 }
 
 /// <summary>
+/// ポイントライトを設置する
+/// </summary>
+/// <param name="pointLight"></param>
+void DirectXCommon::SetPointLight(const PointLight* pointLight)
+{
+	if (useNumPointLight_ >= kMaxNumResource)
+		return;
+
+	pointLightData_->color[useNumPointLight_] = pointLight->color_ * pointLight->intensity_;
+
+	pointLightData_->position[useNumPointLight_] = Vector4(pointLight->position_.x, pointLight->position_.y, pointLight->position_.z, 0.0f);
+
+	pointLightData_->radius[useNumPointLight_] = pointLight->radius_;
+
+	pointLightData_->decay[useNumPointLight_] = pointLight->decay_;
+	
+	// カウントする
+	useNumPointLight_++;
+	pointLightData_->setNum = useNumPointLight_;
+}
+
+/// <summary>
 /// モデルを描画する
 /// </summary>
 /// <param name="worldTransform">ワールドトランスフォーム</param>
@@ -387,7 +414,7 @@ void DirectXCommon::SetDirectionalLight(const DirectionalLight* directionalLight
 /// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 	const Camera3D* camera, uint32_t modelHandle, Vector4 color,
-	const PointLight* pointLight, const SpotLight* spotLight)
+	const SpotLight* spotLight)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceModel_ >= kMaxNumResource)
@@ -436,20 +463,6 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
-
-
-	/*------------
-		点光源
-	------------*/
-
-	// データを書き込む
-	PointLightFoirGPU* pointLightData = nullptr;
-	pointLightResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData));
-	(*pointLightData).color = pointLight->color_;
-	(*pointLightData).position = pointLight->position_;
-	(*pointLightData).intensity = pointLight->intensity_;
-	(*pointLightData).radius = pointLight->radius_;
-	(*pointLightData).decay = pointLight->decay_;
 
 
 	/*------------------
@@ -503,7 +516,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	commandList_->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 
 	// 点光源用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(5, pointLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(5, pointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
 	commandList_->SetGraphicsRootConstantBufferView(6, spotLightResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());

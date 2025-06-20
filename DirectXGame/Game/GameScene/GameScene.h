@@ -33,12 +33,11 @@ private:
 	// テクスチャハンドル
 	uint32_t modelHandle_ = 0;
 
-	// 平行光源
-	std::unique_ptr<DirectionalLight> directionalLight0_ = nullptr;
-	std::unique_ptr<DirectionalLight> directionalLight1_ = nullptr;
-
 	// ポイントライト
-	std::unique_ptr<PointLight> pointLight_ = nullptr;
+	std::unique_ptr<PointLight> pointLight0_ = nullptr;
+	std::unique_ptr<PointLight> pointLight1_ = nullptr;
+	std::unique_ptr<PointLight> pointLight2_ = nullptr;
+	std::unique_ptr<PointLight> pointLight3_ = nullptr;
 
 	// スポットライト
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;

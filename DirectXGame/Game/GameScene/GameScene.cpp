@@ -22,22 +22,32 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	uvTransform_->Initialize();
 
 	// モデルハンドル
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
-
-	// 平行光源
-	directionalLight0_ = std::make_unique<DirectionalLight>();
-	directionalLight0_->Initialize();
-
-	directionalLight1_ = std::make_unique<DirectionalLight>();
-	directionalLight1_->Initialize();
-	directionalLight1_->color_ = { 0.0f , 0.0f , 1.0f , 1.0f };
-	directionalLight1_->direction_ = Normalize(Vector3(0.0f, 1.0f, 0.0f));
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/terrain", "terrain.obj");
 
 	// ポイントライト
-	pointLight_ = std::make_unique<PointLight>();
-	pointLight_->Initialize();
-	pointLight_->position_ = { -5.0f ,  1.0f , 0.0f };
-	pointLight_->intensity_ = 0.0f;
+	pointLight0_ = std::make_unique<PointLight>();
+	pointLight0_->Initialize();
+	pointLight0_->position_ = { -5.0f ,  2.0f , 0.0f };
+	pointLight0_->radius_ = 6.0f;
+	pointLight0_->intensity_ = 32.0f;
+
+	pointLight1_ = std::make_unique<PointLight>();
+	pointLight1_->Initialize();
+	pointLight1_->position_ = { 5.0f ,  2.0f , 0.0f };
+	pointLight1_->radius_ = 6.0f;
+	pointLight1_->intensity_ = 32.0f;
+
+	pointLight2_ = std::make_unique<PointLight>();
+	pointLight2_->Initialize();
+	pointLight2_->position_ = { 0.0f ,  2.0f , 5.0f };
+	pointLight2_->radius_ = 6.0f;
+	pointLight2_->intensity_ = 32.0f;
+
+	pointLight3_ = std::make_unique<PointLight>();
+	pointLight3_->Initialize();
+	pointLight3_->position_ = { 0.0f ,  2.0f , -5.0f };
+	pointLight3_->radius_ = 6.0f;
+	pointLight3_->intensity_ = 32.0f;
 
 	// スポットライト
 	spotLight_ = std::make_unique<SpotLight>();
@@ -67,10 +77,11 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 
-	engine_->SetDirectionalLight(directionalLight0_.get());
-	engine_->SetDirectionalLight(directionalLight1_.get());
+	engine_->SetPointLight(pointLight0_.get());
+	engine_->SetPointLight(pointLight1_.get());
+	engine_->SetPointLight(pointLight2_.get());
+	engine_->SetPointLight(pointLight3_.get());
 
 	// 描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f },
-		pointLight_.get(), spotLight_.get());
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f },spotLight_.get());
 }

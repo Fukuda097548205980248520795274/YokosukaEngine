@@ -141,6 +141,12 @@ public:
 	void SetDirectionalLight(const DirectionalLight* directionalLight);
 
 	/// <summary>
+	/// ポイントライトを設置する
+	/// </summary>
+	/// <param name="pointLight"></param>
+	void SetPointLight(const PointLight* pointLight);
+
+	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -149,7 +155,7 @@ public:
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,
-		const PointLight* pointLight, const SpotLight* spotLight);
+		const SpotLight* spotLight);
 
 	/// <summary>
 	/// モデルを描画する
@@ -440,9 +446,6 @@ private:
 	// 座標変換リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceModel_[1024] = { nullptr };
 
-	// 点光源リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResourceModel_[1024] = { nullptr };
-
 	// スポットライトリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> spotLightResourceModel_[1024] = { nullptr };
 
@@ -537,6 +540,12 @@ private:
 
 	// 使用したポイントライトの数
 	uint32_t useNumPointLight_ = 0;
+
+	// ポイントライトリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> pointLightResource_ = nullptr;
+
+	// ポイントライトデータ
+	PointLightFoirGPU* pointLightData_ = nullptr;
 
 
 	// 使用したスポットライトの数

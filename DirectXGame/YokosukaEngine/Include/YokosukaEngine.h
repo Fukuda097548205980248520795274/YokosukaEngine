@@ -123,13 +123,19 @@ public:
 	void SetDirectionalLight(const DirectionalLight* directionalLight) const { directXCommon_->SetDirectionalLight(directionalLight); }
 
 	/// <summary>
+	/// ポイントライトを設置する
+	/// </summary>
+	/// <param name="pointLight"></param>
+	void SetPointLight(const PointLight* pointLight)const { directXCommon_->SetPointLight(pointLight); }
+
+	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color,
-		const PointLight* pointLight, const SpotLight* spotLight) const
+		const SpotLight* spotLight) const
 	{
-		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color, pointLight, spotLight);
+		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color,spotLight);
 	}
 
 	/// <summary>
