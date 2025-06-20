@@ -29,24 +29,38 @@ void Object3dBlendScreen::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 
 	/*   ディスクリプタレンジ   */
 
+	// テクスチャのディスクリプタテーブル
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
-
-	// 0から始まる
 	descriptorRange[0].BaseShaderRegister = 0;
-
-	// 数は1つ
 	descriptorRange[0].NumDescriptors = 1;
-
-	// SRVを使う
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-
-	// Offestを自動計算
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	// 平行光源のインスタンシング
+	D3D12_DESCRIPTOR_RANGE directionLightInstancing[1] = {};
+	directionLightInstancing[0].BaseShaderRegister = 1;
+	directionLightInstancing[0].NumDescriptors = 1;
+	directionLightInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	directionLightInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	// ポイントライトのインスタンシング
+	D3D12_DESCRIPTOR_RANGE pointLightInstancing[1] = {};
+	pointLightInstancing[0].BaseShaderRegister = 2;
+	pointLightInstancing[0].NumDescriptors = 1;
+	pointLightInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	pointLightInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	// スポットライトのインスタンシング
+	D3D12_DESCRIPTOR_RANGE spotLightInstancing[1] = {};
+	spotLightInstancing[0].BaseShaderRegister = 3;
+	spotLightInstancing[0].NumDescriptors = 1;
+	spotLightInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	spotLightInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 
 	/*   ルートパラメータ   */
 
-	D3D12_ROOT_PARAMETER rootParameters[7] = {};
+	D3D12_ROOT_PARAMETER rootParameters[10] = {};
 
 	// CBV PixeShader b0
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -83,6 +97,24 @@ void Object3dBlendScreen::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 	rootParameters[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[6].Descriptor.ShaderRegister = 4;
+
+	// DescriptorTable PixelShader
+	rootParameters[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[7].DescriptorTable.pDescriptorRanges = directionLightInstancing;
+	rootParameters[7].DescriptorTable.NumDescriptorRanges = _countof(directionLightInstancing);
+
+	// DescriptorTable PixelShader
+	rootParameters[8].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[8].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[8].DescriptorTable.pDescriptorRanges = pointLightInstancing;
+	rootParameters[8].DescriptorTable.NumDescriptorRanges = _countof(pointLightInstancing);
+
+	// DescriptorTable PixelShader
+	rootParameters[9].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[9].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[9].DescriptorTable.pDescriptorRanges = spotLightInstancing;
+	rootParameters[9].DescriptorTable.NumDescriptorRanges = _countof(spotLightInstancing);
 
 
 	/*   サンプラー   */

@@ -158,6 +158,7 @@ public:
 	/// <param name="worldTransform"></param>
 	/// <param name="uvTransform"></param>
 	/// <param name="camera"></param>
+	/// <param name="modelHandle"></param>
 	/// <param name="color"></param>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color);

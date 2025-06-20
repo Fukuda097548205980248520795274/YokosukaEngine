@@ -48,7 +48,6 @@ struct SpotLightForGPU
 	// 位置
 	Vector3 position;
 
-
 	// 方向
 	Vector3 direction;
 

@@ -117,23 +117,23 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 
 	// Object3D用のPSOの生成と初期化
-	//psoObject3d_[kBlendModeNone] = new Object3dBlendNone();
-	//psoObject3d_[kBlendModeNone]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeNone] = new Object3dBlendNone();
+	psoObject3d_[kBlendModeNone]->Initialize(log_, dxc_, device_);
 
 	psoObject3d_[kBlendModeNormal] = new Object3dBlendNormal();
 	psoObject3d_[kBlendModeNormal]->Initialize(log_, dxc_, device_);
 
-	//psoObject3d_[kBlendModeAdd] = new Object3dBlendAdd();
-	//psoObject3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeAdd] = new Object3dBlendAdd();
+	psoObject3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_);
 
-	//psoObject3d_[kBlendModeSubtract] = new Object3dBlendSubtract();
-	//psoObject3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeSubtract] = new Object3dBlendSubtract();
+	psoObject3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_);
 
-	//psoObject3d_[kBlendModeMultiply] = new Object3dBlendMultiply();
-	//psoObject3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeMultiply] = new Object3dBlendMultiply();
+	psoObject3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_);
 
-	//psoObject3d_[kBlendModeScreen] = new Object3dBlendScreen();
-	//psoObject3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
+	psoObject3d_[kBlendModeScreen] = new Object3dBlendScreen();
+	psoObject3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
 
 
 	// Particle用のPSOの生成と初期化

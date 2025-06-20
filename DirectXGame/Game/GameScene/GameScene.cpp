@@ -43,7 +43,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 
 	// モデルハンドル
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/terrain", "terrain.obj");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
 
 	// ポイントライト
 	pointLight0_ = std::make_unique<PointLight>();
@@ -143,6 +143,8 @@ void GameScene::Draw()
 	engine_->SetPointLight(pointLight3_.get());
 	engine_->SetPointLight(pointLight0_.get());
 	*/
+
+	engine_->SetObject3dBlendMode(kBlendModeAdd);
 
 	// スポットライトを設置する
 	engine_->SetSpotLight(spotLight0_.get());
