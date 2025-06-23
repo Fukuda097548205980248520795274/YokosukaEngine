@@ -170,7 +170,7 @@ void AudioStore::DeleteStopAudio()
 /// 音声を停止する
 /// </summary>
 /// <param name="playHandle"></param>
-void AudioStore::SoundStop(uint32_t playHandle)
+void AudioStore::StopSound(uint32_t playHandle)
 {
 	for (SoundPlayStructure* soundPlayStructure : soundPlayStructure_)
 	{

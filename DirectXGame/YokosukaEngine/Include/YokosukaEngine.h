@@ -125,7 +125,7 @@ public:
 	/// 音声データを停止する
 	/// </summary>
 	/// <param name="playHandle"></param>
-	void SoundStop(uint32_t playHandle) const { audioStore_->SoundStop(playHandle); }
+	void StopSound(uint32_t playHandle) const { audioStore_->StopSound(playHandle); }
 
 	/// <summary>
 	/// 音楽が再生されているかどうか

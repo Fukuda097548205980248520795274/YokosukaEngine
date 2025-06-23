@@ -50,7 +50,7 @@ public:
 	/// 音声を停止する
 	/// </summary>
 	/// <param name="playHandle"></param>
-	void SoundStop(uint32_t playHandle);
+	void StopSound(uint32_t playHandle);
 
 	/// <summary>
 	/// 音楽が再生されているかどうか
