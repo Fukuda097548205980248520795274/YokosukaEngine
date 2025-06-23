@@ -1,5 +1,5 @@
 #pragma once
-#define DIRECTINPUT_0x0800 // DirectInputのバージョン指定
+#define DIRECTINPUT_VERSION 0x0800
 #define MAX_CONTROLLERS4
 #include <dinput.h>
 #include <dxgi1_6.h>
