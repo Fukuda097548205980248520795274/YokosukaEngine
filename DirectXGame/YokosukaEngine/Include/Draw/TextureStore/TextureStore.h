@@ -36,30 +36,36 @@ private:
 	// DirectXCommon
 	DirectXCommon* directXCommon_ = nullptr;
 
+	// テクスチャ格納のデータ
+	struct TextureData
+	{
+		// ファイルパス
+		std::string filePath;
 
-	// ファイルパス
-	std::string filePath_[512];
+		// ミップマップ
+		DirectX::ScratchImage mipImages;
 
-	// ミップマップ
-	DirectX::ScratchImage mipImages_[512]{};
+		// テクスチャリソース
+		Microsoft::WRL::ComPtr<ID3D12Resource> textureResource = nullptr;
 
-	// テクスチャリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> textureResource_[512] = { nullptr };
+		// 中間リソース
+		Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource = nullptr;
 
-	// 中間リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource_[512] = { nullptr };
+		// srvの設定
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 
-	// srvの設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc_[512]{};
+		// CPUハンドル
+		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU;
 
-	// CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[512];
+		// GPUハンドル
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU;
 
-	// GPUハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[512];
+		// テクスチャハンドル
+		uint32_t textureHandle;
+	};
 
-	// テクスチャハンドル
-	uint32_t textureHandle_[512] = { 0 };
+	// テクスチャ格納のデータ
+	TextureData textureData_[512];
 
 	// 格納したテクスチャの数
 	uint32_t textureNum_ = 0;
