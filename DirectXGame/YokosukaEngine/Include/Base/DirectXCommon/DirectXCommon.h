@@ -47,8 +47,8 @@
 
 
 #include "../../Draw/VertexData/VertexData.h"
-#include "../../Draw/TextureStore/TextureStore.h"
-#include "../../Draw/ModelDataStore/ModelDataStore.h"
+#include "../../Store/TextureStore/TextureStore.h"
+#include "../../Store/ModelDataStore/ModelDataStore.h"
 #include "../../Draw/Material/Material.h"
 #include "../../Draw/TransformationMatrix/TransformationMatrix.h"
 
@@ -252,6 +252,17 @@ public:
 	void ChangeResourceState(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
 
+	/// <summary>
+	/// 現在のSRVのディスクリプタの番号のGetter
+	/// </summary>
+	/// <returns></returns>
+	UINT GetNumSrvDescriptors() { return numSrvDescriptors; }
+
+	/// <summary>
+	/// 現在のSRVのディスクリプタ番号をカウントする
+	/// </summary>
+	void CountNumSrvDescriptors() { numSrvDescriptors++; }
+
 
 private:
 
@@ -367,15 +378,17 @@ private:
 
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;
-	const UINT kNumRtvDescriptors = 2;
+	const UINT kMaxNumRtvDescriptors = 2;
+	UINT numRtvDescriptors = 0;
 
 	// SRV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_ = nullptr;
-	const UINT kNumSrvDescriptors = 128;
+	const UINT kMaxNumSrvDescriptors = 256;
+	UINT numSrvDescriptors = 1;
 
 	// DSV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_ = nullptr;
-	const UINT kNunDsvDescriptors = 1;
+	const UINT kMaxNunDsvDescriptors = 1;
 
 	// スワップチェーン
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain_ = nullptr;
