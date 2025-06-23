@@ -128,6 +128,13 @@ public:
 	void SoundStop(uint32_t playHandle) const { audioStore_->SoundStop(playHandle); }
 
 	/// <summary>
+	/// 音楽が再生されているかどうか
+	/// </summary>
+	/// <param name="playHandle"></param>
+	/// <returns></returns>
+	bool IsSoundPlay(uint32_t playHandle)const { return audioStore_->IsSoundPlay(playHandle); }
+
+	/// <summary>
 	/// 平行光源を設置する
 	/// </summary>
 	/// <param name="directionalLight"></param>

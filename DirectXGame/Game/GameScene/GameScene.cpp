@@ -29,8 +29,6 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// サウンドハンドル
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/ZinroNoTameNoKomoriuta.mp3");
-	playHandle0_ = engine_->PlaySoundData(soundHandle_, 0.3f);
-	playHandle1_ = engine_->PlaySoundData(soundHandle_, 0.0f);
 }
 
 /// <summary>
@@ -41,9 +39,9 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
-	if (engine_->GetKeyTrigger(DIK_SPACE))
+	if (engine_->IsSoundPlay(playHandle_) == false || playHandle_ == 0)
 	{
-		engine_->SoundStop(playHandle1_);
+		playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
 	}
 
 	// トランスフォームを更新する

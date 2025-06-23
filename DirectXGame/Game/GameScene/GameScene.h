@@ -42,7 +42,6 @@ private:
 	uint32_t soundHandle_ = 0;
 
 	// プレイハンドル
-	uint32_t playHandle0_ = 0;
-	uint32_t playHandle1_ = 0;
+	uint32_t playHandle_ = 0;
 };
 

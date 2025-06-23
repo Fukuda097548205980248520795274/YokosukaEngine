@@ -187,6 +187,23 @@ void AudioStore::SoundStop(uint32_t playHandle)
 }
 
 /// <summary>
+/// 音楽が再生しているかどうか
+/// </summary>
+/// <param name="playHandle"></param>
+bool AudioStore::IsSoundPlay(uint32_t playHandle)
+{
+	for (SoundPlayStructure* soundPlayStructure : soundPlayStructure_)
+	{
+		if (playHandle == soundPlayStructure->playHandle)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/// <summary>
 /// ファイル名でサウンドハンドルを取得する
 /// </summary>
 /// <param name="filePath"></param>

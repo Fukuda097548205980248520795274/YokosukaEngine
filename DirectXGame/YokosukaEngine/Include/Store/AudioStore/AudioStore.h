@@ -53,6 +53,12 @@ public:
 	void SoundStop(uint32_t playHandle);
 
 	/// <summary>
+	/// 音楽が再生されているかどうか
+	/// </summary>
+	/// <param name="playHandle"></param>
+	bool IsSoundPlay(uint32_t playHandle);
+
+	/// <summary>
 	/// 停止した曲を削除する
 	/// </summary>
 	void DeleteStopAudio();
