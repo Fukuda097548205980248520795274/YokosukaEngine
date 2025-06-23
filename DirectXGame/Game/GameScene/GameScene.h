@@ -34,8 +34,5 @@ private:
 
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;
-
-	// 平行光源
-	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 };
 
