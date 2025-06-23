@@ -368,7 +368,7 @@ void Scene::Initialize(const YokosukaEngine* engine)
 #endif
 
 	// デバッグカメラ有効化
-	isDebugCameraActive_ = true;
+	isDebugCameraActive_ = false;
 }
 
 /// <summary>
