@@ -74,3 +74,20 @@ Vector3 Lerp(const Vector3& start, const Vector3& end, float t)
 {
 	return (1.0f - t) * start + t * end;
 }
+
+/// <summary>
+/// 球面座標系を求める
+/// </summary>
+/// <param name="radius">半径</param>
+/// <param name="theta"></param>
+/// <param name="phi"></param>
+/// <returns></returns>
+Vector3 SphericalCoordinate(float radius, float theta, float phi)
+{
+	// 座標
+	Vector3 coordinate = { 0.0f , 0.0f , 0.0f };
+	coordinate.x = radius * std::cos(theta) * std::cos(phi);
+	coordinate.y = radius * std::sin(theta);
+	coordinate.z = radius * std::cos(theta) * std::sin(phi);
+	return coordinate;
+}

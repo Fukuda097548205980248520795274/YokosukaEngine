@@ -172,3 +172,12 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2);
 /// <param name="t">媒介変数</param>
 /// <returns></returns>
 Vector3 Lerp(const Vector3& start, const Vector3& end, float t);
+
+/// <summary>
+/// 球面座標系を求める
+/// </summary>
+/// <param name="radius">半径</param>
+/// <param name="theta"></param>
+/// <param name="phi"></param>
+/// <returns></returns>
+Vector3 SphericalCoordinate(float radius, float theta, float phi);

@@ -397,6 +397,12 @@ private:
 
 	// 3Dカメラ
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;
+
+	// ピボットポイント
+	Vector3 pivotPoint_ = { 0.0f , 0.0f , 0.0f };
+
+	// ピボットポイントとの距離
+	float pivotPointLength_ = 50.0f;
 };
 
 // 軸方向表示

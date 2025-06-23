@@ -162,23 +162,17 @@ void DebugCamera::Update()
 	// マウスホイールを上回転させると、向いている方向にズームイン
 	if (engine_->GetMouseWheelUp())
 	{
-		// 回転行列で進む方向を取得する
-		Matrix4x4 rotateMatrix = MakeRotateMatrix(camera3d_->rotation_);
-		Vector3 velocity = TransformNormal(Vector3{ 0.0f,0.0f,1.0f }, rotateMatrix);
+		pivotPointLength_ /= 1.2f;
 
-		// 移動する
-		camera3d_->translation_ += velocity;
+		// 1以下にならないようにする
+		if (pivotPointLength_ < 1.0f)
+			pivotPointLength_ = 1.0f;
 	}
 
 	// マウスホイールを下回転させると、向いている方向にズームアウト
 	if (engine_->GetMouseWheelDown())
 	{
-		// 回転行列で進む方向を取得する
-		Matrix4x4 rotateMatrix = MakeRotateMatrix(camera3d_->rotation_);
-		Vector3 velocity = TransformNormal(Vector3{ 0.0f,0.0f,-1.0f }, rotateMatrix);
-
-		// 移動する
-		camera3d_->translation_ += velocity;
+		pivotPointLength_ *= 1.2f;
 	}
 
 	// LShift + マウスホイールを押して動かすと、向いている方向の左右に移動できる
@@ -197,8 +191,9 @@ void DebugCamera::Update()
 		Vector3 velocity = TransformNormal({ -mouseVector.x , mouseVector.y , 0.0f }, rotateMatrix);
 
 		// 移動する
-		camera3d_->translation_ += velocity * kSpeedController;
-	} else if (engine_->GetMouseButtonPress(kMouseButtonCenter))
+		pivotPoint_ += velocity * kSpeedController * (pivotPointLength_ / 10.0f);
+	}
+	else if (engine_->GetMouseButtonPress(kMouseButtonCenter))
 	{
 		// マウスホイールを押して動かすと、向いている方向を回転できる
 
@@ -217,6 +212,8 @@ void DebugCamera::Update()
 		camera3d_->rotation_.x += rotationVelocity.y;
 		camera3d_->rotation_.y += rotationVelocity.x;
 	}
+
+	camera3d_->translation_ = pivotPoint_ + SphericalCoordinate(pivotPointLength_, camera3d_->rotation_.x, -(std::numbers::pi_v<float> / 2.0f) - camera3d_->rotation_.y);
 }
 
 

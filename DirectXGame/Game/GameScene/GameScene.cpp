@@ -22,19 +22,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	uvTransform_->Initialize();
 
 	// モデルハンドル
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/plane", "plane.obj");
-
-	// 赤いポイントライト
-	redPointLight_ = std::make_unique<PointLight>();
-	redPointLight_->Initialize();
-	redPointLight_->color_ = { 1.0f , 0.0f , 0.0f , 1.0f };
-	redPointLight_->position_ = { -0.5f , 0.5f , 0.0f };
-
-	// 青いポイントライト
-	bluePointLight_ = std::make_unique<PointLight>();
-	bluePointLight_->Initialize();
-	bluePointLight_->color_ = { 0.0f , 0.0f , 1.0f , 1.0f };
-	bluePointLight_->position_ = { 0.5f , 0.5f , 0.0f };
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
 }
 
 /// <summary>
@@ -58,9 +46,12 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 
-	// ライト設置
-	engine_->SetPointLight(redPointLight_.get());
-	engine_->SetPointLight(bluePointLight_.get());
+	ImGui::Begin("SphericalCoordinate");
+	ImGui::DragFloat("theta", &theta_, 0.01f);
+	ImGui::DragFloat("phi", &phi_, 0.01f);
+	ImGui::End();
+
+	worldTransform_->translation_ = SphericalCoordinate(5.0f, theta_, phi_);
 
 	// モデルを描画する
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f , 1.0f , 1.0f }, true);

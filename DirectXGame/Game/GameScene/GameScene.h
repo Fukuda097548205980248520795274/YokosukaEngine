@@ -26,6 +26,8 @@ private:
 
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+	float theta_ = 0.0f;
+	float phi_ = 0.0f;
 
 	// UVトランスフォーム
 	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
@@ -33,10 +35,7 @@ private:
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;
 
-	// 赤いポイントライト
-	std::unique_ptr<PointLight> redPointLight_ = nullptr;
-
-	// 青いポイントライト
-	std::unique_ptr<PointLight> bluePointLight_ = nullptr;
+	// 平行光源
+	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 };
 
