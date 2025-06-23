@@ -47,8 +47,8 @@
 
 
 #include "../../Draw/VertexData/VertexData.h"
-#include "../../Draw/TextureStore/TextureStore.h"
-#include "../../Draw/ModelDataStore/ModelDataStore.h"
+#include "../../Store/TextureStore/TextureStore.h"
+#include "../../Store/ModelDataStore/ModelDataStore.h"
 #include "../../Draw/Material/Material.h"
 #include "../../Draw/TransformationMatrix/TransformationMatrix.h"
 

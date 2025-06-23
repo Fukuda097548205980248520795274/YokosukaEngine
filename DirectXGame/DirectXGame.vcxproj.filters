@@ -70,9 +70,6 @@
     <Filter Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler">
       <UniqueIdentifier>{8ee6ed87-991c-4530-bc1a-3cb0e601ffed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Draw\TextureStore">
-      <UniqueIdentifier>{be21ca6b-1e3d-40a4-ae09-3c5386f1e0b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Draw\VertexData">
       <UniqueIdentifier>{ba767dc2-fe49-4c71-be73-7557dc28dd6c}</UniqueIdentifier>
     </Filter>
@@ -97,20 +94,11 @@
     <Filter Include="YokosukaEngine\Include\Func\LoadModelData">
       <UniqueIdentifier>{aaefeee9-b573-42b0-944a-bbb846a5daa5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Draw\ModelDataStore">
-      <UniqueIdentifier>{1470573c-2aa7-4ace-be04-4b9019740360}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Func\LoadMaterialData">
       <UniqueIdentifier>{fa85f681-fec0-4e24-910a-173b675fd85a}</UniqueIdentifier>
     </Filter>
     <Filter Include="YokosukaEngine\Include\Base\Input">
       <UniqueIdentifier>{43abeb0e-7683-4ca5-af89-8370d34c953a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="YokosukaEngine\Include\Audio">
-      <UniqueIdentifier>{8ff71b87-7838-4366-90e7-e5d67d7cbe0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="YokosukaEngine\Include\Audio\AudioStore">
-      <UniqueIdentifier>{a286df51-8447-483b-9dbe-996c19ab367f}</UniqueIdentifier>
     </Filter>
     <Filter Include="YokosukaEngine\Include\PipelineStateObject">
       <UniqueIdentifier>{7bcc6cd4-dff3-4082-bc8c-d2288b789cd0}</UniqueIdentifier>
@@ -235,6 +223,18 @@
     <Filter Include="Game\GameScene">
       <UniqueIdentifier>{2f8ebca4-51e1-4e9c-a2b4-4f61c48cbd2b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Store">
+      <UniqueIdentifier>{7d8dbd18-f07f-4b39-a544-a0a2a1df9ade}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Store\AudioStore">
+      <UniqueIdentifier>{a286df51-8447-483b-9dbe-996c19ab367f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Store\ModelDataStore">
+      <UniqueIdentifier>{1470573c-2aa7-4ace-be04-4b9019740360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Store\TextureStore">
+      <UniqueIdentifier>{be21ca6b-1e3d-40a4-ae09-3c5386f1e0b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -300,8 +300,8 @@
     <ClCompile Include="YokosukaEngine\Include\Func\LoadTexture\LoadTexture.cpp">
       <Filter>YokosukaEngine\Include\Func\LoadTexture</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Draw\TextureStore\TextureStore.cpp">
-      <Filter>YokosukaEngine\Include\Draw\TextureStore</Filter>
+    <ClCompile Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.cpp">
+      <Filter>YokosukaEngine\Include\Store\TextureStore</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Draw\VertexData\VertexData.cpp">
       <Filter>YokosukaEngine\Include\Draw\VertexData</Filter>
@@ -324,8 +324,8 @@
     <ClCompile Include="YokosukaEngine\Include\Func\LoadModelData\LoadModelData.cpp">
       <Filter>YokosukaEngine\Include\Func\LoadModelData</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Draw\ModelDataStore\ModelDataStore.cpp">
-      <Filter>YokosukaEngine\Include\Draw\ModelDataStore</Filter>
+    <ClCompile Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.cpp">
+      <Filter>YokosukaEngine\Include\Store\ModelDataStore</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Func\LoadMaterialData\LoadMaterialData.cpp">
       <Filter>YokosukaEngine\Include\Func\LoadMaterialData</Filter>
@@ -333,8 +333,8 @@
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp">
       <Filter>YokosukaEngine\Include\Base\Input</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.cpp">
-      <Filter>YokosukaEngine\Include\Audio\AudioStore</Filter>
+    <ClCompile Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.cpp">
+      <Filter>YokosukaEngine\Include\Store\AudioStore</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone\Object3dBlendNone.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone</Filter>
@@ -503,8 +503,8 @@
     <ClInclude Include="YokosukaEngine\Include\Func\LoadTexture\LoadTexture.h">
       <Filter>YokosukaEngine\Include\Func\LoadTexture</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Draw\TextureStore\TextureStore.h">
-      <Filter>YokosukaEngine\Include\Draw\TextureStore</Filter>
+    <ClInclude Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.h">
+      <Filter>YokosukaEngine\Include\Store\TextureStore</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Draw\VertexData\VertexData.h">
       <Filter>YokosukaEngine\Include\Draw\VertexData</Filter>
@@ -527,8 +527,8 @@
     <ClInclude Include="YokosukaEngine\Include\Func\LoadModelData\LoadModelData.h">
       <Filter>YokosukaEngine\Include\Func\LoadModelData</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Draw\ModelDataStore\ModelDataStore.h">
-      <Filter>YokosukaEngine\Include\Draw\ModelDataStore</Filter>
+    <ClInclude Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.h">
+      <Filter>YokosukaEngine\Include\Store\ModelDataStore</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Func\LoadMaterialData\LoadMaterialData.h">
       <Filter>YokosukaEngine\Include\Func\LoadMaterialData</Filter>
@@ -536,8 +536,8 @@
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h">
       <Filter>YokosukaEngine\Include\Base\Input</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.h">
-      <Filter>YokosukaEngine\Include\Audio\AudioStore</Filter>
+    <ClInclude Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.h">
+      <Filter>YokosukaEngine\Include\Store\AudioStore</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone\Object3dBlendNone.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Object3d\BlendNone</Filter>

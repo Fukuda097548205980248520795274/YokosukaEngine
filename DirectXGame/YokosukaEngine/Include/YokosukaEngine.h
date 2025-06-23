@@ -6,7 +6,7 @@
 #include "Base/OutputLog/OutputLog.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/Input/Input.h"
-#include "Audio/AudioStore/AudioStore.h"
+#include "Store/AudioStore/AudioStore.h"
 
 // ブレンドモード
 enum BlendMode

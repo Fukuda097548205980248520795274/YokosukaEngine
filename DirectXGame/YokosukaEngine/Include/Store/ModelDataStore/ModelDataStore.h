@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Func/LoadModelData/LoadModelData.h"
-#include "../../Draw/TextureStore/TextureStore.h"
+#include "../TextureStore/TextureStore.h"
 #include <stdlib.h>
 
 class ModelDataStore

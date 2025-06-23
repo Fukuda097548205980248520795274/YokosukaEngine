@@ -120,7 +120,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp" />
@@ -153,8 +153,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\Material\Material.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Draw\ModelDataStore\ModelDataStore.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Draw\TextureStore\TextureStore.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\VertexData\VertexData.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Func\LoadMaterialData\LoadMaterialData.cpp" />
@@ -189,7 +189,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
-    <ClInclude Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.h" />
+    <ClInclude Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\OutputLog\OutputLog.h" />
@@ -222,8 +222,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\Material\Material.h" />
-    <ClInclude Include="YokosukaEngine\Include\Draw\ModelDataStore\ModelDataStore.h" />
-    <ClInclude Include="YokosukaEngine\Include\Draw\TextureStore\TextureStore.h" />
+    <ClInclude Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.h" />
+    <ClInclude Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\VertexData\VertexData.h" />
     <ClInclude Include="YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
