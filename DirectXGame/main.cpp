@@ -19,6 +19,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 全キーの入力情報を取得する
 		engine->CheckAllKeyInfo();
 
+		// オーディオストアの更新処理
+		engine->UpdateAudioStore();
+
 		// フレーム開始
 		engine->BeginFrame();
 

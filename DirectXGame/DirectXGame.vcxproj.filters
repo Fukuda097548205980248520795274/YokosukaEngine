@@ -235,6 +235,12 @@
     <Filter Include="YokosukaEngine\Include\Store\TextureStore">
       <UniqueIdentifier>{be21ca6b-1e3d-40a4-ae09-3c5386f1e0b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Shape\OBB">
+      <UniqueIdentifier>{efbbef7d-2d8f-42cf-ada8-b9ef04ffdf21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Shape\Line">
+      <UniqueIdentifier>{67670c6e-bb11-4ce7-857b-610d91f4cf91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

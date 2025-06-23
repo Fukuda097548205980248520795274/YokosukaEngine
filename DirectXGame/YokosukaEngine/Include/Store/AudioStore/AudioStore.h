@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <vector>
+#include <list>
 #include "../../Func/String/String.h"
 
 #pragma comment(lib, "Mf.lib")
@@ -43,7 +44,24 @@ public:
 	/// 指定したハンドルで音声データを再生する
 	/// </summary>
 	/// <param name="soundHandle"></param>
-	void SelectHandlePlayAudio(uint32_t soundHandle, float soundVolume);
+	uint32_t SelectHandlePlayAudio(uint32_t soundHandle, float soundVolume);
+
+	/// <summary>
+	/// 音声を停止する
+	/// </summary>
+	/// <param name="playHandle"></param>
+	void SoundStop(uint32_t playHandle);
+
+	/// <summary>
+	/// 音楽が再生されているかどうか
+	/// </summary>
+	/// <param name="playHandle"></param>
+	bool IsSoundPlay(uint32_t playHandle);
+
+	/// <summary>
+	/// 停止した曲を削除する
+	/// </summary>
+	void DeleteStopAudio();
 
 
 private:
@@ -59,13 +77,7 @@ private:
 	/// 音声を再生する
 	/// </summary>
 	/// <param name="soundData"></param>
-	void SoundPlayWave(uint32_t index, float soundVolume);
-
-	/// <summary>
-	/// 音声を停止する
-	/// </summary>
-	/// <param name="index"></param>
-	void SoundStopWave(uint32_t index);
+	uint32_t SoundPlayWave(uint32_t index, float soundVolume);
 
 	// XAudio2
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2_ = nullptr;
@@ -90,8 +102,10 @@ private:
 	};
 
 	// サウンドプレイに使用する構造体
-	struct SoundPlayStructure
+	class SoundPlayStructure
 	{
+	public:
+
 		// プレイハンドル
 		uint32_t playHandle;
 
@@ -102,6 +116,9 @@ private:
 
 	// ロードに使用する構造体
 	LoadAudioStructure loadAudioStructure_[512] = {};
+
+	// サウンドプレイに使用する構造体
+	std::list<SoundPlayStructure*> soundPlayStructure_;
 
 
 	// 使用した音声データ数

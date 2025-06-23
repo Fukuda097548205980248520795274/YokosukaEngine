@@ -91,17 +91,32 @@ void AudioStore::SoundLoadWave(const std::string& filePath)
 /// 音声を再生する
 /// </summary>
 /// <param name="soundData"></param>
-void AudioStore::SoundPlayWave(uint32_t index , float soundVolume)
+uint32_t AudioStore::SoundPlayWave(uint32_t index , float soundVolume)
 {
+	SoundPlayStructure* soundPlayStructure = new SoundPlayStructure();
 
-	IXAudio2SourceVoice* pSourceVoice{ nullptr };
-	xAudio2_->CreateSourceVoice(&pSourceVoice, loadAudioStructure_[index].waveFormat);
+	// プレイハンドルを作成する
+	while (soundPlayStructure->playHandle == 0)
+	{
+		soundPlayStructure->playHandle = rand() % 1000000 + 1;
+
+		for (SoundPlayStructure* soundPlayHandle : soundPlayStructure_)
+		{
+			if (soundPlayStructure->playHandle == soundPlayHandle->playHandle)
+			{
+				soundPlayStructure->playHandle = 0;
+				break;
+			}
+		}
+	}
+
+	xAudio2_->CreateSourceVoice(&soundPlayStructure->pSourceVoice, loadAudioStructure_[index].waveFormat);
 
 	XAUDIO2_BUFFER buffer{ 0 };
 	buffer.pAudioData = loadAudioStructure_[index].mediaData.data();
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
 	buffer.AudioBytes = sizeof(BYTE) * static_cast<UINT32>(loadAudioStructure_[index].mediaData.size());
-	pSourceVoice->SubmitSourceBuffer(&buffer);
+	soundPlayStructure->pSourceVoice->SubmitSourceBuffer(&buffer);
 
 	const float kMaxSoundVolume = 1.0f;
 	const float kMinSoundVolume = 0.0f;
@@ -110,14 +125,82 @@ void AudioStore::SoundPlayWave(uint32_t index , float soundVolume)
 	soundVolume = std::max(kMinSoundVolume, soundVolume);
 	soundVolume = std::min(kMaxSoundVolume, soundVolume);
 
-	pSourceVoice->SetVolume(soundVolume);
+	soundPlayStructure->pSourceVoice->SetVolume(soundVolume);
 
-	pSourceVoice->Start(0);
+	soundPlayStructure->pSourceVoice->Start(0);
+
+	// リストに登録する
+	soundPlayStructure_.push_back(soundPlayStructure);
+
+	return soundPlayStructure->playHandle;
 }
 
-void AudioStore::SoundStopWave(uint32_t index)
+/// <summary>
+/// 停止した曲を削除する
+/// </summary>
+void AudioStore::DeleteStopAudio()
 {
-	(void)index;
+	soundPlayStructure_.remove_if([](SoundPlayStructure* soundPlayStructure)
+		{
+			// 音楽が終了したとき
+			if (soundPlayStructure->pSourceVoice)
+			{
+				XAUDIO2_VOICE_STATE state;
+				soundPlayStructure->pSourceVoice->GetState(&state);
+
+				if (state.BuffersQueued <= 0)
+				{
+					delete soundPlayStructure;
+					return true;
+				}
+			}
+			else
+			{
+				// 音楽を停止させたとき
+				delete soundPlayStructure;
+				return true;
+			}
+
+			return false;
+		}
+	);
+}
+
+/// <summary>
+/// 音声を停止する
+/// </summary>
+/// <param name="playHandle"></param>
+void AudioStore::SoundStop(uint32_t playHandle)
+{
+	for (SoundPlayStructure* soundPlayStructure : soundPlayStructure_)
+	{
+		if (playHandle == soundPlayStructure->playHandle)
+		{
+			soundPlayStructure->pSourceVoice->Stop(0);
+			soundPlayStructure->pSourceVoice = nullptr;
+
+			return;
+		}
+	}
+
+	return;
+}
+
+/// <summary>
+/// 音楽が再生しているかどうか
+/// </summary>
+/// <param name="playHandle"></param>
+bool AudioStore::IsSoundPlay(uint32_t playHandle)
+{
+	for (SoundPlayStructure* soundPlayStructure : soundPlayStructure_)
+	{
+		if (playHandle == soundPlayStructure->playHandle)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 /// <summary>
@@ -136,7 +219,7 @@ uint32_t AudioStore::GetSoundHandle(const std::string& filePath)
 		}
 	}
 
-	// テクスチャハンドルを作成する
+	// サウンドハンドルを作成する
 	while (loadAudioStructure_[useNumSoundData_].soundHandle == 0)
 	{
 		loadAudioStructure_[useNumSoundData_].soundHandle = rand() % 1000000 + 1;
@@ -167,19 +250,17 @@ uint32_t AudioStore::GetSoundHandle(const std::string& filePath)
 /// 指定したハンドルで音声データを流す
 /// </summary>
 /// <param name="soundHandle"></param>
-void AudioStore::SelectHandlePlayAudio(uint32_t soundHandle, float soundVolume)
+uint32_t AudioStore::SelectHandlePlayAudio(uint32_t soundHandle, float soundVolume)
 {
 	// 指定したハンドルのある要素をさがす
 	for (uint32_t i = 0; i < useNumSoundData_; i++)
 	{
 		if (soundHandle == loadAudioStructure_[i].soundHandle)
 		{
-			SoundPlayWave(i , soundVolume);
-
-			return;
+			return SoundPlayWave(i, soundVolume);
 		}
 	}
 
 	assert(false);
-	return;
+	return 0;
 }
