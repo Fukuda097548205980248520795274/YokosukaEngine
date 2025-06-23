@@ -37,5 +37,12 @@ private:
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+
+	// サウンドハンドル
+	uint32_t soundHandle_ = 0;
+
+	// プレイハンドル
+	uint32_t playHandle0_ = 0;
+	uint32_t playHandle1_ = 0;
 };
 

@@ -111,10 +111,21 @@ public:
 	uint32_t LoadSound(const std::string& filePath) const { return audioStore_->GetSoundHandle(filePath); }
 
 	/// <summary>
+	/// オーディオストアの更新処理
+	/// </summary>
+	void UpdateAudioStore() { audioStore_->DeleteStopAudio(); };
+
+	/// <summary>
 	/// 音声データを再生する
 	/// </summary>
 	/// <param name="soundHandle"></param>
-	void PlayerSoundData(uint32_t soundHandle, float soundVolume) const { audioStore_->SelectHandlePlayAudio(soundHandle , soundVolume); }
+	uint32_t PlaySoundData(uint32_t soundHandle, float soundVolume) const { return audioStore_->SelectHandlePlayAudio(soundHandle, soundVolume); }
+
+	/// <summary>
+	/// 音声データを停止する
+	/// </summary>
+	/// <param name="playHandle"></param>
+	void SoundStop(uint32_t playHandle) const { audioStore_->SoundStop(playHandle); }
 
 	/// <summary>
 	/// 平行光源を設置する
@@ -485,7 +496,9 @@ private:
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;
 };
 
-// シーン
+/// <summary>
+/// シーン
+/// </summary>
 class Scene
 {
 public:

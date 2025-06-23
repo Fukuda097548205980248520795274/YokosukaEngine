@@ -26,6 +26,11 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// テクスチャハンドル
 	textureHandle_ = engine_->LoadTexture("./Resources/Textures/uvChecker.png");
+
+	// サウンドハンドル
+	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/ZinroNoTameNoKomoriuta.mp3");
+	playHandle0_ = engine_->PlaySoundData(soundHandle_, 0.3f);
+	playHandle1_ = engine_->PlaySoundData(soundHandle_, 0.0f);
 }
 
 /// <summary>
@@ -35,6 +40,11 @@ void GameScene::Update()
 {
 	// Scene更新
 	Scene::Update();
+
+	if (engine_->GetKeyTrigger(DIK_SPACE))
+	{
+		engine_->SoundStop(playHandle1_);
+	}
 
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
