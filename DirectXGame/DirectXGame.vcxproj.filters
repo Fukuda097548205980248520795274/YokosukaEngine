@@ -241,6 +241,9 @@
     <Filter Include="YokosukaEngine\Include\Shape\Line">
       <UniqueIdentifier>{67670c6e-bb11-4ce7-857b-610d91f4cf91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Math\Matrix3x3">
+      <UniqueIdentifier>{497797df-8293-4128-8d83-6bc41f0dff45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -440,6 +443,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\GameScene.cpp">
       <Filter>Game\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp">
+      <Filter>YokosukaEngine\Include\Math\Matrix3x3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -643,6 +649,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\GameScene.h">
       <Filter>Game\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h">
+      <Filter>YokosukaEngine\Include\Math\Matrix3x3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -120,6 +120,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp" />
@@ -189,6 +190,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
+    <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h" />
     <ClInclude Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h" />
