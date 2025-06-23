@@ -23,6 +23,9 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// モデルハンドル
 	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
+
+	// テクスチャハンドル
+	textureHandle_ = engine_->LoadTexture("./Resources/Textures/uvChecker.png");
 }
 
 /// <summary>

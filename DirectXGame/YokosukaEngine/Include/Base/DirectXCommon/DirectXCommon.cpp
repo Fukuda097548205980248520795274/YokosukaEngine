@@ -52,6 +52,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// テクスチャストアを初期化する
 	textureStore_ = new TextureStore();
+	textureStore_->Initialize(this);
 
 	// モデルデータストアを初期化する
 	modelDataStore_ = new ModelDataStore();
@@ -82,13 +83,13 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	StopOnErrorsAndWarnings();
 
 	// RTV用ディスクリプタヒープを生成する
-	rtvDescriptorHeap_ = CreateDescritprHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, kNumRtvDescriptors, false);
+	rtvDescriptorHeap_ = CreateDescritprHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, kMaxNumRtvDescriptors, false);
 
 	// SRV用ディスクリプタヒープを生成する
-	srvDescriptorHeap_ = CreateDescritprHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kNumSrvDescriptors, true);
+	srvDescriptorHeap_ = CreateDescritprHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kMaxNumSrvDescriptors, true);
 
 	// DSV用ディスクリプタヒープを生成する
-	dsvDescriptorHeap_ = CreateDescritprHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, kNunDsvDescriptors, false);
+	dsvDescriptorHeap_ = CreateDescritprHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, kMaxNunDsvDescriptors, false);
 
 	// スワップチェーンを生成する
 	GenerateSwapChain();
@@ -251,9 +252,15 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingDirectionalLightSrvDesc.Buffer.StructureByteStride = sizeof(DirectionalLightForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingDirectionalLightSrvHandleCPU_ = GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 1);
-	instancingDirectionalLightSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 1);
+	instancingDirectionalLightSrvHandleCPU_ = 
+		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+	instancingDirectionalLightSrvHandleGPU_ = 
+		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+
 	device_->CreateShaderResourceView(instancingDirectionalLightResource_.Get(), &instancingDirectionalLightSrvDesc, instancingDirectionalLightSrvHandleCPU_);
+
+	// SRVの番号をカウントする
+	CountNumSrvDescriptors();
 
 
 	/*------------------
@@ -279,9 +286,15 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingPointLightSrvDesc.Buffer.StructureByteStride = sizeof(PointLightForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingPointLightSrvHandleCPU_ = GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 2);
-	instancingPointLightSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 2);
+	instancingPointLightSrvHandleCPU_ = 
+		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+	instancingPointLightSrvHandleGPU_ = 
+		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+
 	device_->CreateShaderResourceView(instancingPointLightResource_.Get(), &instancingPointLightSrvDesc, instancingPointLightSrvHandleCPU_);
+
+	// SRVの番号をカウントする
+	CountNumSrvDescriptors();
 
 
 	/*------------------
@@ -307,9 +320,15 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSpotLightSrvDesc.Buffer.StructureByteStride = sizeof(SpotLightForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingSpotLightSrvHandleCPU_ = GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 3);
-	instancingSpotLightSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 3);
+	instancingSpotLightSrvHandleCPU_ = 
+		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+	instancingSpotLightSrvHandleGPU_ = 
+		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+
 	device_->CreateShaderResourceView(instancingSpotLightResource_.Get(), &instancingSpotLightSrvDesc, instancingSpotLightSrvHandleCPU_);
+
+	// SRVの番号をカウントする
+	CountNumSrvDescriptors();
 
 
 	/*----------------
@@ -331,9 +350,15 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 4);
-	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 4);
+	instancingSrvHandleCPU_ = 
+		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+	instancingSrvHandleGPU_ = 
+		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+
 	device_->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
+
+	// SRVの番号をカウントする
+	CountNumSrvDescriptors();
 
 	// エミッター
 	emitter_.count = 3;

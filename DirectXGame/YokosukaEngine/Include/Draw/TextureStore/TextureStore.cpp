@@ -1,11 +1,24 @@
 #include "TextureStore.h"
+#include "../../Base/DirectXCommon/DirectXCommon.h"
+
+/// <summary>
+/// 初期化
+/// </summary>
+void TextureStore::Initialize(DirectXCommon* directXCommon)
+{
+	// nullptrチェック
+	assert(directXCommon);
+
+	// 引数を受け取る
+	directXCommon_ = directXCommon;
+}
 
 /// <summary>
 /// テクスチャを読み込みテクスチャハンドルを取得する
 /// </summary>
 /// <param name="filePath">ファイルパス</param>
 /// <returns></returns>
-uint32_t TextureStore::GetTextureHandle(const std::string& filePath, Microsoft::WRL::ComPtr<ID3D12Device> device,
+uint32_t TextureStore::GetTextureHandle( const std::string& filePath, Microsoft::WRL::ComPtr<ID3D12Device> device,
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList)
 {
 	// 既に格納されているファイルパスを探す
@@ -56,16 +69,17 @@ uint32_t TextureStore::GetTextureHandle(const std::string& filePath, Microsoft::
 	srvDesc_[textureNum_].Texture2D.MipLevels = UINT(metadata.mipLevels);
 
 	// SRVを作成するディスクリプタヒープの場所を確保する
-	textureSrvHandleCPU_[textureNum_] = GetCPUDescriptorHandle(srvDescriptorHeap,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 5 + textureNum_);
+	textureSrvHandleCPU_[textureNum_] = directXCommon_->GetCPUDescriptorHandle(srvDescriptorHeap,
+		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), directXCommon_->GetNumSrvDescriptors());
 
-	textureSrvHandleGPU_[textureNum_] = GetGPUDescriptorHandle(srvDescriptorHeap,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), 5 + textureNum_);
+	textureSrvHandleGPU_[textureNum_] = directXCommon_->GetGPUDescriptorHandle(srvDescriptorHeap,
+		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), directXCommon_->GetNumSrvDescriptors());
 
 	// SRVを生成する
 	device->CreateShaderResourceView(textureResource_[textureNum_].Get(), &srvDesc_[textureNum_], textureSrvHandleCPU_[textureNum_]);
 
-	// 格納した数をカウントする
+	// 格納したテクスチャとSRVの番号をカウントする
+	directXCommon_->CountNumSrvDescriptors();
 	textureNum_++;
 
 	return textureHandle_[textureNum_ - 1];
@@ -87,34 +101,4 @@ void TextureStore::SelectTexture(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandLis
 			break;
 		}
 	}
-}
-
-/// <summary>
-/// 指定したディスクリプタヒープに格納するためのポインタを取得する（CPU）
-/// </summary>
-/// <param name="descriptorHeap">ディスクリプタヒープ</param>
-/// <param name="descriptorSize">ディスクリプタのサイズ</param>
-/// <param name="index">配列番号</param>
-/// <returns></returns>
-D3D12_CPU_DESCRIPTOR_HANDLE TextureStore::GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-	uint32_t descriptorSize, uint32_t index)
-{
-	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
-	handleCPU.ptr += (descriptorSize * index);
-	return handleCPU;
-}
-
-/// <summary>
-/// 指定したディスクリプタヒープに格納するためのポインタを取得する（GPU）
-/// </summary>
-/// <param name="descriptorHeap">ディスクリプタヒープ</param>
-/// <param name="descriptorSize">ディスクリプタのサイズ</param>
-/// <param name="index">配列番号</param>
-/// <returns></returns>
-D3D12_GPU_DESCRIPTOR_HANDLE TextureStore::GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-	uint32_t descriptorSize, uint32_t index)
-{
-	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
-	handleGPU.ptr += (descriptorSize * index);
-	return handleGPU;
 }

@@ -3,9 +3,17 @@
 #include <time.h>
 #include "../../Func/LoadTexture/LoadTexture.h"
 
+// 前方宣言
+class DirectXCommon;
+
 class TextureStore
 {
 public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(DirectXCommon* directXCommon);
 
 	/// <summary>
 	/// テクスチャを読み込みテクスチャハンドルを取得する
@@ -25,25 +33,8 @@ public:
 
 private:
 
-	/// <summary>
-	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（CPU）
-	/// </summary>
-	/// <param name="descriptorHeap">ディスクリプタヒープ</param>
-	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
-	/// <param name="index">配列番号</param>
-	/// <returns></returns>
-	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		uint32_t descriptorSize, uint32_t index);
-
-	/// <summary>
-	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（GPU）
-	/// </summary>
-	/// <param name="descriptorHeap">ディスクリプタヒープ</param>
-	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
-	/// <param name="index">配列番号</param>
-	/// <returns></returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		uint32_t descriptorSize, uint32_t index);
+	// DirectXCommon
+	DirectXCommon* directXCommon_ = nullptr;
 
 
 	// ファイルパス
