@@ -120,6 +120,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameScene\Collider\Collider.cpp" />
+    <ClCompile Include="Game\GameScene\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\BaseEnemyPhase.cpp" />
     <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach\EnemyPhaseApproach.cpp" />
     <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.cpp" />
@@ -198,6 +199,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameScene\Collider\Collider.h" />
+    <ClInclude Include="Game\GameScene\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\BaseEnemyPhase.h" />
     <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach\EnemyPhaseApproach.h" />
     <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.h" />

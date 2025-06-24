@@ -262,6 +262,9 @@
     <Filter Include="Game\GameScene\Collider">
       <UniqueIdentifier>{a6a28759-ac3a-4358-9493-e90b42a6d110}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\CollisionManager">
+      <UniqueIdentifier>{4525ffbb-098f-487f-a552-71c0e157910f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -488,6 +491,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Collider\Collider.cpp">
       <Filter>Game\GameScene\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\CollisionManager\CollisionManager.cpp">
+      <Filter>Game\GameScene\CollisionManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -718,6 +724,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Collider\Collider.h">
       <Filter>Game\GameScene\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\CollisionManager\CollisionManager.h">
+      <Filter>Game\GameScene\CollisionManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

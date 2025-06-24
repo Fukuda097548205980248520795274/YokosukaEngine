@@ -27,6 +27,9 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	enemy_ = std::make_unique<Enemy>();
 	enemy_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 2.0f, 128.0f));
 	enemy_->SetPlayerInstance(player_.get());
+
+	// 衝突マネージャの生成
+	collisionManager_ = std::make_unique<CollisionManager>();
 }
 
 /// <summary>
@@ -46,8 +49,15 @@ void GameScene::Update()
 		enemy_->Update();
 	}
 
-	// 衝突判定を行う
-	CheckAllCollisions();
+
+	// 衝突マネージャをクリアする
+	collisionManager_->Clear();
+
+	// コライダーを登録する
+	PushCollider();
+
+	// 全ての衝突判定を行う
+	collisionManager_->CheckAllCollision();
 }
 
 /// <summary>
@@ -69,78 +79,18 @@ void GameScene::Draw()
 }
 
 /// <summary>
-/// 全ての衝突判定を行う
+/// コライダーを登録する
 /// </summary>
-void GameScene::CheckAllCollisions()
+void GameScene::PushCollider()
 {
-	// コライダーのリスト
-	std::list<Collider*> colliders_;
-
 	// 弾のリスト
-	std::list<PlayerBullet*> playerBullets = player_->GetBulletsInstance();
-	std::list<EnemyBullet*> enemyBullets = enemy_->GetBulletsInstance();
+	std::list<PlayerBullet*> playerBullets_ = player_->GetBulletsInstance();
+	std::list<EnemyBullet*> enemyBullets_ = enemy_->GetBulletsInstance();
 
-	// コライダーをリストに登録する
-	colliders_.push_back(player_.get());
-	colliders_.push_back(enemy_.get());
-
-	for (PlayerBullet* playerBullet : playerBullets)
-	{
-		colliders_.push_back(playerBullet);
-	}
-	
-	for (EnemyBullet* enemyBullet : enemyBullets)
-	{
-		colliders_.push_back(enemyBullet);
-	}
-
-
-	// リスト内ペアの総当たり
-	std::list<Collider*>::iterator itrA = colliders_.begin();
-	for (; itrA != colliders_.end(); ++itrA)
-	{
-		// コライダーA
-		Collider* colliderA = *itrA;
-
-		// イテレータBはイテレータAの次の要素から
-		std::list<Collider*>::iterator itrB = itrA;
-		itrB++;
-
-		for (; itrB != colliders_.end(); ++itrB)
-		{
-			// コライダーB
-			Collider* colliderB = *itrB;
-
-			// ペアの当たり判定
-			CheckCollisionPair(colliderA, colliderB);
-		}
-	}
-}
-
-/// <summary>
-/// コライダー2つの衝突判定と応答
-/// </summary>
-/// <param name="colliderA"></param>
-/// <param name="colliderB"></param>
-void GameScene::CheckCollisionPair(Collider* colliderA, Collider* colliderB)
-{
-	if (!(colliderA->GetCollisionAttribute() & colliderB->GetCollisionMask()) ||
-		!(colliderB->GetCollisionAttribute() & colliderA->GetCollisionMask()))
-		return;
-
-	// ワールド座標
-	Sphere sphereA, sphereB;
-
-	sphereA.center = colliderA->GetWorldPosition();
-	sphereA.radius = colliderA->GetRadius();
-
-	sphereB.center = colliderB->GetWorldPosition();
-	sphereB.radius = colliderB->GetRadius();
-
-	// 球同士の当たり判定
-	if (IsCollision(sphereA, sphereB))
-	{
-		colliderA->OnCollision();
-		colliderB->OnCollision();
-	}
+	collisionManager_->PushCollider(player_.get());
+	collisionManager_->PushCollider(enemy_.get());
+	for (PlayerBullet* playerBullet : playerBullets_)
+		collisionManager_->PushCollider(playerBullet);
+	for (EnemyBullet* enemyBullet : enemyBullets_)
+		collisionManager_->PushCollider(enemyBullet);
 }

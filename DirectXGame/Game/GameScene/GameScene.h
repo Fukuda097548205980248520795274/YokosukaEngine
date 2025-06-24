@@ -2,6 +2,7 @@
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "Player/Player.h"
 #include "Enemy/Enemy.h"
+#include "CollisionManager/CollisionManager.h"
 
 class GameScene : public Scene
 {
@@ -23,24 +24,20 @@ public:
 	/// </summary>
 	void Draw()override;
 
-	/// <summary>
-	/// 全ての衝突判定を行う
-	/// </summary>
-	void CheckAllCollisions();
-
 
 private:
 
 	/// <summary>
-	/// コライダー2つの衝突判定と応答
+	/// コライダーを登録する
 	/// </summary>
-	/// <param name="colliderA"></param>
-	/// <param name="colliderB"></param>
-	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);
+	void PushCollider();
 
 
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
+
+	// 衝突マネージャ
+	std::unique_ptr<CollisionManager> collisionManager_ = nullptr;
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
