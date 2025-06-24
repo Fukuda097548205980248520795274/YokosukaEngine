@@ -30,6 +30,17 @@ public:
 	/// <returns></returns>
 	bool IsFinished() { return isFinished_; }
 
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition() const;
+
+	/// <summary>
+	/// 衝突コールバック関数
+	/// </summary>
+	void OnCollision();
+
 
 private:
 

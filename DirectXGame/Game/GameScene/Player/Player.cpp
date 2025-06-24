@@ -199,3 +199,11 @@ Vector3 Player::GetWorldPosition() const
 
 	return worldPosition;
 }
+
+/// <summary>
+/// 衝突コールバック関数
+/// </summary>
+void Player::OnCollision()
+{
+
+}

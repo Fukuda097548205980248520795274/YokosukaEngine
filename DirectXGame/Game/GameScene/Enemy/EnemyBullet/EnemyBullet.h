@@ -45,6 +45,11 @@ public:
 	/// <returns></returns>
 	Vector3 GetWorldPosition() const;
 
+	/// <summary>
+	/// 衝突コールバック関数
+	/// </summary>
+	void OnCollision();
+
 
 private:
 

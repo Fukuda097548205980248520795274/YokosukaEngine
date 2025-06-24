@@ -78,8 +78,7 @@ public:
 	/// ワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetWorldPosition();
-
+	Vector3 GetWorldPosition() const;
 
 	/// <summary>
 	/// プレイヤーのインスタンスのGetter
@@ -104,6 +103,17 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	float GetKShotInterval() { return kShotInterval; }
+
+	/// <summary>
+	/// 弾のリストのGetter
+	/// </summary>
+	/// <returns></returns>
+	const std::list<EnemyBullet*> GetBulletsInstance() { return bullets_; }
+
+	/// <summary>
+	/// 衝突コールバック関数
+	/// </summary>
+	void OnCollision();
 
 
 private:

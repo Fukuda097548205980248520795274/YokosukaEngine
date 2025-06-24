@@ -7,6 +7,7 @@
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/Input/Input.h"
 #include "Audio/AudioStore/AudioStore.h"
+#include "Shape/Sphere/Sphere.h"
 
 // ブレンドモード
 enum BlendMode

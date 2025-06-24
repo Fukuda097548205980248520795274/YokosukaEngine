@@ -211,7 +211,7 @@ void Enemy::BulletShotTimerDelete()
 /// ワールド座標のGetter
 /// </summary>
 /// <returns></returns>
-Vector3 Enemy::GetWorldPosition()
+Vector3 Enemy::GetWorldPosition() const
 {
 	// ワールド座標
 	Vector3 worldPosition;
@@ -221,4 +221,12 @@ Vector3 Enemy::GetWorldPosition()
 	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
+}
+
+/// <summary>
+/// 衝突コールバック関数
+/// </summary>
+void Enemy::OnCollision()
+{
+
 }

@@ -81,3 +81,28 @@ void PlayerBullet::Draw()
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, { 0.0f, 0.0f, 0.0f , 1.0f },
 		directionalLight_, pointLight_.get(), spotLight_.get());
 }
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 PlayerBullet::GetWorldPosition() const
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
+}
+
+/// <summary>
+/// 衝突コールバック関数
+/// </summary>
+void PlayerBullet::OnCollision()
+{
+	// 終了する
+	isFinished_ = true;
+}

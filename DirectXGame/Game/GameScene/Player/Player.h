@@ -40,6 +40,17 @@ public:
 	/// <returns></returns>
 	Vector3 GetWorldPosition() const;
 
+	/// <summary>
+	/// 衝突コールバック関数
+	/// </summary>
+	void OnCollision();
+
+	/// <summary>
+	/// 弾のリストのGetter
+	/// </summary>
+	/// <returns></returns>
+	const std::list<PlayerBullet*> GetBulletsInstance() const { return bullets_; }
+
 
 private:
 
