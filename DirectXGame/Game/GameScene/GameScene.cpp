@@ -73,9 +73,6 @@ void GameScene::Draw()
 /// </summary>
 void GameScene::CheckAllCollisions()
 {
-	// 判定対象の座標
-	Vector3 posA, posB;
-
 	// プレイヤーの弾のリスト
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBulletsInstance();
 
@@ -85,64 +82,18 @@ void GameScene::CheckAllCollisions()
 
 #pragma region // 自キャラと敵弾の当たり判定
 
-	// 自キャラの座標
-	posA = player_->GetWorldPosition();
-
 	for (EnemyBullet* enemyBullet : enemyBullets)
 	{
-		// 敵弾の座標
-		posB = enemyBullet->GetWorldPosition();
-
-		// 球
-		Sphere sphereA
-		{
-			.center = posA,
-			.radius = 1.0f
-		};
-
-		Sphere sphereB
-		{
-			.center = posB,
-			.radius = 1.0f
-		};
-
-		if (IsCollision(sphereA, sphereB))
-		{
-			player_->OnCollision();
-			enemyBullet->OnCollision();
-		}
+		CheckCollisionPair(player_.get(), enemyBullet);
 	}
 
 #pragma endregion
 
 #pragma region // 自弾と敵キャラの当たり判定
 
-	// 敵キャラの座標
-	posA = enemy_->GetWorldPosition();
-
 	for (PlayerBullet* playerBullet : playerBullets)
 	{
-		// 自弾の座標
-		posB = playerBullet->GetWorldPosition();
-
-		// 球
-		Sphere sphereA
-		{
-			.center = posA,
-			.radius = 1.0f
-		};
-
-		Sphere sphereB
-		{
-			.center = posB,
-			.radius = 1.0f
-		};
-
-		if (IsCollision(sphereA, sphereB))
-		{
-			enemy_->OnCollision();
-			playerBullet->OnCollision();
-		}
+		CheckCollisionPair(enemy_.get(), playerBullet);
 	}
 
 #pragma endregion
@@ -151,35 +102,35 @@ void GameScene::CheckAllCollisions()
 
 	for (PlayerBullet* playerBullet : playerBullets)
 	{
-		// 自弾の当たり判定
-		posA = playerBullet->GetWorldPosition();
-
-		// 球
-		Sphere sphereA
-		{
-			.center = posA,
-			.radius = 1.0f
-		};
-
 		for (EnemyBullet* enemyBullet : enemyBullets)
 		{
-			// 敵弾の当たり判定
-			posB = enemyBullet->GetWorldPosition();
-
-			// 球
-			Sphere sphereB
-			{
-				.center = posB,
-				.radius = 1.0f
-			};
-
-			if (IsCollision(sphereA, sphereB))
-			{
-				playerBullet->OnCollision();
-				enemyBullet->OnCollision();
-			}
+			CheckCollisionPair(playerBullet, enemyBullet);
 		}
 	}
 	
 #pragma endregion
+}
+
+/// <summary>
+/// コライダー2つの衝突判定と応答
+/// </summary>
+/// <param name="colliderA"></param>
+/// <param name="colliderB"></param>
+void GameScene::CheckCollisionPair(Collider* colliderA, Collider* colliderB)
+{
+	// ワールド座標
+	Sphere sphereA, sphereB;
+
+	sphereA.center = colliderA->GetWorldPosition();
+	sphereA.radius = colliderA->GetRadius();
+
+	sphereB.center = colliderB->GetWorldPosition();
+	sphereB.radius = colliderB->GetRadius();
+
+	// 球同士の当たり判定
+	if (IsCollision(sphereA, sphereB))
+	{
+		colliderA->OnCollision();
+		colliderB->OnCollision();
+	}
 }

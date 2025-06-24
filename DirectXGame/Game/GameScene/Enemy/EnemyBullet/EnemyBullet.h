@@ -1,10 +1,11 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../../Collider/Collider.h"
 
 // 前方宣言
 class Player;
 
-class EnemyBullet
+class EnemyBullet : public Collider
 {
 public:
 
@@ -43,12 +44,12 @@ public:
 	/// ワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetWorldPosition() const;
+	Vector3 GetWorldPosition() const override;
 
 	/// <summary>
 	/// 衝突コールバック関数
 	/// </summary>
-	void OnCollision();
+	void OnCollision() override;
 
 
 private:

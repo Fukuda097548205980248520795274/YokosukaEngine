@@ -259,6 +259,9 @@
     <Filter Include="Game\GameScene\TimedCall">
       <UniqueIdentifier>{7c3490a2-4490-44fb-aa2f-4dc523d4787a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Collider">
+      <UniqueIdentifier>{a6a28759-ac3a-4358-9493-e90b42a6d110}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -482,6 +485,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\TimedCall\TimedCall.cpp">
       <Filter>Game\GameScene\TimedCall</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Collider\Collider.cpp">
+      <Filter>Game\GameScene\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -709,6 +715,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\TimedCall\TimedCall.h">
       <Filter>Game\GameScene\TimedCall</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Collider\Collider.h">
+      <Filter>Game\GameScene\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

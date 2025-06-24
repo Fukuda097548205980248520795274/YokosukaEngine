@@ -31,6 +31,14 @@ public:
 
 private:
 
+	/// <summary>
+	/// コライダー2つの衝突判定と応答
+	/// </summary>
+	/// <param name="colliderA"></param>
+	/// <param name="colliderB"></param>
+	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);
+
+
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 
