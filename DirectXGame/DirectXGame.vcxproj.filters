@@ -265,6 +265,12 @@
     <Filter Include="Game\GameScene\CollisionManager">
       <UniqueIdentifier>{4525ffbb-098f-487f-a552-71c0e157910f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Skydome">
+      <UniqueIdentifier>{9be70456-924f-43da-8a3a-a530030d36b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Ground">
+      <UniqueIdentifier>{5d597fe5-2ee8-4f92-9efc-0c2ed640f292}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -494,6 +500,12 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\CollisionManager\CollisionManager.cpp">
       <Filter>Game\GameScene\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp">
+      <Filter>Game\GameScene\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Ground\Ground.cpp">
+      <Filter>Game\GameScene\Ground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -727,6 +739,12 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\CollisionManager\CollisionManager.h">
       <Filter>Game\GameScene\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Skydome\Skydome.h">
+      <Filter>Game\GameScene\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Ground\Ground.h">
+      <Filter>Game\GameScene\Ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

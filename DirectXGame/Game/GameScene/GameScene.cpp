@@ -19,6 +19,14 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
 
+	// 天球の生成と初期化
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(engine_, camera3d_.get());
+
+	// 地面の生成と初期化
+	ground_ = std::make_unique<Ground>();
+	ground_->Initialize(engine_ , camera3d_.get());
+
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get());
@@ -39,6 +47,12 @@ void GameScene::Update()
 {
 	// Scene更新
 	Scene::Update();
+
+	// 天球の更新
+	skydome_->Update();
+
+	// 地面の更新
+	ground_->Update();
 
 	// プレイヤーの更新
 	player_->Update();
@@ -67,6 +81,12 @@ void GameScene::Draw()
 {
 	// Scene描画
 	Scene::Draw();
+
+	// 天球の描画
+	skydome_->Draw();
+
+	// 地面の描画
+	ground_->Draw();
 
 	// プレイヤーの描画
 	player_->Draw();

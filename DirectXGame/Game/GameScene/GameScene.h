@@ -3,6 +3,8 @@
 #include "Player/Player.h"
 #include "Enemy/Enemy.h"
 #include "CollisionManager/CollisionManager.h"
+#include "Skydome/Skydome.h"
+#include "Ground/Ground.h"
 
 class GameScene : public Scene
 {
@@ -38,6 +40,12 @@ private:
 
 	// 衝突マネージャ
 	std::unique_ptr<CollisionManager> collisionManager_ = nullptr;
+
+	// 天球
+	std::unique_ptr<Skydome> skydome_ = nullptr;
+
+	// 地面
+	std::unique_ptr<Ground> ground_ = nullptr;
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
