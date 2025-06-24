@@ -76,6 +76,57 @@ Vector3 Lerp(const Vector3& start, const Vector3& end, float t)
 }
 
 /// <summary>
+/// 球面線形補間を行う
+/// </summary>
+/// <param name="start">始点</param>
+/// <param name="end">終点</param>
+/// <param name="t">媒介変数</param>
+/// <returns></returns>
+Vector3 Slerp(const Vector3& start, const Vector3& end, float t)
+{
+	// ベクトルを正規化する
+	Vector3 normalizeStart = Normalize(start);
+	Vector3 normalizeEnd = Normalize(end);
+
+	// 長さを求めえる
+	float lengthStart = Length(start);
+	float lengthEnd = Length(end);
+
+	// 内積を求める（1.0fを越えないようにする）
+	float dot = std::clamp(Dot(normalizeStart, normalizeEnd), -1.0f, 1.0f);
+
+	// acosでΘの角度を求める
+	float theta = std::clamp(std::acos(dot), -179.0f / 180.0f * std::numbers::pi_v<float>, 179.0f / 180.0f * std::numbers::pi_v<float>);
+
+	// Θの角度からsinΘを求める
+	float sinTheta = std::sin(theta);
+
+	// sin(Θ(1 - t))を求める
+	float sinThetaFrom = std::sin((1.0f - t) * theta);
+
+	// sin(tΘ)を求める
+	float sinThetaTo = std::sin(t * theta);
+
+	// 正規化補間ベクトル
+	Vector3 slerp = { 0.0f , 0.0f , 0.0f };
+
+	// ゼロ除算を防ぐ
+	if (sinTheta < 1.0e-5)
+	{
+		slerp = normalizeStart;
+	}
+	else
+	{
+		slerp = (sinThetaFrom * normalizeStart + sinThetaTo * normalizeEnd) / sinTheta;
+	}
+
+	// 長さで線形補間を行う
+	float length = Lerp(lengthStart, lengthEnd, t);
+
+	return slerp * length;
+}
+
+/// <summary>
 /// 球面座標系を求める
 /// </summary>
 /// <param name="radius">半径</param>

@@ -1,5 +1,9 @@
 #pragma once
+#define NOMINMAX
+#include <algorithm>
 #include <cmath>
+#include <numbers>
+#include "../Vector1/Vector1.h"
 
 // 3次元ベクトル
 struct Vector3
@@ -172,6 +176,15 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2);
 /// <param name="t">媒介変数</param>
 /// <returns></returns>
 Vector3 Lerp(const Vector3& start, const Vector3& end, float t);
+
+/// <summary>
+/// 球面線形補間を行う
+/// </summary>
+/// <param name="start">始点</param>
+/// <param name="end">終点</param>
+/// <param name="t">媒介変数</param>
+/// <returns></returns>
+Vector3 Slerp(const Vector3& start, const Vector3& end, float t);
 
 /// <summary>
 /// 球面座標系を求める
