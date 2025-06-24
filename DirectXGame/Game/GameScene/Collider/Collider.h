@@ -28,9 +28,39 @@ public:
 	/// <returns></returns>
 	virtual Vector3 GetWorldPosition() const = 0;
 
+	/// <summary>
+	/// 衝突属性のGetter
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetCollisionAttribute() { return collisionAttribute_; }
+
+	/// <summary>
+	/// 衝突属性のSetter
+	/// </summary>
+	/// <param name="collisionAttribute"></param>
+	void SetCollisionAttribute(uint32_t collisionAttribute) { collisionAttribute_ = collisionAttribute; }
+
+	/// <summary>
+	/// 衝突マスクのGetter
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetCollisionMask() { return collisionMask_; }
+
+	/// <summary>
+	/// 衝突マスクのSetter
+	/// </summary>
+	/// <param name="collisionMask"></param>
+	void SetCollisionMask(uint32_t collisionMask) { collisionMask_ = collisionMask; }
+
 private:
 
 	// 衝突半径
 	float radius_ = 2.0f;
+
+	// 衝突属性（自分）
+	uint32_t collisionAttribute_ = 0xFFFFFFFF;
+
+	// 衝突マスク（相手）
+	uint32_t collisionMask_ = 0xFFFFFFFF;
 };
 

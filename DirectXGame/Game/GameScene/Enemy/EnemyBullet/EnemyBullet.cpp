@@ -21,6 +21,10 @@ void EnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camer
 	directionalLight_ = directionalLight;
 	velocity_ = velocity;
 
+	// 衝突属性と衝突マスクを設定する
+	SetCollisionAttribute(0b1 << 1);
+	SetCollisionMask(0b1);
+
 	// 速度を求める
 	speed_ = Length(velocity_);
 

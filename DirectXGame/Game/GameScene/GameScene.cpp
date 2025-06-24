@@ -73,42 +73,48 @@ void GameScene::Draw()
 /// </summary>
 void GameScene::CheckAllCollisions()
 {
-	// プレイヤーの弾のリスト
-	const std::list<PlayerBullet*>& playerBullets = player_->GetBulletsInstance();
+	// コライダーのリスト
+	std::list<Collider*> colliders_;
 
-	// 敵の弾のリスト
-	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBulletsInstance();
+	// 弾のリスト
+	std::list<PlayerBullet*> playerBullets = player_->GetBulletsInstance();
+	std::list<EnemyBullet*> enemyBullets = enemy_->GetBulletsInstance();
 
-
-#pragma region // 自キャラと敵弾の当たり判定
-
-	for (EnemyBullet* enemyBullet : enemyBullets)
-	{
-		CheckCollisionPair(player_.get(), enemyBullet);
-	}
-
-#pragma endregion
-
-#pragma region // 自弾と敵キャラの当たり判定
+	// コライダーをリストに登録する
+	colliders_.push_back(player_.get());
+	colliders_.push_back(enemy_.get());
 
 	for (PlayerBullet* playerBullet : playerBullets)
 	{
-		CheckCollisionPair(enemy_.get(), playerBullet);
-	}
-
-#pragma endregion
-
-#pragma region // 自弾と敵弾の当たり判定
-
-	for (PlayerBullet* playerBullet : playerBullets)
-	{
-		for (EnemyBullet* enemyBullet : enemyBullets)
-		{
-			CheckCollisionPair(playerBullet, enemyBullet);
-		}
+		colliders_.push_back(playerBullet);
 	}
 	
-#pragma endregion
+	for (EnemyBullet* enemyBullet : enemyBullets)
+	{
+		colliders_.push_back(enemyBullet);
+	}
+
+
+	// リスト内ペアの総当たり
+	std::list<Collider*>::iterator itrA = colliders_.begin();
+	for (; itrA != colliders_.end(); ++itrA)
+	{
+		// コライダーA
+		Collider* colliderA = *itrA;
+
+		// イテレータBはイテレータAの次の要素から
+		std::list<Collider*>::iterator itrB = itrA;
+		itrB++;
+
+		for (; itrB != colliders_.end(); ++itrB)
+		{
+			// コライダーB
+			Collider* colliderB = *itrB;
+
+			// ペアの当たり判定
+			CheckCollisionPair(colliderA, colliderB);
+		}
+	}
 }
 
 /// <summary>
@@ -118,6 +124,10 @@ void GameScene::CheckAllCollisions()
 /// <param name="colliderB"></param>
 void GameScene::CheckCollisionPair(Collider* colliderA, Collider* colliderB)
 {
+	if (!(colliderA->GetCollisionAttribute() & colliderB->GetCollisionMask()) ||
+		!(colliderB->GetCollisionAttribute() & colliderA->GetCollisionMask()))
+		return;
+
 	// ワールド座標
 	Sphere sphereA, sphereB;
 

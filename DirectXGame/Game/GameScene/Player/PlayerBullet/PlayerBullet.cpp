@@ -20,6 +20,10 @@ void PlayerBullet::Initialize(const YokosukaEngine* engine, const Camera3D* came
 	directionalLight_ = directionalLight;
 	velocity_ = velocity;
 
+	// 衝突属性と衝突マスクを設定する
+	SetCollisionAttribute(0b1);
+	SetCollisionMask(0b1 << 1);
+
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();

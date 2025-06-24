@@ -42,6 +42,10 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 	camera3d_ = camera3d;
 	directionalLight_ = directionalLight;
 
+	// 衝突属性と衝突マスクを設定する
+	SetCollisionAttribute(0b1 << 1);
+	SetCollisionMask(0b1);
+
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
