@@ -1,4 +1,5 @@
 #include "EnemyBullet.h"
+#include "../../Player/Player.h"
 
 /// <summary>
 /// 初期化
@@ -20,6 +21,8 @@ void EnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camer
 	directionalLight_ = directionalLight;
 	velocity_ = velocity;
 
+	// 速度を求める
+	speed_ = Length(velocity_);
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
@@ -59,12 +62,21 @@ void EnemyBullet::Update()
 		isFinished_ = true;
 	}
 
+	// プレイヤー方向のベクトル
+	Vector3 toPlayer = player_->GetWorldPosition() - GetWorldPosition();
+
+	// ベクトルを正規化する
+	toPlayer = Normalize(toPlayer);
+	velocity_ = Normalize(velocity_);
+
+	// 球面線形補間で徐々にプレイヤー方向に進むようにする
+	velocity_ = Slerp(velocity_, toPlayer, 0.01f) * speed_;
+
 
 	// 座標移動させる
 	worldTransform_->translation_ += velocity_;
 
-
-	// プレイヤーの方向
+	// 移動する方向を向く
 	worldTransform_->rotation_.y = std::atan2(velocity_.x, velocity_.z);
 	float velocityXZ = Length(Vector3{ velocity_.x , 0.0f , velocity_.z });
 	worldTransform_->rotation_.x = std::atan2(-velocity_.y, velocityXZ);
@@ -83,4 +95,20 @@ void EnemyBullet::Draw()
 	// モデルを描画する
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, { 1.0f, 0.0f, 0.0f , 1.0f },
 		directionalLight_, pointLight_.get(), spotLight_.get());
+}
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 EnemyBullet::GetWorldPosition() const
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
 }

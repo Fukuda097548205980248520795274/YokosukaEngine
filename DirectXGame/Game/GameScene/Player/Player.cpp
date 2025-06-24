@@ -188,7 +188,7 @@ void Player::BulletShot()
 /// ワールド座標のGetter
 /// </summary>
 /// <returns></returns>
-Vector3 Player::GetWorldPosition()
+Vector3 Player::GetWorldPosition() const
 {
 	// ワールド座標
 	Vector3 worldPosition;

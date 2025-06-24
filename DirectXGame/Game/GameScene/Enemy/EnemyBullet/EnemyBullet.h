@@ -1,6 +1,9 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
+// 前方宣言
+class Player;
+
 class EnemyBullet
 {
 public:
@@ -30,6 +33,18 @@ public:
 	/// <returns></returns>
 	bool IsFinished() { return isFinished_; }
 
+	/// <summary>
+	/// プレイヤーのインスタンスのGetter
+	/// </summary>
+	/// <param name="player"></param>
+	void SetPlayerInstance(const Player* player) { player_ = player; }
+
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition() const;
+
 
 private:
 
@@ -41,6 +56,10 @@ private:
 
 	// 平行光源
 	const DirectionalLight* directionalLight_ = nullptr;
+
+
+	// プレイヤー
+	const Player* player_ = nullptr;
 
 
 	// ワールドトランスフォーム
@@ -61,6 +80,9 @@ private:
 
 	// 速度ベクトル
 	Vector3 velocity_ = { 0.0f , 0.0f , 0.0f };
+
+	// 速度
+	float speed_ = 0.0f;
 
 	// 生存時間
 	const float kLifeTime = 6.0f;

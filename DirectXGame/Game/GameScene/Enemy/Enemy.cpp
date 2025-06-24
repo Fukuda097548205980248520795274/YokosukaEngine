@@ -166,6 +166,7 @@ void Enemy::BulletShot()
 	// 弾の生成と初期化
 	EnemyBullet* newBullet = new EnemyBullet();
 	newBullet->Initialize(engine_, camera3d_, directionalLight_, GetWorldPosition(), velocity);
+	newBullet->SetPlayerInstance(player_);
 
 	// リストに登録する
 	bullets_.push_back(newBullet);
