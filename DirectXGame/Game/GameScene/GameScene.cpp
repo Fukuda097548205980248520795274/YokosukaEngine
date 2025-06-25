@@ -27,6 +27,19 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	ground_ = std::make_unique<Ground>();
 	ground_->Initialize(engine_ , camera3d_.get());
 
+
+	// スプライン曲線制御点
+	controlPoints_ =
+	{
+		{0.0f , 0.0f , 0.0f},
+		{25.0f , 25.0f , 0.0f},
+		{25.0f , 35.0f , 0.0f},
+		{50.0f , 35.0f , 0.0f},
+		{50.0f , 0.0f , 0.0f},
+		{75.0f , 0.0f , 0.0f}
+	};
+
+
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, -2.0f, 40.0f));
@@ -87,6 +100,9 @@ void GameScene::Draw()
 {
 	// Scene描画
 	Scene::Draw();
+
+	// スプライン曲線の描画
+	engine_->DrwaCatmullRomSpline(controlPoints_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_.get());
 
 	// 天球の描画
 	skydome_->Draw();

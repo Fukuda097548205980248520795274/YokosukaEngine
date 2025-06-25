@@ -73,6 +73,134 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 }
 
 
+/// <summary>
+/// CatmullRomスプライン曲線を描画する
+/// </summary>
+/// <param name="controlPoints"></param>
+void YokosukaEngine::DrwaCatmullRomSpline(const std::vector<Vector3>& controlPoints, const Vector4& color, const Camera3D* camera3d) const
+{
+	// 線分で描画する用の頂点リスト
+	std::vector<Vector3> pointsDrawing;
+
+	// 線分の数
+	const size_t segmentCount = 100;
+
+	// 線分の数 + 1個分の頂点座標を計算
+	for (size_t i = 0; i < segmentCount + 1; ++i)
+	{
+		float t = 1.0f / segmentCount * i;
+
+		if (t >= 1.0f)
+		{
+			int a = 1;
+		}
+
+		Vector3 pos = CatmullRomPosition(controlPoints, t);
+		pointsDrawing.push_back(pos);
+	}
+
+
+	std::vector<Vector3>::iterator itrPointDrawing = pointsDrawing.begin();
+	itrPointDrawing += 1;
+
+	for (; itrPointDrawing != pointsDrawing.end(); ++itrPointDrawing)
+	{
+		directXCommon_->DrawLine(*(itrPointDrawing - 1), *(itrPointDrawing), camera3d, color);
+	}
+}
+
+/// <summary>
+/// CatmullRomの補間点を求める
+/// </summary>
+/// <param name="p0"></param>
+/// <param name="p1"></param>
+/// <param name="p2"></param>
+/// <param name="p3"></param>
+/// <param name="t"></param>
+/// <returns></returns>
+Vector3 YokosukaEngine::CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Vector3& p3, float t) const
+{
+	const float s = 0.5f;
+
+	float t2 = t * t;
+	float t3 = t2 * t;
+
+	Vector3 e3 = -1.0f * p0 + 3.0f * p1 - 3.0f * p2 + p3;
+	Vector3 e2 = 2.0f * p0 - 5.0f * p1 + 4.0f * p2 - p3;
+	Vector3 e1 = -1.0f * p0 + p2;
+	Vector3 e0 = 2.0f * p1;
+
+	return s * (e3 * t3 + e2 * t2 + e1 * t + e0);
+}
+
+/// <summary>
+/// CatmullRom全体で補間点を求める
+/// </summary>
+/// <param name="points"></param>
+/// <param name="t"></param>
+/// <returns></returns>
+Vector3 YokosukaEngine::CatmullRomPosition(const std::vector<Vector3>& points, float t) const
+{
+	assert(points.size() >= 4 && "制御点は4つ以上必要です");
+
+	// 区間数は　制御点の数 - 1
+	size_t division = points.size() - 1;
+
+	// 1区間の長さ
+	float areaWidth = 1.0f / division;
+
+
+	// 区間内の始点を0.0f 終点を1.0fとしたときの現在地
+	float t_2 = std::fmod(t, areaWidth) * division;
+
+	// 下限と上限の範囲に収める
+	t_2 = std::clamp(t_2, 0.0f, 1.0f);
+
+
+	// 区間番号
+	size_t index = static_cast<size_t>(t / areaWidth);
+
+	// 区間番号が上限を超えないようにする
+	index = std::min(index, division);
+
+
+	// 4点分のインデックス
+	size_t index0 = index - 1;
+	size_t index1 = index;
+	size_t index2 = index + 1;
+	size_t index3 = index + 2;
+
+
+	// 最初の区間 p0 は p1 を重複使用する
+	if (index == 0)
+	{
+		index0 = index1;
+	}
+
+	// 最後の区間 p3 は p2 を重複使用する
+	if (index2 >= points.size())
+	{
+		index2 = index1;
+	}
+
+	// 最後の区間 p3 は p2 を重複使用する
+	if (index3 >= points.size())
+	{
+		index3 = index2;
+	}
+
+
+	// 4点の座標
+	const Vector3& p0 = points[index0];
+	const Vector3& p1 = points[index1];
+	const Vector3& p2 = points[index2];
+	const Vector3& p3 = points[index3];
+
+	// 4点を指定してCatmulRom補間する
+	return CatmullRomInterpolation(p0, p1, p2, p3, t_2);
+}
+
+
 // デバッグツールメソッド
 #ifdef _DEBUG
 

@@ -52,5 +52,9 @@ private:
 
 	//　敵
 	std::unique_ptr<Enemy> enemy_ = nullptr;
+
+
+	// スプライン曲線制御点
+	std::vector<Vector3> controlPoints_;
 };
 
