@@ -77,7 +77,7 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 /// CatmullRomスプライン曲線を描画する
 /// </summary>
 /// <param name="controlPoints"></param>
-void YokosukaEngine::DrwaCatmullRomSpline(const std::vector<Vector3>& controlPoints, const Vector4& color, const Camera3D* camera3d) const
+void YokosukaEngine::DrawCatmullRomSpline(const std::vector<Vector3>& controlPoints, const Vector4& color, const Camera3D* camera3d) const
 {
 	// 線分で描画する用の頂点リスト
 	std::vector<Vector3> pointsDrawing;

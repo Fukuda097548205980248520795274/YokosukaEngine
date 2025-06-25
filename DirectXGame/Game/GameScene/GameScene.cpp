@@ -28,21 +28,9 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	ground_->Initialize(engine_ , camera3d_.get());
 
 
-	// スプライン曲線制御点
-	controlPoints_ =
-	{
-		{0.0f , 0.0f , 0.0f},
-		{25.0f , 25.0f , 0.0f},
-		{25.0f , 35.0f , 0.0f},
-		{50.0f , 35.0f , 0.0f},
-		{50.0f , 0.0f , 0.0f},
-		{75.0f , 0.0f , 0.0f}
-	};
-
-
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, -2.0f, 40.0f));
+	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 0.0f, 50.0f));
 
 	// メインカメラを親にする
 	player_->SetWorldTransformParent(mainCamera_->GetWorldTransform());
@@ -54,6 +42,18 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// 衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
+
+
+	// スプライン曲線制御点
+	controlPoints_ =
+	{
+		{0.0f , 0.0f , 0.0f},
+		{25.0f , 25.0f , 0.0f},
+		{25.0f , 35.0f , 0.0f},
+		{50.0f , 35.0f , 0.0f},
+		{50.0f , 0.0f , 0.0f},
+		{75.0f , 0.0f , 0.0f}
+	};
 }
 
 /// <summary>
@@ -61,8 +61,8 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 /// </summary>
 void GameScene::Update()
 {
-	// カメラを回転させる
-	mainCamera_->rotation_.y += 0.001f;
+	// カメラのコントロール
+	CameraControl();
 
 	// Scene更新
 	Scene::Update();
@@ -102,7 +102,7 @@ void GameScene::Draw()
 	Scene::Draw();
 
 	// スプライン曲線の描画
-	engine_->DrwaCatmullRomSpline(controlPoints_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_.get());
+	engine_->DrawCatmullRomSpline(controlPoints_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_.get());
 
 	// 天球の描画
 	skydome_->Draw();
@@ -135,4 +135,28 @@ void GameScene::PushCollider()
 		collisionManager_->PushCollider(playerBullet);
 	for (EnemyBullet* enemyBullet : enemyBullets_)
 		collisionManager_->PushCollider(enemyBullet);
+}
+
+
+/// <summary>
+/// カメラをコントロールする
+/// </summary>
+void GameScene::CameraControl()
+{
+	if (tEye_ >= 1.0f)
+		return;
+
+	// パラメータを進める
+	tEye_ += kTTarget_;
+
+	// スプライン曲線上の位置に配置する
+	mainCamera_->translation_ = engine_->CatmullRomPosition(controlPoints_, tEye_);
+
+	// 注視点との差分ベクトル
+	Vector3 target = engine_->CatmullRomPosition(controlPoints_, tEye_ + kTTarget_) - mainCamera_->translation_;
+
+	// 進む方向を向く
+	mainCamera_->rotation_.y = std::atan2(target.x, target.z);
+	float velocityXZ = Length(Vector3{ target.x , 0.0f , target.z });
+	mainCamera_->rotation_.x = -std::atan2(target.y, velocityXZ);
 }

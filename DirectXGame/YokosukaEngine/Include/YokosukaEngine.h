@@ -183,7 +183,15 @@ public:
 	/// CatmullRomスプライン曲線を描画する
 	/// </summary>
 	/// <param name="controlPoints"></param>
-	void DrwaCatmullRomSpline(const std::vector<Vector3>& controlPoints, const Vector4& color, const Camera3D* camera3d) const;
+	void DrawCatmullRomSpline(const std::vector<Vector3>& controlPoints, const Vector4& color, const Camera3D* camera3d) const;
+
+	/// <summary>
+	/// CatmullRom全体で補間点を求める
+	/// </summary>
+	/// <param name="points"></param>
+	/// <param name="t"></param>
+	/// <returns></returns>
+	Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t) const;
 
 	/// <summary>
 	/// ブレンドモードを設定する
@@ -365,14 +373,6 @@ private:
 	/// <param name="t"></param>
 	/// <returns></returns>
 	Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Vector3& p3, float t) const;
-
-	/// <summary>
-	/// CatmullRom全体で補間点を求める
-	/// </summary>
-	/// <param name="points"></param>
-	/// <param name="t"></param>
-	/// <returns></returns>
-	Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t) const;
 
 
 	// 現在の時間
