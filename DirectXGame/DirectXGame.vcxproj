@@ -125,11 +125,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach\EnemyPhaseApproach.cpp" />
     <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.cpp" />
     <ClCompile Include="Game\GameScene\Enemy\Enemy.cpp" />
-    <ClCompile Include="Game\GameScene\Enemy\EnemyBullet\EnemyBullet.cpp" />
+    <ClCompile Include="Game\GameScene\EnemyBullet\EnemyBullet.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
     <ClCompile Include="Game\GameScene\Ground\Ground.cpp" />
     <ClCompile Include="Game\GameScene\Player\Player.cpp" />
-    <ClCompile Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.cpp" />
+    <ClCompile Include="Game\GameScene\PlayerBullet\PlayerBullet.cpp" />
     <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp" />
     <ClCompile Include="Game\GameScene\TimedCall\TimedCall.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.cpp" />
@@ -206,11 +206,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseApproach\EnemyPhaseApproach.h" />
     <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\EnemyPhaseLeave\EnemyPhaseLeave.h" />
     <ClInclude Include="Game\GameScene\Enemy\Enemy.h" />
-    <ClInclude Include="Game\GameScene\Enemy\EnemyBullet\EnemyBullet.h" />
+    <ClInclude Include="Game\GameScene\EnemyBullet\EnemyBullet.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
     <ClInclude Include="Game\GameScene\Ground\Ground.h" />
     <ClInclude Include="Game\GameScene\Player\Player.h" />
-    <ClInclude Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.h" />
+    <ClInclude Include="Game\GameScene\PlayerBullet\PlayerBullet.h" />
     <ClInclude Include="Game\GameScene\Skydome\Skydome.h" />
     <ClInclude Include="Game\GameScene\TimedCall\TimedCall.h" />
     <ClInclude Include="YokosukaEngine\Include\Audio\AudioStore\AudioStore.h" />

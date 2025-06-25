@@ -1,5 +1,5 @@
 #include "EnemyBullet.h"
-#include "../../Player/Player.h"
+#include "../Player/Player.h"
 
 /// <summary>
 /// 初期化

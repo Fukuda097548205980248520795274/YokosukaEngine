@@ -238,14 +238,8 @@
     <Filter Include="Game\GameScene\Player">
       <UniqueIdentifier>{3c1669d4-2b01-4f31-87eb-633886b7cd4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameScene\Player\PlayerBullet">
-      <UniqueIdentifier>{656d3351-6c7a-4640-a4dc-3344bebe6366}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\GameScene\Enemy">
       <UniqueIdentifier>{0581de64-a9d7-436d-8d23-e19efeacd169}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\Enemy\EnemyBullet">
-      <UniqueIdentifier>{6e164435-404e-4bcc-9a60-500a2d13a7c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\GameScene\Enemy\BaseEnemyPhase">
       <UniqueIdentifier>{17e10624-febd-42a2-92dc-f1fd03322731}</UniqueIdentifier>
@@ -270,6 +264,12 @@
     </Filter>
     <Filter Include="Game\GameScene\Ground">
       <UniqueIdentifier>{5d597fe5-2ee8-4f92-9efc-0c2ed640f292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\EnemyBullet">
+      <UniqueIdentifier>{6e164435-404e-4bcc-9a60-500a2d13a7c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\PlayerBullet">
+      <UniqueIdentifier>{656d3351-6c7a-4640-a4dc-3344bebe6366}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -474,14 +474,14 @@
     <ClCompile Include="Game\GameScene\Player\Player.cpp">
       <Filter>Game\GameScene\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.cpp">
-      <Filter>Game\GameScene\Player\PlayerBullet</Filter>
+    <ClCompile Include="Game\GameScene\PlayerBullet\PlayerBullet.cpp">
+      <Filter>Game\GameScene\PlayerBullet</Filter>
     </ClCompile>
     <ClCompile Include="Game\GameScene\Enemy\Enemy.cpp">
       <Filter>Game\GameScene\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameScene\Enemy\EnemyBullet\EnemyBullet.cpp">
-      <Filter>Game\GameScene\Enemy\EnemyBullet</Filter>
+    <ClCompile Include="Game\GameScene\EnemyBullet\EnemyBullet.cpp">
+      <Filter>Game\GameScene\EnemyBullet</Filter>
     </ClCompile>
     <ClCompile Include="Game\GameScene\Enemy\BaseEnemyPhase\BaseEnemyPhase.cpp">
       <Filter>Game\GameScene\Enemy\BaseEnemyPhase</Filter>
@@ -713,14 +713,14 @@
     <ClInclude Include="Game\GameScene\Player\Player.h">
       <Filter>Game\GameScene\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameScene\Player\PlayerBullet\PlayerBullet.h">
-      <Filter>Game\GameScene\Player\PlayerBullet</Filter>
+    <ClInclude Include="Game\GameScene\PlayerBullet\PlayerBullet.h">
+      <Filter>Game\GameScene\PlayerBullet</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameScene\Enemy\Enemy.h">
       <Filter>Game\GameScene\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameScene\Enemy\EnemyBullet\EnemyBullet.h">
-      <Filter>Game\GameScene\Enemy\EnemyBullet</Filter>
+    <ClInclude Include="Game\GameScene\EnemyBullet\EnemyBullet.h">
+      <Filter>Game\GameScene\EnemyBullet</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameScene\Enemy\BaseEnemyPhase\BaseEnemyPhase.h">
       <Filter>Game\GameScene\Enemy\BaseEnemyPhase</Filter>

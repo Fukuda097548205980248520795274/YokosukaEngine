@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
-#include "EnemyBullet/EnemyBullet.h"
+#include "../EnemyBullet/EnemyBullet.h"
 #include "BaseEnemyPhase/BaseEnemyPhase.h"
 #include "../TimedCall/TimedCall.h"
 #include "../Collider/Collider.h"
