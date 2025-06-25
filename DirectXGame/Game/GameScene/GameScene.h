@@ -30,11 +30,6 @@ public:
 private:
 
 	/// <summary>
-	/// カメラをコントロールする
-	/// </summary>
-	void CameraControl();
-
-	/// <summary>
 	/// コライダーを登録する
 	/// </summary>
 	void PushCollider();
@@ -58,17 +53,5 @@ private:
 
 	//　敵
 	std::unique_ptr<Enemy> enemy_ = nullptr;
-
-
-	// スプライン曲線制御点
-	std::vector<Vector3> controlPoints_;
-
-	
-
-	// 視点パラメータ
-	float tEye_ = 0.0f;
-
-	// 注視点の差分パラメータ
-	float kTTarget_ = 0.0001f;
 };
 
