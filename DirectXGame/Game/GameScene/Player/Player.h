@@ -3,6 +3,9 @@
 #include "../PlayerBullet/PlayerBullet.h"
 #include "../Collider/Collider.h"
 
+// 前方宣言
+class GameScene;
+
 class Player : public Collider
 {
 public:
@@ -47,16 +50,16 @@ public:
 	void OnCollision() override;
 
 	/// <summary>
-	/// 弾のリストのGetter
-	/// </summary>
-	/// <returns></returns>
-	const std::list<PlayerBullet*> GetBulletsInstance() const { return bullets_; }
-
-	/// <summary>
 	/// 親ワールドトランスフォームのSetter
 	/// </summary>
 	/// <param name="worldTransform"></param>
 	void SetWorldTransformParent(const WorldTransform* worldTransform) { worldTransform_->SetParent(worldTransform); }
+
+	/// <summary>
+	/// ゲームシーンのインスタンスのSetter
+	/// </summary>
+	/// <param name="gameScene"></param>
+	void SetGameSceneInstance(GameScene* gameScene) { gameScene_ = gameScene; }
 
 
 private:
@@ -69,6 +72,9 @@ private:
 
 	// 平行光源
 	const DirectionalLight* directionalLight_ = nullptr;
+
+	// ゲームシーンのポインタ
+	GameScene* gameScene_ = nullptr;
 
 
 	// ワールドトランスフォーム
@@ -85,9 +91,5 @@ private:
 
 	// スポットライト
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
-
-
-	// 弾
-	std::list<PlayerBullet*> bullets_;
 };
 

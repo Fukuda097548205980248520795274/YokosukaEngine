@@ -1,16 +1,12 @@
 #include "Player.h"
+#include "../GameScene.h"
 
 /// <summary>
 /// デストラクタ
 /// </summary>
 Player::~Player()
 {
-	// 弾
-	for (PlayerBullet* bullet : bullets_)
-	{
-		delete bullet;
-	}
-	bullets_.clear();
+	
 }
 
 /// <summary>
@@ -116,24 +112,6 @@ void Player::Update()
 	// 弾を発射する
 	BulletShot();
 
-	// 弾の更新
-	for (PlayerBullet* bullet : bullets_)
-	{
-		bullet->Update();
-	}
-
-	// 消滅した弾をリストから排除する
-	bullets_.remove_if([](PlayerBullet* bullet)
-		{
-			if (bullet->IsFinished())
-			{
-				delete bullet;
-				return true;
-			}
-			return false;
-		}
-	);
-
 
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
@@ -148,12 +126,6 @@ void Player::Draw()
 	// モデルを描画する
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, { 0.0f, 0.0f, 0.0f , 1.0f },
 		directionalLight_, pointLight_.get(), spotLight_.get());
-
-	// 弾の描画
-	for (PlayerBullet* bullet : bullets_)
-	{
-		bullet->Draw();
-	}
 }
 
 
@@ -183,7 +155,7 @@ void Player::BulletShot()
 			newBullet->Initialize(engine_, camera3d_, directionalLight_, GetWorldPosition(), velocity);
 
 			// 弾を登録する
-			bullets_.push_back(newBullet);
+			gameScene_->PushPlayerBullet(newBullet);
 		}
 	}
 }

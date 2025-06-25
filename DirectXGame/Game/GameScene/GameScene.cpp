@@ -1,6 +1,33 @@
 #include "GameScene.h"
 
 /// <summary>
+/// デストラクタ
+/// </summary>
+GameScene::~GameScene()
+{
+	// プレイヤーの弾
+	for (PlayerBullet* playerBullet : playerBullets_)
+	{
+		delete playerBullet;
+	}
+	playerBullets_.clear();
+
+	// 敵
+	for (Enemy* enemy : enemies_)
+	{
+		delete enemy;
+	}
+	enemies_.clear();
+
+	// 敵の弾
+	for (EnemyBullet* enemyBullet : enemyBullets_)
+	{
+		delete enemyBullet;
+	}
+	enemyBullets_.clear();
+}
+
+/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine">エンジン</param>
@@ -31,14 +58,17 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 0.0f, 50.0f));
+	player_->SetGameSceneInstance(this);
+
+	// 敵の生成と初期化と登録
+	Enemy* newEnemy = new Enemy();
+	newEnemy->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 2.0f, 50.0f));
+	newEnemy->SetGameSceneInstance(this);
+	newEnemy->SetPlayerInstance(player_.get());
+	enemies_.push_back(newEnemy);
 
 	// メインカメラを親にする
 	player_->SetWorldTransformParent(mainCamera_->GetWorldTransform());
-
-	// 敵の生成と初期化
-	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 2.0f, 128.0f));
-	enemy_->SetPlayerInstance(player_.get());
 
 	// 衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
@@ -58,13 +88,65 @@ void GameScene::Update()
 	// 地面の更新
 	ground_->Update();
 
+
 	// プレイヤーの更新
 	player_->Update();
 
-	// 敵の更新
-	if (enemy_)
+
+	// 消滅したプレイヤーの弾をリストから削除する
+	playerBullets_.remove_if([](PlayerBullet* playerBullet)
+		{
+			if (playerBullet->IsFinished())
+			{
+				delete playerBullet;
+				return true;
+			}
+			return false;
+		}
+	);
+
+	// プレイヤーの弾の更新
+	for (PlayerBullet* playerBullet : playerBullets_)
 	{
-		enemy_->Update();
+		playerBullet->Update();
+	}
+
+
+	// 消滅した敵をリストから削除する
+	enemies_.remove_if([](Enemy* enemy)
+		{
+			if (enemy->IsFinished())
+			{
+				delete enemy;
+				return true;
+			}
+			return false;
+		}
+	);
+		
+	// 敵の更新
+	for (Enemy* enemy : enemies_)
+	{
+		enemy->Update();
+	}
+
+
+	// 消滅した敵の弾をリストから削除する
+	enemyBullets_.remove_if([](EnemyBullet* enemyBullet)
+		{
+			if (enemyBullet->IsFinished())
+			{
+				delete enemyBullet;
+				return true;
+			}
+			return false;
+		}
+	);
+
+	// 敵の弾の更新
+	for (EnemyBullet* enemyBullet : enemyBullets_)
+	{
+		enemyBullet->Update();
 	}
 
 
@@ -92,29 +174,64 @@ void GameScene::Draw()
 	// 地面の描画
 	ground_->Draw();
 
+
 	// プレイヤーの描画
 	player_->Draw();
 
-	// 敵の描画
-	if (enemy_)
+	// プレイヤーの弾の描画
+	for (PlayerBullet* playerBullet : playerBullets_)
 	{
-		enemy_->Draw();
+		playerBullet->Draw();
+	}
+
+
+	// 敵の描画
+	for (Enemy* enemy : enemies_)
+	{
+		enemy->Draw();
+	}
+
+	// 敵の弾の描画
+	for (EnemyBullet* enemyBullet : enemyBullets_)
+	{
+		enemyBullet->Draw();
 	}
 }
+
+
+/// <summary>
+/// 敵の弾をリストに登録する
+/// </summary>
+/// <param name="enemyBullet"></param>
+void GameScene::PushEnemyBullet(EnemyBullet* enemyBullet)
+{
+	enemyBullets_.push_back(enemyBullet);
+}
+
+/// <summary>
+/// プレイヤーの弾をリストに登録する
+/// </summary>
+/// <param name="playerBullet"></param>
+void GameScene::PushPlayerBullet(PlayerBullet* playerBullet)
+{
+	playerBullets_.push_back(playerBullet);
+}
+
 
 /// <summary>
 /// コライダーを登録する
 /// </summary>
 void GameScene::PushCollider()
 {
-	// 弾のリスト
-	std::list<PlayerBullet*> playerBullets_ = player_->GetBulletsInstance();
-	std::list<EnemyBullet*> enemyBullets_ = enemy_->GetBulletsInstance();
 
 	collisionManager_->PushCollider(player_.get());
-	collisionManager_->PushCollider(enemy_.get());
+
 	for (PlayerBullet* playerBullet : playerBullets_)
 		collisionManager_->PushCollider(playerBullet);
+
+	for (Enemy* enemy : enemies_)
+		collisionManager_->PushCollider(enemy);
+
 	for (EnemyBullet* enemyBullet : enemyBullets_)
 		collisionManager_->PushCollider(enemyBullet);
 }

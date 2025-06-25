@@ -7,6 +7,7 @@
 
 // 前方宣言
 class Player;
+class GameScene;
 
 class Enemy : public Collider
 {
@@ -100,16 +101,22 @@ public:
 	void SetWorldTransformTranslation(const Vector3& translation) { worldTransform_->translation_ = translation; }
 
 	/// <summary>
+	/// ゲームシーンのインスタンスのSetter
+	/// </summary>
+	/// <param name="gameScene"></param>
+	void SetGameSceneInstance(GameScene* gameScene) { gameScene_ = gameScene; }
+
+	/// <summary>
 	/// 発射間隔のGetter
 	/// </summary>
 	/// <returns></returns>
 	float GetKShotInterval() { return kShotInterval; }
 
 	/// <summary>
-	/// 弾のリストのGetter
+	/// 終了フラグのGetter
 	/// </summary>
 	/// <returns></returns>
-	const std::list<EnemyBullet*> GetBulletsInstance() { return bullets_; }
+	bool IsFinished() const { return isFinished_; }
 
 	/// <summary>
 	/// 衝突コールバック関数
@@ -131,6 +138,9 @@ private:
 
 	// プレイヤーのポインタ
 	Player* player_ = nullptr;
+
+	// ゲームシーンのポインタ
+	GameScene* gameScene_ = nullptr;
 
 
 	// ワールドトランスフォーム
@@ -163,10 +173,11 @@ private:
 	// 時限発動のリスト
 	std::list<TimedCall*> timedCalls_;
 
-	// 弾のリスト
-	std::list<EnemyBullet*> bullets_;
-
 	// 発射間隔
 	const float kShotInterval = 3.0f;
+
+
+	// 終了したかどうか
+	bool isFinished_ = false;
 };
 

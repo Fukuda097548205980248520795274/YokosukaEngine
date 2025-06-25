@@ -2,6 +2,7 @@
 #include "BaseEnemyPhase/EnemyPhaseApproach/EnemyPhaseApproach.h"
 #include "BaseEnemyPhase/EnemyPhaseLeave/EnemyPhaseLeave.h"
 #include "../Player/Player.h"
+#include "../GameScene.h"
 
 /// <summary>
 /// デストラクタ
@@ -14,13 +15,6 @@ Enemy::~Enemy()
 		delete timedCall;
 	}
 	timedCalls_.clear();
-
-	// 弾のリスト
-	for (EnemyBullet* bullet : bullets_)
-	{
-		delete bullet;
-	}
-	bullets_.clear();
 }
 
 /// <summary>
@@ -82,24 +76,6 @@ void Enemy::Update()
 	// 行動フェーズでの動き
 	phase_->Update();
 
-	// 消滅した弾をリストから削除する
-	bullets_.remove_if([](EnemyBullet* bullet)
-		{
-			if (bullet->IsFinished())
-			{
-				delete bullet;
-				return true;
-			}
-			return false;
-		}
-	);
-
-	// 弾の更新
-	for (EnemyBullet* bullet : bullets_)
-	{
-		bullet->Update();
-	}
-
 
 	// 完了した時限発動を削除する
 	timedCalls_.remove_if([](TimedCall* timedCall)
@@ -132,12 +108,6 @@ void Enemy::Draw()
 	// モデルを描画する
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, { 1.0f, 0.0f, 0.0f , 1.0f },
 		directionalLight_, pointLight_.get(), spotLight_.get());
-
-	// 弾の描画
-	for (EnemyBullet* bullet : bullets_)
-	{
-		bullet->Draw();
-	}
 }
 
 /// <summary>
@@ -173,7 +143,7 @@ void Enemy::BulletShot()
 	newBullet->SetPlayerInstance(player_);
 
 	// リストに登録する
-	bullets_.push_back(newBullet);
+	gameScene_->PushEnemyBullet(newBullet);
 }
 
 /// <summary>

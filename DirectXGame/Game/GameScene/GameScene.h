@@ -5,10 +5,17 @@
 #include "CollisionManager/CollisionManager.h"
 #include "Skydome/Skydome.h"
 #include "Ground/Ground.h"
+#include "PlayerBullet/PlayerBullet.h"
+#include "EnemyBullet/EnemyBullet.h"
 
 class GameScene : public Scene
 {
 public:
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~GameScene();
 
 	/// <summary>
 	/// 初期化
@@ -25,6 +32,19 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw()override;
+
+
+	/// <summary>
+	/// 敵の弾をリストに登録する
+	/// </summary>
+	/// <param name="enemyBullet"></param>
+	void PushEnemyBullet(EnemyBullet* enemyBullet);
+
+	/// <summary>
+	/// プレイヤーの弾をリストに登録する
+	/// </summary>
+	/// <param name="playerBullet"></param>
+	void PushPlayerBullet(PlayerBullet* playerBullet);
 
 
 private:
@@ -51,7 +71,14 @@ private:
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
 
-	//　敵
-	std::unique_ptr<Enemy> enemy_ = nullptr;
+	// プレイヤーの弾のリスト
+	std::list<PlayerBullet*> playerBullets_;
+
+
+	//　敵のリスト
+	std::list<Enemy*> enemies_;
+
+	// 敵の弾のリスト
+	std::list<EnemyBullet*> enemyBullets_;
 };
 
