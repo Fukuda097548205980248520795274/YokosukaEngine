@@ -158,5 +158,5 @@ void GameScene::CameraControl()
 	// 進む方向を向く
 	mainCamera_->rotation_.y = std::atan2(target.x, target.z);
 	float velocityXZ = Length(Vector3{ target.x , 0.0f , target.z });
-	mainCamera_->rotation_.x = -std::atan2(target.y, velocityXZ);
+	mainCamera_->rotation_.x = std::atan2(-target.y, velocityXZ);
 }
