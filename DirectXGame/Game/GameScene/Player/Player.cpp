@@ -19,7 +19,7 @@ Player::~Player()
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="directionalLight"></param>
-void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight)
+void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight, const Vector3& posision)
 {
 	// nullptrチェック
 	assert(engine);
@@ -39,7 +39,7 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
-	worldTransform_->translation_.y = -2.0f;
+	worldTransform_->translation_ = posision;
 
 	// UVトランスフォームの生成と初期化
 	uvTransform_ = std::make_unique<UvTransform>();
@@ -172,7 +172,7 @@ void Player::BulletShot()
 			Vector3 velocity = Vector3{ 0.0f , 0.0f , kBulletSpeed };
 
 			// プレイヤーの回転行列
-			Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(camera3d_->rotation_) * MakeRotateMatrix(worldTransform_->rotation_);
 
 			// 速度ベクトルと回転行列で座標変換
 			velocity = TransformNormal(velocity, rotateMatrix);

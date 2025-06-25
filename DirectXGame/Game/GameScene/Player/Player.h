@@ -18,7 +18,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="directionalLight"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight , const Vector3& posision);
 
 	/// <summary>
 	/// 更新処理
@@ -51,6 +51,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	const std::list<PlayerBullet*> GetBulletsInstance() const { return bullets_; }
+
+	/// <summary>
+	/// 親ワールドトランスフォームのSetter
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	void SetWorldTransformParent(const WorldTransform* worldTransform) { worldTransform_->SetParent(worldTransform); }
 
 
 private:

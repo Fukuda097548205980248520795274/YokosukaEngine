@@ -29,7 +29,10 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get());
+	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, -2.0f, 40.0f));
+
+	// メインカメラを親にする
+	player_->SetWorldTransformParent(mainCamera_->GetWorldTransform());
 
 	// 敵の生成と初期化
 	enemy_ = std::make_unique<Enemy>();
@@ -45,6 +48,9 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 /// </summary>
 void GameScene::Update()
 {
+	// カメラを回転させる
+	mainCamera_->rotation_.y += 0.001f;
+
 	// Scene更新
 	Scene::Update();
 

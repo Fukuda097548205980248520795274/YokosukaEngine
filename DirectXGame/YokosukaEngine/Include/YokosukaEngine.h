@@ -469,6 +469,12 @@ public:
 	/// <returns></returns>
 	Camera3D* GetGameCameraInstance() { return camera3d_.get(); }
 
+	/// <summary>
+	/// ワールドトランスフォームのインスタンスのGetter
+	/// </summary>
+	/// <returns></returns>
+	const WorldTransform* GetWorldTransform() { return worldTransform_.get(); }
+
 	// ローカル座標
 	Vector3 translation_ = { 0.0f , 0.0f , 0.0f };
 
@@ -480,6 +486,9 @@ private:
 
 	// 3Dカメラ
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;
+
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 };
 
 // シーン

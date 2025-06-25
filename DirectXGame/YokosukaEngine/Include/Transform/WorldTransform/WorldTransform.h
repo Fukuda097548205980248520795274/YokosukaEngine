@@ -24,7 +24,7 @@ public:
 	/// 親のワールドトランスフォームのSetter
 	/// </summary>
 	/// <param name="parent"></param>
-	void SetParent(WorldTransform* parent) { parent_ = parent; }
+	void SetParent(const WorldTransform* parent) { parent_ = parent; }
 
 	/// <summary>
 	/// ワールド行列を更新する
@@ -44,6 +44,6 @@ public:
 	Matrix4x4 worldMatrix_{};
 
 	// 親ワールドトランスフォーム
-	WorldTransform* parent_ = nullptr;
+	const WorldTransform* parent_ = nullptr;
 };
 

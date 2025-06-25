@@ -313,6 +313,10 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 	// カメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
 	camera3d_->Initialize(screenWidth, screenHeight);
+
+	// ワールドトランスフォームの生成と初期化
+	worldTransform_ = std::make_unique<WorldTransform>();
+	worldTransform_->Initialize();
 }
 
 /// <summary>
@@ -324,8 +328,16 @@ void MainCamera::Update()
 	camera3d_->translation_ = translation_;
 	camera3d_->rotation_ = rotation_;
 
+	// ワールドトランスフォームにも入れる
+	worldTransform_->scale_ = camera3d_->scale_;
+	worldTransform_->rotation_ = camera3d_->rotation_;
+	worldTransform_->translation_ = camera3d_->translation_;
+
 	// 3Dカメラ更新
 	camera3d_->UpdateMatrix();
+
+	// ワールドトランスフォームの更新
+	worldTransform_->UpdateWorldMatrix();
 }
 
 
@@ -404,10 +416,12 @@ void Scene::Update()
 
 #endif
 
+	// メインカメラ更新
+	mainCamera_->Update();
+
 	// メインカメラの値を渡して更新
 	if (isDebugCameraActive_ == false)
 	{
-		mainCamera_->Update();
 		camera3d_->UpdateOtherCamera(mainCamera_->GetGameCameraInstance());
 	}
 
