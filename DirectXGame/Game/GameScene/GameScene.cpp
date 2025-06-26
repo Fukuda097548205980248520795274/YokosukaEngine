@@ -60,18 +60,14 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 0.0f, 50.0f));
 	player_->SetGameSceneInstance(this);
 
-	// 敵の生成と初期化と登録
-	Enemy* newEnemy = new Enemy();
-	newEnemy->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 2.0f, 50.0f));
-	newEnemy->SetGameSceneInstance(this);
-	newEnemy->SetPlayerInstance(player_.get());
-	enemies_.push_back(newEnemy);
-
 	// メインカメラを親にする
 	player_->SetWorldTransformParent(mainCamera_->GetWorldTransform());
 
 	// 衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
+
+	// 敵発生データを読み込む
+	LoadEnemyPopData();
 }
 
 /// <summary>
@@ -111,6 +107,9 @@ void GameScene::Update()
 		playerBullet->Update();
 	}
 
+
+	// 敵発生コマンドの更新
+	UpdateEnemyPopCommands();
 
 	// 消滅した敵をリストから削除する
 	enemies_.remove_if([](Enemy* enemy)
@@ -234,4 +233,114 @@ void GameScene::PushCollider()
 
 	for (EnemyBullet* enemyBullet : enemyBullets_)
 		collisionManager_->PushCollider(enemyBullet);
+}
+
+/// <summary>
+/// 敵発生データの読み込み
+/// </summary>
+void GameScene::LoadEnemyPopData()
+{
+	// ファイルを開く
+	std::ifstream file;
+	file.open("./Resources/csv/enemyPop.csv");
+	assert(file.is_open());
+
+	// ファイルの内容を文字列ストリームにコピー
+	enemyPopCommands_ << file.rdbuf();
+
+	// ファイルを閉じる
+	file.close();
+}
+
+/// <summary>
+/// 敵発生コマンドの更新処理
+/// </summary>
+void GameScene::UpdateEnemyPopCommands()
+{
+	// 待機処理
+	if (isWait_)
+	{
+		// 待機タイマーを進める
+		waitTimer_--;
+
+		if (waitTimer_ <= 0)
+		{
+			// 待機完了
+			isWait_ = false;
+		}
+
+		return;
+	}
+
+
+	// 1行分の文字列を入れる変数
+	std::string line;
+
+	// コマンド実行ループ
+	while (std::getline(enemyPopCommands_, line))
+	{
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		// 1単語
+		std::string word;
+
+		// ,区切りで行の先頭文字を取得
+		std::getline(line_stream, word, ',');
+
+
+		// "//"で始まる行はコメント
+		if (word.find("//") == 0)
+			continue;
+
+		// "POP"コマンド
+		if (word.find("POP") == 0)
+		{
+			// x座標
+			std::getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			std::getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			std::getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			SummonEnemy(Vector3(x, y, z));
+		}
+
+		// "WAIT"コマンド
+		if (word.find("WAIT") == 0)
+		{
+			std::getline(line_stream, word, ',');
+
+			// 待ち時間
+			uint32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			isWait_ = true;
+			waitTimer_ = waitTime;
+
+			break;
+		}
+	}
+}
+
+/// <summary>
+/// 敵を発生させる
+/// </summary>
+/// <param name="posision"></param>
+void GameScene::SummonEnemy(const Vector3& posision)
+{
+	// 敵の生成と初期化と登録
+	Enemy* newEnemy = new Enemy();
+	newEnemy->Initialize(engine_, camera3d_.get(), directionalLight_.get(), posision);
+
+	newEnemy->SetGameSceneInstance(this);
+	newEnemy->SetPlayerInstance(player_.get());
+
+	enemies_.push_back(newEnemy);
 }

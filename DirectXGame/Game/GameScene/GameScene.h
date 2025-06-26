@@ -1,4 +1,6 @@
 #pragma once
+#include <sstream>
+#include <fstream>
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "Player/Player.h"
 #include "Enemy/Enemy.h"
@@ -54,6 +56,22 @@ private:
 	/// </summary>
 	void PushCollider();
 
+	/// <summary>
+	/// 敵発生データの読み込み
+	/// </summary>
+	void LoadEnemyPopData();
+
+	/// <summary>
+	/// 敵発生コマンドの更新処理
+	/// </summary>
+	void UpdateEnemyPopCommands();
+
+	/// <summary>
+	/// 敵を発生させる
+	/// </summary>
+	/// <param name="posision"></param>
+	void SummonEnemy(const Vector3& posision);
+
 
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
@@ -74,6 +92,15 @@ private:
 	// プレイヤーの弾のリスト
 	std::list<PlayerBullet*> playerBullets_;
 
+
+	// 敵発生コマンド
+	std::stringstream enemyPopCommands_;
+
+	// 待機フラグ
+	bool isWait_ = false;
+
+	// 待機タイマー
+	uint32_t waitTimer_ = 0;
 
 	//　敵のリスト
 	std::list<Enemy*> enemies_;

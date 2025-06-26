@@ -202,5 +202,5 @@ Vector3 Enemy::GetWorldPosition() const
 /// </summary>
 void Enemy::OnCollision()
 {
-
+	isFinished_ = true;
 }
