@@ -21,7 +21,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="directionalLight"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight , const Vector3& posision);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,const Camera2D* camera2d, const DirectionalLight* directionalLight , const Vector3& posision);
 
 	/// <summary>
 	/// 更新処理
@@ -43,6 +43,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	Vector3 GetWorldPosition() const override;
+
+	/// <summary>
+	/// 3Dレティクルのワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosision3DReticle() const;
 
 	/// <summary>
 	/// 衝突コールバック関数
@@ -70,6 +76,9 @@ private:
 	// 3Dカメラ
 	const Camera3D* camera3d_ = nullptr;
 
+	// 2Dカメラ
+	const Camera2D* camera2d_ = nullptr;
+
 	// 平行光源
 	const DirectionalLight* directionalLight_ = nullptr;
 
@@ -91,5 +100,22 @@ private:
 
 	// スポットライト
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
+
+
+	// 3Dレティクル用ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform3DReticle_;
+
+	// 3Dレティクル用モデルハンドル
+	uint32_t modelHandle3DReticle_ = 0;
+
+
+	// 2Dレティクル用ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform2DReticle_;
+
+	// 2Dレティクル用UVトランスフォーム
+	std::unique_ptr<UvTransform> uvTransform2DReticle_;
+
+	// 2Dレティクル用のテクスチャ
+	uint32_t textureHandle2DReticle_ = 0;
 };
 

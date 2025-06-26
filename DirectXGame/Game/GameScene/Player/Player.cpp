@@ -15,16 +15,18 @@ Player::~Player()
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="directionalLight"></param>
-void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const DirectionalLight* directionalLight, const Vector3& posision)
+void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Camera2D* camera2d, const DirectionalLight* directionalLight, const Vector3& posision)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(camera3d);
+	assert(camera2d);
 	assert(directionalLight);
 
 	// 引数を受け取る
 	engine_ = engine;
 	camera3d_ = camera3d;
+	camera2d_ = camera2d;
 	directionalLight_ = directionalLight;
 
 	// 衝突属性と衝突マスクを設定する
@@ -53,6 +55,25 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	spotLight_ = std::make_unique<SpotLight>();
 	spotLight_->Initialize();
 	spotLight_->intensity_ = 0.0f;
+
+
+	// ワールドトランスフォームの生成と初期化
+	worldTransform3DReticle_ = std::make_unique<WorldTransform>();
+	worldTransform3DReticle_->Initialize();
+
+	worldTransform2DReticle_ = std::make_unique<WorldTransform>();
+	worldTransform2DReticle_->Initialize();
+	worldTransform2DReticle_->scale_ = Vector3(32.0f, 32.0f, 1.0);
+
+	// UVトランスフォームの生成と初期化
+	uvTransform2DReticle_ = std::make_unique<UvTransform>();
+	uvTransform2DReticle_->Initialize();
+
+	// モデルを読み込む
+	modelHandle3DReticle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
+
+	// テクスチャを読み込む
+	textureHandle2DReticle_ = engine_->LoadTexture("./Resources/Textures/reticle.png");
 }
 
 /// <summary>
@@ -116,6 +137,34 @@ void Player::Update()
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();
+
+
+
+	/*----------------
+	    3Dレティクル
+	----------------*/
+
+	// 自機から3Dレティクルの距離
+	const float kDistancePlayerTo3DReticle = 50.0f;
+
+	// 自機からの3Dレティクルのオフセット(Z向き)
+	Vector3 offset = Vector3(0.0f, 0.0f, 1.0f);
+
+	// 自機の向きを座標に反映する
+	offset = TransformNormal(offset, worldTransform_->worldMatrix_);
+
+	// ベクトルの長さを整える
+	offset = Normalize(offset) * kDistancePlayerTo3DReticle;
+
+	worldTransform3DReticle_->translation_ = offset + GetWorldPosition();
+
+	// トランスフォームを更新する
+	worldTransform3DReticle_->UpdateWorldMatrix();
+
+
+	// トランスフォームを更新する
+	worldTransform2DReticle_->UpdateWorldMatrix();
+	uvTransform2DReticle_->UpdateWorldMatrix();
 }
 
 /// <summary>
@@ -126,6 +175,10 @@ void Player::Draw()
 	// モデルを描画する
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, { 0.0f, 0.0f, 0.0f , 1.0f },
 		directionalLight_, pointLight_.get(), spotLight_.get());
+
+	// 3Dレティクルを描画する
+	engine_->DrawModel(worldTransform3DReticle_.get(), uvTransform2DReticle_.get(), camera3d_, modelHandle3DReticle_, { 1.0f, 1.0f, 1.0f , 0.1f });
+	engine_->DrawSprite(worldTransform2DReticle_.get(), uvTransform2DReticle_.get(), camera2d_, textureHandle2DReticle_, { 1.0f , 1.0f , 1.0f , 1.0f });
 }
 
 
@@ -140,14 +193,10 @@ void Player::BulletShot()
 		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
 		{
 			// 弾の速度
-			const float kBulletSpeed = 1.0f;
-			Vector3 velocity = Vector3{ 0.0f , 0.0f , kBulletSpeed };
+			const float kBulletSpeed = 2.0f;
 
-			// プレイヤーの回転行列
-			Matrix4x4 rotateMatrix = MakeRotateMatrix(camera3d_->rotation_) * MakeRotateMatrix(worldTransform_->rotation_);
-
-			// 速度ベクトルと回転行列で座標変換
-			velocity = TransformNormal(velocity, rotateMatrix);
+			// 3dレティクル方向のベクトル（正規化）
+			Vector3 velocity = Normalize(GetWorldPosision3DReticle() - GetWorldPosition()) * kBulletSpeed;
 
 
 			// 弾の生成と初期化
@@ -172,6 +221,22 @@ Vector3 Player::GetWorldPosition() const
 	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
 	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
 	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
+}
+
+/// <summary>
+/// 3Dレティクルのワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 Player::GetWorldPosision3DReticle() const
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform3DReticle_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform3DReticle_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform3DReticle_->worldMatrix_.m[3][2];
 
 	return worldPosition;
 }

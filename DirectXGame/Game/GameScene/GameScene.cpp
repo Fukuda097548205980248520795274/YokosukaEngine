@@ -57,7 +57,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_.get(), directionalLight_.get(), Vector3(0.0f, 0.0f, 50.0f));
+	player_->Initialize(engine_, camera3d_.get() , camera2d_.get(), directionalLight_.get(), Vector3(0.0f, 0.0f, 50.0f));
 	player_->SetGameSceneInstance(this);
 
 	// メインカメラを親にする
