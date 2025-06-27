@@ -250,6 +250,9 @@
     <Filter Include="Game\GameScene\Player">
       <UniqueIdentifier>{8ca4c124-9095-4796-bcf9-cdaa57984661}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\GravitationalField">
+      <UniqueIdentifier>{9cc080c2-608b-4d8d-a686-e4b0433fec18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -458,6 +461,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Player\Player.cpp">
       <Filter>Game\GameScene\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\GravitationalField\GravitationalField.cpp">
+      <Filter>Game\GameScene\GravitationalField</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -670,6 +676,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Player\Player.h">
       <Filter>Game\GameScene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\GravitationalField\GravitationalField.h">
+      <Filter>Game\GameScene\GravitationalField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

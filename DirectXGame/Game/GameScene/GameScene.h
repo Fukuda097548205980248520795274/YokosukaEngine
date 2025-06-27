@@ -2,6 +2,7 @@
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "Player/Player.h"
 #include "Planet/Planet.h"
+#include "GravitationalField/GravitationalField.h"
 
 class GameScene : public Scene
 {
@@ -26,11 +27,19 @@ public:
 
 private:
 
+	/// <summary>
+	/// 全ての当たり判定を行う
+	/// </summary>
+	void CheckAllCollisions();
+
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
 
 	// 惑星
 	std::unique_ptr<Planet> planet_ = nullptr;
+
+	// 重力場
+	std::unique_ptr<GravitationalField> gravitationalField_ = nullptr;
 };
 

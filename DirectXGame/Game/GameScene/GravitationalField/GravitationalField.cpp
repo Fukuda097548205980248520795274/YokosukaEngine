@@ -1,11 +1,11 @@
-#include "Planet.h"
+#include "GravitationalField.h"
 
 /// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Planet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d , float radius)
+void GravitationalField::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, float radius)
 {
 	// nullptrチェック
 	assert(engine);
@@ -27,13 +27,13 @@ void Planet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d ,
 	uvTransform_->Initialize();
 
 	// テクスチャを読み込む
-	textureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/gravitationalField", "gravitationalField.obj");
 }
 
 /// <summary>
 /// 更新処理
 /// </summary>
-void Planet::Update()
+void GravitationalField::Update()
 {
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
@@ -43,17 +43,17 @@ void Planet::Update()
 /// <summary>
 /// 描画処理
 /// </summary>
-void Planet::Draw()
+void GravitationalField::Draw()
 {
 	// 球を描画する
-	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0), true);
+	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 0.1f), false);
 }
 
 /// <summary>
 /// ワールド座標のGetter
 /// </summary>
 /// <returns></returns>
-Vector3 Planet::GetWorldPosition()
+Vector3 GravitationalField::GetWorldPosition()
 {
 	// ワールド座標
 	Vector3 worldPosition;
@@ -67,7 +67,7 @@ Vector3 Planet::GetWorldPosition()
 /// 当たり判定の球のGetter
 /// </summary>
 /// <returns></returns>
-Sphere Planet::GetCollisionSphere()
+Sphere GravitationalField::GetCollisionSphere()
 {
 	Sphere sphere;
 	sphere.center = GetWorldPosition();
@@ -78,7 +78,7 @@ Sphere Planet::GetCollisionSphere()
 /// <summary>
 /// 衝突判定応答
 /// </summary>
-void Planet::OnCollision()
+void GravitationalField::OnCollision()
 {
 
 }

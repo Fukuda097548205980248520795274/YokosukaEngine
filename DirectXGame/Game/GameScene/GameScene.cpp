@@ -19,6 +19,10 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 惑星の生成と初期化
 	planet_ = std::make_unique<Planet>();
 	planet_->Initialize(engine_ , camera3d_.get() , 8.0f);
+
+	// 重力場の生成と初期化
+	gravitationalField_ = std::make_unique<GravitationalField>();
+	gravitationalField_->Initialize(engine_ , camera3d_.get() , 12.0f);
 }
 
 /// <summary>
@@ -34,6 +38,13 @@ void GameScene::Update()
 
 	// 惑星の更新
 	planet_->Update();
+
+	// 重力場の更新
+	gravitationalField_->Update();
+
+
+	// 全ての当たり判定を行う
+	CheckAllCollisions();
 }
 
 /// <summary>
@@ -49,4 +60,30 @@ void GameScene::Draw()
 
 	// 惑星の描画
 	planet_->Draw();
+
+	// 重力場の描画
+	gravitationalField_->Draw();
+}
+
+/// <summary>
+/// 全ての当たり判定を行う
+/// </summary>
+void GameScene::CheckAllCollisions()
+{
+	// 球
+	Sphere sphere1,sphere2;
+
+
+#pragma region // プレイヤー と 球
+
+	sphere1 = player_->GetCollisionSphere();
+	sphere2 = planet_->GetCollisionSphere();
+
+	if (IsCollision(sphere1, sphere2))
+	{
+		player_->OnCollision();
+		planet_->OnCollision();
+	}
+
+#pragma endregion
 }

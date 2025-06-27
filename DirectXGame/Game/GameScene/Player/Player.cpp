@@ -20,6 +20,7 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
 	worldTransform_->translation_ = position;
+	worldTransform_->scale_ *= radius_;
 
 	// UVトランスフォームの生成と初期化
 	uvTransform_ = std::make_unique<UvTransform>();
@@ -46,4 +47,38 @@ void Player::Draw()
 {
 	// 球を描画する
 	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, Vector4(1.0f, 0.0f, 0.0f, 1.0), true);
+}
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 Player::GetWorldPosition()
+{
+	// ワールド座標
+	Vector3 worldPosition;
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+	return worldPosition;
+}
+
+/// <summary>
+/// 当たり判定の球のGetter
+/// </summary>
+/// <returns></returns>
+Sphere Player::GetCollisionSphere()
+{
+	Sphere sphere;
+	sphere.center = GetWorldPosition();
+	sphere.radius = radius_;
+	return sphere;
+}
+
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+void Player::OnCollision()
+{
+
 }

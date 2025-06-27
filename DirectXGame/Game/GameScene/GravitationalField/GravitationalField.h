@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
-class Planet
+class GravitationalField
 {
 public:
 
@@ -55,8 +55,8 @@ private:
 	// UVトランスフォーム
 	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
 
-	// テクスチャハンドル
-	uint32_t textureHandle_ = 0;
+	// モデルハンドル
+	uint32_t modelHandle_ = 0;
 
 
 	// 半径

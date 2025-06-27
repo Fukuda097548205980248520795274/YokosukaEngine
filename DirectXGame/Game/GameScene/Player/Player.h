@@ -22,6 +22,23 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// 当たり判定の球のGetter
+	/// </summary>
+	/// <returns></returns>
+	Sphere GetCollisionSphere();
+
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	void OnCollision();
+
 
 private:
 
@@ -40,5 +57,9 @@ private:
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+
+
+	// 半径
+	float radius_ = 1.0f;
 };
 
