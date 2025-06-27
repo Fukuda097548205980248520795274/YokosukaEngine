@@ -50,11 +50,6 @@ void GameScene::Update()
 	ImGui::DragFloat3("scale", &worldTransform_->scale_.x, 0.01f);
 	ImGui::End();
 
-	ImGui::Begin("Subdivision");
-	ImGui::SliderInt("lat", &latSubdivisions, 3, 32);
-	ImGui::SliderInt("lon", &lonSubdivisions, 3, 32);
-	ImGui::End();
-
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();
@@ -73,6 +68,5 @@ void GameScene::Draw()
 	engine_->SetPointLight(pointLight1_.get());
 
 	// 球を描画する
-	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_,
-		latSubdivisions, lonSubdivisions, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	engine_->DrawPlane(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }

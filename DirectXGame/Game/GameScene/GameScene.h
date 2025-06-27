@@ -38,11 +38,5 @@ private:
 	// ポイントライト
 	std::unique_ptr<PointLight> pointLight0_ = nullptr;
 	std::unique_ptr<PointLight> pointLight1_ = nullptr;
-
-	// 分割数
-	int latSubdivisions = 18;
-
-	// 分割数
-	int lonSubdivisions = 9;
 };
 
