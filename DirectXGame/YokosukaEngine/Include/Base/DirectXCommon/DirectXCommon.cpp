@@ -206,12 +206,12 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// インデックスリソース
 	indexResourcePlane_ = CreateBufferResource(device_, sizeof(uint32_t) * 6);
-	indexResourceSphere_ = CreateBufferResource(device_, (sizeof(uint32_t) * (kSubudivisions * kSubudivisions)) * 6);
+	indexResourceSphere_ = CreateBufferResource(device_, (sizeof(uint32_t) * (kSubdivisions * kSubdivisions)) * 6);
 	indexResourceSprite_ = CreateBufferResource(device_, sizeof(uint32_t) * 6);
 
 	// 頂点リソース
 	vertexBufferResourcePlane_ = CreateBufferResource(device_, sizeof(VertexData) * 4);
-	vertexBufferResourceSphere_ = CreateBufferResource(device_ ,sizeof(VertexData) * (kSubudivisions * kSubudivisions) * 4);
+	vertexBufferResourceSphere_ = CreateBufferResource(device_ ,sizeof(VertexData) * (kSubdivisions * kSubdivisions) * 4);
 	vertexBufferResourceSprite_ = CreateBufferResource(device_, sizeof(VertexData) * 4);
 
 
@@ -732,7 +732,7 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 /// <param name="color"></param>
 /// <param name="isLighting"></param>
 void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle, Vector4 color, bool isLighting)
+	const Camera3D* camera, uint32_t textureHandle,uint32_t lonSubdivisions , uint32_t latSubdivisions, Vector4 color, bool isLighting)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceSphere_ >= kMaxNumResource)
@@ -740,6 +740,9 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 		return;
 	}
 
+	// 分割数の範囲を制限する
+	lonSubdivisions = std::clamp(int(lonSubdivisions), 3, 32);
+	latSubdivisions = std::clamp(int(latSubdivisions), 3, 32);
 
 	/*-----------------
 		インデックス
@@ -748,22 +751,22 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	// ビューを作成する
 	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
 	indexBufferView.BufferLocation = indexResourceSphere_->GetGPUVirtualAddress();
-	indexBufferView.SizeInBytes = sizeof(uint32_t) * (kSubudivisions * kSubudivisions) * 6;
+	indexBufferView.SizeInBytes = sizeof(uint32_t) * (lonSubdivisions * latSubdivisions) * 6;
 	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
 
 	// データを書き込む
 	uint32_t* indexData = nullptr;
 	indexResourceSphere_->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
 
-	for (uint32_t latIndex = 0; latIndex < kSubudivisions; ++latIndex)
+	for (uint32_t latIndex = 0; latIndex < latSubdivisions; ++latIndex)
 	{
-		for (uint32_t lonIndex = 0; lonIndex < kSubudivisions; ++lonIndex)
+		for (uint32_t lonIndex = 0; lonIndex < lonSubdivisions; ++lonIndex)
 		{
 			// データの要素数
-			uint32_t dataIndex = (latIndex * kSubudivisions + lonIndex) * 6;
+			uint32_t dataIndex = (latIndex * lonSubdivisions + lonIndex) * 6;
 
 			// インデックス
-			uint32_t index = (latIndex * kSubudivisions + lonIndex) * 4;
+			uint32_t index = (latIndex * lonSubdivisions + lonIndex) * 4;
 
 			indexData[dataIndex] = index;
 			indexData[dataIndex + 1] = index + 1;
@@ -782,7 +785,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	// ビューを作成する
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 	vertexBufferView.BufferLocation = vertexBufferResourceSphere_->GetGPUVirtualAddress();
-	vertexBufferView.SizeInBytes = sizeof(VertexData) * (kSubudivisions * kSubudivisions) * 4;
+	vertexBufferView.SizeInBytes = sizeof(VertexData) * (lonSubdivisions * latSubdivisions) * 4;
 	vertexBufferView.StrideInBytes = sizeof(VertexData);
 
 	// データを書き込む
@@ -790,25 +793,25 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	vertexBufferResourceSphere_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
 
 	// 経度分割1つ分の角度
-	const float kLonEvery = std::numbers::pi_v<float> *2.0f / float(kSubudivisions);
+	const float kLonEvery = std::numbers::pi_v<float> *2.0f / float(lonSubdivisions);
 
 	// 緯度分割1つ分の角度
-	const float kLatEvery = std::numbers::pi_v<float> / float(kSubudivisions);
+	const float kLatEvery = std::numbers::pi_v<float> / float(latSubdivisions);
 
 	// 緯度方向に分割
-	for (uint32_t latIndex = 0; latIndex < kSubudivisions; ++latIndex)
+	for (uint32_t latIndex = 0; latIndex < latSubdivisions; ++latIndex)
 	{
 		// 緯度
 		float lat = -std::numbers::pi_v<float> / 2.0f + kLatEvery * latIndex;
 
 		// 経度方向に分割
-		for (uint32_t lonIndex = 0; lonIndex < kSubudivisions; ++lonIndex)
+		for (uint32_t lonIndex = 0; lonIndex < lonSubdivisions; ++lonIndex)
 		{
 			// 経度
 			float lon = kLonEvery * lonIndex;
 
 			// データの要素番号
-			uint32_t dataIndex = (latIndex * kSubudivisions + lonIndex) * 4;
+			uint32_t dataIndex = (latIndex * lonSubdivisions + lonIndex) * 4;
 
 			vertexData[dataIndex].position.x = std::cos(lat) * std::cos(lon);
 			vertexData[dataIndex].position.y = std::sin(lat);
@@ -817,8 +820,8 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 			vertexData[dataIndex].normal.x = std::cos(lat) * std::cos(lon);
 			vertexData[dataIndex].normal.y = std::sin(lat);
 			vertexData[dataIndex].normal.z = std::cos(lat) * std::sin(lon);
-			vertexData[dataIndex].texcoord.x = float(lonIndex) / float(kSubudivisions);
-			vertexData[dataIndex].texcoord.y = 1.0f - (float(latIndex) / float(kSubudivisions));
+			vertexData[dataIndex].texcoord.x = float(lonIndex) / float(lonSubdivisions);
+			vertexData[dataIndex].texcoord.y = 1.0f - (float(latIndex) / float(latSubdivisions));
 
 			vertexData[dataIndex + 1].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
 			vertexData[dataIndex + 1].position.y = std::sin(lat + kLatEvery);
@@ -827,8 +830,8 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 			vertexData[dataIndex + 1].normal.x = std::cos(lat + kLatEvery) * std::cos(lon);
 			vertexData[dataIndex + 1].normal.y = std::sin(lat + kLatEvery);
 			vertexData[dataIndex + 1].normal.z = std::cos(lat + kLatEvery) * std::sin(lon);
-			vertexData[dataIndex + 1].texcoord.x = float(lonIndex) / float(kSubudivisions);
-			vertexData[dataIndex + 1].texcoord.y = 1.0f - (float(latIndex + 1) / float(kSubudivisions));
+			vertexData[dataIndex + 1].texcoord.x = float(lonIndex) / float(lonSubdivisions);
+			vertexData[dataIndex + 1].texcoord.y = 1.0f - (float(latIndex + 1) / float(latSubdivisions));
 
 			vertexData[dataIndex + 2].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
 			vertexData[dataIndex + 2].position.y = std::sin(lat);
@@ -837,8 +840,8 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 			vertexData[dataIndex + 2].normal.x = std::cos(lat) * std::cos(lon + kLonEvery);
 			vertexData[dataIndex + 2].normal.y = std::sin(lat);
 			vertexData[dataIndex + 2].normal.z = std::cos(lat) * std::sin(lon + kLonEvery);
-			vertexData[dataIndex + 2].texcoord.x = float(lonIndex + 1) / float(kSubudivisions);
-			vertexData[dataIndex + 2].texcoord.y = 1.0f - (float(latIndex) / float(kSubudivisions));
+			vertexData[dataIndex + 2].texcoord.x = float(lonIndex + 1) / float(lonSubdivisions);
+			vertexData[dataIndex + 2].texcoord.y = 1.0f - (float(latIndex) / float(latSubdivisions));
 
 			vertexData[dataIndex + 3].position.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
 			vertexData[dataIndex + 3].position.y = std::sin(lat + kLatEvery);
@@ -847,8 +850,8 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 			vertexData[dataIndex + 3].normal.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
 			vertexData[dataIndex + 3].normal.y = std::sin(lat + kLatEvery);
 			vertexData[dataIndex + 3].normal.z = std::cos(lat + kLatEvery) * std::sin(lon + kLonEvery);
-			vertexData[dataIndex + 3].texcoord.x = float(lonIndex + 1) / float(kSubudivisions);
-			vertexData[dataIndex + 3].texcoord.y = 1.0f - (float(latIndex + 1) / float(kSubudivisions));
+			vertexData[dataIndex + 3].texcoord.x = float(lonIndex + 1) / float(lonSubdivisions);
+			vertexData[dataIndex + 3].texcoord.y = 1.0f - (float(latIndex + 1) / float(latSubdivisions));
 		}
 	}
 
@@ -931,7 +934,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	textureStore_->SelectTexture(commandList_, textureHandle);
 
 	// 描画する
-	commandList_->DrawIndexedInstanced(kSubudivisions* kSubudivisions * 6, 1, 0, 0, 0);
+	commandList_->DrawIndexedInstanced(lonSubdivisions * latSubdivisions * 6, 1, 0, 0, 0);
 
 
 	// カウントする

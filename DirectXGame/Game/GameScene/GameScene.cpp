@@ -15,7 +15,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
-	worldTransform_->scale_ *= 2.0f;
+	worldTransform_->scale_;
 
 	// UVトランスフォームの生成と初期化
 	uvTransform_ = std::make_unique<UvTransform>();
@@ -29,12 +29,12 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	pointLight0_ = std::make_unique<PointLight>();
 	pointLight0_->Initialize();
 	pointLight0_->color_ = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-	pointLight0_->position_ = Vector3(0.5f, 1.0f, 0.0f);
+	pointLight0_->position_ = Vector3(-1.0f, 2.0f, 0.0f);
 
 	pointLight1_ = std::make_unique<PointLight>();
 	pointLight1_->Initialize();
 	pointLight1_->color_ = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-	pointLight1_->position_ = Vector3(-0.5f, 1.0f, 0.0f);
+	pointLight1_->position_ = Vector3(1.0f, 2.0f, 0.0f);
 }
 
 /// <summary>
@@ -48,6 +48,11 @@ void GameScene::Update()
 	ImGui::Begin("Plane");
 	ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
 	ImGui::DragFloat3("scale", &worldTransform_->scale_.x, 0.01f);
+	ImGui::End();
+
+	ImGui::Begin("Subdivision");
+	ImGui::SliderInt("lat", &latSubdivisions, 3, 32);
+	ImGui::SliderInt("lon", &lonSubdivisions, 3, 32);
 	ImGui::End();
 
 	// トランスフォームを更新する
@@ -68,5 +73,6 @@ void GameScene::Draw()
 	engine_->SetPointLight(pointLight1_.get());
 
 	// 球を描画する
-	engine_->DrawPlane(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_,
+		latSubdivisions, lonSubdivisions, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }

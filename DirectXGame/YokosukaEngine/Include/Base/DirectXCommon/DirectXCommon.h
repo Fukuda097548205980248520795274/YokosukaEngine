@@ -7,6 +7,7 @@
 #include <numbers>
 #include <list>
 #include <random>
+#include <algorithm>
 #include "../../Math/Vector4/Vector4.h"
 #include "../../Camera/Camera3D/Camera3D.h"
 #include "../../Camera/Camera2D/Camera2D.h"
@@ -173,7 +174,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera,uint32_t textureHandle, Vector4 color, bool isLighting);
+		const Camera3D* camera, uint32_t textureHandle, uint32_t lonSubdivisions, uint32_t latSubdivisions, Vector4 color, bool isLighting);
 
 	/// <summary>
 	/// モデルを描画する
@@ -497,7 +498,7 @@ private:
 	uint32_t useNumResourceSphere_ = 0;
 
 	// 分割数
-	const uint32_t kSubudivisions = 24;
+	const uint32_t kSubdivisions = 32;
 
 	// インデックスリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_ = { nullptr };
