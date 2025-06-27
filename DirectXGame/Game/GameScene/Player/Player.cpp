@@ -44,7 +44,6 @@ void Player::Update()
 	// 着地しているとき
 	if (isGround_)
 	{
-
 	}
 	else
 	{
@@ -54,11 +53,24 @@ void Player::Update()
 		if (isGravityPull_)
 		{
 			// 落下速度
-			const float kFallSpeed = 0.05f;
+			const float kFallSpeed = 0.5f;
 
 			// 移動させる
-			worldTransform_->translation_ += toGravity_ * kFallSpeed;
+			velocity_ = toGravity_ * kFallSpeed;
 		}
+		else
+		{
+			// 重力場にいないと下に落下する
+
+			// 落下速度
+			const float kFallSpeed = 0.5f;
+
+			// 速度ベクトル
+			velocity_ = Vector3(0.0f, -kFallSpeed, 0.0f);
+		}
+
+		// 移動させる
+		worldTransform_->translation_ += velocity_;
 	}
 
 	isGround_ = false;
