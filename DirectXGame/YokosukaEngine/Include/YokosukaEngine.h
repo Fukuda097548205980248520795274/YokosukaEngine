@@ -174,9 +174,10 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="textureHandle"></param>
 	/// <param name="color"></param>
-	void DrawSprite(const WorldTransform* worldTransform, const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color) const
+	void DrawSprite(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4,
+		const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color) const
 	{
-		directXCommon_->DrawSprite(worldTransform, uvTransform, camera, textureHandle, color);
+		directXCommon_->DrawSprite(x1, y1, x2, y2, x3, y3, x4, y4, uvTransform, camera, textureHandle, color);
 	}
 
 	/// <summary>

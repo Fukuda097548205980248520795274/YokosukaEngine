@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "../GameScene.h"
+#include "../LockOn/LockOn.h"
 
 /// <summary>
 /// デストラクタ
@@ -60,6 +61,7 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform3DReticle_ = std::make_unique<WorldTransform>();
 	worldTransform3DReticle_->Initialize();
+	worldTransform3DReticle_->translation_.z = 50.0f;
 
 	worldTransform2DReticle_ = std::make_unique<WorldTransform>();
 	worldTransform2DReticle_->Initialize();
@@ -144,19 +146,15 @@ void Player::Update()
 	    3Dレティクル
 	----------------*/
 
-	// 自機から3Dレティクルの距離
-	const float kDistancePlayerTo3DReticle = 50.0f;
+	// 左スティックで3Dレティクルを操作する
+	if (engine_->IsGamepadEnable(0))
+	{
+		worldTransform3DReticle_->translation_.x += engine_->GetGamepadRightStick(0).x;
+		worldTransform3DReticle_->translation_.y += engine_->GetGamepadRightStick(0).y;
+	}
 
-	// 自機からの3Dレティクルのオフセット(Z向き)
-	Vector3 offset = Vector3(0.0f, 0.0f, 1.0f);
-
-	// 自機の向きを座標に反映する
-	offset = TransformNormal(offset, worldTransform_->worldMatrix_);
-
-	// ベクトルの長さを整える
-	offset = Normalize(offset) * kDistancePlayerTo3DReticle;
-
-	worldTransform3DReticle_->translation_ = offset + GetWorldPosition();
+	worldTransform3DReticle_->translation_.x = std::clamp(worldTransform3DReticle_->translation_.x, -30.0f, 30.0f);
+	worldTransform3DReticle_->translation_.y = std::clamp(worldTransform3DReticle_->translation_.y, -20.0f, 20.0f);
 
 	// トランスフォームを更新する
 	worldTransform3DReticle_->UpdateWorldMatrix();
@@ -165,10 +163,11 @@ void Player::Update()
 	Vector3 reticlePosition = GetWorldPosision3DReticle();
 
 	// ビューポート変換行列
-	Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f, camera2d_->screenWidth_, camera2d_->screenHeight_, 0.0f, 1.0f);
+	Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f, camera2d_->screenWidth_, camera2d_->screenHeight_, 0.0f, 100.0f);
 
 	// ビュー行列　正射影行列　ビューポート変換行列を合成する
-	Matrix4x4 viewProjectionViewportMatrix = camera2d_->viewMatrix_ * camera2d_->projectionMatrix_ * viewportMatrix;
+	Matrix4x4 viewProjectionViewportMatrix = 
+		camera3d_->viewMatrix_ * camera3d_->projectionMatrix_ * viewportMatrix;
 
 	// ワールドからスクリーンに変換する
 	reticlePosition = Transform(reticlePosition, viewProjectionViewportMatrix);
@@ -189,9 +188,8 @@ void Player::Draw()
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, { 0.0f, 0.0f, 0.0f , 1.0f },
 		directionalLight_, pointLight_.get(), spotLight_.get());
 
-	// 3Dレティクルを描画する
-	engine_->DrawModel(worldTransform3DReticle_.get(), uvTransform2DReticle_.get(), camera3d_, modelHandle3DReticle_, { 1.0f, 1.0f, 1.0f , 0.1f });
-	engine_->DrawSprite(worldTransform2DReticle_.get(), uvTransform2DReticle_.get(), camera2d_, textureHandle2DReticle_, { 1.0f , 1.0f , 1.0f , 1.0f });
+	// 2Dレティクルを描画する
+	engine_->DrawModel(worldTransform3DReticle_.get(), uvTransform2DReticle_.get(), camera3d_, modelHandle3DReticle_, Vector4(0.0f, 0.0f, 0.0f, 0.5f));
 }
 
 
@@ -203,21 +201,40 @@ void Player::BulletShot()
 	// Aボタンで弾を発射する
 	if (engine_->IsGamepadEnable(0))
 	{
-		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
+		if (engine_->GetGamepadRightTrigger(0) > 0.5f)
 		{
-			// 弾の速度
-			const float kBulletSpeed = 2.0f;
+			if (lockOn_->IsTarget())
+			{
+				// 弾の速度
+				const float kBulletSpeed = 2.0f;
 
-			// 3dレティクル方向のベクトル（正規化）
-			Vector3 velocity = Normalize(GetWorldPosision3DReticle() - GetWorldPosition()) * kBulletSpeed;
+				// 3dレティクル方向のベクトル（正規化）
+				Vector3 velocity = Normalize(lockOn_->GetTargetInstance()->GetWorldPosition() - GetWorldPosition()) * kBulletSpeed;
 
 
-			// 弾の生成と初期化
-			PlayerBullet* newBullet = new PlayerBullet();
-			newBullet->Initialize(engine_, camera3d_, directionalLight_, GetWorldPosition(), velocity);
+				// 弾の生成と初期化
+				PlayerBullet* newBullet = new PlayerBullet();
+				newBullet->Initialize(engine_, camera3d_, directionalLight_, GetWorldPosition(), velocity);
 
-			// 弾を登録する
-			gameScene_->PushPlayerBullet(newBullet);
+				// 弾を登録する
+				gameScene_->PushPlayerBullet(newBullet);
+			}
+			else
+			{
+				// 弾の速度
+				const float kBulletSpeed = 2.0f;
+
+				// 3dレティクル方向のベクトル（正規化）
+				Vector3 velocity = Normalize(GetWorldPosision3DReticle() - GetWorldPosition()) * kBulletSpeed;
+
+
+				// 弾の生成と初期化
+				PlayerBullet* newBullet = new PlayerBullet();
+				newBullet->Initialize(engine_, camera3d_, directionalLight_, GetWorldPosition(), velocity);
+
+				// 弾を登録する
+				gameScene_->PushPlayerBullet(newBullet);
+			}
 		}
 	}
 }

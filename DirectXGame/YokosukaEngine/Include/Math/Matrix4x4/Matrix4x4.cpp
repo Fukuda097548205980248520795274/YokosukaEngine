@@ -532,3 +532,12 @@ Matrix4x4 MakeTransposeMatrix(Matrix4x4 m)
 
 	return transposeMatrix;
 }
+
+
+Vector3 Project(const Vector3& worldPosition, float viewportX, float viewportY, float viewportWidth, float viewportHeight,
+	const Matrix4x4& viewMatrix , const Matrix4x4& projectionMatrix)
+{
+	Matrix4x4 viewportMatrix = MakeViewportMatrix(viewportX, viewportY, viewportWidth, viewportHeight, 0.0f, 100.0f);
+
+	return Transform(worldPosition, viewMatrix * projectionMatrix * viewportMatrix);
+}

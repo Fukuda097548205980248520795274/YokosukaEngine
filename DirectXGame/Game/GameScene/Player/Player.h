@@ -5,6 +5,7 @@
 
 // 前方宣言
 class GameScene;
+class LockOn;
 
 class Player : public Collider
 {
@@ -51,6 +52,12 @@ public:
 	Vector3 GetWorldPosision3DReticle() const;
 
 	/// <summary>
+	/// 2Dレティクルの座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector2 GetPosition2DReticle() const { return Vector2(worldTransform2DReticle_->translation_.x, worldTransform2DReticle_->translation_.y); }
+
+	/// <summary>
 	/// 衝突コールバック関数
 	/// </summary>
 	void OnCollision() override;
@@ -66,6 +73,12 @@ public:
 	/// </summary>
 	/// <param name="gameScene"></param>
 	void SetGameSceneInstance(GameScene* gameScene) { gameScene_ = gameScene; }
+
+	/// <summary>
+	/// ロックオンのインスタンスのSetter
+	/// </summary>
+	/// <param name="lockOn"></param>
+	void SetLockOnInstance(LockOn* lockOn) { lockOn_ = lockOn; }
 
 
 private:
@@ -84,6 +97,9 @@ private:
 
 	// ゲームシーンのポインタ
 	GameScene* gameScene_ = nullptr;
+
+	// ロックオンのポインタ
+	LockOn* lockOn_ = nullptr;
 
 
 	// ワールドトランスフォーム

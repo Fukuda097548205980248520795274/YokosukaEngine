@@ -337,3 +337,6 @@ Matrix4x4 MakeIdenityMatirx();
 /// <param name="m">行列</param>
 /// <returns></returns>
 Matrix4x4 MakeTransposeMatrix(Matrix4x4 m);
+
+Vector3 Project(const Vector3& worldPosition, float viewportX, float viewportY, float viewportWidth, float viewportHeight,
+	const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix);

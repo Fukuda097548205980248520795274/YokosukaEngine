@@ -9,6 +9,7 @@
 #include "Ground/Ground.h"
 #include "PlayerBullet/PlayerBullet.h"
 #include "EnemyBullet/EnemyBullet.h"
+#include "LockOn/LockOn.h"
 
 class GameScene : public Scene
 {
@@ -91,6 +92,9 @@ private:
 
 	// プレイヤーの弾のリスト
 	std::list<PlayerBullet*> playerBullets_;
+
+	// ロックオン
+	std::unique_ptr<LockOn> lockOn_ = nullptr;
 
 
 	// 敵発生コマンド

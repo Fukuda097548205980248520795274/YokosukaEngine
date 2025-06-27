@@ -271,6 +271,9 @@
     <Filter Include="Game\GameScene\PlayerBullet">
       <UniqueIdentifier>{656d3351-6c7a-4640-a4dc-3344bebe6366}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\LockOn">
+      <UniqueIdentifier>{ab3bd84e-7144-49c0-a936-4a142a3b460f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -506,6 +509,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Ground\Ground.cpp">
       <Filter>Game\GameScene\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\LockOn\LockOn.cpp">
+      <Filter>Game\GameScene\LockOn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -745,6 +751,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Ground\Ground.h">
       <Filter>Game\GameScene\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\LockOn\LockOn.h">
+      <Filter>Game\GameScene\LockOn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -55,13 +55,19 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	ground_->Initialize(engine_ , camera3d_.get());
 
 
+	// ロックオンの生成と初期化
+	lockOn_ = std::make_unique<LockOn>();
+	lockOn_->Initialize(engine_, camera3d_.get(), camera2d_.get());
+
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get() , camera2d_.get(), directionalLight_.get(), Vector3(0.0f, 0.0f, 50.0f));
 	player_->SetGameSceneInstance(this);
+	player_->SetLockOnInstance(lockOn_.get());
 
 	// メインカメラを親にする
 	player_->SetWorldTransformParent(mainCamera_->GetWorldTransform());
+
 
 	// 衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
@@ -148,6 +154,10 @@ void GameScene::Update()
 		enemyBullet->Update();
 	}
 
+	
+	// ロックオンの更新
+	lockOn_->Update(player_.get() , enemies_);
+
 
 	// 衝突マネージャをクリアする
 	collisionManager_->Clear();
@@ -195,6 +205,10 @@ void GameScene::Draw()
 	{
 		enemyBullet->Draw();
 	}
+
+
+	// ロックオンの描画
+	lockOn_->Draw();
 }
 
 
