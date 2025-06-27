@@ -15,6 +15,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->scale_ *= 2.0f;
 
 	// UVトランスフォームの生成と初期化
 	uvTransform_ = std::make_unique<UvTransform>();
@@ -22,6 +23,18 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// テクスチャを読み込む
 	textureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
+
+
+	// ポイントライトの生成と初期化
+	pointLight0_ = std::make_unique<PointLight>();
+	pointLight0_->Initialize();
+	pointLight0_->color_ = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+	pointLight0_->position_ = Vector3(0.5f, 1.0f, 0.0f);
+
+	pointLight1_ = std::make_unique<PointLight>();
+	pointLight1_->Initialize();
+	pointLight1_->color_ = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+	pointLight1_->position_ = Vector3(-0.5f, 1.0f, 0.0f);
 }
 
 /// <summary>
@@ -31,6 +44,11 @@ void GameScene::Update()
 {
 	// Scene更新
 	Scene::Update();
+
+	ImGui::Begin("Plane");
+	ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
+	ImGui::DragFloat3("scale", &worldTransform_->scale_.x, 0.01f);
+	ImGui::End();
 
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
@@ -45,6 +63,10 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 
+	// ポイントライトを設置する
+	engine_->SetPointLight(pointLight0_.get());
+	engine_->SetPointLight(pointLight1_.get());
+
 	// 球を描画する
-	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	engine_->DrawPlane(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }

@@ -16,10 +16,6 @@ void Game::Initialize(const YokosukaEngine* engine)
 	// ゲームシーンの生成と初期化
 	gameScene_ = std::make_unique<GameScene>();
 	gameScene_->Initialize(engine_);
-
-	// 平行光源の生成と初期化
-	directionalLight_ = std::make_unique<DirectionalLight>();
-	directionalLight_->Initialize();
 }
 
 /// <summary>
@@ -36,8 +32,6 @@ void Game::Update()
 /// </summary>
 void Game::Draw()
 {
-	// 平行光源を設置
-	engine_->SetDirectionalLight(directionalLight_.get());
 
 	// ゲームシーンの描画
 	gameScene_->Draw();

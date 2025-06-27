@@ -33,5 +33,10 @@ private:
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+
+
+	// ポイントライト
+	std::unique_ptr<PointLight> pointLight0_ = nullptr;
+	std::unique_ptr<PointLight> pointLight1_ = nullptr;
 };
 

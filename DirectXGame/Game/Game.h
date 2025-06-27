@@ -31,7 +31,4 @@ private:
 	// ゲームシーン
 	std::unique_ptr<GameScene> gameScene_ = nullptr;
 
-
-	// 平行光源
-	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 };
