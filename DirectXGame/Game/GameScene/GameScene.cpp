@@ -46,6 +46,7 @@ void GameScene::Update()
 	Scene::Update();
 
 	ImGui::Begin("Plane");
+	ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
 	ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
 	ImGui::DragFloat3("scale", &worldTransform_->scale_.x, 0.01f);
 	ImGui::End();

@@ -206,40 +206,40 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// インデックスリソース
 	indexResourcePlane_ = CreateBufferResource(device_, sizeof(uint32_t) * 6);
-	indexResourceSphere_ = CreateBufferResource(device_, (sizeof(uint32_t) * (kSubdivisions * kSubdivisions)) * 6);
+	indexResourceSphere_ = CreateBufferResource(device_, (sizeof(uint32_t) * (kSphereMaxSubdivisions * kSphereMaxSubdivisions)) * 6);
 	indexResourceSprite_ = CreateBufferResource(device_, sizeof(uint32_t) * 6);
 
 	// 頂点リソース
 	vertexBufferResourcePlane_ = CreateBufferResource(device_, sizeof(VertexData) * 4);
-	vertexBufferResourceSphere_ = CreateBufferResource(device_ ,sizeof(VertexData) * (kSubdivisions * kSubdivisions) * 4);
+	vertexBufferResourceSphere_ = CreateBufferResource(device_ ,sizeof(VertexData) * (kSphereMaxSubdivisions * kSphereMaxSubdivisions) * 4);
 	vertexBufferResourceSprite_ = CreateBufferResource(device_, sizeof(VertexData) * 4);
 
 
 	for (uint32_t i = 0; i < kMaxNumResource; i++)
 	{
 		// 平面
-		MaterialResourcePlane_[i] = CreateBufferResource(device_, sizeof(Material));
-		TransformationResourcePlane_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		materialResourcePlane_[i] = CreateBufferResource(device_, sizeof(Material));
+		transformationResourcePlane_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		cameraResourcePlane_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// 球
-		MaterialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
-		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		materialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
+		transformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		cameraResourceSphere_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// モデル
-		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
-		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		materialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
+		transformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
 
 		// スプライト
-		MaterialResourceSprite_[i] = CreateBufferResource(device_, sizeof(Material));
-		TransformationResourceSprite_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		materialResourceSprite_[i] = CreateBufferResource(device_, sizeof(Material));
+		transformationResourceSprite_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 
 		// 線
 		vertexBufferResourceLine_[i] = CreateBufferResource(device_, sizeof(Vector4) * 2);
-		MaterialResourceLine_[i] = CreateBufferResource(device_, sizeof(Material));
-		TransformationResourceLine_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		materialResourceLine_[i] = CreateBufferResource(device_, sizeof(Material));
+		transformationResourceLine_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
 	}
 
 
@@ -644,7 +644,7 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 
 	// データを書き込む
 	Material* materialData = nullptr;
-	MaterialResourcePlane_[useNumResourcePlane_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialResourcePlane_[useNumResourcePlane_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = isLighting;
 	materialData->uvTransform =
@@ -658,7 +658,7 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
-	TransformationResourcePlane_[useNumResourcePlane_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationResourcePlane_[useNumResourcePlane_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
 	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
@@ -692,10 +692,10 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(0, materialResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
 	commandList_->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
@@ -862,7 +862,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 
 	// データを書き込む
 	Material* materialData = nullptr;
-	MaterialResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = isLighting;
 	materialData->uvTransform =
@@ -876,7 +876,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
-	TransformationResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
 	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
@@ -910,10 +910,10 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
 	commandList_->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
@@ -939,6 +939,42 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 
 	// カウントする
 	useNumResourceSphere_++;
+}
+
+/// <summary>
+/// リングを描画する
+/// </summary>
+/// <param name="worldTransform"></param>
+/// <param name="uvTransform"></param>
+/// <param name="camera"></param>
+/// <param name="textureHandle"></param>
+/// <param name="subdivisions"></param>
+/// <param name="outRadius"></param>
+/// <param name="inRadius"></param>
+/// <param name="color"></param>
+/// <param name="isLighting"></param>
+void DirectXCommon::DrawRing(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+	const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, uint32_t outRadius, uint32_t inRadius, Vector4 color, bool isLighting)
+{
+
+}
+
+/// <summary>
+/// 円柱を描画する
+/// </summary>
+/// <param name="worldTransform"></param>
+/// <param name="uvTransform"></param>
+/// <param name="camera"></param>
+/// <param name="textureHandle"></param>
+/// <param name="subdivisions"></param>
+/// <param name="height"></param>
+/// <param name="radius"></param>
+/// <param name="color"></param>
+/// <param name="isLighting"></param>
+void DirectXCommon::DrawCylinder(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+	const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, uint32_t height, uint32_t radius, Vector4 color, bool isLighting)
+{
+
 }
 
 /// <summary>
@@ -981,7 +1017,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 
 	// データを書き込む
 	Material* materialData = nullptr;
-	MaterialResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = isLighting;
 	materialData->uvTransform = 
@@ -995,7 +1031,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
-	TransformationResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
 	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
@@ -1026,10 +1062,10 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
 	commandList_->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
@@ -1244,7 +1280,7 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 
 	// データを書き込む
 	Material* materialData = nullptr;
-	MaterialResourceLine_[useNumResourceLine_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialResourceLine_[useNumResourceLine_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = false;
 	materialData->shininess = 0.0f;
@@ -1257,7 +1293,7 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
-	TransformationResourceLine_[useNumResourceLine_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationResourceLine_[useNumResourceLine_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
 
 	// ワールド行列
 	Matrix4x4 worldMatrix = MakeAffineMatrix({ 1.0f , 1.0f , 1.0f }, { 0.0f , 0.0f , 0.0f }, { 0.0f , 0.0f , 0.0f });
@@ -1280,10 +1316,10 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
 
 	// 描画する
 	commandList_->DrawInstanced(2, 1, 0, 0);
@@ -1368,7 +1404,7 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 
 	// データを書き込む
 	Material* materialData = nullptr;
-	MaterialResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = false;
 	materialData->uvTransform = 
@@ -1381,7 +1417,7 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
-	TransformationResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
 	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
 	transformationData->world = worldTransform->worldMatrix_;
 
@@ -1404,10 +1440,10 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
+	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
 
 	// テクスチャ
 	textureStore_->SelectTexture(commandList_, textureHandle);

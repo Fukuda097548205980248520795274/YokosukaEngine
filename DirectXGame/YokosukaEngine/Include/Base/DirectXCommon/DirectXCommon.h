@@ -177,6 +177,36 @@ public:
 		const Camera3D* camera, uint32_t textureHandle, uint32_t segment, uint32_t ring, Vector4 color, bool isLighting);
 
 	/// <summary>
+	/// リングを描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="textureHandle"></param>
+	/// <param name="subdivisions"></param>
+	/// <param name="outRadius"></param>
+	/// <param name="inRadius"></param>
+	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
+	void DrawRing(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, uint32_t outRadius, uint32_t inRadius, Vector4 color, bool isLighting);
+
+	/// <summary>
+	/// 円柱を描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="textureHandle"></param>
+	/// <param name="subdivisions"></param>
+	/// <param name="height"></param>
+	/// <param name="radius"></param>
+	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
+	void DrawCylinder(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, uint32_t height, uint32_t radius, Vector4 color, bool isLighting);
+
+	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -481,10 +511,10 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourcePlane_ = { nullptr };
 
 	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourcePlane_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourcePlane_[1024] = { nullptr };
 
 	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourcePlane_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourcePlane_[1024] = { nullptr };
 
 	// カメラリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourcePlane_[1024] = { nullptr };
@@ -497,8 +527,8 @@ private:
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceSphere_ = 0;
 
-	// 分割数
-	const uint32_t kSubdivisions = 32;
+	//最大 分割数
+	const uint32_t kSphereMaxSubdivisions = 32;
 
 	// インデックスリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_ = { nullptr };
@@ -507,10 +537,10 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSphere_ = { nullptr };
 
 	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSphere_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceSphere_[1024] = { nullptr };
 
 	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSphere_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceSphere_[1024] = { nullptr };
 
 	// カメラリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceSphere_[1024] = { nullptr };
@@ -524,10 +554,10 @@ private:
 	uint32_t useNumResourceModel_ = 0;
 
 	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceModel_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceModel_[1024] = { nullptr };
 
 	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceModel_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceModel_[1024] = { nullptr };
 
 	// カメラリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceModel_[1024] = { nullptr };
@@ -547,10 +577,10 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSprite_ = { nullptr };
 
 	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSprite_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceSprite_[1024] = { nullptr };
 
 	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSprite_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceSprite_[1024] = { nullptr };
 
 
 	/*-----------------------
@@ -564,10 +594,10 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceLine_[1024] = { nullptr };
 
 	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceLine_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceLine_[1024] = { nullptr };
 
 	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceLine_[1024] = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceLine_[1024] = { nullptr };
 
 
 	/*--------------
