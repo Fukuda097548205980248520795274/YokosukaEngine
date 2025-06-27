@@ -25,6 +25,13 @@ public:
 private:
 
 	
-	std::vector<Vector3> controlPoints_;
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// UVトランスフォーム
+	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+
+	// テクスチャ
+	uint32_t textureHandle_ = 0;
 };
 
