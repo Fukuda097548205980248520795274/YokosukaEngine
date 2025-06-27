@@ -244,6 +244,12 @@
     <Filter Include="YokosukaEngine\Include\Math\Matrix3x3">
       <UniqueIdentifier>{497797df-8293-4128-8d83-6bc41f0dff45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Planet">
+      <UniqueIdentifier>{9cc2721a-a98f-4335-8aa7-095907506f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Player">
+      <UniqueIdentifier>{8ca4c124-9095-4796-bcf9-cdaa57984661}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -446,6 +452,12 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp">
       <Filter>YokosukaEngine\Include\Math\Matrix3x3</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Planet\Planet.cpp">
+      <Filter>Game\GameScene\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Player\Player.cpp">
+      <Filter>Game\GameScene\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -652,6 +664,12 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h">
       <Filter>YokosukaEngine\Include\Math\Matrix3x3</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Planet\Planet.h">
+      <Filter>Game\GameScene\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Player\Player.h">
+      <Filter>Game\GameScene\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -12,16 +12,13 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// Scene更新
 	Scene::Initialize(engine);
 
-	// ワールドトランスフォームの生成と初期化
-	worldTransform_ = std::make_unique<WorldTransform>();
-	worldTransform_->Initialize();
+	// プレイヤーの生成と初期化
+	player_ = std::make_unique<Player>();
+	player_->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 12.0f, 0.0f));
 
-	// UVトランスフォームの生成と初期化
-	uvTransform_ = std::make_unique<UvTransform>();
-	uvTransform_->Initialize();
-
-	// テクスチャを読み込む
-	textureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
+	// 惑星の生成と初期化
+	planet_ = std::make_unique<Planet>();
+	planet_->Initialize(engine_ , camera3d_.get() , 8.0f);
 }
 
 /// <summary>
@@ -32,9 +29,11 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
-	// トランスフォームを更新する
-	worldTransform_->UpdateWorldMatrix();
-	uvTransform_->UpdateWorldMatrix();
+	// プレイヤーの更新
+	player_->Update();
+
+	// 惑星の更新
+	planet_->Update();
 }
 
 /// <summary>
@@ -45,6 +44,9 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 
-	// 球を描画する
-	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	// プレイヤーの描画
+	player_->Draw();
+
+	// 惑星の描画
+	planet_->Draw();
 }

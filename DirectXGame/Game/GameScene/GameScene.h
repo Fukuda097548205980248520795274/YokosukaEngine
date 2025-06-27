@@ -1,5 +1,7 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "Player/Player.h"
+#include "Planet/Planet.h"
 
 class GameScene : public Scene
 {
@@ -24,14 +26,11 @@ public:
 
 private:
 
-	
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
-	// uvトランスフォーム
-	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+	// プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
 
-	// テクスチャハンドル
-	uint32_t textureHandle_ = 0;
+	// 惑星
+	std::unique_ptr<Planet> planet_ = nullptr;
 };
 
