@@ -162,6 +162,19 @@ void Player::Update()
 	worldTransform3DReticle_->UpdateWorldMatrix();
 
 
+	Vector3 reticlePosition = GetWorldPosision3DReticle();
+
+	// ビューポート変換行列
+	Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f, camera2d_->screenWidth_, camera2d_->screenHeight_, 0.0f, 1.0f);
+
+	// ビュー行列　正射影行列　ビューポート変換行列を合成する
+	Matrix4x4 viewProjectionViewportMatrix = camera2d_->viewMatrix_ * camera2d_->projectionMatrix_ * viewportMatrix;
+
+	// ワールドからスクリーンに変換する
+	reticlePosition = Transform(reticlePosition, viewProjectionViewportMatrix);
+	worldTransform2DReticle_->translation_.x = reticlePosition.x;
+	worldTransform2DReticle_->translation_.y = reticlePosition.y;
+
 	// トランスフォームを更新する
 	worldTransform2DReticle_->UpdateWorldMatrix();
 	uvTransform2DReticle_->UpdateWorldMatrix();
