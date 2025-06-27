@@ -41,9 +41,20 @@ void Player::Update()
 	ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
 	ImGui::End();
 
+	// 速度ベクトル
+	Vector3 velocity = { 0.0f , 0.0f , 0.0f };
+
 	// 着地しているとき
 	if (isGround_)
 	{
+		// スペースキーでジャンプする
+		if (engine_->GetKeyTrigger(DIK_SPACE))
+		{
+			// ジャンプの初速
+
+		}
+
+
 	}
 	else
 	{
@@ -56,22 +67,12 @@ void Player::Update()
 			const float kFallSpeed = 0.5f;
 
 			// 移動させる
-			velocity_ = toGravity_ * kFallSpeed;
+			velocity = toGravity_ * kFallSpeed;
 		}
-		else
-		{
-			// 重力場にいないと下に落下する
-
-			// 落下速度
-			const float kFallSpeed = 0.5f;
-
-			// 速度ベクトル
-			velocity_ = Vector3(0.0f, -kFallSpeed, 0.0f);
-		}
-
-		// 移動させる
-		worldTransform_->translation_ += velocity_;
 	}
+
+	// 移動させる
+	worldTransform_->translation_ += velocity;
 
 	isGround_ = false;
 	isGravityPull_ = false;
@@ -124,6 +125,9 @@ void Player::OnCollision(const Planet* planet)
 {
 	// 着地する
 	isGround_ = true;
+
+	// 惑星の中心方向ベクトルを取得する
+	toPlanet_ = Normalize(planet->GetWorldPosition() - GetWorldPosition());
 }
 
 /// <summary>

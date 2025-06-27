@@ -68,12 +68,10 @@ private:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
-	// 速度ベクトル
-	Vector3 velocity_ = { 0.0f , 0.0f , 0.0f };
-
 
 	// 半径
 	float radius_ = 1.0f;
+
 
 	// 重力に引っ張られているかどうか
 	bool isGravityPull_ = false;
@@ -84,7 +82,7 @@ private:
 	// 重力場の中心方向ベクトル
 	Vector3 toGravity_ = { 0.0f , 0.0f , 0.0f };
 
-	// 惑星の位置
-	Vector3 planetPosition_ = { 0.0f , 0.0f , 0.0f };
+	// 惑星の中心方向ベクトル
+	Vector3 toPlanet_ = { 0.0f , 0.0f , 0.0f };
 };
 

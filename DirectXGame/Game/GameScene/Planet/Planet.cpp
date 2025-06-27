@@ -53,7 +53,7 @@ void Planet::Draw()
 /// ワールド座標のGetter
 /// </summary>
 /// <returns></returns>
-Vector3 Planet::GetWorldPosition()
+Vector3 Planet::GetWorldPosition() const
 {
 	// ワールド座標
 	Vector3 worldPosition;
@@ -67,7 +67,7 @@ Vector3 Planet::GetWorldPosition()
 /// 当たり判定の球のGetter
 /// </summary>
 /// <returns></returns>
-Sphere Planet::GetCollisionSphere()
+Sphere Planet::GetCollisionSphere() const
 {
 	Sphere sphere;
 	sphere.center = GetWorldPosition();
