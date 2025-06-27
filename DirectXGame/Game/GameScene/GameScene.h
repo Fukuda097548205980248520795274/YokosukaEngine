@@ -28,10 +28,10 @@ private:
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
-	// UVトランスフォーム
+	// uvトランスフォーム
 	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
 
-	// テクスチャ
+	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 };
 

@@ -153,6 +153,17 @@ public:
 	void SetSpotLight(const SpotLight* spotLight);
 
 	/// <summary>
+	/// 球を描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
+	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera,uint32_t textureHandle, Vector4 color, bool isLighting);
+
+	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -441,6 +452,32 @@ private:
 
 	// リソースの最大数
 	const uint32_t kMaxNumResource = 1024;
+
+
+	/*----------------------
+	    球で使用するリソース
+	----------------------*/
+
+	// 使用したリソースをカウントする
+	uint32_t useNumResourceSphere_ = 0;
+
+	// 分割数
+	const uint32_t kSubudivisions = 24;
+
+	// インデックスリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_ = { nullptr };
+
+	// 頂点バッファリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSphere_ = { nullptr };
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> MaterialResourceSphere_[1024] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> TransformationResourceSphere_[1024] = { nullptr };
+
+	// カメラリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceSphere_[1024] = { nullptr };
 
 
 	/*----------------------------
