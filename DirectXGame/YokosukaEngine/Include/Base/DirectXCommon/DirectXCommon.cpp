@@ -205,14 +205,21 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	-----------------------------*/
 
 	// インデックスリソース
+	indexResourceSphere_ = CreateBufferResource(device_, (sizeof(uint32_t) * (kSubudivisions * kSubudivisions)) * 6);
 	indexResourceSprite_ = CreateBufferResource(device_, sizeof(uint32_t) * 6);
 
 	// 頂点リソース
+	vertexBufferResourceSphere_ = CreateBufferResource(device_ ,sizeof(VertexData) * (kSubudivisions * kSubudivisions) * 4);
 	vertexBufferResourceSprite_ = CreateBufferResource(device_, sizeof(VertexData) * 4);
 
 
 	for (uint32_t i = 0; i < kMaxNumResource; i++)
 	{
+		// 球
+		MaterialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
+		TransformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		cameraResourceSphere_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
+
 		// モデル
 		MaterialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
 		TransformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
@@ -455,6 +462,7 @@ void DirectXCommon::PostDraw()
 	assert(SUCCEEDED(hr));
 
 	// カウントしたリソースを初期化する
+	useNumResourceSphere_ = 0;
 	useNumResourceModel_ = 0;
 	useNumResourceSprite_ = 0;
 	useNumResourceLine_ = 0;
@@ -552,6 +560,221 @@ void DirectXCommon::SetSpotLight(const SpotLight* spotLight)
 	// カウントする
 	useNumSpotLightCount_++;
 	useNumSpotLightData_->num = useNumSpotLightCount_;
+}
+
+/// <summary>
+/// 球を描画する
+/// </summary>
+/// <param name="worldTransform"></param>
+/// <param name="uvTransform"></param>
+/// <param name="camera"></param>
+/// <param name="color"></param>
+/// <param name="isLighting"></param>
+void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+	const Camera3D* camera, uint32_t textureHandle, Vector4 color, bool isLighting)
+{
+	// 使用できるリソース数を越えないようにする
+	if (useNumResourceSphere_ >= kMaxNumResource)
+	{
+		return;
+	}
+
+
+	/*-----------------
+		インデックス
+	-----------------*/
+
+	// ビューを作成する
+	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
+	indexBufferView.BufferLocation = indexResourceSphere_->GetGPUVirtualAddress();
+	indexBufferView.SizeInBytes = sizeof(uint32_t) * (kSubudivisions * kSubudivisions) * 6;
+	indexBufferView.Format = DXGI_FORMAT_R32_UINT;
+
+	// データを書き込む
+	uint32_t* indexData = nullptr;
+	indexResourceSphere_->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
+
+	for (uint32_t latIndex = 0; latIndex < kSubudivisions; ++latIndex)
+	{
+		for (uint32_t lonIndex = 0; lonIndex < kSubudivisions; ++lonIndex)
+		{
+			// データの要素数
+			uint32_t dataIndex = (latIndex * kSubudivisions + lonIndex) * 6;
+
+			// インデックス
+			uint32_t index = (latIndex * kSubudivisions + lonIndex) * 4;
+
+			indexData[dataIndex] = index;
+			indexData[dataIndex + 1] = index + 1;
+			indexData[dataIndex + 2] = index + 2;
+			indexData[dataIndex + 3] = index + 2;
+			indexData[dataIndex + 4] = index + 1;
+			indexData[dataIndex + 5] = index + 3;
+		}
+	}
+
+
+	/*----------
+	    頂点
+	----------*/
+
+	// ビューを作成する
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
+	vertexBufferView.BufferLocation = vertexBufferResourceSphere_->GetGPUVirtualAddress();
+	vertexBufferView.SizeInBytes = sizeof(VertexData) * (kSubudivisions * kSubudivisions) * 4;
+	vertexBufferView.StrideInBytes = sizeof(VertexData);
+
+	// データを書き込む
+	VertexData* vertexData = nullptr;
+	vertexBufferResourceSphere_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+
+	// 経度分割1つ分の角度
+	const float kLonEvery = std::numbers::pi_v<float> *2.0f / float(kSubudivisions);
+
+	// 緯度分割1つ分の角度
+	const float kLatEvery = std::numbers::pi_v<float> / float(kSubudivisions);
+
+	// 緯度方向に分割
+	for (uint32_t latIndex = 0; latIndex < kSubudivisions; ++latIndex)
+	{
+		// 緯度
+		float lat = -std::numbers::pi_v<float> / 2.0f + kLatEvery * latIndex;
+
+		// 経度方向に分割
+		for (uint32_t lonIndex = 0; lonIndex < kSubudivisions; ++lonIndex)
+		{
+			// 経度
+			float lon = kLonEvery * lonIndex;
+
+			// データの要素番号
+			uint32_t dataIndex = (latIndex * kSubudivisions + lonIndex) * 4;
+
+			vertexData[dataIndex].position.x = std::cos(lat) * std::cos(lon);
+			vertexData[dataIndex].position.y = std::sin(lat);
+			vertexData[dataIndex].position.z = std::cos(lat) * std::sin(lon);
+			vertexData[dataIndex].position.w = 1.0f;
+			vertexData[dataIndex].normal.x = std::cos(lat) * std::cos(lon);
+			vertexData[dataIndex].normal.y = std::sin(lat);
+			vertexData[dataIndex].normal.z = std::cos(lat) * std::sin(lon);
+			vertexData[dataIndex].texcoord.x = float(lonIndex) / float(kSubudivisions);
+			vertexData[dataIndex].texcoord.y = 1.0f - (float(latIndex) / float(kSubudivisions));
+
+			vertexData[dataIndex + 1].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
+			vertexData[dataIndex + 1].position.y = std::sin(lat + kLatEvery);
+			vertexData[dataIndex + 1].position.z = std::cos(lat + kLatEvery) * std::sin(lon);
+			vertexData[dataIndex + 1].position.w = 1.0f;
+			vertexData[dataIndex + 1].normal.x = std::cos(lat + kLatEvery) * std::cos(lon);
+			vertexData[dataIndex + 1].normal.y = std::sin(lat + kLatEvery);
+			vertexData[dataIndex + 1].normal.z = std::cos(lat + kLatEvery) * std::sin(lon);
+			vertexData[dataIndex + 1].texcoord.x = float(lonIndex) / float(kSubudivisions);
+			vertexData[dataIndex + 1].texcoord.y = 1.0f - (float(latIndex + 1) / float(kSubudivisions));
+
+			vertexData[dataIndex + 2].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
+			vertexData[dataIndex + 2].position.y = std::sin(lat);
+			vertexData[dataIndex + 2].position.z = std::cos(lat) * std::sin(lon + kLonEvery);
+			vertexData[dataIndex + 2].position.w = 1.0f;
+			vertexData[dataIndex + 2].normal.x = std::cos(lat) * std::cos(lon + kLonEvery);
+			vertexData[dataIndex + 2].normal.y = std::sin(lat);
+			vertexData[dataIndex + 2].normal.z = std::cos(lat) * std::sin(lon + kLonEvery);
+			vertexData[dataIndex + 2].texcoord.x = float(lonIndex + 1) / float(kSubudivisions);
+			vertexData[dataIndex + 2].texcoord.y = 1.0f - (float(latIndex) / float(kSubudivisions));
+
+			vertexData[dataIndex + 3].position.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
+			vertexData[dataIndex + 3].position.y = std::sin(lat + kLatEvery);
+			vertexData[dataIndex + 3].position.z = std::cos(lat + kLatEvery) * std::sin(lon + kLonEvery);
+			vertexData[dataIndex + 3].position.w = 1.0f;
+			vertexData[dataIndex + 3].normal.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
+			vertexData[dataIndex + 3].normal.y = std::sin(lat + kLatEvery);
+			vertexData[dataIndex + 3].normal.z = std::cos(lat + kLatEvery) * std::sin(lon + kLonEvery);
+			vertexData[dataIndex + 3].texcoord.x = float(lonIndex + 1) / float(kSubudivisions);
+			vertexData[dataIndex + 3].texcoord.y = 1.0f - (float(latIndex + 1) / float(kSubudivisions));
+		}
+	}
+
+
+	/*---------------
+		マテリアル
+	---------------*/
+
+	// データを書き込む
+	Material* materialData = nullptr;
+	MaterialResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	materialData->color = color;
+	materialData->enableLighting = isLighting;
+	materialData->uvTransform =
+		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
+	materialData->shininess = 18.0f;
+
+
+	/*------------------
+		座標変換の行列
+	------------------*/
+
+	// データを書き込む
+	TransformationMatrix* transformationData = nullptr;
+	TransformationResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
+	transformationData->world = worldTransform->worldMatrix_;
+	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
+
+
+	/*-----------
+		カメラ
+	-----------*/
+
+	// データを書き込む
+	CameraForGPU* cameraData = nullptr;
+	cameraResourceSphere_[useNumResourceSphere_]->Map(0, nullptr, reinterpret_cast<void**>(&cameraData));
+	cameraData->worldPosition = camera->translation_;
+
+
+
+	/*------------------
+		コマンドを積む
+	------------------*/
+
+	// ルートシグネチャやPSOの設定
+	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
+
+	// IBVを設定する
+	commandList_->IASetIndexBuffer(&indexBufferView);
+
+	// VBVを設定する
+	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+
+	// 形状を設定
+	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// マテリアル用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(0, MaterialResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+
+	// 座標変換用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(1, TransformationResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+
+	// 平行光源用のインスタンシングの設定
+	commandList_->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	commandList_->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+
+	// ポイントライト用のCBVを設定
+	commandList_->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	commandList_->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+
+	// スポットライトのCBVを設定
+	commandList_->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	commandList_->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+
+	// カメラ用のCBVを設定
+	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+
+	// テクスチャ
+	textureStore_->SelectTexture(commandList_, textureHandle);
+
+	// 描画する
+	commandList_->DrawIndexedInstanced(kSubudivisions* kSubudivisions * 6, 1, 0, 0, 0);
+
+
+	// カウントする
+	useNumResourceSphere_++;
 }
 
 /// <summary>

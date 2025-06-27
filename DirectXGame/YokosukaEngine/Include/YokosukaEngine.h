@@ -153,6 +153,21 @@ public:
 	void SetSpotLight(const SpotLight* spotLight)const { directXCommon_->SetSpotLight(spotLight); }
 
 	/// <summary>
+	/// 球を描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="textureHandle"></param>
+	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
+	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera, uint32_t textureHandle, Vector4 color, bool isLighting) const
+	{
+		directXCommon_->DrawSphere(worldTransform, uvTransform, camera, textureHandle, color, isLighting);
+	}
+
+	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
