@@ -22,7 +22,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// 重力場の生成と初期化
 	gravitationalField_ = std::make_unique<GravitationalField>();
-	gravitationalField_->Initialize(engine_ , camera3d_.get() , 12.0f);
+	gravitationalField_->Initialize(engine_ , camera3d_.get() , 18.0f);
 }
 
 /// <summary>
@@ -81,8 +81,20 @@ void GameScene::CheckAllCollisions()
 
 	if (IsCollision(sphere1, sphere2))
 	{
-		player_->OnCollision();
-		planet_->OnCollision();
+		player_->OnCollision(planet_.get());
+	}
+
+#pragma endregion
+
+
+#pragma region // プレイヤー と 重力場
+
+	sphere1 = player_->GetCollisionSphere();
+	sphere2 = gravitationalField_->GetCollisionSphere();
+
+	if (IsCollision(sphere1, sphere2))
+	{
+		player_->OnCollision(gravitationalField_.get());
 	}
 
 #pragma endregion

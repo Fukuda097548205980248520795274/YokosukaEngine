@@ -53,7 +53,7 @@ void GravitationalField::Draw()
 /// ワールド座標のGetter
 /// </summary>
 /// <returns></returns>
-Vector3 GravitationalField::GetWorldPosition()
+Vector3 GravitationalField::GetWorldPosition() const
 {
 	// ワールド座標
 	Vector3 worldPosition;
@@ -67,7 +67,7 @@ Vector3 GravitationalField::GetWorldPosition()
 /// 当たり判定の球のGetter
 /// </summary>
 /// <returns></returns>
-Sphere GravitationalField::GetCollisionSphere()
+Sphere GravitationalField::GetCollisionSphere() const
 {
 	Sphere sphere;
 	sphere.center = GetWorldPosition();
@@ -80,5 +80,5 @@ Sphere GravitationalField::GetCollisionSphere()
 /// </summary>
 void GravitationalField::OnCollision()
 {
-
+	
 }

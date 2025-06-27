@@ -26,13 +26,13 @@ public:
 	/// ワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() const;
 
 	/// <summary>
 	/// 当たり判定の球のGetter
 	/// </summary>
 	/// <returns></returns>
-	Sphere GetCollisionSphere();
+	Sphere GetCollisionSphere() const;
 
 	/// <summary>
 	/// 衝突判定応答

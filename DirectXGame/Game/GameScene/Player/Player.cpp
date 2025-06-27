@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "../Planet/Planet.h"
+#include "../GravitationalField/GravitationalField.h"
 
 /// <summary>
 /// 初期化
@@ -35,6 +37,33 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
+	ImGui::Begin("Player");
+	ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
+	ImGui::End();
+
+	// 着地しているとき
+	if (isGround_)
+	{
+
+	}
+	else
+	{
+		// 着地していないとき
+
+		// 重力場の中にいるとき
+		if (isGravityPull_)
+		{
+			// 落下速度
+			const float kFallSpeed = 0.05f;
+
+			// 移動させる
+			worldTransform_->translation_ += toGravity_ * kFallSpeed;
+		}
+	}
+
+	isGround_ = false;
+	isGravityPull_ = false;
+
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();
@@ -78,7 +107,21 @@ Sphere Player::GetCollisionSphere()
 /// <summary>
 /// 衝突判定応答
 /// </summary>
-void Player::OnCollision()
+/// <param name="planet"></param>
+void Player::OnCollision(const Planet* planet)
 {
+	// 着地する
+	isGround_ = true;
+}
 
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+void Player::OnCollision(const GravitationalField* gravitationalField)
+{
+	// 重力に引っ張られる
+	isGravityPull_ = true;
+
+	// 重力場の中心へのベクトルを取得する
+	toGravity_ = Normalize(gravitationalField->GetWorldPosition() - GetWorldPosition());
 }

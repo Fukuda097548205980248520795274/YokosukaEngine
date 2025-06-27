@@ -1,6 +1,10 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
+// 前方宣言
+class Planet;
+class GravitationalField;
+
 class Player
 {
 public:
@@ -37,7 +41,13 @@ public:
 	/// <summary>
 	/// 衝突判定応答
 	/// </summary>
-	void OnCollision();
+	/// <param name="planet"></param>
+	void OnCollision(const Planet* planet);
+
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	void OnCollision(const GravitationalField* gravitationalField);
 
 
 private:
@@ -61,5 +71,17 @@ private:
 
 	// 半径
 	float radius_ = 1.0f;
+
+	// 重力に引っ張られているかどうか
+	bool isGravityPull_ = false;
+
+	// 着地したかどうか
+	bool isGround_ = false;
+
+	// 重力場の中心方向ベクトル
+	Vector3 toGravity_ = { 0.0f , 0.0f , 0.0f };
+
+	// 惑星の位置
+	Vector3 planetPosition_ = { 0.0f , 0.0f , 0.0f };
 };
 
