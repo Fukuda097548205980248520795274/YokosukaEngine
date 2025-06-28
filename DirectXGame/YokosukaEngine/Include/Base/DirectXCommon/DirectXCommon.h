@@ -43,6 +43,14 @@
 #include "../../PipelineStateObject/Particle/BlendMultiply/ParticleBlendMultiply.h"
 #include "../../PipelineStateObject/Particle/BlendScreen/ParticleBlendScreen.h"
 
+#include "../../PipelineStateObject/Primitive/BasePrimitive.h"
+#include "../../PipelineStateObject/Primitive/BlendNone/PrimitiveBlendNone.h"
+#include "../../PipelineStateObject/Primitive/BlendNormal/PrimitiveBlendNormal.h"
+#include "../../PipelineStateObject/Primitive/BlendAdd/PrimitiveBlendAdd.h"
+#include "../../PipelineStateObject/Primitive/BlendSubtract/PrimitiveBlendSubtract.h"
+#include "../../PipelineStateObject/Primitive/BlendMultiply/PrimitiveBlendMultiply.h"
+#include "../../PipelineStateObject/Primitive/BlendScreen/PrimitiveBlendScreen.h"
+
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/UvTransform/UvTransform.h"
 
@@ -491,6 +499,9 @@ private:
 	BaseLine3d* psoLine3d_[kBlendModekCountOfBlendMode] = { nullptr };
 	uint32_t useLine3dBlendMode_ = kBlendModeNormal;
 
+	// Primitive用のPSO
+	BasePrimitive* psoPrimitive_[kBlendModekCountOfBlendMode] = { nullptr };
+	uint32_t usePrimitiveBlendMode_ = kBlendModeNormal;
 
 
 	// リソースの最大数

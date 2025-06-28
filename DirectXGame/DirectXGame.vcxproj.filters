@@ -244,6 +244,27 @@
     <Filter Include="YokosukaEngine\Include\Math\Matrix3x3">
       <UniqueIdentifier>{497797df-8293-4128-8d83-6bc41f0dff45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Primitive">
+      <UniqueIdentifier>{76684d38-82c7-4b10-90fc-57a89cf4bfa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd">
+      <UniqueIdentifier>{10185e20-a4b2-4747-ba07-22bfc3ae87b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNone">
+      <UniqueIdentifier>{a5514b04-9c81-49c5-b8ee-65ef78485352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNormal">
+      <UniqueIdentifier>{e0f6cb14-1dd9-426e-9007-b3642b5ea381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen">
+      <UniqueIdentifier>{9eeb8fb0-0bad-40a6-8cd4-cda032439abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendSubtract">
+      <UniqueIdentifier>{37706916-39f8-461f-8576-1e1987af0b71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply">
+      <UniqueIdentifier>{2c00e768-09b4-47ca-85b4-92b9f63831f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -446,6 +467,27 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp">
       <Filter>YokosukaEngine\Include\Math\Matrix3x3</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNone\PrimitiveBlendNone.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNone</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNormal\PrimitiveBlendNormal.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd\PrimitiveBlendAdd.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendSubtract\PrimitiveBlendSubtract.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendSubtract</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply\PrimitiveBlendMultiply.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -653,6 +695,27 @@
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h">
       <Filter>YokosukaEngine\Include\Math\Matrix3x3</Filter>
     </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNone\PrimitiveBlendNone.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNone</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNormal\PrimitiveBlendNormal.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd\PrimitiveBlendAdd.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendSubtract\PrimitiveBlendSubtract.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendSubtract</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply\PrimitiveBlendMultiply.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="YokosukaEngine\Shader\Object3d.VS.hlsl">
@@ -673,6 +736,12 @@
     <FxCompile Include="YokosukaEngine\Shader\Line3d.PS.hlsl">
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\Primitive.VS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\Primitive.PS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
@@ -687,6 +756,9 @@
       <Filter>YokosukaEngine\Shader</Filter>
     </None>
     <None Include="YokosukaEngine\Shader\Line3d.hlsli">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </None>
+    <None Include="YokosukaEngine\Shader\Primitive.hlsli">
       <Filter>YokosukaEngine\Shader</Filter>
     </None>
   </ItemGroup>

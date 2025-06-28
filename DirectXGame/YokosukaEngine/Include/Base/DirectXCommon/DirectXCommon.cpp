@@ -17,6 +17,7 @@ DirectXCommon::~DirectXCommon()
 		delete psoObject3d_[i];
 		delete psoParticle_[i];
 		delete psoLine3d_[i];
+		delete psoPrimitive_[i];
 	}
 
 	// DXC
@@ -175,6 +176,26 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	psoLine3d_[kBlendModeScreen] = new Line3dBlendScreen();
 	psoLine3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
+
+
+	// Primitive用のPSOの生成と初期化
+	psoPrimitive_[kBlendModeNone] = new PrimitiveBlendNone();
+	psoPrimitive_[kBlendModeNone]->Initialize(log_, dxc_, device_);
+
+	psoPrimitive_[kBlendModeNormal] = new PrimitiveBlendNormal();
+	psoPrimitive_[kBlendModeNormal]->Initialize(log_, dxc_, device_);
+
+	psoPrimitive_[kBlendModeAdd] = new PrimitiveBlendAdd();
+	psoPrimitive_[kBlendModeAdd]->Initialize(log_, dxc_, device_);
+
+	psoPrimitive_[kBlendModeSubtract] = new PrimitiveBlendSubtract();
+	psoPrimitive_[kBlendModeSubtract]->Initialize(log_, dxc_, device_);
+
+	psoPrimitive_[kBlendModeMultiply] = new PrimitiveBlendMultiply();
+	psoPrimitive_[kBlendModeMultiply]->Initialize(log_, dxc_, device_);
+
+	psoPrimitive_[kBlendModeScreen] = new PrimitiveBlendScreen();
+	psoPrimitive_[kBlendModeScreen]->Initialize(log_, dxc_, device_);
 
 
 	// ビューポート
@@ -696,7 +717,7 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
@@ -914,7 +935,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
@@ -1098,7 +1119,7 @@ void DirectXCommon::DrawRing(const WorldTransform* worldTransform, const UvTrans
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
@@ -1282,7 +1303,7 @@ void DirectXCommon::DrawCylinder(const WorldTransform* worldTransform, const UvT
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(commandList_);
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);
