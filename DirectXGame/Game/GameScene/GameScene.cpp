@@ -22,19 +22,19 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	uvTransform_->Initialize();
 
 	// テクスチャを読み込む
-	textureHandle_ = engine_->LoadTexture("./Resources/Textures/uvChecker.png");
+	textureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
 
 
 	// ポイントライトの生成と初期化
 	pointLight0_ = std::make_unique<PointLight>();
 	pointLight0_->Initialize();
 	pointLight0_->color_ = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-	pointLight0_->position_ = Vector3(-1.0f, 2.0f, 0.0f);
+	pointLight0_->position_ = Vector3(-1.0f, 1.0f, 0.0f);
 
 	pointLight1_ = std::make_unique<PointLight>();
 	pointLight1_->Initialize();
 	pointLight1_->color_ = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-	pointLight1_->position_ = Vector3(1.0f, 2.0f, 0.0f);
+	pointLight1_->position_ = Vector3(1.0f, 1.0f, 0.0f);
 }
 
 /// <summary>
@@ -69,5 +69,5 @@ void GameScene::Draw()
 	engine_->SetPointLight(pointLight1_.get());
 
 	// 球を描画する
-	engine_->DrawCylinder(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, 32, 5.0f, 3.0f, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	engine_->DrawPlane(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_,Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }
