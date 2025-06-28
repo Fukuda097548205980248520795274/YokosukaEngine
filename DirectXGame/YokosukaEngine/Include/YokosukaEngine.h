@@ -183,6 +183,24 @@ public:
 	}
 
 	/// <summary>
+	/// リングを描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="textureHandle"></param>
+	/// <param name="subdivisions"></param>
+	/// <param name="outRadius"></param>
+	/// <param name="inRadius"></param>
+	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
+	void DrawRing(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float outRadius, float inRadius, Vector4 color, bool isLighting) const
+	{
+		directXCommon_->DrawRing(worldTransform, uvTransform, camera, textureHandle, subdivisions, outRadius, inRadius, color, isLighting);
+	}
+
+	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,

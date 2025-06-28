@@ -189,7 +189,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawRing(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, uint32_t outRadius, uint32_t inRadius, Vector4 color, bool isLighting);
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float outRadius, float inRadius, Vector4 color, bool isLighting);
 
 	/// <summary>
 	/// 円柱を描画する
@@ -544,6 +544,58 @@ private:
 
 	// カメラリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceSphere_[1024] = { nullptr };
+
+
+	/*--------------------------
+	    リングで使用するリソース
+	--------------------------*/
+
+	// 使用したリソースをカウントする
+	uint32_t useNumResourceRing_ = 0;
+
+	//最大 分割数
+	const uint32_t kRingMaxSubdivisions = 32;
+
+	// インデックスリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceRing_ = { nullptr };
+
+	// 頂点バッファリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceRing_ = { nullptr };
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceRing_[1024] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceRing_[1024] = { nullptr };
+
+	// カメラリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceRing_[1024] = { nullptr };
+
+
+	/*------------------------
+	    円柱で使用するリソース
+	------------------------*/
+
+	// 使用したリソースをカウントする
+	uint32_t useNumResourceCylinder_ = 0;
+
+	//最大 分割数
+	const uint32_t kCylinderMaxSubdivisions = 32;
+
+	// インデックスリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceCylinder_ = { nullptr };
+
+	// 頂点バッファリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceCylinder_ = { nullptr };
+
+	// マテリアルリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceCylinder_[1024] = { nullptr };
+
+	// 座標変換リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceCylinder_[1024] = { nullptr };
+
+	// カメラリソース
+	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceCylinder_[1024] = { nullptr };
 
 
 	/*----------------------------
