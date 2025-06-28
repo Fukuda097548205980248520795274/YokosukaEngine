@@ -69,5 +69,5 @@ void GameScene::Draw()
 	engine_->SetPointLight(pointLight1_.get());
 
 	// 球を描画する
-	engine_->DrawRing(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, 5, 1.0f, 6.0f, Vector4(1.0f, 1.0f, 1.0f, 1.0f), false);
+	engine_->DrawRing(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, 32, 5.0f, 6.0f, Vector4(1.0f, 1.0f, 1.0f, 1.0f), false);
 }

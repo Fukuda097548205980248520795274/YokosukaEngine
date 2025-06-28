@@ -1037,31 +1037,19 @@ void DirectXCommon::DrawRing(const WorldTransform* worldTransform, const UvTrans
 		float u = static_cast<float>(index) / static_cast<float>(subdivisions);
 		float uNext = static_cast<float>(index + 1) / static_cast<float>(subdivisions);
 
-		vertexData[startIndex].position.x = -sin * outRadius;
-		vertexData[startIndex].position.y = cos * outRadius;
-		vertexData[startIndex].position.z = 0.0f;
-		vertexData[startIndex].position.w = 1.0f;
+		vertexData[startIndex].position = { -sin * outRadius , 0.0f , cos * outRadius  , 1.0f };
 		vertexData[startIndex].texcoord = Vector2(u, 0.0f);
 		vertexData[startIndex].normal = Vector3(0.0f, 0.0f, -1.0f);
 
-		vertexData[startIndex + 1].position.x = -sinNext * outRadius;
-		vertexData[startIndex + 1].position.y = cosNext * outRadius;
-		vertexData[startIndex + 1].position.z = 0.0f;
-		vertexData[startIndex + 1].position.w = 1.0f;
+		vertexData[startIndex + 1].position = { -sinNext * outRadius , 0.0f , cosNext * outRadius  , 1.0f };
 		vertexData[startIndex + 1].texcoord = Vector2(uNext, 0.0f);
 		vertexData[startIndex + 1].normal = Vector3(0.0f, 0.0f, -1.0f);
 
-		vertexData[startIndex + 2].position.x = -sin * inRadius;
-		vertexData[startIndex + 2].position.y = cos * inRadius;
-		vertexData[startIndex + 2].position.z = 0.0f;
-		vertexData[startIndex + 2].position.w = 1.0f;
+		vertexData[startIndex + 2].position = { -sin * inRadius , 0.0f , cos * inRadius , 1.0f };
 		vertexData[startIndex + 2].texcoord = Vector2(u, 1.0f);
 		vertexData[startIndex + 2].normal = Vector3(0.0f, 0.0f, -1.0f);
 
-		vertexData[startIndex + 3].position.x = -sinNext * inRadius;
-		vertexData[startIndex + 3].position.y = cosNext * inRadius;
-		vertexData[startIndex + 3].position.z = 0.0f;
-		vertexData[startIndex + 3].position.w = 1.0f;
+		vertexData[startIndex + 3].position = { -sinNext * inRadius , 0.0f , cosNext * inRadius  , 1.0f };
 		vertexData[startIndex + 3].texcoord = Vector2(uNext, 1.0f);
 		vertexData[startIndex + 3].normal = Vector3(0.0f, 0.0f, -1.0f);
 	}
