@@ -204,7 +204,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawCylinder(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, uint32_t height, uint32_t radius, Vector4 color, bool isLighting);
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float height, float radius, Vector4 color, bool isLighting);
 
 	/// <summary>
 	/// モデルを描画する

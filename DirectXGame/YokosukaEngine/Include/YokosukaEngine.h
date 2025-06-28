@@ -201,6 +201,24 @@ public:
 	}
 
 	/// <summary>
+	/// 円柱を描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="textureHandle"></param>
+	/// <param name="subdivisions"></param>
+	/// <param name="height"></param>
+	/// <param name="radius"></param>
+	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
+	void DrawCylinder(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float height, float radius, Vector4 color, bool isLighting) const
+	{
+		directXCommon_->DrawCylinder(worldTransform, uvTransform, camera, textureHandle, subdivisions, height, radius, color, isLighting);
+	}
+
+	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
