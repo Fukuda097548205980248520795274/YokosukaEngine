@@ -68,12 +68,27 @@ private:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
+	// デルタタイム
+	const float kDeltaTime = 1.0f / 60.0f;
+
 
 	// 半径
 	float radius_ = 1.0f;
 
 	// 角速度
 	float anglerVelocity_ = 0.0f;
+
+	// 速度
+	float speed_ = 0.0f;
+
+	// ジャンプの初速
+	const float kJumpStartSpeed = 6.0f;
+
+	// 落下速度
+	float fallUpSpeed = 0.0f;
+
+	// 落下上昇ベクトル
+	Vector3 fallUpVelocity_ = { 0.0f , 0.0f ,0.0f };
 
 
 
@@ -87,7 +102,7 @@ private:
 	Vector3 toGravity_ = { 0.0f , 0.0f , 0.0f };
 
 	// 落下速度
-	const float kFallSpeed = 0.5f;
+	const float kFallSpeed = 4.9f;
 
 
 

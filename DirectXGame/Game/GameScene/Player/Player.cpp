@@ -37,34 +37,41 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
-	ImGui::Begin("Player");
-	ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
-	ImGui::End();
-
-	// 移動速度
-	Vector3 velocity = { 0.0f , 0.0f , 0.0f };
 
 	// 着地しているとき
 	if (isGround_)
 	{
+		// 落下ベクトルを求める
+		fallUpVelocity_ = Normalize(planetPosition_ - GetWorldPosition()) * kFallSpeed;
+
 		// プレイヤーの位置を探す
 		Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
 		anglerVelocity_ = std::acos(normalizeToPlayer.x);
 		if (normalizeToPlayer.y <= 0.0f)
 			anglerVelocity_ *= -1.0f;
 
-		ImGui::Text("%f", anglerVelocity_);
 
+		// 時計回りで移動する
 		if (engine_->GetKeyPress(DIK_D))
 		{
 			anglerVelocity_ -= 0.01f;
 		}
 		else if (engine_->GetKeyPress(DIK_A))
 		{
+			// 反時計回りで移動する
 			anglerVelocity_ += 0.01f;
 		}
 
+		// 球面座標系で移動する
 		worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, anglerVelocity_, 0.0f);
+
+
+		if (engine_->GetKeyTrigger(DIK_SPACE))
+		{
+			// ジャンプの初速を与える
+			fallUpSpeed = kJumpStartSpeed;
+			fallUpVelocity_ = (-1.0f * toGravity_) * fallUpSpeed;
+		}
 	}
 	else
 	{
@@ -73,13 +80,43 @@ void Player::Update()
 		// 重力場の中にいるとき
 		if (isGravityPull_)
 		{
-			// 移動させる
-			velocity = toGravity_ * kFallSpeed;
+			// 上昇加工する
+			speed_ += fallUpSpeed * kDeltaTime;
+
+			// 重力場の中心に落下する
+			fallUpVelocity_ = (-1.0f * toGravity_) * speed_;
+
+			// 落下する
+			fallUpSpeed -= kFallSpeed * kDeltaTime;
+
+
+			// プレイヤーの位置を探す
+			Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
+			anglerVelocity_ = std::acos(normalizeToPlayer.x);
+			if (normalizeToPlayer.y <= 0.0f)
+				anglerVelocity_ *= -1.0f;
+
+
+			// 時計回りで移動する
+			if (engine_->GetKeyPress(DIK_D))
+			{
+				anglerVelocity_ -= 0.01f;
+			} else if (engine_->GetKeyPress(DIK_A))
+			{
+				// 反時計回りで移動する
+				anglerVelocity_ += 0.01f;
+			}
+
+
+			// 球面座標系で移動する
+			worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, anglerVelocity_, 0.0f) + fallUpVelocity_;
+		}
+		else
+		{
+			// 重力場の外では無効になる
+			fallUpVelocity_ = { 0.0f , 0.0f , 0.0f };
 		}
 	}
-
-	// 移動させる
-	worldTransform_->translation_ += velocity;
 
 	isGround_ = false;
 	isGravityPull_ = false;
@@ -119,7 +156,7 @@ Vector3 Player::GetWorldPosition()
 Sphere Player::GetCollisionSphere()
 {
 	Sphere sphere;
-	sphere.center = GetWorldPosition() + (toGravity_ * kFallSpeed);
+	sphere.center = GetWorldPosition() + fallUpVelocity_;
 	sphere.radius = radius_;
 	return sphere;
 }
