@@ -41,20 +41,30 @@ void Player::Update()
 	ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
 	ImGui::End();
 
-	// 速度ベクトル
+	// 移動速度
 	Vector3 velocity = { 0.0f , 0.0f , 0.0f };
 
 	// 着地しているとき
 	if (isGround_)
 	{
-		// スペースキーでジャンプする
-		if (engine_->GetKeyTrigger(DIK_SPACE))
-		{
-			// ジャンプの初速
+		// プレイヤーの位置を探す
+		Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
+		anglerVelocity_ = std::acos(normalizeToPlayer.x);
+		if (normalizeToPlayer.y <= 0.0f)
+			anglerVelocity_ *= -1.0f;
 
+		ImGui::Text("%f", anglerVelocity_);
+
+		if (engine_->GetKeyPress(DIK_D))
+		{
+			anglerVelocity_ -= 0.01f;
+		}
+		else if (engine_->GetKeyPress(DIK_A))
+		{
+			anglerVelocity_ += 0.01f;
 		}
 
-
+		worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, anglerVelocity_, 0.0f);
 	}
 	else
 	{
@@ -63,9 +73,6 @@ void Player::Update()
 		// 重力場の中にいるとき
 		if (isGravityPull_)
 		{
-			// 落下速度
-			const float kFallSpeed = 0.5f;
-
 			// 移動させる
 			velocity = toGravity_ * kFallSpeed;
 		}
@@ -112,7 +119,7 @@ Vector3 Player::GetWorldPosition()
 Sphere Player::GetCollisionSphere()
 {
 	Sphere sphere;
-	sphere.center = GetWorldPosition();
+	sphere.center = GetWorldPosition() + (toGravity_ * kFallSpeed);
 	sphere.radius = radius_;
 	return sphere;
 }
@@ -126,8 +133,9 @@ void Player::OnCollision(const Planet* planet)
 	// 着地する
 	isGround_ = true;
 
-	// 惑星の中心方向ベクトルを取得する
-	toPlanet_ = Normalize(planet->GetWorldPosition() - GetWorldPosition());
+	// 惑星とプレイヤーの距離を取得する
+	planetPosition_ = planet->GetWorldPosition();
+	toPlanetLength_ = planet->GetRadius() + radius_;
 }
 
 /// <summary>

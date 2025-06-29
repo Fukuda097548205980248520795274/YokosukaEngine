@@ -14,7 +14,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 12.0f, 0.0f));
+	player_->Initialize(engine_, camera3d_.get(), Vector3(0.0f, -12.0f, 0.0f));
 
 	// 惑星の生成と初期化
 	planet_ = std::make_unique<Planet>();

@@ -72,6 +72,10 @@ private:
 	// 半径
 	float radius_ = 1.0f;
 
+	// 角速度
+	float anglerVelocity_ = 0.0f;
+
+
 
 	// 重力に引っ張られているかどうか
 	bool isGravityPull_ = false;
@@ -82,7 +86,15 @@ private:
 	// 重力場の中心方向ベクトル
 	Vector3 toGravity_ = { 0.0f , 0.0f , 0.0f };
 
-	// 惑星の中心方向ベクトル
-	Vector3 toPlanet_ = { 0.0f , 0.0f , 0.0f };
+	// 落下速度
+	const float kFallSpeed = 0.5f;
+
+
+
+	// 惑星の位置ベクトル
+	Vector3 planetPosition_ = { 0.0f , 0.0f , 0.0f };
+
+	// プレイヤーから惑星の距離
+	float toPlanetLength_ = 0.0f;
 };
 

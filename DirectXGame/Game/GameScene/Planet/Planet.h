@@ -35,6 +35,12 @@ public:
 	Sphere GetCollisionSphere() const;
 
 	/// <summary>
+	/// 半径のGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetRadius() const { return radius_; };
+
+	/// <summary>
 	/// 衝突判定応答
 	/// </summary>
 	void OnCollision();
