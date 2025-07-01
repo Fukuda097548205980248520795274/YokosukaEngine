@@ -32,14 +32,19 @@ private:
 	/// </summary>
 	void CheckAllCollisions();
 
+	/// <summary>
+	/// 惑星を設置する
+	/// </summary>
+	void SetPlanet(const Vector3& position , float planetRadius, float gravitationalFieldRadius);
+
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
 
-	// 惑星
-	std::unique_ptr<Planet> planet_ = nullptr;
+	// 惑星リスト
+	std::list<std::unique_ptr<Planet>> planets_;
 
-	// 重力場
-	std::unique_ptr<GravitationalField> gravitationalField_ = nullptr;
+	// 重力場リスト
+	std::list<std::unique_ptr<GravitationalField>> gravitationalFields_;
 };
 

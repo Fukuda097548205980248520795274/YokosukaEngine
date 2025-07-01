@@ -1,6 +1,9 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
+// 前方宣言
+class Planet;
+
 class GravitationalField
 {
 public:
@@ -10,7 +13,7 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, float radius);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, float radius);
 
 	/// <summary>
 	/// 更新処理
@@ -35,6 +38,18 @@ public:
 	Sphere GetCollisionSphere() const;
 
 	/// <summary>
+	/// 惑星のインスタンスのSetter
+	/// </summary>
+	/// <param name="planet"></param>
+	void SetPlanetInstance(Planet* planet) { planet_ = planet; }
+
+	/// <summary>
+	/// 惑星のインスタンスのGetter
+	/// </summary>
+	/// <returns></returns>
+	Planet* GetPlanetInstance() const { return planet_; }
+
+	/// <summary>
 	/// 衝突判定応答
 	/// </summary>
 	void OnCollision();
@@ -47,6 +62,9 @@ private:
 
 	// カメラ
 	const Camera3D* camera3d_ = nullptr;
+
+	// 惑星のインスタンス
+	Planet* planet_ = nullptr;
 
 
 	// ワールドトランスフォーム

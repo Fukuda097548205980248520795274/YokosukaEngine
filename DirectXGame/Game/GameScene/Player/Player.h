@@ -52,6 +52,17 @@ public:
 
 private:
 
+	/// <summary>
+	/// 入力操作
+	/// </summary>
+	void Input();
+
+	/// <summary>
+	/// 最も近い惑星を探す
+	/// </summary>
+	void SarchNearPlanet();
+
+
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
 
@@ -76,7 +87,7 @@ private:
 	float radius_ = 1.0f;
 
 	// 角速度
-	float anglerVelocity_ = 0.0f;
+	float anglerTheta_ = 0.0f;
 
 	// 速度
 	float speed_ = 0.0f;
@@ -111,5 +122,12 @@ private:
 
 	// プレイヤーから惑星の距離
 	float toPlanetLength_ = 0.0f;
+
+
+	// 最も近い惑星リスト
+	std::list<std::pair<float, Planet*>> nearPlanets_;
+
+	// 乗っている惑星
+	Planet* ridePlanet_ = nullptr;
 };
 

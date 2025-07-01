@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Planet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d , float radius)
+void Planet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d , const Vector3& position, float radius)
 {
 	// nullptrチェック
 	assert(engine);
@@ -20,6 +20,7 @@ void Planet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d ,
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->translation_ = position;
 	worldTransform_->scale_ *= radius_;
 
 	// UVトランスフォームの生成と初期化

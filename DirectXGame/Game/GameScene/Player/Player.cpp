@@ -37,86 +37,11 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
+	// 最も近い惑星を探す
+	SarchNearPlanet();
 
-	// 着地しているとき
-	if (isGround_)
-	{
-		// 落下ベクトルを求める
-		fallUpVelocity_ = Normalize(planetPosition_ - GetWorldPosition()) * kFallSpeed;
-
-		// プレイヤーの位置を探す
-		Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
-		anglerVelocity_ = std::acos(normalizeToPlayer.x);
-		if (normalizeToPlayer.y <= 0.0f)
-			anglerVelocity_ *= -1.0f;
-
-
-		// 時計回りで移動する
-		if (engine_->GetKeyPress(DIK_D))
-		{
-			anglerVelocity_ -= 0.01f;
-		}
-		else if (engine_->GetKeyPress(DIK_A))
-		{
-			// 反時計回りで移動する
-			anglerVelocity_ += 0.01f;
-		}
-
-		// 球面座標系で移動する
-		worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, anglerVelocity_, 0.0f);
-
-
-		if (engine_->GetKeyTrigger(DIK_SPACE))
-		{
-			// ジャンプの初速を与える
-			fallUpSpeed = kJumpStartSpeed;
-			fallUpVelocity_ = (-1.0f * toGravity_) * fallUpSpeed;
-		}
-	}
-	else
-	{
-		// 着地していないとき
-
-		// 重力場の中にいるとき
-		if (isGravityPull_)
-		{
-			// 上昇加工する
-			speed_ += fallUpSpeed * kDeltaTime;
-
-			// 重力場の中心に落下する
-			fallUpVelocity_ = (-1.0f * toGravity_) * speed_;
-
-			// 落下する
-			fallUpSpeed -= kFallSpeed * kDeltaTime;
-
-
-			// プレイヤーの位置を探す
-			Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
-			anglerVelocity_ = std::acos(normalizeToPlayer.x);
-			if (normalizeToPlayer.y <= 0.0f)
-				anglerVelocity_ *= -1.0f;
-
-
-			// 時計回りで移動する
-			if (engine_->GetKeyPress(DIK_D))
-			{
-				anglerVelocity_ -= 0.01f;
-			} else if (engine_->GetKeyPress(DIK_A))
-			{
-				// 反時計回りで移動する
-				anglerVelocity_ += 0.01f;
-			}
-
-
-			// 球面座標系で移動する
-			worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, anglerVelocity_, 0.0f) + fallUpVelocity_;
-		}
-		else
-		{
-			// 重力場の外では無効になる
-			fallUpVelocity_ = { 0.0f , 0.0f , 0.0f };
-		}
-	}
+	// 入力操作
+	Input();
 
 	isGround_ = false;
 	isGravityPull_ = false;
@@ -156,7 +81,7 @@ Vector3 Player::GetWorldPosition()
 Sphere Player::GetCollisionSphere()
 {
 	Sphere sphere;
-	sphere.center = GetWorldPosition() + fallUpVelocity_;
+	sphere.center = GetWorldPosition() + fallUpVelocity_ * kDeltaTime;
 	sphere.radius = radius_;
 	return sphere;
 }
@@ -169,6 +94,11 @@ void Player::OnCollision(const Planet* planet)
 {
 	// 着地する
 	isGround_ = true;
+
+	// ジャンプの値を初期化する
+	speed_ = 0.0f;
+	fallUpSpeed = 0.0f;
+	fallUpVelocity_ = Vector3(0.0f, 0.0f, 0.0f);
 
 	// 惑星とプレイヤーの距離を取得する
 	planetPosition_ = planet->GetWorldPosition();
@@ -183,6 +113,125 @@ void Player::OnCollision(const GravitationalField* gravitationalField)
 	// 重力に引っ張られる
 	isGravityPull_ = true;
 
-	// 重力場の中心へのベクトルを取得する
-	toGravity_ = Normalize(gravitationalField->GetWorldPosition() - GetWorldPosition());
+
+	// 惑星の最近接点を求める
+	Vector3 toPlanet = gravitationalField->GetPlanetInstance()->GetWorldPosition() - GetWorldPosition();
+	float length = Length(toPlanet) - gravitationalField->GetPlanetInstance()->GetRadius();
+
+	// 最も近い惑星リストに追加する
+	nearPlanets_.emplace_back(std::make_pair(length, gravitationalField->GetPlanetInstance()));
+}
+
+/// <summary>
+/// 入力操作
+/// </summary>
+void Player::Input()
+{
+	// 着地しているとき
+	if (isGround_)
+	{
+		// 落下ベクトルを求める
+		fallUpVelocity_ = Normalize(planetPosition_ - GetWorldPosition()) * kFallSpeed;
+
+		// プレイヤーの位置を探す
+		Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
+
+		anglerTheta_ = std::acos(normalizeToPlayer.x);
+		if (worldTransform_->translation_.y <= planetPosition_.y)
+			anglerTheta_ *= -1.0f;
+
+
+		// 時計回りで移動する
+		if (engine_->GetKeyPress(DIK_D))
+		{
+			anglerTheta_ -= 0.01f;
+		}
+		else if (engine_->GetKeyPress(DIK_A))
+		{
+			// 反時計回りで移動する
+			anglerTheta_ += 0.01f;
+		}
+
+		// 球面座標系で移動する
+		worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, anglerTheta_, 0.0f);
+
+
+		if (engine_->GetKeyTrigger(DIK_SPACE))
+		{
+			// ジャンプの初速を与える
+			fallUpSpeed = kJumpStartSpeed;
+			fallUpVelocity_ = (-1.0f * toGravity_) * fallUpSpeed;
+		}
+	} else
+	{
+		// 着地していないとき
+
+		// 重力場の中にいるとき
+		if (isGravityPull_)
+		{
+			// 上昇加工する
+			speed_ += fallUpSpeed * kDeltaTime;
+
+			// 重力場の中心に落下する
+			fallUpVelocity_ = -1.0f * (toGravity_ * speed_);
+
+			// 落下する
+			fallUpSpeed -= kFallSpeed * kDeltaTime;
+
+
+			// プレイヤーの位置を探す
+			Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
+			anglerTheta_ = std::acos(normalizeToPlayer.x);
+			if (worldTransform_->translation_.y <= planetPosition_.y)
+				anglerTheta_ *= -1.0f;
+
+
+			// 時計回りで移動する
+			if (engine_->GetKeyPress(DIK_D))
+			{
+				anglerTheta_ -= 0.01f;
+			} else if (engine_->GetKeyPress(DIK_A))
+			{
+				// 反時計回りで移動する
+				anglerTheta_ += 0.01f;
+			}
+
+
+			// 球面座標系で移動する
+			worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, anglerTheta_, 0.0f) + fallUpVelocity_;
+		} else
+		{
+			// 重力場の外では無効になる
+			fallUpVelocity_ = { 0.0f , 0.0f , 0.0f };
+		}
+	}
+}
+
+/// <summary>
+/// 最も近い惑星を探す
+/// </summary>
+void Player::SarchNearPlanet()
+{
+	// リストに惑星があるかどうか
+	if (!nearPlanets_.empty())
+	{
+		// 距離で昇順にソート
+		nearPlanets_.sort();
+
+		if (ridePlanet_ != nearPlanets_.front().second)
+		{
+			ridePlanet_ = nearPlanets_.front().second;
+
+			fallUpSpeed *= -1.0f;
+		}
+
+		// 最も近い惑星の方向ベクトルを取得する
+		toGravity_ = Normalize(nearPlanets_.front().second->GetWorldPosition() - GetWorldPosition());
+
+		// 最も近い惑星の位置を取得する
+		planetPosition_ = nearPlanets_.front().second->GetWorldPosition();
+	}
+
+	// リストをクリアする
+	nearPlanets_.clear();
 }
