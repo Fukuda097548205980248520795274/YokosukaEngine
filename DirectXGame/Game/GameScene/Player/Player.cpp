@@ -136,24 +136,19 @@ void Player::Input()
 		// プレイヤーの位置を探す
 		Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
 
-		anglerTheta_ = std::acos(normalizeToPlayer.x);
+		theta_ = std::acos(normalizeToPlayer.x);
 		if (worldTransform_->translation_.y <= planetPosition_.y)
-			anglerTheta_ *= -1.0f;
+			theta_ *= -1.0f;
 
+		// 移動操作
+		MoveInput();
 
-		// 時計回りで移動する
-		if (engine_->GetKeyPress(DIK_D))
-		{
-			anglerTheta_ -= 0.01f;
-		}
-		else if (engine_->GetKeyPress(DIK_A))
-		{
-			// 反時計回りで移動する
-			anglerTheta_ += 0.01f;
-		}
+		// 角速度を加算する
+		theta_ += anglerTheta_;
+
 
 		// 球面座標系で移動する
-		worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, anglerTheta_, 0.0f);
+		worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, theta_, 0.0f);
 
 
 		if (engine_->GetKeyTrigger(DIK_SPACE))
@@ -162,7 +157,8 @@ void Player::Input()
 			fallUpSpeed = kJumpStartSpeed;
 			fallUpVelocity_ = (-1.0f * toGravity_) * fallUpSpeed;
 		}
-	} else
+	} 
+	else
 	{
 		// 着地していないとき
 
@@ -181,24 +177,20 @@ void Player::Input()
 
 			// プレイヤーの位置を探す
 			Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
-			anglerTheta_ = std::acos(normalizeToPlayer.x);
+			theta_ = std::acos(normalizeToPlayer.x);
 			if (worldTransform_->translation_.y <= planetPosition_.y)
-				anglerTheta_ *= -1.0f;
+				theta_ *= -1.0f;
 
 
-			// 時計回りで移動する
-			if (engine_->GetKeyPress(DIK_D))
-			{
-				anglerTheta_ -= 0.01f;
-			} else if (engine_->GetKeyPress(DIK_A))
-			{
-				// 反時計回りで移動する
-				anglerTheta_ += 0.01f;
-			}
+			// 移動操作
+			MoveInput();
+
+			// 角速度を加算する
+			theta_ += anglerTheta_;
 
 
 			// 球面座標系で移動する
-			worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, anglerTheta_, 0.0f) + fallUpVelocity_;
+			worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, theta_, 0.0f) + fallUpVelocity_;
 		} else
 		{
 			// 重力場の外では無効になる
@@ -234,4 +226,79 @@ void Player::SarchNearPlanet()
 
 	// リストをクリアする
 	nearPlanets_.clear();
+}
+
+/// <summary>
+/// 移動操作
+/// </summary>
+void Player::MoveInput()
+{
+	// 移動するためのキーを押していないときは処理しない
+	if (!engine_->GetKeyPress(DIK_D) && !engine_->GetKeyPress(DIK_A) &&
+		!engine_->GetKeyPress(DIK_W) && !engine_->GetKeyPress(DIK_S))
+	{
+		anglerTheta_ = 0.0f;
+		isMove_ = false;
+		return;
+	}
+
+	// 移動しているときは処理しない
+	if (isMove_)
+		return;
+
+	// Dキーで右移動
+	if (engine_->GetKeyPress(DIK_D))
+	{
+		// 星の裏側では反対方向に進む
+		if (worldTransform_->translation_.y > planetPosition_.y)
+		{
+			anglerTheta_ = -kAnglerTheta;
+		}
+		else
+		{
+			anglerTheta_ = kAnglerTheta;
+		}
+	} 
+	else if (engine_->GetKeyPress(DIK_A))
+	{
+		// Aキーで左移動
+
+		// 星の裏側では反対方向に進む
+		if (worldTransform_->translation_.y > planetPosition_.y)
+		{
+			anglerTheta_ = kAnglerTheta;
+		} 
+		else
+		{
+			anglerTheta_ = -kAnglerTheta;
+		}
+	}
+	else if (engine_->GetKeyPress(DIK_W))
+	{
+		// 星の裏側では反対方向に進む
+		if (worldTransform_->translation_.x > planetPosition_.x)
+		{
+			anglerTheta_ = kAnglerTheta;
+		} 
+		else
+		{
+			anglerTheta_ = -kAnglerTheta;
+		}
+	} 
+	else if (engine_->GetKeyPress(DIK_S))
+	{
+		// Aキーで左移動
+
+		// 星の裏側では反対方向に進む
+		if (worldTransform_->translation_.x > planetPosition_.x)
+		{
+			anglerTheta_ = -kAnglerTheta;
+		} else
+		{
+			anglerTheta_ = kAnglerTheta;
+		}
+	}
+
+	// 移動する
+	isMove_ = true;
 }

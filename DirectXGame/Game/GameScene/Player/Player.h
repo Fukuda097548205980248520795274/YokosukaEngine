@@ -58,6 +58,11 @@ private:
 	void Input();
 
 	/// <summary>
+	/// 移動操作
+	/// </summary>
+	void MoveInput();
+
+	/// <summary>
 	/// 最も近い惑星を探す
 	/// </summary>
 	void SarchNearPlanet();
@@ -86,8 +91,19 @@ private:
 	// 半径
 	float radius_ = 1.0f;
 
+	// 角度
+	float theta_ = 0.0f;
+
 	// 角速度
 	float anglerTheta_ = 0.0f;
+
+	// 移動角速度
+	const float kAnglerTheta = 0.01f;
+
+	// 移動フラグ
+	bool isMove_ = false;
+
+
 
 	// 速度
 	float speed_ = 0.0f;
