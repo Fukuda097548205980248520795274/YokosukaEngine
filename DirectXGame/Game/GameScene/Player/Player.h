@@ -150,6 +150,6 @@ private:
 	float planetChangeTimer_ = 0.0f;
 
 	// 惑星を切り替える時間
-	const float kPlanetChangeTime = 0.3f;
+	const float kPlanetChangeTime = 0.8f;
 };
 
