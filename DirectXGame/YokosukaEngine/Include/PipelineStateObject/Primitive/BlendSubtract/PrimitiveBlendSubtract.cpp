@@ -12,15 +12,10 @@ PrimitiveBlendSubtract::~PrimitiveBlendSubtract()
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void PrimitiveBlendSubtract::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
+void PrimitiveBlendSubtract::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
+	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
-	// nullptrチェック
-	assert(dxc);
-	assert(log);
-
-	// 引数を受け取る
-	dxc_ = dxc;
-	log_ = log;
+	BasePrimitive::Initialize(log, dxc, device, vertexShaderBlob, pixelShaderBlob);
 
 
 	/*-----------------------------
@@ -226,19 +221,6 @@ void PrimitiveBlendSubtract::Initialize(OutputLog* log, DirectXShaderCompiler* d
 
 	// 三角形の中を塗りつぶす
 	rasterizeDesc.FillMode = D3D12_FILL_MODE_SOLID;
-
-
-	/*---------------------------
-		シェーダをコンパイルする
-	---------------------------*/
-
-	// 頂点シェーダをコンパイルする
-	vertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive.VS.hlsl", L"vs_6_0");
-	assert(vertexShaderBlob_ != nullptr);
-
-	// ピクセルシェーダをコンパイルする
-	pixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive.PS.hlsl", L"ps_6_0");
-	assert(pixelShaderBlob_ != nullptr);
 
 
 	/*------------------------------------

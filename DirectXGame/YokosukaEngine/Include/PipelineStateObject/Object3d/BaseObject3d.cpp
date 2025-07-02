@@ -4,13 +4,19 @@
 /// 初期化
 /// </summary>
 /// <param name="dxc">シェーダコンパイラ</param>
-void BaseObject3d::Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device)
+void BaseObject3d::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
+	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
 	// nullptrチェック
 	assert(log);
 	assert(dxc);
+	assert(vertexShaderBlob);
+	assert(pixelShaderBlob);
 
-	(void)device;
+	log_ = log;
+	dxc_ = dxc;
+	vertexShaderBlob_ = vertexShaderBlob;
+	pixelShaderBlob_ = pixelShaderBlob;
 }
 
 /// <summary>

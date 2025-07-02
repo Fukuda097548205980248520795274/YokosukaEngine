@@ -12,7 +12,8 @@ public:
 	/// </summary>
 	/// <param name="log">ログ出力</param>
 	/// <param name="dxc">シェーダコンパイラ</param>
-	virtual void Initialize(OutputLog* log, DirectXShaderCompiler* dxc, Microsoft::WRL::ComPtr<ID3D12Device> device);
+	virtual void Initialize(OutputLog* log, DirectXShaderCompiler* dxc, 
+		Microsoft::WRL::ComPtr<ID3D12Device> device ,IDxcBlob* vertexShaderBlob , IDxcBlob* pixelShaderBlob);
 
 	/// <summary>
 	/// コマンドリストにPSOの設定を行う
@@ -29,6 +30,14 @@ protected:
 	// DXC
 	DirectXShaderCompiler* dxc_ = nullptr;
 
+	// 頂点シェーダのバイナリ
+	IDxcBlob* vertexShaderBlob_ = nullptr;
+
+	// ピクセルシェーダのバイナリ
+	IDxcBlob* pixelShaderBlob_ = nullptr;
+
+
+
 	// シグネチャのバイナリ
 	Microsoft::WRL::ComPtr<ID3DBlob> signatureBlob_ = nullptr;
 
@@ -37,12 +46,6 @@ protected:
 
 	// ルートシグネチャ
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_ = nullptr;
-
-	// 頂点シェーダのバイナリ
-	Microsoft::WRL::ComPtr<IDxcBlob> vertexShaderBlob_ = nullptr;
-
-	// ピクセルシェーダのバイナリ
-	Microsoft::WRL::ComPtr<IDxcBlob> pixelShaderBlob_ = nullptr;
 
 	// パイプラインステート
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> grahpicsPipelineState_ = nullptr;

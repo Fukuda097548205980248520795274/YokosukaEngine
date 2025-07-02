@@ -490,18 +490,26 @@ private:
 	// Object3d用のPSO
 	BaseObject3d* psoObject3d_[kBlendModekCountOfBlendMode] = { nullptr };
 	uint32_t useObject3dBlendMode_ = kBlendModeNormal;
+	Microsoft::WRL::ComPtr<IDxcBlob> object3dVertexShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> object3dPixelShaderBlob_ = nullptr;
 
 	// Particle用のPSO
 	BaseParticle* psoParticle_[kBlendModekCountOfBlendMode] = { nullptr };
 	uint32_t useParticleBlendMode_ = kBlendModeAdd;
+	Microsoft::WRL::ComPtr<IDxcBlob> particleVertexShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> particlePixelShaderBlob_ = nullptr;
 
 	// Line3d用のPSO
 	BaseLine3d* psoLine3d_[kBlendModekCountOfBlendMode] = { nullptr };
 	uint32_t useLine3dBlendMode_ = kBlendModeNormal;
+	Microsoft::WRL::ComPtr<IDxcBlob> line3dVertexShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> line3dPixelShaderBlob_ = nullptr;
 
 	// Primitive用のPSO
 	BasePrimitive* psoPrimitive_[kBlendModekCountOfBlendMode] = { nullptr };
 	uint32_t usePrimitiveBlendMode_ = kBlendModeNormal;
+	Microsoft::WRL::ComPtr<IDxcBlob> primitiveVertexShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> primitivePixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数
