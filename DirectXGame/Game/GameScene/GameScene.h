@@ -24,19 +24,5 @@ public:
 
 private:
 
-	
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
-
-	// uvトランスフォーム
-	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
-
-	// テクスチャハンドル
-	uint32_t textureHandle_ = 0;
-
-
-	// ポイントライト
-	std::unique_ptr<PointLight> pointLight0_ = nullptr;
-	std::unique_ptr<PointLight> pointLight1_ = nullptr;
 };
 
