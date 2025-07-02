@@ -204,24 +204,36 @@ void Player::Input()
 /// </summary>
 void Player::SarchNearPlanet()
 {
-	// リストに惑星があるかどうか
-	if (!nearPlanets_.empty())
+	// タイマーを進める
+	planetChangeTimer_ += kDeltaTime;
+	planetChangeTimer_ = std::min(planetChangeTimer_, kPlanetChangeTime);
+
+	if (planetChangeTimer_ >= kPlanetChangeTime)
 	{
-		// 距離で昇順にソート
-		nearPlanets_.sort();
-
-		if (ridePlanet_ != nearPlanets_.front().second)
+		// リストに惑星があるかどうか
+		if (!nearPlanets_.empty())
 		{
-			ridePlanet_ = nearPlanets_.front().second;
+			// 距離で昇順にソート
+			nearPlanets_.sort();
 
-			fallUpSpeed *= -1.0f;
+			if (ridePlanet_ != nearPlanets_.front().second)
+			{
+
+				ridePlanet_ = nearPlanets_.front().second;
+
+				fallUpSpeed *= -1.0f;
+
+				isMove_ = false;
+
+				planetChangeTimer_ = 0.0f;
+			}
+
+			// 最も近い惑星の方向ベクトルを取得する
+			toGravity_ = Normalize(nearPlanets_.front().second->GetWorldPosition() - GetWorldPosition());
+
+			// 最も近い惑星の位置を取得する
+			planetPosition_ = nearPlanets_.front().second->GetWorldPosition();
 		}
-
-		// 最も近い惑星の方向ベクトルを取得する
-		toGravity_ = Normalize(nearPlanets_.front().second->GetWorldPosition() - GetWorldPosition());
-
-		// 最も近い惑星の位置を取得する
-		planetPosition_ = nearPlanets_.front().second->GetWorldPosition();
 	}
 
 	// リストをクリアする
