@@ -127,14 +127,22 @@ void Player::OnCollision(const GravitationalField* gravitationalField)
 /// </summary>
 void Player::Input()
 {
+	Vector3 velocity = { 0.0f , 0.0f , 0.0f };
+
 	// 着地しているとき
 	if (isGround_)
 	{
+		if (ridePlanet_ == nullptr)
+			return;
+
 		// 落下ベクトルを求める
 		fallUpVelocity_ = Normalize(planetPosition_ - GetWorldPosition()) * kFallSpeed;
 
 		// プレイヤーの位置を探す
 		Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
+
+		velocity.x = -ridePlanet_->GetRadius() * normalizeToPlayer.y;
+		velocity.y = ridePlanet_->GetRadius() * normalizeToPlayer.y;
 
 		theta_ = std::acos(normalizeToPlayer.x);
 		phi_ = 0.0f;
@@ -143,13 +151,6 @@ void Player::Input()
 
 		// 移動操作
 		MoveInput();
-
-		// 角速度を加算する
-		theta_ += anglerTheta_;
-
-
-		// 球面座標系で移動する
-		worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, theta_, phi_);
 
 
 		if (engine_->GetKeyTrigger(DIK_SPACE))
@@ -178,27 +179,23 @@ void Player::Input()
 
 			// プレイヤーの位置を探す
 			Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
-			theta_ = std::acos(normalizeToPlayer.x);
-			phi_ = 0.0f;
-			if (worldTransform_->translation_.y <= planetPosition_.y)
-				theta_ *= -1.0f;
+
+			velocity.x = -toPlanetLength_ * normalizeToPlayer.y;
+			velocity.y = toPlanetLength_ * normalizeToPlayer.y;
 
 
 			// 移動操作
 			MoveInput();
-
-			// 角速度を加算する
-			theta_ += anglerTheta_;
-
-
-			// 球面座標系で移動する
-			worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, theta_, phi_) + fallUpVelocity_;
-		} else
+		} 
+		else
 		{
 			// 重力場の外では無効になる
 			fallUpVelocity_ = { 0.0f , 0.0f , 0.0f };
 		}
 	}
+
+	worldTransform_->translation_.x += velocity.x;
+	worldTransform_->translation_.y += velocity.y;
 }
 
 /// <summary>

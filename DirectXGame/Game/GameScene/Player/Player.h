@@ -104,6 +104,9 @@ private:
 	// 移動フラグ
 	bool isMove_ = false;
 
+	// 速度ベクトル
+	Vector3 velocity_ = {0.0f , 0.0f , 0.0f};
+
 
 
 	// 速度
