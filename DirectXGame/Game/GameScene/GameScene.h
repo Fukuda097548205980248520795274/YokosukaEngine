@@ -37,8 +37,7 @@ private:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
-	// 角度
-	float theta_ = std::numbers::pi_v<float> / 2.0f;
-	float phi_ = 0.0f;
+	// 半径
+	const float radius_ = 8.0f;
 };
 

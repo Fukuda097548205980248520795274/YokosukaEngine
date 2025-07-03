@@ -20,6 +20,8 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// ワールドトラスフォーム
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->translation_.y = radius_;
+	worldTransform_->translation_.z = radius_;
 
 	// uvトランスフォーム
 	uvTransform_ = std::make_unique<UvTransform>();
@@ -37,13 +39,16 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
-	ImGui::Begin("Angle");
-	ImGui::DragFloat("theta", &theta_, 0.01f);
-	ImGui::DragFloat("phi", &phi_, 0.01f);
-	ImGui::End();
 
-	// 球面座標系
-	worldTransform_->translation_ = SphericalCoordinate(16.0f, theta_, phi_);
+	// 速度ベクトル
+	Vector3 velocity = { 0.0f , 0.0f , 0.0f };
+
+	// プレイヤーのベクトル
+	Vector3 toPlayer = Normalize(worldTransform_->translation_);
+
+	velocity = Vector3(-toPlayer.y, toPlayer.x , toPlayer.z);
+
+	worldTransform_->translation_ += velocity;
 
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
