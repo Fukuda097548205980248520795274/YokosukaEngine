@@ -194,3 +194,12 @@ Vector3 Slerp(const Vector3& start, const Vector3& end, float t);
 /// <param name="phi"></param>
 /// <returns></returns>
 Vector3 SphericalCoordinate(float radius, float theta, float phi);
+
+/// <summary>
+/// 球面座標系を求める
+/// </summary>
+/// <param name="radius">半径</param>
+/// <param name="theta"></param>
+/// <param name="phi"></param>
+/// <returns></returns>
+Vector3 SphericalCoordinateZX(float radius, float theta, float phi);

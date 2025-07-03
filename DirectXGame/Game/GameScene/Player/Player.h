@@ -93,6 +93,7 @@ private:
 
 	// 角度
 	float theta_ = 0.0f;
+	float phi_ = 0.0f;
 
 	// 角速度
 	float anglerTheta_ = 0.0f;

@@ -137,6 +137,7 @@ void Player::Input()
 		Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
 
 		theta_ = std::acos(normalizeToPlayer.x);
+		phi_ = 0.0f;
 		if (worldTransform_->translation_.y <= planetPosition_.y)
 			theta_ *= -1.0f;
 
@@ -148,7 +149,7 @@ void Player::Input()
 
 
 		// 球面座標系で移動する
-		worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, theta_, 0.0f);
+		worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, theta_, phi_);
 
 
 		if (engine_->GetKeyTrigger(DIK_SPACE))
@@ -178,6 +179,7 @@ void Player::Input()
 			// プレイヤーの位置を探す
 			Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
 			theta_ = std::acos(normalizeToPlayer.x);
+			phi_ = 0.0f;
 			if (worldTransform_->translation_.y <= planetPosition_.y)
 				theta_ *= -1.0f;
 
@@ -190,7 +192,7 @@ void Player::Input()
 
 
 			// 球面座標系で移動する
-			worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, theta_, 0.0f) + fallUpVelocity_;
+			worldTransform_->translation_ = planetPosition_ + SphericalCoordinate(toPlanetLength_, theta_, phi_) + fallUpVelocity_;
 		} else
 		{
 			// 重力場の外では無効になる
