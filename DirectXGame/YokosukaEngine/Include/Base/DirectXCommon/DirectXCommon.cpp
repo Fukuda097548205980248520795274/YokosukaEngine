@@ -490,19 +490,14 @@ void DirectXCommon::PreDraw()
 	ImGui::NewFrame();
 
 
-	// これから書き込むバックバッファのインデックスを取得
-	UINT backBuffeIndex = swapChain_->GetCurrentBackBufferIndex();
-
-	// Present -> RenderTarget
-	ChangeResourceState(commandList_, swapChainResources_[backBuffeIndex], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	// 描画先のRTVとDSVを設定する
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
-	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBuffeIndex], false, &dsvHandle);
+	commandList_->OMSetRenderTargets(1, &renderTextureRtvCPUHnalde_, false, &dsvHandle);
 
 	// 指定した色で画面全体をクリアする
-	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
-	commandList_->ClearRenderTargetView(rtvHandles_[backBuffeIndex], clearColor, 0, nullptr);
+	float clearColor[] = { 1.0f , 0.0f , 0.0f , 1.0f };
+	commandList_->ClearRenderTargetView(renderTextureRtvCPUHnalde_, clearColor, 0, nullptr);
 
 	// 指定した深度で画面全体をクリアする
 	commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
@@ -516,6 +511,8 @@ void DirectXCommon::PreDraw()
 
 	// シザーレクト設定
 	commandList_->RSSetScissorRects(1, &scissorRect_);
+
+
 
 	// 使用したブレンドモードを初期化する
 	useObject3dBlendMode_ = kBlendModeNormal;
@@ -532,11 +529,34 @@ void DirectXCommon::PostDraw()
 	// ImGuiの内部コマンドを生成する
 	ImGui::Render();
 
-	// ImGuiの描画コマンドを積む
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList_.Get());
 
 	// これから書き込むバックバッファのインデックスを取得
 	UINT backBuffeIndex = swapChain_->GetCurrentBackBufferIndex();
+
+	// Present -> RenderTarget
+	ChangeResourceState(commandList_, swapChainResources_[backBuffeIndex], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+	// 描画先のRTVとDSVを設定する
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
+	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBuffeIndex], false, &dsvHandle);
+
+	// 指定した色で画面全体をクリアする
+	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
+	commandList_->ClearRenderTargetView(rtvHandles_[backBuffeIndex], clearColor, 0, nullptr);
+
+	// 描画用のディスクリプタヒープの設定
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
+	commandList_->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
+
+	// ビューポート設定
+	commandList_->RSSetViewports(1, &viewport_);
+
+	// シザーレクト設定
+	commandList_->RSSetScissorRects(1, &scissorRect_);
+
+
+	// ImGuiの描画コマンドを積む
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList_.Get());
 
 	// RenderTarget -> Present
 	ChangeResourceState(commandList_, swapChainResources_[backBuffeIndex], D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
