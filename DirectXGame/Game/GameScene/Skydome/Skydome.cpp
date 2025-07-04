@@ -1,11 +1,11 @@
-#include "Player.h"
+#include "Skydome.h"
 
 /// <summary>
 /// Initialize
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
+void Skydome::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 {
 	// Check for nullptr
 	assert(engine);
@@ -25,13 +25,13 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	uvTransform_->Initialize();
 
 	// Load the modelData
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/Player", "Player.obj");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/Skydome", "Skydome.obj");
 }
 
 /// <summary>
 /// Update
 /// </summary>
-void Player::Update()
+void Skydome::Update()
 {
 	// Update worldTransform
 	worldTransform_->UpdateWorldMatrix();
@@ -43,7 +43,7 @@ void Player::Update()
 /// <summary>
 /// Draw
 /// </summary>
-void Player::Draw()
+void Skydome::Draw()
 {
 	// Draw the model
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), false);

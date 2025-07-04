@@ -268,6 +268,12 @@
     <Filter Include="Game\GameScene\Player">
       <UniqueIdentifier>{16cdb779-d989-408b-87f8-153033fc5758}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Skydome">
+      <UniqueIdentifier>{601a0523-a8d2-4522-b11c-71b386b19913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Ground">
+      <UniqueIdentifier>{17b9add4-636e-416b-999d-ddc815793dba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -494,6 +500,12 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Player\Player.cpp">
       <Filter>Game\GameScene\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Ground\Ground.cpp">
+      <Filter>Game\GameScene\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp">
+      <Filter>Game\GameScene\Skydome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -724,6 +736,12 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Player\Player.h">
       <Filter>Game\GameScene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Ground\Ground.h">
+      <Filter>Game\GameScene\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Skydome\Skydome.h">
+      <Filter>Game\GameScene\Skydome</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

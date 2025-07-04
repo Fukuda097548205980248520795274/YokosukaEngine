@@ -1,6 +1,8 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "Player/Player.h"
+#include "Skydome/Skydome.h"
+#include "Ground/Ground.h"
 
 class GameScene : public Scene
 {
@@ -28,6 +30,12 @@ private:
 
 	// directionalLight
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
+
+	// skydome
+	std::unique_ptr<Skydome> skydome_ = nullptr;
+
+	// ground
+	std::unique_ptr<Ground> ground_ = nullptr;
 
 	// player
 	std::unique_ptr<Player> player_ = nullptr;
