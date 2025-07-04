@@ -265,6 +265,9 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply">
       <UniqueIdentifier>{2c00e768-09b4-47ca-85b4-92b9f63831f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Player">
+      <UniqueIdentifier>{16cdb779-d989-408b-87f8-153033fc5758}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -488,6 +491,9 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Player\Player.cpp">
+      <Filter>Game\GameScene\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -715,6 +721,9 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Player\Player.h">
+      <Filter>Game\GameScene\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -13,7 +13,13 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	Scene::Initialize(engine);
 
 
-	
+	// Create and initialize directionalLight
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
+
+	// Create and initialize player
+	player_ = std::make_unique<Player>();
+	player_->Initialize(engine_ , camera3d_.get());
 }
 
 /// <summary>
@@ -24,7 +30,8 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
-	
+	// Update player
+	player_->Update();
 }
 
 /// <summary>
@@ -35,5 +42,9 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 
-	
+	// Place directionalLight
+	engine_->SetDirectionalLight(directionalLight_.get());
+
+	// Draw the player
+	player_->Draw();
 }
