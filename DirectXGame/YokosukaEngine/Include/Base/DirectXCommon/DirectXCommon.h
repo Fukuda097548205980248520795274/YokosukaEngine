@@ -427,6 +427,27 @@ private:
 	/// GPUの実行完了を待つ
 	/// </summary>
 	void WaitForGPU();
+
+
+	/// <summary>
+	/// Object3Dを生成する
+	/// </summary>
+	void CreateObject3d();
+
+	/// <summary>
+	/// Particleを生成する
+	/// </summary>
+	void CreateParticle();
+
+	/// <summary>
+	/// Line3Dを生成する
+	/// </summary>
+	void CreateLine3d();
+
+	/// <summary>
+	/// Primitiveを生成する
+	/// </summary>
+	void CreatePrimitive();
 	
 
 	// ログ出力

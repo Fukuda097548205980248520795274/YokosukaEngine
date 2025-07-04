@@ -119,110 +119,18 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	dxc_ = new DirectXShaderCompiler();
 	dxc_->Initialize(log_);
 
-
-	// Object3Dのシェーダをコンパイルする
-	object3dVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d.VS.hlsl", L"vs_6_0");
-	assert(object3dVertexShaderBlob_ != nullptr);
-	object3dPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d.PS.hlsl", L"ps_6_0");
-	assert(object3dPixelShaderBlob_ != nullptr);
-
-	// Object3D用のPSOの生成と初期化
-	psoObject3d_[kBlendModeNone] = new Object3dBlendNone();
-	psoObject3d_[kBlendModeNone]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
-
-	psoObject3d_[kBlendModeNormal] = new Object3dBlendNormal();
-	psoObject3d_[kBlendModeNormal]->Initialize(log_, dxc_, device_ ,object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
-
-	psoObject3d_[kBlendModeAdd] = new Object3dBlendAdd();
-	psoObject3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
-
-	psoObject3d_[kBlendModeSubtract] = new Object3dBlendSubtract();
-	psoObject3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
-
-	psoObject3d_[kBlendModeMultiply] = new Object3dBlendMultiply();
-	psoObject3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
-
-	psoObject3d_[kBlendModeScreen] = new Object3dBlendScreen();
-	psoObject3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
-
-
-	// Particleのシェーダをコンパイルする
-	particleVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Particle.VS.hlsl", L"vs_6_0");
-	assert(particleVertexShaderBlob_ != nullptr);
-	particlePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Particle.PS.hlsl", L"ps_6_0");
-	assert(particlePixelShaderBlob_ != nullptr);
-
-	// Particle用のPSOの生成と初期化
-	psoParticle_[kBlendModeNone] = new ParticleBlendNone();
-	psoParticle_[kBlendModeNone]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get() , particlePixelShaderBlob_.Get());
-
-	psoParticle_[kBlendModeNormal] = new ParticleBlendNormal();
-	psoParticle_[kBlendModeNormal]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
-
-	psoParticle_[kBlendModeAdd] = new ParticleBlendAdd();
-	psoParticle_[kBlendModeAdd]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
-
-	psoParticle_[kBlendModeSubtract] = new ParticleBlendSubtract();
-	psoParticle_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
-
-	psoParticle_[kBlendModeMultiply] = new ParticleBlendMultiply();
-	psoParticle_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
-
-	psoParticle_[kBlendModeScreen] = new ParticleBlendScreen();
-	psoParticle_[kBlendModeScreen]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
-
-
-
-	// Line3dのシェーダをコンパイルする
-	line3dVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Line3d.VS.hlsl", L"vs_6_0");
-	assert(line3dVertexShaderBlob_ != nullptr);
-	line3dPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Line3d.PS.hlsl", L"ps_6_0");
-	assert(line3dPixelShaderBlob_ != nullptr);
 	
-	// Line3d用のPSOの生成と初期化
-	psoLine3d_[kBlendModeNone] = new Line3dBlendNone();
-	psoLine3d_[kBlendModeNone]->Initialize(log_, dxc_, device_,line3dVertexShaderBlob_.Get(),line3dPixelShaderBlob_.Get());
+	// Object3dを生成する
+	CreateObject3d();
 
-	psoLine3d_[kBlendModeNormal] = new Line3dBlendNormal();
-	psoLine3d_[kBlendModeNormal]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	// Particleを生成する
+	CreateParticle();
 
-	psoLine3d_[kBlendModeAdd] = new Line3dBlendAdd();
-	psoLine3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	// Line3dを生成する
+	CreateLine3d();
 
-	psoLine3d_[kBlendModeSubtract] = new Line3dBlendSubtract();
-	psoLine3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
-
-	psoLine3d_[kBlendModeMultiply] = new Line3dBlendMultiply();
-	psoLine3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
-
-	psoLine3d_[kBlendModeScreen] = new Line3dBlendScreen();
-	psoLine3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
-
-
-	// Primitiveのシェーダをコンパイルする
-	primitiveVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive.VS.hlsl", L"vs_6_0");
-	assert(primitiveVertexShaderBlob_ != nullptr);
-	primitivePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive.PS.hlsl", L"ps_6_0");
-	assert(primitivePixelShaderBlob_ != nullptr);
-
-	// Primitive用のPSOの生成と初期化
-	psoPrimitive_[kBlendModeNone] = new PrimitiveBlendNone();
-	psoPrimitive_[kBlendModeNone]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
-
-	psoPrimitive_[kBlendModeNormal] = new PrimitiveBlendNormal();
-	psoPrimitive_[kBlendModeNormal]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
-
-	psoPrimitive_[kBlendModeAdd] = new PrimitiveBlendAdd();
-	psoPrimitive_[kBlendModeAdd]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
-
-	psoPrimitive_[kBlendModeSubtract] = new PrimitiveBlendSubtract();
-	psoPrimitive_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
-
-	psoPrimitive_[kBlendModeMultiply] = new PrimitiveBlendMultiply();
-	psoPrimitive_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
-
-	psoPrimitive_[kBlendModeScreen] = new PrimitiveBlendScreen();
-	psoPrimitive_[kBlendModeScreen]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	// Primitiveを生成する
+	CreatePrimitive();
 
 
 	// Fullscreenのシェーダをコンパイルする
@@ -2421,4 +2329,128 @@ void DirectXCommon::WaitForGPU()
 		// イベントを待つ
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
+}
+
+/// <summary>
+/// Object3Dを生成する
+/// </summary>
+void DirectXCommon::CreateObject3d()
+{
+	// Object3Dのシェーダをコンパイルする
+	object3dVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d.VS.hlsl", L"vs_6_0");
+	assert(object3dVertexShaderBlob_ != nullptr);
+	object3dPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d.PS.hlsl", L"ps_6_0");
+	assert(object3dPixelShaderBlob_ != nullptr);
+
+	// Object3D用のPSOの生成と初期化
+	psoObject3d_[kBlendModeNone] = new Object3dBlendNone();
+	psoObject3d_[kBlendModeNone]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+
+	psoObject3d_[kBlendModeNormal] = new Object3dBlendNormal();
+	psoObject3d_[kBlendModeNormal]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+
+	psoObject3d_[kBlendModeAdd] = new Object3dBlendAdd();
+	psoObject3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+
+	psoObject3d_[kBlendModeSubtract] = new Object3dBlendSubtract();
+	psoObject3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+
+	psoObject3d_[kBlendModeMultiply] = new Object3dBlendMultiply();
+	psoObject3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+
+	psoObject3d_[kBlendModeScreen] = new Object3dBlendScreen();
+	psoObject3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+}
+
+/// <summary>
+/// Particleを生成する
+/// </summary>
+void DirectXCommon::CreateParticle()
+{
+	// Particleのシェーダをコンパイルする
+	particleVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Particle.VS.hlsl", L"vs_6_0");
+	assert(particleVertexShaderBlob_ != nullptr);
+	particlePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Particle.PS.hlsl", L"ps_6_0");
+	assert(particlePixelShaderBlob_ != nullptr);
+
+	// Particle用のPSOの生成と初期化
+	psoParticle_[kBlendModeNone] = new ParticleBlendNone();
+	psoParticle_[kBlendModeNone]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+
+	psoParticle_[kBlendModeNormal] = new ParticleBlendNormal();
+	psoParticle_[kBlendModeNormal]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+
+	psoParticle_[kBlendModeAdd] = new ParticleBlendAdd();
+	psoParticle_[kBlendModeAdd]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+
+	psoParticle_[kBlendModeSubtract] = new ParticleBlendSubtract();
+	psoParticle_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+
+	psoParticle_[kBlendModeMultiply] = new ParticleBlendMultiply();
+	psoParticle_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+
+	psoParticle_[kBlendModeScreen] = new ParticleBlendScreen();
+	psoParticle_[kBlendModeScreen]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+}
+
+/// <summary>
+/// Line3Dを生成する
+/// </summary>
+void DirectXCommon::CreateLine3d()
+{
+	// Line3dのシェーダをコンパイルする
+	line3dVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Line3d.VS.hlsl", L"vs_6_0");
+	assert(line3dVertexShaderBlob_ != nullptr);
+	line3dPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Line3d.PS.hlsl", L"ps_6_0");
+	assert(line3dPixelShaderBlob_ != nullptr);
+
+	// Line3d用のPSOの生成と初期化
+	psoLine3d_[kBlendModeNone] = new Line3dBlendNone();
+	psoLine3d_[kBlendModeNone]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+
+	psoLine3d_[kBlendModeNormal] = new Line3dBlendNormal();
+	psoLine3d_[kBlendModeNormal]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+
+	psoLine3d_[kBlendModeAdd] = new Line3dBlendAdd();
+	psoLine3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+
+	psoLine3d_[kBlendModeSubtract] = new Line3dBlendSubtract();
+	psoLine3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+
+	psoLine3d_[kBlendModeMultiply] = new Line3dBlendMultiply();
+	psoLine3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+
+	psoLine3d_[kBlendModeScreen] = new Line3dBlendScreen();
+	psoLine3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+}
+
+/// <summary>
+/// Primitiveを生成する
+/// </summary>
+void DirectXCommon::CreatePrimitive()
+{
+	// Primitiveのシェーダをコンパイルする
+	primitiveVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive.VS.hlsl", L"vs_6_0");
+	assert(primitiveVertexShaderBlob_ != nullptr);
+	primitivePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive.PS.hlsl", L"ps_6_0");
+	assert(primitivePixelShaderBlob_ != nullptr);
+
+	// Primitive用のPSOの生成と初期化
+	psoPrimitive_[kBlendModeNone] = new PrimitiveBlendNone();
+	psoPrimitive_[kBlendModeNone]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+
+	psoPrimitive_[kBlendModeNormal] = new PrimitiveBlendNormal();
+	psoPrimitive_[kBlendModeNormal]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+
+	psoPrimitive_[kBlendModeAdd] = new PrimitiveBlendAdd();
+	psoPrimitive_[kBlendModeAdd]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+
+	psoPrimitive_[kBlendModeSubtract] = new PrimitiveBlendSubtract();
+	psoPrimitive_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+
+	psoPrimitive_[kBlendModeMultiply] = new PrimitiveBlendMultiply();
+	psoPrimitive_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+
+	psoPrimitive_[kBlendModeScreen] = new PrimitiveBlendScreen();
+	psoPrimitive_[kBlendModeScreen]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 }
