@@ -121,6 +121,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImage.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd\PrimitiveBlendAdd.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply\PrimitiveBlendMultiply.cpp" />
@@ -198,6 +199,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImage.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd\PrimitiveBlendAdd.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply\PrimitiveBlendMultiply.h" />
@@ -264,6 +266,18 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="YokosukaEngine\Shader\CopyImage.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\CopyImage.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\Line3d.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -317,6 +331,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <Text Include="Externals\ImGui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="YokosukaEngine\Shader\CopyImage.hlsli" />
     <None Include="YokosukaEngine\Shader\Line3d.hlsli" />
     <None Include="YokosukaEngine\Shader\Object3d.hlsli" />
     <None Include="YokosukaEngine\Shader\Particle.hlsli" />
