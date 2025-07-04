@@ -51,6 +51,8 @@
 #include "../../PipelineStateObject/Primitive/BlendMultiply/PrimitiveBlendMultiply.h"
 #include "../../PipelineStateObject/Primitive/BlendScreen/PrimitiveBlendScreen.h"
 
+#include "../../PipelineStateObject/CopyImage/CopyImage.h"
+
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/UvTransform/UvTransform.h"
 
@@ -549,6 +551,11 @@ private:
 	uint32_t usePrimitiveBlendMode_ = kBlendModeNormal;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitiveVertexShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitivePixelShaderBlob_ = nullptr;
+
+	// CopyImage用のPSO
+	CopyImagePipeline* copyImage_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> copyImageVertexShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数

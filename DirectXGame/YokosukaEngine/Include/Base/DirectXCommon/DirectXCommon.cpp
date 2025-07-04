@@ -11,6 +11,8 @@ DirectXCommon::~DirectXCommon()
 	ImGui_ImplDX12_Shutdown();
 	ImGui::DestroyContext();
 
+	delete copyImage_;
+
 	// PSO
 	for (uint32_t i = 0; i < kBlendModekCountOfBlendMode; i++)
 	{
@@ -221,6 +223,16 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	psoPrimitive_[kBlendModeScreen] = new PrimitiveBlendScreen();
 	psoPrimitive_[kBlendModeScreen]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+
+
+	// CopyImageのシェーダをコンパイルする
+	copyImageVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/CopyImage.VS.hlsl", L"vs_6_0");
+	assert(primitiveVertexShaderBlob_ != nullptr);
+	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/CopyImage.PS.hlsl", L"ps_6_0");
+	assert(primitivePixelShaderBlob_ != nullptr);
+	copyImage_ = new CopyImagePipeline();
+	copyImage_->Initialize(log_, dxc_, device_, copyImageVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
 
 
 	// ビューポート
@@ -553,6 +565,17 @@ void DirectXCommon::PostDraw()
 
 	// シザーレクト設定
 	commandList_->RSSetScissorRects(1, &scissorRect_);
+
+
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, renderTextureResource_, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, renderTextureResource_, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
 
 
 	// ImGuiの描画コマンドを積む
