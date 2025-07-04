@@ -263,7 +263,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	----------------------------*/
 
 	// レンダーテクスチャを作成する
-	const Vector4 kRenderTargetClearColor = { 1.0f, 0.0f, 0.0f, 1.0f };
+	const Vector4 kRenderTargetClearColor = { 0.1f , 0.1f , 0.1f , 1.0f };
 	renderTextureResource_ = CreateRenderTextureResource(device_, (uint32_t)windowApplication_->GetWindowWidth(), (uint32_t)windowApplication_->GetWindowHeight(),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearColor);
 	renderTextureRtvCPUHnalde_ = GetCPUDescriptorHandle(rtvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV), 2);
@@ -508,7 +508,7 @@ void DirectXCommon::PreDraw()
 	commandList_->OMSetRenderTargets(1, &renderTextureRtvCPUHnalde_, false, &dsvHandle);
 
 	// 指定した色で画面全体をクリアする
-	float clearColor[] = { 1.0f , 0.0f , 0.0f , 1.0f };
+	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
 	commandList_->ClearRenderTargetView(renderTextureRtvCPUHnalde_, clearColor, 0, nullptr);
 
 	// 指定した深度で画面全体をクリアする
@@ -571,7 +571,14 @@ void DirectXCommon::PostDraw()
 	// RenderTarget -> PixelShader
 	ChangeResourceState(commandList_, renderTextureResource_, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
+	// PSOの設定
+	copyImage_->CommandListSet(commandList_);
 
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, renderTextureSrvGPUHandle_);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
 	ChangeResourceState(commandList_, renderTextureResource_, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
