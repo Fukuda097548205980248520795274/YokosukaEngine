@@ -21,11 +21,6 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
-
-	// Suzanne Controls
-	ImGui::Begin("Suzanne");
-	ImGui::DragFloat3("rotate", &worldTransform_->rotation_.x, 0.01f);
-	ImGui::End();
 }
 
 /// <summary>
