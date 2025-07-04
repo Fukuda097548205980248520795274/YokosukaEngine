@@ -305,6 +305,18 @@ public:
 		uint32_t descriptorSize, uint32_t index);
 
 	/// <summary>
+	/// RenderTextureを作成する
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="width"></param>
+	/// <param name="height"></param>
+	/// <param name="format"></param>
+	/// <param name="clearColor"></param>
+	/// <returns></returns>
+	Microsoft::WRL::ComPtr<ID3D12Resource> CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device,
+		uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor);
+
+	/// <summary>
 	/// リソースステートを変更する（バリアを張る）
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
@@ -315,15 +327,26 @@ public:
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
 
 	/// <summary>
-	/// 現在のSRVのディスクリプタの番号のGetter
+	/// 現在のSRVのCPUディスクリプタの番号のGetter
 	/// </summary>
 	/// <returns></returns>
-	UINT GetNumSrvDescriptors() { return numSrvDescriptors; }
+	UINT GetNumSrvCPUDescriptors() { return numSrvCPUDescriptors; }
+
+	/// <summary>
+	/// 現在のSRVのGPUディスクリプタの番号のGetter
+	/// </summary>
+	/// <returns></returns>
+	UINT GetNumSrvGPUDescriptors() { return numSrvGPUDescriptors; }
 
 	/// <summary>
 	/// 現在のSRVのディスクリプタ番号をカウントする
 	/// </summary>
-	void CountNumSrvDescriptors() { numSrvDescriptors++; }
+	void CountNumSrvCPUDescriptors() { numSrvCPUDescriptors++; }
+
+	/// <summary>
+	/// 現在のSRVのディスクリプタ番号をカウントする
+	/// </summary>
+	void CountNumSrvGPUDescriptors() { numSrvGPUDescriptors++; }
 
 
 private:
@@ -440,13 +463,14 @@ private:
 
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;
-	const UINT kMaxNumRtvDescriptors = 2;
+	const UINT kMaxNumRtvDescriptors = 3;
 	UINT numRtvDescriptors = 0;
 
 	// SRV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_ = nullptr;
 	const UINT kMaxNumSrvDescriptors = 256;
-	UINT numSrvDescriptors = 1;
+	UINT numSrvCPUDescriptors = 1;
+	UINT numSrvGPUDescriptors = 1;
 
 	// DSV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_ = nullptr;
@@ -481,6 +505,21 @@ private:
 	
 	// シザーレクト
 	D3D12_RECT scissorRect_{};
+
+
+	/*----------------------------
+	    オフスクリーンレンダリング
+	----------------------------*/
+
+	// レンダーテクスチャ
+	Microsoft::WRL::ComPtr<ID3D12Resource> renderTextureResource_ = nullptr;
+
+	// RTV用CPUハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureRtvCPUHnalde_{};
+
+	// SRV用ハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureSrvCPUHandle_{};
+	D3D12_GPU_DESCRIPTOR_HANDLE renderTextureSrvGPUHandle_{};
 
 
 	/*-----------------------

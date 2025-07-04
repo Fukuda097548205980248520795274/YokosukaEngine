@@ -246,6 +246,36 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		srvDescriptorHeap_.Get(), srvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart(), srvDescriptorHeap_->GetGPUDescriptorHandleForHeapStart());
 
 
+	/*----------------------------
+	    オフスクリーンレンダリング
+	----------------------------*/
+
+	// レンダーテクスチャを作成する
+	const Vector4 kRenderTargetClearColor = { 1.0f, 0.0f, 0.0f, 1.0f };
+	renderTextureResource_ = CreateRenderTextureResource(device_, (uint32_t)windowApplication_->GetWindowWidth(), (uint32_t)windowApplication_->GetWindowHeight(),
+		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearColor);
+	renderTextureRtvCPUHnalde_ = GetCPUDescriptorHandle(rtvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV), 2);
+	device_->CreateRenderTargetView(renderTextureResource_.Get(), &rtvDesc_, renderTextureRtvCPUHnalde_);
+
+
+	// レンダーテクスチャを読み込むSRVを作成する
+	D3D12_SHADER_RESOURCE_VIEW_DESC renderTextureSrvDesc{};
+	renderTextureSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	renderTextureSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	renderTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	renderTextureSrvDesc.Texture2D.MipLevels = 1;
+
+	renderTextureSrvCPUHandle_ = 
+		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
+	CountNumSrvCPUDescriptors();
+
+	renderTextureSrvGPUHandle_ =
+		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
+	CountNumSrvGPUDescriptors();
+
+	device_->CreateShaderResourceView(renderTextureResource_.Get(), &renderTextureSrvDesc, renderTextureSrvCPUHandle_);
+
+
 	/*-----------------------------
 	    バッファリソースを作成する
 	-----------------------------*/
@@ -327,14 +357,14 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// ポインタのハンドル（住所）を取得する
 	instancingDirectionalLightSrvHandleCPU_ = 
-		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
+	CountNumSrvCPUDescriptors();
+
 	instancingDirectionalLightSrvHandleGPU_ = 
-		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
+	CountNumSrvGPUDescriptors();
 
 	device_->CreateShaderResourceView(instancingDirectionalLightResource_.Get(), &instancingDirectionalLightSrvDesc, instancingDirectionalLightSrvHandleCPU_);
-
-	// SRVの番号をカウントする
-	CountNumSrvDescriptors();
 
 
 	/*------------------
@@ -361,14 +391,14 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// ポインタのハンドル（住所）を取得する
 	instancingPointLightSrvHandleCPU_ = 
-		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
+	CountNumSrvCPUDescriptors();
+
 	instancingPointLightSrvHandleGPU_ = 
-		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
+	CountNumSrvGPUDescriptors();
 
 	device_->CreateShaderResourceView(instancingPointLightResource_.Get(), &instancingPointLightSrvDesc, instancingPointLightSrvHandleCPU_);
-
-	// SRVの番号をカウントする
-	CountNumSrvDescriptors();
 
 
 	/*------------------
@@ -395,14 +425,14 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// ポインタのハンドル（住所）を取得する
 	instancingSpotLightSrvHandleCPU_ = 
-		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
+	CountNumSrvCPUDescriptors();
+
 	instancingSpotLightSrvHandleGPU_ = 
-		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
+	CountNumSrvGPUDescriptors();
 
 	device_->CreateShaderResourceView(instancingSpotLightResource_.Get(), &instancingSpotLightSrvDesc, instancingSpotLightSrvHandleCPU_);
-
-	// SRVの番号をカウントする
-	CountNumSrvDescriptors();
 
 
 	/*----------------
@@ -425,14 +455,15 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// ポインタのハンドル（住所）を取得する
 	instancingSrvHandleCPU_ = 
-		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
+	CountNumSrvCPUDescriptors();
+
 	instancingSrvHandleGPU_ = 
-		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvDescriptors());
+		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
+	CountNumSrvGPUDescriptors();
+
 
 	device_->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
-
-	// SRVの番号をカウントする
-	CountNumSrvDescriptors();
 
 	// エミッター
 	emitter_.count = 3;
@@ -489,6 +520,8 @@ void DirectXCommon::PreDraw()
 	// 使用したブレンドモードを初期化する
 	useObject3dBlendMode_ = kBlendModeNormal;
 	useParticleBlendMode_ = kBlendModeAdd;
+	useLine3dBlendMode_ = kBlendModeNormal;
+	usePrimitiveBlendMode_ = kBlendModeNormal;
 }
 
 /// <summary>
@@ -1927,6 +1960,69 @@ D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetGPUDescriptorHandle(Microsoft::WRL
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	handleGPU.ptr += (descriptorSize * index);
 	return handleGPU;
+}
+
+/// <summary>
+/// RenderTextureを作成する
+/// </summary>
+/// <param name="device"></param>
+/// <param name="width"></param>
+/// <param name="height"></param>
+/// <param name="format"></param>
+/// <param name="clearColor"></param>
+/// <returns></returns>
+Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device,
+	uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor)
+{
+	/*-----------------
+	    リソースの設定
+	-----------------*/
+
+	D3D12_RESOURCE_DESC resourceDesc = {};
+
+	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D; // 2Dテクスチャの場合
+	resourceDesc.Alignment = 0; // 通常は0 (D3D12が最適なアライメントを選択)
+	resourceDesc.Width = width;
+	resourceDesc.Height = height;
+	resourceDesc.DepthOrArraySize = 1; // 2Dテクスチャの配列サイズ（単一なら1）
+	resourceDesc.MipLevels = 1; // レンダーターゲットの場合、通常は1ミップレベル
+	resourceDesc.Format = format;
+	resourceDesc.SampleDesc.Count = 1; // マルチサンプリングしない場合、通常1
+	resourceDesc.SampleDesc.Quality = 0; // 通常0
+	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN; // 通常はUNKNOWN
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+
+
+	/*-----------------
+	    ヒープの設定
+	-----------------*/
+
+	D3D12_HEAP_PROPERTIES heapProperties = {};
+
+	// VRAMに配置する
+	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+
+	/*-------------
+	     最適値
+	-------------*/
+
+	D3D12_CLEAR_VALUE clearValue = {};
+	clearValue.Format = format;
+	clearValue.Color[0] = clearColor.x;
+	clearValue.Color[1] = clearColor.y;
+	clearValue.Color[2] = clearColor.z;
+	clearValue.Color[3] = clearColor.w;
+
+
+	// リソースを生成する
+	Microsoft::WRL::ComPtr<ID3D12Resource> resource = nullptr;
+	HRESULT hr = device->CreateCommittedResource(
+		&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_RENDER_TARGET, &clearValue, IID_PPV_ARGS(&resource));
+
+	assert(SUCCEEDED(hr));
+
+	return resource;
 }
 
 /// <summary>

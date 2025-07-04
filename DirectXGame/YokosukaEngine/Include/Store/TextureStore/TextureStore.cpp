@@ -69,17 +69,17 @@ uint32_t TextureStore::GetTextureHandle( const std::string& filePath, Microsoft:
 
 	// SRVを作成するディスクリプタヒープの場所を確保する
 	textureData_[textureNum_].textureSrvHandleCPU = directXCommon_->GetCPUDescriptorHandle(srvDescriptorHeap,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), directXCommon_->GetNumSrvDescriptors());
+		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), directXCommon_->GetNumSrvCPUDescriptors());
+	directXCommon_->CountNumSrvCPUDescriptors();
 
 	textureData_[textureNum_].textureSrvHandleGPU = directXCommon_->GetGPUDescriptorHandle(srvDescriptorHeap,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), directXCommon_->GetNumSrvDescriptors());
+		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), directXCommon_->GetNumSrvGPUDescriptors());
+	directXCommon_->CountNumSrvGPUDescriptors();
 
 	// SRVを生成する
 	device->CreateShaderResourceView(textureData_[textureNum_].textureResource.Get(),
 		&textureData_[textureNum_].srvDesc, textureData_[textureNum_].textureSrvHandleCPU);
 
-	// 格納したテクスチャとSRVの番号をカウントする
-	directXCommon_->CountNumSrvDescriptors();
 	textureNum_++;
 
 	return textureData_[textureNum_ - 1].textureHandle;
