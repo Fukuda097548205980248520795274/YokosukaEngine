@@ -68,13 +68,8 @@ uint32_t TextureStore::GetTextureHandle( const std::string& filePath, Microsoft:
 	textureData_[textureNum_].srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
 
 	// SRVを作成するディスクリプタヒープの場所を確保する
-	textureData_[textureNum_].textureSrvHandleCPU = directXCommon_->GetCPUDescriptorHandle(srvDescriptorHeap,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), directXCommon_->GetNumSrvCPUDescriptors());
-	directXCommon_->CountNumSrvCPUDescriptors();
-
-	textureData_[textureNum_].textureSrvHandleGPU = directXCommon_->GetGPUDescriptorHandle(srvDescriptorHeap,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), directXCommon_->GetNumSrvGPUDescriptors());
-	directXCommon_->CountNumSrvGPUDescriptors();
+	textureData_[textureNum_].textureSrvHandleCPU = directXCommon_->GetSRVCPUDescriptorHandle(srvDescriptorHeap,device);
+	textureData_[textureNum_].textureSrvHandleGPU = directXCommon_->GetSRVGPUDescriptorHandle(srvDescriptorHeap,device);
 
 	// SRVを生成する
 	device->CreateShaderResourceView(textureData_[textureNum_].textureResource.Get(),

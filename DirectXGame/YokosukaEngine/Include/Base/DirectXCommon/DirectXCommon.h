@@ -293,9 +293,19 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		uint32_t descriptorSize, uint32_t index);
-	
+	D3D12_CPU_DESCRIPTOR_HANDLE GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
+		Microsoft::WRL::ComPtr<ID3D12Device> device);
+
+	/// <summary>
+	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（CPU）
+	/// </summary>
+	/// <param name="descriptorHeap">ディスクリプタヒープ</param>
+	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
+	/// <param name="index">配列番号</param>
+	/// <returns></returns>
+	D3D12_CPU_DESCRIPTOR_HANDLE GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
+		Microsoft::WRL::ComPtr<ID3D12Device> device);
+
 	/// <summary>
 	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（GPU）
 	/// </summary>
@@ -303,8 +313,8 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		uint32_t descriptorSize, uint32_t index);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
+		Microsoft::WRL::ComPtr<ID3D12Device> device);
 
 	/// <summary>
 	/// RenderTextureを作成する
@@ -327,28 +337,6 @@ public:
 	/// <param name="afterState">遷移後のリソースステート</param>
 	void ChangeResourceState(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
-
-	/// <summary>
-	/// 現在のSRVのCPUディスクリプタの番号のGetter
-	/// </summary>
-	/// <returns></returns>
-	UINT GetNumSrvCPUDescriptors() { return numSrvCPUDescriptors; }
-
-	/// <summary>
-	/// 現在のSRVのGPUディスクリプタの番号のGetter
-	/// </summary>
-	/// <returns></returns>
-	UINT GetNumSrvGPUDescriptors() { return numSrvGPUDescriptors; }
-
-	/// <summary>
-	/// 現在のSRVのディスクリプタ番号をカウントする
-	/// </summary>
-	void CountNumSrvCPUDescriptors() { numSrvCPUDescriptors++; }
-
-	/// <summary>
-	/// 現在のSRVのディスクリプタ番号をカウントする
-	/// </summary>
-	void CountNumSrvGPUDescriptors() { numSrvGPUDescriptors++; }
 
 
 private:
@@ -428,7 +416,6 @@ private:
 	/// </summary>
 	void WaitForGPU();
 
-
 	/// <summary>
 	/// Object3Dを生成する
 	/// </summary>
@@ -449,6 +436,7 @@ private:
 	/// </summary>
 	void CreatePrimitive();
 	
+
 
 	// ログ出力
 	OutputLog* log_ = nullptr;
@@ -487,7 +475,7 @@ private:
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;
 	const UINT kMaxNumRtvDescriptors = 3;
-	UINT numRtvDescriptors = 0;
+	UINT numRtvCPUDescriptors = 0;
 
 	// SRV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_ = nullptr;

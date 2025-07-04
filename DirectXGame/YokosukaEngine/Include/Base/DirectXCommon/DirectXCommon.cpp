@@ -176,7 +176,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	const Vector4 kRenderTargetClearColor = { 0.1f , 0.1f , 0.1f , 1.0f };
 	renderTextureResource_ = CreateRenderTextureResource(device_, (uint32_t)windowApplication_->GetWindowWidth(), (uint32_t)windowApplication_->GetWindowHeight(),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearColor);
-	renderTextureRtvCPUHnalde_ = GetCPUDescriptorHandle(rtvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV), 2);
+	renderTextureRtvCPUHnalde_ = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, device_);
 	device_->CreateRenderTargetView(renderTextureResource_.Get(), &rtvDesc_, renderTextureRtvCPUHnalde_);
 
 
@@ -187,13 +187,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	renderTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	renderTextureSrvDesc.Texture2D.MipLevels = 1;
 
-	renderTextureSrvCPUHandle_ = 
-		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
-	CountNumSrvCPUDescriptors();
-
-	renderTextureSrvGPUHandle_ =
-		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
-	CountNumSrvGPUDescriptors();
+	renderTextureSrvCPUHandle_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
+	renderTextureSrvGPUHandle_ =GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
 
 	device_->CreateShaderResourceView(renderTextureResource_.Get(), &renderTextureSrvDesc, renderTextureSrvCPUHandle_);
 
@@ -278,13 +273,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingDirectionalLightSrvDesc.Buffer.StructureByteStride = sizeof(DirectionalLightForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingDirectionalLightSrvHandleCPU_ = 
-		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
-	CountNumSrvCPUDescriptors();
-
-	instancingDirectionalLightSrvHandleGPU_ = 
-		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
-	CountNumSrvGPUDescriptors();
+	instancingDirectionalLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
+	instancingDirectionalLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
 
 	device_->CreateShaderResourceView(instancingDirectionalLightResource_.Get(), &instancingDirectionalLightSrvDesc, instancingDirectionalLightSrvHandleCPU_);
 
@@ -312,13 +302,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingPointLightSrvDesc.Buffer.StructureByteStride = sizeof(PointLightForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingPointLightSrvHandleCPU_ = 
-		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
-	CountNumSrvCPUDescriptors();
-
-	instancingPointLightSrvHandleGPU_ = 
-		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
-	CountNumSrvGPUDescriptors();
+	instancingPointLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
+	instancingPointLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
 
 	device_->CreateShaderResourceView(instancingPointLightResource_.Get(), &instancingPointLightSrvDesc, instancingPointLightSrvHandleCPU_);
 
@@ -346,13 +331,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSpotLightSrvDesc.Buffer.StructureByteStride = sizeof(SpotLightForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingSpotLightSrvHandleCPU_ = 
-		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
-	CountNumSrvCPUDescriptors();
-
-	instancingSpotLightSrvHandleGPU_ = 
-		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
-	CountNumSrvGPUDescriptors();
+	instancingSpotLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
+	instancingSpotLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
 
 	device_->CreateShaderResourceView(instancingSpotLightResource_.Get(), &instancingSpotLightSrvDesc, instancingSpotLightSrvHandleCPU_);
 
@@ -376,14 +356,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingSrvHandleCPU_ = 
-		GetCPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvCPUDescriptors());
-	CountNumSrvCPUDescriptors();
-
-	instancingSrvHandleGPU_ = 
-		GetGPUDescriptorHandle(srvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV), GetNumSrvGPUDescriptors());
-	CountNumSrvGPUDescriptors();
-
+	instancingSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
+	instancingSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
 
 	device_->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 
@@ -1899,11 +1873,28 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescritprHeap(
 /// <param name="descriptorSize">ディスクリプタのサイズ</param>
 /// <param name="index">配列番号</param>
 /// <returns></returns>
-D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-	uint32_t descriptorSize, uint32_t index)
+D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
+	Microsoft::WRL::ComPtr<ID3D12Device> device)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
-	handleCPU.ptr += (descriptorSize * index);
+	handleCPU.ptr += (device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV) * numRtvCPUDescriptors);
+	numRtvCPUDescriptors++;
+	return handleCPU;
+}
+
+/// <summary>
+/// 指定したディスクリプタヒープに格納するためのポインタを取得する（CPU）
+/// </summary>
+/// <param name="descriptorHeap">ディスクリプタヒープ</param>
+/// <param name="descriptorSize">ディスクリプタのサイズ</param>
+/// <param name="index">配列番号</param>
+/// <returns></returns>
+D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
+	Microsoft::WRL::ComPtr<ID3D12Device> device)
+{
+	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	handleCPU.ptr += (device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * numSrvCPUDescriptors);
+	numSrvCPUDescriptors++;
 	return handleCPU;
 }
 
@@ -1914,11 +1905,12 @@ D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetCPUDescriptorHandle(Microsoft::WRL
 /// <param name="descriptorSize">ディスクリプタのサイズ</param>
 /// <param name="index">配列番号</param>
 /// <returns></returns>
-D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-	uint32_t descriptorSize, uint32_t index)
+D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
+	Microsoft::WRL::ComPtr<ID3D12Device> device)
 {
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
-	handleGPU.ptr += (descriptorSize * index);
+	handleGPU.ptr += (device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * numSrvGPUDescriptors);
+	numSrvGPUDescriptors++;
 	return handleGPU;
 }
 
@@ -2263,10 +2255,10 @@ void DirectXCommon::GenerateRTV()
 	    ディスクリプタに格納する
 	--------------------------*/
 
-	rtvHandles_[0] = GetCPUDescriptorHandle(rtvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV), 0);
+	rtvHandles_[0] = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, device_);
 	device_->CreateRenderTargetView(swapChainResources_[0].Get(), &rtvDesc_, rtvHandles_[0]);
 
-	rtvHandles_[1] = GetCPUDescriptorHandle(rtvDescriptorHeap_, device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV), 1);
+	rtvHandles_[1] = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, device_);
 	device_->CreateRenderTargetView(swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
 }
 
