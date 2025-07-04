@@ -20,6 +20,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// Create and initialize WorldTransform
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->translation_.z = 40.0f;
 
 	// Create and initialize uvTransform
 	uvTransform_ = std::make_unique<UvTransform>();
