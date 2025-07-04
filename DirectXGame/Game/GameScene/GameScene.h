@@ -24,17 +24,6 @@ public:
 
 private:
 
-	// DirectionalLight
-	std::unique_ptr<DirectionalLight> directionalLight_;
 
-
-	// WorldTransform
-	std::unique_ptr<WorldTransform> worldTransform_;
-
-	// uvTransform
-	std::unique_ptr<UvTransform> uvTransform_;
-
-	// ModelHandle
-	uint32_t modelHandle_ = 0;
 };
 
