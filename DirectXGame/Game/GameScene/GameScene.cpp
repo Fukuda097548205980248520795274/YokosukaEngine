@@ -21,14 +21,13 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
 	worldTransform_->translation_.y = radius_;
-	worldTransform_->translation_.z = radius_;
 
 	// uvトランスフォーム
 	uvTransform_ = std::make_unique<UvTransform>();
 	uvTransform_->Initialize();
 
-	// テクスチャハンドル
-	textureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
+	// モデル
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
 }
 
 /// <summary>
@@ -39,16 +38,61 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
+	if (engine_->GetKeyPress(DIK_A))
+	{
+		direction_ = kLeft;
+	}
+	else if (engine_->GetKeyPress(DIK_D))
+	{
+		direction_ = kRight;
+	}
 
-	// 速度ベクトル
-	Vector3 velocity = { 0.0f , 0.0f , 0.0f };
 
-	// プレイヤーのベクトル
-	Vector3 toPlayer = Normalize(worldTransform_->translation_);
+	// 向きテーブル
+	float directionTable[2]
+	{
+		-1.0f,
+		1.0f
+	};
 
-	velocity = Vector3(-toPlayer.y, toPlayer.x , toPlayer.z);
+	ImGui::Begin("worldTransform");
+	ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
+	ImGui::End();
 
-	worldTransform_->translation_ += velocity;
+	// プレイヤー方向のベクトル
+	Vector3 toPlayaer = Normalize(worldTransform_->translation_);
+
+	if (engine_->GetKeyPress(DIK_SPACE))
+	{
+		radianY_ += 0.01f;
+	}
+
+	worldTransform_->rotation_.y = radianY_;
+
+
+	worldTransform_->rotation_.x = std::asin(toPlayaer.z);
+	if(worldTransform_->translation_.y <= 0.0f)
+		worldTransform_->rotation_.x = std::numbers::pi_v<float> - std::asin(toPlayaer.z);
+
+	if (direction_ == kLeft)
+		worldTransform_->rotation_.x *= -1.0f;
+
+
+	// 移動速度
+	Vector3 velocity = Vector3(0.0f, 0.0f, 1.0f);
+
+	// 回転行列
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(Vector3(worldTransform_->rotation_.x, worldTransform_->rotation_.y, worldTransform_->rotation_.z));
+
+	velocity = Normalize(TransformNormal(velocity, rotateMatrix));
+
+	if (engine_->GetKeyPress(DIK_S))
+	{
+		worldTransform_->translation_ += velocity / 2.0f;
+	}
+
+	ImGui::Text("%f,%f,%f", velocity.x, velocity.y, velocity.z);
+	
 
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
@@ -67,5 +111,5 @@ void GameScene::Draw()
 	engine_->SetDirectionalLight(directionalLight_.get());
 
 	// 球を描画する
-	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, 16, 16, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }
