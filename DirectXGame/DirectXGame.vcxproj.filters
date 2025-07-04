@@ -757,6 +757,12 @@
     <FxCompile Include="YokosukaEngine\Shader\CopyImage.PS.hlsl">
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\GrayScale.PS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\Sepia.PS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
