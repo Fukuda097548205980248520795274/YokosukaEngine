@@ -225,13 +225,15 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	psoPrimitive_[kBlendModeScreen]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 
-	// CopyImageのシェーダをコンパイルする
-	copyImageVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/CopyImage.VS.hlsl", L"vs_6_0");
+	// Fullscreenのシェーダをコンパイルする
+	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Fullscreen.VS.hlsl", L"vs_6_0");
 	assert(primitiveVertexShaderBlob_ != nullptr);
+
+	// CopyImageのシェーダをコンパイルする
 	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/CopyImage.PS.hlsl", L"ps_6_0");
 	assert(primitivePixelShaderBlob_ != nullptr);
 	copyImage_ = new CopyImagePipeline();
-	copyImage_->Initialize(log_, dxc_, device_, copyImageVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	copyImage_->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
 
 

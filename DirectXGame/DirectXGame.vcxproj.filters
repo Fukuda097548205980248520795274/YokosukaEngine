@@ -751,7 +751,7 @@
     <FxCompile Include="YokosukaEngine\Shader\Primitive.PS.hlsl">
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\CopyImage.VS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Fullscreen.VS.hlsl">
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\CopyImage.PS.hlsl">
@@ -776,7 +776,7 @@
     <None Include="YokosukaEngine\Shader\Primitive.hlsli">
       <Filter>YokosukaEngine\Shader</Filter>
     </None>
-    <None Include="YokosukaEngine\Shader\CopyImage.hlsli">
+    <None Include="YokosukaEngine\Shader\Fullscreen.hlsli">
       <Filter>YokosukaEngine\Shader</Filter>
     </None>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "CopyImage.hlsli"
+#include "Fullscreen.hlsli"
 
 // ’¸“_”
 static const uint kNumVertex = 3;

@@ -523,6 +523,12 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureSrvCPUHandle_{};
 	D3D12_GPU_DESCRIPTOR_HANDLE renderTextureSrvGPUHandle_{};
 
+	// CopyImage用のPSO
+	CopyImagePipeline* copyImage_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
+
+	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
+
 
 	/*-----------------------
 	    パイプラインステート
@@ -551,11 +557,6 @@ private:
 	uint32_t usePrimitiveBlendMode_ = kBlendModeNormal;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitiveVertexShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitivePixelShaderBlob_ = nullptr;
-
-	// CopyImage用のPSO
-	CopyImagePipeline* copyImage_ = nullptr;
-	Microsoft::WRL::ComPtr<IDxcBlob> copyImageVertexShaderBlob_ = nullptr;
-	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数
