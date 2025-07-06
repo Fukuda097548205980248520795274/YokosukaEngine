@@ -124,6 +124,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\CopyImage\CopyImage.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GrayScale\GrayScale.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd\PrimitiveBlendAdd.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply\PrimitiveBlendMultiply.cpp" />
@@ -204,6 +205,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\CopyImage\CopyImage.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GrayScale\GrayScale.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd\PrimitiveBlendAdd.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply\PrimitiveBlendMultiply.h" />

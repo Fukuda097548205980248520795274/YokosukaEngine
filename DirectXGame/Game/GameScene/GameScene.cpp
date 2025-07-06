@@ -52,7 +52,7 @@ void GameScene::Draw()
 
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), true);
 
-	engine_->SetOffscreenEffect(kGrayScale);
+	engine_->SetOffscreenEffect(kSepia);
 
 	// Scene描画
 	Scene::Draw();

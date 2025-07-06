@@ -1,10 +1,10 @@
-#include "GrayScale.h"
+#include "Sepia.h"
 
 /// <summary>
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void GrayScale::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
+void Sepia::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
 	PostEffect::Initialize(log, dxc, device, vertexShaderBlob, pixelShaderBlob);

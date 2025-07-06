@@ -54,6 +54,7 @@
 #include "../../PipelineStateObject/PostEffect/PostEffect.h"
 #include "../../PipelineStateObject/PostEffect/CopyImage/CopyImage.h"
 #include "../../PipelineStateObject/PostEffect/GrayScale/GrayScale.h"
+#include "../../PipelineStateObject/PostEffect/Sepia/Sepia.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/UvTransform/UvTransform.h"
@@ -83,6 +84,9 @@ enum Effect
 
 	// グレースケール
 	kGrayScale,
+
+	// セピア
+	kSepia,
 
 	// エフェクトの数
 	kEfectCount,
@@ -462,6 +466,7 @@ private:
 	/// </summary>
 	void CreatePostEffect();
 
+
 	/// <summary>
 	/// RTV通常コピー
 	/// </summary>
@@ -471,6 +476,11 @@ private:
 	/// グレースケール
 	/// </summary>
 	void DrawGrayScale();
+
+	/// <summary>
+	/// セピア
+	/// </summary>
+	void DrawSepia();
 	
 
 
@@ -617,6 +627,7 @@ private:
 	PostEffect* psoPostEffect_[kEfectCount] = { nullptr };
 	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> grayScalePixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> sepiaPixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数
