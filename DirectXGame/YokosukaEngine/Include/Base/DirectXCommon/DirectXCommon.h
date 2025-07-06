@@ -92,6 +92,9 @@ enum Effect
 	// ヴィネッティング
 	kVignetteing,
 
+	// 平滑化
+	kSmoothing,
+
 	// エフェクトの数
 	kEfectCount,
 };
@@ -633,6 +636,11 @@ private:
 	/// </summary>
 	void DrawVignetting();
 
+	/// <summary>
+	/// 平滑化
+	/// </summary>
+	void DrawSmoothing();
+
 
 	// オフスクリーンの頂点シェーダ
 	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
@@ -643,6 +651,7 @@ private:
 	Microsoft::WRL::ComPtr<IDxcBlob> grayScalePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> sepiaPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> vignettePixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> smoothingPixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数

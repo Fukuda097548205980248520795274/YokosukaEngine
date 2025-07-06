@@ -633,6 +633,13 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 		DrawVignetting();
 
 		break;
+
+	case kSmoothing:
+		// 平滑化
+
+		DrawSmoothing();
+
+		break;
 	}
 
 
@@ -2520,6 +2527,12 @@ void DirectXCommon::CreatePostEffect()
 	assert(vignettePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kVignetteing] = new Vignette();
 	psoPostEffect_[kVignetteing]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), vignettePixelShaderBlob_.Get());
+
+	// Smoothingのシェーダをコンパイルする
+	smoothingPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Smoothing.PS.hlsl", L"ps_6_0");
+	assert(smoothingPixelShaderBlob_ != nullptr);
+	psoPostEffect_[kSmoothing] = new Vignette();
+	psoPostEffect_[kSmoothing]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), smoothingPixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2612,6 +2625,31 @@ void DirectXCommon::DrawVignetting()
 
 	// PSOの設定
 	psoPostEffect_[kVignetteing]->CommandListSet(commandList_);
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+/// <summary>
+/// 平滑化
+/// </summary>
+void DirectXCommon::DrawSmoothing()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kSmoothing]->CommandListSet(commandList_);
 
 	// RenderTextureのRTVを張り付ける
 	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
