@@ -647,6 +647,13 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 		DrawGaussianFilter();
 
 		break;
+
+	case kOutline:
+		// アウトライン
+
+		DrawOutline();
+
+		break;
 	}
 
 
@@ -2384,9 +2391,9 @@ void DirectXCommon::WaitForGPU()
 void DirectXCommon::CreateObject3d()
 {
 	// Object3Dのシェーダをコンパイルする
-	object3dVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d.VS.hlsl", L"vs_6_0");
+	object3dVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d/Object3d.VS.hlsl", L"vs_6_0");
 	assert(object3dVertexShaderBlob_ != nullptr);
-	object3dPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d.PS.hlsl", L"ps_6_0");
+	object3dPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Object3d/Object3d.PS.hlsl", L"ps_6_0");
 	assert(object3dPixelShaderBlob_ != nullptr);
 
 	// Object3D用のPSOの生成と初期化
@@ -2415,9 +2422,9 @@ void DirectXCommon::CreateObject3d()
 void DirectXCommon::CreateParticle()
 {
 	// Particleのシェーダをコンパイルする
-	particleVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Particle.VS.hlsl", L"vs_6_0");
+	particleVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Particle/Particle.VS.hlsl", L"vs_6_0");
 	assert(particleVertexShaderBlob_ != nullptr);
-	particlePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Particle.PS.hlsl", L"ps_6_0");
+	particlePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Particle/Particle.PS.hlsl", L"ps_6_0");
 	assert(particlePixelShaderBlob_ != nullptr);
 
 	// Particle用のPSOの生成と初期化
@@ -2446,9 +2453,9 @@ void DirectXCommon::CreateParticle()
 void DirectXCommon::CreateLine3d()
 {
 	// Line3dのシェーダをコンパイルする
-	line3dVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Line3d.VS.hlsl", L"vs_6_0");
+	line3dVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Line3d/Line3d.VS.hlsl", L"vs_6_0");
 	assert(line3dVertexShaderBlob_ != nullptr);
-	line3dPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Line3d.PS.hlsl", L"ps_6_0");
+	line3dPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Line3d/Line3d.PS.hlsl", L"ps_6_0");
 	assert(line3dPixelShaderBlob_ != nullptr);
 
 	// Line3d用のPSOの生成と初期化
@@ -2477,9 +2484,9 @@ void DirectXCommon::CreateLine3d()
 void DirectXCommon::CreatePrimitive()
 {
 	// Primitiveのシェーダをコンパイルする
-	primitiveVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive.VS.hlsl", L"vs_6_0");
+	primitiveVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive/Primitive.VS.hlsl", L"vs_6_0");
 	assert(primitiveVertexShaderBlob_ != nullptr);
-	primitivePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive.PS.hlsl", L"ps_6_0");
+	primitivePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Primitive/Primitive.PS.hlsl", L"ps_6_0");
 	assert(primitivePixelShaderBlob_ != nullptr);
 
 	// Primitive用のPSOの生成と初期化
@@ -2508,44 +2515,50 @@ void DirectXCommon::CreatePrimitive()
 void DirectXCommon::CreatePostEffect()
 {
 	// Fullscreenのシェーダをコンパイルする
-	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Fullscreen.VS.hlsl", L"vs_6_0");
+	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Fullscreen.VS.hlsl", L"vs_6_0");
 	assert(fullscreenVertexShaderBlob_ != nullptr);
 
 	// CopyImageのシェーダをコンパイルする
-	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/CopyImage.PS.hlsl", L"ps_6_0");
+	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/CopyImage.PS.hlsl", L"ps_6_0");
 	assert(copyImagePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kCopyImage] = new CopyImagePipeline();
 	psoPostEffect_[kCopyImage]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
 	// GrayScaleのシェーダをコンパイルする
-	grayScalePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/GrayScale.PS.hlsl", L"ps_6_0");
+	grayScalePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/GrayScale.PS.hlsl", L"ps_6_0");
 	assert(grayScalePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kGrayScale] = new GrayScale();
 	psoPostEffect_[kGrayScale]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), grayScalePixelShaderBlob_.Get());
 
 	// Sepiaのシェーダをコンパイルする
-	sepiaPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Sepia.PS.hlsl", L"ps_6_0");
+	sepiaPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Sepia.PS.hlsl", L"ps_6_0");
 	assert(sepiaPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kSepia] = new Sepia();
 	psoPostEffect_[kSepia]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), sepiaPixelShaderBlob_.Get());
 
 	// Vignetteのシェーダをコンパイルする
-	vignettePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Vignette.PS.hlsl", L"ps_6_0");
+	vignettePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Vignette.PS.hlsl", L"ps_6_0");
 	assert(vignettePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kVignetteing] = new Vignette();
 	psoPostEffect_[kVignetteing]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), vignettePixelShaderBlob_.Get());
 
 	// Smoothingのシェーダをコンパイルする
-	smoothingPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Smoothing.PS.hlsl", L"ps_6_0");
+	smoothingPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Smoothing.PS.hlsl", L"ps_6_0");
 	assert(smoothingPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kSmoothing] = new Smoothing();
 	psoPostEffect_[kSmoothing]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), smoothingPixelShaderBlob_.Get());
 
 	// GaussianFilterのシェーダをコンパイルする
-	gaussianFilterPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/GaussianFilter.PS.hlsl", L"ps_6_0");
+	gaussianFilterPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/GaussianFilter.PS.hlsl", L"ps_6_0");
 	assert(gaussianFilterPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kGaussianFilter] = new GaussianFilter();
 	psoPostEffect_[kGaussianFilter]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), gaussianFilterPixelShaderBlob_.Get());
+
+	// LuminanceBaseOutlineのシェーダをコンパイルする
+	outlinePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/LuminaceBaseOutline.PS.hlsl", L"ps_6_0");
+	assert(outlinePixelShaderBlob_ != nullptr);
+	psoPostEffect_[kOutline] = new LuminanceBaseOutline();
+	psoPostEffect_[kOutline]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), outlinePixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2688,6 +2701,31 @@ void DirectXCommon::DrawGaussianFilter()
 
 	// PSOの設定
 	psoPostEffect_[kGaussianFilter]->CommandListSet(commandList_);
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+/// <summary>
+/// アウトライン
+/// </summary>
+void DirectXCommon::DrawOutline()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kOutline]->CommandListSet(commandList_);
 
 	// RenderTextureのRTVを張り付ける
 	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);

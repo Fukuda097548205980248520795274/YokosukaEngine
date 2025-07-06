@@ -257,6 +257,10 @@ PixelShaderOutput main(VertexShaderOutput input)
         output.color.rgb = 
         diffuseDirectionalLight + speculerDirectionalLight + diffusePointLight + speculerPointLight + diffuseSpotLight + speculerSpotLight;
         
+        output.color.r = saturate(output.color.r);
+        output.color.g = saturate(output.color.g);
+        output.color.b = saturate(output.color.b);
+        
         output.color.a = gMaterial.color.a * textureColor.a;
 
     }

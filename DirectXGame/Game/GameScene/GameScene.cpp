@@ -27,7 +27,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	uvTransform_->Initialize();
 
 	// モデルを読み込む
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/Suzanne", "Suzanne.obj");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/terrain", "terrain.obj");
 }
 
 /// <summary>
@@ -53,7 +53,5 @@ void GameScene::Draw()
 
 	engine_->SetDirectionalLight(directionalLight_.get());
 
-	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), true);
-
-	engine_->SetOffscreenEffect(kGaussianFilter);
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }

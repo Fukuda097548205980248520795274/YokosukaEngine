@@ -124,6 +124,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\CopyImage\CopyImage.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFillter\GaussianFilter.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GrayScale\GrayScale.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\LuminanceBaseOutline\LuminanceBaseOutline.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing\Smoothing.cpp" />
@@ -208,6 +209,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\CopyImage\CopyImage.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFillter\GaussianFilter.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GrayScale\GrayScale.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\LuminanceBaseOutline\LuminanceBaseOutline.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing\Smoothing.h" />
@@ -278,91 +280,97 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="YokosukaEngine\Shader\CopyImage.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\CopyImage.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Fullscreen.VS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\Fullscreen.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\GaussianFilter.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\GaussianFilter.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\GrayScale.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\GrayScale.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Line3d.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Line3d\Line3d.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Line3d.VS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Line3d\Line3d.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Object3d.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\LuminaceBaseOutline.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\Object3d\Object3d.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Object3d.VS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Object3d\Object3d.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Particle.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Particle\Particle.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Particle.VS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Particle\Particle.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Primitive.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Primitive\Primitive.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Primitive.VS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\Primitive\Primitive.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Sepia.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\Sepia.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Smoothing.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\Smoothing.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="YokosukaEngine\Shader\Vignette.PS.hlsl">
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\Vignette.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -373,11 +381,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <Text Include="Externals\ImGui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="YokosukaEngine\Shader\Fullscreen.hlsli" />
-    <None Include="YokosukaEngine\Shader\Line3d.hlsli" />
-    <None Include="YokosukaEngine\Shader\Object3d.hlsli" />
-    <None Include="YokosukaEngine\Shader\Particle.hlsli" />
-    <None Include="YokosukaEngine\Shader\Primitive.hlsli" />
+    <None Include="YokosukaEngine\Shader\PostEffect\Fullscreen.hlsli" />
+    <None Include="YokosukaEngine\Shader\Line3d\Line3d.hlsli" />
+    <None Include="YokosukaEngine\Shader\Object3d\Object3d.hlsli" />
+    <None Include="YokosukaEngine\Shader\Particle\Particle.hlsli" />
+    <None Include="YokosukaEngine\Shader\Primitive\Primitive.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

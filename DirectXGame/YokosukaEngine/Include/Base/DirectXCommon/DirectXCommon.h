@@ -58,6 +58,7 @@
 #include "../../PipelineStateObject/PostEffect/Vignette/Vignette.h"
 #include "../../PipelineStateObject/PostEffect/Smoothing/Smoothing.h"
 #include "../../PipelineStateObject/PostEffect/GaussianFillter/GaussianFilter.h"
+#include "../../PipelineStateObject/PostEffect/LuminanceBaseOutline/LuminanceBaseOutline.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/UvTransform/UvTransform.h"
@@ -99,6 +100,9 @@ enum Effect
 
 	// ガウシアンフィルター
 	kGaussianFilter,
+
+	// アウトライン
+	kOutline,
 
 	// エフェクトの数
 	kEfectCount,
@@ -651,6 +655,11 @@ private:
 	/// </summary>
 	void DrawGaussianFilter();
 
+	/// <summary>
+	/// アウトライン
+	/// </summary>
+	void DrawOutline();
+
 
 	// オフスクリーンの頂点シェーダ
 	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
@@ -663,6 +672,7 @@ private:
 	Microsoft::WRL::ComPtr<IDxcBlob> vignettePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> smoothingPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> gaussianFilterPixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> outlinePixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数
