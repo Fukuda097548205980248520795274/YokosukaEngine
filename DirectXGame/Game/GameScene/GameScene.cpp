@@ -48,12 +48,12 @@ void GameScene::Update()
 /// </summary>
 void GameScene::Draw()
 {
+	// Scene描画
+	Scene::Draw();
+
+	engine_->SetOffscreenEffect(kVignetteing);
+
 	engine_->SetDirectionalLight(directionalLight_.get());
 
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), true);
-
-	engine_->SetOffscreenEffect(kSepia);
-
-	// Scene描画
-	Scene::Draw();
 }

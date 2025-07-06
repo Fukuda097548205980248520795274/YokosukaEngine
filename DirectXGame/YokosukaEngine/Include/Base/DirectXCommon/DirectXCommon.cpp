@@ -626,6 +626,13 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 		DrawSepia();
 
 		break;
+
+	case kVignetteing:
+		// ヴィネッティング
+
+		DrawVignetting();
+
+		break;
 	}
 
 
@@ -2499,14 +2506,20 @@ void DirectXCommon::CreatePostEffect()
 	// GrayScaleのシェーダをコンパイルする
 	grayScalePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/GrayScale.PS.hlsl", L"ps_6_0");
 	assert(grayScalePixelShaderBlob_ != nullptr);
-	psoPostEffect_[kGrayScale] = new CopyImagePipeline();
+	psoPostEffect_[kGrayScale] = new GrayScale();
 	psoPostEffect_[kGrayScale]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), grayScalePixelShaderBlob_.Get());
 
 	// Sepiaのシェーダをコンパイルする
 	sepiaPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Sepia.PS.hlsl", L"ps_6_0");
 	assert(sepiaPixelShaderBlob_ != nullptr);
-	psoPostEffect_[kSepia] = new CopyImagePipeline();
+	psoPostEffect_[kSepia] = new Sepia();
 	psoPostEffect_[kSepia]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), sepiaPixelShaderBlob_.Get());
+
+	// Vignetteのシェーダをコンパイルする
+	vignettePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Vignette.PS.hlsl", L"ps_6_0");
+	assert(vignettePixelShaderBlob_ != nullptr);
+	psoPostEffect_[kVignetteing] = new Vignette();
+	psoPostEffect_[kVignetteing]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), vignettePixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2574,6 +2587,31 @@ void DirectXCommon::DrawSepia()
 
 	// PSOの設定
 	psoPostEffect_[kSepia]->CommandListSet(commandList_);
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+/// <summary>
+/// ヴィネッティング
+/// </summary>
+void DirectXCommon::DrawVignetting()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kVignetteing]->CommandListSet(commandList_);
 
 	// RenderTextureのRTVを張り付ける
 	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);

@@ -277,6 +277,9 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia">
       <UniqueIdentifier>{6b7b4b0c-ee7d-435d-802c-0f8e32c0ea4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette">
+      <UniqueIdentifier>{f7cd262a-34be-4cc2-88d3-507195649619}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -512,6 +515,9 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette\Vignette.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -752,6 +758,9 @@
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia</Filter>
     </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette\Vignette.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="YokosukaEngine\Shader\Object3d.VS.hlsl">
@@ -788,6 +797,9 @@
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\Sepia.PS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\Vignette.PS.hlsl">
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
   </ItemGroup>

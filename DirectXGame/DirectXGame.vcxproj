@@ -125,6 +125,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GrayScale\GrayScale.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette\Vignette.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd\PrimitiveBlendAdd.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply\PrimitiveBlendMultiply.cpp" />
@@ -206,6 +207,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GrayScale\GrayScale.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette\Vignette.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendAdd\PrimitiveBlendAdd.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply\PrimitiveBlendMultiply.h" />
@@ -343,6 +345,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\Vignette.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

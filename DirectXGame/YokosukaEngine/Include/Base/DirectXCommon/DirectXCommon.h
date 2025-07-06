@@ -55,6 +55,7 @@
 #include "../../PipelineStateObject/PostEffect/CopyImage/CopyImage.h"
 #include "../../PipelineStateObject/PostEffect/GrayScale/GrayScale.h"
 #include "../../PipelineStateObject/PostEffect/Sepia/Sepia.h"
+#include "../../PipelineStateObject/PostEffect/Vignette/Vignette.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/UvTransform/UvTransform.h"
@@ -87,6 +88,9 @@ enum Effect
 
 	// セピア
 	kSepia,
+
+	// ヴィネッティング
+	kVignetteing,
 
 	// エフェクトの数
 	kEfectCount,
@@ -465,22 +469,6 @@ private:
 	/// PostEffectを生成する
 	/// </summary>
 	void CreatePostEffect();
-
-
-	/// <summary>
-	/// RTV通常コピー
-	/// </summary>
-	void DrawCopyImage();
-
-	/// <summary>
-	/// グレースケール
-	/// </summary>
-	void DrawGrayScale();
-
-	/// <summary>
-	/// セピア
-	/// </summary>
-	void DrawSepia();
 	
 
 
@@ -620,6 +608,32 @@ private:
 	Microsoft::WRL::ComPtr<IDxcBlob> primitiveVertexShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitivePixelShaderBlob_ = nullptr;
 
+
+	/*-------------------
+	    ポストエフェクト
+	-------------------*/
+
+	/// <summary>
+	/// RTV通常コピー
+	/// </summary>
+	void DrawCopyImage();
+
+	/// <summary>
+	/// グレースケール
+	/// </summary>
+	void DrawGrayScale();
+
+	/// <summary>
+	/// セピア
+	/// </summary>
+	void DrawSepia();
+
+	/// <summary>
+	/// ヴィネッティング
+	/// </summary>
+	void DrawVignetting();
+
+
 	// オフスクリーンの頂点シェーダ
 	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
 
@@ -628,6 +642,7 @@ private:
 	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> grayScalePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> sepiaPixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> vignettePixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数
