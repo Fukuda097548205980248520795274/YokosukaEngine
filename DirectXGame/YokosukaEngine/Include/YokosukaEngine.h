@@ -153,9 +153,10 @@ public:
 	void SetSpotLight(const SpotLight* spotLight)const { directXCommon_->SetSpotLight(spotLight); }
 
 	/// <summary>
-	/// オフスクリーンをセットする
+	/// オフスクリーンのエフェクトを使用する
 	/// </summary>
-	void SetOffscreen() const { directXCommon_->SetOffscreen(); }
+	/// <param name="effect"></param>
+	void SetOffscreenEffect(Effect effect) const { directXCommon_->SetOffscreenEffect(effect); }
 
 	/// <summary>
 	/// 平面を描画する

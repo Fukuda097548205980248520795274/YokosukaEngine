@@ -11,7 +11,10 @@ DirectXCommon::~DirectXCommon()
 	ImGui_ImplDX12_Shutdown();
 	ImGui::DestroyContext();
 
-	delete copyImage_;
+	for (uint32_t i = 0; i < kEfectCount; i++)
+	{
+		delete psoPostEffect_[i];
+	}
 
 	// PSO
 	for (uint32_t i = 0; i < kBlendModekCountOfBlendMode; i++)
@@ -132,16 +135,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	// Primitiveを生成する
 	CreatePrimitive();
 
-
-	// Fullscreenのシェーダをコンパイルする
-	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Fullscreen.VS.hlsl", L"vs_6_0");
-	assert(primitiveVertexShaderBlob_ != nullptr);
-
-	// CopyImageのシェーダをコンパイルする
-	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/CopyImage.PS.hlsl", L"ps_6_0");
-	assert(primitivePixelShaderBlob_ != nullptr);
-	copyImage_ = new CopyImagePipeline();
-	copyImage_->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	// PostEffectを生成する
+	CreatePostEffect();
 
 
 
@@ -393,7 +388,7 @@ void DirectXCommon::PreDraw()
 	ImGui::NewFrame();
 
 	// オフスクリーンをセットする
-	SetOffscreen();
+	SetOffscreenEffect(kCopyImage);
 
 	// 使用したブレンドモードを初期化する
 	useObject3dBlendMode_ = kBlendModeNormal;
@@ -437,24 +432,8 @@ void DirectXCommon::PostDraw()
 
 
 
-	// 既にオフスクリーンを使用していたら上書きする
-	if (useNumOffscreen_ > 0)
-	{
-		// RenderTarget -> PixelShader
-		ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-
-		// PSOの設定
-		copyImage_->CommandListSet(commandList_);
-
-		// RenderTextureのRTVを張り付ける
-		commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
-
-		// 頂点3つ描画
-		commandList_->DrawInstanced(3, 1, 0, 0);
-
-		// PixelShader -> RenderTarget
-		ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
-	}
+	// 既にオフスクリーンを使用していたらスワップチェーンのコピーする
+	DrawCopyImage();
 
 
 
@@ -594,7 +573,7 @@ void DirectXCommon::SetSpotLight(const SpotLight* spotLight)
 /// <summary>
 /// オフスクリーンをセットする
 /// </summary>
-void DirectXCommon::SetOffscreen()
+void DirectXCommon::SetOffscreenEffect(Effect effect)
 {
 	// 使用できるオフスクリーン数を越えないようにする
 	if (useNumOffscreen_ >= kMaxNumOffscreen)
@@ -623,23 +602,23 @@ void DirectXCommon::SetOffscreen()
 	commandList_->RSSetScissorRects(1, &scissorRect_);
 
 
-	// 既にオフスクリーンを使用していたら上書きする
-	if (useNumOffscreen_ > 0)
+	// エフェクトで切り替える
+	switch (effect)
 	{
-		// RenderTarget -> PixelShader
-		ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	case kCopyImage:
+	default:
+		// 通常コピー
 
-		// PSOの設定
-		copyImage_->CommandListSet(commandList_);
+		DrawCopyImage();
 
-		// RenderTextureのRTVを張り付ける
-		commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+		break;
 
-		// 頂点3つ描画
-		commandList_->DrawInstanced(3, 1, 0, 0);
+	case kGrayScale:
+		// グレースケール
 
-		// PixelShader -> RenderTarget
-		ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+		DrawGrayScale();
+
+		break;
 	}
 
 
@@ -2493,4 +2472,77 @@ void DirectXCommon::CreatePrimitive()
 
 	psoPrimitive_[kBlendModeScreen] = new PrimitiveBlendScreen();
 	psoPrimitive_[kBlendModeScreen]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+}
+
+/// <summary>
+/// PostEffectを生成する
+/// </summary>
+void DirectXCommon::CreatePostEffect()
+{
+	// Fullscreenのシェーダをコンパイルする
+	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Fullscreen.VS.hlsl", L"vs_6_0");
+	assert(fullscreenVertexShaderBlob_ != nullptr);
+
+	// CopyImageのシェーダをコンパイルする
+	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/CopyImage.PS.hlsl", L"ps_6_0");
+	assert(copyImagePixelShaderBlob_ != nullptr);
+	psoPostEffect_[kCopyImage] = new CopyImagePipeline();
+	psoPostEffect_[kCopyImage]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	// CopyImageのシェーダをコンパイルする
+	grayScalePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/GrayScale.PS.hlsl", L"ps_6_0");
+	assert(grayScalePixelShaderBlob_ != nullptr);
+	psoPostEffect_[kGrayScale] = new CopyImagePipeline();
+	psoPostEffect_[kGrayScale]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), grayScalePixelShaderBlob_.Get());
+}
+
+/// <summary>
+/// RTV通常コピー
+/// </summary>
+void DirectXCommon::DrawCopyImage()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kCopyImage]->CommandListSet(commandList_);
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	
+}
+
+/// <summary>
+/// グレースケール
+/// </summary>
+void DirectXCommon::DrawGrayScale()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kGrayScale]->CommandListSet(commandList_);
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }

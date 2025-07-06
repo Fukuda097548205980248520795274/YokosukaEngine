@@ -51,7 +51,9 @@
 #include "../../PipelineStateObject/Primitive/BlendMultiply/PrimitiveBlendMultiply.h"
 #include "../../PipelineStateObject/Primitive/BlendScreen/PrimitiveBlendScreen.h"
 
-#include "../../PipelineStateObject/CopyImage/CopyImage.h"
+#include "../../PipelineStateObject/PostEffect/PostEffect.h"
+#include "../../PipelineStateObject/PostEffect/CopyImage/CopyImage.h"
+#include "../../PipelineStateObject/PostEffect/GrayScale/GrayScale.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/UvTransform/UvTransform.h"
@@ -72,6 +74,19 @@
 
 // 前方宣言
 class WinApp;
+
+// エフェクト
+enum Effect
+{
+	// 通常コピー
+	kCopyImage,
+
+	// グレースケール
+	kGrayScale,
+
+	// エフェクトの数
+	kEfectCount,
+};
 
 class DirectXCommon
 {
@@ -164,9 +179,10 @@ public:
 	void SetSpotLight(const SpotLight* spotLight);
 
 	/// <summary>
-	/// オフスクリーンをセットする
+	/// オフスクリーンにエフェクトをかける
 	/// </summary>
-	void SetOffscreen();
+	/// <param name="effect"></param>
+	void SetOffscreenEffect(Effect effect);
 
 	/// <summary>
 	/// 平面を描画する
@@ -440,6 +456,21 @@ private:
 	/// Primitiveを生成する
 	/// </summary>
 	void CreatePrimitive();
+
+	/// <summary>
+	/// PostEffectを生成する
+	/// </summary>
+	void CreatePostEffect();
+
+	/// <summary>
+	/// RTV通常コピー
+	/// </summary>
+	void DrawCopyImage();
+
+	/// <summary>
+	/// グレースケール
+	/// </summary>
+	void DrawGrayScale();
 	
 
 
@@ -551,13 +582,6 @@ private:
 	Offscreen offscreen_[124];
 
 
-	// CopyImage用のPSO
-	CopyImagePipeline* copyImage_ = nullptr;
-	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
-
-	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
-
-
 	/*-----------------------
 	    パイプラインステート
 	-----------------------*/
@@ -585,6 +609,14 @@ private:
 	uint32_t usePrimitiveBlendMode_ = kBlendModeNormal;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitiveVertexShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitivePixelShaderBlob_ = nullptr;
+
+	// オフスクリーンの頂点シェーダ
+	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
+
+	// PostEffectピクセルシェーダ
+	PostEffect* psoPostEffect_[kEfectCount] = { nullptr };
+	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> grayScalePixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数

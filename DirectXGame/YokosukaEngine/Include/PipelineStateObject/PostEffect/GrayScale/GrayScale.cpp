@@ -1,10 +1,10 @@
-#include "CopyImage.h"
+#include "GrayScale.h"
 
 /// <summary>
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void CopyImagePipeline::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
+void GrayScale::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
 	// nullptrチェック
@@ -168,18 +168,4 @@ void CopyImagePipeline::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 	// 生成する
 	hr = device->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&grahpicsPipelineState_));
 	assert(SUCCEEDED(hr));
-}
-
-
-/// <summary>
-/// コマンドリストにPSOの設定を行う
-/// </summary>
-/// <param name="commandList"></param>
-void CopyImagePipeline::CommandListSet(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList)
-{
-	// ルートシグネチャの設定
-	commandList->SetGraphicsRootSignature(rootSignature_.Get());
-
-	// PSOの設定
-	commandList->SetPipelineState(grahpicsPipelineState_.Get());
 }
