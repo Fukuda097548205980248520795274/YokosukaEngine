@@ -37,8 +37,9 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
-	// 最も近い惑星を探す
-	SarchNearPlanet();
+	ImGui::Begin("Player");
+	ImGui::DragFloat3("Translation", &worldTransform_->translation_.x, 0.1f);
+	ImGui::End();
 
 	// 入力操作
 	Input();
@@ -81,7 +82,7 @@ Vector3 Player::GetWorldPosition()
 Sphere Player::GetCollisionSphere()
 {
 	Sphere sphere;
-	sphere.center = GetWorldPosition() + fallUpVelocity_ * kDeltaTime;
+	sphere.center = GetWorldPosition();
 	sphere.radius = radius_;
 	return sphere;
 }
@@ -94,11 +95,6 @@ void Player::OnCollision(const Planet* planet)
 {
 	// 着地する
 	isGround_ = true;
-
-	// ジャンプの値を初期化する
-	speed_ = 0.0f;
-	fallUpSpeed = 0.0f;
-	fallUpVelocity_ = Vector3(0.0f, 0.0f, 0.0f);
 
 	// 惑星とプレイヤーの距離を取得する
 	planetPosition_ = planet->GetWorldPosition();
@@ -113,13 +109,7 @@ void Player::OnCollision(const GravitationalField* gravitationalField)
 	// 重力に引っ張られる
 	isGravityPull_ = true;
 
-
-	// 惑星の最近接点を求める
-	Vector3 toPlanet = gravitationalField->GetPlanetInstance()->GetWorldPosition() - GetWorldPosition();
-	float length = Length(toPlanet) - gravitationalField->GetPlanetInstance()->GetRadius();
-
-	// 最も近い惑星リストに追加する
-	nearPlanets_.emplace_back(std::make_pair(length, gravitationalField->GetPlanetInstance()));
+	toGravity_ = Normalize(gravitationalField->GetWorldPosition() - GetWorldPosition());
 }
 
 /// <summary>
@@ -127,38 +117,10 @@ void Player::OnCollision(const GravitationalField* gravitationalField)
 /// </summary>
 void Player::Input()
 {
-	Vector3 velocity = { 0.0f , 0.0f , 0.0f };
-
 	// 着地しているとき
 	if (isGround_)
 	{
-		if (ridePlanet_ == nullptr)
-			return;
 
-		// 落下ベクトルを求める
-		fallUpVelocity_ = Normalize(planetPosition_ - GetWorldPosition()) * kFallSpeed;
-
-		// プレイヤーの位置を探す
-		Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
-
-		velocity.x = -ridePlanet_->GetRadius() * normalizeToPlayer.y;
-		velocity.y = ridePlanet_->GetRadius() * normalizeToPlayer.y;
-
-		theta_ = std::acos(normalizeToPlayer.x);
-		phi_ = 0.0f;
-		if (worldTransform_->translation_.y <= planetPosition_.y)
-			theta_ *= -1.0f;
-
-		// 移動操作
-		MoveInput();
-
-
-		if (engine_->GetKeyTrigger(DIK_SPACE))
-		{
-			// ジャンプの初速を与える
-			fallUpSpeed = kJumpStartSpeed;
-			fallUpVelocity_ = (-1.0f * toGravity_) * fallUpSpeed;
-		}
 	} 
 	else
 	{
@@ -167,25 +129,7 @@ void Player::Input()
 		// 重力場の中にいるとき
 		if (isGravityPull_)
 		{
-			// 上昇加工する
-			speed_ += fallUpSpeed * kDeltaTime;
-
-			// 重力場の中心に落下する
-			fallUpVelocity_ = -1.0f * (toGravity_ * speed_);
-
-			// 落下する
-			fallUpSpeed -= kFallSpeed * kDeltaTime;
-
-
-			// プレイヤーの位置を探す
-			Vector3 normalizeToPlayer = Normalize(GetWorldPosition() - planetPosition_);
-
-			velocity.x = -toPlanetLength_ * normalizeToPlayer.y;
-			velocity.y = toPlanetLength_ * normalizeToPlayer.y;
-
-
-			// 移動操作
-			MoveInput();
+			worldTransform_->translation_ += toGravity_ * (kFallSpeed * kDeltaTime);
 		} 
 		else
 		{
@@ -193,123 +137,4 @@ void Player::Input()
 			fallUpVelocity_ = { 0.0f , 0.0f , 0.0f };
 		}
 	}
-
-	worldTransform_->translation_.x += velocity.x;
-	worldTransform_->translation_.y += velocity.y;
-}
-
-/// <summary>
-/// 最も近い惑星を探す
-/// </summary>
-void Player::SarchNearPlanet()
-{
-	// タイマーを進める
-	planetChangeTimer_ += kDeltaTime;
-	planetChangeTimer_ = std::min(planetChangeTimer_, kPlanetChangeTime);
-
-	if (planetChangeTimer_ >= kPlanetChangeTime)
-	{
-		// リストに惑星があるかどうか
-		if (!nearPlanets_.empty())
-		{
-			// 距離で昇順にソート
-			nearPlanets_.sort();
-
-			if (ridePlanet_ != nearPlanets_.front().second)
-			{
-
-				ridePlanet_ = nearPlanets_.front().second;
-
-				fallUpSpeed *= -1.0f;
-
-				isMove_ = false;
-
-				planetChangeTimer_ = 0.0f;
-			}
-
-			// 最も近い惑星の方向ベクトルを取得する
-			toGravity_ = Normalize(nearPlanets_.front().second->GetWorldPosition() - GetWorldPosition());
-
-			// 最も近い惑星の位置を取得する
-			planetPosition_ = nearPlanets_.front().second->GetWorldPosition();
-		}
-	}
-
-	// リストをクリアする
-	nearPlanets_.clear();
-}
-
-/// <summary>
-/// 移動操作
-/// </summary>
-void Player::MoveInput()
-{
-	// 移動するためのキーを押していないときは処理しない
-	if (!engine_->GetKeyPress(DIK_D) && !engine_->GetKeyPress(DIK_A) &&
-		!engine_->GetKeyPress(DIK_W) && !engine_->GetKeyPress(DIK_S))
-	{
-		anglerTheta_ = 0.0f;
-		isMove_ = false;
-		return;
-	}
-
-	// 移動しているときは処理しない
-	if (isMove_)
-		return;
-
-	// Dキーで右移動
-	if (engine_->GetKeyPress(DIK_D))
-	{
-		// 星の裏側では反対方向に進む
-		if (worldTransform_->translation_.y > planetPosition_.y)
-		{
-			anglerTheta_ = -kAnglerTheta;
-		}
-		else
-		{
-			anglerTheta_ = kAnglerTheta;
-		}
-	} 
-	else if (engine_->GetKeyPress(DIK_A))
-	{
-		// Aキーで左移動
-
-		// 星の裏側では反対方向に進む
-		if (worldTransform_->translation_.y > planetPosition_.y)
-		{
-			anglerTheta_ = kAnglerTheta;
-		} 
-		else
-		{
-			anglerTheta_ = -kAnglerTheta;
-		}
-	}
-	else if (engine_->GetKeyPress(DIK_W))
-	{
-		// 星の裏側では反対方向に進む
-		if (worldTransform_->translation_.x > planetPosition_.x)
-		{
-			anglerTheta_ = kAnglerTheta;
-		} 
-		else
-		{
-			anglerTheta_ = -kAnglerTheta;
-		}
-	} 
-	else if (engine_->GetKeyPress(DIK_S))
-	{
-		// Aキーで左移動
-
-		// 星の裏側では反対方向に進む
-		if (worldTransform_->translation_.x > planetPosition_.x)
-		{
-			anglerTheta_ = -kAnglerTheta;
-		} else
-		{
-			anglerTheta_ = kAnglerTheta;
-		}
-	}
-
-	// 移動する
-	isMove_ = true;
 }

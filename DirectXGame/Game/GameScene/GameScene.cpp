@@ -19,7 +19,6 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// 星を生成する
 	SetPlanet(Vector3(0.0f, 0.0f, 0.0f), 8.0f, 32.0f);
-	SetPlanet(Vector3(16.0f, 16.0f, 0.0f), 8.0f, 32.0f);
 }
 
 /// <summary>

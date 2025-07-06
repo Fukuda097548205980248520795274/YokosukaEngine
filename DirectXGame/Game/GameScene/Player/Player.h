@@ -57,16 +57,6 @@ private:
 	/// </summary>
 	void Input();
 
-	/// <summary>
-	/// 移動操作
-	/// </summary>
-	void MoveInput();
-
-	/// <summary>
-	/// 最も近い惑星を探す
-	/// </summary>
-	void SarchNearPlanet();
-
 
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
@@ -91,32 +81,7 @@ private:
 	// 半径
 	float radius_ = 1.0f;
 
-	// 角度
-	float theta_ = 0.0f;
-	float phi_ = 0.0f;
 
-	// 角速度
-	float anglerTheta_ = 0.0f;
-
-	// 移動角速度
-	const float kAnglerTheta = 0.01f;
-
-	// 移動フラグ
-	bool isMove_ = false;
-
-	// 速度ベクトル
-	Vector3 velocity_ = {0.0f , 0.0f , 0.0f};
-
-
-
-	// 速度
-	float speed_ = 0.0f;
-
-	// ジャンプの初速
-	const float kJumpStartSpeed = 6.0f;
-
-	// 落下速度
-	float fallUpSpeed = 0.0f;
 
 	// 落下上昇ベクトル
 	Vector3 fallUpVelocity_ = { 0.0f , 0.0f ,0.0f };
@@ -142,18 +107,5 @@ private:
 
 	// プレイヤーから惑星の距離
 	float toPlanetLength_ = 0.0f;
-
-
-	// 最も近い惑星リスト
-	std::list<std::pair<float, Planet*>> nearPlanets_;
-
-	// 乗っている惑星
-	Planet* ridePlanet_ = nullptr;
-
-	// 惑星を切り替える経過タイマー
-	float planetChangeTimer_ = 0.0f;
-
-	// 惑星を切り替える時間
-	const float kPlanetChangeTime = 0.8f;
 };
 
