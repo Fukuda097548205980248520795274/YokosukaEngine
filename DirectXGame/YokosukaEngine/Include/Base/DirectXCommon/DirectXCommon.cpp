@@ -11,7 +11,10 @@ DirectXCommon::~DirectXCommon()
 	ImGui_ImplDX12_Shutdown();
 	ImGui::DestroyContext();
 
-	delete copyImage_;
+	for (uint32_t i = 0; i < kEfectCount; i++)
+	{
+		delete psoPostEffect_[i];
+	}
 
 	// PSO
 	for (uint32_t i = 0; i < kBlendModekCountOfBlendMode; i++)
@@ -132,16 +135,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	// Primitiveを生成する
 	CreatePrimitive();
 
-
-	// Fullscreenのシェーダをコンパイルする
-	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Fullscreen.VS.hlsl", L"vs_6_0");
-	assert(primitiveVertexShaderBlob_ != nullptr);
-
-	// CopyImageのシェーダをコンパイルする
-	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/CopyImage.PS.hlsl", L"ps_6_0");
-	assert(primitivePixelShaderBlob_ != nullptr);
-	copyImage_ = new CopyImagePipeline();
-	copyImage_->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	// PostEffectを生成する
+	CreatePostEffect();
 
 
 
@@ -172,25 +167,32 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	    オフスクリーンレンダリング
 	----------------------------*/
 
-	// レンダーテクスチャを作成する
-	const Vector4 kRenderTargetClearColor = { 0.1f , 0.1f , 0.1f , 1.0f };
-	renderTextureResource_ = CreateRenderTextureResource(device_, (uint32_t)windowApplication_->GetWindowWidth(), (uint32_t)windowApplication_->GetWindowHeight(),
-		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearColor);
-	renderTextureRtvCPUHnalde_ = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, device_);
-	device_->CreateRenderTargetView(renderTextureResource_.Get(), &rtvDesc_, renderTextureRtvCPUHnalde_);
+	for (uint32_t i = 0; i < kMaxNumOffscreen; i++)
+	{
+		// レンダーテクスチャを作成する
+		const Vector4 kRenderTargetClearColor = { 0.1f , 0.1f , 0.1f , 1.0f };
+		offscreen_[i].renderTextureResource = 
+			CreateRenderTextureResource(device_, (uint32_t)windowApplication_->GetWindowWidth(), (uint32_t)windowApplication_->GetWindowHeight(),
+			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearColor);
 
+		offscreen_[i].renderTextureRtvCPUHnalde = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, device_);
+		device_->CreateRenderTargetView(offscreen_[i].renderTextureResource.Get(), &rtvDesc_, offscreen_[i].renderTextureRtvCPUHnalde);
+	}
 
-	// レンダーテクスチャを読み込むSRVを作成する
-	D3D12_SHADER_RESOURCE_VIEW_DESC renderTextureSrvDesc{};
-	renderTextureSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	renderTextureSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	renderTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	renderTextureSrvDesc.Texture2D.MipLevels = 1;
+	for (uint32_t i = 0; i < kMaxNumOffscreen; i++)
+	{
+		// レンダーテクスチャを読み込むSRVを作成する
+		D3D12_SHADER_RESOURCE_VIEW_DESC renderTextureSrvDesc{};
+		renderTextureSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		renderTextureSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		renderTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		renderTextureSrvDesc.Texture2D.MipLevels = 1;
 
-	renderTextureSrvCPUHandle_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
-	renderTextureSrvGPUHandle_ =GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
+		offscreen_[i].renderTextureSrvCPUHandle = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
+		offscreen_[i].renderTextureSrvGPUHandle = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
 
-	device_->CreateShaderResourceView(renderTextureResource_.Get(), &renderTextureSrvDesc, renderTextureSrvCPUHandle_);
+		device_->CreateShaderResourceView(offscreen_[i].renderTextureResource.Get(), &renderTextureSrvDesc, offscreen_[i].renderTextureSrvCPUHandle);
+	}
 
 
 	/*-----------------------------
@@ -385,30 +387,8 @@ void DirectXCommon::PreDraw()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-
-
-	// 描画先のRTVとDSVを設定する
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
-	commandList_->OMSetRenderTargets(1, &renderTextureRtvCPUHnalde_, false, &dsvHandle);
-
-	// 指定した色で画面全体をクリアする
-	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
-	commandList_->ClearRenderTargetView(renderTextureRtvCPUHnalde_, clearColor, 0, nullptr);
-
-	// 指定した深度で画面全体をクリアする
-	commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-
-	// 描画用のディスクリプタヒープの設定
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
-	commandList_->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
-
-	// ビューポート設定
-	commandList_->RSSetViewports(1, &viewport_);
-
-	// シザーレクト設定
-	commandList_->RSSetScissorRects(1, &scissorRect_);
-
-
+	// オフスクリーンをセットする
+	SetOffscreenEffect(kCopyImage);
 
 	// 使用したブレンドモードを初期化する
 	useObject3dBlendMode_ = kBlendModeNormal;
@@ -452,20 +432,8 @@ void DirectXCommon::PostDraw()
 
 
 
-	// RenderTarget -> PixelShader
-	ChangeResourceState(commandList_, renderTextureResource_, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-
-	// PSOの設定
-	copyImage_->CommandListSet(commandList_);
-
-	// RenderTextureのRTVを張り付ける
-	commandList_->SetGraphicsRootDescriptorTable(0, renderTextureSrvGPUHandle_);
-
-	// 頂点3つ描画
-	commandList_->DrawInstanced(3, 1, 0, 0);
-
-	// PixelShader -> RenderTarget
-	ChangeResourceState(commandList_, renderTextureResource_, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	// 既にオフスクリーンを使用していたらスワップチェーンのコピーする
+	DrawCopyImage();
 
 
 
@@ -511,6 +479,9 @@ void DirectXCommon::PostDraw()
 	useNumPointLightData_->num = useNumPointLightCount_;
 	useNumSpotLightCount_ = 0;
 	useNumSpotLightData_->num = useNumSpotLightCount_;
+
+	// オフスクリーン
+	useNumOffscreen_ = 0;
 }
 
 /// <summary>
@@ -597,6 +568,62 @@ void DirectXCommon::SetSpotLight(const SpotLight* spotLight)
 	// カウントする
 	useNumSpotLightCount_++;
 	useNumSpotLightData_->num = useNumSpotLightCount_;
+}
+
+/// <summary>
+/// オフスクリーンをセットする
+/// </summary>
+void DirectXCommon::SetOffscreenEffect(Effect effect)
+{
+	// 使用できるオフスクリーン数を越えないようにする
+	if (useNumOffscreen_ >= kMaxNumOffscreen)
+		return;
+
+
+	// 描画先のRTVとDSVを設定する
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
+	commandList_->OMSetRenderTargets(1, &offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, false, &dsvHandle);
+
+	// 指定した色で画面全体をクリアする
+	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
+	commandList_->ClearRenderTargetView(offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, clearColor, 0, nullptr);
+
+	// 指定した深度で画面全体をクリアする
+	commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
+	// 描画用のディスクリプタヒープの設定
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
+	commandList_->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
+
+	// ビューポート設定
+	commandList_->RSSetViewports(1, &viewport_);
+
+	// シザーレクト設定
+	commandList_->RSSetScissorRects(1, &scissorRect_);
+
+
+	// エフェクトで切り替える
+	switch (effect)
+	{
+	case kCopyImage:
+	default:
+		// 通常コピー
+
+		DrawCopyImage();
+
+		break;
+
+	case kGrayScale:
+		// グレースケール
+
+		DrawGrayScale();
+
+		break;
+	}
+
+
+	// カウントする
+	useNumOffscreen_++;
 }
 
 /// <summary>
@@ -2445,4 +2472,77 @@ void DirectXCommon::CreatePrimitive()
 
 	psoPrimitive_[kBlendModeScreen] = new PrimitiveBlendScreen();
 	psoPrimitive_[kBlendModeScreen]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+}
+
+/// <summary>
+/// PostEffectを生成する
+/// </summary>
+void DirectXCommon::CreatePostEffect()
+{
+	// Fullscreenのシェーダをコンパイルする
+	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Fullscreen.VS.hlsl", L"vs_6_0");
+	assert(fullscreenVertexShaderBlob_ != nullptr);
+
+	// CopyImageのシェーダをコンパイルする
+	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/CopyImage.PS.hlsl", L"ps_6_0");
+	assert(copyImagePixelShaderBlob_ != nullptr);
+	psoPostEffect_[kCopyImage] = new CopyImagePipeline();
+	psoPostEffect_[kCopyImage]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	// CopyImageのシェーダをコンパイルする
+	grayScalePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/GrayScale.PS.hlsl", L"ps_6_0");
+	assert(grayScalePixelShaderBlob_ != nullptr);
+	psoPostEffect_[kGrayScale] = new CopyImagePipeline();
+	psoPostEffect_[kGrayScale]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), grayScalePixelShaderBlob_.Get());
+}
+
+/// <summary>
+/// RTV通常コピー
+/// </summary>
+void DirectXCommon::DrawCopyImage()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kCopyImage]->CommandListSet(commandList_);
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	
+}
+
+/// <summary>
+/// グレースケール
+/// </summary>
+void DirectXCommon::DrawGrayScale()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kGrayScale]->CommandListSet(commandList_);
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }

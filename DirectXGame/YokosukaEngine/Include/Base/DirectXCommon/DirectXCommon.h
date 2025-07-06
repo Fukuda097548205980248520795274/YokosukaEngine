@@ -51,7 +51,9 @@
 #include "../../PipelineStateObject/Primitive/BlendMultiply/PrimitiveBlendMultiply.h"
 #include "../../PipelineStateObject/Primitive/BlendScreen/PrimitiveBlendScreen.h"
 
-#include "../../PipelineStateObject/CopyImage/CopyImage.h"
+#include "../../PipelineStateObject/PostEffect/PostEffect.h"
+#include "../../PipelineStateObject/PostEffect/CopyImage/CopyImage.h"
+#include "../../PipelineStateObject/PostEffect/GrayScale/GrayScale.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/UvTransform/UvTransform.h"
@@ -72,6 +74,19 @@
 
 // 前方宣言
 class WinApp;
+
+// エフェクト
+enum Effect
+{
+	// 通常コピー
+	kCopyImage,
+
+	// グレースケール
+	kGrayScale,
+
+	// エフェクトの数
+	kEfectCount,
+};
 
 class DirectXCommon
 {
@@ -162,6 +177,12 @@ public:
 	/// </summary>
 	/// <param name="spotLight"></param>
 	void SetSpotLight(const SpotLight* spotLight);
+
+	/// <summary>
+	/// オフスクリーンにエフェクトをかける
+	/// </summary>
+	/// <param name="effect"></param>
+	void SetOffscreenEffect(Effect effect);
 
 	/// <summary>
 	/// 平面を描画する
@@ -435,6 +456,21 @@ private:
 	/// Primitiveを生成する
 	/// </summary>
 	void CreatePrimitive();
+
+	/// <summary>
+	/// PostEffectを生成する
+	/// </summary>
+	void CreatePostEffect();
+
+	/// <summary>
+	/// RTV通常コピー
+	/// </summary>
+	void DrawCopyImage();
+
+	/// <summary>
+	/// グレースケール
+	/// </summary>
+	void DrawGrayScale();
 	
 
 
@@ -474,7 +510,7 @@ private:
 
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;
-	const UINT kMaxNumRtvDescriptors = 3;
+	const UINT kMaxNumRtvDescriptors = 256;
 	UINT numRtvCPUDescriptors = 0;
 
 	// SRV用ディスクリプタヒープ
@@ -522,21 +558,28 @@ private:
 	    オフスクリーンレンダリング
 	----------------------------*/
 
-	// レンダーテクスチャ
-	Microsoft::WRL::ComPtr<ID3D12Resource> renderTextureResource_ = nullptr;
+	// オフスクリーン
+	struct Offscreen
+	{
+		// レンダーテクスチャ
+		Microsoft::WRL::ComPtr<ID3D12Resource> renderTextureResource = nullptr;
 
-	// RTV用CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureRtvCPUHnalde_{};
+		// RTV用CPUハンドル
+		D3D12_CPU_DESCRIPTOR_HANDLE renderTextureRtvCPUHnalde{};
 
-	// SRV用ハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureSrvCPUHandle_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE renderTextureSrvGPUHandle_{};
+		// SRV用ハンドル
+		D3D12_CPU_DESCRIPTOR_HANDLE renderTextureSrvCPUHandle{};
+		D3D12_GPU_DESCRIPTOR_HANDLE renderTextureSrvGPUHandle{};
+	};
 
-	// CopyImage用のPSO
-	CopyImagePipeline* copyImage_ = nullptr;
-	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
+	// オフスクリーンの最大数
+	const uint32_t kMaxNumOffscreen = 124;
 
-	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
+	// 使用したオフスクリーンの数
+	uint32_t useNumOffscreen_ = 0;
+
+	// オフスクリーン
+	Offscreen offscreen_[124];
 
 
 	/*-----------------------
@@ -566,6 +609,14 @@ private:
 	uint32_t usePrimitiveBlendMode_ = kBlendModeNormal;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitiveVertexShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitivePixelShaderBlob_ = nullptr;
+
+	// オフスクリーンの頂点シェーダ
+	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
+
+	// PostEffectピクセルシェーダ
+	PostEffect* psoPostEffect_[kEfectCount] = { nullptr };
+	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> grayScalePixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数
