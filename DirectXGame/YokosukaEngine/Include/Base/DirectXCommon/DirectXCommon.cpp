@@ -392,30 +392,8 @@ void DirectXCommon::PreDraw()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-
-
-	// 描画先のRTVとDSVを設定する
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
-	commandList_->OMSetRenderTargets(1, &offscreen_[0].renderTextureRtvCPUHnalde, false, &dsvHandle);
-
-	// 指定した色で画面全体をクリアする
-	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
-	commandList_->ClearRenderTargetView(offscreen_[0].renderTextureRtvCPUHnalde, clearColor, 0, nullptr);
-
-	// 指定した深度で画面全体をクリアする
-	commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-
-	// 描画用のディスクリプタヒープの設定
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
-	commandList_->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
-
-	// ビューポート設定
-	commandList_->RSSetViewports(1, &viewport_);
-
-	// シザーレクト設定
-	commandList_->RSSetScissorRects(1, &scissorRect_);
-
-
+	// オフスクリーンをセットする
+	SetOffscreen();
 
 	// 使用したブレンドモードを初期化する
 	useObject3dBlendMode_ = kBlendModeNormal;
@@ -459,20 +437,24 @@ void DirectXCommon::PostDraw()
 
 
 
-	// RenderTarget -> PixelShader
-	ChangeResourceState(commandList_, offscreen_[0].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ > 0)
+	{
+		// RenderTarget -> PixelShader
+		ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	// PSOの設定
-	copyImage_->CommandListSet(commandList_);
+		// PSOの設定
+		copyImage_->CommandListSet(commandList_);
 
-	// RenderTextureのRTVを張り付ける
-	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[0].renderTextureSrvGPUHandle);
+		// RenderTextureのRTVを張り付ける
+		commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
-	// 頂点3つ描画
-	commandList_->DrawInstanced(3, 1, 0, 0);
+		// 頂点3つ描画
+		commandList_->DrawInstanced(3, 1, 0, 0);
 
-	// PixelShader -> RenderTarget
-	ChangeResourceState(commandList_, offscreen_[0].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+		// PixelShader -> RenderTarget
+		ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	}
 
 
 
@@ -518,6 +500,9 @@ void DirectXCommon::PostDraw()
 	useNumPointLightData_->num = useNumPointLightCount_;
 	useNumSpotLightCount_ = 0;
 	useNumSpotLightData_->num = useNumSpotLightCount_;
+
+	// オフスクリーン
+	useNumOffscreen_ = 0;
 }
 
 /// <summary>
@@ -604,6 +589,62 @@ void DirectXCommon::SetSpotLight(const SpotLight* spotLight)
 	// カウントする
 	useNumSpotLightCount_++;
 	useNumSpotLightData_->num = useNumSpotLightCount_;
+}
+
+/// <summary>
+/// オフスクリーンをセットする
+/// </summary>
+void DirectXCommon::SetOffscreen()
+{
+	// 使用できるオフスクリーン数を越えないようにする
+	if (useNumOffscreen_ >= kMaxNumOffscreen)
+		return;
+
+
+	// 描画先のRTVとDSVを設定する
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
+	commandList_->OMSetRenderTargets(1, &offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, false, &dsvHandle);
+
+	// 指定した色で画面全体をクリアする
+	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
+	commandList_->ClearRenderTargetView(offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, clearColor, 0, nullptr);
+
+	// 指定した深度で画面全体をクリアする
+	commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
+	// 描画用のディスクリプタヒープの設定
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
+	commandList_->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
+
+	// ビューポート設定
+	commandList_->RSSetViewports(1, &viewport_);
+
+	// シザーレクト設定
+	commandList_->RSSetScissorRects(1, &scissorRect_);
+
+
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ > 0)
+	{
+		// RenderTarget -> PixelShader
+		ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+		// PSOの設定
+		copyImage_->CommandListSet(commandList_);
+
+		// RenderTextureのRTVを張り付ける
+		commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+		// 頂点3つ描画
+		commandList_->DrawInstanced(3, 1, 0, 0);
+
+		// PixelShader -> RenderTarget
+		ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	}
+
+
+	// カウントする
+	useNumOffscreen_++;
 }
 
 /// <summary>

@@ -30,4 +30,6 @@ void GameScene::Draw()
 {
 	// Scene描画
 	Scene::Draw();
+
+	engine_->SetOffscreen();
 }

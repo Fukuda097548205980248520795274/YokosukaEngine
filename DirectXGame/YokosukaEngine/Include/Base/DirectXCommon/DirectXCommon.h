@@ -164,6 +164,11 @@ public:
 	void SetSpotLight(const SpotLight* spotLight);
 
 	/// <summary>
+	/// オフスクリーンをセットする
+	/// </summary>
+	void SetOffscreen();
+
+	/// <summary>
 	/// 平面を描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -538,6 +543,9 @@ private:
 
 	// オフスクリーンの最大数
 	const uint32_t kMaxNumOffscreen = 124;
+
+	// 使用したオフスクリーンの数
+	uint32_t useNumOffscreen_ = 0;
 
 	// オフスクリーン
 	Offscreen offscreen_[124];

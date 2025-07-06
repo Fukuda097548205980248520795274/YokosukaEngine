@@ -153,6 +153,11 @@ public:
 	void SetSpotLight(const SpotLight* spotLight)const { directXCommon_->SetSpotLight(spotLight); }
 
 	/// <summary>
+	/// オフスクリーンをセットする
+	/// </summary>
+	void SetOffscreen() const { directXCommon_->SetOffscreen(); }
+
+	/// <summary>
 	/// 平面を描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
