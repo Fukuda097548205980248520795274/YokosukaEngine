@@ -283,6 +283,9 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing">
       <UniqueIdentifier>{2e4c4cec-7805-40f3-8c10-62e08996476b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFilter">
+      <UniqueIdentifier>{9ab71e68-a266-41c1-b44a-59774566665a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -524,6 +527,9 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing\Smoothing.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFillter\GaussianFilter.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFilter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -770,6 +776,9 @@
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing\Smoothing.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing</Filter>
     </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFillter\GaussianFilter.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFilter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="YokosukaEngine\Shader\Object3d.VS.hlsl">
@@ -812,6 +821,9 @@
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\Smoothing.PS.hlsl">
+      <Filter>YokosukaEngine\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\GaussianFilter.PS.hlsl">
       <Filter>YokosukaEngine\Shader</Filter>
     </FxCompile>
   </ItemGroup>

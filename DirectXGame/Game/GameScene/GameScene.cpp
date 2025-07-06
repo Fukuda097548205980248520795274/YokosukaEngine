@@ -55,5 +55,5 @@ void GameScene::Draw()
 
 	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), true);
 
-	engine_->SetOffscreenEffect(kSmoothing);
+	engine_->SetOffscreenEffect(kGaussianFilter);
 }

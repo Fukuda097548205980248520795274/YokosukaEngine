@@ -640,6 +640,13 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 		DrawSmoothing();
 
 		break;
+
+	case kGaussianFilter:
+		// ガウシアンフィルター
+
+		DrawGaussianFilter();
+
+		break;
 	}
 
 
@@ -2531,8 +2538,14 @@ void DirectXCommon::CreatePostEffect()
 	// Smoothingのシェーダをコンパイルする
 	smoothingPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/Smoothing.PS.hlsl", L"ps_6_0");
 	assert(smoothingPixelShaderBlob_ != nullptr);
-	psoPostEffect_[kSmoothing] = new Vignette();
+	psoPostEffect_[kSmoothing] = new Smoothing();
 	psoPostEffect_[kSmoothing]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), smoothingPixelShaderBlob_.Get());
+
+	// GaussianFilterのシェーダをコンパイルする
+	gaussianFilterPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/GaussianFilter.PS.hlsl", L"ps_6_0");
+	assert(gaussianFilterPixelShaderBlob_ != nullptr);
+	psoPostEffect_[kGaussianFilter] = new GaussianFilter();
+	psoPostEffect_[kGaussianFilter]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), gaussianFilterPixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2650,6 +2663,31 @@ void DirectXCommon::DrawSmoothing()
 
 	// PSOの設定
 	psoPostEffect_[kSmoothing]->CommandListSet(commandList_);
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+/// <summary>
+/// ガウシアンフィルター
+/// </summary>
+void DirectXCommon::DrawGaussianFilter()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kGaussianFilter]->CommandListSet(commandList_);
 
 	// RenderTextureのRTVを張り付ける
 	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);

@@ -56,6 +56,8 @@
 #include "../../PipelineStateObject/PostEffect/GrayScale/GrayScale.h"
 #include "../../PipelineStateObject/PostEffect/Sepia/Sepia.h"
 #include "../../PipelineStateObject/PostEffect/Vignette/Vignette.h"
+#include "../../PipelineStateObject/PostEffect/Smoothing/Smoothing.h"
+#include "../../PipelineStateObject/PostEffect/GaussianFillter/GaussianFilter.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/UvTransform/UvTransform.h"
@@ -94,6 +96,9 @@ enum Effect
 
 	// 平滑化
 	kSmoothing,
+
+	// ガウシアンフィルター
+	kGaussianFilter,
 
 	// エフェクトの数
 	kEfectCount,
@@ -641,6 +646,11 @@ private:
 	/// </summary>
 	void DrawSmoothing();
 
+	/// <summary>
+	/// ガウシアンフィルター
+	/// </summary>
+	void DrawGaussianFilter();
+
 
 	// オフスクリーンの頂点シェーダ
 	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
@@ -652,6 +662,7 @@ private:
 	Microsoft::WRL::ComPtr<IDxcBlob> sepiaPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> vignettePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> smoothingPixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> gaussianFilterPixelShaderBlob_ = nullptr;
 
 
 	// リソースの最大数
