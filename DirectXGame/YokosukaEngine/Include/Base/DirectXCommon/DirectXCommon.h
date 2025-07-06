@@ -474,7 +474,7 @@ private:
 
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;
-	const UINT kMaxNumRtvDescriptors = 3;
+	const UINT kMaxNumRtvDescriptors = 256;
 	UINT numRtvCPUDescriptors = 0;
 
 	// SRV用ディスクリプタヒープ
@@ -522,15 +522,26 @@ private:
 	    オフスクリーンレンダリング
 	----------------------------*/
 
-	// レンダーテクスチャ
-	Microsoft::WRL::ComPtr<ID3D12Resource> renderTextureResource_ = nullptr;
+	// オフスクリーン
+	struct Offscreen
+	{
+		// レンダーテクスチャ
+		Microsoft::WRL::ComPtr<ID3D12Resource> renderTextureResource = nullptr;
 
-	// RTV用CPUハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureRtvCPUHnalde_{};
+		// RTV用CPUハンドル
+		D3D12_CPU_DESCRIPTOR_HANDLE renderTextureRtvCPUHnalde{};
 
-	// SRV用ハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE renderTextureSrvCPUHandle_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE renderTextureSrvGPUHandle_{};
+		// SRV用ハンドル
+		D3D12_CPU_DESCRIPTOR_HANDLE renderTextureSrvCPUHandle{};
+		D3D12_GPU_DESCRIPTOR_HANDLE renderTextureSrvGPUHandle{};
+	};
+
+	// オフスクリーンの最大数
+	const uint32_t kMaxNumOffscreen = 124;
+
+	// オフスクリーン
+	Offscreen offscreen_[124];
+
 
 	// CopyImage用のPSO
 	CopyImagePipeline* copyImage_ = nullptr;
