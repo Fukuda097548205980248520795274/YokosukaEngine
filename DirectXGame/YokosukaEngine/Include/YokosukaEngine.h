@@ -620,7 +620,7 @@ public:
 	Vector3 GetWorldTransform();
 
 	// ローカル座標
-	Vector3 translation_ = { -50.0f , 0.0f , 0.0f };
+	Vector3 translation_ = { 0.0f , 0.0f , -50.0f };
 
 	// 回転
 	Vector3 rotation_ = { 0.0f , 0.0f , 0.0f };

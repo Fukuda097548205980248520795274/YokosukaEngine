@@ -313,6 +313,12 @@
     <Filter Include="YokosukaEngine\Include\Transform\WorldTransform2D">
       <UniqueIdentifier>{41212535-d26f-48d9-ac7a-d6c8a4491b5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Player">
+      <UniqueIdentifier>{72fd857f-515e-4b32-8d13-f93ce03e2d61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Skydome">
+      <UniqueIdentifier>{9f1d50d8-4b34-4ef6-8df0-48713bd1fd62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -569,6 +575,12 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Transform\WorldTransform2D\WorldTransform2D.cpp">
       <Filter>YokosukaEngine\Include\Transform\WorldTransform2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Player\Player.cpp">
+      <Filter>Game\GameScene\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp">
+      <Filter>Game\GameScene\Skydome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -829,6 +841,12 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Transform\WorldTransform2D\WorldTransform2D.h">
       <Filter>YokosukaEngine\Include\Transform\WorldTransform2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Player\Player.h">
+      <Filter>Game\GameScene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Skydome\Skydome.h">
+      <Filter>Game\GameScene\Skydome</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

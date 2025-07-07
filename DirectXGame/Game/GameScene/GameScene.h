@@ -1,5 +1,7 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "Player/Player.h"
+#include "Skydome/Skydome.h"
 
 class GameScene : public Scene
 {
@@ -25,5 +27,20 @@ public:
 private:
 
 
+	// サウンドハンドル
+	uint32_t soundHandle_ = 0;
+
+	// プレイハンドル
+	uint32_t playHandle_ = 0;
+
+
+	// 平行光源
+	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
+
+	// 天球
+	std::unique_ptr<Skydome> skydome_ = nullptr;
+
+	// プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
 };
 

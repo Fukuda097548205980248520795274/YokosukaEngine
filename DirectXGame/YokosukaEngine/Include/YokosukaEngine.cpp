@@ -471,6 +471,7 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 	// カメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
 	camera3d_->Initialize(screenWidth, screenHeight);
+	camera3d_->translation_.z = -50.0f;
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
