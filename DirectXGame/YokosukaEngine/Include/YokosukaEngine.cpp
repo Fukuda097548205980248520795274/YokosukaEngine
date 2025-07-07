@@ -288,6 +288,10 @@ void DebugCamera::Initialize(const YokosukaEngine* engine)
 	// 3Dカメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
 	camera3d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+	// ワールドトランスフォームの生成と初期化
+	worldTransform_ = std::make_unique<WorldTransform>();
+	worldTransform_->Initialize();
 }
 
 /// <summary>
@@ -350,6 +354,28 @@ void DebugCamera::Update()
 	}
 
 	camera3d_->translation_ = pivotPoint_ + SphericalCoordinate(pivotPointLength_, camera3d_->rotation_.x, -(std::numbers::pi_v<float> / 2.0f) - camera3d_->rotation_.y);
+
+
+	// ワールドトランスフォームに数値を送る
+	worldTransform_->scale_ = camera3d_->scale_;
+	worldTransform_->translation_ = camera3d_->translation_;
+	worldTransform_->rotation_ = camera3d_->rotation_;
+	worldTransform_->UpdateWorldMatrix();
+}
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+Vector3 DebugCamera::GetWorldTransform()
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
 }
 
 
@@ -445,6 +471,10 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 	// カメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
 	camera3d_->Initialize(screenWidth, screenHeight);
+
+	// ワールドトランスフォームの生成と初期化
+	worldTransform_ = std::make_unique<WorldTransform>();
+	worldTransform_->Initialize();
 }
 
 /// <summary>
@@ -458,6 +488,27 @@ void MainCamera::Update()
 
 	// 3Dカメラ更新
 	camera3d_->UpdateMatrix();
+
+	// ワールドトランスフォームに数値を入れる
+	worldTransform_->translation_ = translation_;
+	worldTransform_->rotation_ = rotation_;
+	worldTransform_->UpdateWorldMatrix();
+}
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 MainCamera::GetWorldTransform()
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
 }
 
 

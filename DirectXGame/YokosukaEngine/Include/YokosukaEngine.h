@@ -505,6 +505,11 @@ public:
 	/// <returns></returns>
 	Camera3D* GetCamera3DInstance() { return camera3d_.get(); }
 
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	Vector3 GetWorldTransform();
+
 
 private:
 
@@ -519,6 +524,9 @@ private:
 
 	// ピボットポイントとの距離
 	float pivotPointLength_ = 50.0f;
+
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 };
 
 // 軸方向表示
@@ -588,8 +596,14 @@ public:
 	/// <returns></returns>
 	Camera3D* GetGameCameraInstance() { return camera3d_.get(); }
 
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldTransform();
+
 	// ローカル座標
-	Vector3 translation_ = { 0.0f , 0.0f , 0.0f };
+	Vector3 translation_ = { -50.0f , 0.0f , 0.0f };
 
 	// 回転
 	Vector3 rotation_ = { 0.0f , 0.0f , 0.0f };
@@ -599,6 +613,9 @@ private:
 
 	// 3Dカメラ
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;
+
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 };
 
 /// <summary>
