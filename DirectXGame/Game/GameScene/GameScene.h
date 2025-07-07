@@ -35,7 +35,7 @@ private:
 	// UVトランスフォーム
 	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
 
-	// モデルハンドル
-	uint32_t modelHandle_ = 0;
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0;
 };
 

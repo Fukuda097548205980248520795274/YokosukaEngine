@@ -648,7 +648,7 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 
 		break;
 
-	case kOutline:
+	case kLuminanceBaseOutline:
 		// アウトライン
 
 		DrawOutline();
@@ -2557,8 +2557,8 @@ void DirectXCommon::CreatePostEffect()
 	// LuminanceBaseOutlineのシェーダをコンパイルする
 	outlinePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/LuminaceBaseOutline.PS.hlsl", L"ps_6_0");
 	assert(outlinePixelShaderBlob_ != nullptr);
-	psoPostEffect_[kOutline] = new LuminanceBaseOutline();
-	psoPostEffect_[kOutline]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), outlinePixelShaderBlob_.Get());
+	psoPostEffect_[kLuminanceBaseOutline] = new LuminanceBaseOutline();
+	psoPostEffect_[kLuminanceBaseOutline]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), outlinePixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2725,7 +2725,7 @@ void DirectXCommon::DrawOutline()
 	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
-	psoPostEffect_[kOutline]->CommandListSet(commandList_);
+	psoPostEffect_[kLuminanceBaseOutline]->CommandListSet(commandList_);
 
 	// RenderTextureのRTVを張り付ける
 	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);

@@ -101,8 +101,8 @@ enum Effect
 	// ガウシアンフィルター
 	kGaussianFilter,
 
-	// アウトライン
-	kOutline,
+	// アウトライン : 輝度
+	kLuminanceBaseOutline,
 
 	// エフェクトの数
 	kEfectCount,

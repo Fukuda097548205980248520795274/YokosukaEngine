@@ -434,7 +434,7 @@ public:
 	/// グリッドを描画する
 	/// </summary>
 	/// <param name="camera"></param>
-	void DrawGrid(const Camera3D* camera) const;
+	void DrawGrid(const Camera3D* camera, int32_t x, int32_t z) const;
 
 #endif
 
