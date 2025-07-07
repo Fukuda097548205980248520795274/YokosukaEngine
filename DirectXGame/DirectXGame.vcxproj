@@ -121,6 +121,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Math\Transform2D\Transform2D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\CopyImage\CopyImage.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\DepthBaseOutline\DepthBaseOutline.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFillter\GaussianFilter.cpp" />
@@ -184,6 +185,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Math\Vector4\Vector4.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Shape\Sphere\Sphere.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Transform\WorldTransform2D\WorldTransform2D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Transform\WorldTransform\WorldTransform.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.cpp" />
@@ -207,6 +209,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h" />
+    <ClInclude Include="YokosukaEngine\Include\Math\Transform2D\Transform2D.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\CopyImage\CopyImage.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\DepthBaseOutline\DepthBaseOutline.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFillter\GaussianFilter.h" />
@@ -271,6 +274,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Math\Vector4\Vector4.h" />
     <ClInclude Include="YokosukaEngine\Include\Shape\Sphere\Sphere.h" />
     <ClInclude Include="YokosukaEngine\Include\Transform\UvTransform\UvTransform.h" />
+    <ClInclude Include="YokosukaEngine\Include\Transform\WorldTransform2D\WorldTransform2D.h" />
     <ClInclude Include="YokosukaEngine\Include\Transform\WorldTransform\WorldTransform.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BaseParticle.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Particle\BlendAdd\ParticleBlendAdd.h" />

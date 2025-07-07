@@ -9,6 +9,7 @@
 #include <random>
 #include <algorithm>
 #include "../../Math/Vector4/Vector4.h"
+#include "../../Math/Transform2D/Transform2D.h"
 #include "../../Camera/Camera3D/Camera3D.h"
 #include "../../Camera/Camera2D/Camera2D.h"
 #include "../../Func/String/String.h"
@@ -61,6 +62,7 @@
 #include "../../PipelineStateObject/PostEffect/LuminanceBaseOutline/LuminanceBaseOutline.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
+#include "../../Transform/WorldTransform2D/WorldTransform2D.h"
 #include "../../Transform/UvTransform/UvTransform.h"
 
 
@@ -295,7 +297,7 @@ public:
 	/// <param name="camera">カメラ</param>
 	/// <param name="textureHandle">テクスチャハンドル</param>
 	/// <param name="color">色</param>
-	void DrawSprite(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4,
+	void DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2 v3, const Vector2 v4,
 		const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color);
 
 	/// <summary>

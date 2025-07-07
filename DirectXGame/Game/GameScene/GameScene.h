@@ -25,10 +25,5 @@ public:
 private:
 
 
-	// uvトランスフォーム
-	std::unique_ptr<UvTransform> uvTransform_;
-
-	// テクスチャハンドル
-	uint32_t textureHandle_ = 0;
 };
 
