@@ -25,17 +25,5 @@ public:
 private:
 
 
-	// 平行光源
-	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
-
-
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
-
-	// UVトランスフォーム
-	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
-
-	// テクスチャハンドル
-	uint32_t textureHandle_ = 0;
 };
 
