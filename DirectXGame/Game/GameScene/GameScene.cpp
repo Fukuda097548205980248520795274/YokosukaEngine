@@ -68,3 +68,12 @@ void GameScene::Draw()
 	// プレイヤーの描画
 	player_->Draw();
 }
+
+
+/// <summary>
+/// プレイヤーの弾を発射する
+/// </summary>
+void GameScene::PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet)
+{
+	
+}

@@ -1,10 +1,17 @@
 #pragma once
 #define NOMINMAX
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../BasePlayerBullet/BasePlayerBullet.h"
+#include "../BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 
 class Player
 {
 public:
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Player();
 
 	/// <summary>
 	/// 初期化
@@ -22,6 +29,12 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition();
 
 
 private:
@@ -45,6 +58,11 @@ private:
 	/// </summary>
 	void Input();
 
+
+	/*---------
+	    移動
+	---------*/
+
 	/// <summary>
 	/// 移動操作
 	/// </summary>
@@ -58,13 +76,42 @@ private:
 	/// <summary>
 	/// キーボードでの移動操作
 	/// </summary>
-	void MoveKeybord();
-
+	void MoveKeyboard();
 
 	// 移動速度
 	const float speed = 0.4f;
 
 
+	/*------------
+	    弾の発射
+	------------*/
+
+	/// <summary>
+	/// 弾の発射操作
+	/// </summary>
+	void BulletShot();
+
+	/// <summary>
+	/// ゲームパッドでの弾の発射操作
+	/// </summary>
+	void BulletShotGamepad();
+
+	/// <summary>
+	/// キーボードでの弾の発射操作
+	/// </summary>
+	void BulletShotKeyboard();
+
+	// 弾のリスト
+	std::list<BasePlayerBullet*> bullets_;
+
+	// 発射に要する時間
+	const float kShotTime = 0.1f;
+
+	// 発射タイマー
+	float shotTimer_ = 0.0f;
+
+	// 弾の発射音
+	uint32_t shotSoundHandle_ = 0;
 
 
 
@@ -112,27 +159,26 @@ private:
 	float kFloatAmplitude = 0.3f;
 
 
-	/*------------------
-	    移動ビヘイビア
-	------------------*/
+	/*   傾き   */
 
 	/// <summary>
-	/// 移動ビヘイビアの更新処理
+	/// ギミック : 傾き : 更新処理
 	/// </summary>
-	void UpdateMoveBehavior();
+	void GimmickTiltUpdate();
 
-	enum MoveBehavior
+	// ギミック : 傾き
+	enum GimmickTilt
 	{
 		kStraight,
 		kLeft,
 		kRight,
-		kNumMoveBehavior
+		kNumTileGimmick
 	};
 
-	// 現在の移動ビヘイビア
-	MoveBehavior moveBehavior_ = kStraight;
+	// 現在の傾きギミック
+	GimmickTilt gimmickTilt_ = kStraight;
 
 	// 目標角度
-	const float kMoveBehaviorGoalRadian[kNumMoveBehavior] = { 0.0f , std::numbers::pi_v<float> / 4.0f , -std::numbers::pi_v<float> / 4.0f };
+	const float kGimmickTiltGoalRadian[kNumTileGimmick] = { 0.0f , std::numbers::pi_v<float> / 4.0f , -std::numbers::pi_v<float> / 4.0f };
 };
 

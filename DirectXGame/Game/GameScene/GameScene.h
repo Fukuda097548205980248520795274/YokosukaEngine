@@ -23,6 +23,11 @@ public:
 	/// </summary>
 	void Draw()override;
 
+	/// <summary>
+	/// プレイヤーの弾を発射する
+	/// </summary>
+	void PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet);
+
 
 private:
 

@@ -1,6 +1,19 @@
 #include "Player.h"
 
 /// <summary>
+/// デストラクタ
+/// </summary>
+Player::~Player()
+{
+	// 弾のリスト
+	for (BasePlayerBullet* bullet : bullets_)
+	{
+		delete bullet;
+	}
+	bullets_.clear();
+}
+
+/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
@@ -43,6 +56,14 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 
 	// ギミック : 浮遊 : 初期化
 	GimmickFloatInitialize();
+
+
+	/*-------------
+	    サウンド
+	-------------*/
+
+	// 弾の発射音
+	shotSoundHandle_ = engine_->LoadSound("./Resources/Sounds/Se/player/bullet/shot.mp3");
 }
 
 /// <summary>
@@ -56,7 +77,8 @@ void Player::Update()
 	// ギミック : 浮遊 : 更新処理
 	GimmickFloatUpdate();
 
-	UpdateMoveBehavior();
+	// ギミック : 傾き : 更新処理
+	GimmickTiltUpdate();
 
 
 	// 中心の更新
@@ -65,6 +87,25 @@ void Player::Update()
 	// 本体の更新
 	bodyWorldTransform_->UpdateWorldMatrix();
 	bodyUvTransform_->UpdateWorldMatrix();
+
+
+	// 終了した弾をリストから削除する
+	bullets_.remove_if([](BasePlayerBullet* bullet)
+		{
+			if (bullet->IsFinished())
+			{
+				delete bullet;
+				return true;
+			}
+			return false;
+		}
+	);
+
+	// 弾の更新処理
+	for (BasePlayerBullet* bullet : bullets_)
+	{
+		bullet->Update();
+	}
 }
 
 /// <summary>
@@ -74,7 +115,36 @@ void Player::Draw()
 {
 	// 本体を描画する
 	engine_->DrawModel(bodyWorldTransform_.get(), bodyUvTransform_.get(), camera3d_, bodyModelHandle_, Vector4(0.0f, 0.0f, 0.0f, 1.0f), true);
+
+	// 弾の描画処理
+	for (BasePlayerBullet* bullet : bullets_)
+	{
+		bullet->Draw();
+	}
 }
+
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 Player::GetWorldPosition()
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
+}
+
+
+
+/*----------
+    操作
+----------*/
 
 /// <summary>
 /// 入力操作
@@ -83,7 +153,13 @@ void Player::Input()
 {
 	// 移動操作
 	Move();
+
+	// 弾の発射操作
+	BulletShot();
 }
+
+
+/*   移動操作   */
 
 /// <summary>
 /// 移動操作
@@ -98,7 +174,7 @@ void Player::Move()
 	else
 	{
 		// 無効な時
-		MoveKeybord();
+		MoveKeyboard();
 	}
 }
 
@@ -117,7 +193,7 @@ void Player::MoveGamepad()
 	float stickLength = Length(move);
 
 	// 機体の傾きを初期化する
-	moveBehavior_ = kStraight;
+	gimmickTilt_ = kStraight;
 
 	// デッドゾーンを越えたら移動できる
 	if (stickLength < deadZone)
@@ -127,11 +203,11 @@ void Player::MoveGamepad()
 	// 左右の移動量により機体を傾ける
 	if (move.x > 0.7f)
 	{
-		moveBehavior_ = kRight;
+		gimmickTilt_ = kRight;
 	}
 	else if(move.x < -0.7f)
 	{
-		moveBehavior_ = kLeft;
+		gimmickTilt_ = kLeft;
 	}
 
 	// 速度 と スティックの距離 を反映させて移動させる
@@ -141,11 +217,84 @@ void Player::MoveGamepad()
 /// <summary>
 /// キーボードでの移動操作
 /// </summary>
-void Player::MoveKeybord()
+void Player::MoveKeyboard()
 {
 
 }
 
+
+
+/*   発射操作   */
+
+/// <summary>
+/// 弾の発射操作
+/// </summary>
+void Player::BulletShot()
+{
+	// タイマーを進める
+	shotTimer_ += 1.0f / 60.0f;
+	shotTimer_ = std::min(shotTimer_, kShotTime);
+
+	// 発射する時間を超えるまで処理しない
+	if (shotTimer_ < kShotTime)
+		return;
+
+
+	// ゲームパッドが有効な時
+	if (engine_->IsGamepadEnable(0))
+	{
+		BulletShotGamepad();
+	}
+	else
+	{
+		// 無効な時
+		BulletShotKeyboard();
+	}
+}
+
+/// <summary>
+/// ゲームパッドでの弾の発射操作
+/// </summary>
+void Player::BulletShotGamepad()
+{
+	// Aボタンで弾を発射する
+	if (engine_->GetGamepadButtonPress(0,XINPUT_GAMEPAD_A))
+	{
+		// タイマーを初期化する
+		shotTimer_ = 0.0f;
+
+		// プレイヤーの向きを取得する
+		Vector3 direction = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), MakeRotateMatrix(worldTransform_->rotation_)));
+
+		// 弾の生成と初期化
+		PlayerBulletWeek* newBullet = new PlayerBulletWeek();
+		newBullet->Initialize(engine_, camera3d_, GetWorldPosition());
+		newBullet->SetDirection(direction);
+
+		// リストに登録する
+		bullets_.push_back(newBullet);
+
+
+		// 発射音を鳴らす
+		engine_->PlaySoundData(shotSoundHandle_ , 0.3f);
+	}
+}
+
+/// <summary>
+/// キーボードでの弾の発射操作
+/// </summary>
+void Player::BulletShotKeyboard()
+{
+
+}
+
+
+
+/*-------------
+    ギミック
+-------------*/
+
+/*   浮き   */
 
 /// <summary>
 /// ギミック : 浮き : 初期化
@@ -179,11 +328,13 @@ void Player::GimmickFloatUpdate()
 
 
 
+/*   傾き   */
 
 /// <summary>
-/// 移動ビヘイビアの更新処理
+/// ギミック : 傾き : 更新処理
 /// </summary>
-void Player::UpdateMoveBehavior()
+void Player::GimmickTiltUpdate()
 {
-	bodyWorldTransform_->rotation_.z = Lerp(bodyWorldTransform_->rotation_.z, kMoveBehaviorGoalRadian[moveBehavior_], 0.1f);
+	// 状態に合わせて補間で傾ける
+	bodyWorldTransform_->rotation_.z = Lerp(bodyWorldTransform_->rotation_.z, kGimmickTiltGoalRadian[gimmickTilt_], 0.1f);
 }

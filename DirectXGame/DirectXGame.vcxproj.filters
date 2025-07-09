@@ -319,6 +319,12 @@
     <Filter Include="Game\GameScene\Skydome">
       <UniqueIdentifier>{9f1d50d8-4b34-4ef6-8df0-48713bd1fd62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\BasePlayerBullet">
+      <UniqueIdentifier>{8a206c1e-e9fb-47ce-8c9d-643857a12ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek">
+      <UniqueIdentifier>{d921a83e-b455-418e-8aad-171a52b8246c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -581,6 +587,12 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp">
       <Filter>Game\GameScene\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.cpp">
+      <Filter>Game\GameScene\BasePlayerBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.cpp">
+      <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletWeek</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -847,6 +859,12 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Skydome\Skydome.h">
       <Filter>Game\GameScene\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.h">
+      <Filter>Game\GameScene\BasePlayerBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.h">
+      <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletWeek</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
