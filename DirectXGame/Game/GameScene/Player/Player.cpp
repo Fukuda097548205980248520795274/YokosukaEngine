@@ -108,30 +108,34 @@ void Player::Move()
 void Player::MoveGamepad()
 {
 	// デッドゾーン
-	const float deadZone = 0.7f;
+	const float deadZone = 0.2f;
 
 	// ゲームパッドの移動量
 	Vector3 move = Vector3(engine_->GetGamepadLeftStick(0).x, engine_->GetGamepadLeftStick(0).y, 0.0f);
 
+	// スティックの距離
+	float stickLength = Length(move);
 
+	// 機体の傾きを初期化する
 	moveBehavior_ = kStraight;
 
 	// デッドゾーンを越えたら移動できる
-	if (Length(move) < deadZone)
+	if (stickLength < deadZone)
 		return;
 
 	
-	if (move.x > 0.0f)
+	// 左右の移動量により機体を傾ける
+	if (move.x > 0.7f)
 	{
 		moveBehavior_ = kRight;
 	}
-	else if(move.x < 0.0f)
+	else if(move.x < -0.7f)
 	{
 		moveBehavior_ = kLeft;
 	}
 
-	// 速度を反映させて移動させる
-	worldTransform_->translation_ += move * speed;
+	// 速度 と スティックの距離 を反映させて移動させる
+	worldTransform_->translation_ += move * (speed * stickLength);
 }
 
 /// <summary>
