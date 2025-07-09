@@ -45,6 +45,25 @@ private:
 	/// </summary>
 	void Input();
 
+	/// <summary>
+	/// 移動操作
+	/// </summary>
+	void Move();
+
+	/// <summary>
+	/// ゲームパッドでの移動操作
+	/// </summary>
+	void MoveGamepad();
+
+	/// <summary>
+	/// キーボードでの移動操作
+	/// </summary>
+	void MoveKeybord();
+
+
+	// 移動速度
+	const float speed = 0.4f;
+
 
 
 
@@ -63,15 +82,22 @@ private:
 	uint32_t bodyModelHandle_ = 0;
 
 
-	/// <summary>
-	/// 行動 : 浮き : 初期化
-	/// </summary>
-	void BehaviorFloatInitialize();
+
+	/*-------------
+	    ギミック
+	-------------*/
+
+	/*   浮き   */
 
 	/// <summary>
-	/// 行動 : 浮き : 更新処理
+	/// ギミック : 浮き : 初期化
 	/// </summary>
-	void BehaviorFloatUpdate();
+	void GimmickFloatInitialize();
+
+	/// <summary>
+	/// ギミック : 浮き : 更新処理
+	/// </summary>
+	void GimmickFloatUpdate();
 
 	// 浮きパラメータ
 	float floatParameter_ = 0.0f;
@@ -84,5 +110,29 @@ private:
 
 	// 浮き振れ幅
 	float kFloatAmplitude = 0.3f;
+
+
+	/*------------------
+	    移動ビヘイビア
+	------------------*/
+
+	/// <summary>
+	/// 移動ビヘイビアの更新処理
+	/// </summary>
+	void UpdateMoveBehavior();
+
+	enum MoveBehavior
+	{
+		kStraight,
+		kLeft,
+		kRight,
+		kNumMoveBehavior
+	};
+
+	// 現在の移動ビヘイビア
+	MoveBehavior moveBehavior_ = kStraight;
+
+	// 目標角度
+	const float kMoveBehaviorGoalRadian[kNumMoveBehavior] = { 0.0f , std::numbers::pi_v<float> / 4.0f , -std::numbers::pi_v<float> / 4.0f };
 };
 

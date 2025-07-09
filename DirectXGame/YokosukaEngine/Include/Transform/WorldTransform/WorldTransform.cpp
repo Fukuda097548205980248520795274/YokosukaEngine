@@ -50,6 +50,6 @@ void WorldTransform::UpdateWorldMatrix()
 	// 親のワールド行列で座標変換する
 	if (parent_)
 	{
-		worldMatrix_ = worldMatrix_ * MakeAffineMatrix(parent_->scale_, parent_->rotation_, parent_->translation_);
+		worldMatrix_ = worldMatrix_ * parent_->worldMatrix_;
 	}
 }

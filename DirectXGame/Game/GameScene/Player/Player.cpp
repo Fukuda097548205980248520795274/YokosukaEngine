@@ -41,8 +41,8 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	// モデルを読み込む
 	bodyModelHandle_ = engine_->LoadModelData("./Resources/Models/Player", "Player.obj");
 
-	// 行動 : 浮遊 : 初期化
-	BehaviorFloatInitialize();
+	// ギミック : 浮遊 : 初期化
+	GimmickFloatInitialize();
 }
 
 /// <summary>
@@ -53,8 +53,10 @@ void Player::Update()
 	// 入力操作
 	Input();
 
-	// 行動 : 浮遊 : 更新処理
-	BehaviorFloatUpdate();
+	// ギミック : 浮遊 : 更新処理
+	GimmickFloatUpdate();
+
+	UpdateMoveBehavior();
 
 
 	// 中心の更新
@@ -79,23 +81,87 @@ void Player::Draw()
 /// </summary>
 void Player::Input()
 {
-
+	// 移動操作
+	Move();
 }
 
-
-
 /// <summary>
-/// 行動 : 浮き : 初期化
+/// 移動操作
 /// </summary>
-void Player::BehaviorFloatInitialize()
+void Player::Move()
 {
-	floatParameter_ = 0.0f;
+	// ゲームパッドが有効な時
+	if (engine_->IsGamepadEnable(0))
+	{
+		MoveGamepad();
+	}
+	else
+	{
+		// 無効な時
+		MoveKeybord();
+	}
 }
 
 /// <summary>
-/// 行動 : 浮き : 更新処理
+/// ゲームパッドでの移動操作
 /// </summary>
-void Player::BehaviorFloatUpdate()
+void Player::MoveGamepad()
+{
+	// デッドゾーン
+	const float deadZone = 0.7f;
+
+	// ゲームパッドの移動量
+	Vector3 move = Vector3(engine_->GetGamepadLeftStick(0).x, engine_->GetGamepadLeftStick(0).y, 0.0f);
+
+
+	moveBehavior_ = kStraight;
+
+	// デッドゾーンを越えたら移動できる
+	if (Length(move) < deadZone)
+		return;
+
+	
+	if (move.x > 0.0f)
+	{
+		moveBehavior_ = kRight;
+	}
+	else if(move.x < 0.0f)
+	{
+		moveBehavior_ = kLeft;
+	}
+
+	// 速度を反映させて移動させる
+	worldTransform_->translation_ += move * speed;
+}
+
+/// <summary>
+/// キーボードでの移動操作
+/// </summary>
+void Player::MoveKeybord()
+{
+
+}
+
+
+/// <summary>
+/// ギミック : 浮き : 初期化
+/// </summary>
+void Player::GimmickFloatInitialize()
+{
+	// 浮きパラメータ
+	floatParameter_ = 0.0f;
+
+	// 浮きパラメータ速度
+	kFloatPrameterVelocity = 0.05f;
+
+	// 浮き振れ幅
+	kFloatAmplitude = 0.3f;
+}
+
+/// <summary>
+/// ギミック : 浮き : 更新処理
+/// </summary>
+void Player::GimmickFloatUpdate()
 {
 	// パラメータを進める
 	floatParameter_ += kFloatPrameterVelocity;
@@ -105,4 +171,15 @@ void Player::BehaviorFloatUpdate()
 
 	// ふわふわさせる
 	bodyWorldTransform_->translation_.y = std::sin(floatParameter_) * kFloatAmplitude;
+}
+
+
+
+
+/// <summary>
+/// 移動ビヘイビアの更新処理
+/// </summary>
+void Player::UpdateMoveBehavior()
+{
+	bodyWorldTransform_->rotation_.z = Lerp(bodyWorldTransform_->rotation_.z, kMoveBehaviorGoalRadian[moveBehavior_], 0.1f);
 }
