@@ -483,8 +483,10 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 /// </summary>
 void MainCamera::Update()
 {
+	Shake();
+
 	// 値をカメラに入れる
-	camera3d_->translation_ = translation_;
+	camera3d_->translation_ = translation_ + shakeMove_;
 	camera3d_->rotation_ = rotation_;
 
 	// 3Dカメラ更新
@@ -510,6 +512,39 @@ Vector3 MainCamera::GetWorldTransform()
 	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
+}
+
+/// <summary>
+/// シェイクする
+/// </summary>
+/// <param name="shakeTime">時間</param>
+/// <param name="shakeSize">大きさ</param>
+void MainCamera::SetShake(float shakeTime, float shakeSize)
+{
+	shakeTimer_ = shakeTime;
+	shakeStartTimer_ = shakeTime;
+	shakeSize_ = shakeSize;
+}
+
+/// <summary>
+/// シェイクする
+/// </summary>
+void MainCamera::Shake()
+{
+	shakeMove_ = Vector3(0.0f, 0.0f, 0.0f);
+
+	if (shakeTimer_ <= 0.0f)
+		return;
+
+	// タイマーを進める
+	shakeTimer_ -= 1.0f / 60.0f;
+
+	// 補間を求める
+	float t = shakeTimer_ / shakeStartTimer_;
+
+	Vector3 shakeVector = Vector3(float(rand() % 3) - 1, float(rand() % 3) - 1, float(rand() % 3) - 1);
+
+	shakeMove_ = (shakeVector * t) * shakeSize_;
 }
 
 

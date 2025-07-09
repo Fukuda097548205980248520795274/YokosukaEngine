@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../GameScene.h"
 
 /// <summary>
 /// デストラクタ
@@ -276,6 +277,9 @@ void Player::BulletShotGamepad()
 
 			// リストに登録する
 			bullets_.push_back(newBullet);
+
+			// カメラをシェイクする
+			gameScene_->CameraShake(0.5f, 1.0f);
 
 			// タイマーを初期化する
 			shotTimer_ = 0.0f;

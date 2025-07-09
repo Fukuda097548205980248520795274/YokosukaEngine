@@ -5,6 +5,9 @@
 #include "../BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "../BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
+// 前方宣言
+class GameScene;
+
 class Player
 {
 public:
@@ -37,6 +40,12 @@ public:
 	/// <returns></returns>
 	Vector3 GetWorldPosition();
 
+	/// <summary>
+	/// ゲームシーンのインスタンスのGetter
+	/// </summary>
+	/// <param name="gameScene"></param>
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
 
 private:
 
@@ -45,6 +54,9 @@ private:
 
 	// カメラ
 	const Camera3D* camera3d_ = nullptr;
+
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 
 
 	/*----------

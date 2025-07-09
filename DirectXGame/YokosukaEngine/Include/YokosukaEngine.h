@@ -619,6 +619,14 @@ public:
 	/// <returns></returns>
 	Vector3 GetWorldTransform();
 
+	/// <summary>
+	/// シェイクの設定
+	/// </summary>
+	/// <param name="shakeTime">時間</param>
+	/// <param name="shakeSize">大きさ</param>
+	void SetShake(float shakeTime, float shakeSize);
+
+
 	// ローカル座標
 	Vector3 translation_ = { 0.0f , 0.0f , -50.0f };
 
@@ -627,6 +635,24 @@ public:
 
 
 private:
+
+	/// <summary>
+	/// シェイクする
+	/// </summary>
+	void Shake();
+
+	// シェイクの移動量
+	Vector3 shakeMove_ = { 0.0f , 0.0f , 0.0f };
+
+	// シェイクの初期タイマー
+	float shakeStartTimer_ = 0.0f;
+
+	// シェイクタイマー
+	float shakeTimer_ = 0.0f;
+
+	// シェイクの大きさ
+	float shakeSize_ = 0.0f;
+
 
 	// 3Dカメラ
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;

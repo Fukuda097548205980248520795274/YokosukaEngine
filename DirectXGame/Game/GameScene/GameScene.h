@@ -28,6 +28,13 @@ public:
 	/// </summary>
 	void PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet);
 
+	/// <summary>
+	/// カメラをシェイクする
+	/// </summary>
+	/// <param name="shakeTime"></param>
+	/// <param name="shakeSize"></param>
+	void CameraShake(float shakeTime, float shakeSize) { mainCamera_->SetShake(shakeTime, shakeSize); }
+
 
 private:
 
