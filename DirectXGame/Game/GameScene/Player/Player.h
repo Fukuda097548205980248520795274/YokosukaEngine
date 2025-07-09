@@ -3,6 +3,7 @@
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../BasePlayerBullet/BasePlayerBullet.h"
 #include "../BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
+#include "../BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
 class Player
 {
@@ -104,14 +105,20 @@ private:
 	// 弾のリスト
 	std::list<BasePlayerBullet*> bullets_;
 
+	// 第発射に要する時間
+	const float kBigShotTime = 2.0f;
+
 	// 発射に要する時間
-	const float kShotTime = 0.1f;
+	const float kShotTime = 1.1f;
 
 	// 発射タイマー
 	float shotTimer_ = 0.0f;
 
-	// 弾の発射音
-	uint32_t shotSoundHandle_ = 0;
+	// 小発射音
+	uint32_t minShotSoundHandle_ = 0;
+
+	// 大発射音
+	uint32_t bigShotSoundHandle_ = 0;
 
 
 

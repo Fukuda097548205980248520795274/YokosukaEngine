@@ -62,8 +62,11 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	    サウンド
 	-------------*/
 
-	// 弾の発射音
-	shotSoundHandle_ = engine_->LoadSound("./Resources/Sounds/Se/player/bullet/shot.mp3");
+	// 小発射音
+	minShotSoundHandle_ = engine_->LoadSound("./Resources/Sounds/Se/player/bullet/shot.mp3");
+
+	// 大発射音
+	bigShotSoundHandle_ = engine_->LoadSound("./Resources/Sounds/Se/player/bullet/bigShot.mp3");
 }
 
 /// <summary>
@@ -233,7 +236,7 @@ void Player::BulletShot()
 {
 	// タイマーを進める
 	shotTimer_ += 1.0f / 60.0f;
-	shotTimer_ = std::min(shotTimer_, kShotTime);
+	shotTimer_ = std::min(shotTimer_, kBigShotTime);
 
 	// 発射する時間を超えるまで処理しない
 	if (shotTimer_ < kShotTime)
@@ -260,23 +263,44 @@ void Player::BulletShotGamepad()
 	// Aボタンで弾を発射する
 	if (engine_->GetGamepadButtonPress(0,XINPUT_GAMEPAD_A))
 	{
-		// タイマーを初期化する
-		shotTimer_ = 0.0f;
-
 		// プレイヤーの向きを取得する
 		Vector3 direction = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), MakeRotateMatrix(worldTransform_->rotation_)));
 
-		// 弾の生成と初期化
-		PlayerBulletWeek* newBullet = new PlayerBulletWeek();
-		newBullet->Initialize(engine_, camera3d_, GetWorldPosition());
-		newBullet->SetDirection(direction);
+		// 大発射
+		if (shotTimer_ >= kBigShotTime)
+		{
+			// 弾の生成と初期化
+			PlayerBulletStrong* newBullet = new PlayerBulletStrong();
+			newBullet->Initialize(engine_, camera3d_, GetWorldPosition());
+			newBullet->SetDirection(direction);
 
-		// リストに登録する
-		bullets_.push_back(newBullet);
+			// リストに登録する
+			bullets_.push_back(newBullet);
 
+			// タイマーを初期化する
+			shotTimer_ = 0.0f;
 
-		// 発射音を鳴らす
-		engine_->PlaySoundData(shotSoundHandle_ , 0.3f);
+			// 発射音を鳴らす
+			engine_->PlaySoundData(bigShotSoundHandle_, 0.6f);
+		}
+		else
+		{
+			// 小発射
+
+			// 弾の生成と初期化
+			PlayerBulletWeek* newBullet = new PlayerBulletWeek();
+			newBullet->Initialize(engine_, camera3d_, GetWorldPosition());
+			newBullet->SetDirection(direction);
+
+			// リストに登録する
+			bullets_.push_back(newBullet);
+
+			// タイマーを初期化する
+			shotTimer_ = 1.0f;
+
+			// 発射音を鳴らす
+			engine_->PlaySoundData(minShotSoundHandle_, 0.3f);
+		}
 	}
 }
 

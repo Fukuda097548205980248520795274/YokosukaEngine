@@ -325,6 +325,9 @@
     <Filter Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek">
       <UniqueIdentifier>{d921a83e-b455-418e-8aad-171a52b8246c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong">
+      <UniqueIdentifier>{0a5f6acf-694f-45b1-976d-11eee3c83fe2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -593,6 +596,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.cpp">
       <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletWeek</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.cpp">
+      <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletStrong</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -865,6 +871,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.h">
       <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletWeek</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.h">
+      <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletStrong</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
