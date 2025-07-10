@@ -170,6 +170,9 @@ void Player::Input()
 /// </summary>
 void Player::Move()
 {
+	// 機体の傾きを初期化する
+	gimmickTilt_ = kStraight;
+
 	// ゲームパッドが有効な時
 	if (engine_->IsGamepadEnable(0))
 	{
@@ -195,9 +198,6 @@ void Player::MoveGamepad()
 
 	// スティックの距離
 	float stickLength = Length(move);
-
-	// 機体の傾きを初期化する
-	gimmickTilt_ = kStraight;
 
 	// デッドゾーンを越えたら移動できる
 	if (stickLength < deadZone)

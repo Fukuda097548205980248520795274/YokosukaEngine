@@ -23,6 +23,7 @@ DirectXCommon::~DirectXCommon()
 		delete psoParticle_[i];
 		delete psoLine3d_[i];
 		delete psoPrimitive_[i];
+		delete psoCopyImage_[i];
 	}
 
 	// DXC
@@ -134,6 +135,9 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// Primitiveを生成する
 	CreatePrimitive();
+	
+	// CopyImageを生成する
+	CreateCopyImage();
 
 	// PostEffectを生成する
 	CreatePostEffect();
@@ -395,6 +399,7 @@ void DirectXCommon::PreDraw()
 	useParticleBlendMode_ = kBlendModeAdd;
 	useLine3dBlendMode_ = kBlendModeNormal;
 	usePrimitiveBlendMode_ = kBlendModeNormal;
+	useCopyImageBlendMode_ = kBlendModeNormal;
 }
 
 /// <summary>
@@ -654,11 +659,54 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 		DrawOutline();
 
 		break;
+
+	case kBrightnessExtraction:
+		// 高輝度抽出
+
+		DrawBrightnessExtraction();
+
+		break;
+
+	case kHide:
+		// 画する
+
+		DrawHide();
+
+		break;
 	}
 
 
 	// カウントする
 	useNumOffscreen_++;
+}
+
+/// <summary>
+/// RTVに描画したテクスチャをコピーする
+/// </summary>
+void DirectXCommon::CopyRtvImage(uint32_t rtvNum)
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// 使われていない、描画されていないオフスクリーンは上書きできない
+	if (rtvNum >= useNumOffscreen_ - 1)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[rtvNum].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoCopyImage_[useCopyImageBlendMode_]->CommandListSet(commandList_);
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[rtvNum].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[rtvNum].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 /// <summary>
@@ -2513,17 +2561,41 @@ void DirectXCommon::CreatePrimitive()
 }
 
 /// <summary>
+/// CopyImageを生成する
+/// </summary>
+void DirectXCommon::CreateCopyImage()
+{
+	// Primitiveのシェーダをコンパイルする
+	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Fullscreen.VS.hlsl", L"vs_6_0");
+	assert(fullscreenVertexShaderBlob_ != nullptr);
+	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/CopyImage.PS.hlsl", L"ps_6_0");
+	assert(copyImagePixelShaderBlob_ != nullptr);
+
+	// Primitive用のPSOの生成と初期化
+	psoCopyImage_[kBlendModeNone] = new CopyImageBlendNone();
+	psoCopyImage_[kBlendModeNone]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeNormal] = new CopyImageBlendNormal();
+	psoCopyImage_[kBlendModeNormal]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeAdd] = new CopyImageBlendAdd();
+	psoCopyImage_[kBlendModeAdd]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeSubtract] = new CopyImageBlendSubtract();
+	psoCopyImage_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeMultiply] = new CopyImageBlendMultiply();
+	psoCopyImage_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeScreen] = new CopyImageBlendScreen();
+	psoCopyImage_[kBlendModeScreen]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+}
+
+/// <summary>
 /// PostEffectを生成する
 /// </summary>
 void DirectXCommon::CreatePostEffect()
 {
-	// Fullscreenのシェーダをコンパイルする
-	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Fullscreen.VS.hlsl", L"vs_6_0");
-	assert(fullscreenVertexShaderBlob_ != nullptr);
-
-	// CopyImageのシェーダをコンパイルする
-	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/CopyImage.PS.hlsl", L"ps_6_0");
-	assert(copyImagePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kCopyImage] = new CopyImagePipeline();
 	psoPostEffect_[kCopyImage]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
@@ -2562,6 +2634,19 @@ void DirectXCommon::CreatePostEffect()
 	assert(outlinePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kLuminanceBaseOutline] = new LuminanceBaseOutline();
 	psoPostEffect_[kLuminanceBaseOutline]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), outlinePixelShaderBlob_.Get());
+
+	// BrightnessExtractionのシェーダをコンパイルする
+	brightnessExtractionPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/BrightnessExtraction.PS.hlsl", L"ps_6_0");
+	assert(brightnessExtractionPixelShaderBlob_ != nullptr);
+	psoPostEffect_[kBrightnessExtraction] = new BrightnessExtraction();
+	psoPostEffect_[kBrightnessExtraction]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), brightnessExtractionPixelShaderBlob_.Get());
+	luminanceResource_ = CreateBufferResource(device_, sizeof(GPUforLuminance));
+
+	// Hideのシェーダをコンパイルする
+	hidePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/hide.PS.hlsl", L"ps_6_0");
+	assert(hidePixelShaderBlob_ != nullptr);
+	psoPostEffect_[kHide] = new Hide();
+	psoPostEffect_[kHide]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), hidePixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2649,6 +2734,7 @@ void DirectXCommon::DrawVignetting()
 	if (useNumOffscreen_ <= 0)
 		return;
 
+
 	// RenderTarget -> PixelShader
 	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -2732,6 +2818,60 @@ void DirectXCommon::DrawOutline()
 
 	// RenderTextureのRTVを張り付ける
 	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+/// <summary>
+/// 高輝度抽出
+/// </summary>
+void DirectXCommon::DrawBrightnessExtraction()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kBrightnessExtraction]->CommandListSet(commandList_);
+
+	// Luminanceの設定
+	GPUforLuminance* luminanceData = nullptr;
+	luminanceResource_->Map(0, nullptr, reinterpret_cast<void**>(&luminanceData));
+	luminanceData->threshold = 0.5f;
+	commandList_->SetGraphicsRootConstantBufferView(1, luminanceResource_->GetGPUVirtualAddress());
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+
+/// <summary>
+/// 隠す
+/// </summary>
+void DirectXCommon::DrawHide()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kHide]->CommandListSet(commandList_);
 
 	// 頂点3つ描画
 	commandList_->DrawInstanced(3, 1, 0, 0);

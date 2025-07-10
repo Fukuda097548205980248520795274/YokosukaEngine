@@ -159,6 +159,12 @@ public:
 	void SetOffscreenEffect(Effect effect) const { directXCommon_->SetOffscreenEffect(effect); }
 
 	/// <summary>
+	/// RTVに描画したテクスチャをコピーする
+	/// </summary>
+	/// <param name="numRtv"></param>
+	void CopyRtvImage(uint32_t numRtv) const { directXCommon_->CopyRtvImage(numRtv); }
+
+	/// <summary>
 	/// 平面を描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -306,6 +312,12 @@ public:
 	/// </summary>
 	/// <param name="blendMode"></param>
 	void SetLine3dBlendMode(BlendMode blendMode) const { directXCommon_->SetLine3dBlendMode(static_cast<uint32_t>(blendMode)); }
+
+	/// <summary>
+	/// ブレンドモードを設定する
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetCopyImageBlendMode(BlendMode blendMode) const { directXCommon_->SetCopyImageBlendMode(static_cast<uint32_t>(blendMode)); }
 
 	/// <summary>
 	/// 全てのキーの入力情報を取得する

@@ -56,10 +56,6 @@ void GameScene::Update()
 /// </summary>
 void GameScene::Draw()
 {
-	// Scene描画
-	Scene::Draw();
-
-
 	// 平行光源の設置
 	engine_->SetDirectionalLight(directionalLight_.get());
 
@@ -68,6 +64,19 @@ void GameScene::Draw()
 
 	// プレイヤーの描画
 	player_->Draw();
+
+	engine_->SetOffscreenEffect(kBrightnessExtraction);
+	engine_->SetOffscreenEffect(kGaussianFilter);
+	engine_->SetOffscreenEffect(kHide);
+
+	engine_->CopyRtvImage(0);
+
+	engine_->SetCopyImageBlendMode(kBlendModeAdd);
+	engine_->CopyRtvImage(2);
+	engine_->SetCopyImageBlendMode(kBlendModeNormal);
+
+	// Scene描画
+	Scene::Draw();
 }
 
 

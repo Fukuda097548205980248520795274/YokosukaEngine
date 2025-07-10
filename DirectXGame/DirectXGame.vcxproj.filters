@@ -328,6 +328,39 @@
     <Filter Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong">
       <UniqueIdentifier>{0a5f6acf-694f-45b1-976d-11eee3c83fe2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\StageObject">
+      <UniqueIdentifier>{e8d4c779-a15b-4bfe-b6b5-2c3883602dba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Draw\PostEffect">
+      <UniqueIdentifier>{e7c2c1c3-339c-41c0-88a3-95a630e6c554}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\BrightnessExtraction">
+      <UniqueIdentifier>{9c0f8638-75ef-4c3e-9d00-c43932b0b916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Hide">
+      <UniqueIdentifier>{b088448d-245f-4fec-80ed-a13ec1f08f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage">
+      <UniqueIdentifier>{7da05fff-1b36-45b3-bfff-3b6a7f774453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendAdd">
+      <UniqueIdentifier>{43eebe25-3abe-4a22-be57-49f3bfa7d141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendNone">
+      <UniqueIdentifier>{ec44b8e7-199c-4459-b50f-a52f6dacc2d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendNormal">
+      <UniqueIdentifier>{2a504130-15a3-4214-9a3b-a15f351bf115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendMultiply">
+      <UniqueIdentifier>{d1fc5d65-7fef-4ace-b692-7643680e0229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen">
+      <UniqueIdentifier>{99d9f7e9-71fa-4608-8658-768cc309089f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendSubtract">
+      <UniqueIdentifier>{1f869a60-9572-4938-8759-71b6d55eae69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -599,6 +632,39 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.cpp">
       <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletStrong</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\StageObject\StageObject.cpp">
+      <Filter>Game\GameScene\StageObject</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.cpp">
+      <Filter>YokosukaEngine\Include\Draw\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\BrightnessExtraction\BrightnessExtraction.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\BrightnessExtraction</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Hide\Hide.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Hide</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BaseCopyImage.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendNone\CopyImageBlendNone.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendNone</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendNormal\CopyImageBlendNormal.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendAdd\CopyImageBlendAdd.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendAdd</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendSubtract\CopyImageBlendSubtract.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendSubtract</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendMultiply\CopyImageBlendMultiply.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendMultiply</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -875,6 +941,39 @@
     <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.h">
       <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletStrong</Filter>
     </ClInclude>
+    <ClInclude Include="Game\GameScene\StageObject\StageObject.h">
+      <Filter>Game\GameScene\StageObject</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.h">
+      <Filter>YokosukaEngine\Include\Draw\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\BrightnessExtraction\BrightnessExtraction.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\BrightnessExtraction</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Hide\Hide.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Hide</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BaseCopyImage.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendNone\CopyImageBlendNone.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendNone</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendNormal\CopyImageBlendNormal.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendAdd\CopyImageBlendAdd.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendAdd</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendSubtract\CopyImageBlendSubtract.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendSubtract</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendMultiply\CopyImageBlendMultiply.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendMultiply</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="YokosukaEngine\Shader\Object3d\Object3d.VS.hlsl">
@@ -926,6 +1025,12 @@
       <Filter>YokosukaEngine\Shader\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\PostEffect\DepthBaseOutline.PS.hlsl">
+      <Filter>YokosukaEngine\Shader\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\BrightnessExtraction.PS.hlsl">
+      <Filter>YokosukaEngine\Shader\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\Hide.PS.hlsl">
       <Filter>YokosukaEngine\Shader\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>

@@ -52,6 +52,14 @@
 #include "../../PipelineStateObject/Primitive/BlendMultiply/PrimitiveBlendMultiply.h"
 #include "../../PipelineStateObject/Primitive/BlendScreen/PrimitiveBlendScreen.h"
 
+#include "../../PipelineStateObject/CopyImage/BaseCopyImage.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendNone/CopyImageBlendNone.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendNormal/CopyImageBlendNormal.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendAdd/CopyImageBlendAdd.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendSubtract/CopyImageBlendSubtract.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendMultiply/CopyImageBlendMultiply.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendScreen/CopyImageBlendScreen.h"
+
 #include "../../PipelineStateObject/PostEffect/PostEffect.h"
 #include "../../PipelineStateObject/PostEffect/CopyImage/CopyImage.h"
 #include "../../PipelineStateObject/PostEffect/GrayScale/GrayScale.h"
@@ -60,6 +68,8 @@
 #include "../../PipelineStateObject/PostEffect/Smoothing/Smoothing.h"
 #include "../../PipelineStateObject/PostEffect/GaussianFillter/GaussianFilter.h"
 #include "../../PipelineStateObject/PostEffect/LuminanceBaseOutline/LuminanceBaseOutline.h"
+#include "../../PipelineStateObject/PostEffect/BrightnessExtraction/BrightnessExtraction.h"
+#include "../../PipelineStateObject/PostEffect/Hide/Hide.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/WorldTransform2D/WorldTransform2D.h"
@@ -71,6 +81,7 @@
 #include "../../Store/ModelDataStore/ModelDataStore.h"
 #include "../../Draw/Material/Material.h"
 #include "../../Draw/TransformationMatrix/TransformationMatrix.h"
+#include "../../Draw/GPUforPostEffect/GPUforPostEffect.h"
 
 #include "../../Light/DirectionalLight/DirectionalLight.h"
 #include "../../Light/PointLight/PointLight.h"
@@ -105,6 +116,12 @@ enum Effect
 
 	// アウトライン : 輝度
 	kLuminanceBaseOutline,
+
+	// 高輝度抽出
+	kBrightnessExtraction,
+
+	// 隠す
+	kHide,
 
 	// エフェクトの数
 	kEfectCount,
@@ -205,6 +222,11 @@ public:
 	/// </summary>
 	/// <param name="effect"></param>
 	void SetOffscreenEffect(Effect effect);
+
+	/// <summary>
+	/// RTVに描画したテクスチャをコピーする
+	/// </summary>
+	void CopyRtvImage(uint32_t rtvNum);
 
 	/// <summary>
 	/// 平面を描画する
@@ -317,6 +339,12 @@ public:
 	/// </summary>
 	/// <param name="blendMode"></param>
 	void SetLine3dBlendMode(uint32_t blendMode) { useLine3dBlendMode_ = blendMode; }
+
+	/// <summary>
+	/// ブレンドモードのSetter
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetCopyImageBlendMode(uint32_t blendMode) { useCopyImageBlendMode_ = blendMode; }
 
 	/// <summary>
 	/// ディスクリプタヒープを生成する
@@ -480,6 +508,11 @@ private:
 	void CreatePrimitive();
 
 	/// <summary>
+	/// CopyImageを生成する
+	/// </summary>
+	void CreateCopyImage();
+
+	/// <summary>
 	/// PostEffectを生成する
 	/// </summary>
 	void CreatePostEffect();
@@ -622,6 +655,12 @@ private:
 	Microsoft::WRL::ComPtr<IDxcBlob> primitiveVertexShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitivePixelShaderBlob_ = nullptr;
 
+	// CopyImage用のPSO
+	BaseCopyImage* psoCopyImage_[kBlendModekCountOfBlendMode] = { nullptr };
+	uint32_t useCopyImageBlendMode_ = kBlendModeNormal;
+	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
+
 
 	/*-------------------
 	    ポストエフェクト
@@ -662,20 +701,29 @@ private:
 	/// </summary>
 	void DrawOutline();
 
+	/// <summary>
+	/// 高輝度抽出
+	/// </summary>
+	void DrawBrightnessExtraction();
 
-	// オフスクリーンの頂点シェーダ
-	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
+	/// <summary>
+	/// 隠す
+	/// </summary>
+	void DrawHide();
+
 
 	// PostEffectピクセルシェーダ
 	PostEffect* psoPostEffect_[kEfectCount] = { nullptr };
-	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> grayScalePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> sepiaPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> vignettePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> smoothingPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> gaussianFilterPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> outlinePixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> brightnessExtractionPixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> hidePixelShaderBlob_ = nullptr;
 
+	Microsoft::WRL::ComPtr<ID3D12Resource> luminanceResource_ = nullptr;
 
 	// リソースの最大数
 	const uint32_t kMaxNumResource = 1024;
