@@ -370,6 +370,12 @@
     <Filter Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty">
       <UniqueIdentifier>{5a606f21-0fbc-4f6f-8d80-1507015f4f9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\StageObject\Tutorial\Skydome">
+      <UniqueIdentifier>{546283bd-27fb-4176-b24c-3fb932a6352c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\BaseEnemy">
+      <UniqueIdentifier>{1e79be06-c943-47ce-8fe4-319072bec00f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -677,6 +683,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.cpp">
       <Filter>Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BaseEnemy\BaseEnemy.cpp">
+      <Filter>Game\GameScene\BaseEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -988,6 +997,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.h">
       <Filter>Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BaseEnemy\BaseEnemy.h">
+      <Filter>Game\GameScene\BaseEnemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
