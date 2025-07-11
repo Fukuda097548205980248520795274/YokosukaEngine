@@ -376,6 +376,9 @@
     <Filter Include="Game\GameScene\BaseEnemy">
       <UniqueIdentifier>{1e79be06-c943-47ce-8fe4-319072bec00f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\BaseStage">
+      <UniqueIdentifier>{a26fac97-a5da-45d7-97ac-aaa001f15ccb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -686,6 +689,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\BaseEnemy\BaseEnemy.cpp">
       <Filter>Game\GameScene\BaseEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BaseStage\BaseStage.cpp">
+      <Filter>Game\GameScene\BaseStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1000,6 +1006,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\BaseEnemy\BaseEnemy.h">
       <Filter>Game\GameScene\BaseEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BaseStage\BaseStage.h">
+      <Filter>Game\GameScene\BaseStage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

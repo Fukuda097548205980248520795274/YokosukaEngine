@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "../GameScene.h"
+#include "../BaseEnemy/BaseEnemy.h"
 
 /// <summary>
 /// デストラクタ
@@ -38,6 +39,9 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
 	worldTransform_->translation_.y = 10.0f;
+
+	// 体力
+	hp_ = 100;
 
 
 	/*----------
@@ -89,6 +93,12 @@ void Player::Update()
 
 	// ギミック : 傾き : 更新処理
 	GimmickTiltUpdate();
+
+	// 体力がなくなったら終了
+	if (hp_ <= 0)
+	{
+		isFinished_ = true;
+	}
 
 
 	// 中心の更新
@@ -144,7 +154,7 @@ void Player::Draw()
 /// ワールド座標のGetter
 /// </summary>
 /// <returns></returns>
-Vector3 Player::GetWorldPosition()
+Vector3 Player::GetWorldPosition() const
 {
 	// ワールド座標
 	Vector3 worldPosition;
@@ -160,7 +170,7 @@ Vector3 Player::GetWorldPosition()
 /// 本体のワールド座標のGetter
 /// </summary>
 /// <returns></returns>
-Vector3 Player::GetBodyWorldPosition()
+Vector3 Player::GetBodyWorldPosition() const
 {
 	// ワールド座標
 	Vector3 worldPosition;
@@ -170,6 +180,18 @@ Vector3 Player::GetBodyWorldPosition()
 	worldPosition.z = bodyWorldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
+}
+
+
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+/// <param name="enemy"></param>
+void Player::OnCollision(const BaseEnemy* enemy)
+{
+	// ダメージが入る
+	hp_ -= enemy->IsAttack();
+	hp_ = std::max(hp_, 0);
 }
 
 

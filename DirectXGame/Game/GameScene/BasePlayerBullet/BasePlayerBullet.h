@@ -27,7 +27,13 @@ public:
 	/// 終了フラグのGetter
 	/// </summary>
 	/// <returns></returns>
-	bool IsFinished() { return isFinished_; }
+	bool IsFinished() const { return isFinished_; }
+
+	/// <summary>
+	/// 攻撃力のGetter
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetPower() const { return power_; }
 
 
 protected:
@@ -45,5 +51,8 @@ protected:
 
 	// 終了フラグ
 	bool isFinished_ = false;
+
+	// 攻撃力
+	uint32_t power_ = 0;
 };
 

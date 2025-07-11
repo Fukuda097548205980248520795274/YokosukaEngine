@@ -23,6 +23,24 @@ public:
 	/// </summary>
 	virtual void Draw() = 0;
 
+	/// <summary>
+	/// 終了フラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished() const { return isFinished_; }
+
+	/// <summary>
+	/// 攻撃力のGetter
+	/// </summary>
+	/// <returns></returns>
+	int32_t GetPower() const { return power_; }
+
+	/// <summary>
+	/// 攻撃フラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsAttack() const { return isAttack_; }
+
 
 private:
 
@@ -35,5 +53,15 @@ private:
 
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// 終了フラグ
+	bool isFinished_ = false;
+
+
+	// 攻撃力
+	int32_t power_ = 0;
+
+	// 攻撃フラグ
+	bool isAttack_ = false;
 };
 

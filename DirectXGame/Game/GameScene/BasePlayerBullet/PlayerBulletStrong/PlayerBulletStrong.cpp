@@ -26,6 +26,9 @@ void PlayerBulletStrong::Initialize(const YokosukaEngine* engine, const Camera3D
 	bulletPointLight_->Initialize();
 	bulletPointLight_->color_ = Vector4(1.0f, 0.2f, 0.2f, 1.0f);
 	bulletPointLight_->radius_ = 32.0f;
+
+	// 攻撃力
+	power_ = 10;
 }
 
 /// <summary>

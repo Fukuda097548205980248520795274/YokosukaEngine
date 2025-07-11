@@ -25,6 +25,9 @@ void PlayerBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* 
 	bulletPointLight_->Initialize();
 	bulletPointLight_->color_ = Vector4(0.2f, 1.0f, 0.2f, 1.0f);
 	bulletPointLight_->radius_ = 16.0f;
+
+	// 攻撃力
+	power_ = 2;
 }
 
 /// <summary>

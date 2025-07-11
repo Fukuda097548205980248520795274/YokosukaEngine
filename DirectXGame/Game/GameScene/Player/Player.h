@@ -7,6 +7,7 @@
 
 // 前方宣言
 class GameScene;
+class BaseEnemy;
 
 class Player
 {
@@ -38,19 +39,31 @@ public:
 	/// ワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() const;
 
 	/// <summary>
 	/// 本体のワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetBodyWorldPosition();
+	Vector3 GetBodyWorldPosition() const;
 
 	/// <summary>
 	/// ゲームシーンのインスタンスのGetter
 	/// </summary>
 	/// <param name="gameScene"></param>
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
+	/// <summary>
+	/// 終了フラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished() const { return isFinished_; }
+
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	/// <param name="enemy"></param>
+	void OnCollision(const BaseEnemy* enemy);
 
 
 private:
@@ -71,6 +84,12 @@ private:
 
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// 終了フラグ
+	bool isFinished_ = false;
+
+	// 体力
+	int32_t hp_ = 0;
 
 	/// <summary>
 	/// 入力操作
