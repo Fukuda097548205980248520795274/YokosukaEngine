@@ -41,6 +41,12 @@ public:
 	Vector3 GetWorldPosition();
 
 	/// <summary>
+	/// 本体のワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetBodyWorldPosition();
+
+	/// <summary>
 	/// ゲームシーンのインスタンスのGetter
 	/// </summary>
 	/// <param name="gameScene"></param>
@@ -146,6 +152,9 @@ private:
 
 	// モデルハンドル
 	uint32_t bodyModelHandle_ = 0;
+
+	// ポイントライト
+	std::unique_ptr<PointLight> bodyPointLight_ = nullptr;
 
 
 

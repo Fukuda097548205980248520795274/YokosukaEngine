@@ -3,9 +3,18 @@
 #include "Player/Player.h"
 #include "Skydome/Skydome.h"
 
+#include "StageObject/StageObject.h"
+#include "StageObject/Tutorial/Ground/TutorialGroundEmpty/TutorialGroundEmpty.h"
+
+
 class GameScene : public Scene
 {
 public:
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~GameScene();
 
 	/// <summary>
 	/// 初期化
@@ -22,11 +31,6 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw()override;
-
-	/// <summary>
-	/// プレイヤーの弾を発射する
-	/// </summary>
-	void PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet);
 
 	/// <summary>
 	/// カメラをシェイクする
@@ -54,5 +58,9 @@ private:
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+
+	// ステージオブジェクトのリスト
+	std::list<StageObject*> stageObjects_;
 };
 

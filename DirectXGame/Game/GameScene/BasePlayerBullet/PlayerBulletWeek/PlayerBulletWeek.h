@@ -29,6 +29,12 @@ public:
 	/// <param name="direction"></param>
 	void SetDirection(const Vector3& direction) { direction_ = Normalize(direction); }
 
+	/// <summary>
+	/// 弾本体のワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetBulletWorldTransform();
+
 
 private:
 
@@ -58,5 +64,8 @@ private:
 
 	// モデルハンドル
 	uint32_t bulletModelHandle_ = 0;
+
+	// 弾のポイントライト
+	std::unique_ptr<PointLight> bulletPointLight_ = nullptr;
 };
 

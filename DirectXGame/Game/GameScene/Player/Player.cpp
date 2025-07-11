@@ -52,6 +52,11 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	bodyUvTransform_ = std::make_unique<UvTransform>();
 	bodyUvTransform_->Initialize();
 
+	// ポイントライトの生成と初期化
+	bodyPointLight_ = std::make_unique<PointLight>();
+	bodyPointLight_->Initialize();
+	bodyPointLight_->radius_ = 24.0f;
+
 	// モデルを読み込む
 	bodyModelHandle_ = engine_->LoadModelData("./Resources/Models/Player", "Player.obj");
 
@@ -92,6 +97,9 @@ void Player::Update()
 	bodyWorldTransform_->UpdateWorldMatrix();
 	bodyUvTransform_->UpdateWorldMatrix();
 
+	// 本体の位置にポイントライトを置く
+	bodyPointLight_->position_ = GetBodyWorldPosition();
+
 
 	// 終了した弾をリストから削除する
 	bullets_.remove_if([](BasePlayerBullet* bullet)
@@ -117,6 +125,9 @@ void Player::Update()
 /// </summary>
 void Player::Draw()
 {
+	// ポイントライトを設置する
+	engine_->SetPointLight(bodyPointLight_.get());
+
 	// 本体を描画する
 	engine_->DrawModel(bodyWorldTransform_.get(), bodyUvTransform_.get(), camera3d_, bodyModelHandle_, Vector4(0.0f, 0.0f, 0.0f, 1.0f), true);
 
@@ -140,6 +151,22 @@ Vector3 Player::GetWorldPosition()
 	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
 	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
 	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
+}
+
+/// <summary>
+/// 本体のワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 Player::GetBodyWorldPosition()
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = bodyWorldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = bodyWorldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = bodyWorldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
 }

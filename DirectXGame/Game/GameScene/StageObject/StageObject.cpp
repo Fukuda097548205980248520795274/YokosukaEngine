@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void StageObject::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
+void StageObject::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
 {
 	// nullptrチェック
 	assert(engine);
@@ -19,6 +19,7 @@ void StageObject::Initialize(const YokosukaEngine* engine, const Camera3D* camer
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->translation_ = position;
 }
 
 /// <summary>
@@ -28,12 +29,4 @@ void StageObject::Update()
 {
 	// ワールドトランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
-}
-
-/// <summary>
-/// 描画処理
-/// </summary>
-void StageObject::Draw()
-{
-
 }

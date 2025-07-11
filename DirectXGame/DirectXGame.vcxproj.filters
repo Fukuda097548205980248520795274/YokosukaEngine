@@ -361,6 +361,15 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendSubtract">
       <UniqueIdentifier>{1f869a60-9572-4938-8759-71b6d55eae69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\StageObject\Tutorial">
+      <UniqueIdentifier>{ed9ea897-f3d4-47de-8b62-9ddc7adc52d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\StageObject\Tutorial\Ground">
+      <UniqueIdentifier>{823f561a-fffc-4504-ae1a-04d4798ee6bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty">
+      <UniqueIdentifier>{5a606f21-0fbc-4f6f-8d80-1507015f4f9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -665,6 +674,9 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.cpp">
+      <Filter>Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -973,6 +985,9 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.h">
+      <Filter>Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
