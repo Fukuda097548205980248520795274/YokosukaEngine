@@ -555,12 +555,12 @@ private:
 
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;
-	const UINT kMaxNumRtvDescriptors = 256;
+	const UINT kMaxNumRtvDescriptors = 768;
 	UINT numRtvCPUDescriptors = 0;
 
 	// SRV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_ = nullptr;
-	const UINT kMaxNumSrvDescriptors = 256;
+	const UINT kMaxNumSrvDescriptors = 768;
 	UINT numSrvCPUDescriptors = 1;
 	UINT numSrvGPUDescriptors = 1;
 
@@ -618,13 +618,13 @@ private:
 	};
 
 	// オフスクリーンの最大数
-	const uint32_t kMaxNumOffscreen = 124;
+	const uint32_t kMaxNumOffscreen = 512;
 
 	// 使用したオフスクリーンの数
 	uint32_t useNumOffscreen_ = 0;
 
 	// オフスクリーン
-	Offscreen offscreen_[124];
+	Offscreen offscreen_[512];
 
 
 	/*-----------------------

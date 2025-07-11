@@ -379,6 +379,15 @@
     <Filter Include="Game\GameScene\BaseStage">
       <UniqueIdentifier>{a26fac97-a5da-45d7-97ac-aaa001f15ccb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\BaseEnemy\EnemyButterfly">
+      <UniqueIdentifier>{797c3bb1-dbfa-483d-b767-2571fb4760b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\BaseBoss">
+      <UniqueIdentifier>{08a823c5-c635-4b70-a023-d5e09f8fe221}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\BaseBoss\BossBenkei">
+      <UniqueIdentifier>{a409a575-a93d-48c6-b7d5-93e742130df5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -692,6 +701,15 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\BaseStage\BaseStage.cpp">
       <Filter>Game\GameScene\BaseStage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.cpp">
+      <Filter>Game\GameScene\BaseEnemy\EnemyButterfly</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BaseBoss\BaseBoss.cpp">
+      <Filter>Game\GameScene\BaseBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.cpp">
+      <Filter>Game\GameScene\BaseBoss\BossBenkei</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1009,6 +1027,15 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\BaseStage\BaseStage.h">
       <Filter>Game\GameScene\BaseStage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.h">
+      <Filter>Game\GameScene\BaseEnemy\EnemyButterfly</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BaseBoss\BaseBoss.h">
+      <Filter>Game\GameScene\BaseBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.h">
+      <Filter>Game\GameScene\BaseBoss\BossBenkei</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

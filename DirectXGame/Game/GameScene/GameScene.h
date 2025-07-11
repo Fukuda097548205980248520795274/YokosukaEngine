@@ -6,6 +6,9 @@
 #include "StageObject/StageObject.h"
 #include "StageObject/Tutorial/Ground/TutorialGroundEmpty/TutorialGroundEmpty.h"
 
+#include "BaseBoss/BaseBoss.h"
+#include "BaseBoss/BossBenkei/BossBenkei.h"
+
 
 class GameScene : public Scene
 {
@@ -58,6 +61,9 @@ private:
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+	// ボスのリスト
+	std::list<BaseBoss*> bosses_;
 
 
 	// ステージオブジェクトのリスト

@@ -197,7 +197,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 		device_->CreateShaderResourceView(offscreen_[i].renderTextureResource.Get(), &renderTextureSrvDesc, offscreen_[i].renderTextureSrvCPUHandle);
 	}
-
+	
 
 	/*-----------------------------
 	    バッファリソースを作成する

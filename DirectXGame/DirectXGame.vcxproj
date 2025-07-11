@@ -119,7 +119,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="Game\GameScene\BaseBoss\BaseBoss.cpp" />
+    <ClCompile Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.cpp" />
     <ClCompile Include="Game\GameScene\BaseEnemy\BaseEnemy.cpp" />
+    <ClCompile Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.cpp" />
     <ClCompile Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.cpp" />
     <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.cpp" />
     <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.cpp" />
@@ -226,7 +229,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\GameScene\BaseBoss\BaseBoss.h" />
+    <ClInclude Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.h" />
     <ClInclude Include="Game\GameScene\BaseEnemy\BaseEnemy.h" />
+    <ClInclude Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.h" />
     <ClInclude Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.h" />
     <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.h" />
     <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.h" />

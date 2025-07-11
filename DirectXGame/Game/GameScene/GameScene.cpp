@@ -5,6 +5,13 @@
 /// </summary>
 GameScene::~GameScene()
 {
+	// ボス
+	for (BaseBoss* boss : bosses_)
+	{
+		delete boss;
+	}
+	bosses_.clear();
+
 	// ステージオブジェクト
 	for (StageObject* stageObject : stageObjects_)
 	{
@@ -48,11 +55,17 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	for (uint32_t i = 0; i < 8; ++i)
 	{
 		TutorialGroundEmpty* stageObject = new TutorialGroundEmpty();
-		stageObject->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 40.0f * i));
+		stageObject->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 60.0f * i));
 
 		// リストに追加する
 		stageObjects_.push_back(stageObject);
 	}
+
+
+	// ボス
+	BossBenkei* benkei = new BossBenkei();
+	benkei->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 10.0f, 30.0f));
+	bosses_.push_back(benkei);
 }
 
 /// <summary>
@@ -74,6 +87,12 @@ void GameScene::Update()
 
 	// プレイヤーの更新
 	player_->Update();
+
+	// ボスの更新
+	for (BaseBoss* boss : bosses_)
+	{
+		boss->Update();
+	}
 
 
 	// 終了したステージオブジェクトをリストから削除する
@@ -108,6 +127,12 @@ void GameScene::Draw()
 
 	// プレイヤーの描画
 	player_->Draw();
+
+	// ボスの描画
+	for (BaseBoss* boss : bosses_)
+	{
+		boss->Draw();
+	}
 
 	// ステージオブジェクトの描画
 	for (StageObject* stageObject : stageObjects_)
