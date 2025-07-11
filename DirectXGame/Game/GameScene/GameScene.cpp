@@ -159,6 +159,8 @@ void GameScene::Draw()
 	engine_->CopyRtvImage(4);
 	engine_->SetCopyImageBlendMode(kBlendModeNormal);
 
+	engine_->SetOffscreenEffect(kRasterScroll);
+
 	// Scene描画
 	Scene::Draw();
 }

@@ -668,9 +668,16 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 		break;
 
 	case kHide:
-		// 画する
+		// 隠す
 
 		DrawHide();
+
+		break;
+
+	case kRasterScroll:
+		// ラスタースクロール
+
+		DrawRasterScroll();
 
 		break;
 	}
@@ -2647,6 +2654,13 @@ void DirectXCommon::CreatePostEffect()
 	assert(hidePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kHide] = new Hide();
 	psoPostEffect_[kHide]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), hidePixelShaderBlob_.Get());
+
+	// RasterScrollのシェーダをコンパイルする
+	rasterScrollPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/RasterScroll.PS.hlsl", L"ps_6_0");
+	assert(rasterScrollPixelShaderBlob_ != nullptr);
+	psoPostEffect_[kRasterScroll] = new RasterScroll();
+	psoPostEffect_[kRasterScroll]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), rasterScrollPixelShaderBlob_.Get());
+	rasterScrollResource_ = CreateBufferResource(device_, sizeof(GPUforRasterScroll));
 }
 
 /// <summary>
@@ -2872,6 +2886,41 @@ void DirectXCommon::DrawHide()
 
 	// PSOの設定
 	psoPostEffect_[kHide]->CommandListSet(commandList_);
+
+	// 頂点3つ描画
+	commandList_->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+/// <summary>
+/// ラスタースクロール
+/// </summary>
+void DirectXCommon::DrawRasterScroll()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kRasterScroll]->CommandListSet(commandList_);
+
+	// RasterScrollの設定
+	GPUforRasterScroll* rasterScrollData = nullptr;
+	rasterScrollResource_->Map(0, nullptr, reinterpret_cast<void**>(&rasterScrollData));
+	rasterScrollData->amplitude = 0.2f;
+	rasterScrollData->frequency = 12.0f;
+	rasterScrollData->phaseOffset = 0.0f;
+	rasterScrollData->scrollSpeed = 0.0f;
+	rasterScrollData->time = 0.0f;
+	commandList_->SetGraphicsRootConstantBufferView(1, rasterScrollResource_->GetGPUVirtualAddress());
+
+	// RenderTextureのRTVを張り付ける
+	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
 	// 頂点3つ描画
 	commandList_->DrawInstanced(3, 1, 0, 0);
