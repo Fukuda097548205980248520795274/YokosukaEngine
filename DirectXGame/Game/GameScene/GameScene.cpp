@@ -75,6 +75,19 @@ void GameScene::Update()
 	// プレイヤーの更新
 	player_->Update();
 
+
+	// 終了したステージオブジェクトをリストから削除する
+	stageObjects_.remove_if([](StageObject* stageObject)
+		{
+			if (stageObject->IsFinished())
+			{
+				delete stageObject;
+				return true;
+			}
+			return false;
+		}
+	);
+
 	// ステージオブジェクトの更新
 	for (StageObject* stageObject : stageObjects_)
 	{
@@ -102,14 +115,21 @@ void GameScene::Draw()
 		stageObject->Draw();
 	}
 
+	// 高輝度抽出
 	engine_->SetOffscreenEffect(kBrightnessExtraction);
+
+	// ガウシアンフィルター *3
 	engine_->SetOffscreenEffect(kGaussianFilter);
 	engine_->SetOffscreenEffect(kGaussianFilter);
 	engine_->SetOffscreenEffect(kGaussianFilter);
+
+	// レイヤーを隠す
 	engine_->SetOffscreenEffect(kHide);
 
+	// 第一レイヤー描画
 	engine_->CopyRtvImage(0);
 
+	// 高輝度抽出 * ガウシアンフィルター　加算合成
 	engine_->SetCopyImageBlendMode(kBlendModeAdd);
 	engine_->CopyRtvImage(4);
 	engine_->SetCopyImageBlendMode(kBlendModeNormal);

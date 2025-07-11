@@ -22,6 +22,12 @@ public:
 	/// </summary>
 	virtual void Draw() = 0;
 
+	/// <summary>
+	/// 終了フラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished() { return isFinished_; }
+
 
 protected:
 
@@ -35,5 +41,8 @@ protected:
 
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// 終了フラグ
+	bool isFinished_ = false;
 };
 
