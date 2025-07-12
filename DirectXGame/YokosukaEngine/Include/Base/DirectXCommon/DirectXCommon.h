@@ -8,6 +8,9 @@
 #include <list>
 #include <random>
 #include <algorithm>
+
+#include "DirectXGPU/DirectXGPU.h"
+
 #include "../../Math/Vector4/Vector4.h"
 #include "../../Math/Transform2D/Transform2D.h"
 #include "../../Camera/Camera3D/Camera3D.h"
@@ -87,9 +90,6 @@
 #include "../../Light/DirectionalLight/DirectionalLight.h"
 #include "../../Light/PointLight/PointLight.h"
 #include "../../Light/SpotLight/SpotLight.h"
-
-#pragma comment(lib , "d3d12.lib")
-#pragma comment(lib , "dxgi.lib")
 
 // 前方宣言
 class WinApp;
@@ -190,7 +190,7 @@ public:
 	/// </summary>
 	/// <param name="filePath"></param>
 	/// <returns></returns>
-	uint32_t LoadTexture(const std::string& filePath) { return textureStore_->GetTextureHandle(filePath, device_, srvDescriptorHeap_, commandList_); }
+	uint32_t LoadTexture(const std::string& filePath) { return textureStore_->GetTextureHandle(filePath, directXGPU_->GetDevice(), srvDescriptorHeap_, commandList_); }
 
 	/// <summary>
 	/// モデルデータを読み込む
@@ -198,9 +198,9 @@ public:
 	/// <param name="directory"></param>
 	/// <param name="fileName"></param>
 	/// <returns></returns>
-	uint32_t LoadModelData(const std::string& directory , const std::string& fileName)
+	uint32_t LoadModelData(const std::string& directory, const std::string& fileName)
 	{
-		return modelDataStore_->GetModelHandle(directory, fileName, device_, srvDescriptorHeap_, commandList_);
+		return modelDataStore_->GetModelHandle(directory, fileName, directXGPU_->GetDevice(), srvDescriptorHeap_, commandList_);
 	}
 
 	/// <summary>
@@ -295,7 +295,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,bool isLighting);
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting);
 
 	/// <summary>
 	/// パーティクルを描画する
@@ -422,21 +422,6 @@ private:
 	void ActiveDebugLayer();
 
 	/// <summary>
-	/// DXGIファクトリー
-	/// </summary>
-	void GenerateDXGIFactory();
-
-	/// <summary>
-	/// 使用するアダプタを取得する
-	/// </summary>
-	void SelectUseAdapter();
-
-	/// <summary>
-	/// デバイスを生成する
-	/// </summary>
-	void GenerateDevice();
-
-	/// <summary>
 	/// エラーと警告で停止させる
 	/// </summary>
 	void StopOnErrorsAndWarnings();
@@ -520,7 +505,7 @@ private:
 	/// PostEffectを生成する
 	/// </summary>
 	void CreatePostEffect();
-	
+
 
 
 	// ログ出力
@@ -528,6 +513,9 @@ private:
 
 	// ウィンドウアプリケーション
 	WinApp* winApp_ = nullptr;
+
+	// DirectXGPU
+	std::unique_ptr<DirectXGPU> directXGPU_ = nullptr;
 
 	// テクスチャストア
 	TextureStore* textureStore_ = nullptr;
@@ -538,15 +526,6 @@ private:
 
 	// デバッグコントローラ
 	Microsoft::WRL::ComPtr<ID3D12Debug1> debugController_ = nullptr;
-
-	// DXGIファクトリー
-	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory_ = nullptr;
-
-	// 使用するアダプタ
-	Microsoft::WRL::ComPtr<IDXGIAdapter4> useAdapter_ = nullptr;
-
-	// デバイス
-	Microsoft::WRL::ComPtr<ID3D12Device> device_ = nullptr;
 
 	// コマンドキュー
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_ = nullptr;

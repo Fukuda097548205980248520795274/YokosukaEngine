@@ -20,7 +20,7 @@ public:
 	/// </summary>
 	/// <param name="filePath">ファイルパス</param>
 	/// <returns></returns>
-	uint32_t GetTextureHandle(const std::string& filePath , Microsoft::WRL::ComPtr<ID3D12Device> device,
+	uint32_t GetTextureHandle(const std::string& filePath , ID3D12Device* device,
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap , Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList);
 
 	/// <summary>
