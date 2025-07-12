@@ -29,17 +29,8 @@ DirectXCommon::~DirectXCommon()
 		delete psoCopyImage_[i];
 	}
 
-	// DXC
-	delete dxc_;
-
 	// イベント
 	CloseHandle(fenceEvent_);
-
-	// モデルデータストア
-	delete modelDataStore_;
-
-	// テクスチャストア
-	delete textureStore_;
 }
 
 /// <summary>
@@ -63,15 +54,15 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	
 
 	// テクスチャストアを初期化する
-	textureStore_ = new TextureStore();
+	textureStore_ = std::make_unique<TextureStore>();
 	textureStore_->Initialize(this);
 
 	// モデルデータストアを初期化する
-	modelDataStore_ = new ModelDataStore();
-	modelDataStore_->Initialize(textureStore_);
+	modelDataStore_ = std::make_unique<ModelDataStore>();
+	modelDataStore_->Initialize(textureStore_.get());
 
 	// DXCの生成と初期化
-	dxc_ = new DirectXShaderCompiler();
+	dxc_ = std::make_unique<DirectXShaderCompiler>();
 	dxc_->Initialize(logging_);
 
 
@@ -2384,22 +2375,22 @@ void DirectXCommon::CreateObject3d()
 
 	// Object3D用のPSOの生成と初期化
 	psoObject3d_[kBlendModeNone] = new Object3dBlendNone();
-	psoObject3d_[kBlendModeNone]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeNormal] = new Object3dBlendNormal();
-	psoObject3d_[kBlendModeNormal]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeAdd] = new Object3dBlendAdd();
-	psoObject3d_[kBlendModeAdd]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeSubtract] = new Object3dBlendSubtract();
-	psoObject3d_[kBlendModeSubtract]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeMultiply] = new Object3dBlendMultiply();
-	psoObject3d_[kBlendModeMultiply]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeScreen] = new Object3dBlendScreen();
-	psoObject3d_[kBlendModeScreen]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2415,22 +2406,22 @@ void DirectXCommon::CreateParticle()
 
 	// Particle用のPSOの生成と初期化
 	psoParticle_[kBlendModeNone] = new ParticleBlendNone();
-	psoParticle_[kBlendModeNone]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeNormal] = new ParticleBlendNormal();
-	psoParticle_[kBlendModeNormal]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeAdd] = new ParticleBlendAdd();
-	psoParticle_[kBlendModeAdd]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeSubtract] = new ParticleBlendSubtract();
-	psoParticle_[kBlendModeSubtract]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeMultiply] = new ParticleBlendMultiply();
-	psoParticle_[kBlendModeMultiply]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeScreen] = new ParticleBlendScreen();
-	psoParticle_[kBlendModeScreen]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2446,22 +2437,22 @@ void DirectXCommon::CreateLine3d()
 
 	// Line3d用のPSOの生成と初期化
 	psoLine3d_[kBlendModeNone] = new Line3dBlendNone();
-	psoLine3d_[kBlendModeNone]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeNormal] = new Line3dBlendNormal();
-	psoLine3d_[kBlendModeNormal]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeAdd] = new Line3dBlendAdd();
-	psoLine3d_[kBlendModeAdd]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeSubtract] = new Line3dBlendSubtract();
-	psoLine3d_[kBlendModeSubtract]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeMultiply] = new Line3dBlendMultiply();
-	psoLine3d_[kBlendModeMultiply]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeScreen] = new Line3dBlendScreen();
-	psoLine3d_[kBlendModeScreen]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2477,22 +2468,22 @@ void DirectXCommon::CreatePrimitive()
 
 	// Primitive用のPSOの生成と初期化
 	psoPrimitive_[kBlendModeNone] = new PrimitiveBlendNone();
-	psoPrimitive_[kBlendModeNone]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeNormal] = new PrimitiveBlendNormal();
-	psoPrimitive_[kBlendModeNormal]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeAdd] = new PrimitiveBlendAdd();
-	psoPrimitive_[kBlendModeAdd]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeSubtract] = new PrimitiveBlendSubtract();
-	psoPrimitive_[kBlendModeSubtract]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeMultiply] = new PrimitiveBlendMultiply();
-	psoPrimitive_[kBlendModeMultiply]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeScreen] = new PrimitiveBlendScreen();
-	psoPrimitive_[kBlendModeScreen]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2508,22 +2499,22 @@ void DirectXCommon::CreateCopyImage()
 
 	// Primitive用のPSOの生成と初期化
 	psoCopyImage_[kBlendModeNone] = new CopyImageBlendNone();
-	psoCopyImage_[kBlendModeNone]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	psoCopyImage_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
 	psoCopyImage_[kBlendModeNormal] = new CopyImageBlendNormal();
-	psoCopyImage_[kBlendModeNormal]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	psoCopyImage_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
 	psoCopyImage_[kBlendModeAdd] = new CopyImageBlendAdd();
-	psoCopyImage_[kBlendModeAdd]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	psoCopyImage_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
 	psoCopyImage_[kBlendModeSubtract] = new CopyImageBlendSubtract();
-	psoCopyImage_[kBlendModeSubtract]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	psoCopyImage_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
 	psoCopyImage_[kBlendModeMultiply] = new CopyImageBlendMultiply();
-	psoCopyImage_[kBlendModeMultiply]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	psoCopyImage_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
 	psoCopyImage_[kBlendModeScreen] = new CopyImageBlendScreen();
-	psoCopyImage_[kBlendModeScreen]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	psoCopyImage_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2532,62 +2523,62 @@ void DirectXCommon::CreateCopyImage()
 void DirectXCommon::CreatePostEffect()
 {
 	psoPostEffect_[kCopyImage] = new CopyImagePipeline();
-	psoPostEffect_[kCopyImage]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	psoPostEffect_[kCopyImage]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
 	// GrayScaleのシェーダをコンパイルする
 	grayScalePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/GrayScale.PS.hlsl", L"ps_6_0");
 	assert(grayScalePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kGrayScale] = new GrayScale();
-	psoPostEffect_[kGrayScale]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), grayScalePixelShaderBlob_.Get());
+	psoPostEffect_[kGrayScale]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), grayScalePixelShaderBlob_.Get());
 
 	// Sepiaのシェーダをコンパイルする
 	sepiaPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Sepia.PS.hlsl", L"ps_6_0");
 	assert(sepiaPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kSepia] = new Sepia();
-	psoPostEffect_[kSepia]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), sepiaPixelShaderBlob_.Get());
+	psoPostEffect_[kSepia]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), sepiaPixelShaderBlob_.Get());
 
 	// Vignetteのシェーダをコンパイルする
 	vignettePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Vignette.PS.hlsl", L"ps_6_0");
 	assert(vignettePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kVignetteing] = new Vignette();
-	psoPostEffect_[kVignetteing]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), vignettePixelShaderBlob_.Get());
+	psoPostEffect_[kVignetteing]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), vignettePixelShaderBlob_.Get());
 
 	// Smoothingのシェーダをコンパイルする
 	smoothingPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Smoothing.PS.hlsl", L"ps_6_0");
 	assert(smoothingPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kSmoothing] = new Smoothing();
-	psoPostEffect_[kSmoothing]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), smoothingPixelShaderBlob_.Get());
+	psoPostEffect_[kSmoothing]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), smoothingPixelShaderBlob_.Get());
 
 	// GaussianFilterのシェーダをコンパイルする
 	gaussianFilterPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/GaussianFilter.PS.hlsl", L"ps_6_0");
 	assert(gaussianFilterPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kGaussianFilter] = new GaussianFilter();
-	psoPostEffect_[kGaussianFilter]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), gaussianFilterPixelShaderBlob_.Get());
+	psoPostEffect_[kGaussianFilter]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), gaussianFilterPixelShaderBlob_.Get());
 
 	// LuminanceBaseOutlineのシェーダをコンパイルする
 	outlinePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/LuminaceBaseOutline.PS.hlsl", L"ps_6_0");
 	assert(outlinePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kLuminanceBaseOutline] = new LuminanceBaseOutline();
-	psoPostEffect_[kLuminanceBaseOutline]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), outlinePixelShaderBlob_.Get());
+	psoPostEffect_[kLuminanceBaseOutline]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), outlinePixelShaderBlob_.Get());
 
 	// BrightnessExtractionのシェーダをコンパイルする
 	brightnessExtractionPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/BrightnessExtraction.PS.hlsl", L"ps_6_0");
 	assert(brightnessExtractionPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kBrightnessExtraction] = new BrightnessExtraction();
-	psoPostEffect_[kBrightnessExtraction]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), brightnessExtractionPixelShaderBlob_.Get());
+	psoPostEffect_[kBrightnessExtraction]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), brightnessExtractionPixelShaderBlob_.Get());
 	luminanceResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(GPUforLuminance));
 
 	// Hideのシェーダをコンパイルする
 	hidePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/hide.PS.hlsl", L"ps_6_0");
 	assert(hidePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kHide] = new Hide();
-	psoPostEffect_[kHide]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), hidePixelShaderBlob_.Get());
+	psoPostEffect_[kHide]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), hidePixelShaderBlob_.Get());
 
 	// RasterScrollのシェーダをコンパイルする
 	rasterScrollPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/RasterScroll.PS.hlsl", L"ps_6_0");
 	assert(rasterScrollPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kRasterScroll] = new RasterScroll();
-	psoPostEffect_[kRasterScroll]->Initialize(logging_, dxc_, directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), rasterScrollPixelShaderBlob_.Get());
+	psoPostEffect_[kRasterScroll]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), rasterScrollPixelShaderBlob_.Get());
 	rasterScrollResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(GPUforRasterScroll));
 }
 

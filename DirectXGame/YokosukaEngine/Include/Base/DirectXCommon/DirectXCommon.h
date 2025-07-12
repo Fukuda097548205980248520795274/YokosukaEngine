@@ -518,10 +518,10 @@ private:
 	std::unique_ptr<DirectXGPU> directXGPU_ = nullptr;
 
 	// テクスチャストア
-	TextureStore* textureStore_ = nullptr;
+	std::unique_ptr<TextureStore> textureStore_ = nullptr;
 
 	// モデルデータストア
-	ModelDataStore* modelDataStore_ = nullptr;
+	std::unique_ptr<ModelDataStore> modelDataStore_ = nullptr;
 
 
 	// デバッグコントローラ
@@ -573,7 +573,7 @@ private:
 	HANDLE fenceEvent_{};
 
 	// DXC
-	DirectXShaderCompiler* dxc_ = nullptr;
+	std::unique_ptr<DirectXShaderCompiler> dxc_ = nullptr;
 
 	// ビューポート
 	D3D12_VIEWPORT viewport_{};
