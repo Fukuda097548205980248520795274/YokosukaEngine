@@ -248,59 +248,30 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	    平行光源
 	-------------*/
 
-	// リソース
-	instancingDirectionalLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(DirectionalLightForGPU) * kMaxNumDirectionalLight);
-	instancingDirectionalLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData_));
+	// インスタンシングリソース
+	instancingDirectionalLight_ = CreateStructuredBufferResource(directXGPU_->GetDevice(),
+		srvDescriptorHeap_.Get(), kMaxNumDirectionalLight, sizeof(DirectionalLightForGPU));
+	instancingDirectionalLight_.resource->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData_));
 
+	// カウントリソース
 	useNumDirectionalLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(UseNumDirectionalLight));
 	useNumDirectionalLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&useNumDirectionLightData_));
 	useNumDirectionLightData_->num = 0;
-
-	// ビュー
-	D3D12_SHADER_RESOURCE_VIEW_DESC instancingDirectionalLightSrvDesc{};
-	instancingDirectionalLightSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	instancingDirectionalLightSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	instancingDirectionalLightSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	instancingDirectionalLightSrvDesc.Buffer.FirstElement = 0;
-	instancingDirectionalLightSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingDirectionalLightSrvDesc.Buffer.NumElements = kMaxNumDirectionalLight;
-	instancingDirectionalLightSrvDesc.Buffer.StructureByteStride = sizeof(DirectionalLightForGPU);
-
-	// ポインタのハンドル（住所）を取得する
-	instancingDirectionalLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
-	instancingDirectionalLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
-
-	directXGPU_->GetDevice()->CreateShaderResourceView(instancingDirectionalLightResource_.Get(),
-		&instancingDirectionalLightSrvDesc, instancingDirectionalLightSrvHandleCPU_);
 
 
 	/*------------------
 	    ポイントライト
 	------------------*/
 
-	// リソース
-	instancingPointLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(PointLightForGPU) * kMaxNumPointLight);
-	instancingPointLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
+	// インスタンシングリソース
+	instancingPointLight_ = CreateStructuredBufferResource(directXGPU_->GetDevice(),
+		srvDescriptorHeap_.Get(), kMaxNumPointLight, sizeof(PointLightForGPU));
+	instancingPointLight_.resource->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
 
+	// カウントリソース
 	useNumPointLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(UseNumPointLight));
 	useNumPointLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&useNumPointLightData_));
 	useNumPointLightData_->num = 0;
-
-	// ビュー
-	D3D12_SHADER_RESOURCE_VIEW_DESC instancingPointLightSrvDesc{};
-	instancingPointLightSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	instancingPointLightSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	instancingPointLightSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	instancingPointLightSrvDesc.Buffer.FirstElement = 0;
-	instancingPointLightSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingPointLightSrvDesc.Buffer.NumElements = kMaxNumPointLight;
-	instancingPointLightSrvDesc.Buffer.StructureByteStride = sizeof(PointLightForGPU);
-
-	// ポインタのハンドル（住所）を取得する
-	instancingPointLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
-	instancingPointLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
-
-	directXGPU_->GetDevice()->CreateShaderResourceView(instancingPointLightResource_.Get(), &instancingPointLightSrvDesc, instancingPointLightSrvHandleCPU_);
 
 
 	/*------------------
@@ -308,28 +279,13 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	------------------*/
 
 	// リソース
-	instancingSpotLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(SpotLightForGPU) * kMaxNumSpotLight);
-	instancingSpotLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData_));
+	instancingSpotLight_ = CreateStructuredBufferResource(directXGPU_->GetDevice(),
+		srvDescriptorHeap_.Get(), kMaxNumSpotLight, sizeof(SpotLightForGPU));
+	instancingSpotLight_.resource->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData_));
 
 	useNumSpotLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(UseNumSpotLight));
 	useNumSpotLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&useNumSpotLightData_));
 	useNumSpotLightData_->num = 0;
-
-	// ビュー
-	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSpotLightSrvDesc{};
-	instancingSpotLightSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	instancingSpotLightSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	instancingSpotLightSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	instancingSpotLightSrvDesc.Buffer.FirstElement = 0;
-	instancingSpotLightSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSpotLightSrvDesc.Buffer.NumElements = kMaxNumSpotLight;
-	instancingSpotLightSrvDesc.Buffer.StructureByteStride = sizeof(SpotLightForGPU);
-
-	// ポインタのハンドル（住所）を取得する
-	instancingSpotLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
-	instancingSpotLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
-
-	directXGPU_->GetDevice()->CreateShaderResourceView(instancingSpotLightResource_.Get(), &instancingSpotLightSrvDesc, instancingSpotLightSrvHandleCPU_);
 
 
 	/*----------------
@@ -337,24 +293,8 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	----------------*/
 
 	// パーティクル
-	instancingResourcesParticle_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(ParticleForGPU) * kNumMaxInstance);
+	instancing_ = CreateStructuredBufferResource(directXGPU_->GetDevice(), srvDescriptorHeap_.Get(), kNumMaxInstance, sizeof(ParticleForGPU));
 	materialResourceParticle_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
-
-	// パーティクルのビュー
-	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
-	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	instancingSrvDesc.Buffer.FirstElement = 0;
-	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
-
-	// ポインタのハンドル（住所）を取得する
-	instancingSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
-	instancingSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
-
-	directXGPU_->GetDevice()->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 
 	// エミッター
 	emitter_.count = 3;
@@ -834,15 +774,15 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
@@ -1052,15 +992,15 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
@@ -1236,15 +1176,15 @@ void DirectXCommon::DrawRing(const WorldTransform* worldTransform, const UvTrans
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceRing_[useNumResourceRing_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
@@ -1420,15 +1360,15 @@ void DirectXCommon::DrawCylinder(const WorldTransform* worldTransform, const UvT
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceCylinder_[useNumResourceCylinder_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
@@ -1536,15 +1476,15 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLight_.gpuHandle);
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
@@ -1611,7 +1551,7 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 
 	// データを書き込む
 	ParticleForGPU* instancingData = nullptr;
-	instancingResourcesParticle_->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
+	instancing_.resource->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
 
 	// 描画できたパーティクルの数
 	uint32_t numInstance = 0;
@@ -1700,7 +1640,7 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceParticle_->GetGPUVirtualAddress());
 
 	// インスタンシング用のTableを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(1, instancing_.gpuHandle);
 
 	// テクスチャ
 	textureStore_->SelectTexture(directXCommand_->GetCommandList(), modelDataStore_->GetTextureHandle(modelHandle));
@@ -2315,6 +2255,38 @@ void DirectXCommon::WaitForGPU()
 		// イベントを待つ
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
+}
+
+/// <summary>
+/// 構造化バッファのリソースを作成する
+/// </summary>
+/// <param name="useNum"></param>
+/// <returns></returns>
+DirectXCommon::StructuredBufferResource DirectXCommon::CreateStructuredBufferResource(ID3D12Device* device, ID3D12DescriptorHeap* srvDescriptorHeap, uint32_t maxNum, int32_t strideBytes)
+{
+	// 構造化バッファのリソース
+	StructuredBufferResource structuredBufferResource;
+
+	// リソースを作成する
+	structuredBufferResource.resource = CreateBufferResource(device, strideBytes * maxNum);
+
+	// パーティクルのビュー
+	D3D12_SHADER_RESOURCE_VIEW_DESC SrvDesc{};
+	SrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	SrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	SrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	SrvDesc.Buffer.FirstElement = 0;
+	SrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	SrvDesc.Buffer.NumElements = maxNum;
+	SrvDesc.Buffer.StructureByteStride = strideBytes;
+
+	// ポインタのハンドル（住所）を取得する
+	structuredBufferResource.cpuHandle = GetSRVCPUDescriptorHandle(srvDescriptorHeap, device);
+	structuredBufferResource.gpuHandle = GetSRVGPUDescriptorHandle(srvDescriptorHeap, device);
+
+	device->CreateShaderResourceView(structuredBufferResource.resource.Get(), &SrvDesc, structuredBufferResource.cpuHandle);
+
+	return structuredBufferResource;
 }
 
 /// <summary>
