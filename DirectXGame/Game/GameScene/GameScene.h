@@ -9,6 +9,9 @@
 #include "BaseBoss/BaseBoss.h"
 #include "BaseBoss/BossBenkei/BossBenkei.h"
 
+#include "BaseEnemy/BaseEnemy.h"
+#include "BaseEnemy/EnemyButterfly/EnemyButterfly.h"
+
 
 class GameScene : public Scene
 {
@@ -46,6 +49,12 @@ public:
 private:
 
 
+	/// <summary>
+	/// 全ての当たり判定を行う
+	/// </summary>
+	void AllCheckCollision();
+
+
 	// サウンドハンドル
 	uint32_t soundHandle_ = 0;
 
@@ -61,6 +70,9 @@ private:
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+	// 敵のリスト
+	std::list<BaseEnemy*> enemies_;
 
 	// ボスのリスト
 	std::list<BaseBoss*> bosses_;

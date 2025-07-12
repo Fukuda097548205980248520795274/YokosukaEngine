@@ -1,6 +1,9 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
+// 前方宣言
+class BaseEnemy;
+
 class BasePlayerBullet
 {
 public:
@@ -35,6 +38,24 @@ public:
 	/// <returns></returns>
 	uint32_t GetPower() const { return power_; }
 
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition() const;
+
+	/// <summary>
+	/// 当たり判定用の線分のGetter
+	/// </summary>
+	/// <returns></returns>
+	Segment GetCollisionSegment() const;
+
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	/// <param name="enemy"></param>
+	void OnCollision(const BaseEnemy* enemy);
+
 
 protected:
 
@@ -48,6 +69,9 @@ protected:
 
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// 1フレーム前の座標
+	Vector3 prevPosition_ = { 0.0f , 0.0f , 0.0f };
 
 	// 終了フラグ
 	bool isFinished_ = false;

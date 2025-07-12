@@ -1,6 +1,9 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
+// 前方宣言
+class BasePlayerBullet;
+
 class BaseEnemy
 {
 public:
@@ -41,8 +44,26 @@ public:
 	/// <returns></returns>
 	bool IsAttack() const { return isAttack_; }
 
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition() const;
 
-private:
+	/// <summary>
+	/// 当たり判定用のAABBのGetter
+	/// </summary>
+	/// <returns></returns>
+	AABB GetCollisionAABB(const Vector3& position) const;
+
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	/// <param name="playerBullet"></param>
+	void OnCollision(const BasePlayerBullet* playerBullet);
+
+
+protected:
 
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
@@ -51,8 +72,31 @@ private:
 	const Camera3D* camera3d_ = nullptr;
 
 
+	// モデル構造体
+	struct ModelStruct
+	{
+		// ワールドトランスフォーム
+		std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+		// UVトランスフォーム
+		std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+
+		// モデルハンドル
+		uint32_t modelHandle_ = 0;
+
+		// 色
+		Vector4 color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	};
+
+
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// 当たり判定の大きさ
+	Vector3 hitSize_ = { 0.0f , 0.0f , 0.0f };
+
+	// 体力
+	int32_t hp_ = 0;
 
 	// 終了フラグ
 	bool isFinished_ = false;

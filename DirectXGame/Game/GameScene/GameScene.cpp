@@ -5,6 +5,13 @@
 /// </summary>
 GameScene::~GameScene()
 {
+	// 敵
+	for (BaseEnemy* enemy : enemies_)
+	{
+		delete enemy;
+	}
+	enemies_.clear();
+
 	// ボス
 	for (BaseBoss* boss : bosses_)
 	{
@@ -50,6 +57,11 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	player_->SetGameScene(this);
 	mainCamera_->translation_.y = 10.0f;
 
+	// 敵の追加
+	EnemyButterfly* enemy = new EnemyButterfly();
+	enemy->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 10.0f, 30.0f));
+	enemies_.push_back(enemy);
+
 
 	// ステージオブジェクトの追加
 	for (uint32_t i = 0; i < 8; ++i)
@@ -82,12 +94,37 @@ void GameScene::Update()
 	// プレイヤーの更新
 	player_->Update();
 
+	// 敵の更新
+	for (BaseEnemy* enemy : enemies_)
+	{
+		enemy->Update();
+	}
+
+	// 終了した敵をリストから削除する
+	enemies_.remove_if([](BaseEnemy* enemy)
+		{
+			if (enemy->IsFinished())
+			{
+				delete enemy;
+				return true;
+			}
+			return false;
+		}
+	);
+
+
 	// ボスの更新
 	for (BaseBoss* boss : bosses_)
 	{
 		boss->Update();
 	}
 
+
+	// ステージオブジェクトの更新
+	for (StageObject* stageObject : stageObjects_)
+	{
+		stageObject->Update();
+	}
 
 	// 終了したステージオブジェクトをリストから削除する
 	stageObjects_.remove_if([](StageObject* stageObject)
@@ -101,11 +138,9 @@ void GameScene::Update()
 		}
 	);
 
-	// ステージオブジェクトの更新
-	for (StageObject* stageObject : stageObjects_)
-	{
-		stageObject->Update();
-	}
+
+	// 全ての当たり判定を行う
+	AllCheckCollision();
 }
 
 /// <summary>
@@ -121,6 +156,12 @@ void GameScene::Draw()
 
 	// プレイヤーの描画
 	player_->Draw();
+
+	// 敵の描画
+	for (BaseEnemy* enemy : enemies_)
+	{
+		enemy->Draw();
+	}
 
 	// ボスの描画
 	for (BaseBoss* boss : bosses_)
@@ -162,4 +203,36 @@ void GameScene::Draw()
 
 	// Scene描画
 	Scene::Draw();
+}
+
+/// <summary>
+/// 全ての当たり判定を行う
+/// </summary>
+void GameScene::AllCheckCollision()
+{
+	// 線分
+	Segment segment;
+
+	// AABB
+	AABB aabb;
+
+
+	// プレイヤーの弾のリスト
+	std::list<BasePlayerBullet*> playerBullets = player_->GetBullets();
+
+	for (BasePlayerBullet* playerBullet : playerBullets)
+	{
+		segment = playerBullet->GetCollisionSegment();
+
+		for (BaseEnemy* enemy : enemies_)
+		{
+			aabb = enemy->GetCollisionAABB(enemy->GetWorldPosition());
+
+			if (IsCollision(aabb, segment))
+			{
+				playerBullet->OnCollision(enemy);
+				enemy->OnCollision(playerBullet);
+			}
+		}
+	}
 }

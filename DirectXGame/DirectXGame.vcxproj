@@ -163,6 +163,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNormal\PrimitiveBlendNormal.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendSubtract\PrimitiveBlendSubtract.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Shape\Line\Line.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Shape\Ray\Ray.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Shape\Segment\Segment.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp" />
@@ -276,6 +279,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendNormal\PrimitiveBlendNormal.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendSubtract\PrimitiveBlendSubtract.h" />
+    <ClInclude Include="YokosukaEngine\Include\Shape\Line\Line.h" />
+    <ClInclude Include="YokosukaEngine\Include\Shape\Ray\Ray.h" />
+    <ClInclude Include="YokosukaEngine\Include\Shape\Segment\Segment.h" />
     <ClInclude Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h" />
