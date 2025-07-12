@@ -60,12 +60,6 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 		// リストに追加する
 		stageObjects_.push_back(stageObject);
 	}
-
-
-	// ボス
-	BossBenkei* benkei = new BossBenkei();
-	benkei->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 10.0f, 30.0f));
-	bosses_.push_back(benkei);
 }
 
 /// <summary>
@@ -158,8 +152,6 @@ void GameScene::Draw()
 	engine_->SetCopyImageBlendMode(kBlendModeAdd);
 	engine_->CopyRtvImage(4);
 	engine_->SetCopyImageBlendMode(kBlendModeNormal);
-
-	engine_->SetOffscreenEffect(kRasterScroll);
 
 	// Scene描画
 	Scene::Draw();

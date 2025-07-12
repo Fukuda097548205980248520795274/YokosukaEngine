@@ -5,20 +5,9 @@
 /// </summary>
 YokosukaEngine::~YokosukaEngine()
 {
-	// AudioStore
-	delete audioStore_;
+	// unique_ptrの為、使用禁止
 
-	// Input
-	delete input_;
-
-	// DirectXCommon
-	delete directXCommon_;
-
-	// ログ出力
-	delete log_;
-
-	// ウィンドウアプリケーション
-	delete windowApplication_;
+	/*
 
 	// リソースリークチェッカー
 	Microsoft::WRL::ComPtr<IDXGIDebug1> debug;
@@ -28,6 +17,8 @@ YokosukaEngine::~YokosukaEngine()
 		debug->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
 		debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
 	}
+
+	*/
 
 	// COMの終了処理
 	CoUninitialize();
@@ -52,23 +43,23 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	SetUnhandledExceptionFilter(ExportDump);
 
 	// ウィンドウアプリケーションの生成と初期化
-	windowApplication_ = new WinApp();
-	windowApplication_->Initialize(kWindowWidth, kWindowHeight, ConvertString(titleName));
+	winApp_ = std::make_unique<WinApp>();
+	winApp_->Initialize(kWindowWidth, kWindowHeight, ConvertString(titleName));
 
-	// ログ出力の生成と初期化
-	log_ = new OutputLog();
-	log_->Initialize();
+	// ロギングの生成と初期化
+	logging_ = std::make_unique<Logging>();
+	logging_->Initialize();
 
 	// DirectXCommonの生成と初期化
-	directXCommon_ = new DirectXCommon();
-	directXCommon_->Initialize(log_, windowApplication_);
+	directXCommon_ = std::make_unique<DirectXCommon>();
+	directXCommon_->Initialize(logging_.get(), winApp_.get());
 
 	// Inputの生成と初期化
-	input_ = new Input();
-	input_->Initialize(windowApplication_);
+	input_ = std::make_unique<Input>();
+	input_->Initialize(winApp_.get());
 
 	// AudioStoreの生成と初期化
-	audioStore_ = new AudioStore();
+	audioStore_ = std::make_unique<AudioStore>();
 	audioStore_->Initialize();
 }
 

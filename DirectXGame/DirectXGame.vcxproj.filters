@@ -31,9 +31,6 @@
     <Filter Include="YokosukaEngine\Include\Base\WinApp">
       <UniqueIdentifier>{c29bf23f-d5ef-44f7-989c-68b67976123f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Base\OutputLog">
-      <UniqueIdentifier>{a1003834-b1f6-480c-8f9c-39be1069a703}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Base\DirectXCommon">
       <UniqueIdentifier>{76475598-178b-4577-8171-0fc66cd01585}</UniqueIdentifier>
     </Filter>
@@ -391,6 +388,9 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll">
       <UniqueIdentifier>{bbc3e2fe-a05a-4706-8fab-a8df5c95879d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Base\Logging">
+      <UniqueIdentifier>{a1003834-b1f6-480c-8f9c-39be1069a703}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -405,8 +405,8 @@
     <ClCompile Include="YokosukaEngine\Include\Func\String\String.cpp">
       <Filter>YokosukaEngine\Include\Func\String</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp">
-      <Filter>YokosukaEngine\Include\Base\OutputLog</Filter>
+    <ClCompile Include="YokosukaEngine\Include\Base\Logging\Logging.cpp">
+      <Filter>YokosukaEngine\Include\Base\Logging</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon</Filter>
@@ -728,8 +728,8 @@
     <ClInclude Include="YokosukaEngine\Include\Func\String\String.h">
       <Filter>YokosukaEngine\Include\Func\String</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Base\OutputLog\OutputLog.h">
-      <Filter>YokosukaEngine\Include\Base\OutputLog</Filter>
+    <ClInclude Include="YokosukaEngine\Include\Base\Logging\Logging.h">
+      <Filter>YokosukaEngine\Include\Base\Logging</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon</Filter>

@@ -164,7 +164,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Base\Logging\Logging.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\WinApp\WinApp.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp" />
@@ -275,7 +275,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h" />
-    <ClInclude Include="YokosukaEngine\Include\Base\OutputLog\OutputLog.h" />
+    <ClInclude Include="YokosukaEngine\Include\Base\Logging\Logging.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\WinApp\WinApp.h" />
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.h" />
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.h" />

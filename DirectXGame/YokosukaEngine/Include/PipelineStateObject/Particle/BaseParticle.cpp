@@ -4,17 +4,17 @@
 /// 初期化
 /// </summary>
 /// <param name="dxc">シェーダコンパイラ</param>
-void BaseParticle::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
+void BaseParticle::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
 	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
 	// nullptrチェック
-	assert(log);
+	assert(logging);
 	assert(dxc);
 	assert(vertexShaderBlob);
 	assert(pixelShaderBlob);
 
 	// 引数を受け取る
-	log_ = log;
+	logging_ = logging;
 	dxc_ = dxc;
 	vertexShaderBlob_ = vertexShaderBlob;
 	pixelShaderBlob_ = pixelShaderBlob;

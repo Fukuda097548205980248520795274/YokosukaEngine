@@ -1,21 +1,13 @@
 #include "PrimitiveBlendScreen.h"
 
 /// <summary>
-/// デストラクタ
-/// </summary>
-PrimitiveBlendScreen::~PrimitiveBlendScreen()
-{
-
-}
-
-/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void PrimitiveBlendScreen::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
+void PrimitiveBlendScreen::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
 	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
-	BasePrimitive::Initialize(log, dxc, device, vertexShaderBlob, pixelShaderBlob);
+	BasePrimitive::Initialize(logging, dxc, device, vertexShaderBlob, pixelShaderBlob);
 
 
 	/*-----------------------------
@@ -153,7 +145,7 @@ void PrimitiveBlendScreen::Initialize(OutputLog* log, DirectXShaderCompiler* dxc
 	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob_, &errorBlob_);
 	if (FAILED(hr))
 	{
-		log_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
+		logging_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
 		assert(false);
 	}
 

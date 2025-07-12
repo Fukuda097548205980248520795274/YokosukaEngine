@@ -1,6 +1,6 @@
 #pragma once
 #include <wrl.h>
-#include "../../Base/OutputLog/OutputLog.h"
+#include "../../Base/Logging/Logging.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
 
 class BaseCopyImage
@@ -10,9 +10,8 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="log">ログ出力</param>
 	/// <param name="dxc">シェーダコンパイラ</param>
-	virtual void Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
+	virtual void Initialize(Logging* logging , DirectXShaderCompiler* dxc,
 		Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob);
 
 	/// <summary>
@@ -24,8 +23,8 @@ public:
 
 protected:
 
-	// ログ出力
-	OutputLog* log_ = nullptr;
+	// ロギング
+	Logging* logging_ = nullptr;
 
 	// DXC
 	DirectXShaderCompiler* dxc_ = nullptr;

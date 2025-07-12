@@ -3,7 +3,7 @@
 #include <dxgi1_6.h>
 #include <dxcapi.h>
 #include <cassert>
-#include "../../Base/OutputLog/OutputLog.h"
+#include "../../Base/Logging/Logging.h"
 #include "../../Func/String/String.h"
 
 #pragma comment(lib , "d3d12.lib")
@@ -18,7 +18,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="log">ログ</param>
-	void Initialize(OutputLog* log);
+	void Initialize(Logging* logging);
 
 	/// <summary>
 	/// シェーダをコンパイルする
@@ -30,8 +30,8 @@ public:
 
 private:
 
-	// ログ出力
-	OutputLog* log_ = nullptr;
+	// ロギング
+	Logging* logging_ = nullptr;
 
 	// DXCユーティリティ
 	IDxcUtils* dxcUtils_ = nullptr;

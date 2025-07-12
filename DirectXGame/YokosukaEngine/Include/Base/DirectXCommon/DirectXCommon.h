@@ -14,7 +14,7 @@
 #include "../../Camera/Camera2D/Camera2D.h"
 #include "../../Func/String/String.h"
 #include "../../Func/LoadModelData/LoadModelData.h"
-#include "../OutputLog/OutputLog.h"
+#include "../Logging/Logging.h"
 #include "../../Func/Collision/Collision.h"
 
 #include "../../PipelineStateObject/Object3d/BaseObject3d.h"
@@ -173,7 +173,7 @@ public:
 	/// </summary>
 	/// <param name="log">ログ</param>
 	/// <param name="windowApplication">ウィンドウアプリケーション</param>
-	void Initialize(OutputLog* log, WinApp* windowApplication);
+	void Initialize(Logging* logging, WinApp* winApp);
 
 	/// <summary>
 	/// 描画前処理
@@ -524,10 +524,10 @@ private:
 
 
 	// ログ出力
-	OutputLog* log_ = nullptr;
+	Logging* logging_ = nullptr;
 
 	// ウィンドウアプリケーション
-	WinApp* windowApplication_ = nullptr;
+	WinApp* winApp_ = nullptr;
 
 	// テクスチャストア
 	TextureStore* textureStore_ = nullptr;

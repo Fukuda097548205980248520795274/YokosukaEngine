@@ -3,7 +3,6 @@
 #include <time.h>
 #include "Func/CrashHandler/CrashHandler.h"
 #include "Base/WinApp/WinApp.h"
-#include "Base/OutputLog/OutputLog.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/Input/Input.h"
 #include "Store/AudioStore/AudioStore.h"
@@ -64,7 +63,7 @@ public:
 	/// <summary>
 	/// メッセージを処理する
 	/// </summary>
-	bool ProcessMessage() { return windowApplication_->ProcessMessage(); }
+	bool ProcessMessage() { return winApp_->ProcessMessage(); }
 
 	/// <summary>
 	/// フレーム開始
@@ -80,13 +79,13 @@ public:
 	/// 画面の横幅のGetter
 	/// </summary>
 	/// <returns></returns>
-	uint32_t GetScreenWidth() const { return windowApplication_->GetWindowWidth(); }
+	uint32_t GetScreenWidth() const { return winApp_->GetWindowWidth(); }
 
 	/// <summary>
 	/// 画面の縦幅のGetter
 	/// </summary>
 	/// <returns></returns>
-	uint32_t GetScreenHeight() const { return windowApplication_->GetWindowHeight(); }
+	uint32_t GetScreenHeight() const { return winApp_->GetWindowHeight(); }
 
 	/// <summary>
 	/// テクスチャを読み込む
@@ -494,19 +493,19 @@ private:
 	unsigned int currentTimer_;
 
 	// ウィンドウアプリケーション
-	WinApp* windowApplication_ = nullptr;
+	std::unique_ptr<WinApp> winApp_ = nullptr;
 
 	// ログ出力
-	OutputLog* log_ = nullptr;
+	std::unique_ptr<Logging> logging_ = nullptr;
 
 	// DirectXCommon
-	DirectXCommon* directXCommon_ = nullptr;
+	std::unique_ptr<DirectXCommon> directXCommon_ = nullptr;
 
 	// Input
-	Input* input_ = nullptr;
+	std::unique_ptr<Input> input_ = nullptr;
 
 	// オーディオストア
-	AudioStore* audioStore_ = nullptr;
+	std::unique_ptr<AudioStore> audioStore_ = nullptr;
 };
 
 

@@ -4,10 +4,10 @@
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void Hide::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
+void Hide::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
 	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
-	PostEffect::Initialize(log, dxc, device, vertexShaderBlob, pixelShaderBlob);
+	PostEffect::Initialize(logging, dxc, device, vertexShaderBlob, pixelShaderBlob);
 
 
 	/*-----------------------------
@@ -26,7 +26,7 @@ void Hide::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob_, &errorBlob_);
 	if (FAILED(hr))
 	{
-		log_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
+		logging_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
 		assert(false);
 	}
 

@@ -1,9 +1,9 @@
-#include "OutputLog.h"
+#include "Logging.h"
 
 /// <summary>
 /// 初期化
 /// </summary>
-void OutputLog::Initialize()
+void Logging::Initialize()
 {
 	// ログのディレクトリを用意する
 	std::filesystem::create_directory("YokosukaEngine/Output/Logs");
@@ -16,7 +16,7 @@ void OutputLog::Initialize()
 /// ログを出力する
 /// </summary>
 /// <param name="message">メッセージ</param>
-void OutputLog::Log(const std::string& message)
+void Logging::Log(const std::string& message)
 {
 	logStream_ << message << std::endl;
 	OutputDebugStringA(message.c_str());
@@ -25,7 +25,7 @@ void OutputLog::Log(const std::string& message)
 /// <summary>
 /// ログファイルを生成する
 /// </summary>
-std::ofstream OutputLog::CreateLogFile()
+std::ofstream Logging::CreateLogFile()
 {
 	// 現在時刻を取得（UTC時刻）
 	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
