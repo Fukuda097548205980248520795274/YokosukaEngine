@@ -223,10 +223,15 @@ public:
 	void SetSpotLight(const SpotLight* spotLight);
 
 	/// <summary>
-	/// オフスクリーンにエフェクトをかける
+	/// オフスクリーンをセットする
+	/// </summary>
+	void SetOffscreen();
+
+	/// <summary>
+	/// エフェクトをかけ、新たなオフスクリーンをセットする
 	/// </summary>
 	/// <param name="effect"></param>
-	void SetOffscreenEffect(Effect effect);
+	uint32_t SetOffscreenEffect(Effect effect);
 
 	/// <summary>
 	/// RTVに描画したテクスチャをコピーする
@@ -559,6 +564,31 @@ private:
 	D3D12_RECT scissorRect_{};
 
 
+	/*------------------
+		構造化バッファ
+	------------------*/
+
+	// 構造化バッファのリソース
+	struct StructuredBufferResource
+	{
+		// リソース
+		Microsoft::WRL::ComPtr<ID3D12Resource> resource = nullptr;
+
+		// CPUハンドル
+		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle{};
+
+		// GPUハンドル
+		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
+	};
+
+	/// <summary>
+	/// 構造化バッファのリソースを作成する
+	/// </summary>
+	/// <param name="useNum"></param>
+	/// <returns></returns>
+	StructuredBufferResource CreateStructuredBufferResource(ID3D12Device* device, ID3D12DescriptorHeap* srvDescriptorHeap, uint32_t useNum, int32_t strideBytes);
+
+
 	/*----------------------------
 	    オフスクリーンレンダリング
 	----------------------------*/
@@ -867,12 +897,8 @@ private:
 	UseNumDirectionalLight* useNumDirectionLightData_ = nullptr;
 
 	// インスタンシングリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> instancingDirectionalLightResource_ = nullptr;
+	StructuredBufferResource instancingDirectionalLight_;
 	DirectionalLightForGPU* directionalLightData_ = nullptr;
-
-	// ハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingDirectionalLightSrvHandleCPU_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingDirectionalLightSrvHandleGPU_{};
 
 
 	/*------------------
@@ -890,12 +916,8 @@ private:
 	UseNumPointLight* useNumPointLightData_ = nullptr;
 
 	// インスタンシングリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> instancingPointLightResource_ = nullptr;
+	StructuredBufferResource instancingPointLight_;
 	PointLightForGPU* pointLightData_ = nullptr;
-
-	// ハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingPointLightSrvHandleCPU_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingPointLightSrvHandleGPU_{};
 
 
 	/*------------------
@@ -913,12 +935,8 @@ private:
 	UseNumSpotLight* useNumSpotLightData_ = nullptr;
 
 	// インスタンシングリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> instancingSpotLightResource_ = nullptr;
+	StructuredBufferResource instancingSpotLight_;
 	SpotLightForGPU* spotLightData_ = nullptr;
-
-	// ハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSpotLightSrvHandleCPU_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSpotLightSrvHandleGPU_{};
 
 
 	/*--------------------------------
@@ -934,12 +952,8 @@ private:
 	// マテリアル用のリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceParticle_ = nullptr;
 
-	// インスタンシングリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> instancingResourcesParticle_ = nullptr;
-
-	// ハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_{};
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_{};
+	// 構造化バッファリソース
+	StructuredBufferResource instancing_;
 
 	// パーティクル
 	std::list<Particle> particles_ = {};

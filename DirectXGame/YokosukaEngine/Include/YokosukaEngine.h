@@ -155,7 +155,7 @@ public:
 	/// オフスクリーンのエフェクトを使用する
 	/// </summary>
 	/// <param name="effect"></param>
-	void SetOffscreenEffect(Effect effect) const { directXCommon_->SetOffscreenEffect(effect); }
+	uint32_t SetOffscreenEffect(Effect effect) const { return directXCommon_->SetOffscreenEffect(effect); }
 
 	/// <summary>
 	/// RTVに描画したテクスチャをコピーする
