@@ -358,7 +358,7 @@ public:
 	/// <param name="numDescriptors"></param>
 	/// <param name="ShaderVisible"></param>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateDescritprHeap(Microsoft::WRL::ComPtr<ID3D12Device> device,
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateDescritprHeap(ID3D12Device* device,
 		D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool ShaderVisible);
 
 	/// <summary>
@@ -368,8 +368,7 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_CPU_DESCRIPTOR_HANDLE GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		Microsoft::WRL::ComPtr<ID3D12Device> device);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device);
 
 	/// <summary>
 	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（CPU）
@@ -378,8 +377,7 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_CPU_DESCRIPTOR_HANDLE GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		Microsoft::WRL::ComPtr<ID3D12Device> device);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device);
 
 	/// <summary>
 	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（GPU）
@@ -388,8 +386,7 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		Microsoft::WRL::ComPtr<ID3D12Device> device);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device);
 
 	/// <summary>
 	/// RenderTextureを作成する
@@ -400,7 +397,7 @@ public:
 	/// <param name="format"></param>
 	/// <param name="clearColor"></param>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12Resource> CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device,
+	Microsoft::WRL::ComPtr<ID3D12Resource> CreateRenderTextureResource(ID3D12Device* device,
 		uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor);
 
 	/// <summary>
