@@ -278,11 +278,12 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	    スポットライト
 	------------------*/
 
-	// リソース
+	// インスタンシングリソース
 	instancingSpotLight_ = CreateStructuredBufferResource(directXGPU_->GetDevice(),
 		srvDescriptorHeap_.Get(), kMaxNumSpotLight, sizeof(SpotLightForGPU));
 	instancingSpotLight_.resource->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData_));
 
+	// カウントリソース
 	useNumSpotLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(UseNumSpotLight));
 	useNumSpotLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&useNumSpotLightData_));
 	useNumSpotLightData_->num = 0;
