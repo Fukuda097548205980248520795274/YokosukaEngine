@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
 void Line3dBlendMultiply::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
-	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
+	ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
 	BaseLine3d::Initialize(logging, dxc, device, vertexShaderBlob, pixelShaderBlob);
 

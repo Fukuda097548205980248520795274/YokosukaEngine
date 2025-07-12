@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="dxc">シェーダコンパイラ</param>
 void BaseParticle::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
-	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
+	ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
 	// nullptrチェック
 	assert(logging);
@@ -24,7 +24,7 @@ void BaseParticle::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
 /// コマンドリストにPSOの設定を行う
 /// </summary>
 /// <param name="commandList"></param>
-void BaseParticle::CommandListSet(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList)
+void BaseParticle::CommandListSet(ID3D12GraphicsCommandList* commandList)
 {
 	// ルートシグネチャの設定
 	commandList->SetGraphicsRootSignature(rootSignature_.Get());

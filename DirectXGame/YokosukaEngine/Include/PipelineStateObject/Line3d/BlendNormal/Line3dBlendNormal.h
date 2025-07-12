@@ -11,6 +11,6 @@ public:
 	/// <param name="log">ログ出力</param>
 	/// <param name="dxc">シェーダコンパイラ</param>
 	void Initialize(Logging* logging, DirectXShaderCompiler* dxc,
-		Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob) override;
+		ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob) override;
 };
 

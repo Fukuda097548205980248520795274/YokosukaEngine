@@ -726,6 +726,9 @@
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.cpp">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU</Filter>
     </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp">
+      <Filter>YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h">
@@ -1057,6 +1060,9 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.h">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h">
+      <Filter>YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

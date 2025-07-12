@@ -10,6 +10,7 @@
 #include <algorithm>
 
 #include "DirectXGPU/DirectXGPU.h"
+#include "DirectXCommand/DirectXCommand.h"
 
 #include "../../Math/Vector4/Vector4.h"
 #include "../../Math/Transform2D/Transform2D.h"
@@ -190,7 +191,7 @@ public:
 	/// </summary>
 	/// <param name="filePath"></param>
 	/// <returns></returns>
-	uint32_t LoadTexture(const std::string& filePath) { return textureStore_->GetTextureHandle(filePath, directXGPU_->GetDevice(), srvDescriptorHeap_, commandList_); }
+	uint32_t LoadTexture(const std::string& filePath) { return textureStore_->GetTextureHandle(filePath, directXGPU_->GetDevice(), srvDescriptorHeap_, directXCommand_->GetCommandList()); }
 
 	/// <summary>
 	/// モデルデータを読み込む
@@ -200,7 +201,7 @@ public:
 	/// <returns></returns>
 	uint32_t LoadModelData(const std::string& directory, const std::string& fileName)
 	{
-		return modelDataStore_->GetModelHandle(directory, fileName, directXGPU_->GetDevice(), srvDescriptorHeap_, commandList_);
+		return modelDataStore_->GetModelHandle(directory, fileName, directXGPU_->GetDevice(), srvDescriptorHeap_, directXCommand_->GetCommandList());
 	}
 
 	/// <summary>
@@ -407,7 +408,7 @@ public:
 	/// <param name="resource">リソース</param>
 	/// <param name="beforeState">遷移前（現在）のリソースステート</param>
 	/// <param name="afterState">遷移後のリソースステート</param>
-	void ChangeResourceState(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
+	void ChangeResourceState(ID3D12GraphicsCommandList* commandList,
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
 
 
@@ -422,21 +423,6 @@ private:
 	/// エラーと警告で停止させる
 	/// </summary>
 	void StopOnErrorsAndWarnings();
-
-	/// <summary>
-	/// コマンドキューを生成する
-	/// </summary>
-	void GenerateCommandQueue();
-
-	/// <summary>
-	/// コマンドアロケータを生成する
-	/// </summary>
-	void GenerateCommandAllocator();
-
-	/// <summary>
-	/// コマンドリストを生成する
-	/// </summary>
-	void GenerateCommandList();
 
 	/// <summary>
 	/// スワップチェーンを生成する
@@ -514,6 +500,9 @@ private:
 	// DirectXGPU
 	std::unique_ptr<DirectXGPU> directXGPU_ = nullptr;
 
+	// DirectXCommand
+	std::unique_ptr<DirectXCommand> directXCommand_ = nullptr;
+
 	// テクスチャストア
 	std::unique_ptr<TextureStore> textureStore_ = nullptr;
 
@@ -523,15 +512,6 @@ private:
 
 	// デバッグコントローラ
 	Microsoft::WRL::ComPtr<ID3D12Debug1> debugController_ = nullptr;
-
-	// コマンドキュー
-	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_ = nullptr;
-
-	// コマンドアロケータ
-	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_ = nullptr;
-
-	// コマンドリスト
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;

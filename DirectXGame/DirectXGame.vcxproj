@@ -132,6 +132,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp" />
     <ClCompile Include="Game\GameScene\StageObject\StageObject.cpp" />
     <ClCompile Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp" />
@@ -244,6 +245,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\Skydome\Skydome.h" />
     <ClInclude Include="Game\GameScene\StageObject\StageObject.h" />
     <ClInclude Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.h" />
+    <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h" />

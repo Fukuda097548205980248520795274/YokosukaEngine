@@ -12,13 +12,13 @@ public:
 	/// </summary>
 	/// <param name="dxc">シェーダコンパイラ</param>
 	virtual void Initialize(Logging* logging , DirectXShaderCompiler* dxc,
-		Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob);
+		ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob);
 
 	/// <summary>
 	/// コマンドリストにPSOの設定を行う
 	/// </summary>
 	/// <param name="commandList"></param>
-	void CommandListSet(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList);
+	void CommandListSet(ID3D12GraphicsCommandList* commandList);
 
 
 protected:

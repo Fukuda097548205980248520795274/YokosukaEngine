@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
 void ParticleBlendNormal::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
-	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
+	ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
 	BaseParticle::Initialize(logging, dxc, device, vertexShaderBlob, pixelShaderBlob);
 
