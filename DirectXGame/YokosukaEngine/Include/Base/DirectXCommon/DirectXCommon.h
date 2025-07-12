@@ -223,10 +223,15 @@ public:
 	void SetSpotLight(const SpotLight* spotLight);
 
 	/// <summary>
-	/// オフスクリーンにエフェクトをかける
+	/// オフスクリーンをセットする
+	/// </summary>
+	void SetOffscreen();
+
+	/// <summary>
+	/// エフェクトをかけ、新たなオフスクリーンをセットする
 	/// </summary>
 	/// <param name="effect"></param>
-	void SetOffscreenEffect(Effect effect);
+	uint32_t SetOffscreenEffect(Effect effect);
 
 	/// <summary>
 	/// RTVに描画したテクスチャをコピーする

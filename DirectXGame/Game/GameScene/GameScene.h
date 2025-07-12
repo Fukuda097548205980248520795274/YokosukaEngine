@@ -68,4 +68,10 @@ private:
 
 	// ステージオブジェクトのリスト
 	std::list<StageObject*> stageObjects_;
+
+
+
+
+	// グロースクリーン
+	uint32_t screenHandleGrow_ = 0;
 };

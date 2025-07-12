@@ -134,6 +134,8 @@ void GameScene::Draw()
 		stageObject->Draw();
 	}
 
+
+
 	// 高輝度抽出
 	engine_->SetOffscreenEffect(kBrightnessExtraction);
 
@@ -142,15 +144,20 @@ void GameScene::Draw()
 	engine_->SetOffscreenEffect(kGaussianFilter);
 	engine_->SetOffscreenEffect(kGaussianFilter);
 
+	// スクリーンコピー
+	screenHandleGrow_ = engine_->SetOffscreenEffect(kCopyImage);
+
+
 	// レイヤーを隠す
 	engine_->SetOffscreenEffect(kHide);
+
 
 	// 第一レイヤー描画
 	engine_->CopyRtvImage(0);
 
 	// 高輝度抽出 * ガウシアンフィルター　加算合成
 	engine_->SetCopyImageBlendMode(kBlendModeAdd);
-	engine_->CopyRtvImage(4);
+	engine_->CopyRtvImage(screenHandleGrow_);
 	engine_->SetCopyImageBlendMode(kBlendModeNormal);
 
 	// Scene描画

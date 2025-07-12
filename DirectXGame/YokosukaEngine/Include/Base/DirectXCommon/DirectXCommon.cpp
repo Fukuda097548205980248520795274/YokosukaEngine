@@ -321,15 +321,36 @@ void DirectXCommon::PreDraw()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	// オフスクリーンをセットする
-	SetOffscreenEffect(kCopyImage);
-
 	// 使用したブレンドモードを初期化する
 	useObject3dBlendMode_ = kBlendModeNormal;
 	useParticleBlendMode_ = kBlendModeAdd;
 	useLine3dBlendMode_ = kBlendModeNormal;
 	usePrimitiveBlendMode_ = kBlendModeNormal;
 	useCopyImageBlendMode_ = kBlendModeNormal;
+
+	// カウントしたリソースを初期化する
+	useNumResourcePlane_ = 0;
+	useNumResourceSphere_ = 0;
+	useNumResourceRing_ = 0;
+	useNumResourceCylinder_ = 0;
+	useNumResourceModel_ = 0;
+	useNumResourceSprite_ = 0;
+	useNumResourceLine_ = 0;
+
+	// ライト
+	useNumDirectionalLightCount_ = 0;
+	useNumDirectionLightData_->num = useNumDirectionalLightCount_;
+	useNumPointLightCount_ = 0;
+	useNumPointLightData_->num = useNumPointLightCount_;
+	useNumSpotLightCount_ = 0;
+	useNumSpotLightData_->num = useNumSpotLightCount_;
+
+	// オフスクリーン
+	useNumOffscreen_ = 0;
+
+
+	// オフスクリーンをセットする
+	SetOffscreen();
 }
 
 /// <summary>
@@ -397,26 +418,6 @@ void DirectXCommon::PostDraw()
 	assert(SUCCEEDED(hr));
 	hr = directXCommand_->GetCommandList()->Reset(directXCommand_->GetCommandAllocator(), nullptr);
 	assert(SUCCEEDED(hr));
-
-	// カウントしたリソースを初期化する
-	useNumResourcePlane_ = 0;
-	useNumResourceSphere_ = 0;
-	useNumResourceRing_ = 0;
-	useNumResourceCylinder_ = 0;
-	useNumResourceModel_ = 0;
-	useNumResourceSprite_ = 0;
-	useNumResourceLine_ = 0;
-
-	// ライト
-	useNumDirectionalLightCount_ = 0;
-	useNumDirectionLightData_->num = useNumDirectionalLightCount_;
-	useNumPointLightCount_ = 0;
-	useNumPointLightData_->num = useNumPointLightCount_;
-	useNumSpotLightCount_ = 0;
-	useNumSpotLightData_->num = useNumSpotLightCount_;
-
-	// オフスクリーン
-	useNumOffscreen_ = 0;
 }
 
 /// <summary>
@@ -508,11 +509,47 @@ void DirectXCommon::SetSpotLight(const SpotLight* spotLight)
 /// <summary>
 /// オフスクリーンをセットする
 /// </summary>
-void DirectXCommon::SetOffscreenEffect(Effect effect)
+void DirectXCommon::SetOffscreen()
 {
 	// 使用できるオフスクリーン数を越えないようにする
 	if (useNumOffscreen_ >= kMaxNumOffscreen)
 		return;
+
+
+	// 描画先のRTVとDSVを設定する
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
+	directXCommand_->GetCommandList()->OMSetRenderTargets(1, &offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, false, &dsvHandle);
+
+	// 指定した色で画面全体をクリアする
+	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
+	directXCommand_->GetCommandList()->ClearRenderTargetView(offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, clearColor, 0, nullptr);
+
+	// 指定した深度で画面全体をクリアする
+	directXCommand_->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
+	// 描画用のディスクリプタヒープの設定
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
+	directXCommand_->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
+
+	// ビューポート設定
+	directXCommand_->GetCommandList()->RSSetViewports(1, &viewport_);
+
+	// シザーレクト設定
+	directXCommand_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
+
+
+	// カウントする
+	useNumOffscreen_++;
+}
+
+/// <summary>
+/// オフスクリーンをセットする
+/// </summary>
+uint32_t DirectXCommon::SetOffscreenEffect(Effect effect)
+{
+	// 使用できるオフスクリーン数を越えないようにする
+	if (useNumOffscreen_ >= kMaxNumOffscreen)
+		return 0;
 
 
 	// 描画先のRTVとDSVを設定する
@@ -615,6 +652,8 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 
 	// カウントする
 	useNumOffscreen_++;
+
+	return useNumOffscreen_ - 1;
 }
 
 /// <summary>
