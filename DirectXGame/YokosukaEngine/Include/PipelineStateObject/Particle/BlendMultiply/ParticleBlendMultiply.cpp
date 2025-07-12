@@ -1,21 +1,13 @@
 #include "ParticleBlendMultiply.h"
 
 /// <summary>
-/// デストラクタ
-/// </summary>
-ParticleBlendMultiply::~ParticleBlendMultiply()
-{
-
-}
-
-/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void ParticleBlendMultiply::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
-	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
+void ParticleBlendMultiply::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
+	ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
-	BaseParticle::Initialize(log, dxc, device, vertexShaderBlob, pixelShaderBlob);
+	BaseParticle::Initialize(logging, dxc, device, vertexShaderBlob, pixelShaderBlob);
 
 
 	/*-----------------------------
@@ -100,7 +92,7 @@ void ParticleBlendMultiply::Initialize(OutputLog* log, DirectXShaderCompiler* dx
 	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob_, &errorBlob_);
 	if (FAILED(hr))
 	{
-		log_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
+		logging_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
 		assert(false);
 	}
 

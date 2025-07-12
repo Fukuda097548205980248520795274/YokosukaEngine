@@ -29,6 +29,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/// ↓ 更新処理ここから
 		/// 
 
+		ImGui::Begin("Control panel");
+		ImGui::Text("Frame rate: %6.2f fps", ImGui::GetIO().Framerate);
+		ImGui::End();
+
 		// ゲームの更新
 		game->Update();
 
@@ -61,6 +65,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// エンジンの解放
 	delete engine;
 	engine = nullptr;
+
+	// リソースリークチェッカー
+	Microsoft::WRL::ComPtr<IDXGIDebug1> debug;
+	if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&debug))))
+	{
+		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+		debug->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
+		debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
+	}
 
 	return 0;
 }

@@ -119,15 +119,40 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="Game\GameScene\BaseBoss\BaseBoss.cpp" />
+    <ClCompile Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.cpp" />
+    <ClCompile Include="Game\GameScene\BaseEnemy\BaseEnemy.cpp" />
+    <ClCompile Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.cpp" />
+    <ClCompile Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.cpp" />
+    <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.cpp" />
+    <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.cpp" />
+    <ClCompile Include="Game\GameScene\BaseStage\BaseStage.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
+    <ClCompile Include="Game\GameScene\Player\Player.cpp" />
+    <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp" />
+    <ClCompile Include="Game\GameScene\StageObject\StageObject.cpp" />
+    <ClCompile Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Transform2D\Transform2D.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BaseCopyImage.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendAdd\CopyImageBlendAdd.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendMultiply\CopyImageBlendMultiply.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendNone\CopyImageBlendNone.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendNormal\CopyImageBlendNormal.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendSubtract\CopyImageBlendSubtract.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\BrightnessExtraction\BrightnessExtraction.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\CopyImage\CopyImage.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\DepthBaseOutline\DepthBaseOutline.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFillter\GaussianFilter.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GrayScale\GrayScale.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Hide\Hide.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\LuminanceBaseOutline\LuminanceBaseOutline.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll\RasterScroll.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing\Smoothing.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette\Vignette.cpp" />
@@ -141,7 +166,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Base\OutputLog\OutputLog.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Base\Logging\Logging.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\WinApp\WinApp.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp" />
@@ -207,15 +232,40 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\GameScene\BaseBoss\BaseBoss.h" />
+    <ClInclude Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.h" />
+    <ClInclude Include="Game\GameScene\BaseEnemy\BaseEnemy.h" />
+    <ClInclude Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.h" />
+    <ClInclude Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.h" />
+    <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.h" />
+    <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.h" />
+    <ClInclude Include="Game\GameScene\BaseStage\BaseStage.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
+    <ClInclude Include="Game\GameScene\Player\Player.h" />
+    <ClInclude Include="Game\GameScene\Skydome\Skydome.h" />
+    <ClInclude Include="Game\GameScene\StageObject\StageObject.h" />
+    <ClInclude Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.h" />
+    <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h" />
+    <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.h" />
+    <ClInclude Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Transform2D\Transform2D.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BaseCopyImage.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendAdd\CopyImageBlendAdd.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendMultiply\CopyImageBlendMultiply.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendNone\CopyImageBlendNone.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendNormal\CopyImageBlendNormal.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendSubtract\CopyImageBlendSubtract.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\BrightnessExtraction\BrightnessExtraction.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\CopyImage\CopyImage.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\DepthBaseOutline\DepthBaseOutline.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GaussianFillter\GaussianFilter.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\GrayScale\GrayScale.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Hide\Hide.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\LuminanceBaseOutline\LuminanceBaseOutline.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll\RasterScroll.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing\Smoothing.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette\Vignette.h" />
@@ -229,7 +279,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h" />
-    <ClInclude Include="YokosukaEngine\Include\Base\OutputLog\OutputLog.h" />
+    <ClInclude Include="YokosukaEngine\Include\Base\Logging\Logging.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\WinApp\WinApp.h" />
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.h" />
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.h" />
@@ -286,6 +336,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\BrightnessExtraction.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\PostEffect\CopyImage.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -328,6 +384,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\Hide.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\PostEffect\LuminaceBaseOutline.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -355,6 +417,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <FxCompile Include="YokosukaEngine\Shader\Particle\Particle.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\RasterScroll.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>

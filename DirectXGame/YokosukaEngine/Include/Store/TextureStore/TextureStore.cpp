@@ -18,7 +18,7 @@ void TextureStore::Initialize(DirectXCommon* directXCommon)
 /// </summary>
 /// <param name="filePath">ファイルパス</param>
 /// <returns></returns>
-uint32_t TextureStore::GetTextureHandle( const std::string& filePath, Microsoft::WRL::ComPtr<ID3D12Device> device,
+uint32_t TextureStore::GetTextureHandle( const std::string& filePath, ID3D12Device* device,
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList)
 {
 	// 既に格納されているファイルパスを探す

@@ -1,21 +1,13 @@
 #include "Line3dBlendSubtract.h"
 
 /// <summary>
-/// デストラクタ
-/// </summary>
-Line3dBlendSubtract::~Line3dBlendSubtract()
-{
-
-}
-
-/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void Line3dBlendSubtract::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
-	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
+void Line3dBlendSubtract::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
+	ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
-	BaseLine3d::Initialize(log, dxc, device, vertexShaderBlob, pixelShaderBlob);
+	BaseLine3d::Initialize(logging, dxc, device, vertexShaderBlob, pixelShaderBlob);
 
 
 	/*-----------------------------
@@ -52,7 +44,7 @@ void Line3dBlendSubtract::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob_, &errorBlob_);
 	if (FAILED(hr))
 	{
-		log_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
+		logging_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
 		assert(false);
 	}
 

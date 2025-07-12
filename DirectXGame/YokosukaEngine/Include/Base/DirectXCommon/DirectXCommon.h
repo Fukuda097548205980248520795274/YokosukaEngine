@@ -8,13 +8,17 @@
 #include <list>
 #include <random>
 #include <algorithm>
+
+#include "DirectXGPU/DirectXGPU.h"
+#include "DirectXCommand/DirectXCommand.h"
+
 #include "../../Math/Vector4/Vector4.h"
 #include "../../Math/Transform2D/Transform2D.h"
 #include "../../Camera/Camera3D/Camera3D.h"
 #include "../../Camera/Camera2D/Camera2D.h"
 #include "../../Func/String/String.h"
 #include "../../Func/LoadModelData/LoadModelData.h"
-#include "../OutputLog/OutputLog.h"
+#include "../Logging/Logging.h"
 #include "../../Func/Collision/Collision.h"
 
 #include "../../PipelineStateObject/Object3d/BaseObject3d.h"
@@ -52,6 +56,14 @@
 #include "../../PipelineStateObject/Primitive/BlendMultiply/PrimitiveBlendMultiply.h"
 #include "../../PipelineStateObject/Primitive/BlendScreen/PrimitiveBlendScreen.h"
 
+#include "../../PipelineStateObject/CopyImage/BaseCopyImage.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendNone/CopyImageBlendNone.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendNormal/CopyImageBlendNormal.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendAdd/CopyImageBlendAdd.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendSubtract/CopyImageBlendSubtract.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendMultiply/CopyImageBlendMultiply.h"
+#include "../../PipelineStateObject/CopyImage/CopyImageBlendScreen/CopyImageBlendScreen.h"
+
 #include "../../PipelineStateObject/PostEffect/PostEffect.h"
 #include "../../PipelineStateObject/PostEffect/CopyImage/CopyImage.h"
 #include "../../PipelineStateObject/PostEffect/GrayScale/GrayScale.h"
@@ -60,6 +72,9 @@
 #include "../../PipelineStateObject/PostEffect/Smoothing/Smoothing.h"
 #include "../../PipelineStateObject/PostEffect/GaussianFillter/GaussianFilter.h"
 #include "../../PipelineStateObject/PostEffect/LuminanceBaseOutline/LuminanceBaseOutline.h"
+#include "../../PipelineStateObject/PostEffect/BrightnessExtraction/BrightnessExtraction.h"
+#include "../../PipelineStateObject/PostEffect/Hide/Hide.h"
+#include "../../PipelineStateObject/PostEffect/RasterScroll/RasterScroll.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/WorldTransform2D/WorldTransform2D.h"
@@ -71,13 +86,11 @@
 #include "../../Store/ModelDataStore/ModelDataStore.h"
 #include "../../Draw/Material/Material.h"
 #include "../../Draw/TransformationMatrix/TransformationMatrix.h"
+#include "../../Draw/GPUforPostEffect/GPUforPostEffect.h"
 
 #include "../../Light/DirectionalLight/DirectionalLight.h"
 #include "../../Light/PointLight/PointLight.h"
 #include "../../Light/SpotLight/SpotLight.h"
-
-#pragma comment(lib , "d3d12.lib")
-#pragma comment(lib , "dxgi.lib")
 
 // 前方宣言
 class WinApp;
@@ -105,6 +118,15 @@ enum Effect
 
 	// アウトライン : 輝度
 	kLuminanceBaseOutline,
+
+	// 高輝度抽出
+	kBrightnessExtraction,
+
+	// 隠す
+	kHide,
+
+	// ラスタースクロール
+	kRasterScroll,
 
 	// エフェクトの数
 	kEfectCount,
@@ -152,7 +174,7 @@ public:
 	/// </summary>
 	/// <param name="log">ログ</param>
 	/// <param name="windowApplication">ウィンドウアプリケーション</param>
-	void Initialize(OutputLog* log, WinApp* windowApplication);
+	void Initialize(Logging* logging, WinApp* winApp);
 
 	/// <summary>
 	/// 描画前処理
@@ -169,7 +191,7 @@ public:
 	/// </summary>
 	/// <param name="filePath"></param>
 	/// <returns></returns>
-	uint32_t LoadTexture(const std::string& filePath) { return textureStore_->GetTextureHandle(filePath, device_, srvDescriptorHeap_, commandList_); }
+	uint32_t LoadTexture(const std::string& filePath) { return textureStore_->GetTextureHandle(filePath, directXGPU_->GetDevice(), srvDescriptorHeap_, directXCommand_->GetCommandList()); }
 
 	/// <summary>
 	/// モデルデータを読み込む
@@ -177,9 +199,9 @@ public:
 	/// <param name="directory"></param>
 	/// <param name="fileName"></param>
 	/// <returns></returns>
-	uint32_t LoadModelData(const std::string& directory , const std::string& fileName)
+	uint32_t LoadModelData(const std::string& directory, const std::string& fileName)
 	{
-		return modelDataStore_->GetModelHandle(directory, fileName, device_, srvDescriptorHeap_, commandList_);
+		return modelDataStore_->GetModelHandle(directory, fileName, directXGPU_->GetDevice(), srvDescriptorHeap_, directXCommand_->GetCommandList());
 	}
 
 	/// <summary>
@@ -205,6 +227,11 @@ public:
 	/// </summary>
 	/// <param name="effect"></param>
 	void SetOffscreenEffect(Effect effect);
+
+	/// <summary>
+	/// RTVに描画したテクスチャをコピーする
+	/// </summary>
+	void CopyRtvImage(uint32_t rtvNum);
 
 	/// <summary>
 	/// 平面を描画する
@@ -269,7 +296,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color ,bool isLighting);
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting);
 
 	/// <summary>
 	/// パーティクルを描画する
@@ -319,6 +346,12 @@ public:
 	void SetLine3dBlendMode(uint32_t blendMode) { useLine3dBlendMode_ = blendMode; }
 
 	/// <summary>
+	/// ブレンドモードのSetter
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetCopyImageBlendMode(uint32_t blendMode) { useCopyImageBlendMode_ = blendMode; }
+
+	/// <summary>
 	/// ディスクリプタヒープを生成する
 	/// </summary>
 	/// <param name="device"></param>
@@ -326,7 +359,7 @@ public:
 	/// <param name="numDescriptors"></param>
 	/// <param name="ShaderVisible"></param>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateDescritprHeap(Microsoft::WRL::ComPtr<ID3D12Device> device,
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateDescritprHeap(ID3D12Device* device,
 		D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool ShaderVisible);
 
 	/// <summary>
@@ -336,8 +369,7 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_CPU_DESCRIPTOR_HANDLE GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		Microsoft::WRL::ComPtr<ID3D12Device> device);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device);
 
 	/// <summary>
 	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（CPU）
@@ -346,8 +378,7 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_CPU_DESCRIPTOR_HANDLE GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		Microsoft::WRL::ComPtr<ID3D12Device> device);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device);
 
 	/// <summary>
 	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（GPU）
@@ -356,8 +387,7 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-		Microsoft::WRL::ComPtr<ID3D12Device> device);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device);
 
 	/// <summary>
 	/// RenderTextureを作成する
@@ -368,7 +398,7 @@ public:
 	/// <param name="format"></param>
 	/// <param name="clearColor"></param>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12Resource> CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device,
+	Microsoft::WRL::ComPtr<ID3D12Resource> CreateRenderTextureResource(ID3D12Device* device,
 		uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor);
 
 	/// <summary>
@@ -378,7 +408,7 @@ public:
 	/// <param name="resource">リソース</param>
 	/// <param name="beforeState">遷移前（現在）のリソースステート</param>
 	/// <param name="afterState">遷移後のリソースステート</param>
-	void ChangeResourceState(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
+	void ChangeResourceState(ID3D12GraphicsCommandList* commandList,
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
 
 
@@ -390,39 +420,9 @@ private:
 	void ActiveDebugLayer();
 
 	/// <summary>
-	/// DXGIファクトリー
-	/// </summary>
-	void GenerateDXGIFactory();
-
-	/// <summary>
-	/// 使用するアダプタを取得する
-	/// </summary>
-	void SelectUseAdapter();
-
-	/// <summary>
-	/// デバイスを生成する
-	/// </summary>
-	void GenerateDevice();
-
-	/// <summary>
 	/// エラーと警告で停止させる
 	/// </summary>
 	void StopOnErrorsAndWarnings();
-
-	/// <summary>
-	/// コマンドキューを生成する
-	/// </summary>
-	void GenerateCommandQueue();
-
-	/// <summary>
-	/// コマンドアロケータを生成する
-	/// </summary>
-	void GenerateCommandAllocator();
-
-	/// <summary>
-	/// コマンドリストを生成する
-	/// </summary>
-	void GenerateCommandList();
 
 	/// <summary>
 	/// スワップチェーンを生成する
@@ -480,54 +480,47 @@ private:
 	void CreatePrimitive();
 
 	/// <summary>
+	/// CopyImageを生成する
+	/// </summary>
+	void CreateCopyImage();
+
+	/// <summary>
 	/// PostEffectを生成する
 	/// </summary>
 	void CreatePostEffect();
-	
+
 
 
 	// ログ出力
-	OutputLog* log_ = nullptr;
+	Logging* logging_ = nullptr;
 
 	// ウィンドウアプリケーション
-	WinApp* windowApplication_ = nullptr;
+	WinApp* winApp_ = nullptr;
+
+	// DirectXGPU
+	std::unique_ptr<DirectXGPU> directXGPU_ = nullptr;
+
+	// DirectXCommand
+	std::unique_ptr<DirectXCommand> directXCommand_ = nullptr;
 
 	// テクスチャストア
-	TextureStore* textureStore_ = nullptr;
+	std::unique_ptr<TextureStore> textureStore_ = nullptr;
 
 	// モデルデータストア
-	ModelDataStore* modelDataStore_ = nullptr;
+	std::unique_ptr<ModelDataStore> modelDataStore_ = nullptr;
 
 
 	// デバッグコントローラ
 	Microsoft::WRL::ComPtr<ID3D12Debug1> debugController_ = nullptr;
 
-	// DXGIファクトリー
-	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory_ = nullptr;
-
-	// 使用するアダプタ
-	Microsoft::WRL::ComPtr<IDXGIAdapter4> useAdapter_ = nullptr;
-
-	// デバイス
-	Microsoft::WRL::ComPtr<ID3D12Device> device_ = nullptr;
-
-	// コマンドキュー
-	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_ = nullptr;
-
-	// コマンドアロケータ
-	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_ = nullptr;
-
-	// コマンドリスト
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
-
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;
-	const UINT kMaxNumRtvDescriptors = 256;
+	const UINT kMaxNumRtvDescriptors = 768;
 	UINT numRtvCPUDescriptors = 0;
 
 	// SRV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_ = nullptr;
-	const UINT kMaxNumSrvDescriptors = 256;
+	const UINT kMaxNumSrvDescriptors = 768;
 	UINT numSrvCPUDescriptors = 1;
 	UINT numSrvGPUDescriptors = 1;
 
@@ -557,7 +550,7 @@ private:
 	HANDLE fenceEvent_{};
 
 	// DXC
-	DirectXShaderCompiler* dxc_ = nullptr;
+	std::unique_ptr<DirectXShaderCompiler> dxc_ = nullptr;
 
 	// ビューポート
 	D3D12_VIEWPORT viewport_{};
@@ -585,13 +578,13 @@ private:
 	};
 
 	// オフスクリーンの最大数
-	const uint32_t kMaxNumOffscreen = 124;
+	const uint32_t kMaxNumOffscreen = 512;
 
 	// 使用したオフスクリーンの数
 	uint32_t useNumOffscreen_ = 0;
 
 	// オフスクリーン
-	Offscreen offscreen_[124];
+	Offscreen offscreen_[512];
 
 
 	/*-----------------------
@@ -621,6 +614,12 @@ private:
 	uint32_t usePrimitiveBlendMode_ = kBlendModeNormal;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitiveVertexShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> primitivePixelShaderBlob_ = nullptr;
+
+	// CopyImage用のPSO
+	BaseCopyImage* psoCopyImage_[kBlendModekCountOfBlendMode] = { nullptr };
+	uint32_t useCopyImageBlendMode_ = kBlendModeNormal;
+	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
 
 
 	/*-------------------
@@ -662,20 +661,37 @@ private:
 	/// </summary>
 	void DrawOutline();
 
+	/// <summary>
+	/// 高輝度抽出
+	/// </summary>
+	void DrawBrightnessExtraction();
 
-	// オフスクリーンの頂点シェーダ
-	Microsoft::WRL::ComPtr<IDxcBlob> fullscreenVertexShaderBlob_ = nullptr;
+	/// <summary>
+	/// 隠す
+	/// </summary>
+	void DrawHide();
+
+	/// <summary>
+	/// ラスタースクロール
+	/// </summary>
+	void DrawRasterScroll();
+
 
 	// PostEffectピクセルシェーダ
 	PostEffect* psoPostEffect_[kEfectCount] = { nullptr };
-	Microsoft::WRL::ComPtr<IDxcBlob> copyImagePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> grayScalePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> sepiaPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> vignettePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> smoothingPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> gaussianFilterPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> outlinePixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> brightnessExtractionPixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> hidePixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> rasterScrollPixelShaderBlob_ = nullptr;
+	
 
+	Microsoft::WRL::ComPtr<ID3D12Resource> luminanceResource_ = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> rasterScrollResource_ = nullptr;
 
 	// リソースの最大数
 	const uint32_t kMaxNumResource = 1024;

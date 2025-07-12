@@ -1,6 +1,9 @@
 #include "DirectXCommon.h"
 #include "../WinApp/WinApp.h"
 
+#pragma comment(lib , "d3d12.lib")
+#pragma comment(lib , "dxgi.lib")
+
 /// <summary>
 /// デストラクタ
 /// </summary>
@@ -23,79 +26,68 @@ DirectXCommon::~DirectXCommon()
 		delete psoParticle_[i];
 		delete psoLine3d_[i];
 		delete psoPrimitive_[i];
+		delete psoCopyImage_[i];
 	}
-
-	// DXC
-	delete dxc_;
 
 	// イベント
 	CloseHandle(fenceEvent_);
-
-	// モデルデータストア
-	delete modelDataStore_;
-
-	// テクスチャストア
-	delete textureStore_;
 }
 
 /// <summary>
 /// 初期化
 /// </summary>
 /// <param name="log">ログ</param>
-void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
+void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 {
 	// 乱数生成器の初期化
 	std::random_device seedGenerater;
 	std::mt19937 randomEngine(seedGenerater());
 
 	//nullptrチェック
-	assert(log);
-	assert(windowApplication);
+	assert(logging);
+	assert(winApp);
 
 	// 引数を受け取る
-	log_ = log;
-	windowApplication_ = windowApplication;
+	logging_ = logging;
+	winApp_ = winApp;
+
+	
 
 	// テクスチャストアを初期化する
-	textureStore_ = new TextureStore();
+	textureStore_ = std::make_unique<TextureStore>();
 	textureStore_->Initialize(this);
 
 	// モデルデータストアを初期化する
-	modelDataStore_ = new ModelDataStore();
-	modelDataStore_->Initialize(textureStore_);
+	modelDataStore_ = std::make_unique<ModelDataStore>();
+	modelDataStore_->Initialize(textureStore_.get());
+
+	// DXCの生成と初期化
+	dxc_ = std::make_unique<DirectXShaderCompiler>();
+	dxc_->Initialize(logging_);
+
 
 	// デバッグレイヤーを有効化する
 	ActiveDebugLayer();
 
-	// DXGIファクトリーを生成する
-	GenerateDXGIFactory();
+	// DirectXGPUの生成と初期化
+	directXGPU_ = std::make_unique<DirectXGPU>();
+	directXGPU_->Initialize(logging_);
 
-	// 使用するアダプタを取得する
-	SelectUseAdapter();
-
-	// 採用したアダプタでデバイスを生成する
-	GenerateDevice();
-
-	// コマンドキューを生成する
-	GenerateCommandQueue();
-
-	// コマンドアロケータを生成する
-	GenerateCommandAllocator();
-
-	// コマンドリストを生成する
-	GenerateCommandList();
+	// DirectXCommandの生成と初期化
+	directXCommand_ = std::make_unique<DirectXCommand>();
+	directXCommand_->Initialize(logging_, directXGPU_.get());
 
 	// エラーと警告で停止させる
 	StopOnErrorsAndWarnings();
 
 	// RTV用ディスクリプタヒープを生成する
-	rtvDescriptorHeap_ = CreateDescritprHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, kMaxNumRtvDescriptors, false);
+	rtvDescriptorHeap_ = CreateDescritprHeap(directXGPU_->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV, kMaxNumRtvDescriptors, false);
 
 	// SRV用ディスクリプタヒープを生成する
-	srvDescriptorHeap_ = CreateDescritprHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kMaxNumSrvDescriptors, true);
+	srvDescriptorHeap_ = CreateDescritprHeap(directXGPU_->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kMaxNumSrvDescriptors, true);
 
 	// DSV用ディスクリプタヒープを生成する
-	dsvDescriptorHeap_ = CreateDescritprHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, kMaxNunDsvDescriptors, false);
+	dsvDescriptorHeap_ = CreateDescritprHeap(directXGPU_->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, kMaxNunDsvDescriptors, false);
 
 	// スワップチェーンを生成する
 	GenerateSwapChain();
@@ -107,7 +99,7 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	GenerateRTV();
 
 	// 深度情報のリソースを生成する
-	depthStencilResource_ = CreateDepthStencilTextureResource(device_, windowApplication_->GetWindowWidth(), windowApplication_->GetWindowHeight());
+	depthStencilResource_ = CreateDepthStencilTextureResource(directXGPU_->GetDevice(), winApp_->GetWindowWidth(), winApp_->GetWindowHeight());
 
 	// DSVを作り、リソースを格納する
 	GenerateDSV();
@@ -117,10 +109,6 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// イベントを生成する
 	GenerateEvent();
-
-	// DXCの生成と初期化
-	dxc_ = new DirectXShaderCompiler();
-	dxc_->Initialize(log_);
 
 	
 	// Object3dを生成する
@@ -134,6 +122,9 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// Primitiveを生成する
 	CreatePrimitive();
+	
+	// CopyImageを生成する
+	CreateCopyImage();
 
 	// PostEffectを生成する
 	CreatePostEffect();
@@ -141,8 +132,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 
 	// ビューポート
-	viewport_.Width = static_cast<float>(windowApplication_->GetWindowWidth());
-	viewport_.Height = static_cast<float>(windowApplication_->GetWindowHeight());
+	viewport_.Width = static_cast<float>(winApp_->GetWindowWidth());
+	viewport_.Height = static_cast<float>(winApp_->GetWindowHeight());
 	viewport_.TopLeftX = 0;
 	viewport_.TopLeftY = 0;
 	viewport_.MinDepth = 0.0f;
@@ -150,16 +141,16 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 
 	// シザーレクト
 	scissorRect_.left = 0;
-	scissorRect_.right = static_cast<LONG>(windowApplication_->GetWindowWidth());
+	scissorRect_.right = static_cast<LONG>(winApp_->GetWindowWidth());
 	scissorRect_.top = 0;
-	scissorRect_.bottom = static_cast<LONG>(windowApplication_->GetWindowHeight());
+	scissorRect_.bottom = static_cast<LONG>(winApp_->GetWindowHeight());
 
 	// ImGuiを初期化する
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
-	ImGui_ImplWin32_Init(windowApplication_->GetHwnd());
-	ImGui_ImplDX12_Init(device_.Get(), swapChainDesc_.BufferCount, rtvDesc_.Format,
+	ImGui_ImplWin32_Init(winApp_->GetHwnd());
+	ImGui_ImplDX12_Init(directXGPU_->GetDevice(), swapChainDesc_.BufferCount, rtvDesc_.Format,
 		srvDescriptorHeap_.Get(), srvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart(), srvDescriptorHeap_->GetGPUDescriptorHandleForHeapStart());
 
 
@@ -172,11 +163,11 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		// レンダーテクスチャを作成する
 		const Vector4 kRenderTargetClearColor = { 0.1f , 0.1f , 0.1f , 1.0f };
 		offscreen_[i].renderTextureResource = 
-			CreateRenderTextureResource(device_, (uint32_t)windowApplication_->GetWindowWidth(), (uint32_t)windowApplication_->GetWindowHeight(),
+			CreateRenderTextureResource(directXGPU_->GetDevice(), (uint32_t)winApp_->GetWindowWidth(), (uint32_t)winApp_->GetWindowHeight(),
 			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearColor);
 
-		offscreen_[i].renderTextureRtvCPUHnalde = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, device_);
-		device_->CreateRenderTargetView(offscreen_[i].renderTextureResource.Get(), &rtvDesc_, offscreen_[i].renderTextureRtvCPUHnalde);
+		offscreen_[i].renderTextureRtvCPUHnalde = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, directXGPU_->GetDevice());
+		directXGPU_->GetDevice()->CreateRenderTargetView(offscreen_[i].renderTextureResource.Get(), &rtvDesc_, offscreen_[i].renderTextureRtvCPUHnalde);
 	}
 
 	for (uint32_t i = 0; i < kMaxNumOffscreen; i++)
@@ -188,67 +179,68 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 		renderTextureSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 		renderTextureSrvDesc.Texture2D.MipLevels = 1;
 
-		offscreen_[i].renderTextureSrvCPUHandle = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
-		offscreen_[i].renderTextureSrvGPUHandle = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
+		offscreen_[i].renderTextureSrvCPUHandle = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
+		offscreen_[i].renderTextureSrvGPUHandle = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
 
-		device_->CreateShaderResourceView(offscreen_[i].renderTextureResource.Get(), &renderTextureSrvDesc, offscreen_[i].renderTextureSrvCPUHandle);
+		directXGPU_->GetDevice()->CreateShaderResourceView(offscreen_[i].renderTextureResource.Get(), 
+			&renderTextureSrvDesc, offscreen_[i].renderTextureSrvCPUHandle);
 	}
-
+	
 
 	/*-----------------------------
 	    バッファリソースを作成する
 	-----------------------------*/
 
 	// インデックスリソース
-	indexResourcePlane_ = CreateBufferResource(device_, sizeof(uint32_t) * 6);
-	indexResourceSphere_ = CreateBufferResource(device_, (sizeof(uint32_t) * (kSphereMaxSubdivisions * kSphereMaxSubdivisions)) * 6);
-	indexResourceRing_ = CreateBufferResource(device_, sizeof(uint32_t) * (kRingMaxSubdivisions * 6));
-	indexResourceCylinder_ = CreateBufferResource(device_, sizeof(uint32_t) * (kCylinderMaxSubdivisions * 6));
-	indexResourceSprite_ = CreateBufferResource(device_, sizeof(uint32_t) * 6);
+	indexResourcePlane_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(uint32_t) * 6);
+	indexResourceSphere_ = CreateBufferResource(directXGPU_->GetDevice(), (sizeof(uint32_t) * (kSphereMaxSubdivisions * kSphereMaxSubdivisions)) * 6);
+	indexResourceRing_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(uint32_t) * (kRingMaxSubdivisions * 6));
+	indexResourceCylinder_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(uint32_t) * (kCylinderMaxSubdivisions * 6));
+	indexResourceSprite_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(uint32_t) * 6);
 
 	// 頂点リソース
-	vertexBufferResourcePlane_ = CreateBufferResource(device_, sizeof(VertexData) * 4);
-	vertexBufferResourceSphere_ = CreateBufferResource(device_ ,sizeof(VertexData) * (kSphereMaxSubdivisions * kSphereMaxSubdivisions) * 4);
-	vertexBufferResourceRing_ = CreateBufferResource(device_, sizeof(VertexData) * (kRingMaxSubdivisions * 4));
-	vertexBufferResourceCylinder_ = CreateBufferResource(device_, sizeof(VertexData) * (kCylinderMaxSubdivisions * 4));
-	vertexBufferResourceSprite_ = CreateBufferResource(device_, sizeof(VertexData) * 4);
+	vertexBufferResourcePlane_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(VertexData) * 4);
+	vertexBufferResourceSphere_ = CreateBufferResource(directXGPU_->GetDevice(),sizeof(VertexData) * (kSphereMaxSubdivisions * kSphereMaxSubdivisions) * 4);
+	vertexBufferResourceRing_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(VertexData) * (kRingMaxSubdivisions * 4));
+	vertexBufferResourceCylinder_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(VertexData) * (kCylinderMaxSubdivisions * 4));
+	vertexBufferResourceSprite_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(VertexData) * 4);
 
 
 	for (uint32_t i = 0; i < kMaxNumResource; i++)
 	{
 		// 平面
-		materialResourcePlane_[i] = CreateBufferResource(device_, sizeof(Material));
-		transformationResourcePlane_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		cameraResourcePlane_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
+		materialResourcePlane_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
+		transformationResourcePlane_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(TransformationMatrix));
+		cameraResourcePlane_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(CameraForGPU));
 
 		// 球
-		materialResourceSphere_[i] = CreateBufferResource(device_, sizeof(Material));
-		transformationResourceSphere_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		cameraResourceSphere_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
+		materialResourceSphere_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
+		transformationResourceSphere_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(TransformationMatrix));
+		cameraResourceSphere_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(CameraForGPU));
 
 		// リング
-		materialResourceRing_[i] = CreateBufferResource(device_, sizeof(Material));
-		transformationResourceRing_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		cameraResourceRing_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
+		materialResourceRing_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
+		transformationResourceRing_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(TransformationMatrix));
+		cameraResourceRing_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(CameraForGPU));
 
 		// 円柱
-		materialResourceCylinder_[i] = CreateBufferResource(device_, sizeof(Material));
-		transformationResourceCylinder_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		cameraResourceCylinder_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
+		materialResourceCylinder_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
+		transformationResourceCylinder_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(TransformationMatrix));
+		cameraResourceCylinder_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(CameraForGPU));
 
 		// モデル
-		materialResourceModel_[i] = CreateBufferResource(device_, sizeof(Material));
-		transformationResourceModel_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
-		cameraResourceModel_[i] = CreateBufferResource(device_, sizeof(CameraForGPU));
+		materialResourceModel_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
+		transformationResourceModel_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(TransformationMatrix));
+		cameraResourceModel_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(CameraForGPU));
 
 		// スプライト
-		materialResourceSprite_[i] = CreateBufferResource(device_, sizeof(Material));
-		transformationResourceSprite_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		materialResourceSprite_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
+		transformationResourceSprite_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(TransformationMatrix));
 
 		// 線
-		vertexBufferResourceLine_[i] = CreateBufferResource(device_, sizeof(Vector4) * 2);
-		materialResourceLine_[i] = CreateBufferResource(device_, sizeof(Material));
-		transformationResourceLine_[i] = CreateBufferResource(device_, sizeof(TransformationMatrix));
+		vertexBufferResourceLine_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Vector4) * 2);
+		materialResourceLine_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
+		transformationResourceLine_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(TransformationMatrix));
 	}
 
 
@@ -257,10 +249,10 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	-------------*/
 
 	// リソース
-	instancingDirectionalLightResource_ = CreateBufferResource(device_, sizeof(DirectionalLightForGPU) * kMaxNumDirectionalLight);
+	instancingDirectionalLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(DirectionalLightForGPU) * kMaxNumDirectionalLight);
 	instancingDirectionalLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData_));
 
-	useNumDirectionalLightResource_ = CreateBufferResource(device_, sizeof(UseNumDirectionalLight));
+	useNumDirectionalLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(UseNumDirectionalLight));
 	useNumDirectionalLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&useNumDirectionLightData_));
 	useNumDirectionLightData_->num = 0;
 
@@ -275,10 +267,11 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingDirectionalLightSrvDesc.Buffer.StructureByteStride = sizeof(DirectionalLightForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingDirectionalLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
-	instancingDirectionalLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
+	instancingDirectionalLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
+	instancingDirectionalLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
 
-	device_->CreateShaderResourceView(instancingDirectionalLightResource_.Get(), &instancingDirectionalLightSrvDesc, instancingDirectionalLightSrvHandleCPU_);
+	directXGPU_->GetDevice()->CreateShaderResourceView(instancingDirectionalLightResource_.Get(),
+		&instancingDirectionalLightSrvDesc, instancingDirectionalLightSrvHandleCPU_);
 
 
 	/*------------------
@@ -286,10 +279,10 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	------------------*/
 
 	// リソース
-	instancingPointLightResource_ = CreateBufferResource(device_, sizeof(PointLightForGPU) * kMaxNumPointLight);
+	instancingPointLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(PointLightForGPU) * kMaxNumPointLight);
 	instancingPointLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
 
-	useNumPointLightResource_ = CreateBufferResource(device_, sizeof(UseNumPointLight));
+	useNumPointLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(UseNumPointLight));
 	useNumPointLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&useNumPointLightData_));
 	useNumPointLightData_->num = 0;
 
@@ -304,10 +297,10 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingPointLightSrvDesc.Buffer.StructureByteStride = sizeof(PointLightForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingPointLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
-	instancingPointLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
+	instancingPointLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
+	instancingPointLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
 
-	device_->CreateShaderResourceView(instancingPointLightResource_.Get(), &instancingPointLightSrvDesc, instancingPointLightSrvHandleCPU_);
+	directXGPU_->GetDevice()->CreateShaderResourceView(instancingPointLightResource_.Get(), &instancingPointLightSrvDesc, instancingPointLightSrvHandleCPU_);
 
 
 	/*------------------
@@ -315,10 +308,10 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	------------------*/
 
 	// リソース
-	instancingSpotLightResource_ = CreateBufferResource(device_, sizeof(SpotLightForGPU) * kMaxNumSpotLight);
+	instancingSpotLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(SpotLightForGPU) * kMaxNumSpotLight);
 	instancingSpotLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData_));
 
-	useNumSpotLightResource_ = CreateBufferResource(device_, sizeof(UseNumSpotLight));
+	useNumSpotLightResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(UseNumSpotLight));
 	useNumSpotLightResource_->Map(0, nullptr, reinterpret_cast<void**>(&useNumSpotLightData_));
 	useNumSpotLightData_->num = 0;
 
@@ -333,10 +326,10 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSpotLightSrvDesc.Buffer.StructureByteStride = sizeof(SpotLightForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingSpotLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
-	instancingSpotLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
+	instancingSpotLightSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
+	instancingSpotLightSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
 
-	device_->CreateShaderResourceView(instancingSpotLightResource_.Get(), &instancingSpotLightSrvDesc, instancingSpotLightSrvHandleCPU_);
+	directXGPU_->GetDevice()->CreateShaderResourceView(instancingSpotLightResource_.Get(), &instancingSpotLightSrvDesc, instancingSpotLightSrvHandleCPU_);
 
 
 	/*----------------
@@ -344,8 +337,8 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	----------------*/
 
 	// パーティクル
-	instancingResourcesParticle_ = CreateBufferResource(device_, sizeof(ParticleForGPU) * kNumMaxInstance);
-	materialResourceParticle_ = CreateBufferResource(device_, sizeof(Material));
+	instancingResourcesParticle_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(ParticleForGPU) * kNumMaxInstance);
+	materialResourceParticle_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
 
 	// パーティクルのビュー
 	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
@@ -358,10 +351,10 @@ void DirectXCommon::Initialize(OutputLog* log, WinApp* windowApplication)
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
 	// ポインタのハンドル（住所）を取得する
-	instancingSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, device_);
-	instancingSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, device_);
+	instancingSrvHandleCPU_ = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
+	instancingSrvHandleGPU_ = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
 
-	device_->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
+	directXGPU_->GetDevice()->CreateShaderResourceView(instancingResourcesParticle_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 
 	// エミッター
 	emitter_.count = 3;
@@ -395,6 +388,7 @@ void DirectXCommon::PreDraw()
 	useParticleBlendMode_ = kBlendModeAdd;
 	useLine3dBlendMode_ = kBlendModeNormal;
 	usePrimitiveBlendMode_ = kBlendModeNormal;
+	useCopyImageBlendMode_ = kBlendModeNormal;
 }
 
 /// <summary>
@@ -410,25 +404,25 @@ void DirectXCommon::PostDraw()
 	UINT backBuffeIndex = swapChain_->GetCurrentBackBufferIndex();
 
 	// Present -> RenderTarget
-	ChangeResourceState(commandList_, swapChainResources_[backBuffeIndex], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	ChangeResourceState(directXCommand_->GetCommandList(), swapChainResources_[backBuffeIndex], D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	// 描画先のRTVとDSVを設定する
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
-	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBuffeIndex], false, &dsvHandle);
+	directXCommand_->GetCommandList()->OMSetRenderTargets(1, &rtvHandles_[backBuffeIndex], false, &dsvHandle);
 
 	// 指定した色で画面全体をクリアする
 	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
-	commandList_->ClearRenderTargetView(rtvHandles_[backBuffeIndex], clearColor, 0, nullptr);
+	directXCommand_->GetCommandList()->ClearRenderTargetView(rtvHandles_[backBuffeIndex], clearColor, 0, nullptr);
 
 	// 描画用のディスクリプタヒープの設定
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
-	commandList_->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
+	directXCommand_->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
 
 	// ビューポート設定
-	commandList_->RSSetViewports(1, &viewport_);
+	directXCommand_->GetCommandList()->RSSetViewports(1, &viewport_);
 
 	// シザーレクト設定
-	commandList_->RSSetScissorRects(1, &scissorRect_);
+	directXCommand_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
 
 
 
@@ -438,18 +432,18 @@ void DirectXCommon::PostDraw()
 
 
 	// ImGuiの描画コマンドを積む
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList_.Get());
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), directXCommand_->GetCommandList());
 
 	// RenderTarget -> Present
-	ChangeResourceState(commandList_, swapChainResources_[backBuffeIndex], D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
+	ChangeResourceState(directXCommand_->GetCommandList(), swapChainResources_[backBuffeIndex], D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
 
 	// コマンドリストの内容を確定させる
-	HRESULT hr = commandList_->Close();
+	HRESULT hr = directXCommand_->GetCommandList()->Close();
 	assert(SUCCEEDED(hr));
 
 	// GPUにコマンドリストの実行を行わせる
-	Microsoft::WRL::ComPtr<ID3D12CommandList> commandLists[] = { commandList_ };
-	commandQueue_->ExecuteCommandLists(1, commandLists->GetAddressOf());
+	Microsoft::WRL::ComPtr<ID3D12CommandList> commandLists[] = { directXCommand_->GetCommandList() };
+	directXCommand_->GetCommandQueue()->ExecuteCommandLists(1, commandLists->GetAddressOf());
 
 	// GPUとOSに画面の交換を行うように通知する
 	swapChain_->Present(1, 0);
@@ -458,9 +452,9 @@ void DirectXCommon::PostDraw()
 	WaitForGPU();
 
 	// 次のフレーム用のコマンドリストを準備
-	hr = commandAllocator_->Reset();
+	hr = directXCommand_->GetCommandAllocator()->Reset();
 	assert(SUCCEEDED(hr));
-	hr = commandList_->Reset(commandAllocator_.Get(), nullptr);
+	hr = directXCommand_->GetCommandList()->Reset(directXCommand_->GetCommandAllocator(), nullptr);
 	assert(SUCCEEDED(hr));
 
 	// カウントしたリソースを初期化する
@@ -582,24 +576,24 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 
 	// 描画先のRTVとDSVを設定する
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
-	commandList_->OMSetRenderTargets(1, &offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, false, &dsvHandle);
+	directXCommand_->GetCommandList()->OMSetRenderTargets(1, &offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, false, &dsvHandle);
 
 	// 指定した色で画面全体をクリアする
 	float clearColor[] = { 0.1f , 0.1f , 0.1f , 1.0f };
-	commandList_->ClearRenderTargetView(offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, clearColor, 0, nullptr);
+	directXCommand_->GetCommandList()->ClearRenderTargetView(offscreen_[useNumOffscreen_].renderTextureRtvCPUHnalde, clearColor, 0, nullptr);
 
 	// 指定した深度で画面全体をクリアする
-	commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	directXCommand_->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	// 描画用のディスクリプタヒープの設定
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeaps[] = { srvDescriptorHeap_ };
-	commandList_->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
+	directXCommand_->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps->GetAddressOf());
 
 	// ビューポート設定
-	commandList_->RSSetViewports(1, &viewport_);
+	directXCommand_->GetCommandList()->RSSetViewports(1, &viewport_);
 
 	// シザーレクト設定
-	commandList_->RSSetScissorRects(1, &scissorRect_);
+	directXCommand_->GetCommandList()->RSSetScissorRects(1, &scissorRect_);
 
 
 	// エフェクトで切り替える
@@ -654,11 +648,62 @@ void DirectXCommon::SetOffscreenEffect(Effect effect)
 		DrawOutline();
 
 		break;
+
+	case kBrightnessExtraction:
+		// 高輝度抽出
+
+		DrawBrightnessExtraction();
+
+		break;
+
+	case kHide:
+		// 隠す
+
+		DrawHide();
+
+		break;
+
+	case kRasterScroll:
+		// ラスタースクロール
+
+		DrawRasterScroll();
+
+		break;
 	}
 
 
 	// カウントする
 	useNumOffscreen_++;
+}
+
+/// <summary>
+/// RTVに描画したテクスチャをコピーする
+/// </summary>
+void DirectXCommon::CopyRtvImage(uint32_t rtvNum)
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// 使われていない、描画されていないオフスクリーンは上書きできない
+	if (rtvNum >= useNumOffscreen_ - 1)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(directXCommand_->GetCommandList(), offscreen_[rtvNum].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoCopyImage_[useCopyImageBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
+
+	// RenderTextureのRTVを張り付ける
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[rtvNum].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(directXCommand_->GetCommandList(), 
+		offscreen_[rtvNum].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 /// <summary>
@@ -771,43 +816,43 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
 	// IBVを設定する
-	commandList_->IASetIndexBuffer(&indexBufferView);
+	directXCommand_->GetCommandList()->IASetIndexBuffer(&indexBufferView);
 
 	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
 	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, materialResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	commandList_->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResourcePlane_[useNumResourcePlane_]->GetGPUVirtualAddress());
 
 	// テクスチャ
-	textureStore_->SelectTexture(commandList_, textureHandle);
+	textureStore_->SelectTexture(directXCommand_->GetCommandList(), textureHandle);
 
 	// 描画する
-	commandList_->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	directXCommand_->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
 
 	// カウントする
@@ -989,43 +1034,43 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
 	// IBVを設定する
-	commandList_->IASetIndexBuffer(&indexBufferView);
+	directXCommand_->GetCommandList()->IASetIndexBuffer(&indexBufferView);
 
 	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
 	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	commandList_->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResourceSphere_[useNumResourceSphere_]->GetGPUVirtualAddress());
 
 	// テクスチャ
-	textureStore_->SelectTexture(commandList_, textureHandle);
+	textureStore_->SelectTexture(directXCommand_->GetCommandList(), textureHandle);
 
 	// 描画する
-	commandList_->DrawIndexedInstanced(segment* ring * 6, 1, 0, 0, 0);
+	directXCommand_->GetCommandList()->DrawIndexedInstanced(segment* ring * 6, 1, 0, 0, 0);
 
 
 	// カウントする
@@ -1173,43 +1218,43 @@ void DirectXCommon::DrawRing(const WorldTransform* worldTransform, const UvTrans
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
 	// IBVを設定する
-	commandList_->IASetIndexBuffer(&indexBufferView);
+	directXCommand_->GetCommandList()->IASetIndexBuffer(&indexBufferView);
 
 	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
 	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceRing_[useNumResourceRing_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceRing_[useNumResourceRing_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceRing_[useNumResourceRing_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceRing_[useNumResourceRing_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	commandList_->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceRing_[useNumResourceRing_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResourceRing_[useNumResourceRing_]->GetGPUVirtualAddress());
 
 	// テクスチャ
-	textureStore_->SelectTexture(commandList_, textureHandle);
+	textureStore_->SelectTexture(directXCommand_->GetCommandList(), textureHandle);
 
 	// 描画する
-	commandList_->DrawIndexedInstanced(subdivisions * 6, 1, 0, 0, 0);
+	directXCommand_->GetCommandList()->DrawIndexedInstanced(subdivisions * 6, 1, 0, 0, 0);
 
 
 	// カウントする
@@ -1357,43 +1402,43 @@ void DirectXCommon::DrawCylinder(const WorldTransform* worldTransform, const UvT
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoPrimitive_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
 	// IBVを設定する
-	commandList_->IASetIndexBuffer(&indexBufferView);
+	directXCommand_->GetCommandList()->IASetIndexBuffer(&indexBufferView);
 
 	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
 	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceCylinder_[useNumResourceCylinder_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceCylinder_[useNumResourceCylinder_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceCylinder_[useNumResourceCylinder_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceCylinder_[useNumResourceCylinder_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	commandList_->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceCylinder_[useNumResourceCylinder_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResourceCylinder_[useNumResourceCylinder_]->GetGPUVirtualAddress());
 
 	// テクスチャ
-	textureStore_->SelectTexture(commandList_, textureHandle);
+	textureStore_->SelectTexture(directXCommand_->GetCommandList(), textureHandle);
 
 	// 描画する
-	commandList_->DrawIndexedInstanced(subdivisions * 6, 1, 0, 0, 0);
+	directXCommand_->GetCommandList()->DrawIndexedInstanced(subdivisions * 6, 1, 0, 0, 0);
 
 
 	// カウントする
@@ -1476,40 +1521,40 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
 	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
 	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// 平行光源用のインスタンシングの設定
-	commandList_->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
 
 	// ポイントライト用のCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
 
 	// スポットライトのCBVを設定
-	commandList_->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
-	commandList_->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLightSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
 
 	// カメラ用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
 	// テクスチャ
-	textureStore_->SelectTexture(commandList_, modelDataStore_->GetTextureHandle(modelHandle));
+	textureStore_->SelectTexture(directXCommand_->GetCommandList(), modelDataStore_->GetTextureHandle(modelHandle));
 
 	// 描画する
-	commandList_->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), 1, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), 1, 0, 0);
 
 
 	// カウントする
@@ -1643,25 +1688,25 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoParticle_[useParticleBlendMode_]->CommandListSet(commandList_);
+	psoParticle_[useParticleBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
 	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
 	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceParticle_->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceParticle_->GetGPUVirtualAddress());
 
 	// インスタンシング用のTableを設定
-	commandList_->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU_);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU_);
 
 	// テクスチャ
-	textureStore_->SelectTexture(commandList_, modelDataStore_->GetTextureHandle(modelHandle));
+	textureStore_->SelectTexture(directXCommand_->GetCommandList(), modelDataStore_->GetTextureHandle(modelHandle));
 
 	// 描画する
-	commandList_->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), numInstance, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), numInstance, 0, 0);
 }
 
 /// <summary>
@@ -1730,22 +1775,22 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 	    コマンドを積む
 	------------------*/
 
-	psoLine3d_[useLine3dBlendMode_]->CommandListSet(commandList_);
+	psoLine3d_[useLine3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
 	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
 	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceLine_[useNumResourceLine_]->GetGPUVirtualAddress());
 
 	// 描画する
-	commandList_->DrawInstanced(2, 1, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(2, 1, 0, 0);
 
 
 	useNumResourceLine_++;
@@ -1854,28 +1899,28 @@ void DirectXCommon::DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
 	// IBVを設定する
-	commandList_->IASetIndexBuffer(&indexBufferView);
+	directXCommand_->GetCommandList()->IASetIndexBuffer(&indexBufferView);
 
 	// VBVを設定する
-	commandList_->IASetVertexBuffers(0, 1, &vertexBufferView);
+	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
 	// 形状を設定
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(0, materialResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
 
 	// 座標変換用のCBVを設定
-	commandList_->SetGraphicsRootConstantBufferView(1, transformationResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress());
 
 	// テクスチャ
-	textureStore_->SelectTexture(commandList_, textureHandle);
+	textureStore_->SelectTexture(directXCommand_->GetCommandList(), textureHandle);
 
 	// 描画する
-	commandList_->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	directXCommand_->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
 
 	// カウントする
@@ -1890,7 +1935,7 @@ void DirectXCommon::DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2
 /// <param name="numDescriptors"></param>
 /// <param name="ShaderVisible"></param>
 /// <returns></returns>
-Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescritprHeap(Microsoft::WRL::ComPtr<ID3D12Device> device,
+Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescritprHeap(ID3D12Device* device,
 	D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool ShaderVisible)
 {
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap = nullptr;
@@ -1918,13 +1963,13 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescritprHeap(
 
 	// ディスクリプタヒープを生成した旨のログ
 	if (heapType == D3D12_DESCRIPTOR_HEAP_TYPE_RTV)
-		log_->Log("Create RTV DescriptorHeap \n");
+		logging_->Log("Create RTV DescriptorHeap \n");
 
 	else if (heapType == D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)
-		log_->Log("Create SRV DescriptorHeap \n");
+		logging_->Log("Create SRV DescriptorHeap \n");
 
 	else if (heapType == D3D12_DESCRIPTOR_HEAP_TYPE_DSV)
-		log_->Log("Create DSV DescriptorHeap \n");
+		logging_->Log("Create DSV DescriptorHeap \n");
 
 
 	return descriptorHeap;
@@ -1938,8 +1983,7 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescritprHeap(
 /// <param name="descriptorSize">ディスクリプタのサイズ</param>
 /// <param name="index">配列番号</param>
 /// <returns></returns>
-D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-	Microsoft::WRL::ComPtr<ID3D12Device> device)
+D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	handleCPU.ptr += (device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV) * numRtvCPUDescriptors);
@@ -1954,8 +1998,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetRTVCPUDescriptorHandle(Microsoft::
 /// <param name="descriptorSize">ディスクリプタのサイズ</param>
 /// <param name="index">配列番号</param>
 /// <returns></returns>
-D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-	Microsoft::WRL::ComPtr<ID3D12Device> device)
+D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	handleCPU.ptr += (device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * numSrvCPUDescriptors);
@@ -1970,8 +2013,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVCPUDescriptorHandle(Microsoft::
 /// <param name="descriptorSize">ディスクリプタのサイズ</param>
 /// <param name="index">配列番号</param>
 /// <returns></returns>
-D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,
-	Microsoft::WRL::ComPtr<ID3D12Device> device)
+D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device)
 {
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	handleGPU.ptr += (device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * numSrvGPUDescriptors);
@@ -1988,7 +2030,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVGPUDescriptorHandle(Microsoft::
 /// <param name="format"></param>
 /// <param name="clearColor"></param>
 /// <returns></returns>
-Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device,
+Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResource(ID3D12Device* device,
 	uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor)
 {
 	/*-----------------
@@ -2049,7 +2091,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResourc
 /// <param name="resource">リソース</param>
 /// <param name="beforeState">遷移前（現在）のリソースステート</param>
 /// <param name="afterState">遷移後のリソースステート</param>
-void DirectXCommon::ChangeResourceState(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
+void DirectXCommon::ChangeResourceState(ID3D12GraphicsCommandList* commandList,
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource,D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState)
 {
 	/*--------------------
@@ -2094,87 +2136,12 @@ void DirectXCommon::ActiveDebugLayer()
 }
 
 /// <summary>
-/// DXGIFactoryを生成する
-/// </summary>
-void DirectXCommon::GenerateDXGIFactory()
-{
-	HRESULT hr = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory_));
-	assert(SUCCEEDED(hr));
-
-	// 生成完了ログ
-	log_->Log("Create DXGIFactory \n");
-}
-
-/// <summary>
-/// 使用するアダプタを取得する
-/// </summary>
-void DirectXCommon::SelectUseAdapter()
-{
-	// 良い順にアダプタを頼む
-	for (UINT i = 0;
-		dxgiFactory_->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&useAdapter_)) != DXGI_ERROR_NOT_FOUND;
-		++i)
-	{
-		// アダプタ情報を取得する
-		DXGI_ADAPTER_DESC3 adapterDesc{};
-		HRESULT hr = useAdapter_->GetDesc3(&adapterDesc);
-		assert(SUCCEEDED(hr));
-
-		// ソフトウェアアダプタでなければ採用
-		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE))
-		{
-			// 採用したアダプタの情報をログに出力
-			log_->Log(ConvertString(std::format(L"Use Adapter : {} \n", adapterDesc.Description)));
-			break;
-		}
-
-		// ソフトウェアアダプタの場合はなかったことにする
-		useAdapter_ = nullptr;
-	}
-
-	assert(useAdapter_ != nullptr);
-}
-
-/// <summary>
-/// デバイスを生成する
-/// </summary>
-void DirectXCommon::GenerateDevice()
-{
-	// 機能レベル
-	D3D_FEATURE_LEVEL featureLevels[] =
-	{ D3D_FEATURE_LEVEL_12_2 , D3D_FEATURE_LEVEL_12_1 , D3D_FEATURE_LEVEL_12_0 };
-
-	// ログ出力用の文字列
-	const char* featureLevelStrings[] = { "12.2" , "12.1", "12.0" };
-
-	// 高い順に生成できるか試していく
-	for (size_t i = 0; i < _countof(featureLevels); ++i)
-	{
-		// 採用したアダプタでデバイスを生成する
-		HRESULT hr = D3D12CreateDevice(useAdapter_.Get(), featureLevels[i], IID_PPV_ARGS(&device_));
-
-		// 指定した機能レベルでデバイスが生成できたかどうか
-		if (SUCCEEDED(hr))
-		{
-			// 生成できた旨を伝えるログ
-			log_->Log(std::format("FeatureLevel : {} \n", featureLevelStrings[i]));
-			break;
-		}
-	}
-
-	assert(device_ != nullptr);
-
-	// 初期化完了
-	log_->Log("Complate create D3D12Device!!! \n");
-}
-
-/// <summary>
 /// エラーと警告で停止させる
 /// </summary>
 void DirectXCommon::StopOnErrorsAndWarnings()
 {
 	Microsoft::WRL::ComPtr<ID3D12InfoQueue> infoQueue = nullptr;
-	if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&infoQueue))))
+	if (SUCCEEDED(directXGPU_->GetDevice()->QueryInterface(IID_PPV_ARGS(&infoQueue))))
 	{
 		/*---------------------------
 		    エラーと警告で停止させる
@@ -2212,44 +2179,6 @@ void DirectXCommon::StopOnErrorsAndWarnings()
 	}
 }
 
-/// <summary>
-/// コマンドキューを生成する
-/// </summary>
-void DirectXCommon::GenerateCommandQueue()
-{
-	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
-
-	HRESULT hr = device_->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue_));
-	assert(SUCCEEDED(hr));
-
-	// コマンドキューを生成した旨のログ
-	log_->Log("Create CommandQueue \n");
-}
-
-/// <summary>
-/// コマンドアロケータを生成する
-/// </summary>
-void DirectXCommon::GenerateCommandAllocator()
-{
-	HRESULT hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,IID_PPV_ARGS(&commandAllocator_));
-	assert(SUCCEEDED(hr));
-
-	// コマンドアロケータを生成した旨のログ
-	log_->Log("Create CommandAllocator \n");
-}
-
-/// <summary>
-/// コマンドリストを生成する
-/// </summary>
-void DirectXCommon::GenerateCommandList()
-{
-	HRESULT hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr, IID_PPV_ARGS(&commandList_));
-	assert(SUCCEEDED(hr));
-
-	// コマンドリストを生成した旨のログ
-	log_->Log("Create CommandList \n");
-}
-
 
 /// <summary>
 /// スワップチェーンを生成する
@@ -2261,8 +2190,8 @@ void DirectXCommon::GenerateSwapChain()
 	----------------------------*/
 
 	// 画面の幅
-	swapChainDesc_.Width = windowApplication_->GetWindowWidth();
-	swapChainDesc_.Height = windowApplication_->GetWindowHeight();
+	swapChainDesc_.Width = winApp_->GetWindowWidth();
+	swapChainDesc_.Height = winApp_->GetWindowHeight();
 
 	// 色の形式
 	swapChainDesc_.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -2280,12 +2209,12 @@ void DirectXCommon::GenerateSwapChain()
 	swapChainDesc_.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
 	// 生成
-	HRESULT hr = dxgiFactory_->CreateSwapChainForHwnd(commandQueue_.Get(), windowApplication_->GetHwnd(), &swapChainDesc_,
+	HRESULT hr = directXGPU_->GetDXGIfactory()->CreateSwapChainForHwnd(directXCommand_->GetCommandQueue(), winApp_->GetHwnd(), &swapChainDesc_,
 		nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain_.GetAddressOf()));
 	assert(SUCCEEDED(hr));
 
 	// スワップチェーンを生成した旨のログ
-	log_->Log("Create SwapChain \n");
+	logging_->Log("Create SwapChain \n");
 }
 
 /// <summary>
@@ -2320,11 +2249,11 @@ void DirectXCommon::GenerateRTV()
 	    ディスクリプタに格納する
 	--------------------------*/
 
-	rtvHandles_[0] = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, device_);
-	device_->CreateRenderTargetView(swapChainResources_[0].Get(), &rtvDesc_, rtvHandles_[0]);
+	rtvHandles_[0] = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, directXGPU_->GetDevice());
+	directXGPU_->GetDevice()->CreateRenderTargetView(swapChainResources_[0].Get(), &rtvDesc_, rtvHandles_[0]);
 
-	rtvHandles_[1] = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, device_);
-	device_->CreateRenderTargetView(swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
+	rtvHandles_[1] = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, directXGPU_->GetDevice());
+	directXGPU_->GetDevice()->CreateRenderTargetView(swapChainResources_[1].Get(), &rtvDesc_, rtvHandles_[1]);
 }
 
 /// <summary>
@@ -2341,7 +2270,7 @@ void DirectXCommon::GenerateDSV()
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
 	// DSVヒープの先頭にDSVを作る
-	device_->CreateDepthStencilView(depthStencilResource_.Get(), &dsvDesc, dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
+	directXGPU_->GetDevice()->CreateDepthStencilView(depthStencilResource_.Get(), &dsvDesc, dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
 }
 
 /// <summary>
@@ -2349,10 +2278,10 @@ void DirectXCommon::GenerateDSV()
 /// </summary>
 void DirectXCommon::GenerateFence()
 {
-	HRESULT hr = device_->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
+	HRESULT hr = directXGPU_->GetDevice()->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 	assert(SUCCEEDED(hr));
 
-	log_->Log("Create Fence \n");
+	logging_->Log("Create Fence \n");
 }
 
 /// <summary>
@@ -2363,7 +2292,7 @@ void DirectXCommon::GenerateEvent()
 	fenceEvent_ = CreateEvent(NULL, FALSE, FALSE, NULL);
 	assert(fenceEvent_ != nullptr);
 
-	log_->Log("Create Event \n");
+	logging_->Log("Create Event \n");
 }
 
 /// <summary>
@@ -2375,7 +2304,7 @@ void DirectXCommon::WaitForGPU()
 	fenceValue_++;
 
 	// GPUがここまでたどり着いたときに、フェンスの値を指定した値に代入するようにシグナルを送る
-	commandQueue_->Signal(fence_.Get(), fenceValue_);
+	directXCommand_->GetCommandQueue()->Signal(fence_.Get(), fenceValue_);
 
 	// フェンスの値が指定したシグナル値にたどり着いているか確認する
 	if (fence_->GetCompletedValue() < fenceValue_)
@@ -2401,22 +2330,22 @@ void DirectXCommon::CreateObject3d()
 
 	// Object3D用のPSOの生成と初期化
 	psoObject3d_[kBlendModeNone] = new Object3dBlendNone();
-	psoObject3d_[kBlendModeNone]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeNormal] = new Object3dBlendNormal();
-	psoObject3d_[kBlendModeNormal]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeAdd] = new Object3dBlendAdd();
-	psoObject3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeSubtract] = new Object3dBlendSubtract();
-	psoObject3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeMultiply] = new Object3dBlendMultiply();
-	psoObject3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 
 	psoObject3d_[kBlendModeScreen] = new Object3dBlendScreen();
-	psoObject3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_, object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
+	psoObject3d_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), object3dVertexShaderBlob_.Get(), object3dPixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2432,22 +2361,22 @@ void DirectXCommon::CreateParticle()
 
 	// Particle用のPSOの生成と初期化
 	psoParticle_[kBlendModeNone] = new ParticleBlendNone();
-	psoParticle_[kBlendModeNone]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeNormal] = new ParticleBlendNormal();
-	psoParticle_[kBlendModeNormal]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeAdd] = new ParticleBlendAdd();
-	psoParticle_[kBlendModeAdd]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeSubtract] = new ParticleBlendSubtract();
-	psoParticle_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeMultiply] = new ParticleBlendMultiply();
-	psoParticle_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 
 	psoParticle_[kBlendModeScreen] = new ParticleBlendScreen();
-	psoParticle_[kBlendModeScreen]->Initialize(log_, dxc_, device_, particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
+	psoParticle_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), particleVertexShaderBlob_.Get(), particlePixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2463,22 +2392,22 @@ void DirectXCommon::CreateLine3d()
 
 	// Line3d用のPSOの生成と初期化
 	psoLine3d_[kBlendModeNone] = new Line3dBlendNone();
-	psoLine3d_[kBlendModeNone]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeNormal] = new Line3dBlendNormal();
-	psoLine3d_[kBlendModeNormal]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeAdd] = new Line3dBlendAdd();
-	psoLine3d_[kBlendModeAdd]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeSubtract] = new Line3dBlendSubtract();
-	psoLine3d_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeMultiply] = new Line3dBlendMultiply();
-	psoLine3d_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 
 	psoLine3d_[kBlendModeScreen] = new Line3dBlendScreen();
-	psoLine3d_[kBlendModeScreen]->Initialize(log_, dxc_, device_, line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
+	psoLine3d_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), line3dVertexShaderBlob_.Get(), line3dPixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2494,22 +2423,53 @@ void DirectXCommon::CreatePrimitive()
 
 	// Primitive用のPSOの生成と初期化
 	psoPrimitive_[kBlendModeNone] = new PrimitiveBlendNone();
-	psoPrimitive_[kBlendModeNone]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeNormal] = new PrimitiveBlendNormal();
-	psoPrimitive_[kBlendModeNormal]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeAdd] = new PrimitiveBlendAdd();
-	psoPrimitive_[kBlendModeAdd]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeSubtract] = new PrimitiveBlendSubtract();
-	psoPrimitive_[kBlendModeSubtract]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeMultiply] = new PrimitiveBlendMultiply();
-	psoPrimitive_[kBlendModeMultiply]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
 
 	psoPrimitive_[kBlendModeScreen] = new PrimitiveBlendScreen();
-	psoPrimitive_[kBlendModeScreen]->Initialize(log_, dxc_, device_, primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+	psoPrimitive_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), primitiveVertexShaderBlob_.Get(), primitivePixelShaderBlob_.Get());
+}
+
+/// <summary>
+/// CopyImageを生成する
+/// </summary>
+void DirectXCommon::CreateCopyImage()
+{
+	// Primitiveのシェーダをコンパイルする
+	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Fullscreen.VS.hlsl", L"vs_6_0");
+	assert(fullscreenVertexShaderBlob_ != nullptr);
+	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/CopyImage.PS.hlsl", L"ps_6_0");
+	assert(copyImagePixelShaderBlob_ != nullptr);
+
+	// Primitive用のPSOの生成と初期化
+	psoCopyImage_[kBlendModeNone] = new CopyImageBlendNone();
+	psoCopyImage_[kBlendModeNone]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeNormal] = new CopyImageBlendNormal();
+	psoCopyImage_[kBlendModeNormal]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeAdd] = new CopyImageBlendAdd();
+	psoCopyImage_[kBlendModeAdd]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeSubtract] = new CopyImageBlendSubtract();
+	psoCopyImage_[kBlendModeSubtract]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeMultiply] = new CopyImageBlendMultiply();
+	psoCopyImage_[kBlendModeMultiply]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+
+	psoCopyImage_[kBlendModeScreen] = new CopyImageBlendScreen();
+	psoCopyImage_[kBlendModeScreen]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 }
 
 /// <summary>
@@ -2517,51 +2477,64 @@ void DirectXCommon::CreatePrimitive()
 /// </summary>
 void DirectXCommon::CreatePostEffect()
 {
-	// Fullscreenのシェーダをコンパイルする
-	fullscreenVertexShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Fullscreen.VS.hlsl", L"vs_6_0");
-	assert(fullscreenVertexShaderBlob_ != nullptr);
-
-	// CopyImageのシェーダをコンパイルする
-	copyImagePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/CopyImage.PS.hlsl", L"ps_6_0");
-	assert(copyImagePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kCopyImage] = new CopyImagePipeline();
-	psoPostEffect_[kCopyImage]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
+	psoPostEffect_[kCopyImage]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), copyImagePixelShaderBlob_.Get());
 
 	// GrayScaleのシェーダをコンパイルする
 	grayScalePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/GrayScale.PS.hlsl", L"ps_6_0");
 	assert(grayScalePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kGrayScale] = new GrayScale();
-	psoPostEffect_[kGrayScale]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), grayScalePixelShaderBlob_.Get());
+	psoPostEffect_[kGrayScale]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), grayScalePixelShaderBlob_.Get());
 
 	// Sepiaのシェーダをコンパイルする
 	sepiaPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Sepia.PS.hlsl", L"ps_6_0");
 	assert(sepiaPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kSepia] = new Sepia();
-	psoPostEffect_[kSepia]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), sepiaPixelShaderBlob_.Get());
+	psoPostEffect_[kSepia]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), sepiaPixelShaderBlob_.Get());
 
 	// Vignetteのシェーダをコンパイルする
 	vignettePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Vignette.PS.hlsl", L"ps_6_0");
 	assert(vignettePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kVignetteing] = new Vignette();
-	psoPostEffect_[kVignetteing]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), vignettePixelShaderBlob_.Get());
+	psoPostEffect_[kVignetteing]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), vignettePixelShaderBlob_.Get());
 
 	// Smoothingのシェーダをコンパイルする
 	smoothingPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/Smoothing.PS.hlsl", L"ps_6_0");
 	assert(smoothingPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kSmoothing] = new Smoothing();
-	psoPostEffect_[kSmoothing]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), smoothingPixelShaderBlob_.Get());
+	psoPostEffect_[kSmoothing]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), smoothingPixelShaderBlob_.Get());
 
 	// GaussianFilterのシェーダをコンパイルする
 	gaussianFilterPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/GaussianFilter.PS.hlsl", L"ps_6_0");
 	assert(gaussianFilterPixelShaderBlob_ != nullptr);
 	psoPostEffect_[kGaussianFilter] = new GaussianFilter();
-	psoPostEffect_[kGaussianFilter]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), gaussianFilterPixelShaderBlob_.Get());
+	psoPostEffect_[kGaussianFilter]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), gaussianFilterPixelShaderBlob_.Get());
 
 	// LuminanceBaseOutlineのシェーダをコンパイルする
 	outlinePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/LuminaceBaseOutline.PS.hlsl", L"ps_6_0");
 	assert(outlinePixelShaderBlob_ != nullptr);
 	psoPostEffect_[kLuminanceBaseOutline] = new LuminanceBaseOutline();
-	psoPostEffect_[kLuminanceBaseOutline]->Initialize(log_, dxc_, device_, fullscreenVertexShaderBlob_.Get(), outlinePixelShaderBlob_.Get());
+	psoPostEffect_[kLuminanceBaseOutline]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), outlinePixelShaderBlob_.Get());
+
+	// BrightnessExtractionのシェーダをコンパイルする
+	brightnessExtractionPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/BrightnessExtraction.PS.hlsl", L"ps_6_0");
+	assert(brightnessExtractionPixelShaderBlob_ != nullptr);
+	psoPostEffect_[kBrightnessExtraction] = new BrightnessExtraction();
+	psoPostEffect_[kBrightnessExtraction]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), brightnessExtractionPixelShaderBlob_.Get());
+	luminanceResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(GPUforLuminance));
+
+	// Hideのシェーダをコンパイルする
+	hidePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/hide.PS.hlsl", L"ps_6_0");
+	assert(hidePixelShaderBlob_ != nullptr);
+	psoPostEffect_[kHide] = new Hide();
+	psoPostEffect_[kHide]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), hidePixelShaderBlob_.Get());
+
+	// RasterScrollのシェーダをコンパイルする
+	rasterScrollPixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/RasterScroll.PS.hlsl", L"ps_6_0");
+	assert(rasterScrollPixelShaderBlob_ != nullptr);
+	psoPostEffect_[kRasterScroll] = new RasterScroll();
+	psoPostEffect_[kRasterScroll]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), rasterScrollPixelShaderBlob_.Get());
+	rasterScrollResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(GPUforRasterScroll));
 }
 
 /// <summary>
@@ -2574,19 +2547,21 @@ void DirectXCommon::DrawCopyImage()
 		return;
 
 	// RenderTarget -> PixelShader
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
-	psoPostEffect_[kCopyImage]->CommandListSet(commandList_);
+	psoPostEffect_[kCopyImage]->CommandListSet(directXCommand_->GetCommandList());
 
 	// RenderTextureのRTVを張り付ける
-	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
 	// 頂点3つ描画
-	commandList_->DrawInstanced(3, 1, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	
 }
 
@@ -2600,19 +2575,21 @@ void DirectXCommon::DrawGrayScale()
 		return;
 
 	// RenderTarget -> PixelShader
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
-	psoPostEffect_[kGrayScale]->CommandListSet(commandList_);
+	psoPostEffect_[kGrayScale]->CommandListSet(directXCommand_->GetCommandList());
 
 	// RenderTextureのRTVを張り付ける
-	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
 	// 頂点3つ描画
-	commandList_->DrawInstanced(3, 1, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 /// <summary>
@@ -2625,19 +2602,21 @@ void DirectXCommon::DrawSepia()
 		return;
 
 	// RenderTarget -> PixelShader
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	ChangeResourceState(directXCommand_->GetCommandList(), 
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
-	psoPostEffect_[kSepia]->CommandListSet(commandList_);
+	psoPostEffect_[kSepia]->CommandListSet(directXCommand_->GetCommandList());
 
 	// RenderTextureのRTVを張り付ける
-	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
 	// 頂点3つ描画
-	commandList_->DrawInstanced(3, 1, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 /// <summary>
@@ -2649,20 +2628,23 @@ void DirectXCommon::DrawVignetting()
 	if (useNumOffscreen_ <= 0)
 		return;
 
+
 	// RenderTarget -> PixelShader
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
-	psoPostEffect_[kVignetteing]->CommandListSet(commandList_);
+	psoPostEffect_[kVignetteing]->CommandListSet(directXCommand_->GetCommandList());
 
 	// RenderTextureのRTVを張り付ける
-	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
 	// 頂点3つ描画
-	commandList_->DrawInstanced(3, 1, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 /// <summary>
@@ -2675,19 +2657,21 @@ void DirectXCommon::DrawSmoothing()
 		return;
 
 	// RenderTarget -> PixelShader
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
-	psoPostEffect_[kSmoothing]->CommandListSet(commandList_);
+	psoPostEffect_[kSmoothing]->CommandListSet(directXCommand_->GetCommandList());
 
 	// RenderTextureのRTVを張り付ける
-	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
 	// 頂点3つ描画
-	commandList_->DrawInstanced(3, 1, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 /// <summary>
@@ -2700,19 +2684,21 @@ void DirectXCommon::DrawGaussianFilter()
 		return;
 
 	// RenderTarget -> PixelShader
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
-	psoPostEffect_[kGaussianFilter]->CommandListSet(commandList_);
+	psoPostEffect_[kGaussianFilter]->CommandListSet(directXCommand_->GetCommandList());
 
 	// RenderTextureのRTVを張り付ける
-	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
 	// 頂点3つ描画
-	commandList_->DrawInstanced(3, 1, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 /// <summary>
@@ -2725,17 +2711,114 @@ void DirectXCommon::DrawOutline()
 		return;
 
 	// RenderTarget -> PixelShader
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
-	psoPostEffect_[kLuminanceBaseOutline]->CommandListSet(commandList_);
+	psoPostEffect_[kLuminanceBaseOutline]->CommandListSet(directXCommand_->GetCommandList());
 
 	// RenderTextureのRTVを張り付ける
-	commandList_->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
 	// 頂点3つ描画
-	commandList_->DrawInstanced(3, 1, 0, 0);
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
-	ChangeResourceState(commandList_, offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+/// <summary>
+/// 高輝度抽出
+/// </summary>
+void DirectXCommon::DrawBrightnessExtraction()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kBrightnessExtraction]->CommandListSet(directXCommand_->GetCommandList());
+
+	// Luminanceの設定
+	GPUforLuminance* luminanceData = nullptr;
+	luminanceResource_->Map(0, nullptr, reinterpret_cast<void**>(&luminanceData));
+	luminanceData->threshold = 0.5f;
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, luminanceResource_->GetGPUVirtualAddress());
+
+	// RenderTextureのRTVを張り付ける
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+
+/// <summary>
+/// 隠す
+/// </summary>
+void DirectXCommon::DrawHide()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kHide]->CommandListSet(directXCommand_->GetCommandList());
+
+	// 頂点3つ描画
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+/// <summary>
+/// ラスタースクロール
+/// </summary>
+void DirectXCommon::DrawRasterScroll()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(directXCommand_->GetCommandList(), 
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kRasterScroll]->CommandListSet(directXCommand_->GetCommandList());
+
+	// RasterScrollの設定
+	GPUforRasterScroll* rasterScrollData = nullptr;
+	rasterScrollResource_->Map(0, nullptr, reinterpret_cast<void**>(&rasterScrollData));
+	rasterScrollData->amplitude = 0.2f;
+	rasterScrollData->frequency = 12.0f;
+	rasterScrollData->phaseOffset = 0.0f;
+	rasterScrollData->scrollSpeed = 0.0f;
+	rasterScrollData->time = 0.0f;
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, rasterScrollResource_->GetGPUVirtualAddress());
+
+	// RenderTextureのRTVを張り付ける
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(directXCommand_->GetCommandList(), 
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }

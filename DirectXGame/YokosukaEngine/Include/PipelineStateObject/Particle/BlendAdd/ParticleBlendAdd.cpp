@@ -1,21 +1,13 @@
 #include "ParticleBlendAdd.h"
 
 /// <summary>
-/// デストラクタ
-/// </summary>
-ParticleBlendAdd::~ParticleBlendAdd()
-{
-
-}
-
-/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="dxc">コンパイルシェーダ</param>
-void ParticleBlendAdd::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
-	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
+void ParticleBlendAdd::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
+	ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
-	BaseParticle::Initialize(log, dxc, device, vertexShaderBlob, pixelShaderBlob);
+	BaseParticle::Initialize(logging, dxc, device, vertexShaderBlob, pixelShaderBlob);
 
 
 	/*-----------------------------
@@ -100,7 +92,7 @@ void ParticleBlendAdd::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 	HRESULT hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob_, &errorBlob_);
 	if (FAILED(hr))
 	{
-		log_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
+		logging_->Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
 		assert(false);
 	}
 

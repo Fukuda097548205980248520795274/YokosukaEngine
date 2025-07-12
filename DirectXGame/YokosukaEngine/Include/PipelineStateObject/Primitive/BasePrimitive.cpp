@@ -4,16 +4,16 @@
 /// 初期化
 /// </summary>
 /// <param name="dxc">シェーダコンパイラ</param>
-void BasePrimitive::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
-	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
+void BasePrimitive::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
+	ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
 	// nullptrチェック
-	assert(log);
+	assert(logging);
 	assert(dxc);
 	assert(vertexShaderBlob);
 	assert(pixelShaderBlob);
 
-	log_ = log;
+	logging_ = logging;
 	dxc_ = dxc;
 	vertexShaderBlob_ = vertexShaderBlob;
 	pixelShaderBlob_ = pixelShaderBlob;
@@ -23,7 +23,7 @@ void BasePrimitive::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 /// コマンドリストにPSOの設定を行う
 /// </summary>
 /// <param name="commandList"></param>
-void BasePrimitive::CommandListSet(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList)
+void BasePrimitive::CommandListSet(ID3D12GraphicsCommandList* commandList)
 {
 	// ルートシグネチャの設定
 	commandList->SetGraphicsRootSignature(rootSignature_.Get());

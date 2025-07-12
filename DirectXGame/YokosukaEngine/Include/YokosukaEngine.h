@@ -3,7 +3,6 @@
 #include <time.h>
 #include "Func/CrashHandler/CrashHandler.h"
 #include "Base/WinApp/WinApp.h"
-#include "Base/OutputLog/OutputLog.h"
 #include "Base/DirectXCommon/DirectXCommon.h"
 #include "Base/Input/Input.h"
 #include "Store/AudioStore/AudioStore.h"
@@ -64,7 +63,7 @@ public:
 	/// <summary>
 	/// メッセージを処理する
 	/// </summary>
-	bool ProcessMessage() { return windowApplication_->ProcessMessage(); }
+	bool ProcessMessage() { return winApp_->ProcessMessage(); }
 
 	/// <summary>
 	/// フレーム開始
@@ -80,13 +79,13 @@ public:
 	/// 画面の横幅のGetter
 	/// </summary>
 	/// <returns></returns>
-	uint32_t GetScreenWidth() const { return windowApplication_->GetWindowWidth(); }
+	uint32_t GetScreenWidth() const { return winApp_->GetWindowWidth(); }
 
 	/// <summary>
 	/// 画面の縦幅のGetter
 	/// </summary>
 	/// <returns></returns>
-	uint32_t GetScreenHeight() const { return windowApplication_->GetWindowHeight(); }
+	uint32_t GetScreenHeight() const { return winApp_->GetWindowHeight(); }
 
 	/// <summary>
 	/// テクスチャを読み込む
@@ -157,6 +156,12 @@ public:
 	/// </summary>
 	/// <param name="effect"></param>
 	void SetOffscreenEffect(Effect effect) const { directXCommon_->SetOffscreenEffect(effect); }
+
+	/// <summary>
+	/// RTVに描画したテクスチャをコピーする
+	/// </summary>
+	/// <param name="numRtv"></param>
+	void CopyRtvImage(uint32_t numRtv) const { directXCommon_->CopyRtvImage(numRtv); }
 
 	/// <summary>
 	/// 平面を描画する
@@ -306,6 +311,12 @@ public:
 	/// </summary>
 	/// <param name="blendMode"></param>
 	void SetLine3dBlendMode(BlendMode blendMode) const { directXCommon_->SetLine3dBlendMode(static_cast<uint32_t>(blendMode)); }
+
+	/// <summary>
+	/// ブレンドモードを設定する
+	/// </summary>
+	/// <param name="blendMode"></param>
+	void SetCopyImageBlendMode(BlendMode blendMode) const { directXCommon_->SetCopyImageBlendMode(static_cast<uint32_t>(blendMode)); }
 
 	/// <summary>
 	/// 全てのキーの入力情報を取得する
@@ -482,19 +493,19 @@ private:
 	unsigned int currentTimer_;
 
 	// ウィンドウアプリケーション
-	WinApp* windowApplication_ = nullptr;
+	std::unique_ptr<WinApp> winApp_ = nullptr;
 
 	// ログ出力
-	OutputLog* log_ = nullptr;
+	std::unique_ptr<Logging> logging_ = nullptr;
 
 	// DirectXCommon
-	DirectXCommon* directXCommon_ = nullptr;
+	std::unique_ptr<DirectXCommon> directXCommon_ = nullptr;
 
 	// Input
-	Input* input_ = nullptr;
+	std::unique_ptr<Input> input_ = nullptr;
 
 	// オーディオストア
-	AudioStore* audioStore_ = nullptr;
+	std::unique_ptr<AudioStore> audioStore_ = nullptr;
 };
 
 
@@ -619,14 +630,40 @@ public:
 	/// <returns></returns>
 	Vector3 GetWorldTransform();
 
+	/// <summary>
+	/// シェイクの設定
+	/// </summary>
+	/// <param name="shakeTime">時間</param>
+	/// <param name="shakeSize">大きさ</param>
+	void SetShake(float shakeTime, float shakeSize);
+
+
 	// ローカル座標
-	Vector3 translation_ = { -50.0f , 0.0f , 0.0f };
+	Vector3 translation_ = { 0.0f , 0.0f , -50.0f };
 
 	// 回転
 	Vector3 rotation_ = { 0.0f , 0.0f , 0.0f };
 
 
 private:
+
+	/// <summary>
+	/// シェイクする
+	/// </summary>
+	void Shake();
+
+	// シェイクの移動量
+	Vector3 shakeMove_ = { 0.0f , 0.0f , 0.0f };
+
+	// シェイクの初期タイマー
+	float shakeStartTimer_ = 0.0f;
+
+	// シェイクタイマー
+	float shakeTimer_ = 0.0f;
+
+	// シェイクの大きさ
+	float shakeSize_ = 0.0f;
+
 
 	// 3Dカメラ
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;

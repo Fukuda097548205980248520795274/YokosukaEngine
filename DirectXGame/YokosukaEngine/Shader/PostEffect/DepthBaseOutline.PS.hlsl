@@ -5,7 +5,7 @@ struct PixelShaderOutput
     float4 color : SV_TARGET0;
 };
 
-Texture2D gTexture : register(t0);
+Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 
 Texture2D<float> gDepthTexture : register(t1);

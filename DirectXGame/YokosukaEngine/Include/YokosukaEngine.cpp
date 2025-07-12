@@ -5,29 +5,6 @@
 /// </summary>
 YokosukaEngine::~YokosukaEngine()
 {
-	// AudioStore
-	delete audioStore_;
-
-	// Input
-	delete input_;
-
-	// DirectXCommon
-	delete directXCommon_;
-
-	// ログ出力
-	delete log_;
-
-	// ウィンドウアプリケーション
-	delete windowApplication_;
-
-	// リソースリークチェッカー
-	Microsoft::WRL::ComPtr<IDXGIDebug1> debug;
-	if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&debug))))
-	{
-		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
-		debug->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
-		debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
-	}
 
 	// COMの終了処理
 	CoUninitialize();
@@ -52,23 +29,23 @@ void YokosukaEngine::Initialize(const int32_t kWindowWidth, const int32_t kWindo
 	SetUnhandledExceptionFilter(ExportDump);
 
 	// ウィンドウアプリケーションの生成と初期化
-	windowApplication_ = new WinApp();
-	windowApplication_->Initialize(kWindowWidth, kWindowHeight, ConvertString(titleName));
+	winApp_ = std::make_unique<WinApp>();
+	winApp_->Initialize(kWindowWidth, kWindowHeight, ConvertString(titleName));
 
-	// ログ出力の生成と初期化
-	log_ = new OutputLog();
-	log_->Initialize();
+	// ロギングの生成と初期化
+	logging_ = std::make_unique<Logging>();
+	logging_->Initialize();
 
 	// DirectXCommonの生成と初期化
-	directXCommon_ = new DirectXCommon();
-	directXCommon_->Initialize(log_, windowApplication_);
+	directXCommon_ = std::make_unique<DirectXCommon>();
+	directXCommon_->Initialize(logging_.get(), winApp_.get());
 
 	// Inputの生成と初期化
-	input_ = new Input();
-	input_->Initialize(windowApplication_);
+	input_ = std::make_unique<Input>();
+	input_->Initialize(winApp_.get());
 
 	// AudioStoreの生成と初期化
-	audioStore_ = new AudioStore();
+	audioStore_ = std::make_unique<AudioStore>();
 	audioStore_->Initialize();
 }
 
@@ -471,6 +448,7 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 	// カメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
 	camera3d_->Initialize(screenWidth, screenHeight);
+	camera3d_->translation_.z = -50.0f;
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
@@ -482,8 +460,10 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 /// </summary>
 void MainCamera::Update()
 {
+	Shake();
+
 	// 値をカメラに入れる
-	camera3d_->translation_ = translation_;
+	camera3d_->translation_ = translation_ + shakeMove_;
 	camera3d_->rotation_ = rotation_;
 
 	// 3Dカメラ更新
@@ -509,6 +489,39 @@ Vector3 MainCamera::GetWorldTransform()
 	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
+}
+
+/// <summary>
+/// シェイクする
+/// </summary>
+/// <param name="shakeTime">時間</param>
+/// <param name="shakeSize">大きさ</param>
+void MainCamera::SetShake(float shakeTime, float shakeSize)
+{
+	shakeTimer_ = shakeTime;
+	shakeStartTimer_ = shakeTime;
+	shakeSize_ = shakeSize;
+}
+
+/// <summary>
+/// シェイクする
+/// </summary>
+void MainCamera::Shake()
+{
+	shakeMove_ = Vector3(0.0f, 0.0f, 0.0f);
+
+	if (shakeTimer_ <= 0.0f)
+		return;
+
+	// タイマーを進める
+	shakeTimer_ -= 1.0f / 60.0f;
+
+	// 補間を求める
+	float t = shakeTimer_ / shakeStartTimer_;
+
+	Vector3 shakeVector = Vector3(float(rand() % 3) - 1, float(rand() % 3) - 1, float(rand() % 3) - 1);
+
+	shakeMove_ = (shakeVector * t) * shakeSize_;
 }
 
 
@@ -615,7 +628,7 @@ void Scene::Draw()
 		
 
 		// グリッドを描画する
-		engine_->DrawGrid(camera3d_.get(), 0, 0);
+		//engine_->DrawGrid(camera3d_.get(), 0, 0);
 	}
 
 	// 軸方向表示を描画

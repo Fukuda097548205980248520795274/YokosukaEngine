@@ -18,7 +18,7 @@ public:
 	/// <param name="directoryPath"></param>
 	/// <param name="filePath"></param>
 	uint32_t GetModelHandle(const std::string& directoryPath, const std::string& fileName,
-		Microsoft::WRL::ComPtr<ID3D12Device> device, Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap,
+		ID3D12Device* device, Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap,
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList);
 
 	/// <summary>

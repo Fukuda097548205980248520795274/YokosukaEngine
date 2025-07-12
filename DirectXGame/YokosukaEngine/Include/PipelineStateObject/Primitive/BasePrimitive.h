@@ -1,6 +1,6 @@
 #pragma once
 #include <wrl.h>
-#include "../../Base/OutputLog/OutputLog.h"
+#include "../../Base/Logging/Logging.h"
 #include "../../Draw/DirectXShaderCompiler/DirectXShaderCompiler.h"
 
 class BasePrimitive
@@ -12,20 +12,20 @@ public:
 	/// </summary>
 	/// <param name="log">ログ出力</param>
 	/// <param name="dxc">シェーダコンパイラ</param>
-	virtual void Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
-		Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob);
+	virtual void Initialize(Logging* logging, DirectXShaderCompiler* dxc,
+		ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob);
 
 	/// <summary>
 	/// コマンドリストにPSOの設定を行う
 	/// </summary>
 	/// <param name="commandList"></param>
-	void CommandListSet(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList);
+	void CommandListSet(ID3D12GraphicsCommandList* commandList);
 
 
 protected:
 
-	// ログ出力
-	OutputLog* log_ = nullptr;
+	// ロギング
+	Logging* logging_ = nullptr;
 
 	// DXC
 	DirectXShaderCompiler* dxc_ = nullptr;

@@ -5,16 +5,16 @@
 /// 初期化
 /// </summary>
 /// <param name="dxc">シェーダコンパイラ</param>
-void PostEffect::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
-	Microsoft::WRL::ComPtr<ID3D12Device> device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
+void PostEffect::Initialize(Logging* logging, DirectXShaderCompiler* dxc,
+	ID3D12Device* device, IDxcBlob* vertexShaderBlob, IDxcBlob* pixelShaderBlob)
 {
 	// nullptrチェック
-	assert(log);
+	assert(logging);
 	assert(dxc);
 	assert(vertexShaderBlob);
 	assert(pixelShaderBlob);
 
-	log_ = log;
+	logging_ = logging;
 	dxc_ = dxc;
 	vertexShaderBlob_ = vertexShaderBlob;
 	pixelShaderBlob_ = pixelShaderBlob;
@@ -24,7 +24,7 @@ void PostEffect::Initialize(OutputLog* log, DirectXShaderCompiler* dxc,
 /// コマンドリストにPSOの設定を行う
 /// </summary>
 /// <param name="commandList"></param>
-void PostEffect::CommandListSet(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList)
+void PostEffect::CommandListSet(ID3D12GraphicsCommandList* commandList)
 {
 	// ルートシグネチャの設定
 	commandList->SetGraphicsRootSignature(rootSignature_.Get());
