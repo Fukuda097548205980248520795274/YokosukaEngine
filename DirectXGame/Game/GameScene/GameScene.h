@@ -69,4 +69,3 @@ private:
 	// ステージオブジェクトのリスト
 	std::list<StageObject*> stageObjects_;
 };
-
