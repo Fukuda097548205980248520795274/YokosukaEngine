@@ -1,4 +1,5 @@
 #include "BasePlayerBullet.h"
+#include "../BaseEnemy/BaseEnemy.h"
 
 
 /// <summary>
@@ -28,6 +29,9 @@ void BasePlayerBullet::Initialize(const YokosukaEngine* engine, const Camera3D* 
 /// </summary>
 void BasePlayerBullet::Update()
 {
+	// 直前の座標を記録する
+	prevPosition_ = GetWorldPosition();
+
 	// ワールドトランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 }
@@ -38,4 +42,45 @@ void BasePlayerBullet::Update()
 void BasePlayerBullet::Draw()
 {
 
+}
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 BasePlayerBullet::GetWorldPosition() const
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
+}
+
+/// <summary>
+/// 当たり判定用の線分のGetter
+/// </summary>
+/// <returns></returns>
+Segment BasePlayerBullet::GetCollisionSegment() const
+{
+	// 線分
+	Segment segment;
+
+	segment.origin = GetWorldPosition();
+	segment.diff = prevPosition_ - segment.origin;
+
+	return segment;
+}
+
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+/// <param name="enemy"></param>
+void BasePlayerBullet::OnCollision(const BaseEnemy* enemy)
+{
+	// 終了する
+	isFinished_ = true;
 }

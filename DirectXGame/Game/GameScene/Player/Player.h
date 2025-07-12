@@ -65,6 +65,12 @@ public:
 	/// <param name="enemy"></param>
 	void OnCollision(const BaseEnemy* enemy);
 
+	/// <summary>
+	/// 弾のリストのGetter
+	/// </summary>
+	/// <returns></returns>
+	std::list<BasePlayerBullet*> GetBullets() const { return bullets_; }
+
 
 private:
 
@@ -142,14 +148,14 @@ private:
 	// 弾のリスト
 	std::list<BasePlayerBullet*> bullets_;
 
-	// 第発射に要する時間
+	// 大発射に要する時間
 	const float kBigShotTime = 2.0f;
 
 	// 発射に要する時間
 	const float kShotTime = 1.1f;
 
 	// 発射タイマー
-	float shotTimer_ = 0.0f;
+	float shotTimer_ = 1.0f;
 
 	// 小発射音
 	uint32_t minShotSoundHandle_ = 0;
