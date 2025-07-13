@@ -23,6 +23,18 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// 本体のワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetBodyWorldPosition() override;
+
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	/// <param name="playerBullet"></param>
+	void OnCollision(const BasePlayerBullet* playerBullet) override;
+
 
 private:
 
@@ -46,5 +58,102 @@ private:
 		{0.0f,0.25f,0.0f},
 		{0.0f,0.25f,0.0f}
 	};
+
+	// モデルの初期回転
+	const Vector3 kStartRotation[kNumModel] =
+	{
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 0.0f}
+	};
+
+	// ポイントライト
+	std::unique_ptr<PointLight> pointLight_ = nullptr;
+
+
+	/*--------------------
+	    ギミック : 浮遊
+	--------------------*/
+
+	/// <summary>
+	/// ギミック : 浮遊 : 初期化
+	/// </summary>
+	void GimmickFloatingInitialize();
+
+	/// <summary>
+	/// ギミック : 浮遊 : 更新処理
+	/// </summary>
+	void GimmickFloatingUpdate();
+
+	// 浮遊ギミックのパラメータ
+	float floatingParameter_ = 0.0f;
+
+	// 浮遊ギミックの最大値
+	const float kFloatingParameterMax = std::numbers::pi_v<float> *2.0f;
+
+	// 浮遊ギミックの速度
+	float floatingVelocity_ = 0.0f;
+
+	// 浮遊ギミックの振幅
+	float floatingAmplitude_ = 0.0f;
+
+
+	/*-----------------------
+	    ギミック : 羽ばたく
+	-----------------------*/
+
+	/// <summary>
+	/// ギミック : 羽ばたく : 初期化
+	/// </summary>
+	void GimmickFlappingInitialize();
+
+	/// <summary>
+	/// ギミック : 羽ばたく : 更新処理
+	/// </summary>
+	void GimmickFlappingUpdate();
+
+	// 羽ばたきギミックのパラメータ
+	float flappingParameter_ = 0.0f;
+
+	// 羽ばたきギミックの最大値
+	const float kFlappingPrameterMax = std::numbers::pi_v<float> *2.0f;
+
+	// 羽ばたきギミックの速度
+	float flappingVelocity_ = 0.0f;
+
+	// 幅だきぎいっくの振幅
+	float flappingAmplitude_ = 0.0f;
+
+
+	/*----------------------
+	    ギミック : ダメージ
+	----------------------*/
+
+	/// <summary>
+	/// ギミック : ダメージ : 初期化
+	/// </summary>
+	void GimmickDamageInitialize();
+
+	/// <summary>
+	/// ギミック : ダメージ : 更新処理
+	/// </summary>
+	void GimmickDamageUpdate();
+
+	/// <summary>
+	/// ギミック : ダメージ : 描画処理
+	/// </summary>
+	void GimmickDamageDraw();
+
+	// ダメージギミックのパラメータ
+	float damageParameter_ = 0.25f;
+
+	// ダメージギミックの最大値
+	const float kDamageParameterMax = 0.25f;
+
+	// ダメージギミックの速度
+	float damageVelocity_ = 1.0f / 60.0f;
+
+	// ダメージの色
+	Vector4 damageColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 };
 

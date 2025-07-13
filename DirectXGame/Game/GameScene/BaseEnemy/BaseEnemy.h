@@ -51,6 +51,12 @@ public:
 	Vector3 GetWorldPosition() const;
 
 	/// <summary>
+	/// 本体のワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	virtual Vector3 GetBodyWorldPosition() = 0;
+
+	/// <summary>
 	/// 当たり判定用のAABBのGetter
 	/// </summary>
 	/// <returns></returns>
@@ -60,7 +66,7 @@ public:
 	/// 衝突判定応答
 	/// </summary>
 	/// <param name="playerBullet"></param>
-	void OnCollision(const BasePlayerBullet* playerBullet);
+	virtual void OnCollision(const BasePlayerBullet* playerBullet);
 
 
 protected:

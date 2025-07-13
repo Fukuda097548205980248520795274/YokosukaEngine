@@ -59,13 +59,16 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	mainCamera_->translation_.y = 10.0f;
 
 	// 敵の追加
-	EnemyButterfly* enemy = new EnemyButterfly();
-	enemy->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 10.0f, 30.0f));
-	enemies_.push_back(enemy);
+	for (uint32_t i = 0; i < 3; i++)
+	{
+		EnemyButterfly* enemy = new EnemyButterfly();
+		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 10.0f, 30.0f));
+		enemies_.push_back(enemy);
+	}
 
 
 	// ステージオブジェクトの追加
-	for (uint32_t i = 0; i < 8; ++i)
+	for (uint32_t i = 0; i < 6; ++i)
 	{
 		TutorialGroundEmpty* stageObject = new TutorialGroundEmpty();
 		stageObject->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 60.0f * i));
@@ -227,7 +230,7 @@ void GameScene::AllCheckCollision()
 
 		for (BaseEnemy* enemy : enemies_)
 		{
-			aabb = enemy->GetCollisionAABB(enemy->GetWorldPosition());
+			aabb = enemy->GetCollisionAABB(enemy->GetBodyWorldPosition());
 
 			if (IsCollision(aabb, segment))
 			{

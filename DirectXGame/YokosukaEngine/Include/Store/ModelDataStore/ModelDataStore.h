@@ -47,6 +47,13 @@ public:
 	/// <returns></returns>
 	uint32_t GetTextureHandle(uint32_t modelHandle);
 
+	/// <summary>
+	/// 頂点バッファビューを取得する
+	/// </summary>
+	/// <param name="modelHandle"></param>
+	/// <returns></returns>
+	D3D12_VERTEX_BUFFER_VIEW GetVertexBufferView(uint32_t modelHandle);
+
 
 private:
 
@@ -68,8 +75,14 @@ private:
 		// モデルデータ
 		ModelData modelData{};
 
+		// 頂点バッファビュー
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
+
 		// 頂点リソース
 		Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = nullptr;
+
+		// 頂点データ
+		VertexData* vertexData = nullptr;
 
 		// モデルハンドル
 		uint32_t modelHandle = 0;

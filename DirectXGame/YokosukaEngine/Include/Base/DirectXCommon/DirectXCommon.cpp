@@ -1442,22 +1442,6 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 		return;
 	}
 
-	/*----------
-		頂点
-	----------*/
-
-	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	vertexBufferView.BufferLocation = modelDataStore_->GetVertexResource(modelHandle)->GetGPUVirtualAddress();
-	vertexBufferView.SizeInBytes = UINT(sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
-	vertexBufferView.StrideInBytes = sizeof(VertexData);
-
-	// 頂点データを書き込む
-	VertexData* vertexData = nullptr;
-	modelDataStore_->GetVertexResource(modelHandle)->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
-	std::memcpy(vertexData, modelDataStore_->GetModelData(modelHandle).vertices.data(),
-		sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
-
 
 	/*---------------
 		マテリアル
@@ -1504,6 +1488,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 	psoObject3d_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
 	// VBVを設定する
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView = modelDataStore_->GetVertexBufferView(modelHandle);
 	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
 
 	// 形状を設定
