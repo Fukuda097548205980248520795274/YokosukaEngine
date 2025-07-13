@@ -145,10 +145,10 @@ private:
 	void GimmickDamageDraw();
 
 	// ダメージギミックのパラメータ
-	float damageParameter_ = 0.25f;
+	float damageParameter_ = 0.1f;
 
 	// ダメージギミックの最大値
-	const float kDamageParameterMax = 0.25f;
+	const float kDamageParameterMax = 0.1f;
 
 	// ダメージギミックの速度
 	float damageVelocity_ = 1.0f / 60.0f;
