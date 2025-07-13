@@ -11,6 +11,11 @@ class TextureStore
 public:
 
 	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~TextureStore();
+
+	/// <summary>
 	/// 初期化
 	/// </summary>
 	void Initialize(DirectXCommon* directXCommon);
@@ -36,9 +41,12 @@ private:
 	// DirectXCommon
 	DirectXCommon* directXCommon_ = nullptr;
 
-	// テクスチャ格納のデータ
-	struct TextureData
+
+	// テクスチャ格納データ
+	class TextureData
 	{
+	public:
+
 		// ファイルパス
 		std::string filePath;
 
@@ -55,19 +63,18 @@ private:
 		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 
 		// CPUハンドル
-		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU;
+		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU{};
 
 		// GPUハンドル
-		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU;
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU{};
 
 		// テクスチャハンドル
-		uint32_t textureHandle;
+		uint32_t textureHandle = 0;
 	};
 
 	// テクスチャ格納のデータ
-	TextureData textureData_[512];
+	std::vector<TextureData*> textureData_;
 
 	// 格納したテクスチャの数
 	uint32_t textureNum_ = 0;
 };
-
