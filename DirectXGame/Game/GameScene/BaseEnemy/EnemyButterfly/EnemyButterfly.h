@@ -23,6 +23,12 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// 本体のワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetBodyWorldPosition() override;
+
 
 private:
 
@@ -46,5 +52,68 @@ private:
 		{0.0f,0.25f,0.0f},
 		{0.0f,0.25f,0.0f}
 	};
+
+	// モデルの初期回転
+	const Vector3 kStartRotation[kNumModel] =
+	{
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 0.0f}
+	};
+
+
+
+	/*--------------------
+	    ギミック : 浮遊
+	--------------------*/
+
+	/// <summary>
+	/// ギミック : 浮遊 : 初期化
+	/// </summary>
+	void GimmickFloatingInitialize();
+
+	/// <summary>
+	/// ギミック : 浮遊 : 更新処理
+	/// </summary>
+	void GimmickFloatingUpdate();
+
+	// 浮遊ギミックのパラメータ
+	float floatingParameter_ = 0.0f;
+
+	// 浮遊ギミックの最大値
+	const float kFloatingParameterMax = std::numbers::pi_v<float> *2.0f;
+
+	// 浮遊ギミックの速度
+	float floatingVelocity_ = 0.0f;
+
+	// 浮遊ギミックの振幅
+	float floatingAmplitude_ = 0.0f;
+
+
+	/*-----------------------
+	    ギミック : 羽ばたく
+	-----------------------*/
+
+	/// <summary>
+	/// ギミック : 羽ばたく : 初期化
+	/// </summary>
+	void GimmickFlappingInitialize();
+
+	/// <summary>
+	/// ギミック : 羽ばたく : 更新処理
+	/// </summary>
+	void GimmickFlappingUpdate();
+
+	// 羽ばたきギミックのパラメータ
+	float flappingParameter_ = 0.0f;
+
+	// 羽ばたきギミックの最大値
+	const float kFlappingPrameterMax = std::numbers::pi_v<float> *2.0f;
+
+	// 羽ばたきギミックの速度
+	float flappingVelocity_ = 0.0f;
+
+	// 幅だきぎいっくの振幅
+	float flappingAmplitude_ = 0.0f;
 };
 

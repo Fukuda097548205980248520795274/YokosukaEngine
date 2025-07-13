@@ -51,6 +51,12 @@ public:
 	Vector3 GetWorldPosition() const;
 
 	/// <summary>
+	/// 本体のワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	virtual Vector3 GetBodyWorldPosition() = 0;
+
+	/// <summary>
 	/// 当たり判定用のAABBのGetter
 	/// </summary>
 	/// <returns></returns>

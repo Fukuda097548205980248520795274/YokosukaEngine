@@ -227,7 +227,7 @@ void GameScene::AllCheckCollision()
 
 		for (BaseEnemy* enemy : enemies_)
 		{
-			aabb = enemy->GetCollisionAABB(enemy->GetWorldPosition());
+			aabb = enemy->GetCollisionAABB(enemy->GetBodyWorldPosition());
 
 			if (IsCollision(aabb, segment))
 			{

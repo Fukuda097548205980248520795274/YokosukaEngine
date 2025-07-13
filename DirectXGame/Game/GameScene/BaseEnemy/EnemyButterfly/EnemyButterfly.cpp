@@ -20,6 +20,7 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kBody].worldTransform_->Initialize();
 	models_[kBody].worldTransform_->SetParent(worldTransform_.get());
 	models_[kBody].worldTransform_->translation_ = kStartPosition[kBody];
+	models_[kBody].worldTransform_->rotation_ = kStartRotation[kBody];
 	models_[kBody].uvTransform_ = std::make_unique<UvTransform>();
 	models_[kBody].uvTransform_->Initialize();
 	models_[kBody].modelHandle_ = engine_->LoadModelData("./Resources/Models/enemy/enemyButterfly/body", "body.obj");
@@ -30,6 +31,7 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kWingR].worldTransform_->Initialize();
 	models_[kWingR].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
 	models_[kWingR].worldTransform_->translation_ = kStartPosition[kWingR];
+	models_[kWingR].worldTransform_->rotation_ = kStartRotation[kWingR];
 	models_[kWingR].uvTransform_ = std::make_unique<UvTransform>();
 	models_[kWingR].uvTransform_->Initialize();
 	models_[kWingR].modelHandle_ = engine_->LoadModelData("./Resources/Models/enemy/enemyButterfly/wingR", "wingR.obj");
@@ -40,10 +42,18 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kWingL].worldTransform_->Initialize();
 	models_[kWingL].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
 	models_[kWingL].worldTransform_->translation_ = kStartPosition[kWingL];
+	models_[kWingL].worldTransform_->rotation_ = kStartRotation[kWingL];
 	models_[kWingL].uvTransform_ = std::make_unique<UvTransform>();
 	models_[kWingL].uvTransform_->Initialize();
 	models_[kWingL].modelHandle_ = engine_->LoadModelData("./Resources/Models/enemy/enemyButterfly/wingL", "wingL.obj");
 	models_[kWingL].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
+
+
+	// 浮遊ギミック初期化
+	GimmickFloatingInitialize();
+
+	// 羽ばたきギミック初期化
+	GimmickFlappingInitialize();
 }
 
 /// <summary>
@@ -51,6 +61,12 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 /// </summary>
 void EnemyButterfly::Update()
 {
+	// 浮遊ギミック更新
+	GimmickFloatingUpdate();
+
+	// 羽ばたきギミック更新
+	GimmickFlappingUpdate();
+
 	// 基底クラス更新
 	BaseEnemy::Update();
 
@@ -73,4 +89,88 @@ void EnemyButterfly::Draw()
 		engine_->DrawModel(models_[i].worldTransform_.get(), models_[i].uvTransform_.get(), camera3d_, models_[i].modelHandle_,
 			models_[i].color, true);
 	}
+}
+
+/// <summary>
+/// 本体のワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 EnemyButterfly::GetBodyWorldPosition()
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = models_[kBody].worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = models_[kBody].worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = models_[kBody].worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
+}
+
+
+
+/*-----------------
+    浮遊ギミック
+-----------------*/
+
+/// <summary>
+/// ギミック : 浮遊 : 初期化
+/// </summary>
+void EnemyButterfly::GimmickFloatingInitialize()
+{
+	// 浮遊ギミックのパラメータ
+	floatingParameter_ = 0.0f;
+
+	// 浮遊ギミックの速度
+	floatingVelocity_ = 0.075f;
+
+	// 浮遊ギミックの振幅
+	floatingAmplitude_ = 0.25f;
+}
+
+/// <summary>
+/// ギミック : 浮遊 : 更新処理
+/// </summary>
+void EnemyButterfly::GimmickFloatingUpdate()
+{
+	// パラメータを進める
+	floatingParameter_ += floatingVelocity_;
+	floatingParameter_ = std::fmod(floatingParameter_, kFloatingParameterMax);
+
+	// 上下に移動する
+	models_[kBody].worldTransform_->translation_.y = std::sin(floatingParameter_) * floatingAmplitude_;
+}
+
+
+/*-----------------------
+	ギミック : 羽ばたく
+-----------------------*/
+
+/// <summary>
+/// ギミック : 羽ばたく : 初期化
+/// </summary>
+void EnemyButterfly::GimmickFlappingInitialize()
+{
+	// 羽ばたきギミックのパラメータ
+	flappingParameter_ = 0.0f;
+
+	// 羽ばたきギミックの速度
+	flappingVelocity_ = 0.085f;
+
+	// 幅だきぎいっくの振幅
+	flappingAmplitude_ = 0.75f;
+}
+
+/// <summary>
+/// ギミック : 羽ばたく : 更新処理
+/// </summary>
+void EnemyButterfly::GimmickFlappingUpdate()
+{
+	// パラメータを進める
+	flappingParameter_ += flappingVelocity_;
+	flappingParameter_ = std::fmod(flappingParameter_, kFlappingPrameterMax);
+
+	// 羽を動かす
+	models_[kWingR].worldTransform_->rotation_.y = std::sin(flappingParameter_) * flappingAmplitude_;
+	models_[kWingL].worldTransform_->rotation_.y = -std::sin(flappingParameter_) * flappingAmplitude_;
 }
