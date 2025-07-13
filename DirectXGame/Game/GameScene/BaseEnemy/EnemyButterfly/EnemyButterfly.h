@@ -61,6 +61,8 @@ private:
 		{0.0f , 0.0f , 0.0f}
 	};
 
+	// ポイントライト
+	std::unique_ptr<PointLight> pointLight_ = nullptr;
 
 
 	/*--------------------

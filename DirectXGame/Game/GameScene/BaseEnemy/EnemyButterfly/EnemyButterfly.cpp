@@ -49,6 +49,11 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kWingL].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
 
 
+	// ポイントライトの生成と初期化
+	pointLight_ = std::make_unique<PointLight>();
+	pointLight_->Initialize();
+
+
 	// 浮遊ギミック初期化
 	GimmickFloatingInitialize();
 
@@ -76,6 +81,9 @@ void EnemyButterfly::Update()
 		models_[i].worldTransform_->UpdateWorldMatrix();
 		models_[i].uvTransform_->UpdateWorldMatrix();
 	}
+
+	// ポイントライトを本体に追従する
+	pointLight_->position_ = GetBodyWorldPosition() + Vector3(0.0f , 0.5f , 0.0f);
 }
 
 /// <summary>
@@ -83,6 +91,9 @@ void EnemyButterfly::Update()
 /// </summary>
 void EnemyButterfly::Draw()
 {
+	// ポイントライトを設置する
+	engine_->SetPointLight(pointLight_.get());
+
 	// モデルの描画
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
