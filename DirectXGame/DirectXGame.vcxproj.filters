@@ -400,6 +400,9 @@
     <Filter Include="YokosukaEngine\Include\Shape\Ray">
       <UniqueIdentifier>{679ba177-dc43-433c-8353-04edd4774004}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\BaseEnemyBullet">
+      <UniqueIdentifier>{ac8b4fb6-e55b-44f2-a122-dbe396adad03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -740,6 +743,9 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Shape\Line\Line.cpp">
       <Filter>YokosukaEngine\Include\Shape\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BaseEnemyBullet\BaseEnemyBullet.cpp">
+      <Filter>Game\GameScene\BaseEnemyBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1084,6 +1090,9 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Shape\Line\Line.h">
       <Filter>YokosukaEngine\Include\Shape\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BaseEnemyBullet\BaseEnemyBullet.h">
+      <Filter>Game\GameScene\BaseEnemyBullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
