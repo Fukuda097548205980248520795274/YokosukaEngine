@@ -714,7 +714,7 @@ protected:
 private:
 
 	// デバッグカメラ有効化
-	bool isDebugCameraActive_ = false;
+	bool isDebugCameraActive_ = true;
 
 	// デバッグツール
 #ifdef _DEBUG

@@ -568,7 +568,7 @@ void Scene::Initialize(const YokosukaEngine* engine)
 #endif
 
 	// デバッグカメラ有効化
-	isDebugCameraActive_ = false;
+	isDebugCameraActive_ = true;
 }
 
 /// <summary>
@@ -628,7 +628,7 @@ void Scene::Draw()
 		
 
 		// グリッドを描画する
-		//engine_->DrawGrid(camera3d_.get(), 0, 0);
+		engine_->DrawGrid(camera3d_.get(), 0, 0);
 	}
 
 	// 軸方向表示を描画
