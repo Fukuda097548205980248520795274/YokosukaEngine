@@ -8,6 +8,11 @@ class ModelDataStore
 public:
 
 	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~ModelDataStore();
+
+	/// <summary>
 	/// 初期化
 	/// </summary>
 	void Initialize(TextureStore* textureStore);
@@ -48,9 +53,12 @@ private:
 	// テクスチャ格納場所
 	TextureStore* textureStore_ = nullptr;
 
-	// モデルの情報の構造体
-	struct ModelInfoStructure
+
+	// モデルの情報
+	class ModelInfo
 	{
+	public:
+
 		// ディレクトリパス
 		std::string directoryPath;
 
@@ -58,20 +66,20 @@ private:
 		std::string fileName;
 
 		// モデルデータ
-		ModelData modelData;
+		ModelData modelData{};
 
 		// 頂点リソース
-		Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource;
+		Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = nullptr;
 
 		// モデルハンドル
-		uint32_t modelHandle;
+		uint32_t modelHandle = 0;
 
 		// テクスチャハンドル
-		uint32_t textureHandle;
+		uint32_t textureHandle = 0;
 	};
 
 	// モデルの情報の構造体
-	ModelInfoStructure modelInfoStructure_[256] = {};
+	std::vector<ModelInfo*> modelInfo_;
 	
 
 	// 使用したモデルデータをカウントする
