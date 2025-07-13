@@ -76,6 +76,16 @@ uint32_t ModelDataStore::GetModelHandle(const std::string& directoryPath, const 
 	modelInfo->vertexResource =
 		CreateBufferResource(device, sizeof(VertexData) * modelInfo->modelData.vertices.size());
 
+	// 頂点バッファビューを設定する
+	modelInfo->vertexBufferView.BufferLocation = modelInfo->vertexResource->GetGPUVirtualAddress();
+	modelInfo->vertexBufferView.SizeInBytes = UINT(sizeof(VertexData) * modelInfo->modelData.vertices.size());
+	modelInfo->vertexBufferView.StrideInBytes = sizeof(VertexData);
+
+	// 頂点データを書き込む
+	modelInfo->vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&modelInfo->vertexData));
+	std::memcpy(modelInfo->vertexData, modelInfo->modelData.vertices.data(),
+		sizeof(VertexData) * modelInfo->modelData.vertices.size());
+
 	// テクスチャハンドルを取得する
 	if (strcmp(modelInfo->modelData.material.textureFilePath.c_str(), "") == 0)
 	{
@@ -155,4 +165,24 @@ uint32_t ModelDataStore::GetTextureHandle(uint32_t modelHandle)
 
 	assert(false);
 	return 0;
+}
+
+/// <summary>
+/// 頂点バッファビューを取得する
+/// </summary>
+/// <param name="modelHandle"></param>
+/// <returns></returns>
+D3D12_VERTEX_BUFFER_VIEW ModelDataStore::GetVertexBufferView(uint32_t modelHandle)
+{
+	for (uint32_t i = 0; i < useModelDataNum_; i++)
+	{
+		if (modelHandle == modelInfo_[i]->modelHandle)
+		{
+			return modelInfo_[i]->vertexBufferView;
+		}
+	}
+
+	assert(false);
+	D3D12_VERTEX_BUFFER_VIEW unknown{};
+	return unknown;
 }
