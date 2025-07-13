@@ -107,5 +107,12 @@ protected:
 
 	// 攻撃フラグ
 	bool isAttack_ = false;
+
+
+	// ダメージ音
+	uint32_t soundHandleDamage_ = 0;
+
+	// 撃破音
+	uint32_t soundHandleDestroy_ = 0;
 };
 

@@ -1,6 +1,19 @@
 #include "ModelDataStore.h"
 
 /// <summary>
+/// デストラクタ
+/// </summary>
+ModelDataStore::~ModelDataStore()
+{
+	// モデルの情報
+	for (ModelInfo* modelInfo : modelInfo_)
+	{
+		delete modelInfo;
+	}
+	modelInfo_.clear();
+}
+
+/// <summary>
 /// 初期化
 /// </summary>
 void ModelDataStore::Initialize(TextureStore* textureStore)
@@ -24,16 +37,19 @@ uint32_t ModelDataStore::GetModelHandle(const std::string& directoryPath, const 
 	// 同じモデルデータを使われているか
 	for (uint32_t i = 0; i < useModelDataNum_; i++)
 	{
-		if (strcmp(directoryPath.c_str(), modelInfoStructure_[i].directoryPath.c_str())) { continue; }
-		if (strcmp(fileName.c_str(), modelInfoStructure_[i].fileName.c_str())) { continue; }
+		if (strcmp(directoryPath.c_str(), modelInfo_[i]->directoryPath.c_str())) { continue; }
+		if (strcmp(fileName.c_str(), modelInfo_[i]->fileName.c_str())) { continue; }
 
-		return modelInfoStructure_[i].modelHandle;
+		return modelInfo_[i]->modelHandle;
 	}
 
+	// 新規モデル情報
+	ModelInfo* modelInfo = new ModelInfo();
+
 	// モデルハンドルを決める
-	while (modelInfoStructure_[useModelDataNum_].modelHandle == 0)
+	while (modelInfo->modelHandle == 0)
 	{
-		modelInfoStructure_[useModelDataNum_].modelHandle = rand() % 100000 + 1;
+		modelInfo->modelHandle = rand() % 100000 + 1;
 
 		// モデルハンドルが被らないようにする
 		for (uint32_t j = 0; j < useModelDataNum_; j++)
@@ -41,42 +57,45 @@ uint32_t ModelDataStore::GetModelHandle(const std::string& directoryPath, const 
 			if (useModelDataNum_ == j)
 				continue;
 
-			if (modelInfoStructure_[useModelDataNum_].modelHandle == modelInfoStructure_[j].modelHandle)
+			if (modelInfo->modelHandle == modelInfo_[j]->modelHandle)
 			{
-				modelInfoStructure_[useModelDataNum_].modelHandle = 0;
+				modelInfo->modelHandle = 0;
 				break;
 			}
 		}
 	}
 
 	// パスを受け取る
-	modelInfoStructure_[useModelDataNum_].directoryPath = directoryPath;
-	modelInfoStructure_[useModelDataNum_].fileName = fileName;
+	modelInfo->directoryPath = directoryPath;
+	modelInfo->fileName = fileName;
 
 	// モデルを読み込む
-	modelInfoStructure_[useModelDataNum_].modelData = LoadObjFile(directoryPath, fileName);
+	modelInfo->modelData = LoadObjFile(directoryPath, fileName);
 
 	// 頂点リソースを作る
-	modelInfoStructure_[useModelDataNum_].vertexResource = 
-		CreateBufferResource(device, sizeof(VertexData) * modelInfoStructure_[useModelDataNum_].modelData.vertices.size());
+	modelInfo->vertexResource =
+		CreateBufferResource(device, sizeof(VertexData) * modelInfo->modelData.vertices.size());
 
 	// テクスチャハンドルを取得する
-	if (strcmp(modelInfoStructure_[useModelDataNum_].modelData.material.textureFilePath.c_str(), "") == 0)
+	if (strcmp(modelInfo->modelData.material.textureFilePath.c_str(), "") == 0)
 	{
-		modelInfoStructure_[useModelDataNum_].textureHandle = textureStore_->GetTextureHandle("./Resources/Textures/white2x2.png",
+		modelInfo->textureHandle = textureStore_->GetTextureHandle("./Resources/Textures/white2x2.png",
 			device, srvDescriptorHeap, commandList);
 	}
 	else
 	{
-		modelInfoStructure_[useModelDataNum_].textureHandle = 
-			textureStore_->GetTextureHandle(modelInfoStructure_[useModelDataNum_].modelData.material.textureFilePath,device, srvDescriptorHeap, commandList);
+		modelInfo->textureHandle =
+			textureStore_->GetTextureHandle(modelInfo->modelData.material.textureFilePath,device, srvDescriptorHeap, commandList);
 	}
 
+
+	// ベクトルに追加する
+	modelInfo_.push_back(modelInfo);
 
 	// カウントする
 	useModelDataNum_++;
 
-	return modelInfoStructure_[useModelDataNum_ - 1].modelHandle;
+	return modelInfo_[useModelDataNum_ - 1]->modelHandle;
 }
 
 /// <summary>
@@ -88,9 +107,9 @@ ModelData ModelDataStore::GetModelData(uint32_t modelHandle)
 {
 	for (uint32_t i = 0; i < useModelDataNum_; i++)
 	{
-		if (modelHandle == modelInfoStructure_[i].modelHandle)
+		if (modelHandle == modelInfo_[i]->modelHandle)
 		{
-			return modelInfoStructure_[i].modelData;
+			return modelInfo_[i]->modelData;
 		}
 	}
 
@@ -109,9 +128,9 @@ Microsoft::WRL::ComPtr<ID3D12Resource> ModelDataStore::GetVertexResource(uint32_
 {
 	for (uint32_t i = 0; i < useModelDataNum_; i++)
 	{
-		if (modelHandle == modelInfoStructure_[i].modelHandle)
+		if (modelHandle == modelInfo_[i]->modelHandle)
 		{
-			return modelInfoStructure_[i].vertexResource;
+			return modelInfo_[i]->vertexResource;
 		}
 	}
 
@@ -128,9 +147,9 @@ uint32_t ModelDataStore::GetTextureHandle(uint32_t modelHandle)
 {
 	for (uint32_t i = 0; i < useModelDataNum_; i++)
 	{
-		if (modelHandle == modelInfoStructure_[i].modelHandle)
+		if (modelHandle == modelInfo_[i]->modelHandle)
 		{
-			return modelInfoStructure_[i].textureHandle;
+			return modelInfo_[i]->textureHandle;
 		}
 	}
 

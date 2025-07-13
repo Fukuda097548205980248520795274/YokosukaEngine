@@ -2,6 +2,19 @@
 #include "../../Base/DirectXCommon/DirectXCommon.h"
 
 /// <summary>
+/// デストラクタ
+/// </summary>
+TextureStore::~TextureStore()
+{
+	// テクスチャデータのリスト
+	for (TextureData* textureData : textureData_)
+	{
+		delete textureData;
+	}
+	textureData_.clear();
+}
+
+/// <summary>
 /// 初期化
 /// </summary>
 void TextureStore::Initialize(DirectXCommon* directXCommon)
@@ -24,16 +37,20 @@ uint32_t TextureStore::GetTextureHandle( const std::string& filePath, ID3D12Devi
 	// 既に格納されているファイルパスを探す
 	for (uint32_t i = 0; i < textureNum_; i++)
 	{
-		if (strcmp(filePath.c_str(), textureData_[i].filePath.c_str()) == 0)
+		if (strcmp(filePath.c_str(), textureData_[i]->filePath.c_str()) == 0)
 		{
-			return textureData_[i].textureHandle;
+			return textureData_[i]->textureHandle;
 		}
 	}
 
+	// 新規テクスチャデータ
+	TextureData* textureData = new TextureData();
+
+
 	// テクスチャハンドルを設定する
-	while (textureData_[textureNum_].textureHandle == 0)
+	while (textureData->textureHandle == 0)
 	{
-		textureData_[textureNum_].textureHandle = rand() % 100000 + 1;
+		textureData->textureHandle = rand() % 100000 + 1;
 
 		for (uint32_t j = 0; j < textureNum_; j++)
 		{
@@ -42,42 +59,45 @@ uint32_t TextureStore::GetTextureHandle( const std::string& filePath, ID3D12Devi
 				continue;
 
 			// 同じテクスチャハンドルはやり直し
-			if (textureData_[textureNum_].textureHandle == textureData_[j].textureHandle)
+			if (textureData->textureHandle == textureData_[j]->textureHandle)
 			{
-				textureData_[textureNum_].textureHandle = 0;
+				textureData->textureHandle = 0;
 				break;
 			}
 		}
 	}
 
 	// ファイルパスを所得する
-	textureData_[textureNum_].filePath = filePath;
+	textureData->filePath = filePath;
 
 	// テクスチャ情報を取得する
-	textureData_[textureNum_].mipImages = LoadTexture(textureData_[textureNum_].filePath);
+	textureData->mipImages = LoadTexture(textureData->filePath);
 
-	const DirectX::TexMetadata& metadata = textureData_[textureNum_].mipImages.GetMetadata();
-	textureData_[textureNum_].textureResource = CreateTextureResource(device, metadata);
-	textureData_[textureNum_].intermediateResource = 
-		UploadTextureData(textureData_[textureNum_].textureResource, textureData_[textureNum_].mipImages, device, commandList);
+	const DirectX::TexMetadata& metadata = textureData->mipImages.GetMetadata();
+	textureData->textureResource = CreateTextureResource(device, metadata);
+	textureData->intermediateResource =
+		UploadTextureData(textureData->textureResource, textureData->mipImages, device, commandList);
 
 	// メタデータを元にSRVを設定する
-	textureData_[textureNum_].srvDesc.Format = metadata.format;
-	textureData_[textureNum_].srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	textureData_[textureNum_].srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	textureData_[textureNum_].srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
+	textureData->srvDesc.Format = metadata.format;
+	textureData->srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	textureData->srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	textureData->srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
 
 	// SRVを作成するディスクリプタヒープの場所を確保する
-	textureData_[textureNum_].textureSrvHandleCPU = directXCommon_->GetSRVCPUDescriptorHandle(srvDescriptorHeap,device);
-	textureData_[textureNum_].textureSrvHandleGPU = directXCommon_->GetSRVGPUDescriptorHandle(srvDescriptorHeap,device);
+	textureData->textureSrvHandleCPU = directXCommon_->GetSRVCPUDescriptorHandle(srvDescriptorHeap,device);
+	textureData->textureSrvHandleGPU = directXCommon_->GetSRVGPUDescriptorHandle(srvDescriptorHeap,device);
 
 	// SRVを生成する
-	device->CreateShaderResourceView(textureData_[textureNum_].textureResource.Get(),
-		&textureData_[textureNum_].srvDesc, textureData_[textureNum_].textureSrvHandleCPU);
+	device->CreateShaderResourceView(textureData->textureResource.Get(),
+		&textureData->srvDesc, textureData->textureSrvHandleCPU);
+
+	// ベクトルに追加する
+	textureData_.push_back(textureData);
 
 	textureNum_++;
 
-	return textureData_[textureNum_ - 1].textureHandle;
+	return textureData_[textureNum_ - 1]->textureHandle;
 }
 
 /// <summary>
@@ -89,9 +109,9 @@ void TextureStore::SelectTexture(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandLis
 {
 	for (int i = 0; i < 512; i++)
 	{
-		if (textureHandle == textureData_[i].textureHandle)
+		if (textureHandle == textureData_[i]->textureHandle)
 		{
-			commandList->SetGraphicsRootDescriptorTable(2, textureData_[i].textureSrvHandleGPU);
+			commandList->SetGraphicsRootDescriptorTable(2, textureData_[i]->textureSrvHandleGPU);
 
 			break;
 		}

@@ -10,10 +10,6 @@
 #include "../../../../Externals/DirectXTex/DirectXTex.h"
 #include "../../../../Externals/DirectXTex/d3dx12.h"
 
-#pragma comment(lib , "d3d12.lib")
-#pragma comment(lib , "dxgi.lib")
-#pragma comment(lib , "dxcompiler.lib")
-
 /// <summary>
 /// テクスチャデータを読み込む
 /// </summary>

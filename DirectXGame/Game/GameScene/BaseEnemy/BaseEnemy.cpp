@@ -21,6 +21,13 @@ void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
 	worldTransform_->translation_ = position;
+
+
+	// ダメージ音を読み込む
+	soundHandleDamage_ = engine_->LoadSound("./Resources/Sounds/Se/enemy/damage/damage.mp3");
+
+	// 撃破音を読み込む
+	soundHandleDestroy_ = engine_->LoadSound("./Resources/Sounds/Se/enemy/damage/destroy.mp3");
 }
 
 /// <summary>
@@ -31,6 +38,9 @@ void BaseEnemy::Update()
 	// 体力がなくなったら消滅する
 	if (hp_ <= 0)
 	{
+		// 撃破音
+		engine_->PlaySoundData(soundHandleDestroy_ , 0.7f);
+
 		isFinished_ = true;
 	}
 
@@ -75,6 +85,9 @@ AABB BaseEnemy::GetCollisionAABB(const Vector3& position) const
 /// <param name="playerBullet"></param>
 void BaseEnemy::OnCollision(const BasePlayerBullet* playerBullet)
 {
+	// ダメージ音
+	engine_->PlaySoundData(soundHandleDamage_ , 0.5f);
+
 	// 弾の種類に合わせて体力が減る
 	hp_ -= playerBullet->GetPower();
 }

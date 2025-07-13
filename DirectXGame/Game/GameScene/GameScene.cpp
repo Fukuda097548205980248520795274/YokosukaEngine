@@ -46,6 +46,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
+	directionalLight_->intensity_ = 0.5f;
 
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
