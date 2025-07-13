@@ -233,5 +233,33 @@ private:
 
 	// 目標角度
 	const float kGimmickTiltGoalRadian[kNumTileGimmick] = { 0.0f , std::numbers::pi_v<float> / 4.0f , -std::numbers::pi_v<float> / 4.0f };
+
+
+	/*   発射   */
+
+	/// <summary>
+	/// ギミック : 発射 : 初期化
+	/// </summary>
+	void GimmickShotInitialize();
+
+	/// <summary>
+	/// ギミック : 発射 : 更新処理
+	/// </summary>
+	void GimmickShotUpdate();
+
+	// 発射パラメータ
+	float shotParameter_ = 0.1f;
+
+	// 発射パラメータの最大値
+	const float kShotParameterMax = 0.1f;
+
+	// パラメータの速度
+	const float kShotParameterVelocity = 1.0f / 60.0f;
+
+	// 発射したときの移動位置
+	const Vector3 shotMove_ = Vector3(0.0f, 0.0f, -1.0f);
+
+	// 発射したときのゴール地点
+	const Vector3 shotGoal_ = Vector3(0.0f, 0.0f, 0.0f);
 };
 
