@@ -29,6 +29,12 @@ public:
 	/// <returns></returns>
 	Vector3 GetBodyWorldPosition() override;
 
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	/// <param name="playerBullet"></param>
+	void OnCollision(const BasePlayerBullet* playerBullet) override;
+
 
 private:
 
@@ -117,5 +123,37 @@ private:
 
 	// 幅だきぎいっくの振幅
 	float flappingAmplitude_ = 0.0f;
+
+
+	/*----------------------
+	    ギミック : ダメージ
+	----------------------*/
+
+	/// <summary>
+	/// ギミック : ダメージ : 初期化
+	/// </summary>
+	void GimmickDamageInitialize();
+
+	/// <summary>
+	/// ギミック : ダメージ : 更新処理
+	/// </summary>
+	void GimmickDamageUpdate();
+
+	/// <summary>
+	/// ギミック : ダメージ : 描画処理
+	/// </summary>
+	void GimmickDamageDraw();
+
+	// ダメージギミックのパラメータ
+	float damageParameter_ = 0.25f;
+
+	// ダメージギミックの最大値
+	const float kDamageParameterMax = 0.25f;
+
+	// ダメージギミックの速度
+	float damageVelocity_ = 1.0f / 60.0f;
+
+	// ダメージの色
+	Vector4 damageColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 };
 

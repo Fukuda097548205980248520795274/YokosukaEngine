@@ -72,6 +72,9 @@ void EnemyButterfly::Update()
 	// 羽ばたきギミック更新
 	GimmickFlappingUpdate();
 
+	// ダメージギミック更新
+	GimmickDamageUpdate();
+
 	// 基底クラス更新
 	BaseEnemy::Update();
 
@@ -100,6 +103,9 @@ void EnemyButterfly::Draw()
 		engine_->DrawModel(models_[i].worldTransform_.get(), models_[i].uvTransform_.get(), camera3d_, models_[i].modelHandle_,
 			models_[i].color, true);
 	}
+
+	// ダメージギミックの描画
+	GimmickDamageDraw();
 }
 
 /// <summary>
@@ -118,6 +124,19 @@ Vector3 EnemyButterfly::GetBodyWorldPosition()
 	return worldPosition;
 }
 
+
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+/// <param name="playerBullet"></param>
+void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
+{
+	// 基底クラスの衝突判定応答
+	BaseEnemy::OnCollision(playerBullet);
+
+	// ダメージギミック初期化
+	GimmickDamageInitialize();
+}
 
 
 /*-----------------
@@ -184,4 +203,58 @@ void EnemyButterfly::GimmickFlappingUpdate()
 	// 羽を動かす
 	models_[kWingR].worldTransform_->rotation_.y = std::sin(flappingParameter_) * flappingAmplitude_;
 	models_[kWingL].worldTransform_->rotation_.y = -std::sin(flappingParameter_) * flappingAmplitude_;
+}
+
+
+/*----------------------
+	ギミック : ダメージ
+----------------------*/
+
+/// <summary>
+/// ギミック : ダメージ : 初期化
+/// </summary>
+void EnemyButterfly::GimmickDamageInitialize()
+{
+	// ダメージギミックのパラメータ
+	damageParameter_ = 0.0f;
+
+	// ダメージの色
+	damageColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+/// <summary>
+/// ギミック : ダメージ : 更新処理
+/// </summary>
+void EnemyButterfly::GimmickDamageUpdate()
+{
+	// パラメータが最大値に達したら処理しない
+	if (damageParameter_ >= kDamageParameterMax)
+		return;
+
+	// パラメータを進める
+	damageParameter_ += damageVelocity_;
+	damageParameter_ = std::min(damageParameter_, kDamageParameterMax);
+
+	// 補間
+	float t = damageParameter_ / kDamageParameterMax;
+
+	// 徐々に透明にする
+	damageColor.w = (1.0f - t);
+}
+
+/// <summary>
+/// ギミック : ダメージ : 描画処理
+/// </summary>
+void EnemyButterfly::GimmickDamageDraw()
+{
+	// パラメータが最大値に達したら処理しない
+	if (damageParameter_ >= kDamageParameterMax)
+		return;
+
+	// モデルの描画
+	for (uint32_t i = 0; i < kNumModel; i++)
+	{
+		engine_->DrawModel(models_[i].worldTransform_.get(), models_[i].uvTransform_.get(), camera3d_, models_[i].modelHandle_,
+			damageColor, false);
+	}
 }

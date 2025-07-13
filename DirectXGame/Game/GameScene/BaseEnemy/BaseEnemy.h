@@ -66,7 +66,7 @@ public:
 	/// 衝突判定応答
 	/// </summary>
 	/// <param name="playerBullet"></param>
-	void OnCollision(const BasePlayerBullet* playerBullet);
+	virtual void OnCollision(const BasePlayerBullet* playerBullet);
 
 
 protected:
