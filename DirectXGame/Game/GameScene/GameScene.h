@@ -93,7 +93,6 @@ private:
 	/// </summary>
 	void StageObjectUpdate();
 
-
 	/// <summary>
 	/// 全ての当たり判定を行う
 	/// </summary>
