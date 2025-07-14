@@ -66,8 +66,12 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	dxc_->Initialize(logging_);
 
 
+#ifdef _DEBUG
+
 	// デバッグレイヤーを有効化する
 	ActiveDebugLayer();
+
+#endif
 
 	// DirectXGPUの生成と初期化
 	directXGPU_ = std::make_unique<DirectXGPU>();
@@ -77,8 +81,12 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	directXCommand_ = std::make_unique<DirectXCommand>();
 	directXCommand_->Initialize(logging_, directXGPU_.get());
 
+#ifdef _DEBUG
+
 	// エラーと警告で停止させる
 	StopOnErrorsAndWarnings();
+
+#endif
 
 	// RTV用ディスクリプタヒープを生成する
 	rtvDescriptorHeap_ = CreateDescritprHeap(directXGPU_->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV, kMaxNumRtvDescriptors, false);
@@ -2085,6 +2093,8 @@ void DirectXCommon::ChangeResourceState(ID3D12GraphicsCommandList* commandList,
 }
 
 
+#ifdef _DEBUG
+
 /// <summary>
 /// デバッグレイヤーを有効化する
 /// </summary>
@@ -2143,6 +2153,8 @@ void DirectXCommon::StopOnErrorsAndWarnings()
 		infoQueue->PushStorageFilter(&filter);
 	}
 }
+
+#endif
 
 
 /// <summary>

@@ -28,7 +28,7 @@ void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* c
 	// ポイントライトの生成
 	bulletPointLight_ = std::make_unique<PointLight>();
 	bulletPointLight_->Initialize();
-	bulletPointLight_->color_ = Vector4(0.2f, 0.2f, 1.0f, 1.0f);
+	bulletPointLight_->color_ = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
 	bulletPointLight_->radius_ = 32.0f;
 
 	// 攻撃力
@@ -72,7 +72,7 @@ void EnemyBulletWeek::Draw()
 	engine_->SetPointLight(bulletPointLight_.get());
 
 	// 本体を描画する
-	engine_->DrawModel(bulletWorldTransform_.get(), bulletUvTransform_.get(), camera3d_, bulletModelHandle_, Vector4(0.2f, 0.2f, 1.0f, 1.0f), false);
+	engine_->DrawModel(bulletWorldTransform_.get(), bulletUvTransform_.get(), camera3d_, bulletModelHandle_, Vector4(0.5f, 0.5f, 1.0f, 1.0f), false);
 }
 
 

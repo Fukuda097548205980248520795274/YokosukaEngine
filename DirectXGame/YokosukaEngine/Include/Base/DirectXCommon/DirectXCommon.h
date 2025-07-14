@@ -419,6 +419,8 @@ public:
 
 private:
 
+#ifdef _DEBUG
+
 	/// <summary>
 	/// デバッグレイヤーを有効化する
 	/// </summary>
@@ -428,6 +430,8 @@ private:
 	/// エラーと警告で停止させる
 	/// </summary>
 	void StopOnErrorsAndWarnings();
+
+#endif
 
 	/// <summary>
 	/// スワップチェーンを生成する
@@ -515,8 +519,13 @@ private:
 	std::unique_ptr<ModelDataStore> modelDataStore_ = nullptr;
 
 
+#ifdef _DEBUG
+
 	// デバッグコントローラ
 	Microsoft::WRL::ComPtr<ID3D12Debug1> debugController_ = nullptr;
+
+#endif
+
 
 	// RTV用ディスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_ = nullptr;

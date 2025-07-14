@@ -162,6 +162,100 @@ private:
 	Vector4 damageColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 
 
+	/*--------------------------
+	    ギミック : 発射動作
+	--------------------------*/
+	
+	/// <summary>
+	/// ギミック : 発射動作 : 初期化
+	/// </summary>
+	void GimmickShotActionInitliaze();
+
+	/// <summary>
+	/// ギミック : 発射動作 : 更新処理
+	/// </summary>
+	void GimmickShotActionUpdate();
+
+	// 発射動作パラメータ
+	float shotActionParameter_ = 0.0f;
+
+	// 発射動作の初期化時の角度
+	float shotActionCurrentRotation_ = 0.0f;
+
+
+	// 発射操作初期回転のパラメータ
+	const float kShotActionStartRotationParameter[2] = {0.0f , 0.5f};
+
+	// 発射動作初期回転
+	const float kShotActionStartRotation[kNumModel] = { 0.0f ,-2.0f,2.0f };
+
+
+	// 発射操作回転のパラメータ
+	const float kShotActionRotationParameter[2] = { 0.75f , 1.00f };
+
+	// 発射動作回転
+	const float kShotActionRotation[kNumModel] = { 0.0f,1.0f,-1.0f };
+
+
+	// 発射操作終了回転のパラメータ
+	const float kShotActionEndRotationParameter[2] = { 2.50f , 3.00f };
+
+	// 発射動作終了回転
+	const float kShotActionEndRotation[kNumModel] = { 0.0f,0.0f,0.0f };
+
+	
+	// 発射したかどうか
+	bool isShot_ = false;
+
+
+
+	/*---------------
+	    ビヘイビア
+	---------------*/
+
+	// ビヘイビア
+	enum Behavior
+	{
+		// 通常
+		kNormal,
+
+		// 発射
+		kShot,
+
+		// 何もない
+		kNothing
+	};
+
+	// 現在のビヘイビア
+	Behavior behavior_ = kNothing;
+
+	// 次のビヘイビアの予定
+	Behavior requestBehavior_ = kNormal;
+
+
+	/*----------------------
+	    ビヘイビア : 通常
+	----------------------*/
+
+	/// <summary>
+	/// ビヘイビア : 通常 : 初期化
+	/// </summary>
+	void BehaviorNormalInitialize();
+
+	/// <summary>
+	/// ビヘイビア : 通常 : 更新処理
+	/// </summary>
+	void BehaviorNormalUpdate();
+
+	// 発射までの時間
+	const float kShotTime = 3.0f;
+
+	// 発射タイマー
+	float shotTimer_ = 0.0f;
+
+	// 発射タイマーの速度
+	const float kShotTimerVelocity = 1.0f / 60.0f;
+
 	
 	/*----------------------
 	    ビヘイビア : 発射
@@ -182,13 +276,13 @@ private:
 	/// </summary>
 	void BulletShot();
 
-	// 弾を発射する時間
-	const float kBulletShotTime = 2.0f;
+	// 発射パラメータ
+	float shotParameter_ = 0.0f;
 
-	// 弾の発射タイマー
-	float bulletShotTimer_ = 0.0f;
+	// 発射パラメータの最大値
+	const float kShotParameterMax = 3.0f;
 
-	// 弾の発射タイマーの速度
-	const float kBulletShotTimeVelocity = 1.0f / 60.0f;
+	// 発射パラメータの速度
+	const float kShotParameterVelocity = 1.0f / 60.0f;
 };
 
