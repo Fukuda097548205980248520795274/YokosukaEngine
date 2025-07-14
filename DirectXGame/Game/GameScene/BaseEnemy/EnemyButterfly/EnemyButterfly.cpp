@@ -1,4 +1,6 @@
 #include "EnemyButterfly.h"
+#include "../../Player/Player.h"
+#include "../../GameScene.h"
 
 /// <summary>
 /// 初期化
@@ -6,10 +8,10 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
+void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target, GameScene* gameScene)
 {
 	// 基底クラス初期化
-	BaseEnemy::Initialize(engine, camera3d, position);
+	BaseEnemy::Initialize(engine, camera3d, position, target, gameScene);
 	worldTransform_->scale_ *= 2.0f;
 
 	hitSize_ = { 2.0f , 2.0f , 1.0f };
@@ -56,9 +58,6 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 
 	// 浮遊ギミック初期化
 	GimmickFloatingInitialize();
-
-	// 羽ばたきギミック初期化
-	GimmickFlappingInitialize();
 }
 
 /// <summary>
@@ -66,14 +65,54 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 /// </summary>
 void EnemyButterfly::Update()
 {
-	// 浮遊ギミック更新
-	GimmickFloatingUpdate();
+	// 次のビヘイビアの予定があるとき
+	if (requestBehavior_ != kNothing)
+	{
+		// ビヘイビアを変更する
+		behavior_ = requestBehavior_;
 
-	// 羽ばたきギミック更新
-	GimmickFlappingUpdate();
+		// 初期化する
+		switch (behavior_)
+		{
+		case kNormal:
+		default:
+			// 通常
 
-	// ダメージギミック更新
-	GimmickDamageUpdate();
+			BehaviorNormalInitialize();
+
+			break;
+
+		case kShot:
+			// 発射
+
+			BehaviorShotInitialize();
+
+			break;
+		}
+
+		// 予定を消す
+		requestBehavior_ = kNothing;
+	}
+
+	// 現在のビヘイビアの更新処理
+	switch (behavior_)
+	{
+	case kNormal:
+	default:
+		// 通常
+
+		BehaviorNormalUpdate();
+
+		break;
+
+	case kShot:
+		// 発射
+
+		BehaviorShotUpdate();
+
+		break;
+	}
+
 
 	// 基底クラス更新
 	BaseEnemy::Update();
@@ -257,4 +296,186 @@ void EnemyButterfly::GimmickDamageDraw()
 		engine_->DrawModel(models_[i].worldTransform_.get(), models_[i].uvTransform_.get(), camera3d_, models_[i].modelHandle_,
 			damageColor, false);
 	}
+}
+
+
+/*--------------------
+    ギミック : 発射
+--------------------*/
+
+/// <summary>
+/// ギミック : 発射動作 : 初期化
+/// </summary>
+void EnemyButterfly::GimmickShotActionInitliaze()
+{
+	// 発射動作パラメータ
+	shotActionParameter_ = 0.0f;
+
+	// 現在の角度
+	shotActionCurrentRotation_ = worldTransform_->rotation_.y;
+
+	// 発射フラグ
+	isShot_ = false;
+}
+
+/// <summary>
+/// ギミック : 発射動作 : 更新処理
+/// </summary>
+void EnemyButterfly::GimmickShotActionUpdate()
+{
+	// 発射ビヘイビアが終了するまでパラメータを進める
+	if (shotActionParameter_ >= kShotParameterMax)
+		return;
+
+	// パラメータを進める
+	shotActionParameter_ += kShotParameterVelocity;
+	shotActionParameter_ = std::min(shotActionParameter_, kShotParameterMax);
+
+	// 羽を広げる
+	if (shotActionParameter_ >= kShotActionStartRotationParameter[0] && shotActionParameter_ <= kShotActionStartRotationParameter[1])
+	{
+		// 補間
+		float t = (shotActionParameter_ - kShotActionStartRotationParameter[0]) / (kShotActionStartRotationParameter[1] - kShotActionStartRotationParameter[0]);
+
+		models_[kWingR].worldTransform_->rotation_.y = Lerp(models_[kWingR].worldTransform_->rotation_.y, kShotActionStartRotation[kWingR], t);
+		models_[kWingL].worldTransform_->rotation_.y = Lerp(models_[kWingL].worldTransform_->rotation_.y, kShotActionStartRotation[kWingL], t);
+	}
+	
+	// 羽を閉じる
+	if (shotActionParameter_ >= kShotActionRotationParameter[0] && shotActionParameter_ <= kShotActionRotationParameter[1])
+	{
+		// 補間
+		float t = (shotActionParameter_ - kShotActionRotationParameter[0]) / (kShotActionRotationParameter[1] - kShotActionRotationParameter[0]);
+
+		models_[kWingR].worldTransform_->rotation_.y = Lerp(kShotActionStartRotation[kWingR], kShotActionRotation[kWingR], t);
+		models_[kWingL].worldTransform_->rotation_.y = Lerp(kShotActionStartRotation[kWingL], kShotActionRotation[kWingL], t);
+	}
+
+	// 羽を閉じ終えたら発射する
+	if (shotActionParameter_ >= kShotActionRotationParameter[1])
+	{
+		if (isShot_ == false)
+		{
+			isShot_ = true;
+			BulletShot();
+		}
+	}
+
+	// 羽を戻す
+	if (shotActionParameter_ >= kShotActionEndRotationParameter[0] && shotActionParameter_ <= kShotActionEndRotationParameter[1])
+	{
+		// 補間
+		float t = (shotActionParameter_ - kShotActionEndRotationParameter[0]) / (kShotActionEndRotationParameter[1] - kShotActionEndRotationParameter[0]);
+
+		models_[kWingR].worldTransform_->rotation_.y = Lerp(kShotActionRotation[kWingR], kShotActionEndRotation[kWingR], t);
+		models_[kWingL].worldTransform_->rotation_.y = Lerp(kShotActionRotation[kWingL], kShotActionEndRotation[kWingL], t);
+	}
+
+
+	// ターゲットの方向を向くようにする
+	Vector3 toTarget = -1.0f * Normalize(target_->GetBodyWorldPosition() - GetBodyWorldPosition());
+	worldTransform_->rotation_.y = std::atan2(toTarget.x, toTarget.z);
+	float length = std::sqrt(std::pow(toTarget.x, 2.0f) + std::pow(toTarget.z, 2.0f));
+	worldTransform_->rotation_.x = std::atan2(-toTarget.y, length);
+}
+
+
+
+/*----------------------
+    ビヘイビア : 通常
+----------------------*/
+
+/// <summary>
+/// ビヘイビア : 通常 : 初期化
+/// </summary>
+void EnemyButterfly::BehaviorNormalInitialize()
+{
+	// 発射タイマー
+	shotTimer_ = 0.0f;
+
+	// 羽ばたきギミック初期化
+	GimmickFlappingInitialize();
+}
+
+/// <summary>
+/// ビヘイビア : 通常 : 更新処理
+/// </summary>
+void EnemyButterfly::BehaviorNormalUpdate()
+{
+	// タイマーを進める
+	shotTimer_ += kShotTimerVelocity;
+	shotTimer_ = std::min(shotTimer_, kShotTime);
+
+	// 発射ビヘイビアに遷移する
+	if (shotTimer_ >= kShotTime)
+		requestBehavior_ = kShot;
+
+
+	// 浮遊ギミック 更新
+	GimmickFloatingUpdate();
+
+	// 羽ばたきギミック 更新
+	GimmickFlappingUpdate();
+
+	// ダメージギミック 更新
+	GimmickDamageUpdate();
+}
+
+
+
+/*----------------------
+    ビヘイビア : 発射
+----------------------*/
+
+/// <summary>
+/// ビヘイビア : 発射 : 初期化
+/// </summary>
+void EnemyButterfly::BehaviorShotInitialize()
+{
+	// 発射パラメータ
+	shotParameter_ = 0.0f;
+
+	// 発射動作ギミック初期化
+	GimmickShotActionInitliaze();
+}
+
+/// <summary>
+/// ビヘイビア : 発射 : 更新処理
+/// </summary>
+void EnemyButterfly::BehaviorShotUpdate()
+{
+	// 発射パラメータを進める
+	shotParameter_ += kShotParameterVelocity;
+	shotParameter_ = std::min(shotParameter_, kShotParameterMax);
+	
+	// 発射パラメータが終了したら、通所ビヘイビアに遷移する
+	if (shotParameter_ >= kShotParameterMax)
+		requestBehavior_ = kNormal;
+
+
+	// 浮遊ギミック 更新
+	GimmickFloatingUpdate();
+
+	// 発射動作ギミック更新
+	GimmickShotActionUpdate();
+
+	// ダメージギミック 更新
+	GimmickDamageUpdate();
+}
+
+
+/// <summary>
+/// 弾を発射する
+/// </summary>
+void EnemyButterfly::BulletShot()
+{
+	// 新規の弾の生成
+	EnemyBulletWeek* enemyBullet = new EnemyBulletWeek();
+	enemyBullet->Initialize(engine_, camera3d_, GetBodyWorldPosition());
+
+	// ターゲットの方向に発射する
+	enemyBullet->SetDirection(Normalize(target_->GetBodyWorldPosition() - GetBodyWorldPosition()));
+
+	// ゲームシーンのリストに追加する
+	gameScene_->EnemyBulletShot(enemyBullet);
 }

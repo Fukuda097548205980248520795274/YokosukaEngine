@@ -7,12 +7,7 @@
 /// </summary>
 Player::~Player()
 {
-	// 弾のリスト
-	for (BasePlayerBullet* bullet : bullets_)
-	{
-		delete bullet;
-	}
-	bullets_.clear();
+	
 }
 
 /// <summary>
@@ -94,6 +89,9 @@ void Player::Update()
 	// ギミック : 傾き : 更新処理
 	GimmickTiltUpdate();
 
+	// ギミック : 発射 : 更新処理
+	GimmickShotUpdate();
+
 	// 体力がなくなったら終了
 	if (hp_ <= 0)
 	{
@@ -110,25 +108,6 @@ void Player::Update()
 
 	// 本体の位置にポイントライトを置く
 	bodyPointLight_->position_ = GetBodyWorldPosition();
-
-
-	// 終了した弾をリストから削除する
-	bullets_.remove_if([](BasePlayerBullet* bullet)
-		{
-			if (bullet->IsFinished())
-			{
-				delete bullet;
-				return true;
-			}
-			return false;
-		}
-	);
-
-	// 弾の更新処理
-	for (BasePlayerBullet* bullet : bullets_)
-	{
-		bullet->Update();
-	}
 }
 
 /// <summary>
@@ -141,12 +120,6 @@ void Player::Draw()
 
 	// 本体を描画する
 	engine_->DrawModel(bodyWorldTransform_.get(), bodyUvTransform_.get(), camera3d_, bodyModelHandle_, Vector4(0.0f, 0.0f, 0.0f, 1.0f), true);
-
-	// 弾の描画処理
-	for (BasePlayerBullet* bullet : bullets_)
-	{
-		bullet->Draw();
-	}
 }
 
 
@@ -326,7 +299,7 @@ void Player::BulletShotGamepad()
 			newBullet->SetDirection(direction);
 
 			// リストに登録する
-			bullets_.push_back(newBullet);
+			gameScene_->PlayerBulletShot(newBullet);
 
 			// カメラをシェイクする
 			gameScene_->CameraShake(0.5f, 1.0f);
@@ -347,7 +320,7 @@ void Player::BulletShotGamepad()
 			newBullet->SetDirection(direction);
 
 			// リストに登録する
-			bullets_.push_back(newBullet);
+			gameScene_->PlayerBulletShot(newBullet);
 
 			// タイマーを初期化する
 			shotTimer_ = 1.0f;
@@ -355,6 +328,9 @@ void Player::BulletShotGamepad()
 			// 発射音を鳴らす
 			engine_->PlaySoundData(minShotSoundHandle_, 0.3f);
 		}
+
+		// 発射ギミックの初期化
+		GimmickShotInitialize();
 	}
 }
 
@@ -415,4 +391,41 @@ void Player::GimmickTiltUpdate()
 {
 	// 状態に合わせて補間で傾ける
 	bodyWorldTransform_->rotation_.z = Lerp(bodyWorldTransform_->rotation_.z, kGimmickTiltGoalRadian[gimmickTilt_], 0.1f);
+}
+
+
+
+/*   発射   */
+
+/// <summary>
+/// ギミック : 発射 : 初期化
+/// </summary>
+void Player::GimmickShotInitialize()
+{
+	// 発射パラメータ
+	shotParameter_ = 0.0f;
+
+	// 移動する
+	bodyWorldTransform_->translation_.z = shotMove_.z;
+}
+
+/// <summary>
+/// ギミック : 発射 : 更新処理
+/// </summary>
+void Player::GimmickShotUpdate()
+{
+	// パラメータを越えたら処理しない
+	if (shotParameter_ >= kShotParameterMax)
+		return;
+
+	// パラメータを進める
+	shotParameter_ += kShotParameterVelocity;
+	shotParameter_ = std::min(shotParameter_, kShotParameterMax);
+
+	// 補間を求める
+	float t = shotParameter_ / kShotParameterMax;
+	float easing = t;
+
+	// 徐々に初期位置に戻る
+	bodyWorldTransform_->translation_.z = (1.0f - easing) * shotMove_.z + easing * shotGoal_.z;
 }

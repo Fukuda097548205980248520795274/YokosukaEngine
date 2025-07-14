@@ -3,6 +3,8 @@
 
 // 前方宣言
 class BasePlayerBullet;
+class Player;
+class GameScene;
 
 class BaseEnemy
 {
@@ -14,7 +16,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position);
+	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position , const Player* target_ , GameScene* gameScene);
 
 	/// <summary>
 	/// 更新処理
@@ -76,6 +78,12 @@ protected:
 
 	// カメラ
 	const Camera3D* camera3d_ = nullptr;
+
+	// 対象
+	const Player* target_ = nullptr;
+
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 
 
 	// モデル構造体

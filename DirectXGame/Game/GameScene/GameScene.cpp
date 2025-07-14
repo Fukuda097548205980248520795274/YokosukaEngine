@@ -5,12 +5,26 @@
 /// </summary>
 GameScene::~GameScene()
 {
+	// プレイヤーの弾
+	for (BasePlayerBullet* playerBullet : playerBullets_)
+	{
+		delete playerBullet;
+	}
+	playerBullets_.clear();
+
 	// 敵
 	for (BaseEnemy* enemy : enemies_)
 	{
 		delete enemy;
 	}
 	enemies_.clear();
+
+	// 敵の弾
+	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
+	{
+		delete enemyBullet;
+	}
+	enemyBullets_.clear();
 
 	// ボス
 	for (BaseBoss* boss : bosses_)
@@ -40,7 +54,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	Scene::Initialize(engine);
 
 	// サウンドを読み込む
-	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Broken_Waveforms.mp3");
+	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Addictive_Waveform.mp3");
 
 
 	// 平行光源の生成と初期化
@@ -62,7 +76,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	for (uint32_t i = 0; i < 3; i++)
 	{
 		EnemyButterfly* enemy = new EnemyButterfly();
-		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 10.0f, 30.0f));
+		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 10.0f, 20.0f) , player_.get() , this);
 		enemies_.push_back(enemy);
 	}
 
@@ -98,49 +112,20 @@ void GameScene::Update()
 	// プレイヤーの更新
 	player_->Update();
 
+	// プレイヤーの弾の更新
+	PlayerBulletUpdate();
+
 	// 敵の更新
-	for (BaseEnemy* enemy : enemies_)
-	{
-		enemy->Update();
-	}
+	EnemyUpdate();
 
-	// 終了した敵をリストから削除する
-	enemies_.remove_if([](BaseEnemy* enemy)
-		{
-			if (enemy->IsFinished())
-			{
-				delete enemy;
-				return true;
-			}
-			return false;
-		}
-	);
-
+	// 敵の弾の更新
+	EnemyBulletUpdate();
 
 	// ボスの更新
-	for (BaseBoss* boss : bosses_)
-	{
-		boss->Update();
-	}
-
+	BossUpdate();
 
 	// ステージオブジェクトの更新
-	for (StageObject* stageObject : stageObjects_)
-	{
-		stageObject->Update();
-	}
-
-	// 終了したステージオブジェクトをリストから削除する
-	stageObjects_.remove_if([](StageObject* stageObject)
-		{
-			if (stageObject->IsFinished())
-			{
-				delete stageObject;
-				return true;
-			}
-			return false;
-		}
-	);
+	StageObjectUpdate();
 
 
 	// 全ての当たり判定を行う
@@ -161,10 +146,22 @@ void GameScene::Draw()
 	// プレイヤーの描画
 	player_->Draw();
 
+	// プレイヤーの弾
+	for (BasePlayerBullet* playerBullet : playerBullets_)
+	{
+		playerBullet->Draw();
+	}
+
 	// 敵の描画
 	for (BaseEnemy* enemy : enemies_)
 	{
 		enemy->Draw();
+	}
+
+	// 敵の弾の描画
+	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
+	{
+		enemyBullet->Draw();
 	}
 
 	// ボスの描画
@@ -209,6 +206,156 @@ void GameScene::Draw()
 	Scene::Draw();
 }
 
+
+/// <summary>
+/// プレイヤーの弾を発射する
+/// </summary>
+/// <param name="playerBullet"></param>
+void GameScene::PlayerBulletShot(BasePlayerBullet* playerBullet)
+{
+	// nullptrチェック
+	assert(playerBullet);
+
+	// リストに追加する
+	playerBullets_.push_back(playerBullet);
+}
+
+/// <summary>
+/// 敵の弾を発射する
+/// </summary>
+/// <param name="enemyBullet"></param>
+void GameScene::EnemyBulletShot(BaseEnemyBullet* enemyBullet)
+{
+	// nullptrチェック
+	assert(enemyBullet);
+
+	// リストに追加する
+	enemyBullets_.push_back(enemyBullet);
+}
+
+
+
+/// <summary>
+/// プレイヤーの弾の更新処理
+/// </summary>
+void GameScene::PlayerBulletUpdate()
+{
+	// プレイヤーの弾の更新
+	for (BasePlayerBullet* playerBullet : playerBullets_)
+	{
+		playerBullet->Update();
+	}
+
+	// 終了したプレイヤーの弾をリストから削除する
+	playerBullets_.remove_if([](BasePlayerBullet* playerBullet)
+		{
+			if (playerBullet->IsFinished())
+			{
+				delete playerBullet;
+				return true;
+			}
+			return false;
+		}
+	);
+}
+
+/// <summary>
+/// 敵の更新処理
+/// </summary>
+void GameScene::EnemyUpdate()
+{
+	// 敵の更新
+	for (BaseEnemy* enemy : enemies_)
+	{
+		enemy->Update();
+	}
+
+	// 終了した敵をリストから削除する
+	enemies_.remove_if([](BaseEnemy* enemy)
+		{
+			if (enemy->IsFinished())
+			{
+				delete enemy;
+				return true;
+			}
+			return false;
+		}
+	);
+}
+
+/// <summary>
+/// 敵の弾の更新処理
+/// </summary>
+void GameScene::EnemyBulletUpdate()
+{
+	// 敵の弾の更新
+	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
+	{
+		enemyBullet->Update();
+	}
+
+	// 終了した敵の弾をリストから削除する
+	enemyBullets_.remove_if([](BaseEnemyBullet* enemyBullet)
+		{
+			if (enemyBullet->IsFinished())
+			{
+				delete enemyBullet;
+				return true;
+			}
+			return false;
+		}
+	);
+}
+
+/// <summary>
+/// ボスの更新処理
+/// </summary>
+void GameScene::BossUpdate()
+{
+	// ボスの更新
+	for (BaseBoss* boss : bosses_)
+	{
+		boss->Update();
+	}
+
+	// 終了したボスをリストから削除する
+	bosses_.remove_if([](BaseBoss* boss)
+		{
+			if (boss->IsFinished())
+			{
+				delete boss;
+				return true;
+			}
+			return false;
+		}
+	);
+}
+
+/// <summary>
+/// ステージオブジェクトの更新処理
+/// </summary>
+void GameScene::StageObjectUpdate()
+{
+	// ステージオブジェクトの更新
+	for (StageObject* stageObject : stageObjects_)
+	{
+		stageObject->Update();
+	}
+
+	// 終了したステージオブジェクトをリストから削除する
+	stageObjects_.remove_if([](StageObject* stageObject)
+		{
+			if (stageObject->IsFinished())
+			{
+				delete stageObject;
+				return true;
+			}
+			return false;
+		}
+	);
+}
+
+
 /// <summary>
 /// 全ての当たり判定を行う
 /// </summary>
@@ -220,11 +367,7 @@ void GameScene::AllCheckCollision()
 	// AABB
 	AABB aabb;
 
-
-	// プレイヤーの弾のリスト
-	std::list<BasePlayerBullet*> playerBullets = player_->GetBullets();
-
-	for (BasePlayerBullet* playerBullet : playerBullets)
+	for (BasePlayerBullet* playerBullet : playerBullets_)
 	{
 		segment = playerBullet->GetCollisionSegment();
 

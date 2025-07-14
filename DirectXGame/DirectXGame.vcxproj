@@ -122,6 +122,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\GameScene\BaseBoss\BaseBoss.cpp" />
     <ClCompile Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.cpp" />
     <ClCompile Include="Game\GameScene\BaseEnemyBullet\BaseEnemyBullet.cpp" />
+    <ClCompile Include="Game\GameScene\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.cpp" />
     <ClCompile Include="Game\GameScene\BaseEnemy\BaseEnemy.cpp" />
     <ClCompile Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.cpp" />
     <ClCompile Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.cpp" />
@@ -239,6 +240,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\BaseBoss\BaseBoss.h" />
     <ClInclude Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.h" />
     <ClInclude Include="Game\GameScene\BaseEnemyBullet\BaseEnemyBullet.h" />
+    <ClInclude Include="Game\GameScene\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.h" />
     <ClInclude Include="Game\GameScene\BaseEnemy\BaseEnemy.h" />
     <ClInclude Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.h" />
     <ClInclude Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.h" />
