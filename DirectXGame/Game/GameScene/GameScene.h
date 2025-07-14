@@ -1,7 +1,11 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
+
 #include "Player/Player.h"
-#include "Skydome/Skydome.h"
+
+#include "BasePlayerBullet/BasePlayerBullet.h"
+#include "BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
+#include "BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
 #include "StageObject/StageObject.h"
 #include "StageObject/Tutorial/Ground/TutorialGroundEmpty/TutorialGroundEmpty.h"
@@ -11,6 +15,10 @@
 
 #include "BaseEnemy/BaseEnemy.h"
 #include "BaseEnemy/EnemyButterfly/EnemyButterfly.h"
+
+#include "BaseEnemyBullet/BaseEnemyBullet.h"
+
+#include "Skydome/Skydome.h"
 
 
 class GameScene : public Scene
@@ -48,6 +56,31 @@ public:
 
 private:
 
+	/// <summary>
+	/// プレイヤーの弾の更新処理
+	/// </summary>
+	void PlayerBulletUpdate();
+
+	/// <summary>
+	/// 敵の更新処理
+	/// </summary>
+	void EnemyUpdate();
+
+	/// <summary>
+	/// 敵の弾の更新処理
+	/// </summary>
+	void EnemyBulletUpdate();
+
+	/// <summary>
+	/// ボスの更新処理
+	/// </summary>
+	void BossUpdate();
+
+	/// <summary>
+	/// ステージオブジェクトの更新処理
+	/// </summary>
+	void StageObjectUpdate();
+
 
 	/// <summary>
 	/// 全ての当たり判定を行う
@@ -68,11 +101,20 @@ private:
 	// 天球
 	std::unique_ptr<Skydome> skydome_ = nullptr;
 
+
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
 
+	// プレイヤーの弾のリスト
+	std::list<BasePlayerBullet*> playerBullets_;
+
+
 	// 敵のリスト
 	std::list<BaseEnemy*> enemies_;
+
+	// 敵の弾のリスト
+	std::list<BaseEnemyBullet*> enemyBullets_;
+
 
 	// ボスのリスト
 	std::list<BaseBoss*> bosses_;

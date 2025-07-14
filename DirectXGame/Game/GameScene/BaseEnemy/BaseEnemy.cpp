@@ -1,5 +1,6 @@
 #include "BaseEnemy.h"
 #include "../BasePlayerBullet/BasePlayerBullet.h"
+#include "../Player/Player.h"
 
 /// <summary>
 /// 初期化
@@ -7,15 +8,17 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
+void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(camera3d);
+	assert(target);
 
 	// 引数を受け取る
 	engine_ = engine;
 	camera3d_ = camera3d;
+	target_ = target;
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();

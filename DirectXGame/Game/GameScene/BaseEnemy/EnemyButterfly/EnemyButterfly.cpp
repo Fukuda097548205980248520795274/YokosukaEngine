@@ -1,4 +1,5 @@
 #include "EnemyButterfly.h"
+#include "../../Player/Player.h"
 
 /// <summary>
 /// 初期化
@@ -6,10 +7,10 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
+void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target_)
 {
 	// 基底クラス初期化
-	BaseEnemy::Initialize(engine, camera3d, position);
+	BaseEnemy::Initialize(engine, camera3d, position , target_);
 	worldTransform_->scale_ *= 2.0f;
 
 	hitSize_ = { 2.0f , 2.0f , 1.0f };
