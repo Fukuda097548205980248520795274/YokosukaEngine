@@ -54,7 +54,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	Scene::Initialize(engine);
 
 	// サウンドを読み込む
-	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Broken_Waveforms.mp3");
+	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Addictive_Waveform.mp3");
 
 
 	// 平行光源の生成と初期化
@@ -76,7 +76,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	for (uint32_t i = 0; i < 3; i++)
 	{
 		EnemyButterfly* enemy = new EnemyButterfly();
-		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 10.0f, 30.0f) , player_.get());
+		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 10.0f, 20.0f) , player_.get());
 		enemies_.push_back(enemy);
 	}
 
@@ -146,10 +146,22 @@ void GameScene::Draw()
 	// プレイヤーの描画
 	player_->Draw();
 
+	// プレイヤーの弾
+	for (BasePlayerBullet* playerBullet : playerBullets_)
+	{
+		playerBullet->Draw();
+	}
+
 	// 敵の描画
 	for (BaseEnemy* enemy : enemies_)
 	{
 		enemy->Draw();
+	}
+
+	// 敵の弾の描画
+	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
+	{
+		enemyBullet->Draw();
 	}
 
 	// ボスの描画
@@ -193,6 +205,35 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 }
+
+
+/// <summary>
+/// プレイヤーの弾を発射する
+/// </summary>
+/// <param name="playerBullet"></param>
+void GameScene::PlayerBulletShot(BasePlayerBullet* playerBullet)
+{
+	// nullptrチェック
+	assert(playerBullet);
+
+	// リストに追加する
+	playerBullets_.push_back(playerBullet);
+}
+
+/// <summary>
+/// 敵の弾を発射する
+/// </summary>
+/// <param name="enemyBullet"></param>
+void GameScene::EnemyBulletShot(BaseEnemyBullet* enemyBullet)
+{
+	// nullptrチェック
+	assert(enemyBullet);
+
+	// リストに追加する
+	enemyBullets_.push_back(enemyBullet);
+}
+
+
 
 /// <summary>
 /// プレイヤーの弾の更新処理
@@ -326,11 +367,7 @@ void GameScene::AllCheckCollision()
 	// AABB
 	AABB aabb;
 
-
-	// プレイヤーの弾のリスト
-	std::list<BasePlayerBullet*> playerBullets = player_->GetBullets();
-
-	for (BasePlayerBullet* playerBullet : playerBullets)
+	for (BasePlayerBullet* playerBullet : playerBullets_)
 	{
 		segment = playerBullet->GetCollisionSegment();
 

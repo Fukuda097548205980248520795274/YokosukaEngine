@@ -7,12 +7,7 @@
 /// </summary>
 Player::~Player()
 {
-	// 弾のリスト
-	for (BasePlayerBullet* bullet : bullets_)
-	{
-		delete bullet;
-	}
-	bullets_.clear();
+	
 }
 
 /// <summary>
@@ -113,25 +108,6 @@ void Player::Update()
 
 	// 本体の位置にポイントライトを置く
 	bodyPointLight_->position_ = GetBodyWorldPosition();
-
-
-	// 終了した弾をリストから削除する
-	bullets_.remove_if([](BasePlayerBullet* bullet)
-		{
-			if (bullet->IsFinished())
-			{
-				delete bullet;
-				return true;
-			}
-			return false;
-		}
-	);
-
-	// 弾の更新処理
-	for (BasePlayerBullet* bullet : bullets_)
-	{
-		bullet->Update();
-	}
 }
 
 /// <summary>
@@ -144,12 +120,6 @@ void Player::Draw()
 
 	// 本体を描画する
 	engine_->DrawModel(bodyWorldTransform_.get(), bodyUvTransform_.get(), camera3d_, bodyModelHandle_, Vector4(0.0f, 0.0f, 0.0f, 1.0f), true);
-
-	// 弾の描画処理
-	for (BasePlayerBullet* bullet : bullets_)
-	{
-		bullet->Draw();
-	}
 }
 
 
@@ -329,7 +299,7 @@ void Player::BulletShotGamepad()
 			newBullet->SetDirection(direction);
 
 			// リストに登録する
-			bullets_.push_back(newBullet);
+			gameScene_->PlayerBulletShot(newBullet);
 
 			// カメラをシェイクする
 			gameScene_->CameraShake(0.5f, 1.0f);
@@ -350,7 +320,7 @@ void Player::BulletShotGamepad()
 			newBullet->SetDirection(direction);
 
 			// リストに登録する
-			bullets_.push_back(newBullet);
+			gameScene_->PlayerBulletShot(newBullet);
 
 			// タイマーを初期化する
 			shotTimer_ = 1.0f;

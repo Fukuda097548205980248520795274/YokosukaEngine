@@ -53,6 +53,18 @@ public:
 	/// <param name="shakeSize"></param>
 	void CameraShake(float shakeTime, float shakeSize) { mainCamera_->SetShake(shakeTime, shakeSize); }
 
+	/// <summary>
+	/// プレイヤーの弾を発射する
+	/// </summary>
+	/// <param name="playerBullet"></param>
+	void PlayerBulletShot(BasePlayerBullet* playerBullet);
+
+	/// <summary>
+	/// 敵の弾を発射する
+	/// </summary>
+	/// <param name="enemyBullet"></param>
+	void EnemyBulletShot(BaseEnemyBullet* enemyBullet);
+
 
 private:
 
