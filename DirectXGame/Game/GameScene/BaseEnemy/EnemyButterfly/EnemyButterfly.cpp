@@ -1,5 +1,6 @@
 #include "EnemyButterfly.h"
 #include "../../Player/Player.h"
+#include "../../GameScene.h"
 
 /// <summary>
 /// 初期化
@@ -7,10 +8,10 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target_)
+void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target, GameScene* gameScene)
 {
 	// 基底クラス初期化
-	BaseEnemy::Initialize(engine, camera3d, position , target_);
+	BaseEnemy::Initialize(engine, camera3d, position, target, gameScene);
 	worldTransform_->scale_ *= 2.0f;
 
 	hitSize_ = { 2.0f , 2.0f , 1.0f };
@@ -67,6 +68,13 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 /// </summary>
 void EnemyButterfly::Update()
 {
+	bulletShotTimer_ += kBulletShotTimeVelocity;
+	if (bulletShotTimer_ >= kBulletShotTime)
+	{
+		BulletShot();
+		bulletShotTimer_ = 0.0f;
+	}
+
 	// 浮遊ギミック更新
 	GimmickFloatingUpdate();
 
@@ -75,6 +83,7 @@ void EnemyButterfly::Update()
 
 	// ダメージギミック更新
 	GimmickDamageUpdate();
+
 
 	// 基底クラス更新
 	BaseEnemy::Update();
@@ -258,4 +267,38 @@ void EnemyButterfly::GimmickDamageDraw()
 		engine_->DrawModel(models_[i].worldTransform_.get(), models_[i].uvTransform_.get(), camera3d_, models_[i].modelHandle_,
 			damageColor, false);
 	}
+}
+
+
+/// <summary>
+/// ビヘイビア : 発射 : 初期化
+/// </summary>
+void EnemyButterfly::BehaviorShotInitialize()
+{
+
+}
+
+/// <summary>
+/// ビヘイビア : 発射 : 更新処理
+/// </summary>
+void EnemyButterfly::BehaviorShotUpdate()
+{
+
+}
+
+
+/// <summary>
+/// 弾を発射する
+/// </summary>
+void EnemyButterfly::BulletShot()
+{
+	// 新規の弾の生成
+	EnemyBulletWeek* enemyBullet = new EnemyBulletWeek();
+	enemyBullet->Initialize(engine_, camera3d_, GetBodyWorldPosition());
+
+	// ターゲットの方向に発射する
+	enemyBullet->SetDirection(Normalize(target_->GetBodyWorldPosition() - GetBodyWorldPosition()));
+
+	// ゲームシーンのリストに追加する
+	gameScene_->EnemyBulletShot(enemyBullet);
 }

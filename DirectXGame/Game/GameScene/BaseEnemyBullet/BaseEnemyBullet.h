@@ -1,6 +1,9 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
+// 前方宣言
+class Player;
+
 class BaseEnemyBullet
 {
 public:
@@ -34,8 +37,26 @@ public:
 	/// <returns></returns>
 	bool IsFinished()const { return isFinished_; }
 
+	/// <summary>
+	/// 攻撃力のGetter
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetPower() const { return power_; }
 
-private:
+	/// <summary>
+	/// 当たり判定用の線分のGetter
+	/// </summary>
+	/// <returns></returns>
+	Segment GetCollisionSegment() const;
+
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	/// <param name="enemy"></param>
+	void OnCollision(const Player* player);
+
+
+protected:
 
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
@@ -49,5 +70,11 @@ private:
 
 	// 終了フラグ
 	bool isFinished_ = false;
+
+	// 1フレーム前の座標
+	Vector3 prevPosition_ = { 0.0f , 0.0f , 0.0f };
+
+	// 攻撃力
+	uint32_t power_ = 0;
 };
 

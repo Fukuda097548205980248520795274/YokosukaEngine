@@ -1,6 +1,9 @@
 #pragma once
 #include "../BaseEnemy.h"
 
+#include "../../BaseEnemyBullet/BaseEnemyBullet.h"
+#include "../../BaseEnemyBullet/EnemyBulletWeek/EnemyBulletWeek.h"
+
 class EnemyButterfly : public BaseEnemy
 {
 public:
@@ -11,7 +14,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target_) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target, GameScene* gameScene) override;
 
 	/// <summary>
 	/// 更新処理
@@ -71,6 +74,7 @@ private:
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
 
 
+
 	/*--------------------
 	    ギミック : 浮遊
 	--------------------*/
@@ -125,8 +129,9 @@ private:
 	float flappingAmplitude_ = 0.0f;
 
 
+
 	/*----------------------
-	    ギミック : ダメージ
+		ギミック : ダメージ
 	----------------------*/
 
 	/// <summary>
@@ -155,5 +160,35 @@ private:
 
 	// ダメージの色
 	Vector4 damageColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+
+
+	
+	/*----------------------
+	    ビヘイビア : 発射
+	----------------------*/
+
+	/// <summary>
+	/// ビヘイビア : 発射 : 初期化
+	/// </summary>
+	void BehaviorShotInitialize();
+
+	/// <summary>
+	/// ビヘイビア : 発射 : 更新処理
+	/// </summary>
+	void BehaviorShotUpdate();
+
+	/// <summary>
+	/// 弾を発射する
+	/// </summary>
+	void BulletShot();
+
+	// 弾を発射する時間
+	const float kBulletShotTime = 2.0f;
+
+	// 弾の発射タイマー
+	float bulletShotTimer_ = 0.0f;
+
+	// 弾の発射タイマーの速度
+	const float kBulletShotTimeVelocity = 1.0f / 60.0f;
 };
 

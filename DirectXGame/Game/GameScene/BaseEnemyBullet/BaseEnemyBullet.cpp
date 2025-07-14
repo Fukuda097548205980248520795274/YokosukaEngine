@@ -20,6 +20,7 @@ void BaseEnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* c
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->translation_ = position;
 }
 
 /// <summary>
@@ -27,6 +28,9 @@ void BaseEnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* c
 /// </summary>
 void BaseEnemyBullet::Update()
 {
+	// 直前の座標を記録する
+	prevPosition_ = GetWorldPosition();
+
 	// ワールドトランスフォームの更新処理
 	worldTransform_->UpdateWorldMatrix();
 }
@@ -44,4 +48,30 @@ Vector3 BaseEnemyBullet::GetWorldPosition() const
 	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
+}
+
+
+/// <summary>
+/// 当たり判定用の線分のGetter
+/// </summary>
+/// <returns></returns>
+Segment BaseEnemyBullet::GetCollisionSegment() const
+{
+	// 線分
+	Segment segment;
+
+	segment.origin = GetWorldPosition();
+	segment.diff = prevPosition_ - segment.origin;
+
+	return segment;
+}
+
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+/// <param name="enemy"></param>
+void BaseEnemyBullet::OnCollision(const Player* player)
+{
+	// 終了する
+	isFinished_ = true;
 }

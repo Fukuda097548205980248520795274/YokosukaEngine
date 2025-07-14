@@ -76,7 +76,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	for (uint32_t i = 0; i < 3; i++)
 	{
 		EnemyButterfly* enemy = new EnemyButterfly();
-		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 10.0f, 20.0f) , player_.get());
+		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 10.0f, 20.0f) , player_.get() , this);
 		enemies_.push_back(enemy);
 	}
 
