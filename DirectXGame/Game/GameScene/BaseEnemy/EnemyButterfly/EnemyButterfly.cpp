@@ -178,6 +178,7 @@ void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
 }
 
 
+
 /*-----------------
     浮遊ギミック
 -----------------*/
@@ -336,6 +337,7 @@ void EnemyButterfly::GimmickShotActionUpdate()
 	{
 		// 補間
 		float t = (shotActionParameter_ - kShotActionStartRotationParameter[0]) / (kShotActionStartRotationParameter[1] - kShotActionStartRotationParameter[0]);
+		float easing = 1.0f - std::powf(1.0f - t, 3);
 
 		models_[kWingR].worldTransform_->rotation_.y = Lerp(models_[kWingR].worldTransform_->rotation_.y, kShotActionStartRotation[kWingR], t);
 		models_[kWingL].worldTransform_->rotation_.y = Lerp(models_[kWingL].worldTransform_->rotation_.y, kShotActionStartRotation[kWingL], t);
@@ -346,6 +348,7 @@ void EnemyButterfly::GimmickShotActionUpdate()
 	{
 		// 補間
 		float t = (shotActionParameter_ - kShotActionRotationParameter[0]) / (kShotActionRotationParameter[1] - kShotActionRotationParameter[0]);
+		float easing = 1.0f - std::powf(1.0f - t, 3);
 
 		models_[kWingR].worldTransform_->rotation_.y = Lerp(kShotActionStartRotation[kWingR], kShotActionRotation[kWingR], t);
 		models_[kWingL].worldTransform_->rotation_.y = Lerp(kShotActionStartRotation[kWingL], kShotActionRotation[kWingL], t);

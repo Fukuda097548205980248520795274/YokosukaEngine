@@ -43,9 +43,6 @@
     <Filter Include="YokosukaEngine\Include\Func\CrashHandler">
       <UniqueIdentifier>{428ddbf1-4996-488e-b523-d2a688b7164c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Func\LoadTexture">
-      <UniqueIdentifier>{befbc56e-805e-4238-8f6c-8221456463b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Math">
       <UniqueIdentifier>{a602ed82-23f2-450d-b538-5b2969e1d3ff}</UniqueIdentifier>
     </Filter>
@@ -87,12 +84,6 @@
     </Filter>
     <Filter Include="YokosukaEngine\Include\Draw\WorldTransformationMatrix">
       <UniqueIdentifier>{9e0f4b29-8f78-4631-8b84-45bf8a593c3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="YokosukaEngine\Include\Func\LoadModelData">
-      <UniqueIdentifier>{aaefeee9-b573-42b0-944a-bbb846a5daa5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="YokosukaEngine\Include\Func\LoadMaterialData">
-      <UniqueIdentifier>{fa85f681-fec0-4e24-910a-173b675fd85a}</UniqueIdentifier>
     </Filter>
     <Filter Include="YokosukaEngine\Include\Base\Input">
       <UniqueIdentifier>{43abeb0e-7683-4ca5-af89-8370d34c953a}</UniqueIdentifier>
@@ -468,9 +459,6 @@
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Func\LoadTexture\LoadTexture.cpp">
-      <Filter>YokosukaEngine\Include\Func\LoadTexture</Filter>
-    </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.cpp">
       <Filter>YokosukaEngine\Include\Store\TextureStore</Filter>
     </ClCompile>
@@ -492,14 +480,8 @@
     <ClCompile Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.cpp">
       <Filter>YokosukaEngine\Include\Light\DirectionalLight</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Func\LoadModelData\LoadModelData.cpp">
-      <Filter>YokosukaEngine\Include\Func\LoadModelData</Filter>
-    </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.cpp">
       <Filter>YokosukaEngine\Include\Store\ModelDataStore</Filter>
-    </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Func\LoadMaterialData\LoadMaterialData.cpp">
-      <Filter>YokosukaEngine\Include\Func\LoadMaterialData</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp">
       <Filter>YokosukaEngine\Include\Base\Input</Filter>
@@ -818,9 +800,6 @@
     <ClInclude Include="Externals\ImGui\imstb_truetype.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Func\LoadTexture\LoadTexture.h">
-      <Filter>YokosukaEngine\Include\Func\LoadTexture</Filter>
-    </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.h">
       <Filter>YokosukaEngine\Include\Store\TextureStore</Filter>
     </ClInclude>
@@ -842,14 +821,8 @@
     <ClInclude Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.h">
       <Filter>YokosukaEngine\Include\Light\DirectionalLight</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Func\LoadModelData\LoadModelData.h">
-      <Filter>YokosukaEngine\Include\Func\LoadModelData</Filter>
-    </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.h">
       <Filter>YokosukaEngine\Include\Store\ModelDataStore</Filter>
-    </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Func\LoadMaterialData\LoadMaterialData.h">
-      <Filter>YokosukaEngine\Include\Func\LoadMaterialData</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h">
       <Filter>YokosukaEngine\Include\Base\Input</Filter>
