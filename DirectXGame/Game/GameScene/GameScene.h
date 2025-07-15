@@ -135,6 +135,16 @@ private:
 	std::list<StageObject*> stageObjects_;
 
 
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform1_ = nullptr;
+	std::unique_ptr<WorldTransform> worldTransform2_ = nullptr;
+
+	// uvトランスフォーム
+	std::unique_ptr<UvTransform> uvTransform1_ = nullptr;
+	std::unique_ptr<UvTransform> uvTransform2_ = nullptr;
+
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0;
 
 
 	// グロースクリーン

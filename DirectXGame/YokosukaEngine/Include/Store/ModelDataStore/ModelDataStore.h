@@ -8,7 +8,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "../../Math/Matrix4x4/Matrix4x4.h"
-#include "../../Draw/VertexData/VertexData.h"
+#include "../../Base/DirectXCommon/Resource/Resource.h"
 #include "../TextureStore/TextureStore.h"
 #include <stdlib.h>
 

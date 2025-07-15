@@ -136,6 +136,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Transform2D\Transform2D.cpp" />
@@ -200,11 +201,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendSubtract\Object3dBlendSubtract.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Draw\Material\Material.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.cpp" />
-    <ClCompile Include="YokosukaEngine\Include\Draw\VertexData\VertexData.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Func\String\String.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Vector2\Vector2.cpp" />
@@ -251,6 +249,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.h" />
+    <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Transform2D\Transform2D.h" />
@@ -315,11 +314,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Object3d\BlendSubtract\Object3dBlendSubtract.h" />
     <ClInclude Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.h" />
     <ClInclude Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler\DirectXShaderCompiler.h" />
-    <ClInclude Include="YokosukaEngine\Include\Draw\Material\Material.h" />
     <ClInclude Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.h" />
-    <ClInclude Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.h" />
-    <ClInclude Include="YokosukaEngine\Include\Draw\VertexData\VertexData.h" />
     <ClInclude Include="YokosukaEngine\Include\Func\CrashHandler\CrashHandler.h" />
     <ClInclude Include="YokosukaEngine\Include\Func\String\String.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix4x4\Matrix4x4.h" />

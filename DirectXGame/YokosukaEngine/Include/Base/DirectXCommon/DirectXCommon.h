@@ -11,6 +11,7 @@
 
 #include "DirectXGPU/DirectXGPU.h"
 #include "DirectXCommand/DirectXCommand.h"
+#include "Resource/Resource.h"
 
 #include "../../Math/Vector4/Vector4.h"
 #include "../../Math/Transform2D/Transform2D.h"
@@ -79,12 +80,8 @@
 #include "../../Transform/WorldTransform2D/WorldTransform2D.h"
 #include "../../Transform/UvTransform/UvTransform.h"
 
-
-#include "../../Draw/VertexData/VertexData.h"
 #include "../../Store/TextureStore/TextureStore.h"
 #include "../../Store/ModelDataStore/ModelDataStore.h"
-#include "../../Draw/Material/Material.h"
-#include "../../Draw/TransformationMatrix/TransformationMatrix.h"
 #include "../../Draw/GPUforPostEffect/GPUforPostEffect.h"
 
 #include "../../Light/DirectionalLight/DirectionalLight.h"
@@ -765,23 +762,7 @@ private:
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceSphere_ = 0;
 
-	//最大 分割数
-	const uint32_t kSphereMaxSubdivisions = 32;
-
-	// インデックスリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSphere_ = { nullptr };
-
-	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSphere_ = { nullptr };
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceSphere_[1024] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceSphere_[1024] = { nullptr };
-
-	// カメラリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceSphere_[1024] = { nullptr };
+	std::unique_ptr<SphereResources> sphereResources_[1024];
 
 
 	/*--------------------------
@@ -880,14 +861,8 @@ private:
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceLine_ = 0;
 
-	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceLine_[1024] = { nullptr };
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceLine_[1024] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceLine_[1024] = { nullptr };
+	// 直線のリソース
+	std::unique_ptr<LineResources> lineResources_[1024];
 
 
 	/*--------------
