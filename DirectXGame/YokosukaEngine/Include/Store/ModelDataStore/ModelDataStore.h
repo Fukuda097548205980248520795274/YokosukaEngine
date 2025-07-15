@@ -1,7 +1,50 @@
 #pragma once
-#include "../../Func/LoadModelData/LoadModelData.h"
+#include <vector>
+#include <string>
+#include <cassert>
+#include <fstream>
+#include <sstream>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "../../Math/Matrix4x4/Matrix4x4.h"
+#include "../../Draw/VertexData/VertexData.h"
 #include "../TextureStore/TextureStore.h"
 #include <stdlib.h>
+
+// ノード
+struct Node
+{
+	// ローカル行列
+	Matrix4x4 localMatrix;
+
+	// ノードの名前
+	std::string name;
+
+	// 子ノード
+	std::vector<Node> children;
+};
+
+// マテリアルデータ
+struct MaterialData
+{
+	// テクスチャのファイルパス
+	std::string textureFilePath;
+};
+
+// モデルデータ
+struct ModelData
+{
+	// 頂点
+	std::vector<VertexData> vertices;
+
+	// マテリアルデータ
+	MaterialData material;
+
+	Node rootNode;
+};
+
+
 
 class ModelDataStore
 {
@@ -99,3 +142,26 @@ private:
 	uint32_t useModelDataNum_ = 0;
 };
 
+
+/// <summary>
+/// Objファイルを読み込む
+/// </summary>
+/// <param name="directoryPath">ディレクトリのパス</param>
+/// <param name="fileName">ファイル名</param>
+/// <returns></returns>
+ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileName);
+
+/// <summary>
+/// ノードを読む
+/// </summary>
+/// <param name="node"></param>
+/// <returns></returns>
+Node ReadNode(aiNode* node);
+
+/// <summary>
+/// Mtlファイルを読み込む
+/// </summary>
+/// <param name="directoryPath"></param>
+/// <param name="fileName"></param>
+/// <returns></returns>
+MaterialData LoadMtlFile(const std::string& directoryPath, const std::string& fileName);
