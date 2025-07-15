@@ -88,12 +88,6 @@
     <Filter Include="YokosukaEngine\Include\Draw\WorldTransformationMatrix">
       <UniqueIdentifier>{9e0f4b29-8f78-4631-8b84-45bf8a593c3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Func\LoadModelData">
-      <UniqueIdentifier>{aaefeee9-b573-42b0-944a-bbb846a5daa5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="YokosukaEngine\Include\Func\LoadMaterialData">
-      <UniqueIdentifier>{fa85f681-fec0-4e24-910a-173b675fd85a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Base\Input">
       <UniqueIdentifier>{43abeb0e-7683-4ca5-af89-8370d34c953a}</UniqueIdentifier>
     </Filter>
@@ -492,14 +486,8 @@
     <ClCompile Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.cpp">
       <Filter>YokosukaEngine\Include\Light\DirectionalLight</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Func\LoadModelData\LoadModelData.cpp">
-      <Filter>YokosukaEngine\Include\Func\LoadModelData</Filter>
-    </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.cpp">
       <Filter>YokosukaEngine\Include\Store\ModelDataStore</Filter>
-    </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Func\LoadMaterialData\LoadMaterialData.cpp">
-      <Filter>YokosukaEngine\Include\Func\LoadMaterialData</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Base\Input\Input.cpp">
       <Filter>YokosukaEngine\Include\Base\Input</Filter>
@@ -842,14 +830,8 @@
     <ClInclude Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.h">
       <Filter>YokosukaEngine\Include\Light\DirectionalLight</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Func\LoadModelData\LoadModelData.h">
-      <Filter>YokosukaEngine\Include\Func\LoadModelData</Filter>
-    </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Store\ModelDataStore\ModelDataStore.h">
       <Filter>YokosukaEngine\Include\Store\ModelDataStore</Filter>
-    </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Func\LoadMaterialData\LoadMaterialData.h">
-      <Filter>YokosukaEngine\Include\Func\LoadMaterialData</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Base\Input\Input.h">
       <Filter>YokosukaEngine\Include\Base\Input</Filter>
