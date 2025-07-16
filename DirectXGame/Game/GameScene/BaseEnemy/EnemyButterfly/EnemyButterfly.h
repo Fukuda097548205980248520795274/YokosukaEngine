@@ -14,7 +14,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target, GameScene* gameScene) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const CenterAxis* centerAxis, const Player* target, GameScene* gameScene) override;
 
 	/// <summary>
 	/// 更新処理

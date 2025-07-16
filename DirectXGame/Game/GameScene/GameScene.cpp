@@ -62,6 +62,10 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	directionalLight_->Initialize();
 	directionalLight_->intensity_ = 0.5f;
 
+	// 中心軸の生成と初期化
+	centerAxis_ = std::make_unique<CenterAxis>();
+	centerAxis_->Initliaze(engine_ , camera3d_.get());
+
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_.get());
@@ -76,7 +80,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	for (uint32_t i = 0; i < 3; i++)
 	{
 		EnemyButterfly* enemy = new EnemyButterfly();
-		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 10.0f, 20.0f) , player_.get() , this);
+		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 0.0f, 20.0f), centerAxis_.get(), player_.get(), this);
 		enemies_.push_back(enemy);
 	}
 
@@ -106,6 +110,9 @@ void GameScene::Update()
 		playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
 	}
 
+
+	// 中心軸の更新
+	centerAxis_->Update();
 
 	// 天球の更新
 	skydome_->Update();
@@ -204,6 +211,14 @@ void GameScene::Draw()
 
 	// Scene描画
 	Scene::Draw();
+
+
+	// 中心軸の描画
+#ifdef _DEBUG
+
+	centerAxis_->Draw();
+
+#endif
 }
 
 
