@@ -33,7 +33,7 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
-	worldTransform_->translation_.y = 10.0f;
+	worldTransform_->translation_.z = 50.0f;
 
 	// 体力
 	hp_ = 100;

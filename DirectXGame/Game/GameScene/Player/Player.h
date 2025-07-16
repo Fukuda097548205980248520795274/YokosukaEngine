@@ -65,6 +65,12 @@ public:
 	/// <param name="enemy"></param>
 	void OnCollision(const BaseEnemy* enemy);
 
+	/// <summary>
+	/// 親のワールドトランスフォームのSetter
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	void SetParent(WorldTransform* worldTransform) { worldTransform_->SetParent(worldTransform); }
+
 
 private:
 

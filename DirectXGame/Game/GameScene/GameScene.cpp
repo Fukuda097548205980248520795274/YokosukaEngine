@@ -57,14 +57,18 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Addictive_Waveform.mp3");
 
 
+	// 中心軸の生成と初期化
+	centerAxis_ = std::make_unique<CenterAxis>();
+	centerAxis_->Initliaze(engine_ , camera3d_.get());
+	
+	// メインカメラが中心軸を追従する
+	mainCamera_->SetPivotPointWorldTransform(centerAxis_->GetWorldTransform());
+
+
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
 	directionalLight_->intensity_ = 0.5f;
-
-	// 中心軸の生成と初期化
-	centerAxis_ = std::make_unique<CenterAxis>();
-	centerAxis_->Initliaze(engine_ , camera3d_.get());
 
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
@@ -74,7 +78,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get());
 	player_->SetGameScene(this);
-	mainCamera_->translation_.y = 10.0f;
+	player_->SetParent(mainCamera_->GetWorldTransform());
 
 	// 敵の追加
 	for (uint32_t i = 0; i < 3; i++)
@@ -216,7 +220,7 @@ void GameScene::Draw()
 	// 中心軸の描画
 #ifdef _DEBUG
 
-	centerAxis_->Draw();
+	//centerAxis_->Draw();
 
 #endif
 }

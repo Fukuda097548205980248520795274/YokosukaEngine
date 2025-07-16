@@ -33,6 +33,8 @@ void CenterAxis::Initliaze(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void CenterAxis::Update()
 {
+	worldTransform_->translation_.z += 1.0f;
+
 	// ワールドトラスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();

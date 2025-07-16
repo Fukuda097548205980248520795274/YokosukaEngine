@@ -628,7 +628,13 @@ public:
 	/// ワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetWorldTransform();
+	Vector3 GetWorldPosition();
+
+	/// <summary>
+	/// ワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetWorldTransform() { return worldTransform_.get(); }
 
 	/// <summary>
 	/// シェイクの設定
@@ -636,6 +642,12 @@ public:
 	/// <param name="shakeTime">時間</param>
 	/// <param name="shakeSize">大きさ</param>
 	void SetShake(float shakeTime, float shakeSize);
+
+	/// <summary>
+	/// ピボットポイントのワールドトランスフォームのSetter
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	void SetPivotPointWorldTransform(WorldTransform* worldTransform) { pivotPointWorldTransform_ = worldTransform; }
 
 
 	// ローカル座標
@@ -670,6 +682,14 @@ private:
 
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+
+
+	// ピボットポイント
+	Vector3 pivotPoint_ = { 0.0f , 0.0f , 0.0f };
+
+	// ピボットポイントのワールドトランスフォーム
+	WorldTransform* pivotPointWorldTransform_ = nullptr;
 };
 
 /// <summary>
