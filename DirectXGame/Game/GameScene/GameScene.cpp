@@ -73,6 +73,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_.get());
+	skydome_->SetParent(centerAxis_->GetWorldTransform());
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
@@ -90,7 +91,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 
 	// ステージオブジェクトの追加
-	for (uint32_t i = 0; i < 6; ++i)
+	for (uint32_t i = 0; i < 12; ++i)
 	{
 		TutorialGroundEmpty* stageObject = new TutorialGroundEmpty();
 		stageObject->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 60.0f * i));
