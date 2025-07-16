@@ -64,9 +64,6 @@
     <Filter Include="YokosukaEngine\Include\Draw\DirectXShaderCompiler">
       <UniqueIdentifier>{8ee6ed87-991c-4530-bc1a-3cb0e601ffed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YokosukaEngine\Include\Draw\VertexData">
-      <UniqueIdentifier>{ba767dc2-fe49-4c71-be73-7557dc28dd6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Camera">
       <UniqueIdentifier>{4a0f5a13-0393-4b83-921d-1d85c54c21aa}</UniqueIdentifier>
     </Filter>
@@ -78,12 +75,6 @@
     </Filter>
     <Filter Include="YokosukaEngine\Shader">
       <UniqueIdentifier>{91f9c939-f6d7-4787-9c6e-163365da9404}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="YokosukaEngine\Include\Draw\Material">
-      <UniqueIdentifier>{c3c891ee-7eb1-451b-a528-3a2c008e7c31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="YokosukaEngine\Include\Draw\WorldTransformationMatrix">
-      <UniqueIdentifier>{9e0f4b29-8f78-4631-8b84-45bf8a593c3e}</UniqueIdentifier>
     </Filter>
     <Filter Include="YokosukaEngine\Include\Base\Input">
       <UniqueIdentifier>{43abeb0e-7683-4ca5-af89-8370d34c953a}</UniqueIdentifier>
@@ -397,6 +388,9 @@
     <Filter Include="Game\GameScene\BaseEnemyBullet\EnemyBulletWeek">
       <UniqueIdentifier>{0d427355-9820-4c99-bea1-ba4edc4eb502}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\Base\DirectXCommon\Resource">
+      <UniqueIdentifier>{e4e50e68-7e93-4db3-8a72-9128b2732dd9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -462,20 +456,11 @@
     <ClCompile Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.cpp">
       <Filter>YokosukaEngine\Include\Store\TextureStore</Filter>
     </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Draw\VertexData\VertexData.cpp">
-      <Filter>YokosukaEngine\Include\Draw\VertexData</Filter>
-    </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.cpp">
       <Filter>YokosukaEngine\Include\Camera\Camera2D</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.cpp">
       <Filter>YokosukaEngine\Include\Camera\Camera3D</Filter>
-    </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Draw\Material\Material.cpp">
-      <Filter>YokosukaEngine\Include\Draw\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.cpp">
-      <Filter>YokosukaEngine\Include\Draw\WorldTransformationMatrix</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.cpp">
       <Filter>YokosukaEngine\Include\Light\DirectionalLight</Filter>
@@ -735,6 +720,9 @@
     <ClCompile Include="Game\GameScene\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.cpp">
       <Filter>Game\GameScene\BaseEnemyBullet\EnemyBulletWeek</Filter>
     </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp">
+      <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h">
@@ -803,20 +791,11 @@
     <ClInclude Include="YokosukaEngine\Include\Store\TextureStore\TextureStore.h">
       <Filter>YokosukaEngine\Include\Store\TextureStore</Filter>
     </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Draw\VertexData\VertexData.h">
-      <Filter>YokosukaEngine\Include\Draw\VertexData</Filter>
-    </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera2D\Camera2D.h">
       <Filter>YokosukaEngine\Include\Camera\Camera2D</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Camera\Camera3D\Camera3D.h">
       <Filter>YokosukaEngine\Include\Camera\Camera3D</Filter>
-    </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Draw\Material\Material.h">
-      <Filter>YokosukaEngine\Include\Draw\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="YokosukaEngine\Include\Draw\TransformationMatrix\TransformationMatrix.h">
-      <Filter>YokosukaEngine\Include\Draw\WorldTransformationMatrix</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Light\DirectionalLight\DirectionalLight.h">
       <Filter>YokosukaEngine\Include\Light\DirectionalLight</Filter>
@@ -1075,6 +1054,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.h">
       <Filter>Game\GameScene\BaseEnemyBullet\EnemyBulletWeek</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h">
+      <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

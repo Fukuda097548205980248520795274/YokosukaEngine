@@ -4,8 +4,6 @@
 struct TransformationMatrix
 {
     float4x4 worldViewProjection;
-    float4x4 world;
-    float4x4 worldInveseTranspose;
 };
 ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
 

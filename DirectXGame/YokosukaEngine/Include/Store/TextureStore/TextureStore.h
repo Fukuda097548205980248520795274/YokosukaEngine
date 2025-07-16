@@ -11,6 +11,7 @@
 #include "../../Func/String/String.h"
 #include "../../../../Externals/DirectXTex/DirectXTex.h"
 #include "../../../../Externals/DirectXTex/d3dx12.h"
+#include "../../Base/DirectXCommon/Resource/Resource.h"
 
 // 前方宣言
 class DirectXCommon;
@@ -116,14 +117,6 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CreateTextureResource(Microsoft::WRL::Com
 [[nodiscard]]
 Microsoft::WRL::ComPtr<ID3D12Resource> UploadTextureData(Microsoft::WRL::ComPtr<ID3D12Resource> texture, const DirectX::ScratchImage& mipImages,
 	ID3D12Device* device, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList);
-
-/// <summary>
-/// バッファリソースを作成する
-/// </summary>
-/// <param name="device"></param>
-/// <param name="sizeInBytes"></param>
-/// <returns></returns>
-Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(ID3D12Device* device, size_t sizeInBytes);
 
 /// <summary>
 /// デプスステンシルテクスチャのリソースを作成する

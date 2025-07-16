@@ -90,6 +90,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 		// リストに追加する
 		stageObjects_.push_back(stageObject);
 	}
+
 }
 
 /// <summary>
@@ -175,7 +176,6 @@ void GameScene::Draw()
 	{
 		stageObject->Draw();
 	}
-
 
 
 	// 高輝度抽出

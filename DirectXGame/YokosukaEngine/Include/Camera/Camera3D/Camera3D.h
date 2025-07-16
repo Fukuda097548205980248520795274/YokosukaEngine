@@ -1,12 +1,6 @@
 #pragma once
 #include "../../Math/Matrix4x4/Matrix4x4.h"
 
-// GPUに持っていくカメラのデータ
-struct CameraForGPU
-{
-	Vector3 worldPosition;
-};
-
 class Camera3D
 {
 public:
