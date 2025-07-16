@@ -48,6 +48,90 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(ID3D12Device* device
 /// 初期化
 /// </summary>
 /// <param name="device"></param>
+void PlaneResources::Initialize(ID3D12Device* device)
+{
+	// インデックスリソースのバッファを作成する
+	indexResource_ = CreateBufferResource(device, sizeof(uint32_t) * 6);
+	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
+	indexBufferView_.SizeInBytes = sizeof(uint32_t) * 6;
+	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
+
+	// 頂点リソースのバッファを作成する
+	vertexResource_ = CreateBufferResource(device, sizeof(VertexData) * 4);
+	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
+	vertexBufferView_.SizeInBytes = sizeof(VertexData) * 4;
+	vertexBufferView_.StrideInBytes = sizeof(VertexData);
+
+	// マテリアルリソースのバッファを作成する
+	materialResource_ = CreateBufferResource(device, sizeof(Material));
+
+	// 座標変換リソースのバッファを作成する
+	transformationResource_ = CreateBufferResource(device, sizeof(TransformationMatrix));
+
+	// カメラリソースのバッファを作成する
+	cameraResource_ = CreateBufferResource(device, sizeof(CameraForGPU));
+}
+
+/// <summary>
+/// 初期化
+/// </summary>
+/// <param name="device"></param>
+void RingResources::Initialize(ID3D12Device* device)
+{
+	// インデックスリソースのバッファを作成する
+	indexResource_ = CreateBufferResource(device, sizeof(uint32_t) * (kMaxSubdivisions * 6));
+	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
+	indexBufferView_.SizeInBytes = sizeof(uint32_t) * (kMaxSubdivisions * 6);
+	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
+
+	// 頂点リソースのバッファを作成する
+	vertexResource_ = CreateBufferResource(device, sizeof(VertexData) * (kMaxSubdivisions * 4));
+	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
+	vertexBufferView_.SizeInBytes = sizeof(VertexData) * (kMaxSubdivisions * 4);
+	vertexBufferView_.StrideInBytes = sizeof(VertexData);
+
+	// マテリアルリソースのバッファを作成する
+	materialResource_ = CreateBufferResource(device, sizeof(Material));
+
+	// 座標変換リソースのバッファを作成する
+	transformationResource_ = CreateBufferResource(device, sizeof(TransformationMatrix));
+
+	// カメラリソースのバッファを作成する
+	cameraResource_ = CreateBufferResource(device, sizeof(CameraForGPU));
+}
+
+/// <summary>
+/// 初期化
+/// </summary>
+/// <param name="device"></param>
+void CylinderResources::Initialize(ID3D12Device* device)
+{
+	// インデックスリソースのバッファを作成する
+	indexResource_ = CreateBufferResource(device, sizeof(uint32_t) * (kMaxSubdivisions * 6));
+	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
+	indexBufferView_.SizeInBytes = sizeof(uint32_t) * (kMaxSubdivisions * 6);
+	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
+
+	// 頂点リソースのバッファを作成する
+	vertexResource_ = CreateBufferResource(device, sizeof(VertexData) * (kMaxSubdivisions * 4));
+	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
+	vertexBufferView_.SizeInBytes = sizeof(VertexData) * (kMaxSubdivisions * 4);
+	vertexBufferView_.StrideInBytes = sizeof(VertexData);
+
+	// マテリアルリソースのバッファを作成する
+	materialResource_ = CreateBufferResource(device, sizeof(Material));
+
+	// 座標変換リソースのバッファを作成する
+	transformationResource_ = CreateBufferResource(device, sizeof(TransformationMatrix));
+
+	// カメラリソースのバッファを作成する
+	cameraResource_ = CreateBufferResource(device, sizeof(CameraForGPU));
+}
+
+/// <summary>
+/// 初期化
+/// </summary>
+/// <param name="device"></param>
 void SphereResources::Initialize(ID3D12Device* device)
 {
 	// インデックスリソースのバッファを作成する

@@ -91,22 +91,6 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 		stageObjects_.push_back(stageObject);
 	}
 
-
-	
-	worldTransform1_ = std::make_unique<WorldTransform>();
-	worldTransform1_->Initialize();
-	worldTransform1_->translation_ = { -10.0f , 50.0f , 0.0f };
-	worldTransform1_->scale_ *= 3.0f;
-	worldTransform2_ = std::make_unique<WorldTransform>();
-	worldTransform2_->Initialize();
-	worldTransform2_->translation_ = { 10.0f , 50.0f , 0.0f };
-	worldTransform2_->scale_ *= 3.0f;
-	uvTransform1_ = std::make_unique<UvTransform>();
-	uvTransform1_->Initialize();
-	uvTransform2_ = std::make_unique<UvTransform>();
-	uvTransform2_->Initialize();
-	textureHandle_ = engine_->LoadTexture("./Resources/Textures/uvChecker.png");
-
 }
 
 /// <summary>
@@ -147,12 +131,6 @@ void GameScene::Update()
 
 	// 全ての当たり判定を行う
 	AllCheckCollision();
-
-
-	worldTransform1_->UpdateWorldMatrix();
-	worldTransform2_->UpdateWorldMatrix();
-	uvTransform1_->UpdateWorldMatrix();
-	uvTransform2_->UpdateWorldMatrix();
 }
 
 /// <summary>
@@ -226,9 +204,6 @@ void GameScene::Draw()
 
 	// Scene描画
 	Scene::Draw();
-
-	engine_->DrawSphere(worldTransform1_.get(), uvTransform1_.get(), camera3d_.get(), textureHandle_, 64, 64, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
-	engine_->DrawSphere(worldTransform2_.get(), uvTransform2_.get(), camera3d_.get(), textureHandle_, 1, 1, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }
 
 

@@ -739,20 +739,8 @@ private:
 	// 使用したリソースをカウントする
 	uint32_t useNumResourcePlane_ = 0;
 
-	// インデックスリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourcePlane_ = { nullptr };
-
-	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourcePlane_ = { nullptr };
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourcePlane_[1024] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourcePlane_[1024] = { nullptr };
-
-	// カメラリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourcePlane_[1024] = { nullptr };
+	// 平面リソース
+	std::unique_ptr<PlaneResources> planeResources_[1024];
 
 
 	/*----------------------
@@ -772,23 +760,8 @@ private:
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceRing_ = 0;
 
-	//最大 分割数
-	const uint32_t kRingMaxSubdivisions = 32;
-
-	// インデックスリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceRing_ = { nullptr };
-
-	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceRing_ = { nullptr };
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceRing_[1024] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceRing_[1024] = { nullptr };
-
-	// カメラリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceRing_[1024] = { nullptr };
+	// リングリソース
+	std::unique_ptr<RingResources> ringResources_[1024];
 
 
 	/*------------------------
@@ -798,23 +771,8 @@ private:
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceCylinder_ = 0;
 
-	//最大 分割数
-	const uint32_t kCylinderMaxSubdivisions = 32;
-
-	// インデックスリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceCylinder_ = { nullptr };
-
-	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceCylinder_ = { nullptr };
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceCylinder_[1024] = { nullptr };
-
-	// 座標変換リソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceCylinder_[1024] = { nullptr };
-
-	// カメラリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResourceCylinder_[1024] = { nullptr };
+	// 円柱リソース
+	std::unique_ptr<CylinderResources> cylinderResources_[1024];
 
 
 	/*----------------------------
