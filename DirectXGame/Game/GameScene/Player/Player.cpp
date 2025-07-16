@@ -295,7 +295,7 @@ void Player::BulletShotGamepad()
 		{
 			// 弾の生成と初期化
 			PlayerBulletStrong* newBullet = new PlayerBulletStrong();
-			newBullet->Initialize(engine_, camera3d_, GetWorldPosition());
+			newBullet->Initialize(engine_, camera3d_, worldTransform_->translation_ ,worldTransform_->parent_);
 			newBullet->SetDirection(direction);
 
 			// リストに登録する
@@ -316,7 +316,7 @@ void Player::BulletShotGamepad()
 
 			// 弾の生成と初期化
 			PlayerBulletWeek* newBullet = new PlayerBulletWeek();
-			newBullet->Initialize(engine_, camera3d_, GetWorldPosition());
+			newBullet->Initialize(engine_, camera3d_, worldTransform_->translation_, worldTransform_->parent_);
 			newBullet->SetDirection(direction);
 
 			// リストに登録する

@@ -7,7 +7,7 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void BaseEnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
+void BaseEnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, WorldTransform* parent)
 {
 	// nullptrチェック
 	assert(engine);
@@ -20,6 +20,7 @@ void BaseEnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* c
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->SetParent(parent);
 	worldTransform_->translation_ = position;
 }
 

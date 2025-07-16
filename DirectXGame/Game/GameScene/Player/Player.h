@@ -8,6 +8,7 @@
 // 前方宣言
 class GameScene;
 class BaseEnemy;
+class CenterAxis;
 
 class Player
 {

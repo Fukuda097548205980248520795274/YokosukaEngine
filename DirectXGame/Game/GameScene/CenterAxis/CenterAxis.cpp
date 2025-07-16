@@ -34,6 +34,7 @@ void CenterAxis::Initliaze(const YokosukaEngine* engine, const Camera3D* camera3
 void CenterAxis::Update()
 {
 	worldTransform_->translation_.z += 1.0f;
+	worldTransform_->translation_.z = std::fmod(worldTransform_->translation_.z, 720.0f);
 
 	// ワールドトラスフォームの更新
 	worldTransform_->UpdateWorldMatrix();

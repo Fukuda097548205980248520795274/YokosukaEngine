@@ -474,7 +474,7 @@ void EnemyButterfly::BulletShot()
 {
 	// 新規の弾の生成
 	EnemyBulletWeek* enemyBullet = new EnemyBulletWeek();
-	enemyBullet->Initialize(engine_, camera3d_, GetBodyWorldPosition());
+	enemyBullet->Initialize(engine_, camera3d_, worldTransform_->translation_, worldTransform_->parent_);
 
 	// ターゲットの方向に発射する
 	enemyBullet->SetDirection(Normalize(target_->GetBodyWorldPosition() - GetBodyWorldPosition()));
