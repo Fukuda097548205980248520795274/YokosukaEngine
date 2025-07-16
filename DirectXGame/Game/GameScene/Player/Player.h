@@ -22,14 +22,41 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	const WorldTransform* GetWorldTransform() { return worldTransform_.get(); }
+
+	/// <summary>
+	/// メインカメラのSetter
+	/// </summary>
+	/// <param name="mainCamera"></param>
+	void SetMainCamera(const MainCamera* mainCamera) { mainCamera_ = mainCamera; }
+
 
 private:
+
+
+	/// <summary>
+	/// 入力操作
+	/// </summary>
+	void Input();
+
+	/// <summary>
+	/// 移動操作
+	/// </summary>
+	void Move();
+
 
 	// engine
 	const YokosukaEngine* engine_ = nullptr;
 
 	// camera
 	const Camera3D* camera3d_ = nullptr;
+
+	// メインカメラ
+	const MainCamera* mainCamera_ = nullptr;
 
 
 	// worldTransform

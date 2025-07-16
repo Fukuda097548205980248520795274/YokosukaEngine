@@ -431,8 +431,14 @@ void AxialDirectionDisplay::Draw()
 /// </summary>
 /// <param name="screenWidth">画面の横幅</param>
 /// <param name="screenHeight">画面の縦幅</param>
-void MainCamera::Initialize(float screenWidth, float screenHeight)
+void MainCamera::Initialize(const YokosukaEngine* engine, float screenWidth, float screenHeight)
 {
+	// nullptrチェック
+	assert(engine);
+
+	// 引数を受け取る
+	engine_ = engine;
+
 	// カメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
 	camera3d_->Initialize(screenWidth, screenHeight);
@@ -443,6 +449,30 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 /// </summary>
 void MainCamera::Update()
 {
+	if (engine_->IsGamepadEnable(0))
+	{
+		// 回転速度
+		const float anglerVelocity = 0.05f;
+
+		rotation_.y += engine_->GetGamepadRightStick(0).x * anglerVelocity;
+	}
+
+	if (target_)
+	{
+		// 追従対象からカメラのオフセット
+		Vector3 offset = { 0.0f , 2.0f , -10.0f };
+
+		// カメラの角度から回転行列を求める
+		Matrix4x4 rotateMatrix = MakeRotateYMatrix(rotation_.y);
+
+		// オフセットをカメラの回転に合わせて回転させる
+		offset = TransformNormal(offset, rotateMatrix);
+
+		// 座標をコピーしてオフセットをずらす
+		translation_ = target_->translation_ + offset;
+	}
+
+
 	// 値をカメラに入れる
 	camera3d_->translation_ = translation_;
 	camera3d_->rotation_ = rotation_;
@@ -478,7 +508,7 @@ void Scene::Initialize(const YokosukaEngine* engine)
 
 	// メインカメラの生成と初期化
 	mainCamera_ = std::make_unique<MainCamera>();
-	mainCamera_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+	mainCamera_->Initialize(engine_, static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
 
 
 	// デバッグツール

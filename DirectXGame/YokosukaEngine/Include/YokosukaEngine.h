@@ -569,7 +569,7 @@ public:
 	/// </summary>
 	/// <param name="screenWidth">画面の横幅</param>
 	/// <param name="screenHeight">画面の縦幅</param>
-	void Initialize(float screenWidth, float screenHeight);
+	void Initialize(const YokosukaEngine* engine, float screenWidth, float screenHeight);
 
 	/// <summary>
 	/// 更新処理
@@ -582,6 +582,13 @@ public:
 	/// <returns></returns>
 	Camera3D* GetGameCameraInstance() { return camera3d_.get(); }
 
+	/// <summary>
+	/// 注視の対象のSetter
+	/// </summary>
+	/// <param name="target"></param>
+	/// <returns></returns>
+	void SetTarget(const WorldTransform* target) { target_ = target; }
+
 	// ローカル座標
 	Vector3 translation_ = { 0.0f , 0.0f , 0.0f };
 
@@ -591,8 +598,14 @@ public:
 
 private:
 
+	// エンジン
+	const YokosukaEngine* engine_ = nullptr;
+
 	// 3Dカメラ
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;
+
+	// 注視の対象
+	const WorldTransform* target_ = nullptr;
 };
 
 /// <summary>

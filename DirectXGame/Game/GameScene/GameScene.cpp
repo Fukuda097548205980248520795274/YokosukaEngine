@@ -28,6 +28,10 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// Create and initialize player
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_ , camera3d_.get());
+	player_->SetMainCamera(mainCamera_.get());
+
+	// プレイヤーにメインカメラを追従させる
+	mainCamera_->SetTarget(player_->GetWorldTransform());
 }
 
 /// <summary>
