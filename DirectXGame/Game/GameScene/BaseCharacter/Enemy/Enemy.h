@@ -77,5 +77,50 @@ private:
 
 	// 回転ギミックの移動速度
 	float rotateMoveSpeed_ = 0.1f;
+
+
+	/*--------------------
+	    ギミック : 浮遊
+	--------------------*/
+
+	/// <summary>
+	/// ギミック : 浮遊 : 初期化
+	/// </summary>
+	void GimmickFloatingInitialize();
+
+	/// <summary>
+	/// ギミック : 浮遊 : 更新処理
+	/// </summary>
+	void GimmickFloatingUpdate();
+
+	// 浮遊ギミックのパラメータ
+	float floatingParamter_ = 0.0f;
+
+	// 浮遊ギミックの時間
+	float floatingTime_ = 2.0f;
+
+	// 浮遊ギミックの振幅
+	float floatingAmplitude_ = 0.1f;
+
+
+	/*-------------------
+	    ギミック : 回転
+	-------------------*/
+
+	/// <summary>
+	/// ギミック : 回転 : 初期化
+	/// </summary>
+	void GimmickRotateInitialize();
+
+	/// <summary>
+	/// ギミック : 回転 : 更新処理
+	/// </summary>
+	void GimmickRotateUpdate();
+
+	// 回転ギミックのパラメータ
+	float rotateParameter_ = 0.0f;
+
+	// 回転ギミックの時間
+	float rotateTime_ = 1.0f;
 };
 

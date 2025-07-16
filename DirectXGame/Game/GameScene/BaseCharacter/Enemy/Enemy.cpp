@@ -29,7 +29,7 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kRing].uvTransform = std::make_unique<UvTransform>();
 	models_[kRing].uvTransform->Initialize();
 	models_[kRing].modelHandle = engine_->LoadModelData("./Resources/Models/Enemy/ring", "ring.obj");
-	models_[kRing].color = Vector4(0.3f, 0.8f, 0.3f, 1.0f);
+	models_[kRing].color = Vector4(0.3f, 0.0f, 0.0f, 1.0f);
 
 	// 刃
 	models_[kBlade].worldTransform = std::make_unique<WorldTransform>();
@@ -43,6 +43,12 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 
 	// 回転移動ギミックの初期化
 	InitializeRotateMoveGimmick();
+
+	// 浮遊ギミックの初期化
+	GimmickFloatingInitialize();
+
+	// 回転ギミックの初期化
+	GimmickRotateInitialize();
 }
 
 /// <summary>
@@ -52,6 +58,12 @@ void Enemy::Update()
 {
 	// 回転移動ギミックの更新処理
 	UpdateRotateMoveGimmick();
+
+	// 浮遊ギミックの更新処理
+	GimmickFloatingUpdate();
+
+	// 回転ギミックの更新処理
+	GimmickRotateUpdate();
 
 	// 基底クラス更新処理
 	BaseCharacter::Update();
@@ -105,4 +117,54 @@ void Enemy::UpdateRotateMoveGimmick()
 
 	// 移動させる
 	worldTransform_->translation_ += velocity;
+}
+
+
+/// <summary>
+/// ギミック : 浮遊 : 初期化
+/// </summary>
+void Enemy::GimmickFloatingInitialize()
+{
+	// 浮遊ギミックパラメータ
+	floatingParamter_ = 0.0f;
+}
+
+/// <summary>
+/// ギミック : 浮遊 : 更新処理
+/// </summary>
+void Enemy::GimmickFloatingUpdate()
+{
+	// 1フレームのパラメータ
+	const float step = 2.0f * std::numbers::pi_v<float> / (floatingTime_ * 60.0f);
+
+	// パラメータを加算する
+	floatingParamter_ += step;
+	floatingParamter_ = std::fmod(floatingParamter_, 2.0f * std::numbers::pi_v<float>);
+
+	models_[kRing].worldTransform->translation_.y = modelsStartPosition[kRing].y + std::sin(floatingParamter_) * floatingAmplitude_;
+}
+
+
+/// <summary>
+/// ギミック : 回転 : 初期化
+/// </summary>
+void Enemy::GimmickRotateInitialize()
+{
+	// 回転ギミックのパラメータ
+	rotateParameter_ = 0.0f;
+}
+
+/// <summary>
+/// ギミック : 回転 : 更新処理
+/// </summary>
+void Enemy::GimmickRotateUpdate()
+{
+	// 1フレームのパラメータ
+	const float step = 2.0f * std::numbers::pi_v<float> / (rotateTime_ * 60.0f);
+
+	// パラメターを加算する
+	rotateParameter_ += step;
+	rotateParameter_ = std::fmod(rotateParameter_, 2.0f * std::numbers::pi_v<float>);
+
+	models_[kBlade].worldTransform->rotation_.y = rotateParameter_;
 }
