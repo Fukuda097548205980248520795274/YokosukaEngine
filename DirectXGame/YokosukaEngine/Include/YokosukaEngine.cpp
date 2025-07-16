@@ -448,7 +448,7 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 	// カメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
 	camera3d_->Initialize(screenWidth, screenHeight);
-	camera3d_->translation_.z = -50.0f;
+	camera3d_->translation_.z = 0.0f;
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
@@ -470,7 +470,7 @@ void MainCamera::Update()
 
 	// 値をカメラに入れる
 	camera3d_->translation_ = translation_ + pivotPoint_ + shakeMove_;
-	camera3d_->rotation_ = rotation_;
+	camera3d_->rotation_ = rotation_ + pivotRotate_;
 
 	// 3Dカメラ更新
 	camera3d_->UpdateMatrix();
