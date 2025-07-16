@@ -48,6 +48,11 @@ private:
 	/// </summary>
 	void Move();
 
+	/// <summary>
+	/// 攻撃操作
+	/// </summary>
+	void Attack();
+
 
 
 	// メインカメラ
@@ -74,6 +79,9 @@ private:
 		// 右腕
 		kRArm,
 
+		// 武器
+		kWeapon,
+
 		// モデル数
 		kNumModels
 	};
@@ -87,8 +95,103 @@ private:
 		{0.0f , 0.0f , 0.0f},
 		{0.0f , 1.15f , 0.0f},
 		{-0.25f , 1.1f , 0.0f},
-		{0.25f , 1.1f , 0.0f}
+		{0.25f , 1.1f , 0.0f},
+		{0.0f,0.0f,0.0f}
 	};
+
+
+
+	/*-------------
+	    ふるまい
+	-------------*/
+
+	// ふるまい
+	enum class Behavior
+	{
+		kRoot,
+		kAttack
+	};
+
+	// 現在のふるまい
+	Behavior behavior_ = Behavior::kRoot;
+
+	// 次のふるまいリクエスト
+	std::optional<Behavior>  behaviorRequest_ = std::nullopt;
+
+
+	/*--------------------
+		ふるまい : 通常
+	--------------------*/
+
+	/// <summary>
+	/// ふるまい : 通常 : 初期化
+	/// </summary>
+	void BehaviorRootInitialize();
+
+	/// <summary>
+	/// ふるまい : 通常 : 更新処理
+	/// </summary>
+	void BehaviorRootUpdate();
+
+	/// <summary>
+	/// ふるまい : 通常 : 描画処理
+	/// </summary>
+	void BehaviorRootDraw();
+
+
+	/*--------------------
+	    ふるまい : 攻撃
+	--------------------*/
+
+	/// <summary>
+	/// ふるまい : 攻撃 : 初期化
+	/// </summary>
+	void BehaviorAttackInitialize();
+
+	/// <summary>
+	/// ふるまい : 攻撃 : 更新処理
+	/// </summary>
+	void BehaviorAttackUpdate();
+
+	/// <summary>
+	/// ふるまい : 攻撃 : 描画処理
+	/// </summary>
+	void BehaviorAttackDraw();
+
+	// 攻撃パラメータ
+	float attackParameter_ = 0.0f;
+
+	// 攻撃パラメータ最大値
+	const float kAttackParameterMax = 0.8f;
+
+	// 振り上げフレーム
+	const float kAttackSwingUpFrame[2] = { 0.0f , 0.2f };
+	const float kAttackSwingUpRadianX[kNumModels][2] = 
+	{
+		{0.0f , 0.0f},
+		{0.0f , 0.0f},
+		{-1.6f , -3.1f},
+		{-1.6f , -3.1f},
+		{1.6f , 0.0f} 
+	};
+
+	// 振る下ろしフレーム
+	const float kAttackSwingDownFrame[2] = { 0.4f , 0.6f };
+	const float kAttackSwingDownRadianX[kNumModels][2] =
+	{
+		{0.0f , 0.0f},
+		{0.0f , 0.0f},
+		{-3.1f , -1.6f},
+		{-3.1f , -1.6f},
+		{0.0f , 1.6f}
+	};
+	const float kAttackSwingDownMove = 5.0f;
+
+	// 攻撃の移動
+	const float kAttackMoveSpeed = 5.0f;
+	Vector3 attackPrevPosition_ = { 0.0f , 0.0f , 0.0f };
+	Vector3 attackGoalPosition_ = { 0.0f , 0.0f , 0.0f };
+
 
 
 	/*----------------

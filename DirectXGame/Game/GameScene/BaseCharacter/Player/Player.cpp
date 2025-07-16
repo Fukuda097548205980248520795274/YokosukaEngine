@@ -51,6 +51,16 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kRArm].modelHandle = engine_->LoadModelData("./Resources/Models/Player/R_arm", "R_arm.obj");
 	models_[kRArm].color = Vector4(1.0f, 0.4f, 0.4f, 1.0f);
 
+	// 武器
+	models_[kWeapon].worldTransform = std::make_unique<WorldTransform>();
+	models_[kWeapon].worldTransform->Initialize();
+	models_[kWeapon].worldTransform->translation_ = modelsStartPosition[kWeapon];
+	models_[kWeapon].worldTransform->SetParent(worldTransform_.get());
+	models_[kWeapon].uvTransform = std::make_unique<UvTransform>();
+	models_[kWeapon].uvTransform->Initialize();
+	models_[kWeapon].modelHandle = engine_->LoadModelData("./Resources/Models/Player/weapon", "weapon.obj");
+	models_[kWeapon].color = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
+
 	// 浮遊ギミックの初期化
 	InitializeFloatingGimmick();
 
@@ -74,14 +84,54 @@ void Player::Update()
 	ImGui::End();
 
 
-	// 入力操作
-	Input();
+	// 遷移処理
+	if (behaviorRequest_)
+	{
+		// ふるまいを変更する
+		behavior_ = behaviorRequest_.value();
 
-	// 浮遊ギミックの更新処理
-	UpdateFloatingGimmick();
+		// 初期化
+		switch (behavior_)
+		{
+		case Behavior::kRoot:
+		default:
 
-	// 手揺れギミックの更新処理
-	UpdateHandSwingGimmick();
+			// 通常
+			BehaviorRootInitialize();
+
+			break;
+
+		case Behavior::kAttack:
+
+			// 攻撃
+			BehaviorAttackInitialize();
+
+			break;
+		}
+
+		// ふるまいリクエストをリセット
+		behaviorRequest_ = std::nullopt;
+	}
+
+	// ふるまい更新処理
+	switch (behavior_)
+	{
+	case Behavior::kRoot:
+	default:
+
+		// 通常
+		BehaviorRootUpdate();
+
+		break;
+
+	case Behavior::kAttack:
+
+		// 攻撃
+		BehaviorAttackUpdate();
+
+		break;
+	}
+	
 
 	// 基底クラス更新
 	BaseCharacter::Update();
@@ -99,11 +149,23 @@ void Player::Update()
 /// </summary>
 void Player::Draw()
 {
-	// モデルを描画する
-	for (uint32_t i = 0; i < kNumModels; i++)
+	// ふるまい描画処理
+	switch (behavior_)
 	{
-		engine_->DrawModel(models_[i].worldTransform.get(), models_[i].uvTransform.get(), camera3d_,
-			models_[i].modelHandle, models_[i].color, false);
+	case Behavior::kRoot:
+	default:
+
+		// 通常
+		BehaviorRootDraw();
+
+		break;
+
+	case Behavior::kAttack:
+
+		// 攻撃
+		BehaviorAttackDraw();
+
+		break;
 	}
 }
 
@@ -115,6 +177,9 @@ void Player::Input()
 {
 	// 移動操作
 	Move();
+
+	// 攻撃操作
+	Attack();
 }
 
 /// <summary>
@@ -171,6 +236,164 @@ void Player::Move()
 	worldTransform_->rotation_.y = LerpShortAngle(worldTransform_->rotation_.y, toRotationY_, 0.2f);
 }
 
+/// <summary>
+/// 攻撃操作
+/// </summary>
+void Player::Attack()
+{
+	// ゲームパッドが有効かどうか
+	if (engine_->IsGamepadEnable(0) == false)
+		return;
+
+	// スペースキーで攻撃
+	if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
+	{
+		behaviorRequest_ = Behavior::kAttack;
+	}
+}
+
+
+
+/*--------------------
+    ふるまい : 通常
+--------------------*/
+
+/// <summary>
+/// ふるまい : 通常 : 初期化
+/// </summary>
+void Player::BehaviorRootInitialize()
+{
+
+}
+
+/// <summary>
+/// ふるまい : 通常 : 更新処理
+/// </summary>
+void Player::BehaviorRootUpdate()
+{
+	// 入力操作
+	Input();
+
+	// 浮遊ギミックの更新処理
+	UpdateFloatingGimmick();
+
+	// 手揺れギミックの更新処理
+	UpdateHandSwingGimmick();
+}
+
+/// <summary>
+/// ふるまい : 通常 : 描画処理
+/// </summary>
+void Player::BehaviorRootDraw()
+{
+	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
+		models_[kBody].modelHandle, models_[kBody].color, false);
+
+	engine_->DrawModel(models_[kHead].worldTransform.get(), models_[kHead].uvTransform.get(), camera3d_,
+		models_[kHead].modelHandle, models_[kHead].color, false);
+
+	engine_->DrawModel(models_[kRArm].worldTransform.get(), models_[kRArm].uvTransform.get(), camera3d_,
+		models_[kRArm].modelHandle, models_[kRArm].color, false);
+
+	engine_->DrawModel(models_[kLArm].worldTransform.get(), models_[kLArm].uvTransform.get(), camera3d_,
+		models_[kLArm].modelHandle, models_[kLArm].color, false);
+}
+
+
+/*--------------------
+    ふるまい : 攻撃
+--------------------*/
+
+/// <summary>
+/// ふるまい : 攻撃 : 初期化
+/// </summary>
+void Player::BehaviorAttackInitialize()
+{
+	// 攻撃パラメータ
+	attackParameter_ = 0.0f;
+
+	// 武器の回転
+	models_[kWeapon].worldTransform->rotation_.x = 1.0f;
+
+	// プレイヤーの現在地
+	attackPrevPosition_ = worldTransform_->translation_;
+
+	// プレイヤーが進むべき方向とゴール地点を求める
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
+	Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * kAttackMoveSpeed;
+	attackGoalPosition_ = attackPrevPosition_ + velocity;
+}
+
+/// <summary>
+/// ふるまい : 攻撃 : 更新処理
+/// </summary>
+void Player::BehaviorAttackUpdate()
+{
+	// パラメータを加算する
+	attackParameter_ += 1.0f / 60.0f;
+	attackParameter_ = std::min(attackParameter_, kAttackParameterMax);
+
+	// 最大値を越えたら通常ビヘイビアに遷移する
+	if (attackParameter_ >= kAttackParameterMax)
+	{
+		behaviorRequest_ = Behavior::kRoot;
+	}
+
+
+	// 振り上げ
+	if (attackParameter_ >= kAttackSwingUpFrame[0] && attackParameter_ <= kAttackSwingUpFrame[1])
+	{
+		// 補間
+		float t = (attackParameter_ - kAttackSwingUpFrame[0]) / (kAttackSwingUpFrame[1] - kAttackSwingUpFrame[0]);
+
+		// モデル
+		models_[kRArm].worldTransform->rotation_.x = Lerp(kAttackSwingUpRadianX[kRArm][0], kAttackSwingUpRadianX[kRArm][1], t);
+		models_[kLArm].worldTransform->rotation_.x = Lerp(kAttackSwingUpRadianX[kLArm][0], kAttackSwingUpRadianX[kLArm][1], t);
+		models_[kWeapon].worldTransform->rotation_.x = Lerp(kAttackSwingUpRadianX[kWeapon][0], kAttackSwingUpRadianX[kWeapon][1], t);
+	}
+
+	// 振り下ろし
+	if (attackParameter_ >= kAttackSwingDownFrame[0] && attackParameter_ <= kAttackSwingDownFrame[1])
+	{
+		// 補間
+		float t = (attackParameter_ - kAttackSwingDownFrame[0]) / (kAttackSwingDownFrame[1] - kAttackSwingDownFrame[0]);
+
+		// モデル
+		models_[kRArm].worldTransform->rotation_.x = Lerp(kAttackSwingDownRadianX[kRArm][0], kAttackSwingDownRadianX[kRArm][1], t);
+		models_[kLArm].worldTransform->rotation_.x = Lerp(kAttackSwingDownRadianX[kLArm][0], kAttackSwingDownRadianX[kLArm][1], t);
+		models_[kWeapon].worldTransform->rotation_.x = Lerp(kAttackSwingDownRadianX[kWeapon][0], kAttackSwingDownRadianX[kWeapon][1], t);
+
+		// 移動
+		worldTransform_->translation_ = Lerp(attackPrevPosition_, attackGoalPosition_, t);
+	}
+}
+
+/// <summary>
+/// ふるまい : 攻撃 : 描画処理
+/// </summary>
+void Player::BehaviorAttackDraw()
+{
+	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
+		models_[kBody].modelHandle, models_[kBody].color, false);
+
+	engine_->DrawModel(models_[kHead].worldTransform.get(), models_[kHead].uvTransform.get(), camera3d_,
+		models_[kHead].modelHandle, models_[kHead].color, false);
+
+	engine_->DrawModel(models_[kRArm].worldTransform.get(), models_[kRArm].uvTransform.get(), camera3d_,
+		models_[kRArm].modelHandle, models_[kRArm].color, false);
+
+	engine_->DrawModel(models_[kLArm].worldTransform.get(), models_[kLArm].uvTransform.get(), camera3d_,
+		models_[kLArm].modelHandle, models_[kLArm].color, false);
+
+	engine_->DrawModel(models_[kWeapon].worldTransform.get(), models_[kWeapon].uvTransform.get(), camera3d_,
+		models_[kWeapon].modelHandle, models_[kWeapon].color, false);
+}
+
+
+
+/*--------------------
+    ギミック : 浮遊
+--------------------*/
 
 /// <summary>
 /// 浮遊ギミック初期化
@@ -203,6 +426,10 @@ void Player::UpdateFloatingGimmick()
 	models_[kBody].worldTransform->translation_.y = std::sin(floatingParameter_) * floatingAmplitude_;
 }
 
+
+/*---------------------
+    ギミック : 手揺れ
+---------------------*/
 
 /// <summary>
 /// 手揺れギミック初期化
