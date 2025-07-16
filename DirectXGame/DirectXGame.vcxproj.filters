@@ -265,14 +265,20 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendMultiply">
       <UniqueIdentifier>{2c00e768-09b4-47ca-85b4-92b9f63831f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameScene\Player">
-      <UniqueIdentifier>{16cdb779-d989-408b-87f8-153033fc5758}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\GameScene\Skydome">
       <UniqueIdentifier>{601a0523-a8d2-4522-b11c-71b386b19913}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\GameScene\Ground">
       <UniqueIdentifier>{17b9add4-636e-416b-999d-ddc815793dba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\BaseCharacter">
+      <UniqueIdentifier>{6c9bcd1c-9e03-4282-add6-d26c31399bbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\BaseCharacter\Player">
+      <UniqueIdentifier>{16cdb779-d989-408b-87f8-153033fc5758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\BaseCharacter\Enemy">
+      <UniqueIdentifier>{1076525f-3ca3-4d52-90b8-36a8ed3e85a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -498,14 +504,20 @@
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameScene\Player\Player.cpp">
-      <Filter>Game\GameScene\Player</Filter>
+    <ClCompile Include="Game\GameScene\BaseCharacter\Player\Player.cpp">
+      <Filter>Game\GameScene\BaseCharacter\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\GameScene\Ground\Ground.cpp">
       <Filter>Game\GameScene\Ground</Filter>
     </ClCompile>
     <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp">
       <Filter>Game\GameScene\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BaseCharacter\BaseCharacter.cpp">
+      <Filter>Game\GameScene\BaseCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\BaseCharacter\Enemy\Enemy.cpp">
+      <Filter>Game\GameScene\BaseCharacter\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -734,14 +746,20 @@
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameScene\Player\Player.h">
-      <Filter>Game\GameScene\Player</Filter>
+    <ClInclude Include="Game\GameScene\BaseCharacter\Player\Player.h">
+      <Filter>Game\GameScene\BaseCharacter\Player</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameScene\Ground\Ground.h">
       <Filter>Game\GameScene\Ground</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameScene\Skydome\Skydome.h">
       <Filter>Game\GameScene\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BaseCharacter\BaseCharacter.h">
+      <Filter>Game\GameScene\BaseCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\BaseCharacter\Enemy\Enemy.h">
+      <Filter>Game\GameScene\BaseCharacter\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

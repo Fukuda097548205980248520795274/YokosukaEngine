@@ -1,6 +1,7 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
-#include "Player/Player.h"
+#include "BaseCharacter/Player/Player.h"
+#include "BaseCharacter/Enemy/Enemy.h"
 #include "Skydome/Skydome.h"
 #include "Ground/Ground.h"
 
@@ -39,5 +40,8 @@ private:
 
 	// player
 	std::unique_ptr<Player> player_ = nullptr;
+
+	// 敵
+	std::unique_ptr<Enemy> enemy_ = nullptr;
 };
 

@@ -9,29 +9,33 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// nullptrチェック
 	assert(engine);
 
-	// Scene更新
+	// Scene初期化
 	Scene::Initialize(engine);
 
 
-	// Create and initialize directionalLight
+	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
 
-	// Create and initialize skydome
+	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_.get());
 
-	// Create and initialize ground
+	// 地面の生成と初期化
 	ground_ = std::make_unique<Ground>();
 	ground_->Initialize(engine_, camera3d_.get());
 
-	// Create and initialize player
+	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_ , camera3d_.get());
+	player_->Initialize(engine_, camera3d_.get());
 	player_->SetMainCamera(mainCamera_.get());
 
 	// プレイヤーにメインカメラを追従させる
 	mainCamera_->SetTarget(player_->GetWorldTransform());
+
+	// 敵の生成と初期化
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize(engine_, camera3d_.get());
 }
 
 /// <summary>
@@ -42,14 +46,18 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
-	// Update skydome
+
+	// 天球の更新
 	skydome_->Update();
 
-	// Update ground
+	// 地面の更新
 	ground_->Update();
 
-	// Update player
+	// プレイヤー更新
 	player_->Update();
+
+	// 敵の更新
+	enemy_->Update();
 }
 
 /// <summary>
@@ -60,15 +68,18 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 
-	// Place directionalLight
+	// 平行光源の設置
 	engine_->SetDirectionalLight(directionalLight_.get());
 
-	// Draw the skydome
+	// 天球の描画
 	skydome_->Draw();
 
-	// Draw the ground
+	// 地面の描画
 	ground_->Draw();
 
-	// Draw the player
+	// プレイヤー描画
 	player_->Draw();
+
+	// 敵の描画
+	enemy_->Draw();
 }

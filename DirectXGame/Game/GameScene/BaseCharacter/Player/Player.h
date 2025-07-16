@@ -1,7 +1,7 @@
 #pragma once
-#include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../BaseCharacter.h"
 
-class Player
+class Player : public BaseCharacter
 {
 public:
 
@@ -10,17 +10,17 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d) override;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	void Draw();
+	void Draw() override;
 
 	/// <summary>
 	/// ワールドトランスフォームのGetter
@@ -49,21 +49,9 @@ private:
 	void Move();
 
 
-	// エンジン
-	const YokosukaEngine* engine_ = nullptr;
-
-	// カメラ
-	const Camera3D* camera3d_ = nullptr;
 
 	// メインカメラ
 	const MainCamera* mainCamera_ = nullptr;
-
-
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
-
-	// UVトランスフォーム
-	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
 
 
 	// 目標角度
@@ -88,19 +76,6 @@ private:
 
 		// モデル数
 		kNumModels
-	};
-
-	// モデル
-	struct ModelStruct
-	{
-		// ワールドトランスフォーム
-		std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
-
-		// UVトランスフォーム
-		std::unique_ptr<UvTransform> uvTransform_ = nullptr;
-
-		// モデルハンドル
-		uint32_t modelHandle_ = 0;
 	};
 
 	// モデル
