@@ -68,36 +68,50 @@ void Player::Input()
 void Player::Move()
 {
 	// コントローラが使えるかどうか
-	if (engine_->IsGamepadEnable(0) == false)
-		return;
-
-	// 早さ
-	const float speed = 0.3f;
-
-	// 移動量
-	Vector3 move =
+	if (engine_->IsGamepadEnable(0))
 	{
-		engine_->GetGamepadLeftStick(0).x ,
-		0.0f,
-		engine_->GetGamepadLeftStick(0).y
-	};
+		// デッドゾーン
+		const float kDeadZone = 0.7f;
 
-	// 移動量に早さを反映する
-	move = Normalize(move) * speed;
+		// 移動フラグ
+		bool isMove = false;
 
-	// メインカメラの向きで移動方向を変える
-	Matrix4x4 rotateMatrix = MakeRotateYMatrix(mainCamera_->rotation_.y);
-	move = TransformNormal(move, rotateMatrix);
+		// 移動量
+		Vector3 move =
+		{
+			engine_->GetGamepadLeftStick(0).x ,
+			0.0f,
+			engine_->GetGamepadLeftStick(0).y
+		};
+
+		// デッドゾーンを越えないときは処理しない
+		if (Length(move) >= kDeadZone)
+		{
+			isMove = true;
+		}
 
 
-	// 移動させる
-	worldTransform_->translation_ += move;
+		// 移動しているときの処理
+		if (isMove)
+		{
+			// 早さ
+			const float speed = 0.3f;
 
-	// 移動方向に向きを合わせる
-	if (engine_->GetGamepadLeftStick(0).x != 0.0f || engine_->GetGamepadLeftStick(0).y != 0.0f)
-	{
-		worldTransform_->rotation_.y = std::atan2(move.x, move.z);
-		float length = std::sqrt(std::pow(move.x, 2.0f) + std::pow(move.z, 2.0f));
-		worldTransform_->rotation_.x = std::atan2(-move.y, length);
+			// 移動量に早さを反映する
+			move = Normalize(move) * speed;
+
+			// メインカメラの向きで移動方向を変える
+			Matrix4x4 rotateMatrix = MakeRotateYMatrix(mainCamera_->rotation_.y);
+			move = TransformNormal(move, rotateMatrix);
+
+			// 移動させる
+			worldTransform_->translation_ += move;
+
+			// 移動方向に合わせて回転する目標角度
+			toRotationY_ = std::atan2(move.x, move.z);
+		}
 	}
+
+	// 最短角度補間
+	worldTransform_->rotation_.y = LerpShortAngle(worldTransform_->rotation_.y, toRotationY_, 0.2f);
 }

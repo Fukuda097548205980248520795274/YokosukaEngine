@@ -67,5 +67,8 @@ private:
 
 	// modelHandle
 	uint32_t modelHandle_ = 0;
+
+	// 目標角度
+	float toRotationY_ = 0.0f;
 };
 
