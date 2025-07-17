@@ -1,4 +1,5 @@
 #pragma once
+#include "../../../Externals/nlohmann/json.hpp"
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include <variant>
 #include <map>
@@ -19,6 +20,12 @@ public:
 	/// </summary>
 	/// <param name="gourpName"></param>
 	void CreateGroup(const std::string& groupName);
+
+	/// <summary>
+	/// ファイルに書き出し
+	/// </summary>
+	/// <param name="groupName"></param>
+	void SaveFile(const std::string& groupName);
 
 	/// <summary>
 	/// 値のセット
@@ -65,5 +72,11 @@ private:
 
 	// 全データ
 	std::map<std::string, Group> datas_;
+
+	// Json
+	using json = nlohmann::json;
+
+	// 保存先のファイルパス
+	const std::string kDirectoryPath = "Resources/GlobalVariables/";
 };
 
