@@ -38,6 +38,10 @@ public:
 
 private:
 
+	/// <summary>
+	/// 調整項目の適用
+	/// </summary>
+	void ApplyGlobalVaribles();
 
 	/// <summary>
 	/// 入力操作

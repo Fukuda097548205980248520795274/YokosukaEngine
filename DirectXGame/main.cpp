@@ -8,6 +8,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	YokosukaEngine* engine = new YokosukaEngine();
 	engine->Initialize(1280, 720, "LE2A_11_フクダ_ソウワ");
 
+	// グローバル変数読み込み
+	GlobalVariables::GetInstance()->LoadFiles();
+
 	// ゲームインスタンスの生成と初期化
 	Game* game = new Game();
 	game->Initialize(engine);

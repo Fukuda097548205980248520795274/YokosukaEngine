@@ -14,12 +14,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* groupName = "Player";
 
-	// グループを追加する
-	globalVariables->CreateGroup(groupName);
-	globalVariables->SetValue(groupName, "int32_t", 90);
-	globalVariables->SetValue(groupName, "float", 3.14f);
-	globalVariables->SetValue(groupName, "Vector3", Vector3(3.0f, 8.0f, 5.0f));
-
 	// 胴体
 	models_[kBody].worldTransform = std::make_unique<WorldTransform>();
 	models_[kBody].worldTransform->Initialize();
@@ -70,6 +64,13 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kWeapon].modelHandle = engine_->LoadModelData("./Resources/Models/Player/weapon", "weapon.obj");
 	models_[kWeapon].color = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
 
+	globalVariables->AddItem(groupName, "Head Translation", models_[kHead].worldTransform->translation_);
+	globalVariables->AddItem(groupName, "ArmL Translation", models_[kLArm].worldTransform->translation_);
+	globalVariables->AddItem(groupName, "ArmR Translation", models_[kRArm].worldTransform->translation_);
+	globalVariables->AddItem(groupName, "floating time", floatingTime_);
+	globalVariables->AddItem(groupName, "floating Amplitude", floatingAmplitude_);
+	globalVariables->AddItem(groupName, "handSwing Amplitude", handSwingAmplitude_);
+
 	// 浮遊ギミックの初期化
 	InitializeFloatingGimmick();
 
@@ -82,6 +83,8 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 /// </summary>
 void Player::Update()
 {
+	// 調整項目の適用
+	ApplyGlobalVaribles();
 
 	// 遷移処理
 	if (behaviorRequest_)
@@ -189,6 +192,23 @@ void Player::Draw()
 	}
 }
 
+
+/// <summary>
+/// 調整項目の適用
+/// </summary>
+void Player::ApplyGlobalVaribles()
+{
+	// 調整項目クラス
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+
+	models_[kHead].worldTransform->translation_ = globalVariables->GetVector3Value(groupName, "Head Translation");
+	models_[kLArm].worldTransform->translation_ = globalVariables->GetVector3Value(groupName, "ArmL Translation");
+	models_[kRArm].worldTransform->translation_ = globalVariables->GetVector3Value(groupName, "ArmR Translation");
+	floatingTime_ = globalVariables->GetFloatValue(groupName, "floating time");
+	floatingAmplitude_ = globalVariables->GetFloatValue(groupName, "floating Amplitude");
+	handSwingAmplitude_ = globalVariables->GetFloatValue(groupName, "handSwing Amplitude");
+}
 
 /// <summary>
 /// 入力操作
