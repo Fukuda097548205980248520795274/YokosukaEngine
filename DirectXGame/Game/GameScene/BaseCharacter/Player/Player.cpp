@@ -107,6 +107,13 @@ void Player::Update()
 			BehaviorAttackInitialize();
 
 			break;
+
+		case Behavior::kDash:
+
+			// ダッシュ
+			BehaviorDashInitialize();
+
+			break;
 		}
 
 		// ふるまいリクエストをリセット
@@ -128,6 +135,13 @@ void Player::Update()
 
 		// 攻撃
 		BehaviorAttackUpdate();
+
+		break;
+
+	case Behavior::kDash:
+
+		// ダッシュ
+		BehaviorDashUpdate();
 
 		break;
 	}
@@ -166,6 +180,13 @@ void Player::Draw()
 		BehaviorAttackDraw();
 
 		break;
+
+	case Behavior::kDash:
+
+		// ダッシュ
+		BehaviorDashDraw();
+
+		break;
 	}
 }
 
@@ -180,6 +201,9 @@ void Player::Input()
 
 	// 攻撃操作
 	Attack();
+
+	// ダッシュ操作
+	Dash();
 }
 
 /// <summary>
@@ -245,10 +269,26 @@ void Player::Attack()
 	if (engine_->IsGamepadEnable(0) == false)
 		return;
 
-	// スペースキーで攻撃
+	// Aボタンで攻撃
 	if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
 	{
 		behaviorRequest_ = Behavior::kAttack;
+	}
+}
+
+/// <summary>
+/// ダッシュ操作
+/// </summary>
+void Player::Dash()
+{
+	// ゲームパッドが有効かどうか
+	if (engine_->IsGamepadEnable(0) == false)
+		return;
+
+	// Bボタンでダッシュ
+	if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_B))
+	{
+		behaviorRequest_ = Behavior::kDash;
 	}
 }
 
@@ -311,6 +351,9 @@ void Player::BehaviorAttackInitialize()
 {
 	// 攻撃パラメータ
 	attackParameter_ = 0.0f;
+
+	// 旋回に補間をかけない
+	worldTransform_->rotation_.y = toRotationY_;
 
 	// 武器の回転
 	models_[kWeapon].worldTransform->rotation_.x = 1.0f;
@@ -387,6 +430,71 @@ void Player::BehaviorAttackDraw()
 
 	engine_->DrawModel(models_[kWeapon].worldTransform.get(), models_[kWeapon].uvTransform.get(), camera3d_,
 		models_[kWeapon].modelHandle, models_[kWeapon].color, false);
+}
+
+
+/*-----------------------
+	ふるまい : ダッシュ
+-----------------------*/
+
+/// <summary>
+/// ふるまい : ダッシュ : 初期化
+/// </summary>
+void Player::BehaviorDashInitialize()
+{
+	// パラメータ
+	workDash_.parameter = 0.0f;
+
+	// 速度
+	workDash_.speed = 1.0f;
+
+	// 旋回に補間をかけない
+	worldTransform_->rotation_.y = toRotationY_;
+}
+
+/// <summary>
+/// ふるまい : ダッシュ : 更新処理
+/// </summary>
+void Player::BehaviorDashUpdate()
+{
+	// 移動操作
+	Move();
+
+	// 向いている方向に進む
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
+	Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * workDash_.speed;
+
+	// 移動する
+	worldTransform_->translation_ += velocity;
+
+
+	// パラメータを進める
+	workDash_.parameter += 1.0f / 60.0f;
+	workDash_.parameter = std::min(workDash_.parameter, workDash_.kPrameterMax);
+
+	// 最大値を越えたら通常ビヘイビアに遷移
+	if (workDash_.parameter >= workDash_.kPrameterMax)
+	{
+		behaviorRequest_ = Behavior::kRoot;
+	}
+}
+
+/// <summary>
+/// ふるまい : ダッシュ : 描画処理
+/// </summary>
+void Player::BehaviorDashDraw()
+{
+	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
+		models_[kBody].modelHandle, models_[kBody].color, false);
+
+	engine_->DrawModel(models_[kHead].worldTransform.get(), models_[kHead].uvTransform.get(), camera3d_,
+		models_[kHead].modelHandle, models_[kHead].color, false);
+
+	engine_->DrawModel(models_[kRArm].worldTransform.get(), models_[kRArm].uvTransform.get(), camera3d_,
+		models_[kRArm].modelHandle, models_[kRArm].color, false);
+
+	engine_->DrawModel(models_[kLArm].worldTransform.get(), models_[kLArm].uvTransform.get(), camera3d_,
+		models_[kLArm].modelHandle, models_[kLArm].color, false);
 }
 
 

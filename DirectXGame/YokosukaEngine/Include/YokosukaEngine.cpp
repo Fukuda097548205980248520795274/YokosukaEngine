@@ -454,24 +454,27 @@ void MainCamera::Update()
 		// 回転速度
 		const float anglerVelocity = 0.05f;
 
-		rotation_.y += engine_->GetGamepadRightStick(0).x * anglerVelocity;
+		toRotationY_ += engine_->GetGamepadRightStick(0).x * anglerVelocity;
+
+		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_RIGHT_THUMB))
+		{
+			toRotationY_ = target_->rotation_.y;
+		}
 	}
+
+	rotation_.y = LerpShortAngle(camera3d_->rotation_.y, toRotationY_, 0.1f);
 
 	if (target_)
 	{
-		// 追従対象からカメラのオフセット
-		Vector3 offset = { 0.0f , 2.0f , -10.0f };
+		// 追従座標の補間
+		interTarget_ = Lerp(interTarget_, target_->translation_, 0.2f);
 
-		// カメラの角度から回転行列を求める
-		Matrix4x4 rotateMatrix = MakeRotateYMatrix(rotation_.y);
-
-		// オフセットをカメラの回転に合わせて回転させる
-		offset = TransformNormal(offset, rotateMatrix);
+		// オフセット
+		Vector3 offset = CreateOffset();
 
 		// 座標をコピーしてオフセットをずらす
-		translation_ = target_->translation_ + offset;
+		translation_ = interTarget_ + offset;
 	}
-
 
 	// 値をカメラに入れる
 	camera3d_->translation_ = translation_;
@@ -479,6 +482,55 @@ void MainCamera::Update()
 
 	// 3Dカメラ更新
 	camera3d_->UpdateMatrix();
+}
+
+/// <summary>
+/// 注視の対象のSetter
+/// </summary>
+/// <param name="target"></param>
+/// <returns></returns>
+void MainCamera::SetTarget(const WorldTransform* target)
+{
+	target_ = target; 
+	Reset();
+}
+
+/// <summary>
+/// リセット関数
+/// </summary>
+void MainCamera::Reset()
+{
+	// 追従対象がいた時
+	if (target_)
+	{
+		// 追従対象の座標と角度の初期化
+		interTarget_ = Vector3(target_->worldMatrix_.m[3][0], target_->worldMatrix_.m[3][1], target_->worldMatrix_.m[3][2]);
+		camera3d_->rotation_.y = target_->rotation_.y;
+	}
+
+	toRotationY_ = camera3d_->rotation_.y;
+
+	// 追従対象からのオフセット
+	Vector3 offset = CreateOffset();
+	camera3d_->translation_ = interTarget_ + offset;
+}
+
+/// <summary>
+/// オフセット計算
+/// </summary>
+/// <returns></returns>
+Vector3 MainCamera::CreateOffset() const
+{
+	// 追従対象からカメラのオフセット
+	Vector3 offset = { 0.0f , 2.0f , -10.0f };
+
+	// カメラの角度から回転行列を求める
+	Matrix4x4 rotateMatrix = MakeRotateYMatrix(rotation_.y);
+
+	// オフセットをカメラの回転に合わせて回転させる
+	offset = TransformNormal(offset, rotateMatrix);
+
+	return offset;
 }
 
 

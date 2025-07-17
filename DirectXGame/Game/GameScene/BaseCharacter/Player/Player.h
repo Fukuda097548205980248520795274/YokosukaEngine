@@ -53,6 +53,11 @@ private:
 	/// </summary>
 	void Attack();
 
+	/// <summary>
+	/// ダッシュ操作
+	/// </summary>
+	void Dash();
+
 
 
 	// メインカメラ
@@ -109,7 +114,8 @@ private:
 	enum class Behavior
 	{
 		kRoot,
-		kAttack
+		kAttack,
+		kDash
 	};
 
 	// 現在のふるまい
@@ -191,6 +197,41 @@ private:
 	const float kAttackMoveSpeed = 5.0f;
 	Vector3 attackPrevPosition_ = { 0.0f , 0.0f , 0.0f };
 	Vector3 attackGoalPosition_ = { 0.0f , 0.0f , 0.0f };
+
+
+	/*-----------------------
+	    ふるまい : ダッシュ
+	-----------------------*/
+
+	/// <summary>
+	/// ふるまい : ダッシュ : 初期化
+	/// </summary>
+	void BehaviorDashInitialize();
+
+	/// <summary>
+	/// ふるまい : ダッシュ : 更新処理
+	/// </summary>
+	void BehaviorDashUpdate();
+
+	/// <summary>
+	/// ふるまい : ダッシュ : 描画処理
+	/// </summary>
+	void BehaviorDashDraw();
+
+	// ダッシュ用ワーク
+	struct WorkDash
+	{
+		// パラメータ
+		float parameter = 0.0f;
+
+		// 速度
+		float speed = 0.0f;
+
+		// パラメータ最大値
+		const float kPrameterMax = 1.0f;
+	};
+
+	WorkDash workDash_;
 
 
 

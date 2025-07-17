@@ -587,7 +587,18 @@ public:
 	/// </summary>
 	/// <param name="target"></param>
 	/// <returns></returns>
-	void SetTarget(const WorldTransform* target) { target_ = target; }
+	void SetTarget(const WorldTransform* target);
+
+	/// <summary>
+	/// リセット関数
+	/// </summary>
+	void Reset();
+
+	/// <summary>
+	/// オフセット計算
+	/// </summary>
+	/// <returns></returns>
+	Vector3 CreateOffset() const;
 
 	// ローカル座標
 	Vector3 translation_ = { 0.0f , 0.0f , 0.0f };
@@ -606,6 +617,12 @@ private:
 
 	// 注視の対象
 	const WorldTransform* target_ = nullptr;
+
+	// 追従対象の残像座標
+	Vector3 interTarget_ = {};
+
+	// Y軸回転のゴール
+	float toRotationY_ = 0.0f;
 };
 
 /// <summary>
