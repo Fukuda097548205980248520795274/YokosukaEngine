@@ -280,6 +280,9 @@
     <Filter Include="Game\GameScene\BaseCharacter\Enemy">
       <UniqueIdentifier>{1076525f-3ca3-4d52-90b8-36a8ed3e85a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\GlobalVariables">
+      <UniqueIdentifier>{347ae62c-7a2a-40cd-8107-e4d892ffcb45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -518,6 +521,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\BaseCharacter\Enemy\Enemy.cpp">
       <Filter>Game\GameScene\BaseCharacter\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\GlobalVariables\GlobalVariables.cpp">
+      <Filter>Game\GameScene\GlobalVariables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -760,6 +766,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\BaseCharacter\Enemy\Enemy.h">
       <Filter>Game\GameScene\BaseCharacter\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\GlobalVariables\GlobalVariables.h">
+      <Filter>Game\GameScene\GlobalVariables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

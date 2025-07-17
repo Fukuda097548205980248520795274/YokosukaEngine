@@ -10,6 +10,15 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	// 基底クラス初期化
 	BaseCharacter::Initialize(engine, camera3d);
 
+	// 調整項目クラス
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+
+	// グループを追加する
+	globalVariables->CreateGroup(groupName);
+	globalVariables->SetValue(groupName, "int32_t", 90);
+	globalVariables->SetValue(groupName, "float", 3.14f);
+	globalVariables->SetValue(groupName, "Vector3", Vector3(3.0f, 8.0f, 5.0f));
 
 	// 胴体
 	models_[kBody].worldTransform = std::make_unique<WorldTransform>();
@@ -73,16 +82,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 /// </summary>
 void Player::Update()
 {
-	ImGui::Begin("Player");
-	ImGui::SliderFloat3("Head Translation", &models_[kHead].worldTransform->translation_.x, -10.0f, 10.0f);
-	ImGui::SliderFloat3("LArm Translation", &models_[kLArm].worldTransform->translation_.x, -10.0f, 10.0f);
-	ImGui::SliderFloat3("RArm Translation", &models_[kRArm].worldTransform->translation_.x, -10.0f, 10.0f);
-	ImGui::SliderFloat("floating time", &floatingTime_, 0.1f, 3.0f);
-	ImGui::SliderFloat("floating amplitude", &floatingAmplitude_, 0.0f, 3.0f);
-	ImGui::SliderFloat("handSwing time", &handSwingTime_, 0.1f, 3.0f);
-	ImGui::SliderFloat("handSwing amplitude", &handSwingAmplitude_, 0.0f, 3.0f);
-	ImGui::End();
-
 
 	// 遷移処理
 	if (behaviorRequest_)

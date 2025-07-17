@@ -1,5 +1,6 @@
 #pragma once
 #include "../BaseCharacter.h"
+#include "../../GlobalVariables/GlobalVariables.h"
 
 class Player : public BaseCharacter
 {

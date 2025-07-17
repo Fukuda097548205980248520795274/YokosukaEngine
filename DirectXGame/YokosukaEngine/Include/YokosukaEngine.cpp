@@ -444,6 +444,7 @@ void MainCamera::Initialize(const YokosukaEngine* engine, float screenWidth, flo
 	camera3d_->Initialize(screenWidth, screenHeight);
 }
 
+
 /// <summary>
 /// 更新処理
 /// </summary>
