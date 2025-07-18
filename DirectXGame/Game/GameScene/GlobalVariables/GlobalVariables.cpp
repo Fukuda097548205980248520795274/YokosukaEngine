@@ -356,12 +356,22 @@ void GlobalVariables::AddItem(const std::string& groupName, const std::string& k
 {
 	// グループを検索
 	std::map<std::string, Group>::iterator itGroup = datas_.find(groupName);
+
+	// 項目が未登録なら
+	if (itGroup == datas_.end())
+	{
+		SetValue(groupName, key, value);
+		return;
+	}
+
+	// 項目検索
 	std::map<std::string, Item>::iterator itItem = itGroup->second.find(key);
 
 	// 項目が未登録なら
 	if (itItem == itGroup->second.end())
 	{
 		SetValue(groupName, key, value);
+		return;
 	}
 }
 
@@ -375,12 +385,22 @@ void GlobalVariables::AddItem(const std::string& groupName, const std::string& k
 {
 	// グループを検索
 	std::map<std::string, Group>::iterator itGroup = datas_.find(groupName);
+
+	// 項目が未登録なら
+	if (itGroup == datas_.end())
+	{
+		SetValue(groupName, key, value);
+		return;
+	}
+
+	// 項目検索
 	std::map<std::string, Item>::iterator itItem = itGroup->second.find(key);
 
 	// 項目が未登録なら
 	if (itItem == itGroup->second.end())
 	{
 		SetValue(groupName, key, value);
+		return;
 	}
 }
 
@@ -394,12 +414,22 @@ void GlobalVariables::AddItem(const std::string& groupName, const std::string& k
 {
 	// グループを検索
 	std::map<std::string, Group>::iterator itGroup = datas_.find(groupName);
+
+	// 項目が未登録なら
+	if (itGroup == datas_.end())
+	{
+		SetValue(groupName, key, value);
+		return;
+	}
+
+	// 項目検索
 	std::map<std::string, Item>::iterator itItem = itGroup->second.find(key);
 
 	// 項目が未登録なら
 	if (itItem == itGroup->second.end())
 	{
 		SetValue(groupName, key, value);
+		return;
 	}
 }
 

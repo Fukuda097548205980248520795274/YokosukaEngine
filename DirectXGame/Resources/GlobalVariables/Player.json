@@ -2,21 +2,21 @@
     "Player": {
         "ArmL Translation": [
             -0.25,
-            3.200000047683716,
+            1.100000023841858,
             0.0
         ],
         "ArmR Translation": [
-            2.4000000953674316,
-            2.0,
+            0.25,
+            1.100000023841858,
             0.0
         ],
         "Head Translation": [
-            -6.400000095367432,
-            2.799999952316284,
-            10.0
+            0.0,
+            1.149999976158142,
+            0.0
         ],
-        "floating Amplitude": 1.0420000553131104,
+        "floating Amplitude": 0.10000000149011612,
         "floating time": 1.0,
-        "handSwing Amplitude": 0.11999999731779099
+        "handSwing Amplitude": 3.244999885559082
     }
 }
