@@ -346,6 +346,9 @@
     <Filter Include="Game\GameScene\Sprite">
       <UniqueIdentifier>{69f1af51-e323-4d5f-9e97-73c778bbf1b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\SphereModel">
+      <UniqueIdentifier>{5855c0a9-54f3-4a93-8277-4c51faee7776}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -641,6 +644,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Sprite\Sprite.cpp">
       <Filter>Game\GameScene\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\SphereModel\SphereModel.cpp">
+      <Filter>Game\GameScene\SphereModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -940,6 +946,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Sprite\Sprite.h">
       <Filter>Game\GameScene\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\SphereModel\SphereModel.h">
+      <Filter>Game\GameScene\SphereModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

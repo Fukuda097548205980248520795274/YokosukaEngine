@@ -19,6 +19,10 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// スプライトの生成と初期化
 	sprite_ = std::make_unique<Sprite>();
 	sprite_->Initialize(engine_ , camera2d_.get());
+
+	// 球の生成と初期化
+	sphere_ = std::make_unique<SphereModel>();
+	sphere_->Initialize(engine_, camera3d_.get());
 }
 
 /// <summary>
@@ -29,15 +33,7 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
-	if (!ImGui::Begin("CG2", nullptr, ImGuiWindowFlags_MenuBar))
-	{
-		ImGui::End();
-		return;
-	}
-
-	if (!ImGui::BeginMenuBar())return;
-
-
+	ImGui::Begin("CG2");
 
 	// 平面の更新
 	plane_->Update();
@@ -45,10 +41,9 @@ void GameScene::Update()
 	// スプライトの更新
 	sprite_->Update();
 
+	// 球の更新
+	sphere_->Update();
 
-
-
-	ImGui::EndMenuBar();
 	ImGui::End();
 }
 
@@ -65,4 +60,7 @@ void GameScene::Draw()
 
 	// スプライトの描画
 	sprite_->Draw();
+
+	// 球の描画
+	sphere_->Draw();
 }

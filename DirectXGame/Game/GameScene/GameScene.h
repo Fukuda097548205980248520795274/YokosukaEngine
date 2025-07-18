@@ -2,6 +2,7 @@
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "Plane/Plane.h"
 #include "Sprite/Sprite.h"
+#include "SphereModel/SphereModel.h"
 
 class GameScene : public Scene
 {
@@ -32,4 +33,7 @@ private:
 
 	// スプライト
 	std::unique_ptr<Sprite> sprite_ = nullptr;
+
+	// 球
+	std::unique_ptr<SphereModel> sphere_ = nullptr;
 };

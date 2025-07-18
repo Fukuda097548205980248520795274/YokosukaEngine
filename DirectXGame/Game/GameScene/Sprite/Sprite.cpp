@@ -34,15 +34,17 @@ void Sprite::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d)
 /// </summary>
 void Sprite::Update()
 {
-	if (!ImGui::BeginMenu("Sprite"))return;
-	ImGui::DragFloat2("scale", &worldTransform_->scale_.x, 1.0f);
-	ImGui::DragFloat("rotation", &worldTransform_->rotation_.z, 0.01f);
-	ImGui::DragFloat2("translation", &worldTransform_->translation_.x, 1.0f);
-	ImGui::Text("\n");
-	ImGui::DragFloat2("uvScale", &uvTransform_->scale_.x, 0.1f);
-	ImGui::DragFloat("uvRotation", &uvTransform_->rotation_.z, 0.01f);
-	ImGui::DragFloat2("uvTranslation", &uvTransform_->translation_.x, 0.1f);
-	ImGui::EndMenu();
+	if (ImGui::BeginCombo("Sprite", "Sprite"))
+	{
+		ImGui::DragFloat2("scale", &worldTransform_->scale_.x, 1.0f);
+		ImGui::DragFloat("rotation", &worldTransform_->rotation_.z, 0.01f);
+		ImGui::DragFloat2("translation", &worldTransform_->translation_.x, 1.0f);
+		ImGui::Text("\n");
+		ImGui::DragFloat2("uvScale", &uvTransform_->scale_.x, 0.1f);
+		ImGui::DragFloat("uvRotation", &uvTransform_->rotation_.z, 0.01f);
+		ImGui::DragFloat2("uvTranslation", &uvTransform_->translation_.x, 0.1f);
+		ImGui::EndCombo();
+	}
 
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
