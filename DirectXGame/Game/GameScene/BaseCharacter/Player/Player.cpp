@@ -580,10 +580,15 @@ void Player::BehaviorJumpInitialize()
 	// ジャンプの初速を与える
 	velocity_.y = kJumpFirstSpeed;
 
+
 	if (engine_->IsGamepadEnable(0))
 	{
-		velocity_.x = engine_->GetGamepadLeftStick(0).x;
-		velocity_.z = engine_->GetGamepadLeftStick(0).y;
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
+		Vector3 direction = Normalize(
+			Transform(Vector3(0.0f, 0.0f, std::fabs(engine_->GetGamepadLeftStick(0).y)), rotateMatrix));
+
+		velocity_.x = direction.x;
+		velocity_.z = direction.z;
 	}
 }
 
