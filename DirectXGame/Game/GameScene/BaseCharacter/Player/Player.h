@@ -63,6 +63,11 @@ private:
 	/// </summary>
 	void Dash();
 
+	/// <summary>
+	/// ジャンプ操作
+	/// </summary>
+	void Jump();
+
 
 
 	// メインカメラ
@@ -120,7 +125,8 @@ private:
 	{
 		kRoot,
 		kAttack,
-		kDash
+		kDash,
+		kJump,
 	};
 
 	// 現在のふるまい
@@ -237,6 +243,29 @@ private:
 	};
 
 	WorkDash workDash_;
+
+
+	/*-----------------------
+	    ふるまい : ジャンプ
+	-----------------------*/
+
+	/// <summary>
+	/// ふるまい : ジャンプ : 初期化
+	/// </summary>
+	void BehaviorJumpInitialize();
+
+	/// <summary>
+	/// ふるまい : ジャンプ : 更新処理
+	/// </summary>
+	void BehaviorJumpUpdate();
+
+	/// <summary>
+	/// ふるまい : ジャンプ : 描画処理
+	/// </summary>
+	void BehaviorJumpDraw();
+
+	// 速度
+	Vector3 velocity_ = { 0.0f , 0.0f , 0.0f };
 
 
 

@@ -468,7 +468,7 @@ void MainCamera::Update()
 	if (target_)
 	{
 		// 追従座標の補間
-		interTarget_ = Lerp(interTarget_, target_->translation_, 0.2f);
+		interTarget_ = Lerp(interTarget_, target_->translation_, 0.8f);
 
 		// オフセット
 		Vector3 offset = CreateOffset();

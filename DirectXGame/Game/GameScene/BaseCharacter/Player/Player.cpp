@@ -116,6 +116,13 @@ void Player::Update()
 			BehaviorDashInitialize();
 
 			break;
+
+		case Behavior::kJump:
+
+			// ジャンプ
+			BehaviorJumpInitialize();
+
+			break;
 		}
 
 		// ふるまいリクエストをリセット
@@ -144,6 +151,13 @@ void Player::Update()
 
 		// ダッシュ
 		BehaviorDashUpdate();
+
+		break;
+
+	case Behavior::kJump:
+
+		// ジャンプ
+		BehaviorJumpUpdate();
 
 		break;
 	}
@@ -189,6 +203,13 @@ void Player::Draw()
 		BehaviorDashDraw();
 
 		break;
+
+	case Behavior::kJump:
+
+		// ジャンプ
+		BehaviorJumpDraw();
+
+		break;
 	}
 }
 
@@ -223,6 +244,9 @@ void Player::Input()
 
 	// ダッシュ操作
 	Dash();
+
+	// ジャンプ操作
+	Jump();
 }
 
 /// <summary>
@@ -308,6 +332,22 @@ void Player::Dash()
 	if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_B))
 	{
 		behaviorRequest_ = Behavior::kDash;
+	}
+}
+
+/// <summary>
+/// ジャンプ操作
+/// </summary>
+void Player::Jump()
+{
+	// ゲームパッドが有効かどうか
+	if (engine_->IsGamepadEnable(0) == false)
+		return;
+
+	// Xボタンでダッシュ
+	if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_X))
+	{
+		behaviorRequest_ = Behavior::kJump;
 	}
 }
 
@@ -502,6 +542,79 @@ void Player::BehaviorDashUpdate()
 /// ふるまい : ダッシュ : 描画処理
 /// </summary>
 void Player::BehaviorDashDraw()
+{
+	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
+		models_[kBody].modelHandle, models_[kBody].color, false);
+
+	engine_->DrawModel(models_[kHead].worldTransform.get(), models_[kHead].uvTransform.get(), camera3d_,
+		models_[kHead].modelHandle, models_[kHead].color, false);
+
+	engine_->DrawModel(models_[kRArm].worldTransform.get(), models_[kRArm].uvTransform.get(), camera3d_,
+		models_[kRArm].modelHandle, models_[kRArm].color, false);
+
+	engine_->DrawModel(models_[kLArm].worldTransform.get(), models_[kLArm].uvTransform.get(), camera3d_,
+		models_[kLArm].modelHandle, models_[kLArm].color, false);
+}
+
+
+
+/*-----------------------
+    ふるまい : ジャンプ
+-----------------------*/
+
+/// <summary>
+/// ふるまい : ジャンプ : 初期化
+/// </summary>
+void Player::BehaviorJumpInitialize()
+{
+	models_[kBody].worldTransform->translation_.y = 0.0f;
+	models_[kLArm].worldTransform->rotation_.x = 0.0f;
+	models_[kRArm].worldTransform->rotation_.x = 0.0f;
+
+	// ジャンプ初速
+	const float kJumpFirstSpeed = 1.0f;
+
+	// ジャンプの初速を与える
+	velocity_.y = kJumpFirstSpeed;
+
+	if (engine_->IsGamepadEnable(0))
+	{
+		velocity_.x = engine_->GetGamepadLeftStick(0).x;
+		velocity_.z = engine_->GetGamepadLeftStick(0).y;
+	}
+}
+
+/// <summary>
+/// ふるまい : ジャンプ : 更新処理
+/// </summary>
+void Player::BehaviorJumpUpdate()
+{
+	// 移動
+	worldTransform_->translation_ += velocity_;
+
+
+	// 重力加速度
+	const float kGravityAcceleration = 0.05f;
+
+	// 加速度ベクトル
+	Vector3 accelerationVector = { 0.0f , -kGravityAcceleration , 0.0f };
+
+	// 加速する
+	velocity_ += accelerationVector;
+
+
+	// 着地したら通常ビヘイビアに遷移する
+	if (worldTransform_->translation_.y <= 0.0f)
+	{
+		worldTransform_->translation_.y = 0.0f;
+		behaviorRequest_ = Behavior::kRoot;
+	}
+}
+
+/// <summary>
+/// ふるまい : ジャンプ : 描画処理
+/// </summary>
+void Player::BehaviorJumpDraw()
 {
 	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
 		models_[kBody].modelHandle, models_[kBody].color, false);
