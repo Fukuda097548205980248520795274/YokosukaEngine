@@ -99,7 +99,6 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 		// リストに追加する
 		stageObjects_.push_back(stageObject);
 	}
-
 }
 
 /// <summary>
@@ -208,7 +207,6 @@ void GameScene::Draw()
 
 	// レイヤーを隠す
 	engine_->SetOffscreenEffect(kHide);
-
 
 	// 第一レイヤー描画
 	engine_->CopyRtvImage(0);
