@@ -571,6 +571,9 @@ void Player::BehaviorJumpInitialize()
 	models_[kLArm].worldTransform->rotation_.x = 0.0f;
 	models_[kRArm].worldTransform->rotation_.x = 0.0f;
 
+	// 旋回に補間をかけない
+	worldTransform_->rotation_.y = toRotationY_;
+
 	// ジャンプ初速
 	const float kJumpFirstSpeed = 1.0f;
 
