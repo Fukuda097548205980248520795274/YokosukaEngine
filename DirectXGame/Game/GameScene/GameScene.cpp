@@ -61,6 +61,9 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	centerAxis_ = std::make_unique<CenterAxis>();
 	centerAxis_->Initliaze(engine_ , camera3d_.get());
 
+	// 中心軸をメインカメラの親とする
+	mainCamera_->SetPivotParent(centerAxis_->GetWorldTransform());
+
 
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
@@ -76,7 +79,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get());
 	player_->SetGameScene(this);
-	player_->SetParent(mainCamera_->GetWorldTransform());
+	player_->SetParent(mainCamera_->GetPivotWorldTransform());
 
 	// 敵の追加
 	for (uint32_t i = 0; i < 3; i++)
@@ -104,6 +107,9 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 /// </summary>
 void GameScene::Update()
 {
+	// 中心軸の回転をメインカメラに渡す
+	mainCamera_->SetCameraRotate(centerAxis_->GetWorldTransform()->rotation_);
+
 	// Scene更新
 	Scene::Update();
 
