@@ -1,4 +1,5 @@
 #include "Collision.h"
+#include "../../YokosukaEngine.h"
 
 /// <summary>
 /// 衝突判定
@@ -8,6 +9,7 @@
 /// <returns></returns>
 bool IsCollision(const AABB& aabb, const Vector3& point)
 {
+
 	if (point.x < aabb.max.x &&
 		point.x > aabb.min.x)
 	{
@@ -58,6 +60,7 @@ bool IsCollision(const AABB& aabb1, const AABB& aabb2)
 /// <returns></returns>
 bool IsCollision(const AABB& aabb, const Segment& segment)
 {
+
 	Vector3 tMin =
 	{
 		(aabb.min.x - segment.origin.x) / segment.diff.x,

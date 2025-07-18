@@ -163,6 +163,23 @@ Vector3 EnemyButterfly::GetBodyWorldPosition()
 	return worldPosition;
 }
 
+/// <summary>
+/// 当たり判定用のAABBのGetter
+/// </summary>
+/// <returns></returns>
+AABB EnemyButterfly::GetCollisionAABB() const
+{
+	// AABB
+	AABB aabb;
+
+	Matrix4x4 worldMatrix = MakeAffineMatrix(worldTransform_->scale_, worldTransform_->rotation_, worldTransform_->translation_) *
+		MakeAffineMatrix(models_[kBody].worldTransform_->scale_, models_[kBody].worldTransform_->rotation_, models_[kBody].worldTransform_->translation_);
+
+	aabb.max = hitSize_ + Vector3(worldMatrix.m[3][0], worldMatrix.m[3][1], worldMatrix.m[3][2]);
+	aabb.min = (-1.0f * hitSize_) + Vector3(worldMatrix.m[3][0], worldMatrix.m[3][1], worldMatrix.m[3][2]);
+
+	return aabb;
+}
 
 /// <summary>
 /// 衝突判定応答
