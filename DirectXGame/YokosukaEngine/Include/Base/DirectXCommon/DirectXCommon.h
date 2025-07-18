@@ -309,6 +309,18 @@ public:
 	void DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color);
 
 	/// <summary>
+	/// レンダーテクスチャを貼りつけた平面を描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="textureHandle"></param>
+	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
+	void DrawRenderTexturePlane(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera, uint32_t screenHandle, Vector4 color, bool isLighting);
+
+	/// <summary>
 	/// 線を描画する
 	/// </summary>
 	/// <param name="start">始点</param>

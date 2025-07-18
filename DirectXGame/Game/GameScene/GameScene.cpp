@@ -32,13 +32,6 @@ GameScene::~GameScene()
 		delete boss;
 	}
 	bosses_.clear();
-
-	// ステージオブジェクト
-	for (StageObject* stageObject : stageObjects_)
-	{
-		delete stageObject;
-	}
-	stageObjects_.clear();
 }
 
 /// <summary>
@@ -73,7 +66,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_.get());
-	skydome_->SetParent(centerAxis_->GetWorldTransform());
+	skydome_->SetPosition(centerAxis_->GetWorldPosition());
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
@@ -88,18 +81,6 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 0.0f, 20.0f), centerAxis_.get(), player_.get(), this);
 		enemies_.push_back(enemy);
 	}
-
-
-	// ステージオブジェクトの追加
-	for (uint32_t i = 0; i < 12; ++i)
-	{
-		TutorialGroundEmpty* stageObject = new TutorialGroundEmpty();
-		stageObject->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 60.0f * i));
-
-		// リストに追加する
-		stageObjects_.push_back(stageObject);
-	}
-
 }
 
 /// <summary>
@@ -122,7 +103,8 @@ void GameScene::Update()
 	// 中心軸の更新
 	centerAxis_->Update();
 
-	// 天球の更新
+	// 天球の更新が中心軸の位置に移動する
+	skydome_->SetPosition(centerAxis_->GetWorldPosition());
 	skydome_->Update();
 
 	// プレイヤーの更新
@@ -139,9 +121,6 @@ void GameScene::Update()
 
 	// ボスの更新
 	BossUpdate();
-
-	// ステージオブジェクトの更新
-	StageObjectUpdate();
 
 
 	// 全ての当たり判定を行う
@@ -186,12 +165,6 @@ void GameScene::Draw()
 		boss->Draw();
 	}
 
-	// ステージオブジェクトの描画
-	for (StageObject* stageObject : stageObjects_)
-	{
-		stageObject->Draw();
-	}
-
 
 	// 高輝度抽出
 	engine_->SetOffscreenEffect(kBrightnessExtraction);
@@ -207,7 +180,6 @@ void GameScene::Draw()
 
 	// レイヤーを隠す
 	engine_->SetOffscreenEffect(kHide);
-
 
 	// 第一レイヤー描画
 	engine_->CopyRtvImage(0);
@@ -354,30 +326,6 @@ void GameScene::BossUpdate()
 	);
 }
 
-/// <summary>
-/// ステージオブジェクトの更新処理
-/// </summary>
-void GameScene::StageObjectUpdate()
-{
-	// ステージオブジェクトの更新
-	for (StageObject* stageObject : stageObjects_)
-	{
-		stageObject->Update();
-	}
-
-	// 終了したステージオブジェクトをリストから削除する
-	stageObjects_.remove_if([](StageObject* stageObject)
-		{
-			if (stageObject->IsFinished())
-			{
-				delete stageObject;
-				return true;
-			}
-			return false;
-		}
-	);
-}
-
 
 /// <summary>
 /// 全ての当たり判定を行う
@@ -390,19 +338,48 @@ void GameScene::AllCheckCollision()
 	// AABB
 	AABB aabb;
 
+	// プレイヤーの弾 敵
 	for (BasePlayerBullet* playerBullet : playerBullets_)
 	{
 		segment = playerBullet->GetCollisionSegment();
 
 		for (BaseEnemy* enemy : enemies_)
 		{
-			aabb = enemy->GetCollisionAABB(enemy->GetBodyWorldPosition());
+			aabb = enemy->GetCollisionAABB();
 
 			if (IsCollision(aabb, segment))
 			{
 				playerBullet->OnCollision(enemy);
 				enemy->OnCollision(playerBullet);
 			}
+		}
+	}
+
+
+	aabb = player_->GetCollisionAABB();
+
+	// プレイヤー 敵の弾
+	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
+	{
+		segment = enemyBullet->GetCollisionSegment();
+		
+		if (IsCollision(aabb, segment))
+		{
+			player_->OnCollision(enemyBullet);
+			enemyBullet->OnCollision(player_.get());
+		}
+	}
+
+	// プレイヤー 敵
+	for (BaseEnemy* enemy : enemies_)
+	{
+		// 敵が攻撃時当たり判定をする
+		if (enemy->IsAttack() == false)
+			continue;
+
+		if (IsCollision(aabb, enemy->GetCollisionAABB()))
+		{
+			player_->OnCollision(enemy);
 		}
 	}
 }

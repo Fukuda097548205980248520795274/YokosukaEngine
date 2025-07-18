@@ -131,10 +131,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\GameScene\BaseStage\BaseStage.cpp" />
     <ClCompile Include="Game\GameScene\CenterAxis\CenterAxis.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
+    <ClCompile Include="Game\GameScene\PlayerStateHud\PlayerStateHud.cpp" />
     <ClCompile Include="Game\GameScene\Player\Player.cpp" />
     <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp" />
-    <ClCompile Include="Game\GameScene\StageObject\StageObject.cpp" />
-    <ClCompile Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp" />
@@ -245,10 +244,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\BaseStage\BaseStage.h" />
     <ClInclude Include="Game\GameScene\CenterAxis\CenterAxis.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
+    <ClInclude Include="Game\GameScene\PlayerStateHud\PlayerStateHud.h" />
     <ClInclude Include="Game\GameScene\Player\Player.h" />
     <ClInclude Include="Game\GameScene\Skydome\Skydome.h" />
-    <ClInclude Include="Game\GameScene\StageObject\StageObject.h" />
-    <ClInclude Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h" />

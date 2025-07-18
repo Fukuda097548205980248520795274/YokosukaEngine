@@ -74,21 +74,6 @@ Vector3 BaseEnemy::GetWorldPosition() const
 }
 
 /// <summary>
-/// 当たり判定用のAABBのGetter
-/// </summary>
-/// <returns></returns>
-AABB BaseEnemy::GetCollisionAABB(const Vector3& position) const
-{
-	// AABB
-	AABB aabb;
-
-	aabb.max = hitSize_ + position;
-	aabb.min = (-1.0f * hitSize_) + position;
-
-	return aabb;
-}
-
-/// <summary>
 /// 衝突判定応答
 /// </summary>
 /// <param name="playerBullet"></param>

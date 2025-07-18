@@ -63,7 +63,7 @@ public:
 	/// 当たり判定用のAABBのGetter
 	/// </summary>
 	/// <returns></returns>
-	AABB GetCollisionAABB(const Vector3& position) const;
+	virtual AABB GetCollisionAABB() const = 0;
 
 	/// <summary>
 	/// 衝突判定応答

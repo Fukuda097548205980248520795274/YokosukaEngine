@@ -33,7 +33,6 @@ void CenterAxis::Initliaze(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void CenterAxis::Update()
 {
-	worldTransform_->rotation_.y += 0.01f;
 	worldTransform_->translation_.z += 1.0f;
 	worldTransform_->translation_.z = std::fmod(worldTransform_->translation_.z, 720.0f);
 
@@ -49,4 +48,21 @@ void CenterAxis::Draw()
 {
 	// 弾を描画する
 	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, 10, 5, Vector4(1.0f, 0.0f, 0.0f, 1.0f), false);
+}
+
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 CenterAxis::GetWorldPosition()const
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
 }

@@ -239,6 +239,21 @@ public:
 	}
 
 	/// <summary>
+	/// レンダーテクスチャを貼りつけた平面を描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="textureHandle"></param>
+	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
+	void DrawRenderTexturePlane(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera, uint32_t screenHandle, Vector4 color, bool isLighting) const
+	{
+		directXCommon_->DrawRenderTexturePlane(worldTransform, uvTransform, camera, screenHandle, color, isLighting);
+	}
+
+	/// <summary>
 	/// 線を描画する
 	/// </summary>
 	/// <param name="start"></param>

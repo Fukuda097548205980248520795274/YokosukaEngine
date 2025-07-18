@@ -33,6 +33,12 @@ public:
 	Vector3 GetBodyWorldPosition() override;
 
 	/// <summary>
+	/// 当たり判定用のAABBのGetter
+	/// </summary>
+	/// <returns></returns>
+	AABB GetCollisionAABB() const override;
+
+	/// <summary>
 	/// 衝突判定応答
 	/// </summary>
 	/// <param name="playerBullet"></param>

@@ -23,6 +23,12 @@ public:
 	void Draw();
 
 	/// <summary>
+	/// 位置のSetter
+	/// </summary>
+	/// <param name="position"></param>
+	void SetPosition(const Vector3& position) { worldTransform_->translation_ = position; }
+
+	/// <summary>
 	/// 親のワールドトランスフォームのSetter
 	/// </summary>
 	/// <param name="worldTransform"></param>

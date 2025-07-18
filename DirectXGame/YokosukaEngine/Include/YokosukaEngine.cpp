@@ -468,6 +468,9 @@ void MainCamera::Update()
 	
 	camera3d_->translation_ = 
 		pivotPoint_ + SphericalCoordinate(pivotPointLength_, camera3d_->rotation_.x, -(std::numbers::pi_v<float> / 2.0f) - camera3d_->rotation_.y);
+
+	// シェイクを反映する
+	camera3d_->translation_ += shakeMove_;
 	
 
 	// 3Dカメラ更新
