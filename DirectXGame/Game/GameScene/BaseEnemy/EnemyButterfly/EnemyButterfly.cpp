@@ -8,10 +8,10 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target, GameScene* gameScene)
+void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const CenterAxis* centerAxis, const Player* target, GameScene* gameScene)
 {
 	// 基底クラス初期化
-	BaseEnemy::Initialize(engine, camera3d, position, target, gameScene);
+	BaseEnemy::Initialize(engine, camera3d, position,centerAxis, target, gameScene);
 	worldTransform_->scale_ *= 2.0f;
 
 	hitSize_ = { 2.0f , 2.0f , 1.0f };
@@ -376,7 +376,7 @@ void EnemyButterfly::GimmickShotActionUpdate()
 
 
 	// ターゲットの方向を向くようにする
-	Vector3 toTarget = -1.0f * Normalize(target_->GetBodyWorldPosition() - GetBodyWorldPosition());
+	Vector3 toTarget = -1.0f * Normalize(target_->GetWorldTransform()->translation_ - worldTransform_->translation_);
 	worldTransform_->rotation_.y = std::atan2(toTarget.x, toTarget.z);
 	float length = std::sqrt(std::pow(toTarget.x, 2.0f) + std::pow(toTarget.z, 2.0f));
 	worldTransform_->rotation_.x = std::atan2(-toTarget.y, length);
@@ -474,10 +474,10 @@ void EnemyButterfly::BulletShot()
 {
 	// 新規の弾の生成
 	EnemyBulletWeek* enemyBullet = new EnemyBulletWeek();
-	enemyBullet->Initialize(engine_, camera3d_, GetBodyWorldPosition());
+	enemyBullet->Initialize(engine_, camera3d_, worldTransform_->translation_, worldTransform_->parent_);
 
 	// ターゲットの方向に発射する
-	enemyBullet->SetDirection(Normalize(target_->GetBodyWorldPosition() - GetBodyWorldPosition()));
+	enemyBullet->SetDirection(Normalize(target_->GetWorldTransform()->translation_ - worldTransform_->translation_));
 
 	// ゲームシーンのリストに追加する
 	gameScene_->EnemyBulletShot(enemyBullet);

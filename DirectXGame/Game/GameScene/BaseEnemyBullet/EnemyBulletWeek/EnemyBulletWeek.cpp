@@ -6,10 +6,10 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
+void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, WorldTransform* parent)
 {
 	// 基底クラスの初期化
-	BaseEnemyBullet::Initialize(engine, camera3d, position);
+	BaseEnemyBullet::Initialize(engine, camera3d, position , parent);
 
 	worldTransform_->scale_ *= 3.0f;
 

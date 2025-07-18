@@ -57,6 +57,14 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Addictive_Waveform.mp3");
 
 
+	// 中心軸の生成と初期化
+	centerAxis_ = std::make_unique<CenterAxis>();
+	centerAxis_->Initliaze(engine_ , camera3d_.get());
+
+	// 中心軸をメインカメラの親とする
+	mainCamera_->SetPivotParent(centerAxis_->GetWorldTransform());
+
+
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
@@ -65,24 +73,25 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_.get());
+	skydome_->SetParent(centerAxis_->GetWorldTransform());
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get());
 	player_->SetGameScene(this);
-	mainCamera_->translation_.y = 10.0f;
+	player_->SetParent(mainCamera_->GetPivotWorldTransform());
 
 	// 敵の追加
 	for (uint32_t i = 0; i < 3; i++)
 	{
 		EnemyButterfly* enemy = new EnemyButterfly();
-		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 10.0f, 20.0f) , player_.get() , this);
+		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 0.0f, 20.0f), centerAxis_.get(), player_.get(), this);
 		enemies_.push_back(enemy);
 	}
 
 
 	// ステージオブジェクトの追加
-	for (uint32_t i = 0; i < 6; ++i)
+	for (uint32_t i = 0; i < 12; ++i)
 	{
 		TutorialGroundEmpty* stageObject = new TutorialGroundEmpty();
 		stageObject->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 60.0f * i));
@@ -98,6 +107,9 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 /// </summary>
 void GameScene::Update()
 {
+	// 中心軸の回転をメインカメラに渡す
+	mainCamera_->SetCameraRotate(centerAxis_->GetWorldTransform()->rotation_);
+
 	// Scene更新
 	Scene::Update();
 
@@ -106,6 +118,9 @@ void GameScene::Update()
 		playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
 	}
 
+
+	// 中心軸の更新
+	centerAxis_->Update();
 
 	// 天球の更新
 	skydome_->Update();
@@ -204,6 +219,14 @@ void GameScene::Draw()
 
 	// Scene描画
 	Scene::Draw();
+
+
+	// 中心軸の描画
+#ifdef _DEBUG
+
+	//centerAxis_->Draw();
+
+#endif
 }
 
 

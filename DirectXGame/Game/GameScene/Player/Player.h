@@ -8,6 +8,7 @@
 // 前方宣言
 class GameScene;
 class BaseEnemy;
+class CenterAxis;
 
 class Player
 {
@@ -48,6 +49,18 @@ public:
 	Vector3 GetBodyWorldPosition() const;
 
 	/// <summary>
+	/// ワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetWorldTransform() const { return worldTransform_.get(); }
+
+	/// <summary>
+	/// 本体のワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetBodyWorldTransform() const { return bodyWorldTransform_.get(); }
+
+	/// <summary>
 	/// ゲームシーンのインスタンスのGetter
 	/// </summary>
 	/// <param name="gameScene"></param>
@@ -64,6 +77,12 @@ public:
 	/// </summary>
 	/// <param name="enemy"></param>
 	void OnCollision(const BaseEnemy* enemy);
+
+	/// <summary>
+	/// 親のワールドトランスフォームのSetter
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	void SetParent(WorldTransform* worldTransform) { worldTransform_->SetParent(worldTransform); }
 
 
 private:

@@ -33,7 +33,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
-	worldTransform_->translation_.y = 10.0f;
 
 	// 体力
 	hp_ = 100;
@@ -295,7 +294,7 @@ void Player::BulletShotGamepad()
 		{
 			// 弾の生成と初期化
 			PlayerBulletStrong* newBullet = new PlayerBulletStrong();
-			newBullet->Initialize(engine_, camera3d_, GetWorldPosition());
+			newBullet->Initialize(engine_, camera3d_, worldTransform_->translation_ ,worldTransform_->parent_);
 			newBullet->SetDirection(direction);
 
 			// リストに登録する
@@ -316,7 +315,7 @@ void Player::BulletShotGamepad()
 
 			// 弾の生成と初期化
 			PlayerBulletWeek* newBullet = new PlayerBulletWeek();
-			newBullet->Initialize(engine_, camera3d_, GetWorldPosition());
+			newBullet->Initialize(engine_, camera3d_, worldTransform_->translation_, worldTransform_->parent_);
 			newBullet->SetDirection(direction);
 
 			// リストに登録する

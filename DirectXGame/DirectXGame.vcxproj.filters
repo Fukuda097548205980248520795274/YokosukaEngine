@@ -391,6 +391,9 @@
     <Filter Include="YokosukaEngine\Include\Base\DirectXCommon\Resource">
       <UniqueIdentifier>{e4e50e68-7e93-4db3-8a72-9128b2732dd9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\CenterAxis">
+      <UniqueIdentifier>{e07be900-aef5-444a-baa6-fb50f19e5b43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -722,6 +725,9 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\CenterAxis\CenterAxis.cpp">
+      <Filter>Game\GameScene\CenterAxis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1057,6 +1063,9 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\CenterAxis\CenterAxis.h">
+      <Filter>Game\GameScene\CenterAxis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

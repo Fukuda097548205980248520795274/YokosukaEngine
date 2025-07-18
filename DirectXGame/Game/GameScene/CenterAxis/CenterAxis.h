@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
-class Skydome
+class CenterAxis
 {
 public:
 
@@ -10,7 +10,7 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d);
+	void Initliaze(const YokosukaEngine* engine , const Camera3D* camera3d);
 
 	/// <summary>
 	/// 更新処理
@@ -23,10 +23,10 @@ public:
 	void Draw();
 
 	/// <summary>
-	/// 親のワールドトランスフォームのSetter
+	/// ワールドトランスフォームのGetter
 	/// </summary>
-	/// <param name="worldTransform"></param>
-	void SetParent(WorldTransform* worldTransform) { worldTransform_->SetParent(worldTransform); }
+	/// <returns></returns>
+	WorldTransform* GetWorldTransform() const { return worldTransform_.get(); }
 
 
 private:
@@ -44,7 +44,7 @@ private:
 	// UVトランスフォーム
 	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
 
-	// モデルハンドル
-	uint32_t modelHandle_ = 0;
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0;
 };
 

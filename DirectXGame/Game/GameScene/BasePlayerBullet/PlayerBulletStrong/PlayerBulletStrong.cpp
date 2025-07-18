@@ -6,10 +6,10 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void PlayerBulletStrong::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
+void PlayerBulletStrong::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, WorldTransform* parent)
 {
 	// 基底クラス初期化
-	BasePlayerBullet::Initialize(engine, camera3d, position);
+	BasePlayerBullet::Initialize(engine, camera3d, position, parent);
 
 
 	// 本体の生成と初期化

@@ -8,11 +8,12 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void BasePlayerBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
+void BasePlayerBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, WorldTransform* parent)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(camera3d);
+	assert(parent);
 
 	// 引数を受け取る
 	engine_ = engine;
@@ -21,6 +22,7 @@ void BasePlayerBullet::Initialize(const YokosukaEngine* engine, const Camera3D* 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->SetParent(parent);
 	worldTransform_->translation_ = position;
 }
 

@@ -625,10 +625,28 @@ public:
 	Camera3D* GetGameCameraInstance() { return camera3d_.get(); }
 
 	/// <summary>
-	/// ワールド座標のGetter
+	/// ピボットのワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetWorldTransform();
+	Vector3 GetPivotWorldPosition();
+
+	/// <summary>
+	/// ピボットのワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetPivotWorldTransform() { return pivotWorldTransform_.get(); }
+
+	/// <summary>
+	/// ピボットの親のワールドトランスフォームのSetter
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	void SetPivotParent(WorldTransform* worldTransform) { pivotWorldTransform_->SetParent(worldTransform); }
+
+	/// <summary>
+	/// カメラの回転のSetter
+	/// </summary>
+	/// <param name="rotate"></param>
+	void SetCameraRotate(const Vector3& rotate) { camera3d_->rotation_ = rotate; }
 
 	/// <summary>
 	/// シェイクの設定
@@ -636,13 +654,6 @@ public:
 	/// <param name="shakeTime">時間</param>
 	/// <param name="shakeSize">大きさ</param>
 	void SetShake(float shakeTime, float shakeSize);
-
-
-	// ローカル座標
-	Vector3 translation_ = { 0.0f , 0.0f , -50.0f };
-
-	// 回転
-	Vector3 rotation_ = { 0.0f , 0.0f , 0.0f };
 
 
 private:
@@ -668,8 +679,15 @@ private:
 	// 3Dカメラ
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;
 
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// ピボットポイント
+	Vector3 pivotPoint_ = { 0.0f , 0.0f , 0.0f };
+
+	// ピボットポイントとの距離
+	float pivotPointLength_ = 50.0f;
+
+	// ピボットのワールドトランスフォーム
+	std::unique_ptr<WorldTransform> pivotWorldTransform_ = nullptr;
 };
 
 /// <summary>

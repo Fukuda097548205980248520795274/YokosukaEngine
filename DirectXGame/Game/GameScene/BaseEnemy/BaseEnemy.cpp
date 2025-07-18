@@ -2,6 +2,7 @@
 #include "../BasePlayerBullet/BasePlayerBullet.h"
 #include "../Player/Player.h"
 #include "../GameScene.h"
+#include "../CenterAxis/CenterAxis.h"
 
 /// <summary>
 /// 初期化
@@ -9,11 +10,12 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const Player* target, GameScene* gameScene)
+void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const CenterAxis* centerAxis, const Player* target, GameScene* gameScene)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(camera3d);
+	assert(centerAxis);
 	assert(target);
 	assert(gameScene);
 
@@ -26,6 +28,7 @@ void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
+	worldTransform_->SetParent(centerAxis->GetWorldTransform());
 	worldTransform_->translation_ = position;
 
 

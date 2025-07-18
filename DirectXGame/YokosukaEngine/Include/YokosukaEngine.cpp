@@ -448,11 +448,10 @@ void MainCamera::Initialize(float screenWidth, float screenHeight)
 	// カメラの生成と初期化
 	camera3d_ = std::make_unique<Camera3D>();
 	camera3d_->Initialize(screenWidth, screenHeight);
-	camera3d_->translation_.z = -50.0f;
 
 	// ワールドトランスフォームの生成と初期化
-	worldTransform_ = std::make_unique<WorldTransform>();
-	worldTransform_->Initialize();
+	pivotWorldTransform_ = std::make_unique<WorldTransform>();
+	pivotWorldTransform_->Initialize();
 }
 
 /// <summary>
@@ -462,31 +461,31 @@ void MainCamera::Update()
 {
 	Shake();
 
-	// 値をカメラに入れる
-	camera3d_->translation_ = translation_ + shakeMove_;
-	camera3d_->rotation_ = rotation_;
+
+	// ピボットのワールドトランスフォームの更新
+	pivotWorldTransform_->UpdateWorldMatrix();
+	pivotPoint_ = GetPivotWorldPosition();
+	
+	camera3d_->translation_ = 
+		pivotPoint_ + SphericalCoordinate(pivotPointLength_, camera3d_->rotation_.x, -(std::numbers::pi_v<float> / 2.0f) - camera3d_->rotation_.y);
+	
 
 	// 3Dカメラ更新
 	camera3d_->UpdateMatrix();
-
-	// ワールドトランスフォームに数値を入れる
-	worldTransform_->translation_ = translation_;
-	worldTransform_->rotation_ = rotation_;
-	worldTransform_->UpdateWorldMatrix();
 }
 
 /// <summary>
 /// ワールド座標のGetter
 /// </summary>
 /// <returns></returns>
-Vector3 MainCamera::GetWorldTransform()
+Vector3 MainCamera::GetPivotWorldPosition()
 {
 	// ワールド座標
 	Vector3 worldPosition;
 
-	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
-	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
-	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+	worldPosition.x = pivotWorldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = pivotWorldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = pivotWorldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
 }

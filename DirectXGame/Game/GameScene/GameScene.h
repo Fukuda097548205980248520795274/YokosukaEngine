@@ -1,6 +1,8 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 
+#include "CenterAxis/CenterAxis.h"
+
 #include "Player/Player.h"
 
 #include "BasePlayerBullet/BasePlayerBullet.h"
@@ -111,6 +113,10 @@ private:
 
 	// 天球
 	std::unique_ptr<Skydome> skydome_ = nullptr;
+
+
+	// 中心軸
+	std::unique_ptr<CenterAxis> centerAxis_ = nullptr;
 
 
 	// プレイヤー

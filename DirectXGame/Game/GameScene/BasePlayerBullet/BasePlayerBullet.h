@@ -14,7 +14,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d , const Vector3& position);
+	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, WorldTransform* parent);
 
 	/// <summary>
 	/// 更新処理
