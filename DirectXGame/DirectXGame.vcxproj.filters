@@ -289,21 +289,6 @@
     <Filter Include="YokosukaEngine\Include\Transform\WorldTransform2D">
       <UniqueIdentifier>{41212535-d26f-48d9-ac7a-d6c8a4491b5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameScene\Player">
-      <UniqueIdentifier>{72fd857f-515e-4b32-8d13-f93ce03e2d61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\Skydome">
-      <UniqueIdentifier>{9f1d50d8-4b34-4ef6-8df0-48713bd1fd62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\BasePlayerBullet">
-      <UniqueIdentifier>{8a206c1e-e9fb-47ce-8c9d-643857a12ba4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek">
-      <UniqueIdentifier>{d921a83e-b455-418e-8aad-171a52b8246c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong">
-      <UniqueIdentifier>{0a5f6acf-694f-45b1-976d-11eee3c83fe2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Draw\PostEffect">
       <UniqueIdentifier>{e7c2c1c3-339c-41c0-88a3-95a630e6c554}</UniqueIdentifier>
     </Filter>
@@ -334,21 +319,6 @@
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendSubtract">
       <UniqueIdentifier>{1f869a60-9572-4938-8759-71b6d55eae69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameScene\BaseEnemy">
-      <UniqueIdentifier>{1e79be06-c943-47ce-8fe4-319072bec00f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\BaseStage">
-      <UniqueIdentifier>{a26fac97-a5da-45d7-97ac-aaa001f15ccb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\BaseEnemy\EnemyButterfly">
-      <UniqueIdentifier>{797c3bb1-dbfa-483d-b767-2571fb4760b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\BaseBoss">
-      <UniqueIdentifier>{08a823c5-c635-4b70-a023-d5e09f8fe221}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\BaseBoss\BossBenkei">
-      <UniqueIdentifier>{a409a575-a93d-48c6-b7d5-93e742130df5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll">
       <UniqueIdentifier>{bbc3e2fe-a05a-4706-8fab-a8df5c95879d}</UniqueIdentifier>
     </Filter>
@@ -367,20 +337,8 @@
     <Filter Include="YokosukaEngine\Include\Shape\Ray">
       <UniqueIdentifier>{679ba177-dc43-433c-8353-04edd4774004}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameScene\BaseEnemyBullet">
-      <UniqueIdentifier>{ac8b4fb6-e55b-44f2-a122-dbe396adad03}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\BaseEnemyBullet\EnemyBulletWeek">
-      <UniqueIdentifier>{0d427355-9820-4c99-bea1-ba4edc4eb502}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Base\DirectXCommon\Resource">
       <UniqueIdentifier>{e4e50e68-7e93-4db3-8a72-9128b2732dd9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\CenterAxis">
-      <UniqueIdentifier>{e07be900-aef5-444a-baa6-fb50f19e5b43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\PlayerStateHud">
-      <UniqueIdentifier>{7d067d9d-a0ab-432a-a514-f26719bf0fa1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -621,21 +579,6 @@
     <ClCompile Include="YokosukaEngine\Include\Transform\WorldTransform2D\WorldTransform2D.cpp">
       <Filter>YokosukaEngine\Include\Transform\WorldTransform2D</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameScene\Player\Player.cpp">
-      <Filter>Game\GameScene\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp">
-      <Filter>Game\GameScene\Skydome</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.cpp">
-      <Filter>Game\GameScene\BasePlayerBullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.cpp">
-      <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletWeek</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.cpp">
-      <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletStrong</Filter>
-    </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.cpp">
       <Filter>YokosukaEngine\Include\Draw\PostEffect</Filter>
     </ClCompile>
@@ -666,21 +609,6 @@
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameScene\BaseEnemy\BaseEnemy.cpp">
-      <Filter>Game\GameScene\BaseEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\BaseStage\BaseStage.cpp">
-      <Filter>Game\GameScene\BaseStage</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.cpp">
-      <Filter>Game\GameScene\BaseEnemy\EnemyButterfly</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\BaseBoss\BaseBoss.cpp">
-      <Filter>Game\GameScene\BaseBoss</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.cpp">
-      <Filter>Game\GameScene\BaseBoss\BossBenkei</Filter>
-    </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll\RasterScroll.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll</Filter>
     </ClCompile>
@@ -699,20 +627,8 @@
     <ClCompile Include="YokosukaEngine\Include\Shape\Line\Line.cpp">
       <Filter>YokosukaEngine\Include\Shape\Line</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameScene\BaseEnemyBullet\BaseEnemyBullet.cpp">
-      <Filter>Game\GameScene\BaseEnemyBullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.cpp">
-      <Filter>Game\GameScene\BaseEnemyBullet\EnemyBulletWeek</Filter>
-    </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\CenterAxis\CenterAxis.cpp">
-      <Filter>Game\GameScene\CenterAxis</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\PlayerStateHud\PlayerStateHud.cpp">
-      <Filter>Game\GameScene\PlayerStateHud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -956,21 +872,6 @@
     <ClInclude Include="YokosukaEngine\Include\Transform\WorldTransform2D\WorldTransform2D.h">
       <Filter>YokosukaEngine\Include\Transform\WorldTransform2D</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameScene\Player\Player.h">
-      <Filter>Game\GameScene\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\Skydome\Skydome.h">
-      <Filter>Game\GameScene\Skydome</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\BasePlayerBullet\BasePlayerBullet.h">
-      <Filter>Game\GameScene\BasePlayerBullet</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.h">
-      <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletWeek</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.h">
-      <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletStrong</Filter>
-    </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.h">
       <Filter>YokosukaEngine\Include\Draw\PostEffect</Filter>
     </ClInclude>
@@ -1001,21 +902,6 @@
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameScene\BaseEnemy\BaseEnemy.h">
-      <Filter>Game\GameScene\BaseEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\BaseStage\BaseStage.h">
-      <Filter>Game\GameScene\BaseStage</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.h">
-      <Filter>Game\GameScene\BaseEnemy\EnemyButterfly</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\BaseBoss\BaseBoss.h">
-      <Filter>Game\GameScene\BaseBoss</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\BaseBoss\BossBenkei\BossBenkei.h">
-      <Filter>Game\GameScene\BaseBoss\BossBenkei</Filter>
-    </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll\RasterScroll.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll</Filter>
     </ClInclude>
@@ -1034,20 +920,8 @@
     <ClInclude Include="YokosukaEngine\Include\Shape\Line\Line.h">
       <Filter>YokosukaEngine\Include\Shape\Line</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameScene\BaseEnemyBullet\BaseEnemyBullet.h">
-      <Filter>Game\GameScene\BaseEnemyBullet</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.h">
-      <Filter>Game\GameScene\BaseEnemyBullet\EnemyBulletWeek</Filter>
-    </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\CenterAxis\CenterAxis.h">
-      <Filter>Game\GameScene\CenterAxis</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\PlayerStateHud\PlayerStateHud.h">
-      <Filter>Game\GameScene\PlayerStateHud</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
