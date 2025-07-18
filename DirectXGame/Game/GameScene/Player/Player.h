@@ -8,6 +8,7 @@
 // 前方宣言
 class GameScene;
 class BaseEnemy;
+class BaseEnemyBullet;
 class CenterAxis;
 
 class Player
@@ -79,10 +80,22 @@ public:
 	void OnCollision(const BaseEnemy* enemy);
 
 	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	/// <param name="bullet"></param>
+	void OnCollision(const BaseEnemyBullet* enemyBullet);
+
+	/// <summary>
 	/// 親のワールドトランスフォームのSetter
 	/// </summary>
 	/// <param name="worldTransform"></param>
 	void SetParent(WorldTransform* worldTransform) { worldTransform_->SetParent(worldTransform); }
+
+	/// <summary>
+	/// 当たり判定用のAABBを取得する
+	/// </summary>
+	/// <returns></returns>
+	AABB GetCollisionAABB()const;
 
 
 private:
@@ -109,6 +122,9 @@ private:
 
 	// 体力
 	int32_t hp_ = 0;
+
+	// 当たり判定の大きさ
+	Vector3 hitSize_ = { 1.0f , 0.25f , 0.8f };
 
 	/// <summary>
 	/// 入力操作

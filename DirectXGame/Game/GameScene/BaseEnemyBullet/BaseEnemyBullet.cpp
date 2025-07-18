@@ -30,7 +30,7 @@ void BaseEnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* c
 void BaseEnemyBullet::Update()
 {
 	// 直前の座標を記録する
-	prevPosition_ = GetWorldPosition();
+	prevPosition_ = worldTransform_->translation_;
 
 	// ワールドトランスフォームの更新処理
 	worldTransform_->UpdateWorldMatrix();
@@ -61,7 +61,7 @@ Segment BaseEnemyBullet::GetCollisionSegment() const
 	// 線分
 	Segment segment;
 
-	segment.origin = GetWorldPosition();
+	segment.origin = worldTransform_->translation_;
 	segment.diff = prevPosition_ - segment.origin;
 
 	return segment;

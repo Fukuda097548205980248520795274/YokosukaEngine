@@ -162,8 +162,37 @@ Vector3 Player::GetBodyWorldPosition() const
 void Player::OnCollision(const BaseEnemy* enemy)
 {
 	// ダメージが入る
-	hp_ -= enemy->IsAttack();
+	hp_ -= enemy->GetPower();
 	hp_ = std::max(hp_, 0);
+}
+
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+/// <param name="bullet"></param>
+void Player::OnCollision(const BaseEnemyBullet* enemyBullet)
+{
+	// ダメージが入る
+	hp_ -= enemyBullet->GetPower();
+	hp_ = std::max(hp_, 0);
+}
+
+/// <summary>
+/// 当たり判定用のAABBを取得する
+/// </summary>
+/// <returns></returns>
+AABB Player::GetCollisionAABB()const
+{
+	// AABB
+	AABB aabb;
+
+	Matrix4x4 worldMatrix = MakeAffineMatrix(worldTransform_->scale_, worldTransform_->rotation_, worldTransform_->translation_) *
+		MakeAffineMatrix(bodyWorldTransform_->scale_, bodyWorldTransform_->rotation_, bodyWorldTransform_->translation_);
+
+	aabb.max = hitSize_ + Vector3(worldMatrix.m[3][0], worldMatrix.m[3][1], worldMatrix.m[3][2]);
+	aabb.min = (-1.0f * hitSize_) + Vector3(worldMatrix.m[3][0], worldMatrix.m[3][1], worldMatrix.m[3][2]);
+
+	return aabb;
 }
 
 

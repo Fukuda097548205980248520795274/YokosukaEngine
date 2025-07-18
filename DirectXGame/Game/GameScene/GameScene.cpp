@@ -389,6 +389,7 @@ void GameScene::AllCheckCollision()
 	// AABB
 	AABB aabb;
 
+	// プレイヤーの弾 敵
 	for (BasePlayerBullet* playerBullet : playerBullets_)
 	{
 		segment = playerBullet->GetCollisionSegment();
@@ -402,6 +403,34 @@ void GameScene::AllCheckCollision()
 				playerBullet->OnCollision(enemy);
 				enemy->OnCollision(playerBullet);
 			}
+		}
+	}
+
+
+	aabb = player_->GetCollisionAABB();
+
+	// プレイヤー 敵の弾
+	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
+	{
+		segment = enemyBullet->GetCollisionSegment();
+		
+		if (IsCollision(aabb, segment))
+		{
+			player_->OnCollision(enemyBullet);
+			enemyBullet->OnCollision(player_.get());
+		}
+	}
+
+	// プレイヤー 敵
+	for (BaseEnemy* enemy : enemies_)
+	{
+		// 敵が攻撃時当たり判定をする
+		if (enemy->IsAttack() == false)
+			continue;
+
+		if (IsCollision(aabb, enemy->GetCollisionAABB()))
+		{
+			player_->OnCollision(enemy);
 		}
 	}
 }
