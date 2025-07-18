@@ -20,13 +20,7 @@ public:
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	virtual void Draw() = 0;
-
-	/// <summary>
-	/// 終了フラグのGetter
-	/// </summary>
-	/// <returns></returns>
-	bool IsFinished() { return isFinished_; }
+	void Draw() = 0;
 
 
 protected:
@@ -37,12 +31,5 @@ protected:
 
 	// カメラ
 	const Camera3D* camera3d_ = nullptr;
-
-
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
-
-	// 終了フラグ
-	bool isFinished_ = false;
 };
 

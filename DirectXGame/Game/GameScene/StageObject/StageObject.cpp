@@ -14,12 +14,6 @@ void StageObject::Initialize(const YokosukaEngine* engine, const Camera3D* camer
 	// 引数を受け取る
 	engine_ = engine;
 	camera3d_ = camera3d;
-
-
-	// ワールドトランスフォームの生成と初期化
-	worldTransform_ = std::make_unique<WorldTransform>();
-	worldTransform_->Initialize();
-	worldTransform_->translation_ = position;
 }
 
 /// <summary>
@@ -27,6 +21,5 @@ void StageObject::Initialize(const YokosukaEngine* engine, const Camera3D* camer
 /// </summary>
 void StageObject::Update()
 {
-	// ワールドトランスフォームの更新
-	worldTransform_->UpdateWorldMatrix();
+	
 }

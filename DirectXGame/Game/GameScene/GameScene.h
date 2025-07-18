@@ -9,9 +9,6 @@
 #include "BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
-#include "StageObject/StageObject.h"
-#include "StageObject/Tutorial/Ground/TutorialGroundEmpty/TutorialGroundEmpty.h"
-
 #include "BaseBoss/BaseBoss.h"
 #include "BaseBoss/BossBenkei/BossBenkei.h"
 
@@ -91,11 +88,6 @@ private:
 	void BossUpdate();
 
 	/// <summary>
-	/// ステージオブジェクトの更新処理
-	/// </summary>
-	void StageObjectUpdate();
-
-	/// <summary>
 	/// 全ての当たり判定を行う
 	/// </summary>
 	void AllCheckCollision();
@@ -135,10 +127,6 @@ private:
 
 	// ボスのリスト
 	std::list<BaseBoss*> bosses_;
-
-
-	// ステージオブジェクトのリスト
-	std::list<StageObject*> stageObjects_;
 
 
 	// グロースクリーン

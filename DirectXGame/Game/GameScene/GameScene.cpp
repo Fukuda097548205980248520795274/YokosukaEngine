@@ -32,13 +32,6 @@ GameScene::~GameScene()
 		delete boss;
 	}
 	bosses_.clear();
-
-	// ステージオブジェクト
-	for (StageObject* stageObject : stageObjects_)
-	{
-		delete stageObject;
-	}
-	stageObjects_.clear();
 }
 
 /// <summary>
@@ -88,17 +81,6 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 0.0f, 20.0f), centerAxis_.get(), player_.get(), this);
 		enemies_.push_back(enemy);
 	}
-
-
-	// ステージオブジェクトの追加
-	for (uint32_t i = 0; i < 12; ++i)
-	{
-		TutorialGroundEmpty* stageObject = new TutorialGroundEmpty();
-		stageObject->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 60.0f * i));
-
-		// リストに追加する
-		stageObjects_.push_back(stageObject);
-	}
 }
 
 /// <summary>
@@ -139,9 +121,6 @@ void GameScene::Update()
 
 	// ボスの更新
 	BossUpdate();
-
-	// ステージオブジェクトの更新
-	StageObjectUpdate();
 
 
 	// 全ての当たり判定を行う
@@ -184,12 +163,6 @@ void GameScene::Draw()
 	for (BaseBoss* boss : bosses_)
 	{
 		boss->Draw();
-	}
-
-	// ステージオブジェクトの描画
-	for (StageObject* stageObject : stageObjects_)
-	{
-		stageObject->Draw();
 	}
 
 
@@ -346,30 +319,6 @@ void GameScene::BossUpdate()
 			if (boss->IsFinished())
 			{
 				delete boss;
-				return true;
-			}
-			return false;
-		}
-	);
-}
-
-/// <summary>
-/// ステージオブジェクトの更新処理
-/// </summary>
-void GameScene::StageObjectUpdate()
-{
-	// ステージオブジェクトの更新
-	for (StageObject* stageObject : stageObjects_)
-	{
-		stageObject->Update();
-	}
-
-	// 終了したステージオブジェクトをリストから削除する
-	stageObjects_.remove_if([](StageObject* stageObject)
-		{
-			if (stageObject->IsFinished())
-			{
-				delete stageObject;
 				return true;
 			}
 			return false;

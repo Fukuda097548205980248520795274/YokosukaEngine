@@ -304,9 +304,6 @@
     <Filter Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong">
       <UniqueIdentifier>{0a5f6acf-694f-45b1-976d-11eee3c83fe2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\GameScene\StageObject">
-      <UniqueIdentifier>{e8d4c779-a15b-4bfe-b6b5-2c3883602dba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="YokosukaEngine\Include\Draw\PostEffect">
       <UniqueIdentifier>{e7c2c1c3-339c-41c0-88a3-95a630e6c554}</UniqueIdentifier>
     </Filter>
@@ -336,18 +333,6 @@
     </Filter>
     <Filter Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendSubtract">
       <UniqueIdentifier>{1f869a60-9572-4938-8759-71b6d55eae69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\StageObject\Tutorial">
-      <UniqueIdentifier>{ed9ea897-f3d4-47de-8b62-9ddc7adc52d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\StageObject\Tutorial\Ground">
-      <UniqueIdentifier>{823f561a-fffc-4504-ae1a-04d4798ee6bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty">
-      <UniqueIdentifier>{5a606f21-0fbc-4f6f-8d80-1507015f4f9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameScene\StageObject\Tutorial\Skydome">
-      <UniqueIdentifier>{546283bd-27fb-4176-b24c-3fb932a6352c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\GameScene\BaseEnemy">
       <UniqueIdentifier>{1e79be06-c943-47ce-8fe4-319072bec00f}</UniqueIdentifier>
@@ -651,9 +636,6 @@
     <ClCompile Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.cpp">
       <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletStrong</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameScene\StageObject\StageObject.cpp">
-      <Filter>Game\GameScene\StageObject</Filter>
-    </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.cpp">
       <Filter>YokosukaEngine\Include\Draw\PostEffect</Filter>
     </ClCompile>
@@ -683,9 +665,6 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.cpp">
-      <Filter>Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty</Filter>
     </ClCompile>
     <ClCompile Include="Game\GameScene\BaseEnemy\BaseEnemy.cpp">
       <Filter>Game\GameScene\BaseEnemy</Filter>
@@ -992,9 +971,6 @@
     <ClInclude Include="Game\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.h">
       <Filter>Game\GameScene\BasePlayerBullet\PlayerBulletStrong</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameScene\StageObject\StageObject.h">
-      <Filter>Game\GameScene\StageObject</Filter>
-    </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.h">
       <Filter>YokosukaEngine\Include\Draw\PostEffect</Filter>
     </ClInclude>
@@ -1024,9 +1000,6 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty\TutorialGroundEmpty.h">
-      <Filter>Game\GameScene\StageObject\Tutorial\Ground\TutorialGroundEmpty</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameScene\BaseEnemy\BaseEnemy.h">
       <Filter>Game\GameScene\BaseEnemy</Filter>
