@@ -73,7 +73,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_.get());
-	skydome_->SetParent(centerAxis_->GetWorldTransform());
+	skydome_->SetPosition(centerAxis_->GetWorldPosition());
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
@@ -122,7 +122,8 @@ void GameScene::Update()
 	// 中心軸の更新
 	centerAxis_->Update();
 
-	// 天球の更新
+	// 天球の更新が中心軸の位置に移動する
+	skydome_->SetPosition(centerAxis_->GetWorldPosition());
 	skydome_->Update();
 
 	// プレイヤーの更新

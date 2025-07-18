@@ -28,6 +28,12 @@ public:
 	/// <returns></returns>
 	WorldTransform* GetWorldTransform() const { return worldTransform_.get(); }
 
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition()const;
+
 
 private:
 
