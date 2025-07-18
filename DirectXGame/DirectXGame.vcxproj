@@ -120,9 +120,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ClCompile>
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
+    <ClCompile Include="Game\GameScene\MultiMaterial\MultiMaterial.cpp" />
+    <ClCompile Include="Game\GameScene\MultiMesh\MultiMesh.cpp" />
     <ClCompile Include="Game\GameScene\Plane\Plane.cpp" />
     <ClCompile Include="Game\GameScene\SphereModel\SphereModel.cpp" />
     <ClCompile Include="Game\GameScene\Sprite\Sprite.cpp" />
+    <ClCompile Include="Game\GameScene\StanfordBunny\StanfordBunny.cpp" />
+    <ClCompile Include="Game\GameScene\Suzanne\Suzanne.cpp" />
+    <ClCompile Include="Game\GameScene\UtahTeapot\UtahTeapot.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp" />
@@ -222,9 +227,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
+    <ClInclude Include="Game\GameScene\MultiMaterial\MultiMaterial.h" />
+    <ClInclude Include="Game\GameScene\MultiMesh\MultiMesh.h" />
     <ClInclude Include="Game\GameScene\Plane\Plane.h" />
     <ClInclude Include="Game\GameScene\SphereModel\SphereModel.h" />
     <ClInclude Include="Game\GameScene\Sprite\Sprite.h" />
+    <ClInclude Include="Game\GameScene\StanfordBunny\StanfordBunny.h" />
+    <ClInclude Include="Game\GameScene\Suzanne\Suzanne.h" />
+    <ClInclude Include="Game\GameScene\UtahTeapot\UtahTeapot.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h" />

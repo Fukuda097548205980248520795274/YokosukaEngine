@@ -3,6 +3,11 @@
 #include "Plane/Plane.h"
 #include "Sprite/Sprite.h"
 #include "SphereModel/SphereModel.h"
+#include "Suzanne/Suzanne.h"
+#include "StanfordBunny/StanfordBunny.h"
+#include "UtahTeapot/UtahTeapot.h"
+#include "MultiMesh/MultiMesh.h"
+#include "MultiMaterial/MultiMaterial.h"
 
 class GameScene : public Scene
 {
@@ -27,6 +32,10 @@ public:
 
 private:
 
+
+	// 平行光源
+	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
+
 	
 	// 平面
 	std::unique_ptr<Plane> plane_ = nullptr;
@@ -36,4 +45,19 @@ private:
 
 	// 球
 	std::unique_ptr<SphereModel> sphere_ = nullptr;
+
+	// スザンヌ
+	std::unique_ptr<Suzanne> suzanne_ = nullptr;
+
+	// スタンフォードバニー
+	std::unique_ptr<StanfordBunny> stanfordBunny_ = nullptr;
+
+	// ユタティーポット
+	std::unique_ptr<UtahTeapot> utahTeapot_ = nullptr;
+
+	// マルチメッシュ
+	std::unique_ptr<MultiMesh> multiMesh_ = nullptr;
+
+	// マルチマテリアル
+	std::unique_ptr<MultiMaterial> multiMaterial_ = nullptr;
 };

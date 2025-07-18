@@ -349,6 +349,21 @@
     <Filter Include="Game\GameScene\SphereModel">
       <UniqueIdentifier>{5855c0a9-54f3-4a93-8277-4c51faee7776}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\MultiMesh">
+      <UniqueIdentifier>{7d7e6c7b-66ca-4e14-ae4b-186314697d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\MultiMaterial">
+      <UniqueIdentifier>{8f8d9a98-ca93-4166-b932-e41220c8f361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Suzanne">
+      <UniqueIdentifier>{e0c26ac0-12aa-4a14-ba7c-471e66b4e7a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\UtahTeapot">
+      <UniqueIdentifier>{116d3fd5-9e4c-4091-819a-4cb31405b4ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\StanfordBunny">
+      <UniqueIdentifier>{33e82dbc-4d8a-42cb-8527-3ec9263e7edb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -647,6 +662,21 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\SphereModel\SphereModel.cpp">
       <Filter>Game\GameScene\SphereModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Suzanne\Suzanne.cpp">
+      <Filter>Game\GameScene\Suzanne</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\StanfordBunny\StanfordBunny.cpp">
+      <Filter>Game\GameScene\StanfordBunny</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\UtahTeapot\UtahTeapot.cpp">
+      <Filter>Game\GameScene\UtahTeapot</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\MultiMesh\MultiMesh.cpp">
+      <Filter>Game\GameScene\MultiMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\MultiMaterial\MultiMaterial.cpp">
+      <Filter>Game\GameScene\MultiMaterial</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -949,6 +979,21 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\SphereModel\SphereModel.h">
       <Filter>Game\GameScene\SphereModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Suzanne\Suzanne.h">
+      <Filter>Game\GameScene\Suzanne</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\StanfordBunny\StanfordBunny.h">
+      <Filter>Game\GameScene\StanfordBunny</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\UtahTeapot\UtahTeapot.h">
+      <Filter>Game\GameScene\UtahTeapot</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\MultiMesh\MultiMesh.h">
+      <Filter>Game\GameScene\MultiMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\MultiMaterial\MultiMaterial.h">
+      <Filter>Game\GameScene\MultiMaterial</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

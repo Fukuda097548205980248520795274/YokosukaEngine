@@ -12,6 +12,10 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// Scene更新
 	Scene::Initialize(engine);
 
+	// 平行光源の生成と初期化
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
+
 	// 平面の生成と初期化
 	plane_ = std::make_unique<Plane>();
 	plane_->Initialize(engine_ , camera3d_.get());
@@ -23,6 +27,26 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 球の生成と初期化
 	sphere_ = std::make_unique<SphereModel>();
 	sphere_->Initialize(engine_, camera3d_.get());
+
+	// スザンヌの生成と初期化
+	suzanne_ = std::make_unique<Suzanne>();
+	suzanne_->Initialize(engine_, camera3d_.get());
+
+	// スタンフォードバニーの生成と初期化
+	stanfordBunny_ = std::make_unique<StanfordBunny>();
+	stanfordBunny_->Initialize(engine_ , camera3d_.get());
+
+	// ユタティーポットの生成と初期化
+	utahTeapot_ = std::make_unique<UtahTeapot>();
+	utahTeapot_->Initialize(engine_, camera3d_.get());
+
+	// マルチメッシュの生成と初期化
+	multiMesh_ = std::make_unique<MultiMesh>();
+	multiMesh_->Initialize(engine_, camera3d_.get());
+
+	// マルチマテリアルの生成と初期化
+	multiMaterial_ = std::make_unique<MultiMaterial>();
+	multiMaterial_->Initialize(engine_, camera3d_.get());
 }
 
 /// <summary>
@@ -44,6 +68,21 @@ void GameScene::Update()
 	// 球の更新
 	sphere_->Update();
 
+	// スザンヌの更新
+	suzanne_->Update();
+
+	// スタンフォーダニーの更新
+	stanfordBunny_->Update();
+
+	// ユタティーポットの更新
+	utahTeapot_->Update();
+
+	// マルチメッシュの更新
+	multiMesh_->Update();
+
+	// マルチマテリアルの更新
+	multiMaterial_->Update();
+
 	ImGui::End();
 }
 
@@ -55,6 +94,9 @@ void GameScene::Draw()
 	// Scene描画
 	Scene::Draw();
 
+	// 平行光源を設置する
+	engine_->SetDirectionalLight(directionalLight_.get());
+
 	// 平面の描画
 	plane_->Draw();
 
@@ -63,4 +105,19 @@ void GameScene::Draw()
 
 	// 球の描画
 	sphere_->Draw();
+
+	// スザンヌの描画
+	suzanne_->Draw();
+
+	// スタンフォーダニーの描画
+	stanfordBunny_->Draw();
+
+	// ユタティーポットの描画
+	utahTeapot_->Draw();
+
+	// マルチメッシュの描画
+	multiMesh_->Draw();
+
+	// マルチマテリアルの描画
+	multiMaterial_->Draw();
 }

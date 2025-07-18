@@ -1,0 +1,61 @@
+#include "UtahTeapot.h"
+
+/// <summary>
+/// 初期化
+/// </summary>
+/// <param name="engine"></param>
+/// <param name="camera3d"></param>
+void UtahTeapot::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
+{
+	// nullptrチェック
+	assert(engine);
+	assert(camera3d);
+
+	// 引数を受け取る
+	engine_ = engine;
+	camera3d_ = camera3d;
+
+	// ワールドトランスフォームの生成と初期化
+	worldTransform_ = std::make_unique<WorldTransform>();
+	worldTransform_->Initialize();
+	worldTransform_->scale_ *= 0.5f;
+	worldTransform_->translation_.x = -15.0f;
+
+	// UVトランスフォームの生成と初期化
+	uvTransform_ = std::make_unique<UvTransform>();
+	uvTransform_->Initialize();
+
+	// モデルを読み込む
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/utahTeapot", "utahTeapot.obj");
+}
+
+/// <summary>
+/// 更新処理
+/// </summary>
+void UtahTeapot::Update()
+{
+	if (ImGui::BeginCombo("UtahTeapot", "UtahTeapot"))
+	{
+		ImGui::DragFloat3("scale", &worldTransform_->scale_.x, 0.1f);
+		ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
+		ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
+		ImGui::Text("\n");
+		ImGui::DragFloat2("uvScale", &uvTransform_->scale_.x, 0.1f);
+		ImGui::DragFloat("uvRotation", &uvTransform_->rotation_.z, 0.01f);
+		ImGui::DragFloat2("uvTranslation", &uvTransform_->translation_.x, 0.1f);
+		ImGui::EndCombo();
+	}
+
+	// トランスフォームの更新
+	worldTransform_->UpdateWorldMatrix();
+	uvTransform_->UpdateWorldMatrix();
+}
+
+/// <summary>
+/// 描画処理
+/// </summary>
+void UtahTeapot::Draw()
+{
+	// モデルを描画する
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+}
