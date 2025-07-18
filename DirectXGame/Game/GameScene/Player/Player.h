@@ -49,6 +49,18 @@ public:
 	Vector3 GetBodyWorldPosition() const;
 
 	/// <summary>
+	/// ワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetWorldTransform() const { return worldTransform_.get(); }
+
+	/// <summary>
+	/// 本体のワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetBodyWorldTransform() const { return bodyWorldTransform_.get(); }
+
+	/// <summary>
 	/// ゲームシーンのインスタンスのGetter
 	/// </summary>
 	/// <param name="gameScene"></param>
