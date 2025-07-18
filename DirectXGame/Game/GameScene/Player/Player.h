@@ -124,7 +124,11 @@ private:
 	int32_t hp_ = 0;
 
 	// 当たり判定の大きさ
-	Vector3 hitSize_ = { 1.0f , 0.25f , 0.8f };
+	Vector3 hitSize_ = { 1.0f , 0.5f , 0.8f };
+
+	// ダメージ音
+	uint32_t soundHandleDamage1_ = 0;
+	uint32_t soundHandleDamage2_ = 0;
 
 	/// <summary>
 	/// 入力操作
