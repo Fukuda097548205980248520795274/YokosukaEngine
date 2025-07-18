@@ -11,6 +11,14 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// Scene更新
 	Scene::Initialize(engine);
+
+	// 平面の生成と初期化
+	plane_ = std::make_unique<Plane>();
+	plane_->Initialize(engine_ , camera3d_.get());
+
+	// スプライトの生成と初期化
+	sprite_ = std::make_unique<Sprite>();
+	sprite_->Initialize(engine_ , camera2d_.get());
 }
 
 /// <summary>
@@ -21,7 +29,27 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
-	
+	if (!ImGui::Begin("CG2", nullptr, ImGuiWindowFlags_MenuBar))
+	{
+		ImGui::End();
+		return;
+	}
+
+	if (!ImGui::BeginMenuBar())return;
+
+
+
+	// 平面の更新
+	plane_->Update();
+
+	// スプライトの更新
+	sprite_->Update();
+
+
+
+
+	ImGui::EndMenuBar();
+	ImGui::End();
 }
 
 /// <summary>
@@ -31,4 +59,10 @@ void GameScene::Draw()
 {
 	// Scene描画
 	Scene::Draw();
+
+	// 平面の描画
+	plane_->Draw();
+
+	// スプライトの描画
+	sprite_->Draw();
 }

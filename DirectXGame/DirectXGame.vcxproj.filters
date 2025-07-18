@@ -340,6 +340,12 @@
     <Filter Include="YokosukaEngine\Include\Base\DirectXCommon\Resource">
       <UniqueIdentifier>{e4e50e68-7e93-4db3-8a72-9128b2732dd9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Plane">
+      <UniqueIdentifier>{2a6029a6-0e4d-43b0-a175-9c597f38cac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Sprite">
+      <UniqueIdentifier>{69f1af51-e323-4d5f-9e97-73c778bbf1b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -629,6 +635,12 @@
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Plane\Plane.cpp">
+      <Filter>Game\GameScene\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Sprite\Sprite.cpp">
+      <Filter>Game\GameScene\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -922,6 +934,12 @@
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Plane\Plane.h">
+      <Filter>Game\GameScene\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Sprite\Sprite.h">
+      <Filter>Game\GameScene\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
