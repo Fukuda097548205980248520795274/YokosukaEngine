@@ -60,9 +60,6 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 中心軸の生成と初期化
 	centerAxis_ = std::make_unique<CenterAxis>();
 	centerAxis_->Initliaze(engine_ , camera3d_.get());
-	
-	// メインカメラが中心軸を追従する
-	mainCamera_->SetPivotPointWorldTransform(centerAxis_->GetWorldTransform());
 
 
 	// 平行光源の生成と初期化

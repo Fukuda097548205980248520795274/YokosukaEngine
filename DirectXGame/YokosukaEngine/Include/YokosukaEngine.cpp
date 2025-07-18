@@ -462,23 +462,15 @@ void MainCamera::Update()
 {
 	Shake();
 
-	if (pivotPointWorldTransform_)
-	{
-		pivotPoint_ = 
-		{ pivotPointWorldTransform_->worldMatrix_.m[3][0] ,pivotPointWorldTransform_->worldMatrix_.m[3][1] ,pivotPointWorldTransform_->worldMatrix_.m[3][2] };
-	}
-
-	// 値をカメラに入れる
-	camera3d_->translation_ = translation_ + pivotPoint_ + shakeMove_;
-	camera3d_->rotation_ = rotation_ + pivotRotate_;
-
-	// 3Dカメラ更新
-	camera3d_->UpdateMatrix();
-
 	// ワールドトランスフォームに数値を入れる
 	worldTransform_->translation_ = camera3d_->translation_;
 	worldTransform_->rotation_ = camera3d_->rotation_;
 	worldTransform_->UpdateWorldMatrix();
+
+	
+
+	// 3Dカメラ更新
+	camera3d_->UpdateMatrix();
 }
 
 /// <summary>

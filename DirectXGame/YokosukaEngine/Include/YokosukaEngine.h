@@ -643,12 +643,6 @@ public:
 	/// <param name="shakeSize">大きさ</param>
 	void SetShake(float shakeTime, float shakeSize);
 
-	/// <summary>
-	/// ピボットポイントのワールドトランスフォームのSetter
-	/// </summary>
-	/// <param name="worldTransform"></param>
-	void SetPivotPointWorldTransform(WorldTransform* worldTransform) { pivotPointWorldTransform_ = worldTransform; }
-
 
 	// ローカル座標
 	Vector3 translation_ = { 0.0f , 0.0f , -50.0f };
@@ -684,18 +678,11 @@ private:
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
 
-
 	// ピボットポイント
 	Vector3 pivotPoint_ = { 0.0f , 0.0f , 0.0f };
 
-	// オフセット
-	Vector3 offset_ = { 0.0f , -50.0f , 0.0f };
-
-	// ピボット回転
-	Vector3 pivotRotate_ = { 0.0f , 0.0f , 0.0f };
-
-	// ピボットポイントのワールドトランスフォーム
-	WorldTransform* pivotPointWorldTransform_ = nullptr;
+	// ピボットポイントとの距離
+	float pivotPointLength_ = 50.0f;
 };
 
 /// <summary>
