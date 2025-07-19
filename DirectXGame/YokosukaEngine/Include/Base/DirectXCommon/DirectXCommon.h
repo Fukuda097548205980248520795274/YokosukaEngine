@@ -300,15 +300,6 @@ public:
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting);
 
 	/// <summary>
-	/// パーティクルを描画する
-	/// </summary>
-	/// <param name="worldTransform"></param>
-	/// <param name="uvTransform"></param>
-	/// <param name="camera"></param>
-	/// <param name="color"></param>
-	void DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color);
-
-	/// <summary>
 	/// レンダーテクスチャを貼りつけた平面を描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>

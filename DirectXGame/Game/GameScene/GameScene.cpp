@@ -47,6 +47,11 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// マルチマテリアルの生成と初期化
 	multiMaterial_ = std::make_unique<MultiMaterial>();
 	multiMaterial_->Initialize(engine_, camera3d_.get());
+
+
+	// Bgmを読み込む
+	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Jinro_No_Tameno_Komoriuta.mp3");
+	playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
 }
 
 /// <summary>
@@ -64,6 +69,15 @@ void GameScene::Update()
 
 	// スプライトの更新
 	sprite_->Update();
+
+	if (ImGui::BeginCombo("Light", "Light"))
+	{
+		ImGui::SliderFloat3("direction", &directionalLight_->direction_.x, -1.0f, 1.0f);
+		ImGui::ColorEdit4("color", &directionalLight_->color_.x);
+		ImGui::SliderFloat("intensity", &directionalLight_->intensity_, 0.0f, 1.0f);
+		ImGui::EndCombo();
+	}
+	directionalLight_->direction_ = Normalize(directionalLight_->direction_);
 
 	// 球の更新
 	sphere_->Update();

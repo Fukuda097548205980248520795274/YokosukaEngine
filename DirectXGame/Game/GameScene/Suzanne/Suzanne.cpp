@@ -26,6 +26,10 @@ void Suzanne::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 
 	// モデルを読み込む
 	modelHandle_ = engine_->LoadModelData("./Resources/Models/suzanne", "suzanne.obj");
+
+
+	// テクスチャを読み込む
+	ghUvChecker_ = engine_->LoadTexture("./Resources/Textures/uvChecker.png");
 }
 
 /// <summary>

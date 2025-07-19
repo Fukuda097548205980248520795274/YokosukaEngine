@@ -25,7 +25,7 @@ void MultiMaterial::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 	uvTransform_->Initialize();
 
 	// モデルを読み込む
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/multiMaterial", "multiMaterial.obj");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/multi", "multi.obj");
 }
 
 /// <summary>

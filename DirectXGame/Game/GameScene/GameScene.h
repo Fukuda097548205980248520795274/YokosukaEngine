@@ -60,4 +60,11 @@ private:
 
 	// マルチマテリアル
 	std::unique_ptr<MultiMaterial> multiMaterial_ = nullptr;
+
+
+	// サウンドハンドル
+	uint32_t soundHandle_ = 0;
+
+	// プレイハンドル
+	uint32_t playHandle_ = 0;
 };

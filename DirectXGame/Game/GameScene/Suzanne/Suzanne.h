@@ -40,5 +40,9 @@ private:
 
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;
+
+
+	// uvCecker
+	uint32_t ghUvChecker_ = 0;
 };
 

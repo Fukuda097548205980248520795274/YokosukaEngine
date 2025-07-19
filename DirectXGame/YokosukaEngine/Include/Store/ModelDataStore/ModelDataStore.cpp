@@ -72,30 +72,49 @@ uint32_t ModelDataStore::GetModelHandle(const std::string& directoryPath, const 
 	// モデルを読み込む
 	modelInfo->modelData = LoadObjFile(directoryPath, fileName);
 
-	// 頂点リソースを作る
-	modelInfo->vertexResource =
-		CreateBufferResource(device, sizeof(VertexData) * modelInfo->modelData.vertices.size());
 
-	// 頂点バッファビューを設定する
-	modelInfo->vertexBufferView.BufferLocation = modelInfo->vertexResource->GetGPUVirtualAddress();
-	modelInfo->vertexBufferView.SizeInBytes = UINT(sizeof(VertexData) * modelInfo->modelData.vertices.size());
-	modelInfo->vertexBufferView.StrideInBytes = sizeof(VertexData);
+	int i = 0;
 
-	// 頂点データを書き込む
-	modelInfo->vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&modelInfo->vertexData));
-	std::memcpy(modelInfo->vertexData, modelInfo->modelData.vertices.data(),
-		sizeof(VertexData) * modelInfo->modelData.vertices.size());
-
-	// テクスチャハンドルを取得する
-	if (strcmp(modelInfo->modelData.material.textureFilePath.c_str(), "") == 0)
+	for (ModelData& aModelData : modelInfo->modelData)
 	{
-		modelInfo->textureHandle = textureStore_->GetTextureHandle("./Resources/Textures/white2x2.png",
-			device, srvDescriptorHeap, commandList);
-	}
-	else
-	{
-		modelInfo->textureHandle =
-			textureStore_->GetTextureHandle(modelInfo->modelData.material.textureFilePath,device, srvDescriptorHeap, commandList);
+		// 頂点リソースを作る
+		Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource =
+			CreateBufferResource(device, sizeof(VertexData) * modelInfo->modelData[i].vertices.size());
+
+		// 頂点バッファビューを設定する
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
+		vertexBufferView.BufferLocation = vertexResource->GetGPUVirtualAddress();
+		vertexBufferView.SizeInBytes = UINT(sizeof(VertexData) * modelInfo->modelData[i].vertices.size());
+		vertexBufferView.StrideInBytes = sizeof(VertexData);
+		modelInfo->vertexBufferView.push_back(vertexBufferView);
+
+		// 頂点データを書き込む
+		VertexData* vertexData;
+		vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+		std::memcpy(vertexData, modelInfo->modelData[i].vertices.data(),
+			sizeof(VertexData) * modelInfo->modelData[i].vertices.size());
+
+		modelInfo->vertexResource.push_back(vertexResource);
+		modelInfo->vertexData.push_back(vertexData);
+
+
+		int textureHandle = 0;
+
+		// テクスチャハンドルを取得する
+		if (strcmp(modelInfo->modelData[i].material.textureFilePath.c_str(), "") == 0)
+		{
+			textureHandle = textureStore_->GetTextureHandle("./Resources/Textures/white2x2.png",
+				device, srvDescriptorHeap, commandList);
+		} 
+		else
+		{
+			textureHandle =
+				textureStore_->GetTextureHandle(modelInfo->modelData[i].material.textureFilePath, device, srvDescriptorHeap, commandList);
+		}
+
+		modelInfo->textureHandle.push_back(textureHandle);
+
+		i++;
 	}
 
 
@@ -105,86 +124,27 @@ uint32_t ModelDataStore::GetModelHandle(const std::string& directoryPath, const 
 	// カウントする
 	useModelDataNum_++;
 
-	return modelInfo_[useModelDataNum_ - 1]->modelHandle;
+	return modelInfo->modelHandle;
 }
 
 /// <summary>
-/// モデルハンドルのGetter
+/// モデル情報のGetter
 /// </summary>
 /// <param name="modelHandle"></param>
 /// <returns></returns>
-ModelData ModelDataStore::GetModelData(uint32_t modelHandle)
+ModelInfo* ModelDataStore::GetModelInfo(uint32_t modelHandle)
 {
 	for (uint32_t i = 0; i < useModelDataNum_; i++)
 	{
 		if (modelHandle == modelInfo_[i]->modelHandle)
 		{
-			return modelInfo_[i]->modelData;
+			return modelInfo_[i];
 		}
 	}
 
 	assert(false);
 
-	ModelData missData;
-	return missData;
-}
-
-/// <summary>
-/// 頂点リソースのGetter
-/// </summary>
-/// <param name="modelHandle"></param>
-/// <returns></returns>
-Microsoft::WRL::ComPtr<ID3D12Resource> ModelDataStore::GetVertexResource(uint32_t modelHandle)
-{
-	for (uint32_t i = 0; i < useModelDataNum_; i++)
-	{
-		if (modelHandle == modelInfo_[i]->modelHandle)
-		{
-			return modelInfo_[i]->vertexResource;
-		}
-	}
-
-	assert(false);
 	return nullptr;
-}
-
-/// <summary>
-/// テクスチャハンドルを取得する
-/// </summary>
-/// <param name="modelHandle"></param>
-/// <returns></returns>
-uint32_t ModelDataStore::GetTextureHandle(uint32_t modelHandle)
-{
-	for (uint32_t i = 0; i < useModelDataNum_; i++)
-	{
-		if (modelHandle == modelInfo_[i]->modelHandle)
-		{
-			return modelInfo_[i]->textureHandle;
-		}
-	}
-
-	assert(false);
-	return 0;
-}
-
-/// <summary>
-/// 頂点バッファビューを取得する
-/// </summary>
-/// <param name="modelHandle"></param>
-/// <returns></returns>
-D3D12_VERTEX_BUFFER_VIEW ModelDataStore::GetVertexBufferView(uint32_t modelHandle)
-{
-	for (uint32_t i = 0; i < useModelDataNum_; i++)
-	{
-		if (modelHandle == modelInfo_[i]->modelHandle)
-		{
-			return modelInfo_[i]->vertexBufferView;
-		}
-	}
-
-	assert(false);
-	D3D12_VERTEX_BUFFER_VIEW unknown{};
-	return unknown;
 }
 
 
@@ -195,10 +155,10 @@ D3D12_VERTEX_BUFFER_VIEW ModelDataStore::GetVertexBufferView(uint32_t modelHandl
 /// <param name="directoryPath">ディレクトリのパス</param>
 /// <param name="fileName">ファイル名</param>
 /// <returns></returns>
-ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileName)
+std::vector<ModelData> LoadObjFile(const std::string& directoryPath, const std::string& fileName)
 {
 	// 構築するモデルデータ
-	ModelData modelData;
+	std::vector<ModelData> modelDataVector;
 
 
 	/*------------------
@@ -222,6 +182,7 @@ ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileN
 
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
 	{
+		ModelData modelData;
 
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 
@@ -265,30 +226,87 @@ ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileN
 				modelData.vertices.push_back(vertex);
 			}
 		}
+
+		// メッシュをカウントする
+		modelDataVector.push_back(modelData);
 	}
 
 
 	/*   ノードを解析する   */
 
-	modelData.rootNode = ReadNode(scene->mRootNode);
-
+	for (ModelData& modelData : modelDataVector)
+	{
+		modelData.rootNode = ReadNode(scene->mRootNode);
+	}
 
 	/*   マテリアルを解析する   */
 
-	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex)
-	{
-		aiMaterial* material = scene->mMaterials[materialIndex];
+	// ファイルを開く
+	std::ifstream ifs(filePath);
+	assert(ifs.is_open());
 
-		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0)
+	// 1行
+	std::string line;
+
+	// マテリアルファイル名
+	std::string materialFileName;
+
+	// マテリアルの名前
+	std::vector<std::string> materialNames;
+
+	// メッシュ宣言の後かどうかを判断する
+	bool isMeshProcessed = false;
+
+	while (std::getline(ifs, line))
+	{
+		std::string identifer;
+		std::istringstream s(line);
+
+		// 先頭の識別子を読む
+		s >> identifer;
+
+		if (identifer == "v" || identifer == "vt" || identifer == "vn")
 		{
-			aiString textureFilePath;
-			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
-			modelData.material.textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
+			isMeshProcessed = true;
+		}
+
+		if (isMeshProcessed)
+		{
+			if (identifer == "o")
+			{
+				materialNames.push_back("");
+				isMeshProcessed = false;
+			}
+		}
+
+		// mtlファイル名
+		if (identifer == "mtllib")
+		{
+			// mtlファイル名を取得する
+			s >> materialFileName;
+			isMeshProcessed = false;
+		}
+
+		// mtl名
+		if (identifer == "usemtl")
+		{
+			std::string materialName;
+			s >> materialName;
+			materialNames.push_back(materialName);
+			isMeshProcessed = false;
 		}
 	}
 
+	// ファイルを閉じる
+	ifs.close();
 
-	return modelData;
+	for (int i = 0; i < materialNames.size(); ++i)
+	{
+		modelDataVector[i].material = LoadMtlFile(directoryPath + "/", materialFileName, materialNames[i]);
+	}
+
+
+	return modelDataVector;
 }
 
 /// <summary>
@@ -372,6 +390,71 @@ MaterialData LoadMtlFile(const std::string& directoryPath, const std::string& fi
 
 			// 連結してファイルパスにする
 			materialData.textureFilePath = directoryPath + "/" + textureFileName;
+		}
+	}
+
+	return materialData;
+}
+
+
+/// <summary>
+/// Mtlファイルを読み込む
+/// </summary>
+/// <param name="directoryPath"></param>
+/// <param name="fileName"></param>
+/// <returns></returns>
+MaterialData LoadMtlFile(const std::string& directoryPath, const std::string& fileName , std::string& materialName)
+{
+	/*--------------------
+		必要な変数の宣言
+	--------------------*/
+
+	// 構築するマテリアルデータ
+	MaterialData materialData;
+
+	// ファイルから読んだ1行を格納するもの
+	std::string line;
+
+
+	/*------------------------------------
+		ファイルを読みモデルデータを構築する
+	------------------------------------*/
+
+	// ファイルを開く
+	std::ifstream file(directoryPath + "/" + fileName);
+	if (!file.is_open())return materialData;
+
+	// 読み込み準備ができたかどうか
+	bool isLoad = false;
+
+	while (std::getline(file, line))
+	{
+		std::string identifier;
+		std::istringstream s(line);
+		s >> identifier;
+
+		if (identifier == "newmtl")
+		{
+			std::string mtlName;
+			s >> mtlName;
+			if (mtlName == materialName)
+			{
+				isLoad = true;
+			}
+		}
+
+		if (isLoad)
+		{
+			if (identifier == "map_Kd")
+			{
+				std::string textureFileName;
+				s >> textureFileName;
+
+				// 連結してファイルパスにする
+				materialData.textureFilePath = directoryPath + "/" + textureFileName;
+
+				break;
+			}
 		}
 	}
 
