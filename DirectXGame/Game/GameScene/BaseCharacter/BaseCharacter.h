@@ -1,6 +1,6 @@
 #pragma once
-
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../PlaneProjectionShadow/PlaneProjectionShadow.h"
 
 class BaseCharacter
 {
@@ -60,6 +60,9 @@ protected:
 
 		// 色
 		Vector4 color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+
+		// 影
+		std::unique_ptr<PlaneProjectionShadow> planeProjectionShadow = nullptr;
 	};
 };
 

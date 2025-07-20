@@ -28,8 +28,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kBody].worldTransform->Initialize();
 	models_[kBody].worldTransform->translation_ = modelsStartPosition[kBody];
 	models_[kBody].worldTransform->SetParent(worldTransform_.get());
-	models_[kBody].uvTransform = std::make_unique<UvTransform>();
-	models_[kBody].uvTransform->Initialize();
 	models_[kBody].modelHandle = engine_->LoadModelData("./Resources/Models/Player/body", "body.obj");
 	models_[kBody].color = Vector4(1.0f, 1.0f, 0.4f, 1.0f);
 
@@ -38,8 +36,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kHead].worldTransform->Initialize();
 	models_[kHead].worldTransform->translation_ = modelsStartPosition[kHead];
 	models_[kHead].worldTransform->SetParent(models_[kBody].worldTransform.get());
-	models_[kHead].uvTransform = std::make_unique<UvTransform>();
-	models_[kHead].uvTransform->Initialize();
 	models_[kHead].modelHandle = engine_->LoadModelData("./Resources/Models/Player/head", "head.obj");
 	models_[kHead].color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -48,8 +44,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kLArm].worldTransform->Initialize();
 	models_[kLArm].worldTransform->translation_ = modelsStartPosition[kLArm];
 	models_[kLArm].worldTransform->SetParent(models_[kBody].worldTransform.get());
-	models_[kLArm].uvTransform = std::make_unique<UvTransform>();
-	models_[kLArm].uvTransform->Initialize();
 	models_[kLArm].modelHandle = engine_->LoadModelData("./Resources/Models/Player/L_arm", "L_arm.obj");
 	models_[kLArm].color = Vector4(0.4f, 0.4f, 1.0f, 1.0f);
 
@@ -58,8 +52,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kRArm].worldTransform->Initialize();
 	models_[kRArm].worldTransform->translation_ = modelsStartPosition[kRArm];
 	models_[kRArm].worldTransform->SetParent(models_[kBody].worldTransform.get());
-	models_[kRArm].uvTransform = std::make_unique<UvTransform>();
-	models_[kRArm].uvTransform->Initialize();
 	models_[kRArm].modelHandle = engine_->LoadModelData("./Resources/Models/Player/R_arm", "R_arm.obj");
 	models_[kRArm].color = Vector4(1.0f, 0.4f, 0.4f, 1.0f);
 
@@ -68,10 +60,25 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kWeapon].worldTransform->Initialize();
 	models_[kWeapon].worldTransform->translation_ = modelsStartPosition[kWeapon];
 	models_[kWeapon].worldTransform->SetParent(models_[kBody].worldTransform.get());
-	models_[kWeapon].uvTransform = std::make_unique<UvTransform>();
-	models_[kWeapon].uvTransform->Initialize();
 	models_[kWeapon].modelHandle = engine_->LoadModelData("./Resources/Models/Player/weapon", "weapon.obj");
 	models_[kWeapon].color = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
+
+	for (uint32_t i = 0; i < kNumModels; i++)
+	{
+		// UVトランスフォームの生成と初期化
+		models_[i].uvTransform = std::make_unique<UvTransform>();
+		models_[i].uvTransform->Initialize();
+
+		// 影の生成
+		models_[i].planeProjectionShadow = std::make_unique<PlaneProjectionShadow>();
+		models_[i].planeProjectionShadow->Initialize(engine_, camera3d_, models_[i].modelHandle, models_[i].worldTransform.get());
+	}
+
+	// 浮遊ギミックの初期化
+	InitializeFloatingGimmick();
+
+	// 手揺れギミックの初期化
+	InitializeHandSwingGimmick();
 
 	globalVariables->AddItem(groupName, "Head Translation", models_[kHead].worldTransform->translation_);
 	globalVariables->AddItem(groupName, "ArmL Translation", models_[kLArm].worldTransform->translation_);
@@ -79,12 +86,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	globalVariables->AddItem(groupName, "floating time", floatingTime_);
 	globalVariables->AddItem(groupName, "floating Amplitude", floatingAmplitude_);
 	globalVariables->AddItem(groupName, "handSwing Amplitude", handSwingAmplitude_);
-
-	// 浮遊ギミックの初期化
-	InitializeFloatingGimmick();
-
-	// 手揺れギミックの初期化
-	InitializeHandSwingGimmick();
 }
 
 /// <summary>
@@ -179,7 +180,10 @@ void Player::Update()
 	for (uint32_t i = 0; i < kNumModels; i++)
 	{
 		models_[i].worldTransform->UpdateWorldMatrix();
-		models_[i].uvTransform->UpdateWorldMatrix();
+		models_[i].uvTransform->UpdateWorldMatrix(); 
+
+		// 影
+		models_[i].planeProjectionShadow->Update();
 	}
 }
 
@@ -398,6 +402,11 @@ void Player::BehaviorRootUpdate()
 /// </summary>
 void Player::BehaviorRootDraw()
 {
+	models_[kBody].planeProjectionShadow->Draw();
+	models_[kHead].planeProjectionShadow->Draw();
+	models_[kRArm].planeProjectionShadow->Draw();
+	models_[kLArm].planeProjectionShadow->Draw();
+
 	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
 		models_[kBody].modelHandle, models_[kBody].color, false);
 
@@ -614,6 +623,12 @@ void Player::BehaviorAttackUpdate()
 /// </summary>
 void Player::BehaviorAttackDraw()
 {
+	models_[kBody].planeProjectionShadow->Draw();
+	models_[kHead].planeProjectionShadow->Draw();
+	models_[kRArm].planeProjectionShadow->Draw();
+	models_[kLArm].planeProjectionShadow->Draw();
+	models_[kWeapon].planeProjectionShadow->Draw();
+
 	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
 		models_[kBody].modelHandle, models_[kBody].color, false);
 
@@ -682,6 +697,11 @@ void Player::BehaviorDashUpdate()
 /// </summary>
 void Player::BehaviorDashDraw()
 {
+	models_[kBody].planeProjectionShadow->Draw();
+	models_[kHead].planeProjectionShadow->Draw();
+	models_[kRArm].planeProjectionShadow->Draw();
+	models_[kLArm].planeProjectionShadow->Draw();
+
 	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
 		models_[kBody].modelHandle, models_[kBody].color, false);
 
@@ -763,6 +783,11 @@ void Player::BehaviorJumpUpdate()
 /// </summary>
 void Player::BehaviorJumpDraw()
 {
+	models_[kBody].planeProjectionShadow->Draw();
+	models_[kHead].planeProjectionShadow->Draw();
+	models_[kRArm].planeProjectionShadow->Draw();
+	models_[kLArm].planeProjectionShadow->Draw();
+
 	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
 		models_[kBody].modelHandle, models_[kBody].color, false);
 
@@ -789,7 +814,7 @@ void Player::InitializeFloatingGimmick()
 {
 	floatingTime_ = 1.0f;
 	floatingParameter_ = 0.0f;
-	floatingAmplitude_ = 0.1f;
+	floatingAmplitude_ = 0.05f;
 }
 
 /// <summary>

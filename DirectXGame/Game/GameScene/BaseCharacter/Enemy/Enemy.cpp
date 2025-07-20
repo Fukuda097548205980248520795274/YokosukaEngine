@@ -16,8 +16,6 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kBody].worldTransform->Initialize();
 	models_[kBody].worldTransform->SetParent(worldTransform_.get());
 	models_[kBody].worldTransform->translation_ = modelsStartPosition[kBody];
-	models_[kBody].uvTransform = std::make_unique<UvTransform>();
-	models_[kBody].uvTransform->Initialize();
 	models_[kBody].modelHandle = engine_->LoadModelData("./Resources/Models/Enemy/body", "body.obj");
 	models_[kBody].color = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
 
@@ -26,8 +24,6 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kRing].worldTransform->Initialize();
 	models_[kRing].worldTransform->SetParent(models_[kBody].worldTransform.get());
 	models_[kRing].worldTransform->translation_ = modelsStartPosition[kRing];
-	models_[kRing].uvTransform = std::make_unique<UvTransform>();
-	models_[kRing].uvTransform->Initialize();
 	models_[kRing].modelHandle = engine_->LoadModelData("./Resources/Models/Enemy/ring", "ring.obj");
 	models_[kRing].color = Vector4(0.3f, 0.0f, 0.0f, 1.0f);
 
@@ -36,10 +32,19 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kBlade].worldTransform->Initialize();
 	models_[kBlade].worldTransform->SetParent(models_[kRing].worldTransform.get());
 	models_[kBlade].worldTransform->translation_ = modelsStartPosition[kBlade];
-	models_[kBlade].uvTransform = std::make_unique<UvTransform>();
-	models_[kBlade].uvTransform->Initialize();
 	models_[kBlade].modelHandle = engine_->LoadModelData("./Resources/Models/Enemy/blade", "blade.obj");
 	models_[kBlade].color = Vector4(0.8f, 0.8f, 0.8f, 1.0f);
+
+	for (uint32_t i = 0; i < kNumModels; ++i)
+	{
+		// UVトランスフォームの生成と初期化
+		models_[i].uvTransform = std::make_unique<UvTransform>();
+		models_[i].uvTransform->Initialize();
+
+		// 影の生成と初期化
+		models_[i].planeProjectionShadow = std::make_unique<PlaneProjectionShadow>();
+		models_[i].planeProjectionShadow->Initialize(engine_, camera3d_, models_[i].modelHandle, models_[i].worldTransform.get());
+	}
 
 	// 回転移動ギミックの初期化
 	InitializeRotateMoveGimmick();
@@ -73,6 +78,7 @@ void Enemy::Update()
 	{
 		models_[i].worldTransform->UpdateWorldMatrix();
 		models_[i].uvTransform->UpdateWorldMatrix();
+		models_[i].planeProjectionShadow->Update();
 	}
 }
 
@@ -84,6 +90,7 @@ void Enemy::Draw()
 	// モデルの描画
 	for (uint32_t i = 0; i < kNumModels; i++)
 	{
+		models_[i].planeProjectionShadow->Draw();
 		engine_->DrawModel(models_[i].worldTransform.get(), models_[i].uvTransform.get(), camera3d_,
 			models_[i].modelHandle, models_[i].color, false);
 	}

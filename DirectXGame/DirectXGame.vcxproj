@@ -131,6 +131,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\GameScene\GlobalVariables\GlobalVariables.cpp" />
     <ClCompile Include="Game\GameScene\Ground\Ground.cpp" />
     <ClCompile Include="Game\GameScene\BaseCharacter\Player\Player.cpp" />
+    <ClCompile Include="Game\GameScene\PlaneProjectionShadow\PlaneProjectionShadow.cpp" />
     <ClCompile Include="Game\GameScene\Skydome\Skydome.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.cpp" />
@@ -214,6 +215,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\GlobalVariables\GlobalVariables.h" />
     <ClInclude Include="Game\GameScene\Ground\Ground.h" />
     <ClInclude Include="Game\GameScene\BaseCharacter\Player\Player.h" />
+    <ClInclude Include="Game\GameScene\PlaneProjectionShadow\PlaneProjectionShadow.h" />
     <ClInclude Include="Game\GameScene\Skydome\Skydome.h" />
     <ClInclude Include="YokosukaEngine\Include\Math\Matrix3x3\Matrix3x3.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BasePrimitive.h" />
