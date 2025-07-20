@@ -1,5 +1,14 @@
 #include "Player.h"
 
+const std::array<Player::ConstAttack, Player::ComboNum> Player::kConstAttacks =
+{
+	{
+	{0.0f , 0.0f , 0.3f , 0.3f , 0.0f , 0.0f , 0.0f},
+	{0.2f , 0.15f , 0.05f , 0.3f , 0.0f , 0.0f , 2.0f},
+	{0.0f , 0.15f , 0.3f , 0.3f , 0.0f , 0.0f , 0.0f}
+	}
+};
+
 /// <summary>
 /// 初期化
 /// </summary>
@@ -58,7 +67,7 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	models_[kWeapon].worldTransform = std::make_unique<WorldTransform>();
 	models_[kWeapon].worldTransform->Initialize();
 	models_[kWeapon].worldTransform->translation_ = modelsStartPosition[kWeapon];
-	models_[kWeapon].worldTransform->SetParent(worldTransform_.get());
+	models_[kWeapon].worldTransform->SetParent(models_[kBody].worldTransform.get());
 	models_[kWeapon].uvTransform = std::make_unique<UvTransform>();
 	models_[kWeapon].uvTransform->Initialize();
 	models_[kWeapon].modelHandle = engine_->LoadModelData("./Resources/Models/Player/weapon", "weapon.obj");
@@ -362,7 +371,11 @@ void Player::Jump()
 /// </summary>
 void Player::BehaviorRootInitialize()
 {
-
+	for (uint32_t i = 0; i < kNumModels; i++)
+	{
+		models_[i].worldTransform->translation_ = modelsStartPosition[i];
+		models_[i].worldTransform->rotation_ = modelsStartRotation[i];
+	}
 }
 
 /// <summary>
@@ -408,22 +421,19 @@ void Player::BehaviorRootDraw()
 /// </summary>
 void Player::BehaviorAttackInitialize()
 {
-	// 攻撃パラメータ
-	attackParameter_ = 0.0f;
-
 	// 旋回に補間をかけない
 	worldTransform_->rotation_.y = toRotationY_;
 
-	// 武器の回転
-	models_[kWeapon].worldTransform->rotation_.x = 1.0f;
+	// モデルの回転
+	models_[kRArm].worldTransform->rotation_.x = -std::numbers::pi_v<float> / 2.0f;
+	models_[kLArm].worldTransform->rotation_.x = -std::numbers::pi_v<float> / 2.0f;
+	models_[kWeapon].worldTransform->rotation_.x = std::numbers::pi_v<float> / 2.0f;
 
-	// プレイヤーの現在地
-	attackPrevPosition_ = worldTransform_->translation_;
-
-	// プレイヤーが進むべき方向とゴール地点を求める
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
-	Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * kAttackMoveSpeed;
-	attackGoalPosition_ = attackPrevPosition_ + velocity;
+	// 攻撃ワークの初期化
+	workAttack_.parameter_ = 0.0f;
+	workAttack_.comboIndex = 0;
+	workAttack_.inComboPhase = 0;
+	workAttack_.comboNext = false;
 }
 
 /// <summary>
@@ -431,42 +441,161 @@ void Player::BehaviorAttackInitialize()
 /// </summary>
 void Player::BehaviorAttackUpdate()
 {
-	// パラメータを加算する
-	attackParameter_ += 1.0f / 60.0f;
-	attackParameter_ = std::min(attackParameter_, kAttackParameterMax);
+	// 予備動作の時間
+	const float kAnticipationTime = kConstAttacks[workAttack_.comboIndex].anticipationTime;
+	const float kChargeTime = kConstAttacks[workAttack_.comboIndex].chargeTime;
+	const float kSwingTime = kConstAttacks[workAttack_.comboIndex].swingTime;
+	const float kRecoveryTime = kConstAttacks[workAttack_.comboIndex].recoveryTime;
 
-	// 最大値を越えたら通常ビヘイビアに遷移する
-	if (attackParameter_ >= kAttackParameterMax)
+	// コンボの段階によってモーションを分岐
+	switch (workAttack_.inComboPhase)
 	{
-		behaviorRequest_ = Behavior::kRoot;
+	case 0:
+		// 右から反時計回り
+
+		// 振りかぶり
+		if (workAttack_.parameter_ <= kAnticipationTime)
+		{
+			break;
+		}
+
+		// 溜め
+		if (workAttack_.parameter_ <= kAnticipationTime + kChargeTime)
+		{
+			break;
+		}
+
+		// 攻撃振り
+		if (workAttack_.parameter_ <= kAnticipationTime + kChargeTime + kSwingTime)
+		{
+			// 補間
+			float t = (workAttack_.parameter_ - kAnticipationTime + kChargeTime) / kSwingTime;
+
+			const float radian = -(std::numbers::pi_v<float> *2.0f);
+			models_[kBody].worldTransform->rotation_.y = Lerp(0.0f, radian, t);
+
+			break;
+		}
+
+		break;
+
+	case 1:
+		// 上から振り下ろし
+
+		// 振りかぶり
+		if (workAttack_.parameter_ <= kAnticipationTime)
+		{
+			// 補間
+			float t = workAttack_.parameter_ / kAnticipationTime;
+
+			const float stepRadian = (std::numbers::pi_v<float> / 2.0f) / (60.0f * kAnticipationTime);
+
+			models_[kRArm].worldTransform->rotation_.x -= stepRadian;
+			models_[kLArm].worldTransform->rotation_.x -= stepRadian;
+			models_[kWeapon].worldTransform->rotation_.x -= stepRadian;
+
+			break;
+		}
+
+		// 溜め
+		if (workAttack_.parameter_ <= kAnticipationTime + kChargeTime)
+		{
+			// 補間
+			float t = (workAttack_.parameter_ - kAnticipationTime) / kChargeTime;
+
+			break;
+		}
+
+		// 攻撃振り
+		if (workAttack_.parameter_ <= kAnticipationTime + kChargeTime + kSwingTime)
+		{
+			// 補間
+			float t = (workAttack_.parameter_ - kAnticipationTime + kChargeTime) / kSwingTime;
+			const float stepRadian = (std::numbers::pi_v<float> / 2.0f) / (60.0f * kSwingTime);
+
+			models_[kRArm].worldTransform->rotation_.x += stepRadian;
+			models_[kLArm].worldTransform->rotation_.x += stepRadian;
+			models_[kWeapon].worldTransform->rotation_.x += stepRadian;
+
+			// 向いている方向に進む
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
+			Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * kConstAttacks[workAttack_.comboIndex].swingSpeed;
+			worldTransform_->translation_ += velocity;
+
+			break;
+		}
+
+		break;
+
+	case 2:
+	default:
+		// 右からホームラン
+
+		// 振りかぶり
+		if (workAttack_.parameter_ <= kAnticipationTime)
+		{
+			break;
+		}
+
+		// 溜め
+		if (workAttack_.parameter_ <= kAnticipationTime + kChargeTime)
+		{
+			break;
+		}
+
+		// 攻撃振り
+		if (workAttack_.parameter_ <= kAnticipationTime + kChargeTime + kSwingTime)
+		{
+			// 補間
+			float t = (workAttack_.parameter_ - kAnticipationTime + kChargeTime) / kSwingTime;
+
+			const float radian = -(std::numbers::pi_v<float> *2.0f);
+			models_[kBody].worldTransform->rotation_.y = Lerp(0.0f, radian, t);
+
+			break;
+		}
+
+		break;
 	}
 
+	// パラメータを進める
+	workAttack_.parameter_ += 1.0f / 60.0f;
 
-	// 振り上げ
-	if (attackParameter_ >= kAttackSwingUpFrame[0] && attackParameter_ <= kAttackSwingUpFrame[1])
+	// コンボ上限に達していない
+	if (workAttack_.comboIndex < ComboNum - 1)
 	{
-		// 補間
-		float t = (attackParameter_ - kAttackSwingUpFrame[0]) / (kAttackSwingUpFrame[1] - kAttackSwingUpFrame[0]);
-
-		// モデル
-		models_[kRArm].worldTransform->rotation_.x = Lerp(kAttackSwingUpRadianX[kRArm][0], kAttackSwingUpRadianX[kRArm][1], t);
-		models_[kLArm].worldTransform->rotation_.x = Lerp(kAttackSwingUpRadianX[kLArm][0], kAttackSwingUpRadianX[kLArm][1], t);
-		models_[kWeapon].worldTransform->rotation_.x = Lerp(kAttackSwingUpRadianX[kWeapon][0], kAttackSwingUpRadianX[kWeapon][1], t);
+		// ゲームパッドが有効のときのみ
+		if (engine_->IsGamepadEnable(0))
+		{
+			// Aボタンで攻撃
+			if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
+			{
+				workAttack_.comboNext = true;
+			}
+		}
 	}
 
-	// 振り下ろし
-	if (attackParameter_ >= kAttackSwingDownFrame[0] && attackParameter_ <= kAttackSwingDownFrame[1])
+	// 既定の時間経過で通常行動に戻る
+	if (workAttack_.parameter_ >= kAnticipationTime + kChargeTime + kSwingTime + kRecoveryTime)
 	{
-		// 補間
-		float t = (attackParameter_ - kAttackSwingDownFrame[0]) / (kAttackSwingDownFrame[1] - kAttackSwingDownFrame[0]);
+		// コンボ継続なら次のコンボに進む
+		if (workAttack_.comboNext)
+		{
+			// コンボ継続フラグをリセット
+			workAttack_.comboNext = false;
 
-		// モデル
-		models_[kRArm].worldTransform->rotation_.x = Lerp(kAttackSwingDownRadianX[kRArm][0], kAttackSwingDownRadianX[kRArm][1], t);
-		models_[kLArm].worldTransform->rotation_.x = Lerp(kAttackSwingDownRadianX[kLArm][0], kAttackSwingDownRadianX[kLArm][1], t);
-		models_[kWeapon].worldTransform->rotation_.x = Lerp(kAttackSwingDownRadianX[kWeapon][0], kAttackSwingDownRadianX[kWeapon][1], t);
+			// 次の攻撃フェーズに移行する
+			workAttack_.inComboPhase++;
+			workAttack_.comboIndex++;
 
-		// 移動
-		worldTransform_->translation_ = Lerp(attackPrevPosition_, attackGoalPosition_, t);
+			// パラメータを初期化
+			workAttack_.parameter_ = 0.0f;
+		}
+		else
+		{
+			// コンボが継続しないのなら、通常ビヘイビアに遷移
+			behaviorRequest_ = Behavior::kRoot;
+		}
 	}
 }
 

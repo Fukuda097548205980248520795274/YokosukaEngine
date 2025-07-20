@@ -36,6 +36,49 @@ public:
 	void SetMainCamera(const MainCamera* mainCamera) { mainCamera_ = mainCamera; }
 
 
+	// 攻撃用定数
+	struct ConstAttack
+	{
+		// 振りかぶりにかかる時間
+		float anticipationTime;
+
+		// 溜めの時間
+		float chargeTime;
+
+		// 攻撃振りの時間
+		float swingTime;
+
+		// 硬直時間
+		float recoveryTime;
+
+		// 振りかぶりの移動の速さ
+		float anticipationSpeed;
+
+		// 溜めの移動の速さ
+		float chargeSpeed;
+
+		// 攻撃振りの移動の速さ
+		float swingSpeed;
+	};
+
+	// 攻撃コンボ数
+	static const int ComboNum = 3;
+
+	// コンボ定数表
+	static const std::array<ConstAttack, ComboNum> kConstAttacks;
+
+
+	// 攻撃用ワーク
+	struct WorkAttack
+	{
+		// パラメータ
+		float parameter_ = 0.0f;
+		int32_t comboIndex = 0;
+		int32_t inComboPhase = 0;
+		bool comboNext = false;
+	};
+
+
 private:
 
 	/// <summary>
@@ -111,7 +154,17 @@ private:
 		{0.0f , 1.15f , 0.0f},
 		{-0.25f , 1.1f , 0.0f},
 		{0.25f , 1.1f , 0.0f},
-		{0.0f,0.0f,0.0f}
+		{0.0f,1.0f,0.0f}
+	};
+
+	// モデルの初期回転
+	const Vector3 modelsStartRotation[kNumModels] =
+	{
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 0.0f}
 	};
 
 
@@ -175,39 +228,8 @@ private:
 	/// </summary>
 	void BehaviorAttackDraw();
 
-	// 攻撃パラメータ
-	float attackParameter_ = 0.0f;
-
-	// 攻撃パラメータ最大値
-	const float kAttackParameterMax = 0.8f;
-
-	// 振り上げフレーム
-	const float kAttackSwingUpFrame[2] = { 0.0f , 0.2f };
-	const float kAttackSwingUpRadianX[kNumModels][2] = 
-	{
-		{0.0f , 0.0f},
-		{0.0f , 0.0f},
-		{-1.6f , -3.1f},
-		{-1.6f , -3.1f},
-		{1.6f , 0.0f} 
-	};
-
-	// 振る下ろしフレーム
-	const float kAttackSwingDownFrame[2] = { 0.4f , 0.6f };
-	const float kAttackSwingDownRadianX[kNumModels][2] =
-	{
-		{0.0f , 0.0f},
-		{0.0f , 0.0f},
-		{-3.1f , -1.6f},
-		{-3.1f , -1.6f},
-		{0.0f , 1.6f}
-	};
-	const float kAttackSwingDownMove = 5.0f;
-
-	// 攻撃の移動
-	const float kAttackMoveSpeed = 5.0f;
-	Vector3 attackPrevPosition_ = { 0.0f , 0.0f , 0.0f };
-	Vector3 attackGoalPosition_ = { 0.0f , 0.0f , 0.0f };
+	// 攻撃用ワーク
+	WorkAttack workAttack_{};
 
 
 	/*-----------------------
