@@ -3,9 +3,9 @@
 const std::array<Player::ConstAttack, Player::ComboNum> Player::kConstAttacks =
 {
 	{
-	{0.0f , 0.0f , 0.3f , 0.3f , 0.0f , 0.0f , 0.0f},
-	{0.2f , 0.15f , 0.05f , 0.3f , 0.0f , 0.0f , 2.0f},
-	{0.0f , 0.15f , 0.3f , 0.3f , 0.0f , 0.0f , 0.0f}
+	{0.0f , 0.0f , 0.3f , 0.3f , 0.0f , 0.0f , 1.0f},
+	{0.2f , 0.15f , 0.05f , 0.3f , 0.0f , 0.0f , 3.0f},
+	{0.0f , 0.15f , 0.3f , 0.3f , 0.0f , 0.0f , 1.0f}
 	}
 };
 
@@ -474,6 +474,11 @@ void Player::BehaviorAttackUpdate()
 			const float radian = -(std::numbers::pi_v<float> *2.0f);
 			models_[kBody].worldTransform->rotation_.y = Lerp(0.0f, radian, t);
 
+			// 向いている方向に進む
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
+			Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * kConstAttacks[workAttack_.comboIndex].swingSpeed;
+			worldTransform_->translation_ += velocity;
+
 			break;
 		}
 
@@ -551,6 +556,11 @@ void Player::BehaviorAttackUpdate()
 
 			const float radian = -(std::numbers::pi_v<float> *2.0f);
 			models_[kBody].worldTransform->rotation_.y = Lerp(0.0f, radian, t);
+
+			// 向いている方向に進む
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
+			Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * kConstAttacks[workAttack_.comboIndex].swingSpeed;
+			worldTransform_->translation_ += velocity;
 
 			break;
 		}
