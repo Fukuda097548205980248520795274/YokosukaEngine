@@ -26,7 +26,7 @@ void Camera2D::Initialize(float width, float height)
 	viewMatrix_ = MakeInverseMatrix(MakeAffineMatrix(scale_, rotation_, translation_));
 
 	// 射影行列
-	projectionMatrix_ = MakeOrthographicMatrix(-screenWidth_ / 2.0f, screenHeight_ / 2.0f, screenWidth_ / 2.0f, -screenHeight_ / 2.0f, 0.0f, 1.0f);
+	projectionMatrix_ = MakeOrthographicMatrix(0.0f, 0.0f, screenWidth_, screenHeight_, 0.0f, 100.0f);
 }
 
 /// <summary>
@@ -38,7 +38,7 @@ void Camera2D::UpdateMatrix()
 	viewMatrix_ = MakeInverseMatrix(MakeAffineMatrix(scale_, rotation_, translation_));
 
 	// 射影行列
-	projectionMatrix_ = MakeOrthographicMatrix(-screenWidth_ / 2.0f, screenHeight_ / 2.0f, screenWidth_ / 2.0f, -screenHeight_ / 2.0f, 0.0f, 1.0f);
+	projectionMatrix_ = MakeOrthographicMatrix(0.0f, 0.0f, screenWidth_, screenHeight_, 0.0f, 100.0f);
 }
 
 /// <summary>
@@ -56,5 +56,5 @@ void Camera2D::UpdateViewMatrix()
 void Camera2D::UpdateProjectionMatrix()
 {
 	// 射影行列
-	projectionMatrix_ = MakeOrthographicMatrix(-screenWidth_ / 2.0f, screenHeight_ / 2.0f, screenWidth_ / 2.0f, -screenHeight_ / 2.0f, 0.0f, 1.0f);
+	projectionMatrix_ = MakeOrthographicMatrix(0.0f, 0.0f, screenWidth_, screenHeight_, 0.0f, 100.0f);
 }
