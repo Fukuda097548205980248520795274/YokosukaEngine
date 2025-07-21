@@ -2,6 +2,9 @@
 #include "../BaseCharacter.h"
 #include "../../GlobalVariables/GlobalVariables.h"
 
+// 前方宣言
+class LockOn;
+
 class Player : public BaseCharacter
 {
 public:
@@ -34,6 +37,12 @@ public:
 	/// </summary>
 	/// <param name="mainCamera"></param>
 	void SetMainCamera(const MainCamera* mainCamera) { mainCamera_ = mainCamera; }
+
+	/// <summary>
+	/// ロックオンのSetter
+	/// </summary>
+	/// <param name="lockOn"></param>
+	void SetLockOn(const LockOn* lockOn) { lockOn_ = lockOn; }
 
 
 	// 攻撃用定数
@@ -87,11 +96,6 @@ private:
 	void ApplyGlobalVaribles();
 
 	/// <summary>
-	/// 入力操作
-	/// </summary>
-	void Input();
-
-	/// <summary>
 	/// 移動操作
 	/// </summary>
 	void Move();
@@ -115,6 +119,9 @@ private:
 
 	// メインカメラ
 	const MainCamera* mainCamera_ = nullptr;
+
+	// ロックオン
+	const LockOn* lockOn_ = nullptr;
 
 
 	// 目標角度

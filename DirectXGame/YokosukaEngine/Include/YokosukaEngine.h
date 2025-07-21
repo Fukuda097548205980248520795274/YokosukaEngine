@@ -576,6 +576,9 @@ private:
 
 #endif
 
+// 前方宣言
+class LockOn;
+
 // メインカメラ
 class MainCamera
 {
@@ -605,6 +608,12 @@ public:
 	/// <param name="target"></param>
 	/// <returns></returns>
 	void SetTarget(const WorldTransform* target);
+
+	/// <summary>
+	/// ロックオンのSetter
+	/// </summary>
+	/// <param name="lockOn"></param>
+	void SetLockOn(const LockOn* lockOn) { lockOn_ = lockOn; }
 
 	/// <summary>
 	/// リセット関数
@@ -640,6 +649,9 @@ private:
 
 	// Y軸回転のゴール
 	float toRotationY_ = 0.0f;
+
+	// ロックオン
+	const LockOn* lockOn_ = nullptr;
 };
 
 /// <summary>

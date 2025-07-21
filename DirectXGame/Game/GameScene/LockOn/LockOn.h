@@ -23,6 +23,24 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ターゲットのGetter
+	/// </summary>
+	/// <returns></returns>
+	const Enemy* GetTarget() const { return target_; }
+	
+	/// <summary>
+	/// ターゲットの座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetTargetPosition()const;
+
+	/// <summary>
+	/// ロックオンしているかどうかのフラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool ExistTaget()const { return target_ ? true : false; }
+
 
 private:
 	

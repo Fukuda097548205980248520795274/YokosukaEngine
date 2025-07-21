@@ -1,4 +1,5 @@
 #include "YokosukaEngine.h"
+#include "../../Game/GameScene/LockOn/LockOn.h"
 
 /// <summary>
 /// デストラクタ
@@ -450,20 +451,38 @@ void MainCamera::Initialize(const YokosukaEngine* engine, float screenWidth, flo
 /// </summary>
 void MainCamera::Update()
 {
-	if (engine_->IsGamepadEnable(0))
+	if (lockOn_->ExistTaget())
 	{
-		// 回転速度
-		const float anglerVelocity = 0.05f;
+		// ロックオン対象者に注目
 
-		toRotationY_ += engine_->GetGamepadRightStick(0).x * anglerVelocity;
+		// ロックオン座標
+		Vector3 lockOnPosition = lockOn_->GetTargetPosition();
 
-		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_RIGHT_THUMB))
-		{
-			toRotationY_ = target_->rotation_.y;
-		}
+		// 追従対象からロックオン対象へのベクトル
+		Vector3 sub = lockOnPosition - Vector3(target_->worldMatrix_.m[3][0], target_->worldMatrix_.m[3][1], target_->worldMatrix_.m[3][2]);
+
+		// Y軸周りの角度
+		rotation_.y = std::atan2(sub.x, sub.z);
 	}
+	else
+	{
+		// スティック操作
 
-	rotation_.y = LerpShortAngle(camera3d_->rotation_.y, toRotationY_, 0.1f);
+		if (engine_->IsGamepadEnable(0))
+		{
+			// 回転速度
+			const float anglerVelocity = 0.05f;
+
+			toRotationY_ += engine_->GetGamepadRightStick(0).x * anglerVelocity;
+
+			if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_RIGHT_THUMB))
+			{
+				toRotationY_ = target_->rotation_.y;
+			}
+		}
+
+		rotation_.y = LerpShortAngle(camera3d_->rotation_.y, toRotationY_, 0.1f);
+	}
 
 	if (target_)
 	{

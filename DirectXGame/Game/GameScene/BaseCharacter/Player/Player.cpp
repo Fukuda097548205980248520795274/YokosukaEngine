@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "../../LockOn/LockOn.h"
 
 const std::array<Player::ConstAttack, Player::ComboNum> Player::kConstAttacks =
 {
@@ -245,24 +246,6 @@ void Player::ApplyGlobalVaribles()
 }
 
 /// <summary>
-/// 入力操作
-/// </summary>
-void Player::Input()
-{
-	// 移動操作
-	Move();
-
-	// 攻撃操作
-	Attack();
-
-	// ダッシュ操作
-	Dash();
-
-	// ジャンプ操作
-	Jump();
-}
-
-/// <summary>
 /// 移動操作
 /// </summary>
 void Player::Move()
@@ -387,8 +370,35 @@ void Player::BehaviorRootInitialize()
 /// </summary>
 void Player::BehaviorRootUpdate()
 {
-	// 入力操作
-	Input();
+	if (engine_->IsGamepadEnable(0))
+	{
+		// スティックによる移動操作があるとき
+		if (engine_->GetGamepadLeftStick(0).x != 0.0f || engine_->GetGamepadLeftStick(0).y != 0.0f)
+		{
+			// 移動操作
+			Move();
+		}
+		else if(lockOn_ && lockOn_->ExistTaget())
+		{
+			// ロックオン座標
+			Vector3 lockOnPosition = lockOn_->GetTargetPosition();
+
+			// 追従対象からロックオン対象へのベクトル
+			Vector3 sub = lockOnPosition - GetWorldPosition();
+
+			// Y軸周りの角度
+			worldTransform_->rotation_.y = std::atan2(sub.x, sub.z);
+		}
+	}
+
+	// 攻撃操作
+	Attack();
+
+	// ダッシュ操作
+	Dash();
+
+	// ジャンプ操作
+	Jump();
 
 	// 浮遊ギミックの更新処理
 	UpdateFloatingGimmick();
@@ -450,6 +460,55 @@ void Player::BehaviorAttackInitialize()
 /// </summary>
 void Player::BehaviorAttackUpdate()
 {
+	// 移動速度
+	float anticipationSpeed = kConstAttacks[workAttack_.comboIndex].anticipationSpeed;
+	float chargeSpeed = kConstAttacks[workAttack_.comboIndex].chargeSpeed;
+	float swingSpeed = kConstAttacks[workAttack_.comboIndex].swingSpeed;
+
+	if (lockOn_ && lockOn_->ExistTaget())
+	{
+		// ロックオン座標
+		Vector3 lockOnPosition = lockOn_->GetTargetPosition();
+
+		// 追従対象からロックオン対象へのベクトル
+		Vector3 sub = lockOnPosition - GetWorldPosition();
+
+
+		// 距離
+		float distance = Length(sub);
+
+		// 距離の閾値
+		const float threshold = 1.0f;
+
+		// 閾値より離れている場合
+		if (distance > threshold)
+		{
+			// Y軸周りの角度
+			worldTransform_->rotation_.y = std::atan2(sub.x, sub.z);
+
+			// 閾値を超える速さなら補正する
+			if (anticipationSpeed > distance - threshold)
+			{
+				// ロックオン対象へのめり込み防止
+				anticipationSpeed = distance - threshold;
+			}
+
+			// 閾値を超える速さなら補正する
+			if (chargeSpeed > distance - threshold)
+			{
+				// ロックオン対象へのめり込み防止
+				chargeSpeed = distance - threshold;
+			}
+
+			// 閾値を超える速さなら補正する
+			if (swingSpeed > distance - threshold)
+			{
+				// ロックオン対象へのめり込み防止
+				swingSpeed = distance - threshold;
+			}
+		}
+	}
+
 	// 予備動作の時間
 	const float kAnticipationTime = kConstAttacks[workAttack_.comboIndex].anticipationTime;
 	const float kChargeTime = kConstAttacks[workAttack_.comboIndex].chargeTime;
@@ -485,7 +544,7 @@ void Player::BehaviorAttackUpdate()
 
 			// 向いている方向に進む
 			Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
-			Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * kConstAttacks[workAttack_.comboIndex].swingSpeed;
+			Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * swingSpeed;
 			worldTransform_->translation_ += velocity;
 
 			break;
@@ -533,7 +592,7 @@ void Player::BehaviorAttackUpdate()
 
 			// 向いている方向に進む
 			Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
-			Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * kConstAttacks[workAttack_.comboIndex].swingSpeed;
+			Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * swingSpeed;
 			worldTransform_->translation_ += velocity;
 
 			break;
@@ -568,7 +627,7 @@ void Player::BehaviorAttackUpdate()
 
 			// 向いている方向に進む
 			Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
-			Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * kConstAttacks[workAttack_.comboIndex].swingSpeed;
+			Vector3 velocity = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), rotateMatrix)) * swingSpeed;
 			worldTransform_->translation_ += velocity;
 
 			break;

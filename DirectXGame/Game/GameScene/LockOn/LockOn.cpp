@@ -99,6 +99,20 @@ void LockOn::Draw()
 }
 
 
+/// <summary>
+/// ターゲットの座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 LockOn::GetTargetPosition()const
+{
+	if (target_)
+	{
+		return target_->GetCenterPosition();
+	}
+
+	return Vector3();
+}
+
 
 /// <summary>
 /// 最も近い敵を探索する
