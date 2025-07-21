@@ -255,9 +255,26 @@ public:
 	/// <param name="camera"></param>
 	/// <param name="textureHandle"></param>
 	/// <param name="color"></param>
-	void DrawSprite(const WorldTransform* worldTransform, const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color) const
+	void DrawSprite(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera2D* camera, uint32_t textureHandle, Vector4 color) const
 	{
-		directXCommon_->DrawSprite(worldTransform, uvTransform, camera, textureHandle, color);
+		// ワールドビュープロジェクション行列
+		Matrix4x4 worldViewProjectionMatrix = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
+
+		// ビューポート変換行列
+		Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f, camera->screenWidth_, camera->screenHeight_, 0.0f, 1.0f);
+
+		Vector3 vertecies[4] =
+		{
+			Transform(Transform(Vector3(-1.0f , -1.0f) , worldViewProjectionMatrix), viewportMatrix),
+			Transform(Transform(Vector3(1.0f , -1.0f) , worldViewProjectionMatrix), viewportMatrix),
+			Transform(Transform(Vector3(-1.0f , 1.0f) , worldViewProjectionMatrix), viewportMatrix),
+			Transform(Transform(Vector3(1.0f , 1.0f) , worldViewProjectionMatrix), viewportMatrix)
+		};
+
+
+		directXCommon_->DrawSprite(Vector2(vertecies[0].x, vertecies[0].y), Vector2(vertecies[1].x, vertecies[1].y),
+			Vector2(vertecies[2].x, vertecies[2].y), Vector2(vertecies[3].x, vertecies[3].y), uvTransform, camera, textureHandle, color);
 	}
 
 	/// <summary>
