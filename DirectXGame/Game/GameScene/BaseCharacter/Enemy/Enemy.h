@@ -22,6 +22,12 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// 中心座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetCenterPosition() const;
+
 
 private:
 

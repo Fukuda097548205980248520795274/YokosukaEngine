@@ -29,6 +29,12 @@ public:
 	/// <returns></returns>
 	WorldTransform* GetWorldTransform() { return worldTransform_.get(); }
 
+	/// <summary>
+	/// ワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition() const;
+
 
 protected:
 

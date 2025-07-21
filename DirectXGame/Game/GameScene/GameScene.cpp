@@ -32,7 +32,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// ロックオンの生成と初期化
 	lockOn_ = std::make_unique<LockOn>();
-	lockOn_->Initialize(engine_, camera2d_.get());
+	lockOn_->Initialize(engine_, camera3d_.get(), camera2d_.get());
 
 	// プレイヤーにメインカメラを追従させる
 	mainCamera_->SetTarget(player_->GetWorldTransform());
@@ -65,7 +65,7 @@ void GameScene::Update()
 	player_->Update();
 
 	// ロックオンの更新
-	lockOn_->Update();
+	lockOn_->Update(enemies_);
 
 	// 敵の更新
 	for (std::unique_ptr<Enemy>& enemy : enemies_)
