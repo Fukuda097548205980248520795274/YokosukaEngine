@@ -5,10 +5,10 @@
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
+void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
 {
 	// 基底クラス初期化
-	BaseCharacter::Initialize(engine, camera3d);
+	BaseCharacter::Initialize(engine, camera3d, position);
 
 
 	// 胴体

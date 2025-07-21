@@ -4,6 +4,7 @@
 #include "BaseCharacter/Enemy/Enemy.h"
 #include "Skydome/Skydome.h"
 #include "Ground/Ground.h"
+#include "LockOn/LockOn.h"
 
 class GameScene : public Scene
 {
@@ -42,6 +43,9 @@ private:
 	std::unique_ptr<Player> player_ = nullptr;
 
 	// 敵
-	std::unique_ptr<Enemy> enemy_ = nullptr;
+	std::list<std::unique_ptr<Enemy>> enemies_;
+
+	// ロックオン
+	std::unique_ptr<LockOn> lockOn_ = nullptr;
 };
 

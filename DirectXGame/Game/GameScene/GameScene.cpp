@@ -27,15 +27,23 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_.get());
+	player_->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 0.0f));
 	player_->SetMainCamera(mainCamera_.get());
+
+	// ロックオンの生成と初期化
+	lockOn_ = std::make_unique<LockOn>();
+	lockOn_->Initialize(engine_, camera2d_.get());
 
 	// プレイヤーにメインカメラを追従させる
 	mainCamera_->SetTarget(player_->GetWorldTransform());
 
-	// 敵の生成と初期化
-	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize(engine_, camera3d_.get());
+	// 敵を生成する
+	for (int i = 0; i < 5; i++)
+	{
+		std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>();
+		enemy->Initialize(engine_, camera3d_.get(), Vector3(-20.0f + i * 10.0f, 0.0f, 30.0f));
+		enemies_.push_back(std::move(enemy));
+	}
 }
 
 /// <summary>
@@ -56,8 +64,14 @@ void GameScene::Update()
 	// プレイヤー更新
 	player_->Update();
 
+	// ロックオンの更新
+	lockOn_->Update();
+
 	// 敵の更新
-	enemy_->Update();
+	for (std::unique_ptr<Enemy>& enemy : enemies_)
+	{
+		enemy->Update();
+	}
 }
 
 /// <summary>
@@ -80,6 +94,12 @@ void GameScene::Draw()
 	// プレイヤー描画
 	player_->Draw();
 
+	// ロックオンの描画
+	lockOn_->Draw();
+
 	// 敵の描画
-	enemy_->Draw();
+	for (std::unique_ptr<Enemy>& enemy : enemies_)
+	{
+		enemy->Draw();
+	}
 }

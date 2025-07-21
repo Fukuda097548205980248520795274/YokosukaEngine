@@ -10,7 +10,7 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position) override;
 
 	/// <summary>
 	/// 更新処理

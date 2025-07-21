@@ -286,6 +286,9 @@
     <Filter Include="Game\GameScene\PlaneProjectionShadow">
       <UniqueIdentifier>{7c6ff930-ea2c-4fbf-88e3-7ff8da8b582c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\LockOn">
+      <UniqueIdentifier>{13d89fa8-2bc7-4bc0-ac72-89aa4d4764ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -530,6 +533,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\PlaneProjectionShadow\PlaneProjectionShadow.cpp">
       <Filter>Game\GameScene\PlaneProjectionShadow</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\LockOn\LockOn.cpp">
+      <Filter>Game\GameScene\LockOn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -778,6 +784,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\PlaneProjectionShadow\PlaneProjectionShadow.h">
       <Filter>Game\GameScene\PlaneProjectionShadow</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\LockOn\LockOn.h">
+      <Filter>Game\GameScene\LockOn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

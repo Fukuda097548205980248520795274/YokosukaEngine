@@ -14,10 +14,10 @@ const std::array<Player::ConstAttack, Player::ComboNum> Player::kConstAttacks =
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
+void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
 {
 	// 基底クラス初期化
-	BaseCharacter::Initialize(engine, camera3d);
+	BaseCharacter::Initialize(engine, camera3d , position);
 
 	// 調整項目クラス
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
