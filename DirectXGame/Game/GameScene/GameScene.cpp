@@ -27,6 +27,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// 衝突マネージャの生成
 	collisionManager_ = std::make_unique<CollisionManager>();
+	collisionManager_->Initialize();
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
@@ -78,6 +79,9 @@ void GameScene::Update()
 		enemy->Update();
 	}
 
+	// 衝突マネージャの更新
+	collisionManager_->UpdateTransform();
+
 	// 当たり判定
 	CheckAllCollision();
 }
@@ -98,6 +102,9 @@ void GameScene::Draw()
 
 	// 地面の描画
 	ground_->Draw();
+
+	// 衝突マネージャの描画
+	collisionManager_->Draw();
 
 	// プレイヤー描画
 	player_->Draw();

@@ -1,6 +1,51 @@
 #include "CollisionManager.h"
 
 /// <summary>
+/// 初期化
+/// </summary>
+void CollisionManager::Initialize()
+{
+	// 調整項目クラス
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "CollisionManager";
+
+	globalVariables->AddItem(groupName, "enable VisibleCollider", enableVisibleCollider_);
+}
+
+/// <summary>
+/// トランスフォームの更新処理
+/// </summary>
+void CollisionManager::UpdateTransform()
+{
+	// 調整項目の適用
+	ApplyGlobalVaribles();
+
+	if (enableVisibleCollider_ == false)
+		return;
+	
+	// 全コライダー更新
+	for (Collider* collider : colliders_)
+	{
+		collider->UpdateTransform();
+	}
+}
+
+/// <summary>
+/// 描画処理
+/// </summary>
+void CollisionManager::Draw()
+{
+	if (enableVisibleCollider_ == false)
+		return;
+
+	// 全コライダー描画
+	for (Collider* collider : colliders_)
+	{
+		collider->Draw();
+	}
+}
+
+/// <summary>
 /// リセット
 /// </summary>
 void CollisionManager::Reset()
@@ -68,4 +113,17 @@ void CollisionManager::CheckAllCollisions()
 			CheckCollisionPair(colliderA, colliderB);
 		}
 	}
+}
+
+
+/// <summary>
+/// 調整項目の適用
+/// </summary>
+void CollisionManager::ApplyGlobalVaribles()
+{
+	// 調整項目クラス
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "CollisionManager";
+
+	enableVisibleCollider_ = globalVariables->GetBoolValue(groupName, "enable VisibleCollider");
 }

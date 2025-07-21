@@ -63,6 +63,14 @@ public:
 	void SetValue(const std::string& groupName, const std::string& key, const Vector3& value);
 
 	/// <summary>
+	/// 値のセット
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
+	void SetValue(const std::string& groupName, const std::string& key, bool value);
+
+	/// <summary>
 	/// 項目な追加
 	/// </summary>
 	/// <param name="groupName"></param>
@@ -85,6 +93,14 @@ public:
 	/// <param name="key"></param>
 	/// <param name="value"></param>
 	void AddItem(const std::string& groupName, const std::string& key, const Vector3& value);
+
+	/// <summary>
+	/// 項目を追加
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
+	void AddItem(const std::string& groupName, const std::string& key, bool value);
 
 	/// <summary>
 	/// 数値を取得する
@@ -110,6 +126,14 @@ public:
 	/// <returns></returns>
 	Vector3 GetVector3Value(const std::string& groupName, const std::string& key);
 
+	/// <summary>
+	/// 数値を取得する
+	/// </summary>
+	/// <param name="groupName"></param>
+	/// <param name="key"></param>
+	/// <returns></returns>
+	bool GetBoolValue(const std::string& groupName, const std::string& key);
+
 
 private:
 
@@ -118,7 +142,7 @@ private:
 	~GlobalVariables() = default;
 
 	// 項目
-	using Item = std::variant<int32_t, float, Vector3>;
+	using Item = std::variant<int32_t, float, Vector3, bool>;
 
 	// グループ
 	using Group = std::map<std::string, Item>;

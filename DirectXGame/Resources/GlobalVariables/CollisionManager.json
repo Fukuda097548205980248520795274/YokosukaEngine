@@ -1,0 +1,5 @@
+{
+    "CollisionManager": {
+        "enable VisibleCollider": false
+    }
+}

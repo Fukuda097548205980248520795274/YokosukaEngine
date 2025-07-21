@@ -234,7 +234,7 @@ void Player::Draw()
 Vector3 Player::GetCenterPosition() const
 {
 	// オフセット
-	Vector3 offset = { 0.0f , 1.5f , 0.0f };
+	Vector3 offset = { 0.0f , 0.5f , 0.0f };
 
 	// ワールド座標に変換
 	Vector3 worldPosition = Transform(offset, worldTransform_->worldMatrix_);

@@ -103,7 +103,7 @@ void Enemy::Draw()
 Vector3 Enemy::GetCenterPosition() const
 {
 	// 見た目上の中心オフセット
-	Vector3 offset = { 0.0f, 1.0f, 0.0f };
+	Vector3 offset = { 0.0f, 0.3f, 0.0f };
 
 	// ワールド座標に変換する
 	Vector3 worldPosition = Transform(offset, worldTransform_->worldMatrix_);
