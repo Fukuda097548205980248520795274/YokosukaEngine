@@ -1730,8 +1730,8 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 /// <param name="camera">カメラ</param>
 /// <param name="textureHandle">テクスチャハンドル</param>
 /// <param name="color">色</param>
-void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera2D* camera, uint32_t textureHandle, Vector4 color)
+void DirectXCommon::DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2 v3, const Vector2 v4,
+	const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceSprite_ >= kMaxNumResource)
@@ -1772,22 +1772,22 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 
 
 	// 左下
-	vertexData[0].position = { -1.0f , -1.0f , 0.0f , 1.0f };
+	vertexData[0].position = { v3.x , v3.y , 0.0f , 1.0f };
 	vertexData[0].texcoord = { 0.0f , 1.0f };
 	vertexData[0].normal = { 0.0f , 0.0f , -1.0f };
 
 	// 左上
-	vertexData[1].position = { -1.0f , 1.0f , 0.0f , 1.0f };
+	vertexData[1].position = { v1.x , v1.y , 0.0f , 1.0f };
 	vertexData[1].texcoord = { 0.0f , 0.0f };
 	vertexData[1].normal = { 0.0f , 0.0f , -1.0f };
 
 	// 右下
-	vertexData[2].position = { 1.0f , -1.0f , 0.0f , 1.0f };
+	vertexData[2].position = { v4.x , v4.y , 0.0f , 1.0f };
 	vertexData[2].texcoord = { 1.0f , 1.0f };
 	vertexData[2].normal = { 0.0f , 0.0f , -1.0f };
 
 	// 右上
-	vertexData[3].position = { 1.0f , 1.0f , 0.0f , 1.0f };
+	vertexData[3].position = { v2.x , v2.y , 0.0f , 1.0f };
 	vertexData[3].texcoord = { 1.0f , 0.0f };
 	vertexData[3].normal = { 0.0f , 0.0f , -1.0f };
 
@@ -1801,7 +1801,7 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 	materialResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = false;
-	materialData->uvTransform = 
+	materialData->uvTransform =
 		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 
 
@@ -1809,11 +1809,14 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 		座標変換の行列
 	------------------*/
 
+	// ワールド行列
+	Matrix4x4 worldMatrix = MakeAffineMatrix(Vector3(1.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f));
+
 	// データを書き込む
 	TransformationMatrix* transformationData = nullptr;
 	transformationResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
-	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
-	transformationData->world = worldTransform->worldMatrix_;
+	transformationData->worldViewProjection = worldMatrix * camera->viewMatrix_ * camera->projectionMatrix_;
+	transformationData->world = worldMatrix;
 
 
 
@@ -1822,7 +1825,7 @@ void DirectXCommon::DrawSprite(const WorldTransform* worldTransform, const UvTra
 	------------------*/
 
 	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_);
+	psoObject3d_[useObject3dBlendMode_]->CommandListSet(commandList_.Get());
 
 	// IBVを設定する
 	commandList_->IASetIndexBuffer(&indexBufferView);

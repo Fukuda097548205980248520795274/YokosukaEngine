@@ -252,8 +252,8 @@ public:
 	/// <param name="camera">カメラ</param>
 	/// <param name="textureHandle">テクスチャハンドル</param>
 	/// <param name="color">色</param>
-	void DrawSprite(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera2D* camera, uint32_t textureHandle, Vector4 color);
+	void DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2 v3, const Vector2 v4,
+		const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color);
 
 	/// <summary>
 	/// ブレンドモードのSetter
