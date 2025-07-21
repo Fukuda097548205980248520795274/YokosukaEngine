@@ -1,8 +1,9 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../PlaneProjectionShadow/PlaneProjectionShadow.h"
+#include "../Collider/Collider.h"
 
-class BaseCharacter
+class BaseCharacter : public Collider
 {
 public:
 
@@ -34,6 +35,17 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	Vector3 GetWorldPosition() const;
+
+	/// <summary>
+	/// 中心座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	virtual Vector3 GetCenterPosition() const override;
+
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	virtual void OnCollision() override;
 
 
 protected:

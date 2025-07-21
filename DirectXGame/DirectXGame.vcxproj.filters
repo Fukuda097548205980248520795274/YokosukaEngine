@@ -289,6 +289,12 @@
     <Filter Include="Game\GameScene\LockOn">
       <UniqueIdentifier>{13d89fa8-2bc7-4bc0-ac72-89aa4d4764ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\Collider">
+      <UniqueIdentifier>{bd822ffb-4fa2-49d8-859d-a8d9feb9e00e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\CollisionManager">
+      <UniqueIdentifier>{399747b1-b8f7-40ec-ac07-f0ac519e547e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -536,6 +542,12 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\LockOn\LockOn.cpp">
       <Filter>Game\GameScene\LockOn</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Collider\Collider.cpp">
+      <Filter>Game\GameScene\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\CollisionManager\CollisionManager.cpp">
+      <Filter>Game\GameScene\CollisionManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -787,6 +799,12 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\LockOn\LockOn.h">
       <Filter>Game\GameScene\LockOn</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Collider\Collider.h">
+      <Filter>Game\GameScene\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\CollisionManager\CollisionManager.h">
+      <Filter>Game\GameScene\CollisionManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

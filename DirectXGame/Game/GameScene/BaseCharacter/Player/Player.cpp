@@ -227,6 +227,29 @@ void Player::Draw()
 	}
 }
 
+/// <summary>
+/// 中心座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 Player::GetCenterPosition() const
+{
+	// オフセット
+	Vector3 offset = { 0.0f , 1.5f , 0.0f };
+
+	// ワールド座標に変換
+	Vector3 worldPosition = Transform(offset, worldTransform_->worldMatrix_);
+	return worldPosition;
+}
+
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+void Player::OnCollision()
+{
+	// ジャンプビヘイビアに遷移する
+	behaviorRequest_ = Behavior::kJump;
+}
+
 
 /// <summary>
 /// 調整項目の適用

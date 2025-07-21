@@ -50,3 +50,25 @@ Vector3 BaseCharacter::GetWorldPosition() const
 
 	return worldPosition;
 }
+
+/// <summary>
+/// 中心座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 BaseCharacter::GetCenterPosition() const
+{
+	// ワールド座標
+	Vector3 worldPosition;
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+	return worldPosition;
+}
+
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+void BaseCharacter::OnCollision()
+{
+
+}

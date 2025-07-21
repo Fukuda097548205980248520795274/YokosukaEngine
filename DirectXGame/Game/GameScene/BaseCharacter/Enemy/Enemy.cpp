@@ -110,6 +110,14 @@ Vector3 Enemy::GetCenterPosition() const
 	return worldPosition;
 }
 
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+void Enemy::OnCollision()
+{
+
+}
+
 
 /// <summary>
 /// 回転移動ギミック初期化

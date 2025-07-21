@@ -5,6 +5,7 @@
 #include "Skydome/Skydome.h"
 #include "Ground/Ground.h"
 #include "LockOn/LockOn.h"
+#include "CollisionManager/CollisionManager.h"
 
 class GameScene : public Scene
 {
@@ -29,6 +30,11 @@ public:
 
 private:
 
+	/// <summary>
+	/// 全ての衝突判定を行う
+	/// </summary>
+	void CheckAllCollision();
+
 
 	// directionalLight
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
@@ -38,6 +44,9 @@ private:
 
 	// ground
 	std::unique_ptr<Ground> ground_ = nullptr;
+
+	// 衝突マネージャ
+	std::unique_ptr<CollisionManager> collisionManager_ = nullptr;
 
 	// player
 	std::unique_ptr<Player> player_ = nullptr;

@@ -44,6 +44,17 @@ public:
 	/// <param name="lockOn"></param>
 	void SetLockOn(const LockOn* lockOn) { lockOn_ = lockOn; }
 
+	/// <summary>
+	/// 中心座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetCenterPosition() const override;
+
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	void OnCollision() override;
+
 
 	// 攻撃用定数
 	struct ConstAttack

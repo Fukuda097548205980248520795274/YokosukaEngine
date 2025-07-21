@@ -25,6 +25,9 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	ground_ = std::make_unique<Ground>();
 	ground_->Initialize(engine_, camera3d_.get());
 
+	// 衝突マネージャの生成
+	collisionManager_ = std::make_unique<CollisionManager>();
+
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 0.0f));
@@ -74,6 +77,9 @@ void GameScene::Update()
 	{
 		enemy->Update();
 	}
+
+	// 当たり判定
+	CheckAllCollision();
 }
 
 /// <summary>
@@ -104,4 +110,24 @@ void GameScene::Draw()
 	{
 		enemy->Draw();
 	}
+}
+
+
+/// <summary>
+/// 全ての衝突判定を行う
+/// </summary>
+void GameScene::CheckAllCollision()
+{
+	// 衝突マネージャのリセット
+	collisionManager_->Reset();
+
+	// コライダーをリストに登録
+	collisionManager_->AddCollider(player_.get());
+	for (std::unique_ptr<Enemy>& enemy : enemies_)
+	{
+		collisionManager_->AddCollider(enemy.get());
+	}
+
+	// 衝突判定と応答
+	collisionManager_->CheckAllCollisions();
 }
