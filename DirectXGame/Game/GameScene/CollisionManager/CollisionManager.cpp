@@ -83,10 +83,10 @@ void CollisionManager::CheckCollisionPair(Collider* colliderA, Collider* collide
 	if (colliderA->GetRadius() + colliderB->GetRadius() >= subtract)
 	{
 		// コライダーAの衝突判定
-		colliderA->OnCollision();
+		colliderA->OnCollision(colliderB);
 
 		// コライダーBの衝突判定
-		colliderB->OnCollision();
+		colliderB->OnCollision(colliderA);
 	}
 }
 

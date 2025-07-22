@@ -45,16 +45,10 @@ public:
 	/// <summary>
 	/// 衝突判定応答
 	/// </summary>
-	virtual void OnCollision() override;
+	virtual void OnCollision([[maybe_unused]] Collider* other) override;
 
 
 protected:
-
-	// エンジン
-	const YokosukaEngine* engine_ = nullptr;
-
-	// カメラ
-	const Camera3D* camera3d_ = nullptr;
 
 
 	// ワールドトランスフォーム

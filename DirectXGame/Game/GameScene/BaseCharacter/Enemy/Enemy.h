@@ -31,7 +31,7 @@ public:
 	/// <summary>
 	/// 衝突判定応答
 	/// </summary>
-	void OnCollision() override;
+	void OnCollision([[maybe_unused]] Collider* other) override;
 
 
 private:

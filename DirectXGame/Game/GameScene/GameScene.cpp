@@ -1,6 +1,19 @@
 #include "GameScene.h"
 
 /// <summary>
+/// デストラクタ
+/// </summary>
+GameScene::~GameScene()
+{
+	// ヒットエフェクト
+	for (HitEffect* hitEffect : hitEffects_)
+	{
+		delete hitEffect;
+	}
+	hitEffects_.clear();
+}
+
+/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine">エンジン</param>
@@ -33,6 +46,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_.get(), Vector3(0.0f, 0.0f, 0.0f));
 	player_->SetMainCamera(mainCamera_.get());
+	player_->SetGameScene(this);
 
 	// ロックオンの生成と初期化
 	lockOn_ = std::make_unique<LockOn>();
@@ -79,11 +93,38 @@ void GameScene::Update()
 		enemy->Update();
 	}
 
+	// ヒットエフェクトの更新
+	for (HitEffect* hitEffect : hitEffects_)
+	{
+		hitEffect->Update();
+	}
+
+	// 終了したヒットエフェクトをリストから削除する
+	hitEffects_.remove_if([](HitEffect* hitEffect)
+		{
+			if (hitEffect->IsFinished())
+			{
+				delete hitEffect;
+				return true;
+			}
+			return false;
+		}
+	);
+
 	// 衝突マネージャの更新
 	collisionManager_->UpdateTransform();
 
 	// 当たり判定
 	CheckAllCollision();
+}
+
+/// <summary>
+/// ヒットエフェクトを放出する
+/// </summary>
+void GameScene::EmitHitEffect(HitEffect* hitEffect)
+{
+	// リストに追加する
+	hitEffects_.push_back(hitEffect);
 }
 
 /// <summary>
@@ -112,6 +153,12 @@ void GameScene::Draw()
 	// ロックオンの描画
 	lockOn_->Draw();
 
+	// ヒットエフェクトの描画
+	for (HitEffect* hitEffect : hitEffects_)
+	{
+		hitEffect->Draw();
+	}
+
 	// 敵の描画
 	for (std::unique_ptr<Enemy>& enemy : enemies_)
 	{
@@ -130,6 +177,7 @@ void GameScene::CheckAllCollision()
 
 	// コライダーをリストに登録
 	collisionManager_->AddCollider(player_.get());
+	collisionManager_->AddCollider(player_->GetHammerInstance());
 	for (std::unique_ptr<Enemy>& enemy : enemies_)
 	{
 		collisionManager_->AddCollider(enemy.get());

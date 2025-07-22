@@ -1,9 +1,11 @@
 #pragma once
 #include "../BaseCharacter.h"
 #include "../../GlobalVariables/GlobalVariables.h"
+#include "../../Collider/Hammer/Hammer.h"
 
 // 前方宣言
 class LockOn;
+class GameScene;
 
 class Player : public BaseCharacter
 {
@@ -25,6 +27,13 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// ゲームシーンのSetter
+	/// </summary>
+	/// <param name="gameScene"></param>
+	void SetGameScene(GameScene* gameScene);
+
 
 	/// <summary>
 	/// ワールドトランスフォームのGetter
@@ -51,9 +60,15 @@ public:
 	Vector3 GetCenterPosition() const override;
 
 	/// <summary>
+	/// ハンマーのインスタンスのGetter
+	/// </summary>
+	/// <returns></returns>
+	Hammer* GetHammerInstance() const { return hammer_.get(); }
+
+	/// <summary>
 	/// 衝突判定応答
 	/// </summary>
-	void OnCollision() override;
+	void OnCollision([[maybe_unused]] Collider* other) override;
 
 
 	// 攻撃用定数
@@ -134,6 +149,9 @@ private:
 	// ロックオン
 	const LockOn* lockOn_ = nullptr;
 
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
+
 
 	// 目標角度
 	float toRotationY_ = 0.0f;
@@ -155,9 +173,6 @@ private:
 		// 右腕
 		kRArm,
 
-		// 武器
-		kWeapon,
-
 		// モデル数
 		kNumModels
 	};
@@ -172,7 +187,6 @@ private:
 		{0.0f , 1.15f , 0.0f},
 		{-0.25f , 1.1f , 0.0f},
 		{0.25f , 1.1f , 0.0f},
-		{0.0f,1.0f,0.0f}
 	};
 
 	// モデルの初期回転
@@ -182,7 +196,6 @@ private:
 		{0.0f , 0.0f , 0.0f},
 		{0.0f , 0.0f , 0.0f},
 		{0.0f , 0.0f , 0.0f},
-		{0.0f , 0.0f , 0.0f}
 	};
 
 
@@ -248,6 +261,9 @@ private:
 
 	// 攻撃用ワーク
 	WorkAttack workAttack_{};
+
+	// ハンマー
+	std::unique_ptr<Hammer> hammer_ = nullptr;
 
 
 	/*-----------------------

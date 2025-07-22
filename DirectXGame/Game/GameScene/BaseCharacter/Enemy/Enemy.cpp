@@ -9,6 +9,7 @@ void Enemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 {
 	// 基底クラス初期化
 	BaseCharacter::Initialize(engine, camera3d, position);
+	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeIdDef::kEnemy));
 
 
 	// 胴体
@@ -113,9 +114,9 @@ Vector3 Enemy::GetCenterPosition() const
 /// <summary>
 /// 衝突判定応答
 /// </summary>
-void Enemy::OnCollision()
+void Enemy::OnCollision([[maybe_unused]] Collider* other)
 {
-
+	
 }
 
 

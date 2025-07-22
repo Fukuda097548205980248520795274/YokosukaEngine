@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../CollisionManager/CollisionTypeIdDef.h"
 
 class Collider
 {
@@ -40,9 +41,21 @@ public:
 	void SetRadius(float radius) { radius_ = radius; }
 
 	/// <summary>
+	/// 種別IDのGetter
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetTypeID() const { return typeID_; }
+
+	/// <summary>
+	/// 種別IDのSetter
+	/// </summary>
+	/// <param name="typeID"></param>
+	void SetTypeID(uint32_t typeID) { typeID_ = typeID; }
+
+	/// <summary>
 	/// 衝突判定応答
 	/// </summary>
-	virtual void OnCollision() = 0;
+	virtual void OnCollision([[maybe_unused]]Collider* other) = 0;
 
 	/// <summary>
 	/// 中心座標のGetter
@@ -51,15 +64,16 @@ public:
 	virtual Vector3 GetCenterPosition() const = 0;
 
 
-private:
-
+protected:
 
 	// エンジン
 	const YokosukaEngine* engine_;
 
 	// カメラ
 	const Camera3D* camera3d_;
+	
 
+private:
 
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
@@ -73,5 +87,8 @@ private:
 
 	// 衝突半径
 	float radius_ = 1.5f;
+
+	// 種別ID
+	uint32_t typeID_ = 0u;
 };
 

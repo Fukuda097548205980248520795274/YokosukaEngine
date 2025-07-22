@@ -6,10 +6,16 @@
 #include "Ground/Ground.h"
 #include "LockOn/LockOn.h"
 #include "CollisionManager/CollisionManager.h"
+#include "Collider/Hammer/HitEffect/HitEffect.h"
 
 class GameScene : public Scene
 {
 public:
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~GameScene();
 
 	/// <summary>
 	/// 初期化
@@ -26,6 +32,11 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw()override;
+
+	/// <summary>
+	/// ヒットエフェクトを放出する
+	/// </summary>
+	void EmitHitEffect(HitEffect* hitEffect);
 
 
 private:
@@ -56,5 +67,8 @@ private:
 
 	// ロックオン
 	std::unique_ptr<LockOn> lockOn_ = nullptr;
+
+	// ヒットエフェクト
+	std::list<HitEffect*> hitEffects_;
 };
 

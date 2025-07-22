@@ -7,16 +7,8 @@
 /// <param name="camera3d"></param>
 void BaseCharacter::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position)
 {
-	// nullptrチェック
-	assert(engine);
-	assert(camera3d);
-
-	// 引数を受け取る
-	engine_ = engine;
-	camera3d_ = camera3d;
-
 	// コライダーの初期化
-	Collider::Initialize(engine_, camera3d_);
+	Collider::Initialize(engine, camera3d);
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
@@ -71,7 +63,7 @@ Vector3 BaseCharacter::GetCenterPosition() const
 /// <summary>
 /// 衝突判定応答
 /// </summary>
-void BaseCharacter::OnCollision()
+void BaseCharacter::OnCollision([[maybe_unused]] Collider* other)
 {
 
 }

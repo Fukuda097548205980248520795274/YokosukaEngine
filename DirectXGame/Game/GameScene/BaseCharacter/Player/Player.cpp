@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "../../LockOn/LockOn.h"
+#include "../../GameScene.h"
 
 const std::array<Player::ConstAttack, Player::ComboNum> Player::kConstAttacks =
 {
@@ -19,6 +20,7 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 {
 	// 基底クラス初期化
 	BaseCharacter::Initialize(engine, camera3d , position);
+	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeIdDef::kPlayer));
 
 	// 調整項目クラス
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
@@ -56,13 +58,9 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	models_[kRArm].modelHandle = engine_->LoadModelData("./Resources/Models/Player/R_arm", "R_arm.obj");
 	models_[kRArm].color = Vector4(1.0f, 0.4f, 0.4f, 1.0f);
 
-	// 武器
-	models_[kWeapon].worldTransform = std::make_unique<WorldTransform>();
-	models_[kWeapon].worldTransform->Initialize();
-	models_[kWeapon].worldTransform->translation_ = modelsStartPosition[kWeapon];
-	models_[kWeapon].worldTransform->SetParent(models_[kBody].worldTransform.get());
-	models_[kWeapon].modelHandle = engine_->LoadModelData("./Resources/Models/Player/weapon", "weapon.obj");
-	models_[kWeapon].color = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
+	// ハンマーの生成と初期化
+	hammer_ = std::make_unique<Hammer>();
+	hammer_->Initialize(engine_, camera3d_, models_[kBody].worldTransform.get());
 
 	for (uint32_t i = 0; i < kNumModels; i++)
 	{
@@ -140,6 +138,15 @@ void Player::Update()
 		behaviorRequest_ = std::nullopt;
 	}
 
+	// 攻撃中かどうか
+	if (behavior_ == Behavior::kAttack)
+	{
+		hammer_->SetIsAttack(true);
+	} else
+	{
+		hammer_->SetIsAttack(false);
+	}
+
 	// ふるまい更新処理
 	switch (behavior_)
 	{
@@ -172,7 +179,6 @@ void Player::Update()
 
 		break;
 	}
-	
 
 	// 基底クラス更新
 	BaseCharacter::Update();
@@ -228,6 +234,16 @@ void Player::Draw()
 }
 
 /// <summary>
+/// ゲームシーンのSetter
+/// </summary>
+/// <param name="gameScene"></param>
+void Player::SetGameScene(GameScene* gameScene)
+{
+	gameScene_ = gameScene;
+	hammer_->SetGameScene(gameScene_);
+}
+
+/// <summary>
 /// 中心座標のGetter
 /// </summary>
 /// <returns></returns>
@@ -244,10 +260,9 @@ Vector3 Player::GetCenterPosition() const
 /// <summary>
 /// 衝突判定応答
 /// </summary>
-void Player::OnCollision()
+void Player::OnCollision([[maybe_unused]] Collider* other)
 {
-	// ジャンプビヘイビアに遷移する
-	behaviorRequest_ = Behavior::kJump;
+	
 }
 
 
@@ -469,7 +484,9 @@ void Player::BehaviorAttackInitialize()
 	// モデルの回転
 	models_[kRArm].worldTransform->rotation_.x = -std::numbers::pi_v<float> / 2.0f;
 	models_[kLArm].worldTransform->rotation_.x = -std::numbers::pi_v<float> / 2.0f;
-	models_[kWeapon].worldTransform->rotation_.x = std::numbers::pi_v<float> / 2.0f;
+
+	// ハンマー回転
+	hammer_->SetRotation({ std::numbers::pi_v<float> / 2.0f ,  0.0f , 0.0f });
 
 	// 攻撃ワークの初期化
 	workAttack_.parameter_ = 0.0f;
@@ -588,7 +605,7 @@ void Player::BehaviorAttackUpdate()
 
 			models_[kRArm].worldTransform->rotation_.x -= stepRadian;
 			models_[kLArm].worldTransform->rotation_.x -= stepRadian;
-			models_[kWeapon].worldTransform->rotation_.x -= stepRadian;
+			hammer_->SetRotation(hammer_->GetRotation() - Vector3(stepRadian, 0.0f, 0.0f));
 
 			break;
 		}
@@ -611,7 +628,7 @@ void Player::BehaviorAttackUpdate()
 
 			models_[kRArm].worldTransform->rotation_.x += stepRadian;
 			models_[kLArm].worldTransform->rotation_.x += stepRadian;
-			models_[kWeapon].worldTransform->rotation_.x += stepRadian;
+			hammer_->SetRotation(hammer_->GetRotation() + Vector3(stepRadian, 0.0f, 0.0f));
 
 			// 向いている方向に進む
 			Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_->rotation_);
@@ -698,6 +715,9 @@ void Player::BehaviorAttackUpdate()
 			behaviorRequest_ = Behavior::kRoot;
 		}
 	}
+
+	// ハンマーの更新
+	hammer_->Update();
 }
 
 /// <summary>
@@ -709,7 +729,6 @@ void Player::BehaviorAttackDraw()
 	models_[kHead].planeProjectionShadow->Draw();
 	models_[kRArm].planeProjectionShadow->Draw();
 	models_[kLArm].planeProjectionShadow->Draw();
-	models_[kWeapon].planeProjectionShadow->Draw();
 
 	engine_->DrawModel(models_[kBody].worldTransform.get(), models_[kBody].uvTransform.get(), camera3d_,
 		models_[kBody].modelHandle, models_[kBody].color, false);
@@ -723,8 +742,7 @@ void Player::BehaviorAttackDraw()
 	engine_->DrawModel(models_[kLArm].worldTransform.get(), models_[kLArm].uvTransform.get(), camera3d_,
 		models_[kLArm].modelHandle, models_[kLArm].color, false);
 
-	engine_->DrawModel(models_[kWeapon].worldTransform.get(), models_[kWeapon].uvTransform.get(), camera3d_,
-		models_[kWeapon].modelHandle, models_[kWeapon].color, false);
+	hammer_->Draw();
 }
 
 
