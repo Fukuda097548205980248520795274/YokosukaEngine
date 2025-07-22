@@ -25,6 +25,9 @@ void Hammer::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 
 	// モデルハンドル
 	modelHandle_ = engine_->LoadModelData("./Resources/Models/Player/weapon", "weapon.obj");
+
+	// 接触履歴の生成と初期化
+	collisionRecord_ = std::make_unique<CollisionRecord>();
 }
 
 /// <summary>
@@ -62,6 +65,16 @@ void Hammer::OnCollision([[maybe_unused]] Collider* other)
 		Enemy* enemy = static_cast<Enemy*>(other);
 		Vector3 worldPosition = enemy->GetWorldPosition();
 
+		// 履歴
+		uint32_t serialNumber = enemy->GetSerialNumber();
+
+		// 接触履歴があれば何もせずに抜ける
+		if (collisionRecord_->RecordCheck(serialNumber))
+			return;
+
+		// 接触履歴に登録
+		collisionRecord_->AddRecord(serialNumber);
+
 		// ヒットエフェクトの生成と初期化
 		HitEffect* hitEffect;
 		hitEffect = new HitEffect();
@@ -82,4 +95,12 @@ Vector3 Hammer::GetCenterPosition() const
 	// ワールド座標に変換
 	Vector3 worldPosition = Transform(offset, worldTransform_->worldMatrix_);
 	return worldPosition;
+}
+
+/// <summary>
+/// 接触履歴の抹消
+/// </summary>
+void Hammer::CollisionRecordClear()
+{
+	collisionRecord_->RecordClear();
 }

@@ -6,6 +6,11 @@ class Enemy : public BaseCharacter
 public:
 
 	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	Enemy();
+
+	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="engine"></param>
@@ -33,9 +38,22 @@ public:
 	/// </summary>
 	void OnCollision([[maybe_unused]] Collider* other) override;
 
+	/// <summary>
+	/// シリアルナンバーのGetter
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetSerialNumber() const { return serialNumber_; }
+
+
+	// 次のシリアルナンバー
+	static uint32_t nextSerialNumber;
+
 
 private:
 
+
+	// シリアルナンバー
+	uint32_t serialNumber_ = 0;
 
 	// モデル
 	enum ModelEnum

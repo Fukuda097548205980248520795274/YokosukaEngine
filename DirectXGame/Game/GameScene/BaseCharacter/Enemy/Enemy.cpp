@@ -1,5 +1,19 @@
 #include "Enemy.h"
 
+uint32_t Enemy::nextSerialNumber = 0;
+
+/// <summary>
+/// コンストラクタ
+/// </summary>
+Enemy::Enemy()
+{
+	// シリアル番号を振る
+	serialNumber_ = serialNumber_;
+
+	// 加算する
+	nextSerialNumber++;
+}
+
 /// <summary>
 /// 初期化
 /// </summary>

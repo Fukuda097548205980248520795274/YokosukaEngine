@@ -1,5 +1,6 @@
 #pragma once
 #include "../Collider.h"
+#include "../../CollisionRecord/CollisionRecord.h"
 
 // 前方宣言
 class GameScene;
@@ -60,8 +61,16 @@ public:
 	/// <param name="isAttack"></param>
 	void SetIsAttack(bool isAttack) { isAttack_ = isAttack; }
 
+	/// <summary>
+	/// 接触履歴の抹消
+	/// </summary>
+	void CollisionRecordClear();
+
 
 private:
+
+	// 接触履歴
+	std::unique_ptr<CollisionRecord> collisionRecord_ = nullptr;
 
 
 	// ワールドトランスフォーム

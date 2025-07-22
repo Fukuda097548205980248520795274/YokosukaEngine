@@ -138,15 +138,6 @@ void Player::Update()
 		behaviorRequest_ = std::nullopt;
 	}
 
-	// 攻撃中かどうか
-	if (behavior_ == Behavior::kAttack)
-	{
-		hammer_->SetIsAttack(true);
-	} else
-	{
-		hammer_->SetIsAttack(false);
-	}
-
 	// ふるまい更新処理
 	switch (behavior_)
 	{
@@ -493,6 +484,9 @@ void Player::BehaviorAttackInitialize()
 	workAttack_.comboIndex = 0;
 	workAttack_.inComboPhase = 0;
 	workAttack_.comboNext = false;
+
+	// ハンマーの接触履歴を抹消する
+	hammer_->CollisionRecordClear();
 }
 
 /// <summary>
@@ -500,6 +494,9 @@ void Player::BehaviorAttackInitialize()
 /// </summary>
 void Player::BehaviorAttackUpdate()
 {
+	// 攻撃開始
+	hammer_->SetIsAttack(true);
+
 	// 移動速度
 	float anticipationSpeed = kConstAttacks[workAttack_.comboIndex].anticipationSpeed;
 	float chargeSpeed = kConstAttacks[workAttack_.comboIndex].chargeSpeed;
@@ -714,6 +711,12 @@ void Player::BehaviorAttackUpdate()
 			// コンボが継続しないのなら、通常ビヘイビアに遷移
 			behaviorRequest_ = Behavior::kRoot;
 		}
+
+		// ハンマーの接触履歴を抹消する
+		hammer_->CollisionRecordClear();
+
+		// 攻撃停止
+		hammer_->SetIsAttack(false);
 	}
 
 	// ハンマーの更新

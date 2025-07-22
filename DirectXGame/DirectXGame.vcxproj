@@ -131,6 +131,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\GameScene\Collider\Hammer\Hammer.cpp" />
     <ClCompile Include="Game\GameScene\Collider\Hammer\HitEffect\HitEffect.cpp" />
     <ClCompile Include="Game\GameScene\CollisionManager\CollisionManager.cpp" />
+    <ClCompile Include="Game\GameScene\CollisionRecord\CollisionRecord.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
     <ClCompile Include="Game\GameScene\GlobalVariables\GlobalVariables.cpp" />
     <ClCompile Include="Game\GameScene\Ground\Ground.cpp" />
@@ -221,6 +222,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\Collider\Hammer\HitEffect\HitEffect.h" />
     <ClInclude Include="Game\GameScene\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Game\GameScene\CollisionManager\CollisionTypeIdDef.h" />
+    <ClInclude Include="Game\GameScene\CollisionRecord\CollisionRecord.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
     <ClInclude Include="Game\GameScene\GlobalVariables\GlobalVariables.h" />
     <ClInclude Include="Game\GameScene\Ground\Ground.h" />

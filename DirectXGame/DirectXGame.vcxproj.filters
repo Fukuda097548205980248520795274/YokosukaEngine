@@ -301,6 +301,9 @@
     <Filter Include="Game\GameScene\Collider\Hammer\HitEffect">
       <UniqueIdentifier>{72223b91-abdf-4c10-a2e2-a2dc515e7e79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene\CollisionRecord">
+      <UniqueIdentifier>{deda141d-ecf1-4c17-b893-5e5a160e45ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -560,6 +563,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\Collider\Hammer\HitEffect\HitEffect.cpp">
       <Filter>Game\GameScene\Collider\Hammer\HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\CollisionRecord\CollisionRecord.cpp">
+      <Filter>Game\GameScene\CollisionRecord</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -826,6 +832,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\Collider\Hammer\HitEffect\HitEffect.h">
       <Filter>Game\GameScene\Collider\Hammer\HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\CollisionRecord\CollisionRecord.h">
+      <Filter>Game\GameScene\CollisionRecord</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
