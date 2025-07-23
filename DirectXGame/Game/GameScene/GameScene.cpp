@@ -97,6 +97,7 @@ void GameScene::Update()
 	// マルチマテリアルの更新
 	multiMaterial_->Update();
 
+	// オーディオオプション
 	if (ImGui::TreeNode("AudioOption"))
 	{
 		if (ImGui::Button("PlayAudio"))
