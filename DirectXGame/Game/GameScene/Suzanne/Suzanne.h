@@ -35,8 +35,8 @@ private:
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
-	// UVトランスフォーム
-	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+	// UVトランスフォームの可変子配列
+	std::vector<std::unique_ptr<UvTransform>> uvTransforms_;
 
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;

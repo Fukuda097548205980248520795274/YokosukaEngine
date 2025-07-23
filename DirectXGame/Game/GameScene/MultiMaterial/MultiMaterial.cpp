@@ -21,11 +21,16 @@ void MultiMaterial::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 	worldTransform_->translation_.x = 18.0f;
 
 	// UVトランスフォームの生成と初期化
-	uvTransform_ = std::make_unique<UvTransform>();
-	uvTransform_->Initialize();
+	std::unique_ptr<UvTransform> uvTransform1 = std::make_unique<UvTransform>();
+	uvTransform1->Initialize();
+	uvTransforms_.push_back(std::move(uvTransform1));
+
+	std::unique_ptr<UvTransform> uvTransform2 = std::make_unique<UvTransform>();
+	uvTransform2->Initialize();
+	uvTransforms_.push_back(std::move(uvTransform2));
 
 	// モデルを読み込む
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/multi", "multi.obj");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/multiMaterial", "multiMaterial.obj");
 }
 
 /// <summary>
@@ -39,15 +44,22 @@ void MultiMaterial::Update()
 		ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
 		ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
 		ImGui::Text("\n");
-		ImGui::DragFloat2("uvScale", &uvTransform_->scale_.x, 0.1f);
-		ImGui::DragFloat("uvRotation", &uvTransform_->rotation_.z, 0.01f);
-		ImGui::DragFloat2("uvTranslation", &uvTransform_->translation_.x, 0.1f);
+		ImGui::DragFloat2("uvScale1", &uvTransforms_[0]->scale_.x, 0.1f);
+		ImGui::DragFloat("uvRotation1", &uvTransforms_[0]->rotation_.z, 0.01f);
+		ImGui::DragFloat2("uvTranslation1", &uvTransforms_[0]->translation_.x, 0.1f);
+		ImGui::Text("\n");
+		ImGui::DragFloat2("uvScale2", &uvTransforms_[1]->scale_.x, 0.1f);
+		ImGui::DragFloat("uvRotation2", &uvTransforms_[1]->rotation_.z, 0.01f);
+		ImGui::DragFloat2("uvTranslation2", &uvTransforms_[1]->translation_.x, 0.1f);
 		ImGui::EndCombo();
 	}
 
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
-	uvTransform_->UpdateWorldMatrix();
+	for (std::unique_ptr<UvTransform>& uvTransform : uvTransforms_)
+	{
+		uvTransform->UpdateWorldMatrix();
+	}
 }
 
 /// <summary>
@@ -56,5 +68,5 @@ void MultiMaterial::Update()
 void MultiMaterial::Draw()
 {
 	// モデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }

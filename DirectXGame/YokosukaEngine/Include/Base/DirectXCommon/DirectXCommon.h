@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX
 #include <wrl.h>
 #include <d3d12.h>
 #include <dxgi1_6.h>
@@ -296,7 +297,7 @@ public:
 	/// <param name="modelHandle"></param>
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
-	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+	void DrawModel(const WorldTransform* worldTransform, const std::vector<std::unique_ptr<UvTransform>>& uvTransforms,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting);
 
 	/// <summary>
@@ -784,9 +785,6 @@ private:
 
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceModel_ = 0;
-
-	// マテリアルリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceModel_[1024] = { nullptr };
 
 	// 座標変換リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> transformationResourceModel_[1024] = { nullptr };

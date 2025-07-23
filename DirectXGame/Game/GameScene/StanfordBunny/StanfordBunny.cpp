@@ -22,8 +22,9 @@ void StanfordBunny::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 	worldTransform_->translation_.x = -10.0f;
 
 	// UVトランスフォームの生成と初期化
-	uvTransform_ = std::make_unique<UvTransform>();
-	uvTransform_->Initialize();
+	std::unique_ptr uvTransform = std::make_unique<UvTransform>();
+	uvTransform->Initialize();
+	uvTransforms_.push_back(std::move(uvTransform));
 
 	// モデルを読み込む
 	modelHandle_ = engine_->LoadModelData("./Resources/Models/stanfordBunny", "stanfordBunny.obj");
@@ -40,15 +41,18 @@ void StanfordBunny::Update()
 		ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
 		ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
 		ImGui::Text("\n");
-		ImGui::DragFloat2("uvScale", &uvTransform_->scale_.x, 0.1f);
-		ImGui::DragFloat("uvRotation", &uvTransform_->rotation_.z, 0.01f);
-		ImGui::DragFloat2("uvTranslation", &uvTransform_->translation_.x, 0.1f);
+		ImGui::DragFloat2("uvScale", &uvTransforms_[0]->scale_.x, 0.1f);
+		ImGui::DragFloat("uvRotation", &uvTransforms_[0]->rotation_.z, 0.01f);
+		ImGui::DragFloat2("uvTranslation", &uvTransforms_[0]->translation_.x, 0.1f);
 		ImGui::EndCombo();
 	}
 
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
-	uvTransform_->UpdateWorldMatrix();
+	for (std::unique_ptr<UvTransform>& uvTransform : uvTransforms_)
+	{
+		uvTransform->UpdateWorldMatrix();
+	}
 }
 
 /// <summary>
@@ -57,5 +61,5 @@ void StanfordBunny::Update()
 void StanfordBunny::Draw()
 {
 	// モデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }

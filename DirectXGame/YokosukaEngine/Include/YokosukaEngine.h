@@ -232,10 +232,10 @@ public:
 	/// <summary>
 	/// モデルを描画する
 	/// </summary>
-	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+	void DrawModel(const WorldTransform* worldTransform, const std::vector<std::unique_ptr<UvTransform>>& uvTransforms,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting) const
 	{
-		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color, isLighting);
+		directXCommon_->DrawModel(worldTransform, uvTransforms, camera, modelHandle, color, isLighting);
 	}
 
 	/// <summary>
@@ -596,8 +596,8 @@ private:
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
-	// UVトランスフォーム
-	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+	// UVトランスフォームの可変子配列
+	std::vector<std::unique_ptr<UvTransform>> uvTransforms_;
 
 	// 3Dカメラ
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;

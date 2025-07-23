@@ -401,9 +401,10 @@ void AxialDirectionDisplay::Initialize(const YokosukaEngine* engine)
 	worldTransform_->scale_ = { 0.0025f , 0.0025f , 0.0025f };
 
 
-	// UVトランスフォーム
-	uvTransform_ = std::make_unique<UvTransform>();
-	uvTransform_->Initialize();
+	// UVトランスフォームの生成と初期化
+	std::unique_ptr uvTransform = std::make_unique<UvTransform>();
+	uvTransform->Initialize();
+	uvTransforms_.push_back(std::move(uvTransform));
 
 	modelHandle_ = engine_->LoadModelData("./Resources/Models/Axis", "Axis.obj");
 }
@@ -419,7 +420,10 @@ void AxialDirectionDisplay::Update(const Vector3& cameraRotation)
 
 	// 軸方向表示のトランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();
-	uvTransform_->UpdateWorldMatrix();
+	for (std::unique_ptr<UvTransform>& uvTransform : uvTransforms_)
+	{
+		uvTransform->UpdateWorldMatrix();
+	}
 }
 
 /// <summary>
@@ -428,7 +432,7 @@ void AxialDirectionDisplay::Update(const Vector3& cameraRotation)
 void AxialDirectionDisplay::Draw()
 {
 	// 軸方向表示のモデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), modelHandle_, { 1.0f , 1.0f  ,1.0f , 1.0f } , false);
+	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_.get(), modelHandle_, { 1.0f , 1.0f  ,1.0f , 1.0f } , false);
 }
 
 #endif
@@ -570,7 +574,7 @@ void Scene::Initialize(const YokosukaEngine* engine)
 #endif
 
 	// デバッグカメラ有効化
-	isDebugCameraActive_ = false;
+	isDebugCameraActive_ = true;
 }
 
 /// <summary>

@@ -225,7 +225,6 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 		cylinderResources_[i]->Initialize(directXGPU_->GetDevice());
 
 		// モデル
-		materialResourceModel_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
 		transformationResourceModel_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(TransformationMatrix));
 		cameraResourceModel_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(CameraForGPU));
 
@@ -1380,7 +1379,7 @@ void DirectXCommon::DrawCylinder(const WorldTransform* worldTransform, const UvT
 /// <param name="camera">カメラ</param>
 /// <param name="modelHandle">モデルハンドル</param>
 /// <param name="color">色</param>
-void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const std::vector<std::unique_ptr<UvTransform>>& uvTransforms,
 	const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting)
 {
 	// 使用できるリソース数を越えないようにする
@@ -1389,21 +1388,15 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 		return;
 	}
 
+	// UVトランスフォームのインデックス最大数
+	const uint32_t kMaxUvTransformIndex = static_cast<uint32_t>(uvTransforms.size() - 1);
+
+	//  UVトランスフォームのインデックス
+	uint32_t uvTransformIndex = 0;
+
+
 	// モデルの情報を取得する
 	ModelInfo* modelInfo = modelDataStore_->GetModelInfo(modelHandle);
-
-	/*---------------
-		マテリアル
-	---------------*/
-
-	// データを書き込む
-	Material* materialData = nullptr;
-	materialResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	materialData->color = color;
-	materialData->enableLighting = isLighting;
-	materialData->uvTransform = 
-		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
-	materialData->shininess = 18.0f;
 
 
 	/*------------------
@@ -1437,6 +1430,14 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 
 	for (ModelData& modelData : modelInfo->modelData)
 	{
+		// マテリアルデータを設定する
+		modelInfo->materialData[i]->color = color;
+		modelInfo->materialData[i]->enableLighting = isLighting;
+		modelInfo->materialData[i]->uvTransform = MakeScaleMatrix(uvTransforms[uvTransformIndex]->scale_) *
+			MakeRotateZMatrix(uvTransforms[uvTransformIndex]->rotation_.z) * MakeTranslateMatrix(uvTransforms[uvTransformIndex]->translation_);
+		modelInfo->materialData[i]->shininess = 18.0f;
+
+
 		// ルートシグネチャやPSOの設定
 		psoObject3d_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
@@ -1447,7 +1448,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 		directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// マテリアル用のCBVを設定
-		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, modelInfo->materialResource[i]->GetGPUVirtualAddress());
 
 		// 座標変換用のCBVを設定
 		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
@@ -1473,7 +1474,13 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 		// 描画する
 		directXCommand_->GetCommandList()->DrawInstanced(UINT(modelInfo->modelData[i].vertices.size()), 1, 0, 0);
 
+
+		// カウントを進める
 		i++;
+
+		// UVのインデックス最大数までカウントする
+		uvTransformIndex++;
+		uvTransformIndex = std::min(uvTransformIndex, kMaxUvTransformIndex);
 	}
 
 
