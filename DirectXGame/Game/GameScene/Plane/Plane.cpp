@@ -60,5 +60,5 @@ void Plane::Update()
 void Plane::Draw()
 {
 	// モデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), false);
+	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }

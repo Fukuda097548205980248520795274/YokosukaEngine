@@ -59,5 +59,5 @@ void SphereModel::Update()
 void SphereModel::Draw()
 {
 	// モデルを描画する
-	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, segment, ring, Vector4(1.0f, 1.0f, 1.0f, 1.0f), false);
+	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, segment, ring, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }
