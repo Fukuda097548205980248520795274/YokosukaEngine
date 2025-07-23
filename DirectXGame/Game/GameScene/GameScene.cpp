@@ -70,12 +70,13 @@ void GameScene::Update()
 	// スプライトの更新
 	sprite_->Update();
 
-	if (ImGui::BeginCombo("Light", "Light"))
+
+	if (ImGui::TreeNode("Light"))
 	{
 		ImGui::SliderFloat3("direction", &directionalLight_->direction_.x, -1.0f, 1.0f);
 		ImGui::ColorEdit4("color", &directionalLight_->color_.x);
 		ImGui::SliderFloat("intensity", &directionalLight_->intensity_, 0.0f, 1.0f);
-		ImGui::EndCombo();
+		ImGui::TreePop();
 	}
 	directionalLight_->direction_ = Normalize(directionalLight_->direction_);
 
@@ -123,7 +124,7 @@ void GameScene::Draw()
 	// スザンヌの描画
 	suzanne_->Draw();
 
-	// スタンフォーダニーの描画
+	// スタンフォードバニーの描画
 	stanfordBunny_->Draw();
 
 	// ユタティーポットの描画

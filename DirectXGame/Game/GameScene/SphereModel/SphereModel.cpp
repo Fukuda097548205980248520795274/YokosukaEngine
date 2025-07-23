@@ -33,7 +33,7 @@ void SphereModel::Initialize(const YokosukaEngine* engine, const Camera3D* camer
 /// </summary>
 void SphereModel::Update()
 {
-	if (ImGui::BeginCombo("Sphere", "Sphere"))
+	if (ImGui::TreeNode("Sphere"))
 	{
 		ImGui::DragFloat3("scale", &worldTransform_->scale_.x, 0.1f);
 		ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
@@ -45,7 +45,7 @@ void SphereModel::Update()
 		ImGui::Text("\n");
 		ImGui::SliderInt("ring", &ring, 3, 32);
 		ImGui::SliderInt("segment", &segment, 3, 32);
-		ImGui::EndCombo();
+		ImGui::TreePop();
 	}
 
 	// トランスフォームの更新

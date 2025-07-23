@@ -35,7 +35,7 @@ void UtahTeapot::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 /// </summary>
 void UtahTeapot::Update()
 {
-	if (ImGui::BeginCombo("UtahTeapot", "UtahTeapot"))
+	if (ImGui::TreeNode("UtahTeapot"))
 	{
 		ImGui::DragFloat3("scale", &worldTransform_->scale_.x, 0.1f);
 		ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
@@ -44,7 +44,7 @@ void UtahTeapot::Update()
 		ImGui::DragFloat2("uvScale", &uvTransforms_[0]->scale_.x, 0.1f);
 		ImGui::DragFloat("uvRotation", &uvTransforms_[0]->rotation_.z, 0.01f);
 		ImGui::DragFloat2("uvTranslation", &uvTransforms_[0]->translation_.x, 0.1f);
-		ImGui::EndCombo();
+		ImGui::TreePop();
 	}
 
 	// トランスフォームの更新

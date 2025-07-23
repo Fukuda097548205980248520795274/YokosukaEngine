@@ -38,7 +38,7 @@ void MultiMaterial::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 /// </summary>
 void MultiMaterial::Update()
 {
-	if (ImGui::BeginCombo("MultiMaterial", "MultiMaterial"))
+	if (ImGui::TreeNode("MultiMaterial"))
 	{
 		ImGui::DragFloat3("scale", &worldTransform_->scale_.x, 0.1f);
 		ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
@@ -51,7 +51,7 @@ void MultiMaterial::Update()
 		ImGui::DragFloat2("uvScale2", &uvTransforms_[1]->scale_.x, 0.1f);
 		ImGui::DragFloat("uvRotation2", &uvTransforms_[1]->rotation_.z, 0.01f);
 		ImGui::DragFloat2("uvTranslation2", &uvTransforms_[1]->translation_.x, 0.1f);
-		ImGui::EndCombo();
+		ImGui::TreePop();
 	}
 
 	// トランスフォームの更新

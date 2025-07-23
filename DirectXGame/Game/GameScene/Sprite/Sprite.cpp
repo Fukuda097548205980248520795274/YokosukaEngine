@@ -34,7 +34,7 @@ void Sprite::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d)
 /// </summary>
 void Sprite::Update()
 {
-	if (ImGui::BeginCombo("Sprite", "Sprite"))
+	if (ImGui::TreeNode("Sprite"))
 	{
 		ImGui::DragFloat2("scale", &worldTransform_->scale_.x, 1.0f);
 		ImGui::DragFloat("rotation", &worldTransform_->rotation_.z, 0.01f);
@@ -43,7 +43,7 @@ void Sprite::Update()
 		ImGui::DragFloat2("uvScale", &uvTransform_->scale_.x, 0.1f);
 		ImGui::DragFloat("uvRotation", &uvTransform_->rotation_.z, 0.01f);
 		ImGui::DragFloat2("uvTranslation", &uvTransform_->translation_.x, 0.1f);
-		ImGui::EndCombo();
+		ImGui::TreePop();
 	}
 
 	// トランスフォームを更新する
