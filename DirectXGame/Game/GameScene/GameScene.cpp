@@ -51,7 +51,6 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// Bgmを読み込む
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Jinro_No_Tameno_Komoriuta.mp3");
-	playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
 }
 
 /// <summary>
@@ -97,6 +96,27 @@ void GameScene::Update()
 
 	// マルチマテリアルの更新
 	multiMaterial_->Update();
+
+	if (ImGui::TreeNode("AudioOption"))
+	{
+		if (ImGui::Button("PlayAudio"))
+		{
+			if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
+			{
+				playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
+			}
+		}
+
+		if (ImGui::Button("StopAudio"))
+		{
+			if (engine_->IsSoundPlay(playHandle_))
+			{
+				engine_->StopSound(playHandle_);
+			}
+		}
+
+		ImGui::TreePop();
+	}
 
 	ImGui::End();
 }

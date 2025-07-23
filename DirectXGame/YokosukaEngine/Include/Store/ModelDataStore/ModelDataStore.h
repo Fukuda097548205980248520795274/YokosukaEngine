@@ -67,12 +67,6 @@ public:
 	// 頂点データ
 	std::vector<VertexData*> vertexData;
 
-	// マテリアルリソース
-	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> materialResource;
-
-	// マテリアルデータ
-	std::vector<Material*> materialData;
-
 	// モデルハンドル
 	uint32_t modelHandle = 0;
 

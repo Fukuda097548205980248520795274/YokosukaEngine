@@ -103,27 +103,6 @@ uint32_t ModelDataStore::GetModelHandle(const std::string& directoryPath, const 
 
 
 
-		/*---------------
-		    マテリアル
-		---------------*/
-
-		// マテリアルリソースを作る
-		Microsoft::WRL::ComPtr<ID3D12Resource> materialResource =
-			CreateBufferResource(device, sizeof(Material));
-
-		// マテリアルデータを書き込む
-		Material* materialData = nullptr;
-		materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-		materialData->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-		materialData->uvTransform = MakeIdenityMatirx();
-		materialData->shininess = 18.0f;
-		materialData->enableLighting = false;
-
-		modelInfo->materialResource.push_back(materialResource);
-		modelInfo->materialData.push_back(materialData);
-
-
-
 		/*--------------
 		    テクスチャ
 		--------------*/

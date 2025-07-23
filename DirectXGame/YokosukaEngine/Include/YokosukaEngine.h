@@ -239,6 +239,14 @@ public:
 	}
 
 	/// <summary>
+	/// モデルを描画する
+	/// </summary>
+	void DrawModel(const WorldTransform* worldTransform,const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting) const
+	{
+		directXCommon_->DrawModel(worldTransform, camera, modelHandle, color, isLighting);
+	}
+
+	/// <summary>
 	/// レンダーテクスチャを貼りつけた平面を描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
