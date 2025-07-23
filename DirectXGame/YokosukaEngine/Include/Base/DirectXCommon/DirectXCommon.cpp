@@ -1,3 +1,4 @@
+
 #include "DirectXCommon.h"
 #include "../WinApp/WinApp.h"
 
@@ -51,7 +52,7 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	logging_ = logging;
 	winApp_ = winApp;
 
-	
+
 
 	// テクスチャストアを初期化する
 	textureStore_ = std::make_unique<TextureStore>();
@@ -118,7 +119,7 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	// イベントを生成する
 	GenerateEvent();
 
-	
+
 	// Object3dを生成する
 	CreateObject3d();
 
@@ -130,7 +131,7 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 
 	// Primitiveを生成する
 	CreatePrimitive();
-	
+
 	// CopyImageを生成する
 	CreateCopyImage();
 
@@ -163,16 +164,16 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 
 
 	/*----------------------------
-	    オフスクリーンレンダリング
+		オフスクリーンレンダリング
 	----------------------------*/
 
 	for (uint32_t i = 0; i < kMaxNumOffscreen; i++)
 	{
 		// レンダーテクスチャを作成する
 		const Vector4 kRenderTargetClearColor = { 0.1f , 0.1f , 0.1f , 1.0f };
-		offscreen_[i].renderTextureResource = 
+		offscreen_[i].renderTextureResource =
 			CreateRenderTextureResource(directXGPU_->GetDevice(), (uint32_t)winApp_->GetWindowWidth(), (uint32_t)winApp_->GetWindowHeight(),
-			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearColor);
+				DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearColor);
 
 		offscreen_[i].renderTextureRtvCPUHnalde = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, directXGPU_->GetDevice());
 		directXGPU_->GetDevice()->CreateRenderTargetView(offscreen_[i].renderTextureResource.Get(), &rtvDesc_, offscreen_[i].renderTextureRtvCPUHnalde);
@@ -190,13 +191,13 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 		offscreen_[i].renderTextureSrvCPUHandle = GetSRVCPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
 		offscreen_[i].renderTextureSrvGPUHandle = GetSRVGPUDescriptorHandle(srvDescriptorHeap_, directXGPU_->GetDevice());
 
-		directXGPU_->GetDevice()->CreateShaderResourceView(offscreen_[i].renderTextureResource.Get(), 
+		directXGPU_->GetDevice()->CreateShaderResourceView(offscreen_[i].renderTextureResource.Get(),
 			&renderTextureSrvDesc, offscreen_[i].renderTextureSrvCPUHandle);
 	}
-	
+
 
 	/*-----------------------------
-	    バッファリソースを作成する
+		バッファリソースを作成する
 	-----------------------------*/
 
 	// インデックスリソース
@@ -240,7 +241,7 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 
 
 	/*-------------
-	    平行光源
+		平行光源
 	-------------*/
 
 	// インスタンシングリソース
@@ -255,7 +256,7 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 
 
 	/*------------------
-	    ポイントライト
+		ポイントライト
 	------------------*/
 
 	// インスタンシングリソース
@@ -270,7 +271,7 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 
 
 	/*------------------
-	    スポットライト
+		スポットライト
 	------------------*/
 
 	// インスタンシングリソース
@@ -285,7 +286,7 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 
 
 	/*----------------
-	    パーティクル
+		パーティクル
 	----------------*/
 
 	// パーティクル
@@ -328,6 +329,7 @@ void DirectXCommon::PreDraw()
 	useNumResourceSphere_ = 0;
 	useNumResourceRing_ = 0;
 	useNumResourceCylinder_ = 0;
+	useNumMaterialResourceModel_ = 0;
 	useNumResourceModel_ = 0;
 	useNumResourceSprite_ = 0;
 	useNumResourceLine_ = 0;
@@ -677,7 +679,7 @@ void DirectXCommon::CopyRtvImage(uint32_t rtvNum)
 	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
-	ChangeResourceState(directXCommand_->GetCommandList(), 
+	ChangeResourceState(directXCommand_->GetCommandList(),
 		offscreen_[rtvNum].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
@@ -709,7 +711,7 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 	planeResources_[useNumResourcePlane_]->indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData));
 	indexData[0] = 0; indexData[1] = 1; indexData[2] = 2;
 	indexData[3] = 0; indexData[4] = 3; indexData[5] = 1;
-	
+
 
 
 	/*----------
@@ -831,7 +833,7 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 /// <param name="color"></param>
 /// <param name="isLighting"></param>
 void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle,uint32_t segment, uint32_t ring, Vector4 color, bool isLighting)
+	const Camera3D* camera, uint32_t textureHandle, uint32_t segment, uint32_t ring, Vector4 color, bool isLighting)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceSphere_ >= kMaxNumResource)
@@ -872,7 +874,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 
 
 	/*----------
-	    頂点
+		頂点
 	----------*/
 
 	// データを書き込む
@@ -1021,7 +1023,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	textureStore_->SelectTexture(directXCommand_->GetCommandList(), textureHandle);
 
 	// 描画する
-	directXCommand_->GetCommandList()->DrawIndexedInstanced(segment* ring * 6, 1, 0, 0, 0);
+	directXCommand_->GetCommandList()->DrawIndexedInstanced(segment * ring * 6, 1, 0, 0, 0);
 
 
 	// カウントする
@@ -1041,7 +1043,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 /// <param name="color"></param>
 /// <param name="isLighting"></param>
 void DirectXCommon::DrawRing(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions,float outRadius, float inRadius, Vector4 color, bool isLighting)
+	const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float outRadius, float inRadius, Vector4 color, bool isLighting)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceRing_ >= kMaxNumResource)
@@ -1380,7 +1382,7 @@ void DirectXCommon::DrawCylinder(const WorldTransform* worldTransform, const UvT
 /// <param name="camera">カメラ</param>
 /// <param name="modelHandle">モデルハンドル</param>
 /// <param name="color">色</param>
-void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const std::vector<std::unique_ptr<UvTransform>>& uvTransforms,
 	const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting)
 {
 	// 使用できるリソース数を越えないようにする
@@ -1389,19 +1391,15 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 		return;
 	}
 
+	// UVトランスフォームのインデックス最大数
+	const int32_t kMaxUvTransformIndex = static_cast<uint32_t>(uvTransforms.size() - 1);
 
-	/*---------------
-		マテリアル
-	---------------*/
+	//  UVトランスフォームのインデックス
+	int32_t uvTransformIndex = 0;
 
-	// データを書き込む
-	Material* materialData = nullptr;
-	materialResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	materialData->color = color;
-	materialData->enableLighting = isLighting;
-	materialData->uvTransform = 
-		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
-	materialData->shininess = 18.0f;
+
+	// モデルの情報を取得する
+	ModelInfo* modelInfo = modelDataStore_->GetModelInfo(modelHandle);
 
 
 	/*------------------
@@ -1417,7 +1415,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 
 
 	/*-----------
-	    カメラ
+		カメラ
 	-----------*/
 
 	// データを書き込む
@@ -1431,42 +1429,78 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 		コマンドを積む
 	------------------*/
 
-	// ルートシグネチャやPSOの設定
-	psoObject3d_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
+	int i = 0;
 
-	// VBVを設定する
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView = modelDataStore_->GetVertexBufferView(modelHandle);
-	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
+	for (ModelData& modelData : modelInfo->modelData)
+	{
+		// データを書き込む
+		Material* materialData = nullptr;
+		materialResourceModel_[useNumMaterialResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 
-	// 形状を設定
-	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		// マテリアルデータを設定する
+		materialData->color = color;
+		materialData->enableLighting = isLighting;
+		materialData->shininess = 18.0f;
 
-	// マテリアル用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+		// UVトランスフォームが設定されていなかったら単位行列で行う
+		if (kMaxUvTransformIndex < 0)
+		{
+			materialData->uvTransform = MakeIdenityMatirx();
+		} else
+		{
+			// 設定されているとき
+			materialData->uvTransform = MakeScaleMatrix(uvTransforms[uvTransformIndex]->scale_) *
+				MakeRotateZMatrix(uvTransforms[uvTransformIndex]->rotation_.z) * MakeTranslateMatrix(uvTransforms[uvTransformIndex]->translation_);
+		}
 
-	// 座標変換用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
-	// 平行光源用のインスタンシングの設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLight_.gpuHandle);
-	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+		// ルートシグネチャやPSOの設定
+		psoObject3d_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
-	// ポイントライト用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLight_.gpuHandle);
-	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+		// VBVを設定する
+		directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &modelInfo->vertexBufferView[i]);
 
-	// スポットライトのCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLight_.gpuHandle);
-	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+		// 形状を設定
+		directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	// カメラ用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+		// マテリアル用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceModel_[useNumMaterialResourceModel_]->GetGPUVirtualAddress());
 
-	// テクスチャ
-	textureStore_->SelectTexture(directXCommand_->GetCommandList(), modelDataStore_->GetTextureHandle(modelHandle));
+		// 座標変換用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
 
-	// 描画する
-	directXCommand_->GetCommandList()->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), 1, 0, 0);
+		// 平行光源用のインスタンシングの設定
+		directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLight_.gpuHandle);
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+
+		// ポイントライト用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLight_.gpuHandle);
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+
+		// スポットライトのCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLight_.gpuHandle);
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+
+		// カメラ用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+		// テクスチャ
+		textureStore_->SelectTexture(directXCommand_->GetCommandList(), modelInfo->textureHandle[i]);
+
+		// 描画する
+		directXCommand_->GetCommandList()->DrawInstanced(UINT(modelInfo->modelData[i].vertices.size()), 1, 0, 0);
+
+
+		// カウントを進める
+		i++;
+
+		// UVのインデックス最大数までカウントする
+		uvTransformIndex++;
+		uvTransformIndex = std::min(uvTransformIndex, kMaxUvTransformIndex);
+
+		// 使用したマテリアルリソースをカウントする
+		useNumMaterialResourceModel_++;
+	}
 
 
 	// カウントする
@@ -1474,124 +1508,48 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTran
 }
 
 /// <summary>
-/// パーティクルを描画する
+/// モデルを描画する
 /// </summary>
+/// <param name="worldTransform"></param>
+/// <param name="uvTransform"></param>
 /// <param name="camera"></param>
 /// <param name="modelHandle"></param>
-void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color)
+/// <param name="color"></param>
+/// <param name="isLighting"></param>
+void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+	const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting)
 {
-	// 乱数生成器の初期化
-	std::random_device seedGenerater;
-	std::mt19937 randomEngine(seedGenerater());
-
-	ImGui::Begin("Particle");
-	ImGui::DragFloat3("translation", &emitter_.transform.translation.x, 0.1f);
-	ImGui::End();
-
-	/*----------
-		頂点
-	----------*/
-
-	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	vertexBufferView.BufferLocation = modelDataStore_->GetVertexResource(modelHandle)->GetGPUVirtualAddress();
-	vertexBufferView.SizeInBytes = UINT(sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
-	vertexBufferView.StrideInBytes = sizeof(VertexData);
-
-	// 頂点データを書き込む
-	VertexData* vertexData = nullptr;
-	modelDataStore_->GetVertexResource(modelHandle)->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
-	std::memcpy(vertexData, modelDataStore_->GetModelData(modelHandle).vertices.data(),
-		sizeof(VertexData) * modelDataStore_->GetModelData(modelHandle).vertices.size());
-
-
-	/*---------------
-		マテリアル
-	---------------*/
-
-	// データを書き込む
-	Material* materialData = nullptr;
-	materialResourceParticle_->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
-	materialData->color = color;
-	materialData->enableLighting = false;
-	materialData->uvTransform = MakeIdenityMatirx();
-
-
-	/*-------------------
-	    インスタンシング
-	-------------------*/
-
-	// データを書き込む
-	ParticleForGPU* instancingData = nullptr;
-	instancing_.resource->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
-
-	// 描画できたパーティクルの数
-	uint32_t numInstance = 0;
-
-	// 発生する時間を進める
-	emitter_.frequencyTime += kDeltaTime;
-
-	// 到達したら発生させる
-	if (emitter_.frequencyTime >= emitter_.frequency)
+	// 使用できるリソース数を越えないようにする
+	if (useNumResourceModel_ >= kMaxNumResource)
 	{
-		particles_.splice(particles_.end(), Emit(emitter_, randomEngine));
-
-		// 時間を初期化する
-		emitter_.frequencyTime -= emitter_.frequency;
+		return;
 	}
 
-	// ビルボード行列
-	Matrix4x4 billboardMatrix = MakeAffineMatrix(camera->scale_, camera->rotation_, camera->translation_);
-	billboardMatrix.m[3][0] = 0.0f;
-	billboardMatrix.m[3][1] = 0.0f;
-	billboardMatrix.m[3][2] = 0.0f;
 
-	for (std::list<Particle>::iterator particleIterator = particles_.begin(); particleIterator != particles_.end();)
-	{
-		// 寿命を越えたら、リストから消す
-		if ((*particleIterator).currentTime >= (*particleIterator).lifeTime)
-		{
-			particleIterator = particles_.erase(particleIterator);
-			continue;
-		}
-
-		// 最大数を越えないようにする
-		if (numInstance < kNumMaxInstance)
-		{
-
-			// 徐々に透明にさせる
-			float alpha = 1.0f - ((*particleIterator).currentTime / (*particleIterator).lifeTime);
-
-			// 時間をカウントする
-			(*particleIterator).currentTime += kDeltaTime;
-
-			// フィールドの範囲内で、加速度が上昇する
-			if (IsCollision(accelerationFeild_.area, (*particleIterator).transform.translation))
-			{
-				(*particleIterator).velocity += accelerationFeild_.acceleration * kDeltaTime;
-			}
-
-			// 移動させる
-			(*particleIterator).transform.translation += (*particleIterator).velocity * kDeltaTime;
-
-			// ワールド行列
-			Matrix4x4 worldMatrix = 
-				MakeScaleMatrix((*particleIterator).transform.scale) * billboardMatrix * MakeTranslateMatrix((*particleIterator).transform.translation);
+	// モデルの情報を取得する
+	ModelInfo* modelInfo = modelDataStore_->GetModelInfo(modelHandle);
 
 
-			// データを書き込む
-			instancingData[numInstance].worldViewProjection = worldMatrix * camera->viewMatrix_ * camera->projectionMatrix_;
-			instancingData[numInstance].world = worldMatrix;
-			instancingData[numInstance].color = (*particleIterator).color;
-			instancingData[numInstance].color.w = alpha;
+	/*------------------
+		座標変換の行列
+	------------------*/
 
-			// カウントする
-			numInstance++;
-		}
+	// データを書き込む
+	TransformationMatrix* transformationData = nullptr;
+	transformationResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
+	transformationData->world = worldTransform->worldMatrix_;
+	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
 
-		// イテレータを進める
-		particleIterator++;
-	}
+
+	/*-----------
+		カメラ
+	-----------*/
+
+	// データを書き込む
+	CameraForGPU* cameraData = nullptr;
+	cameraResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&cameraData));
+	cameraData->worldPosition = camera->translation_;
 
 
 
@@ -1599,26 +1557,182 @@ void DirectXCommon::DrawParticle(const Camera3D* camera, uint32_t modelHandle, V
 		コマンドを積む
 	------------------*/
 
-	// ルートシグネチャやPSOの設定
-	psoParticle_[useParticleBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
+	int i = 0;
 
-	// VBVを設定する
-	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
+	for (ModelData& modelData : modelInfo->modelData)
+	{
+		// データを書き込む
+		Material* materialData = nullptr;
+		materialResourceModel_[useNumMaterialResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 
-	// 形状を設定
-	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		// マテリアルデータを設定する
+		materialData->color = color;
+		materialData->enableLighting = isLighting;
+		materialData->shininess = 18.0f;
+		materialData->uvTransform = MakeScaleMatrix(uvTransform->scale_) *
+			MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 
-	// マテリアル用のCBVを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceParticle_->GetGPUVirtualAddress());
 
-	// インスタンシング用のTableを設定
-	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(1, instancing_.gpuHandle);
+		// ルートシグネチャやPSOの設定
+		psoObject3d_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
 
-	// テクスチャ
-	textureStore_->SelectTexture(directXCommand_->GetCommandList(), modelDataStore_->GetTextureHandle(modelHandle));
+		// VBVを設定する
+		directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &modelInfo->vertexBufferView[i]);
 
-	// 描画する
-	directXCommand_->GetCommandList()->DrawInstanced(UINT(modelDataStore_->GetModelData(modelHandle).vertices.size()), numInstance, 0, 0);
+		// 形状を設定
+		directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		// マテリアル用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceModel_[useNumMaterialResourceModel_]->GetGPUVirtualAddress());
+
+		// 座標変換用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+		// 平行光源用のインスタンシングの設定
+		directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLight_.gpuHandle);
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+
+		// ポイントライト用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLight_.gpuHandle);
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+
+		// スポットライトのCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLight_.gpuHandle);
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+
+		// カメラ用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+		// テクスチャ
+		textureStore_->SelectTexture(directXCommand_->GetCommandList(), modelInfo->textureHandle[i]);
+
+		// 描画する
+		directXCommand_->GetCommandList()->DrawInstanced(UINT(modelInfo->modelData[i].vertices.size()), 1, 0, 0);
+
+
+		// カウントを進める
+		i++;
+
+		// 使用したマテリアルリソースをカウントする
+		useNumMaterialResourceModel_++;
+	}
+
+
+	// カウントする
+	useNumResourceModel_++;
+}
+
+/// <summary>
+/// モデルを描画する
+/// </summary>
+/// <param name="worldTransform"></param>
+/// <param name="uvTransform"></param>
+/// <param name="camera"></param>
+/// <param name="modelHandle"></param>
+/// <param name="color"></param>
+/// <param name="isLighting"></param>
+void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting)
+{
+	// 使用できるリソース数を越えないようにする
+	if (useNumResourceModel_ >= kMaxNumResource)
+	{
+		return;
+	}
+
+
+	// モデルの情報を取得する
+	ModelInfo* modelInfo = modelDataStore_->GetModelInfo(modelHandle);
+
+
+	/*------------------
+		座標変換の行列
+	------------------*/
+
+	// データを書き込む
+	TransformationMatrix* transformationData = nullptr;
+	transformationResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+	transformationData->worldViewProjection = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
+	transformationData->world = worldTransform->worldMatrix_;
+	transformationData->worldInverseTranspose = MakeTransposeMatrix(MakeInverseMatrix(worldTransform->worldMatrix_));
+
+
+	/*-----------
+		カメラ
+	-----------*/
+
+	// データを書き込む
+	CameraForGPU* cameraData = nullptr;
+	cameraResourceModel_[useNumResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&cameraData));
+	cameraData->worldPosition = camera->translation_;
+
+
+
+	/*------------------
+		コマンドを積む
+	------------------*/
+
+	int i = 0;
+
+	for (ModelData& modelData : modelInfo->modelData)
+	{
+		// データを書き込む
+		Material* materialData = nullptr;
+		materialResourceModel_[useNumMaterialResourceModel_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+
+		// マテリアルデータを設定する
+		materialData->color = color;
+		materialData->enableLighting = isLighting;
+		materialData->shininess = 18.0f;
+		materialData->uvTransform = MakeIdenityMatirx();
+
+
+		// ルートシグネチャやPSOの設定
+		psoObject3d_[useObject3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
+
+		// VBVを設定する
+		directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &modelInfo->vertexBufferView[i]);
+
+		// 形状を設定
+		directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		// マテリアル用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResourceModel_[useNumMaterialResourceModel_]->GetGPUVirtualAddress());
+
+		// 座標変換用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+		// 平行光源用のインスタンシングの設定
+		directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(7, instancingDirectionalLight_.gpuHandle);
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(3, useNumDirectionalLightResource_->GetGPUVirtualAddress());
+
+		// ポイントライト用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(8, instancingPointLight_.gpuHandle);
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(5, useNumPointLightResource_->GetGPUVirtualAddress());
+
+		// スポットライトのCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(9, instancingSpotLight_.gpuHandle);
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(6, useNumSpotLightResource_->GetGPUVirtualAddress());
+
+		// カメラ用のCBVを設定
+		directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResourceModel_[useNumResourceModel_]->GetGPUVirtualAddress());
+
+		// テクスチャ
+		textureStore_->SelectTexture(directXCommand_->GetCommandList(), modelInfo->textureHandle[i]);
+
+		// 描画する
+		directXCommand_->GetCommandList()->DrawInstanced(UINT(modelInfo->modelData[i].vertices.size()), 1, 0, 0);
+
+
+		// カウントを進める
+		i++;
+
+		// 使用したマテリアルリソースをカウントする
+		useNumMaterialResourceModel_++;
+	}
+
+
+	// カウントする
+	useNumResourceModel_++;
 }
 
 /// <summary>
@@ -1776,7 +1890,7 @@ void DirectXCommon::DrawRenderTexturePlane(const WorldTransform* worldTransform,
 /// <param name="end">終点</param>
 /// <param name="camera">カメラ</param>
 /// <param name="color">色</param>
-void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Camera3D* camera, Vector4 color)
+void DirectXCommon::DrawLine(const Vector3& start, const Vector3& end, const Camera3D* camera, Vector4 color)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceLine_ >= kMaxNumResource)
@@ -1797,7 +1911,7 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 
 
 	/*---------------
-	    マテリアル
+		マテリアル
 	---------------*/
 
 	// データを書き込む
@@ -1807,7 +1921,7 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 
 
 	/*-------------
-	    座標変換
+		座標変換
 	-------------*/
 
 	// データを書き込む
@@ -1821,7 +1935,7 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 
 
 	/*------------------
-	    コマンドを積む
+		コマンドを積む
 	------------------*/
 
 	psoLine3d_[useLine3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
@@ -1854,7 +1968,7 @@ void DirectXCommon::DrawLine(const Vector3& start , const Vector3& end, const Ca
 /// <param name="textureHandle">テクスチャハンドル</param>
 /// <param name="color">色</param>
 void DirectXCommon::DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2 v3, const Vector2 v4,
-	const UvTransform* uvTransform,const Camera2D* camera, uint32_t textureHandle, Vector4 color)
+	const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceSprite_ >= kMaxNumResource)
@@ -1924,7 +2038,7 @@ void DirectXCommon::DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2
 	materialResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = false;
-	materialData->uvTransform = 
+	materialData->uvTransform =
 		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 
 
@@ -1991,9 +2105,9 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescritprHeap(
 
 
 	/*-----------------------------
-	    ディスクリプタヒープの設定
+		ディスクリプタヒープの設定
 	-----------------------------*/
-	
+
 	D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc{};
 
 	// ディスクリプタヒープの種類
@@ -2032,7 +2146,7 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescritprHeap(
 /// <param name="descriptorSize">ディスクリプタのサイズ</param>
 /// <param name="index">配列番号</param>
 /// <returns></returns>
-D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device)
+D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, ID3D12Device* device)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	handleCPU.ptr += (device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV) * numRtvCPUDescriptors);
@@ -2047,7 +2161,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetRTVCPUDescriptorHandle(Microsoft::
 /// <param name="descriptorSize">ディスクリプタのサイズ</param>
 /// <param name="index">配列番号</param>
 /// <returns></returns>
-D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device)
+D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, ID3D12Device* device)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	handleCPU.ptr += (device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * numSrvCPUDescriptors);
@@ -2062,7 +2176,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVCPUDescriptorHandle(Microsoft::
 /// <param name="descriptorSize">ディスクリプタのサイズ</param>
 /// <param name="index">配列番号</param>
 /// <returns></returns>
-D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device)
+D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, ID3D12Device* device)
 {
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	handleGPU.ptr += (device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * numSrvGPUDescriptors);
@@ -2083,7 +2197,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResourc
 	uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor)
 {
 	/*-----------------
-	    リソースの設定
+		リソースの設定
 	-----------------*/
 
 	D3D12_RESOURCE_DESC resourceDesc = {};
@@ -2102,7 +2216,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResourc
 
 
 	/*-----------------
-	    ヒープの設定
+		ヒープの設定
 	-----------------*/
 
 	D3D12_HEAP_PROPERTIES heapProperties = {};
@@ -2112,7 +2226,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResourc
 
 
 	/*-------------
-	     最適値
+		 最適値
 	-------------*/
 
 	D3D12_CLEAR_VALUE clearValue = {};
@@ -2141,10 +2255,10 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResourc
 /// <param name="beforeState">遷移前（現在）のリソースステート</param>
 /// <param name="afterState">遷移後のリソースステート</param>
 void DirectXCommon::ChangeResourceState(ID3D12GraphicsCommandList* commandList,
-	Microsoft::WRL::ComPtr<ID3D12Resource> resource,D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState)
+	Microsoft::WRL::ComPtr<ID3D12Resource> resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState)
 {
 	/*--------------------
-	    バリアを設定する
+		バリアを設定する
 	--------------------*/
 
 	D3D12_RESOURCE_BARRIER barrier{};
@@ -2195,7 +2309,7 @@ void DirectXCommon::StopOnErrorsAndWarnings()
 	if (SUCCEEDED(directXGPU_->GetDevice()->QueryInterface(IID_PPV_ARGS(&infoQueue))))
 	{
 		/*---------------------------
-		    エラーと警告で停止させる
+			エラーと警告で停止させる
 		---------------------------*/
 
 		// やばいエラー時に止まる
@@ -2209,7 +2323,7 @@ void DirectXCommon::StopOnErrorsAndWarnings()
 
 
 		/*----------------------
-		    エラーと警告の抑制
+			エラーと警告の抑制
 		----------------------*/
 
 		// 抑制するメッセージID
@@ -2239,7 +2353,7 @@ void DirectXCommon::StopOnErrorsAndWarnings()
 void DirectXCommon::GenerateSwapChain()
 {
 	/*----------------------------
-	    スワップチェーンを設定する
+		スワップチェーンを設定する
 	----------------------------*/
 
 	// 画面の幅
@@ -2288,7 +2402,7 @@ void DirectXCommon::PullSwapChainResource()
 void DirectXCommon::GenerateRTV()
 {
 	/*---------------
-	    RTVの設定
+		RTVの設定
 	---------------*/
 
 	// 出力結果をSRGBに変換して書き込む
@@ -2299,7 +2413,7 @@ void DirectXCommon::GenerateRTV()
 
 
 	/*--------------------------
-	    ディスクリプタに格納する
+		ディスクリプタに格納する
 	--------------------------*/
 
 	rtvHandles_[0] = GetRTVCPUDescriptorHandle(rtvDescriptorHeap_, directXGPU_->GetDevice());
@@ -2647,7 +2761,7 @@ void DirectXCommon::DrawCopyImage()
 	// PixelShader -> RenderTarget
 	ChangeResourceState(directXCommand_->GetCommandList(),
 		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
-	
+
 }
 
 /// <summary>
@@ -2687,7 +2801,7 @@ void DirectXCommon::DrawSepia()
 		return;
 
 	// RenderTarget -> PixelShader
-	ChangeResourceState(directXCommand_->GetCommandList(), 
+	ChangeResourceState(directXCommand_->GetCommandList(),
 		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
@@ -2881,7 +2995,7 @@ void DirectXCommon::DrawRasterScroll()
 		return;
 
 	// RenderTarget -> PixelShader
-	ChangeResourceState(directXCommand_->GetCommandList(), 
+	ChangeResourceState(directXCommand_->GetCommandList(),
 		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// PSOの設定
@@ -2904,6 +3018,6 @@ void DirectXCommon::DrawRasterScroll()
 	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
 	// PixelShader -> RenderTarget
-	ChangeResourceState(directXCommand_->GetCommandList(), 
+	ChangeResourceState(directXCommand_->GetCommandList(),
 		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }

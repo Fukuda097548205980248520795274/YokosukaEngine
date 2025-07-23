@@ -93,9 +93,6 @@ protected:
 		// ワールドトランスフォーム
 		std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
-		// UVトランスフォーム
-		std::unique_ptr<UvTransform> uvTransform_ = nullptr;
-
 		// モデルハンドル
 		uint32_t modelHandle_ = 0;
 

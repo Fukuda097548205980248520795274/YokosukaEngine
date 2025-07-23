@@ -232,10 +232,27 @@ public:
 	/// <summary>
 	/// モデルを描画する
 	/// </summary>
+	void DrawModel(const WorldTransform* worldTransform, const std::vector<std::unique_ptr<UvTransform>>& uvTransforms,
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting) const
+	{
+		directXCommon_->DrawModel(worldTransform, uvTransforms, camera, modelHandle, color, isLighting);
+	}
+
+	/// <summary>
+	/// モデルを描画する
+	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting) const
 	{
 		directXCommon_->DrawModel(worldTransform, uvTransform, camera, modelHandle, color, isLighting);
+	}
+
+	/// <summary>
+	/// モデルを描画する
+	/// </summary>
+	void DrawModel(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting) const
+	{
+		directXCommon_->DrawModel(worldTransform, camera, modelHandle, color, isLighting);
 	}
 
 	/// <summary>
@@ -264,14 +281,6 @@ public:
 	{
 		directXCommon_->DrawLine(start, end, camera, color);
 	}
-
-	/// <summary>
-	/// パーティクルを描画する
-	/// </summary>
-	/// <param name="camera"></param>
-	/// <param name="modelHandle"></param>
-	/// <param name="color"></param>
-	void DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color) const { directXCommon_->DrawParticle(camera, modelHandle, color); }
 
 	/// <summary>
 	/// スプライトを描画する

@@ -1,4 +1,6 @@
+
 #pragma once
+#define NOMINMAX
 #include <wrl.h>
 #include <d3d12.h>
 #include <dxgi1_6.h>
@@ -296,17 +298,31 @@ public:
 	/// <param name="modelHandle"></param>
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
-	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+	void DrawModel(const WorldTransform* worldTransform, const std::vector<std::unique_ptr<UvTransform>>& uvTransforms,
 		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting);
 
 	/// <summary>
-	/// パーティクルを描画する
+	/// モデルを描画する
 	/// </summary>
 	/// <param name="worldTransform"></param>
 	/// <param name="uvTransform"></param>
 	/// <param name="camera"></param>
+	/// <param name="modelHandle"></param>
 	/// <param name="color"></param>
-	void DrawParticle(const Camera3D* camera, uint32_t modelHandle, Vector4 color);
+	/// <param name="isLighting"></param>
+	void DrawModel(const WorldTransform* worldTransform, const UvTransform* uvTransform,
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting);
+
+	/// <summary>
+	/// モデルを描画する
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	/// <param name="uvTransform"></param>
+	/// <param name="camera"></param>
+	/// <param name="modelHandle"></param>
+	/// <param name="color"></param>
+	/// <param name="isLighting"></param>
+	void DrawModel(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting);
 
 	/// <summary>
 	/// レンダーテクスチャを貼りつけた平面を描画する
@@ -382,7 +398,7 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_CPU_DESCRIPTOR_HANDLE GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetRTVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, ID3D12Device* device);
 
 	/// <summary>
 	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（CPU）
@@ -391,7 +407,7 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_CPU_DESCRIPTOR_HANDLE GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetSRVCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, ID3D12Device* device);
 
 	/// <summary>
 	/// 指定したディスクリプタヒープに格納するためのポインタを取得する（GPU）
@@ -400,7 +416,7 @@ public:
 	/// <param name="descriptorSize">ディスクリプタのサイズ</param>
 	/// <param name="index">配列番号</param>
 	/// <returns></returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap,ID3D12Device* device);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, ID3D12Device* device);
 
 	/// <summary>
 	/// RenderTextureを作成する
@@ -576,7 +592,7 @@ private:
 
 	// ビューポート
 	D3D12_VIEWPORT viewport_{};
-	
+
 	// シザーレクト
 	D3D12_RECT scissorRect_{};
 
@@ -607,7 +623,7 @@ private:
 
 
 	/*----------------------------
-	    オフスクリーンレンダリング
+		オフスクリーンレンダリング
 	----------------------------*/
 
 	// オフスクリーン
@@ -635,7 +651,7 @@ private:
 
 
 	/*-----------------------
-	    パイプラインステート
+		パイプラインステート
 	-----------------------*/
 
 	// Object3d用のPSO
@@ -670,7 +686,7 @@ private:
 
 
 	/*-------------------
-	    ポストエフェクト
+		ポストエフェクト
 	-------------------*/
 
 	/// <summary>
@@ -735,7 +751,7 @@ private:
 	Microsoft::WRL::ComPtr<IDxcBlob> brightnessExtractionPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> hidePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> rasterScrollPixelShaderBlob_ = nullptr;
-	
+
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> luminanceResource_ = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> rasterScrollResource_ = nullptr;
@@ -745,7 +761,7 @@ private:
 
 
 	/*------------------------
-	    平面で使用するリソース
+		平面で使用するリソース
 	------------------------*/
 
 	// 使用したリソースをカウントする
@@ -756,7 +772,7 @@ private:
 
 
 	/*----------------------
-	    球で使用するリソース
+		球で使用するリソース
 	----------------------*/
 
 	// 使用したリソースをカウントする
@@ -766,7 +782,7 @@ private:
 
 
 	/*--------------------------
-	    リングで使用するリソース
+		リングで使用するリソース
 	--------------------------*/
 
 	// 使用したリソースをカウントする
@@ -777,7 +793,7 @@ private:
 
 
 	/*------------------------
-	    円柱で使用するリソース
+		円柱で使用するリソース
 	------------------------*/
 
 	// 使用したリソースをカウントする
@@ -788,11 +804,14 @@ private:
 
 
 	/*----------------------------
-	    モデルで使用するリソース
+		モデルで使用するリソース
 	----------------------------*/
 
 	// 使用したリソースをカウントする
 	uint32_t useNumResourceModel_ = 0;
+
+	// 使用したマテリアルリソースをカウントする
+	uint32_t useNumMaterialResourceModel_ = 0;
 
 	// マテリアルリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceModel_[1024] = { nullptr };
@@ -805,7 +824,7 @@ private:
 
 
 	/*-----------------------------
-	    スプライトで使用するリソース
+		スプライトで使用するリソース
 	-----------------------------*/
 
 	// 使用したリソースをカウントする
@@ -825,7 +844,7 @@ private:
 
 
 	/*-----------------------
-	    線で使用するリソース
+		線で使用するリソース
 	-----------------------*/
 
 	// 使用したリソースをカウントする
@@ -836,7 +855,7 @@ private:
 
 
 	/*--------------
-	    平行光源
+		平行光源
 	--------------*/
 
 	// 最大数
@@ -855,7 +874,7 @@ private:
 
 
 	/*------------------
-	    ポイントライト
+		ポイントライト
 	------------------*/
 
 	// 最大数
@@ -874,7 +893,7 @@ private:
 
 
 	/*------------------
-	    スポットライト 
+		スポットライト
 	------------------*/
 
 	// 最大数
@@ -893,7 +912,7 @@ private:
 
 
 	/*--------------------------------
-	    パーティクルで使用するリソース
+		パーティクルで使用するリソース
 	--------------------------------*/
 
 	// デルタタイム
@@ -917,4 +936,3 @@ private:
 	// 場
 	Feild accelerationFeild_{};
 };
-

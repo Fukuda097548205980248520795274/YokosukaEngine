@@ -60,9 +60,6 @@ private:
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> bulletWorldTransform_ = nullptr;
 
-	// UVトランスフォーム
-	std::unique_ptr<UvTransform> bulletUvTransform_ = nullptr;
-
 	// モデルハンドル
 	uint32_t bulletModelHandle_ = 0;
 

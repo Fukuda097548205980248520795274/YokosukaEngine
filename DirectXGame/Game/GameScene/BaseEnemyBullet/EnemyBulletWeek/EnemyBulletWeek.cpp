@@ -18,10 +18,6 @@ void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* c
 	bulletWorldTransform_->Initialize();
 	bulletWorldTransform_->SetParent(worldTransform_.get());
 
-	// UVトランスフォームの生成
-	bulletUvTransform_ = std::make_unique<UvTransform>();
-	bulletUvTransform_->Initialize();
-
 	// モデルを読み込む
 	bulletModelHandle_ = engine_->LoadModelData("./Resources/Models/enemyBullet/week", "week.obj");
 
@@ -57,7 +53,6 @@ void EnemyBulletWeek::Update()
 
 	// 本体の更新
 	bulletWorldTransform_->UpdateWorldMatrix();
-	bulletUvTransform_->UpdateWorldMatrix();
 
 	// 弾の位置にポイントライトを配置する
 	bulletPointLight_->position_ = GetBulletWorldPosition();
@@ -72,7 +67,7 @@ void EnemyBulletWeek::Draw()
 	engine_->SetPointLight(bulletPointLight_.get());
 
 	// 本体を描画する
-	engine_->DrawModel(bulletWorldTransform_.get(), bulletUvTransform_.get(), camera3d_, bulletModelHandle_, Vector4(0.5f, 0.5f, 1.0f, 1.0f), false);
+	engine_->DrawModel(bulletWorldTransform_.get(), camera3d_, bulletModelHandle_, Vector4(0.5f, 0.5f, 1.0f, 1.0f), false);
 }
 
 

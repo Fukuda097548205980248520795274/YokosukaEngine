@@ -16,8 +16,6 @@ void PlayerBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* 
 	bulletWorldTransform_ = std::make_unique<WorldTransform>();
 	bulletWorldTransform_->Initialize();
 	bulletWorldTransform_->SetParent(worldTransform_.get());
-	bulletUvTransform_ = std::make_unique<UvTransform>();
-	bulletUvTransform_->Initialize();
 	bulletModelHandle_ = engine_->LoadModelData("./Resources/Models/playerBullet/week", "week.obj");
 
 	// 弾のポイントライトの生成と初期化
@@ -52,7 +50,6 @@ void PlayerBulletWeek::Update()
 
 	// 本体の更新
 	bulletWorldTransform_->UpdateWorldMatrix();
-	bulletUvTransform_->UpdateWorldMatrix();
 
 	// 弾の位置にポイントライトを配置する
 	bulletPointLight_->position_ = GetBulletWorldTransform();
@@ -70,7 +67,7 @@ void PlayerBulletWeek::Draw()
 	engine_->SetPointLight(bulletPointLight_.get());
 
 	// 本体を描画する
-	engine_->DrawModel(bulletWorldTransform_.get(), bulletUvTransform_.get(), camera3d_, bulletModelHandle_, Vector4(0.2f, 1.0f, 0.2f, 1.0f), false);
+	engine_->DrawModel(bulletWorldTransform_.get(), camera3d_, bulletModelHandle_, Vector4(0.2f, 1.0f, 0.2f, 1.0f), false);
 }
 
 /// <summary>

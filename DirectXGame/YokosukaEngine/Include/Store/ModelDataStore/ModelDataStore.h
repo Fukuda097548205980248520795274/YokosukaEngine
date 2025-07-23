@@ -44,7 +44,35 @@ struct ModelData
 	Node rootNode;
 };
 
+// モデルの情報
+class ModelInfo
+{
+public:
 
+	// ディレクトリパス
+	std::string directoryPath;
+
+	// ファイル名
+	std::string fileName;
+
+	// モデルデータ
+	std::vector<ModelData> modelData{};
+
+	// 頂点バッファビュー
+	std::vector<D3D12_VERTEX_BUFFER_VIEW> vertexBufferView{};
+
+	// 頂点リソース
+	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> vertexResource;
+
+	// 頂点データ
+	std::vector<VertexData*> vertexData;
+
+	// モデルハンドル
+	uint32_t modelHandle = 0;
+
+	// テクスチャハンドル
+	std::vector<uint32_t> textureHandle;
+};
 
 class ModelDataStore
 {
@@ -70,32 +98,11 @@ public:
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList);
 
 	/// <summary>
-	/// モデルハンドルのGetter
+	/// モデル情報のGetter
 	/// </summary>
 	/// <param name="modelHandle"></param>
 	/// <returns></returns>
-	ModelData GetModelData(uint32_t modelHandle);
-
-	/// <summary>
-	/// 頂点リソースのGetter
-	/// </summary>
-	/// <param name="modelHandle"></param>
-	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12Resource> GetVertexResource(uint32_t modelHandle);
-
-	/// <summary>
-	/// テクスチャハンドルを取得する
-	/// </summary>
-	/// <param name="modelHandle"></param>
-	/// <returns></returns>
-	uint32_t GetTextureHandle(uint32_t modelHandle);
-
-	/// <summary>
-	/// 頂点バッファビューを取得する
-	/// </summary>
-	/// <param name="modelHandle"></param>
-	/// <returns></returns>
-	D3D12_VERTEX_BUFFER_VIEW GetVertexBufferView(uint32_t modelHandle);
+	ModelInfo* GetModelInfo(uint32_t modelHandle);
 
 
 private:
@@ -104,39 +111,9 @@ private:
 	TextureStore* textureStore_ = nullptr;
 
 
-	// モデルの情報
-	class ModelInfo
-	{
-	public:
-
-		// ディレクトリパス
-		std::string directoryPath;
-
-		// ファイル名
-		std::string fileName;
-
-		// モデルデータ
-		ModelData modelData{};
-
-		// 頂点バッファビュー
-		D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-
-		// 頂点リソース
-		Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = nullptr;
-
-		// 頂点データ
-		VertexData* vertexData = nullptr;
-
-		// モデルハンドル
-		uint32_t modelHandle = 0;
-
-		// テクスチャハンドル
-		uint32_t textureHandle = 0;
-	};
-
 	// モデルの情報の構造体
 	std::vector<ModelInfo*> modelInfo_;
-	
+
 
 	// 使用したモデルデータをカウントする
 	uint32_t useModelDataNum_ = 0;
@@ -149,7 +126,7 @@ private:
 /// <param name="directoryPath">ディレクトリのパス</param>
 /// <param name="fileName">ファイル名</param>
 /// <returns></returns>
-ModelData LoadObjFile(const std::string& directoryPath, const std::string& fileName);
+std::vector<ModelData> LoadObjFile(const std::string& directoryPath, const std::string& fileName);
 
 /// <summary>
 /// ノードを読む
@@ -165,3 +142,11 @@ Node ReadNode(aiNode* node);
 /// <param name="fileName"></param>
 /// <returns></returns>
 MaterialData LoadMtlFile(const std::string& directoryPath, const std::string& fileName);
+
+/// <summary>
+/// Mtlファイルを読み込む
+/// </summary>
+/// <param name="directoryPath"></param>
+/// <param name="fileName"></param>
+/// <returns></returns>
+MaterialData LoadMtlFile(const std::string& directoryPath, const std::string& fileName, std::string& materialName);

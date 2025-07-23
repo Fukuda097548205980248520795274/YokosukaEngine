@@ -23,8 +23,6 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kBody].worldTransform_->SetParent(worldTransform_.get());
 	models_[kBody].worldTransform_->translation_ = kStartPosition[kBody];
 	models_[kBody].worldTransform_->rotation_ = kStartRotation[kBody];
-	models_[kBody].uvTransform_ = std::make_unique<UvTransform>();
-	models_[kBody].uvTransform_->Initialize();
 	models_[kBody].modelHandle_ = engine_->LoadModelData("./Resources/Models/enemy/enemyButterfly/body", "body.obj");
 	models_[kBody].color = Vector4(0.5f, 0.0f, 0.0f, 1.0f);
 
@@ -34,8 +32,6 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kWingR].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
 	models_[kWingR].worldTransform_->translation_ = kStartPosition[kWingR];
 	models_[kWingR].worldTransform_->rotation_ = kStartRotation[kWingR];
-	models_[kWingR].uvTransform_ = std::make_unique<UvTransform>();
-	models_[kWingR].uvTransform_->Initialize();
 	models_[kWingR].modelHandle_ = engine_->LoadModelData("./Resources/Models/enemy/enemyButterfly/wingR", "wingR.obj");
 	models_[kWingR].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
 
@@ -45,8 +41,6 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kWingL].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
 	models_[kWingL].worldTransform_->translation_ = kStartPosition[kWingL];
 	models_[kWingL].worldTransform_->rotation_ = kStartRotation[kWingL];
-	models_[kWingL].uvTransform_ = std::make_unique<UvTransform>();
-	models_[kWingL].uvTransform_->Initialize();
 	models_[kWingL].modelHandle_ = engine_->LoadModelData("./Resources/Models/enemy/enemyButterfly/wingL", "wingL.obj");
 	models_[kWingL].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
 
@@ -121,7 +115,6 @@ void EnemyButterfly::Update()
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
 		models_[i].worldTransform_->UpdateWorldMatrix();
-		models_[i].uvTransform_->UpdateWorldMatrix();
 	}
 
 	// ポイントライトを本体に追従する
@@ -139,8 +132,7 @@ void EnemyButterfly::Draw()
 	// モデルの描画
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
-		engine_->DrawModel(models_[i].worldTransform_.get(), models_[i].uvTransform_.get(), camera3d_, models_[i].modelHandle_,
-			models_[i].color, true);
+		engine_->DrawModel(models_[i].worldTransform_.get(), camera3d_, models_[i].modelHandle_,models_[i].color, true);
 	}
 
 	// ダメージギミックの描画
@@ -311,8 +303,7 @@ void EnemyButterfly::GimmickDamageDraw()
 	// モデルの描画
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
-		engine_->DrawModel(models_[i].worldTransform_.get(), models_[i].uvTransform_.get(), camera3d_, models_[i].modelHandle_,
-			damageColor, false);
+		engine_->DrawModel(models_[i].worldTransform_.get(), camera3d_, models_[i].modelHandle_, damageColor, false);
 	}
 }
 
