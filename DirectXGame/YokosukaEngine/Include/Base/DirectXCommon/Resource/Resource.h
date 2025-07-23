@@ -19,8 +19,11 @@ struct Material
 	// ライティング有効化
 	int32_t  enableLighting;
 
+	// ハーフランバート有効化
+	int32_t enableHalfLambert;
+
 	// パディング
-	float padding[3];
+	float padding[2];
 
 	//  UVトランスフォーム
 	Matrix4x4 uvTransform;

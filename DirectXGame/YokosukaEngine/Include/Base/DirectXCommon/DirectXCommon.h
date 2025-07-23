@@ -245,7 +245,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawPlane(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, Vector4 color, bool isLighting);
+		const Camera3D* camera, uint32_t textureHandle, Vector4 color, bool isLighting, bool isHalfLambert);
 
 	/// <summary>
 	/// 球を描画する
@@ -256,7 +256,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, uint32_t segment, uint32_t ring, Vector4 color, bool isLighting);
+		const Camera3D* camera, uint32_t textureHandle, uint32_t segment, uint32_t ring, Vector4 color, bool isLighting, bool isHalfLambert);
 
 	/// <summary>
 	/// リングを描画する
@@ -271,7 +271,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawRing(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float outRadius, float inRadius, Vector4 color, bool isLighting);
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float outRadius, float inRadius, Vector4 color, bool isLighting, bool isHalfLambert);
 
 	/// <summary>
 	/// 円柱を描画する
@@ -286,7 +286,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawCylinder(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float height, float radius, Vector4 color, bool isLighting);
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float height, float radius, Vector4 color, bool isLighting, bool isHalfLambert);
 
 	/// <summary>
 	/// モデルを描画する
@@ -298,7 +298,7 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawModel(const WorldTransform* worldTransform, const std::vector<std::unique_ptr<UvTransform>>& uvTransforms,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting);
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting, bool isHalfLambert);
 
 	/// <summary>
 	/// モデルを描画する
@@ -309,7 +309,7 @@ public:
 	/// <param name="modelHandle"></param>
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
-	void DrawModel(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting);
+	void DrawModel(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting , bool isHalfLambert);
 
 	/// <summary>
 	/// レンダーテクスチャを貼りつけた平面を描画する

@@ -432,7 +432,7 @@ void AxialDirectionDisplay::Update(const Vector3& cameraRotation)
 void AxialDirectionDisplay::Draw()
 {
 	// 軸方向表示のモデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_.get(), modelHandle_, { 1.0f , 1.0f  ,1.0f , 1.0f } , false);
+	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_.get(), modelHandle_, { 1.0f , 1.0f  ,1.0f , 1.0f } , false , false);
 }
 
 #endif

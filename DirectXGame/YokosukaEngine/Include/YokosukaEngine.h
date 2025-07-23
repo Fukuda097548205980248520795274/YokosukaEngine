@@ -173,9 +173,9 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawPlane(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, Vector4 color, bool isLighting) const
+		const Camera3D* camera, uint32_t textureHandle, Vector4 color, bool isLighting, bool isHalfLambert) const
 	{
-		directXCommon_->DrawPlane(worldTransform, uvTransform, camera, textureHandle, color, isLighting);
+		directXCommon_->DrawPlane(worldTransform, uvTransform, camera, textureHandle, color, isLighting , isHalfLambert);
 	}
 
 	/// <summary>
@@ -188,9 +188,9 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, uint32_t segment, uint32_t ring, Vector4 color, bool isLighting) const
+		const Camera3D* camera, uint32_t textureHandle, uint32_t segment, uint32_t ring, Vector4 color, bool isLighting, bool isHalfLambert) const
 	{
-		directXCommon_->DrawSphere(worldTransform, uvTransform, camera, textureHandle, segment, ring, color, isLighting);
+		directXCommon_->DrawSphere(worldTransform, uvTransform, camera, textureHandle, segment, ring, color, isLighting, isHalfLambert);
 	}
 
 	/// <summary>
@@ -206,9 +206,9 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawRing(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float outRadius, float inRadius, Vector4 color, bool isLighting) const
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float outRadius, float inRadius, Vector4 color, bool isLighting, bool isHalfLambert) const
 	{
-		directXCommon_->DrawRing(worldTransform, uvTransform, camera, textureHandle, subdivisions, outRadius, inRadius, color, isLighting);
+		directXCommon_->DrawRing(worldTransform, uvTransform, camera, textureHandle, subdivisions, outRadius, inRadius, color, isLighting, isHalfLambert);
 	}
 
 	/// <summary>
@@ -224,26 +224,26 @@ public:
 	/// <param name="color"></param>
 	/// <param name="isLighting"></param>
 	void DrawCylinder(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float height, float radius, Vector4 color, bool isLighting) const
+		const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float height, float radius, Vector4 color, bool isLighting, bool isHalfLambert) const
 	{
-		directXCommon_->DrawCylinder(worldTransform, uvTransform, camera, textureHandle, subdivisions, height, radius, color, isLighting);
+		directXCommon_->DrawCylinder(worldTransform, uvTransform, camera, textureHandle, subdivisions, height, radius, color, isLighting, isHalfLambert);
 	}
 
 	/// <summary>
 	/// モデルを描画する
 	/// </summary>
 	void DrawModel(const WorldTransform* worldTransform, const std::vector<std::unique_ptr<UvTransform>>& uvTransforms,
-		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting) const
+		const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting , bool isHalfLambert) const
 	{
-		directXCommon_->DrawModel(worldTransform, uvTransforms, camera, modelHandle, color, isLighting);
+		directXCommon_->DrawModel(worldTransform, uvTransforms, camera, modelHandle, color, isLighting , isHalfLambert);
 	}
 
 	/// <summary>
 	/// モデルを描画する
 	/// </summary>
-	void DrawModel(const WorldTransform* worldTransform,const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting) const
+	void DrawModel(const WorldTransform* worldTransform,const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting, bool isHalfLambert) const
 	{
-		directXCommon_->DrawModel(worldTransform, camera, modelHandle, color, isLighting);
+		directXCommon_->DrawModel(worldTransform, camera, modelHandle, color, isLighting, isHalfLambert);
 	}
 
 	/// <summary>

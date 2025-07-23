@@ -56,8 +56,8 @@ void SphereModel::Update()
 /// <summary>
 /// 描画処理
 /// </summary>
-void SphereModel::Draw()
+void SphereModel::Draw(bool enableLighting, bool enableHalfLambert)
 {
 	// モデルを描画する
-	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, segment, ring, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, segment, ring, Vector4(1.0f, 1.0f, 1.0f, 1.0f), enableLighting , enableHalfLambert);
 }

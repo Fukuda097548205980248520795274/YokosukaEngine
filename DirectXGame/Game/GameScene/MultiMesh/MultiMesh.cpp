@@ -65,8 +65,8 @@ void MultiMesh::Update()
 /// <summary>
 /// 描画処理
 /// </summary>
-void MultiMesh::Draw()
+void MultiMesh::Draw(bool enableLighting, bool enableHalfLambert)
 {
 	// モデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), enableLighting, enableHalfLambert);
 }

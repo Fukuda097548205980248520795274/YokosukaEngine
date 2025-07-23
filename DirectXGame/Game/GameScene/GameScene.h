@@ -62,6 +62,13 @@ private:
 	std::unique_ptr<MultiMaterial> multiMaterial_ = nullptr;
 
 
+	// ライティング有効化
+	bool enableLighting_ = true;
+
+	// ハーフランバート有効化
+	bool enableHalfLambert_ = true;
+
+
 	// サウンドハンドル
 	uint32_t soundHandle_ = 0;
 

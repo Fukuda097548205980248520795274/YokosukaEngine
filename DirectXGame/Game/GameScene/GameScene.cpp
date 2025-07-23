@@ -119,6 +119,33 @@ void GameScene::Update()
 		ImGui::TreePop();
 	}
 
+	// ライティングオプション
+	if (ImGui::TreeNode("LightingOption"))
+	{
+		// ライティング無効
+		if (ImGui::Button("DisableLight"))
+		{
+			enableLighting_ = false;
+			enableHalfLambert_ = false;
+		}
+
+		// ランバーテインリフレクタンス
+		if (ImGui::Button("LambertainReflectance"))
+		{
+			enableLighting_ = true;
+			enableHalfLambert_ = false;
+		}
+
+		// ハーフランバート
+		if (ImGui::Button("HalfLambert"))
+		{
+			enableLighting_ = true;
+			enableHalfLambert_ = true;
+		}
+
+		ImGui::TreePop();
+	}
+
 	ImGui::End();
 }
 
@@ -134,26 +161,26 @@ void GameScene::Draw()
 	engine_->SetDirectionalLight(directionalLight_.get());
 
 	// 平面の描画
-	plane_->Draw();
+	plane_->Draw(enableLighting_ , enableHalfLambert_);
 
 	// スプライトの描画
 	sprite_->Draw();
 
 	// 球の描画
-	sphere_->Draw();
+	sphere_->Draw(enableLighting_, enableHalfLambert_);
 
 	// スザンヌの描画
-	suzanne_->Draw();
+	suzanne_->Draw(enableLighting_, enableHalfLambert_);
 
 	// スタンフォードバニーの描画
-	stanfordBunny_->Draw();
+	stanfordBunny_->Draw(enableLighting_, enableHalfLambert_);
 
 	// ユタティーポットの描画
-	utahTeapot_->Draw();
+	utahTeapot_->Draw(enableLighting_, enableHalfLambert_);
 
 	// マルチメッシュの描画
-	multiMesh_->Draw();
+	multiMesh_->Draw(enableLighting_, enableHalfLambert_);
 
 	// マルチマテリアルの描画
-	multiMaterial_->Draw();
+	multiMaterial_->Draw(enableLighting_, enableHalfLambert_);
 }

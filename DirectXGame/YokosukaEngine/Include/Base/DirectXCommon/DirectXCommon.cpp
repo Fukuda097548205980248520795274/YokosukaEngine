@@ -692,7 +692,7 @@ void DirectXCommon::CopyRtvImage(uint32_t rtvNum)
 /// <param name="color"></param>
 /// <param name="isLighting"></param>
 void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle, Vector4 color, bool isLighting)
+	const Camera3D* camera, uint32_t textureHandle, Vector4 color, bool isLighting, bool isHalfLambert)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourcePlane_ >= kMaxNumResource)
@@ -747,6 +747,7 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 	planeResources_[useNumResourcePlane_]->materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = isLighting;
+	materialData->enableHalfLambert = isHalfLambert;
 	materialData->uvTransform =
 		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 	materialData->shininess = 18.0f;
@@ -832,7 +833,7 @@ void DirectXCommon::DrawPlane(const WorldTransform* worldTransform, const UvTran
 /// <param name="color"></param>
 /// <param name="isLighting"></param>
 void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle,uint32_t segment, uint32_t ring, Vector4 color, bool isLighting)
+	const Camera3D* camera, uint32_t textureHandle,uint32_t segment, uint32_t ring, Vector4 color, bool isLighting, bool isHalfLambert)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceSphere_ >= kMaxNumResource)
@@ -953,6 +954,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 	sphereResources_[useNumResourceSphere_]->materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = isLighting;
+	materialData->enableHalfLambert = isHalfLambert;
 	materialData->uvTransform =
 		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 	materialData->shininess = 18.0f;
@@ -1042,7 +1044,7 @@ void DirectXCommon::DrawSphere(const WorldTransform* worldTransform, const UvTra
 /// <param name="color"></param>
 /// <param name="isLighting"></param>
 void DirectXCommon::DrawRing(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions,float outRadius, float inRadius, Vector4 color, bool isLighting)
+	const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions,float outRadius, float inRadius, Vector4 color, bool isLighting, bool isHalfLambert)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceRing_ >= kMaxNumResource)
@@ -1125,6 +1127,7 @@ void DirectXCommon::DrawRing(const WorldTransform* worldTransform, const UvTrans
 	ringResources_[useNumResourceRing_]->materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = isLighting;
+	materialData->enableHalfLambert = isHalfLambert;
 	materialData->uvTransform =
 		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 	materialData->shininess = 18.0f;
@@ -1214,7 +1217,7 @@ void DirectXCommon::DrawRing(const WorldTransform* worldTransform, const UvTrans
 /// <param name="color"></param>
 /// <param name="isLighting"></param>
 void DirectXCommon::DrawCylinder(const WorldTransform* worldTransform, const UvTransform* uvTransform,
-	const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float height, float radius, Vector4 color, bool isLighting)
+	const Camera3D* camera, uint32_t textureHandle, uint32_t subdivisions, float height, float radius, Vector4 color, bool isLighting, bool isHalfLambert)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceCylinder_ >= kMaxNumResource)
@@ -1297,6 +1300,7 @@ void DirectXCommon::DrawCylinder(const WorldTransform* worldTransform, const UvT
 	cylinderResources_[useNumResourceCylinder_]->materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color;
 	materialData->enableLighting = isLighting;
+	materialData->enableHalfLambert = isHalfLambert;
 	materialData->uvTransform =
 		MakeScaleMatrix(uvTransform->scale_) * MakeRotateZMatrix(uvTransform->rotation_.z) * MakeTranslateMatrix(uvTransform->translation_);
 	materialData->shininess = 18.0f;
@@ -1382,7 +1386,7 @@ void DirectXCommon::DrawCylinder(const WorldTransform* worldTransform, const UvT
 /// <param name="modelHandle">モデルハンドル</param>
 /// <param name="color">色</param>
 void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const std::vector<std::unique_ptr<UvTransform>>& uvTransforms,
-	const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting)
+	const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting, bool isHalfLambert)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceModel_ >= kMaxNumResource)
@@ -1439,6 +1443,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const std::v
 		// マテリアルデータを設定する
 		materialData->color = color;
 		materialData->enableLighting = isLighting;
+		materialData->enableHalfLambert = isHalfLambert;
 		materialData->shininess = 18.0f;
 
 		// UVトランスフォームが設定されていなかったら単位行列で行う
@@ -1516,7 +1521,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const std::v
 /// <param name="modelHandle"></param>
 /// <param name="color"></param>
 /// <param name="isLighting"></param>
-void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting)
+void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const Camera3D* camera, uint32_t modelHandle, Vector4 color, bool isLighting, bool isHalfLambert)
 {
 	// 使用できるリソース数を越えないようにする
 	if (useNumResourceModel_ >= kMaxNumResource)
@@ -1567,6 +1572,7 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const Camera
 		// マテリアルデータを設定する
 		materialData->color = color;
 		materialData->enableLighting = isLighting;
+		materialData->enableHalfLambert = isHalfLambert;
 		materialData->shininess = 18.0f;
 		materialData->uvTransform = MakeIdenityMatirx();
 

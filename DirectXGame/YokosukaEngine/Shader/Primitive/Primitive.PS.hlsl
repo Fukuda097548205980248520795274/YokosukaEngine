@@ -9,6 +9,9 @@ struct Material
     // ライティング有効化
     int enableLighting;
     
+    // ハーフランバート有効化
+    int enableHalfLambert;
+    
     // UVトランスフォーム
     float4x4 uvTransform;
     
@@ -148,9 +151,20 @@ PixelShaderOutput main(VertexShaderOutput input)
         
         for (uint i = 0; i < gUseNumDirectionalLight.num; i++)
         {
-            // 入射光
-            float directionalLightNdotL = dot(normalize(input.normal), -gDirectionalLight[i].direction);
-            float directionalLightCos = pow(directionalLightNdotL * 0.5f + 0.5f, 2.0f);
+             // 入射光
+            float directionalLightNdotL = 0.0f;
+            float directionalLightCos = 0.0f;
+            
+            if (gMaterial.enableHalfLambert != 0)
+            {
+                directionalLightNdotL = dot(normalize(input.normal), -gDirectionalLight[i].direction);
+                directionalLightCos = pow(directionalLightNdotL * 0.5f + 0.5f, 2.0f);
+            }
+            else
+            {
+                float cos = saturate(dot(normalize(input.normal), -gDirectionalLight[i].direction));
+                directionalLightCos = cos;
+            }
         
             // 入射光の反射ベクトル
             float3 directionalLightHalfVector = normalize(-gDirectionalLight[i].direction + toEye);
