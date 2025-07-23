@@ -138,7 +138,7 @@ void Input::CopyInputInfo()
 /// キーの入力情報（Press）
 /// </summary>
 /// <param name="key"></param>
-bool Input::GetKeyPress(BYTE key)
+bool Input::GetKeyPress(KeyBord key)
 {
 	if (keys_[key])
 	{
@@ -153,7 +153,7 @@ bool Input::GetKeyPress(BYTE key)
 /// </summary>
 /// <param name="key">キー</param>
 /// <returns></returns>
-bool Input::GetKeyTrigger(BYTE key)
+bool Input::GetKeyTrigger(KeyBord key)
 {
 	if (!preKeys_[key] && keys_[key])
 	{
@@ -168,7 +168,7 @@ bool Input::GetKeyTrigger(BYTE key)
 /// </summary>
 /// <param name="key">キー</param>
 /// <returns></returns>
-bool Input::GetKeyRelease(BYTE key)
+bool Input::GetKeyRelease(KeyBord key)
 {
 	if (preKeys_[key] && !keys_[key])
 	{
@@ -272,7 +272,7 @@ bool Input::IsGamepadEnable(DWORD gamepadNumber)
 /// <param name="controllerNumber"></param>
 /// <param name="wButtons"></param>
 /// <returns></returns>
-bool Input::GetGamepadButtonPress(DWORD gamepadNumber, DWORD wButtons)
+bool Input::GetGamepadButtonPress(DWORD gamepadNumber, Gamepad wButtons)
 {
 	if (dwResult_[gamepadNumber] == ERROR_SUCCESS)
 	{
@@ -291,7 +291,7 @@ bool Input::GetGamepadButtonPress(DWORD gamepadNumber, DWORD wButtons)
 /// <param name="controllerNumber"></param>
 /// <param name="wButtons"></param>
 /// <returns></returns>
-bool Input::GetGamepadButtonTrigger(DWORD gamepadNumber, DWORD wButtons)
+bool Input::GetGamepadButtonTrigger(DWORD gamepadNumber, Gamepad wButtons)
 {
 	if (dwResult_[gamepadNumber] == ERROR_SUCCESS)
 	{
@@ -311,7 +311,7 @@ bool Input::GetGamepadButtonTrigger(DWORD gamepadNumber, DWORD wButtons)
 /// <param name="controllerNumber"></param>
 /// <param name="wButtons"></param>
 /// <returns></returns>
-bool Input::GetGamepadButtonRelease(DWORD gamepadNumber, DWORD wButtons)
+bool Input::GetGamepadButtonRelease(DWORD gamepadNumber, Gamepad wButtons)
 {
 	if (dwResult_[gamepadNumber] == ERROR_SUCCESS)
 	{

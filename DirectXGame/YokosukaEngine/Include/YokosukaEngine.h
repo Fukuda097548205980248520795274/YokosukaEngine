@@ -341,21 +341,21 @@ public:
 	/// </summary>
 	/// <param name="key">キー</param>
 	/// <returns></returns>
-	bool GetKeyPress(BYTE key) const { return input_->GetKeyPress(key); }
+	bool GetKeyPress(KeyBord key) const { return input_->GetKeyPress(key); }
 
 	/// <summary>
 	/// キー入力（Trigger）
 	/// </summary>
 	/// <param name="key">キー</param>
 	/// <returns></returns>
-	bool GetKeyTrigger(BYTE key) const { return input_->GetKeyTrigger(key); }
+	bool GetKeyTrigger(KeyBord key) const { return input_->GetKeyTrigger(key); }
 
 	/// <summary>
 	/// キー入力（Release）
 	/// </summary>
 	/// <param name="key">キー</param>
 	/// <returns></returns>
-	bool GetKeyRelease(BYTE key) const { return input_->GetKeyRelease(key); }
+	bool GetKeyRelease(KeyBord key) const { return input_->GetKeyRelease(key); }
 
 	/// <summary>
 	/// マウスボタン（Press）
@@ -415,7 +415,7 @@ public:
 	/// <param name="gamepadNumber">ゲームパッドの番号</param>
 	/// <param name="wButtons">指定のボタン</param>
 	/// <returns></returns>
-	bool GetGamepadButtonPress(DWORD gamepadNumber, DWORD wButtons) const { return input_->GetGamepadButtonPress(gamepadNumber, wButtons); }
+	bool GetGamepadButtonPress(DWORD gamepadNumber, Gamepad wButtons) const { return input_->GetGamepadButtonPress(gamepadNumber, wButtons); }
 
 	/// <summary>
 	/// ゲームパッドのボタンの入力情報（Press）
@@ -423,7 +423,7 @@ public:
 	/// <param name="gamepadNumber">ゲームパッドの番号</param>
 	/// <param name="wButtons">指定のボタン</param>
 	/// <returns></returns>
-	bool GetGamepadButtonTrigger(DWORD gamepadNumber, DWORD wButtons) const { return input_->GetGamepadButtonTrigger(gamepadNumber, wButtons); }
+	bool GetGamepadButtonTrigger(DWORD gamepadNumber, Gamepad wButtons) const { return input_->GetGamepadButtonTrigger(gamepadNumber, wButtons); }
 
 	/// <summary>
 	/// ゲームパッドのボタンの入力情報（Press）
@@ -431,7 +431,7 @@ public:
 	/// <param name="gamepadNumber">ゲームパッドの番号</param>
 	/// <param name="wButtons">指定のボタン</param>
 	/// <returns></returns>
-	bool GetGamepadButtonRelease(DWORD gamepadNumber, DWORD wButtons) const { return input_->GetGamepadButtonRelease(gamepadNumber, wButtons); }
+	bool GetGamepadButtonRelease(DWORD gamepadNumber, Gamepad wButtons) const { return input_->GetGamepadButtonRelease(gamepadNumber, wButtons); }
 
 	/// <summary>
 	/// 

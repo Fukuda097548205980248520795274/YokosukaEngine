@@ -293,7 +293,7 @@ void DebugCamera::Update()
 	}
 
 	// LShift + マウスホイールを押して動かすと、向いている方向の左右に移動できる
-	if (engine_->GetKeyPress(DIK_LSHIFT) && engine_->GetMouseButtonPress(kMouseButtonCenter))
+	if (engine_->GetKeyPress(Key_ShitfL) && engine_->GetMouseButtonPress(kMouseButtonCenter))
 	{
 		// マウスのベクトルと距離を取得し、正規化する
 		Vector2 mouseVector = engine_->GetMouseVelocity();
@@ -586,7 +586,7 @@ void Scene::Update()
 #ifdef _DEBUG
 
 	// Pキーで、カメラを切り替える
-	if (engine_->GetKeyTrigger(DIK_P))
+	if (engine_->GetKeyTrigger(Key_P))
 	{
 		if (isDebugCameraActive_ == false)
 		{
