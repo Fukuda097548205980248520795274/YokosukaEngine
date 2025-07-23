@@ -48,9 +48,6 @@ private:
 		// ワールドトランスフォーム
 		std::unique_ptr<WorldTransform> worldTransform = nullptr;
 
-		// UVトランスフォーム
-		std::unique_ptr<UvTransform> uvTransform = nullptr;
-
 		// モデルハンドル
 		uint32_t modelHandle = 0;
 

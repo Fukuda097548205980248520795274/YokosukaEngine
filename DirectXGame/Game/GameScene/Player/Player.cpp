@@ -47,10 +47,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	bodyWorldTransform_->Initialize();
 	bodyWorldTransform_->SetParent(worldTransform_.get());
 
-	// UVトランスフォームの生成と初期化
-	bodyUvTransform_ = std::make_unique<UvTransform>();
-	bodyUvTransform_->Initialize();
-
 	// ポイントライトの生成と初期化
 	bodyPointLight_ = std::make_unique<PointLight>();
 	bodyPointLight_->Initialize();
@@ -107,7 +103,6 @@ void Player::Update()
 
 	// 本体の更新
 	bodyWorldTransform_->UpdateWorldMatrix();
-	bodyUvTransform_->UpdateWorldMatrix();
 
 	// 本体の位置にポイントライトを置く
 	bodyPointLight_->position_ = GetBodyWorldPosition();
@@ -122,7 +117,7 @@ void Player::Draw()
 	engine_->SetPointLight(bodyPointLight_.get());
 
 	// 本体を描画する
-	engine_->DrawModel(bodyWorldTransform_.get(), bodyUvTransform_.get(), camera3d_, bodyModelHandle_, Vector4(0.0f, 0.0f, 0.0f, 1.0f), true);
+	engine_->DrawModel(bodyWorldTransform_.get(), camera3d_, bodyModelHandle_, Vector4(0.0f, 0.0f, 0.0f, 1.0f), true);
 }
 
 
