@@ -1389,10 +1389,10 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const std::v
 	}
 
 	// UVトランスフォームのインデックス最大数
-	const uint32_t kMaxUvTransformIndex = static_cast<uint32_t>(uvTransforms.size() - 1);
+	const int32_t kMaxUvTransformIndex = static_cast<uint32_t>(uvTransforms.size() - 1);
 
 	//  UVトランスフォームのインデックス
-	uint32_t uvTransformIndex = 0;
+	int32_t uvTransformIndex = 0;
 
 
 	// モデルの情報を取得する
@@ -1433,9 +1433,19 @@ void DirectXCommon::DrawModel(const WorldTransform* worldTransform, const std::v
 		// マテリアルデータを設定する
 		modelInfo->materialData[i]->color = color;
 		modelInfo->materialData[i]->enableLighting = isLighting;
-		modelInfo->materialData[i]->uvTransform = MakeScaleMatrix(uvTransforms[uvTransformIndex]->scale_) *
-			MakeRotateZMatrix(uvTransforms[uvTransformIndex]->rotation_.z) * MakeTranslateMatrix(uvTransforms[uvTransformIndex]->translation_);
 		modelInfo->materialData[i]->shininess = 18.0f;
+
+		// UVトランスフォームが設定されていなかったら単位行列で行う
+		if (kMaxUvTransformIndex < 0)
+		{
+			modelInfo->materialData[i]->uvTransform = MakeIdenityMatirx();
+		}
+		else
+		{
+			// 設定されているとき
+			modelInfo->materialData[i]->uvTransform = MakeScaleMatrix(uvTransforms[uvTransformIndex]->scale_) *
+				MakeRotateZMatrix(uvTransforms[uvTransformIndex]->rotation_.z) * MakeTranslateMatrix(uvTransforms[uvTransformIndex]->translation_);
+		}
 
 
 		// ルートシグネチャやPSOの設定
