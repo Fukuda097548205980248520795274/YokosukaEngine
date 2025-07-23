@@ -50,6 +50,24 @@ void Suzanne::Update()
 		ImGui::TreePop();
 	}
 
+	if (engine_->IsGamepadEnable(0))
+	{
+		// カメラの向きで移動方向を変える
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(camera3d_->rotation_);
+		Vector3 velocity = Transform(Vector3(engine_->GetGamepadLeftStick(0).x, engine_->GetGamepadLeftStick(0).y, 0.0f), rotateMatrix) * 0.5f;
+
+		worldTransform_->translation_ += velocity;
+
+		if (engine_->GetGamepadButtonPress(0, Gamepad_ShoulderL))
+		{
+			worldTransform_->rotation_.y += 0.03f;
+		}
+		else if(engine_->GetGamepadButtonPress(0,Gamepad_ShoulderR))
+		{
+			worldTransform_->rotation_.y -= 0.03f;
+		}
+	}
+
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 	for (std::unique_ptr<UvTransform>& uvTransform : uvTransforms_)
