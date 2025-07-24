@@ -63,6 +63,21 @@ void GameScene::Update()
 
 	ImGui::Begin("CG2");
 
+	// カメラの操作
+#ifdef _DEBUG
+
+#else
+
+	// カメラの操作
+	if (ImGui::TreeNode("MainCamera"))
+	{
+		ImGui::DragFloat3("pivotPoint", &mainCamera_->pivotWorldTransform_->translation_.x, 0.1f);
+		ImGui::DragFloat3("rotation", &mainCamera_->GetGameCameraInstance()->rotation_.x, 0.01f);
+		ImGui::TreePop();
+	}
+
+#endif
+
 	// 平面の更新
 	plane_->Update();
 

@@ -670,6 +670,12 @@ public:
 	/// <param name="shakeSize">大きさ</param>
 	void SetShake(float shakeTime, float shakeSize);
 
+	// ピボットポイントとの距離
+	float pivotPointLength_ = 50.0f;
+
+	// ピボットのワールドトランスフォーム
+	std::unique_ptr<WorldTransform> pivotWorldTransform_ = nullptr;
+
 
 private:
 
@@ -695,14 +701,9 @@ private:
 	std::unique_ptr<Camera3D> camera3d_ = nullptr;
 
 
+
 	// ピボットポイント
 	Vector3 pivotPoint_ = { 0.0f , 0.0f , 0.0f };
-
-	// ピボットポイントとの距離
-	float pivotPointLength_ = 50.0f;
-
-	// ピボットのワールドトランスフォーム
-	std::unique_ptr<WorldTransform> pivotWorldTransform_ = nullptr;
 };
 
 /// <summary>

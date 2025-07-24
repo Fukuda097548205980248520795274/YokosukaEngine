@@ -571,10 +571,10 @@ void Scene::Initialize(const YokosukaEngine* engine)
 	axialDirectoinDisplay_ = std::make_unique<AxialDirectionDisplay>();
 	axialDirectoinDisplay_->Initialize(engine_);
 
-#endif
-
 	// デバッグカメラ有効化
 	isDebugCameraActive_ = true;
+
+#endif
 }
 
 /// <summary>
