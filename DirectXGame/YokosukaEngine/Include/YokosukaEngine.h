@@ -471,15 +471,12 @@ public:
 
 
 	// デバッグツールメソッド
-#ifdef _DEBUG
 
 	/// <summary>
 	/// グリッドを描画する
 	/// </summary>
 	/// <param name="camera"></param>
 	void DrawGrid(const Camera3D* camera, int32_t x, int32_t z) const;
-
-#endif
 
 
 private:
@@ -525,7 +522,6 @@ private:
 
 
 // デバッグツール
-#ifdef _DEBUG
 
 // デバッグカメラ
 class DebugCamera
@@ -613,8 +609,6 @@ private:
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;
 };
-
-#endif
 
 // メインカメラ
 class MainCamera
@@ -750,14 +744,9 @@ private:
 	// デバッグカメラ有効化
 	bool isDebugCameraActive_ = false;
 
-	// デバッグツール
-#ifdef _DEBUG
-
 	// デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 
 	// 軸方向表示
 	std::unique_ptr<AxialDirectionDisplay> axialDirectoinDisplay_ = nullptr;
-	
-#endif
 };

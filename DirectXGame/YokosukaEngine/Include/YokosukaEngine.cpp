@@ -178,7 +178,6 @@ Vector3 YokosukaEngine::CatmullRomPosition(const std::vector<Vector3>& points, f
 
 
 // デバッグツールメソッド
-#ifdef _DEBUG
 
 /// <summary>
 /// グリッドを描画する
@@ -241,10 +240,7 @@ void YokosukaEngine::DrawGrid(const Camera3D* camera , int32_t x , int32_t z) co
 	}
 }
 
-#endif
-
 // デバッグツール
-#ifdef _DEBUG
 
 /*------------------
     デバッグカメラ
@@ -435,8 +431,6 @@ void AxialDirectionDisplay::Draw()
 	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_.get(), modelHandle_, { 1.0f , 1.0f  ,1.0f , 1.0f } , false , false);
 }
 
-#endif
-
 
 /*-----------------
     メインカメラ
@@ -561,7 +555,6 @@ void Scene::Initialize(const YokosukaEngine* engine)
 
 
 	// デバッグツール
-#ifdef _DEBUG
 
 	// デバッグカメラの生成と初期化
 	debugCamera_ = std::make_unique<DebugCamera>();
@@ -573,8 +566,6 @@ void Scene::Initialize(const YokosukaEngine* engine)
 
 	// デバッグカメラ有効化
 	isDebugCameraActive_ = true;
-
-#endif
 }
 
 /// <summary>
@@ -583,19 +574,6 @@ void Scene::Initialize(const YokosukaEngine* engine)
 void Scene::Update()
 {
 	// メインカメラ・デバッグカメラ切り替え
-#ifdef _DEBUG
-
-	// Pキーで、カメラを切り替える
-	if (engine_->GetKeyTrigger(Key_P))
-	{
-		if (isDebugCameraActive_ == false)
-		{
-			isDebugCameraActive_ = true;
-		} else
-		{
-			isDebugCameraActive_ = false;
-		}
-	}
 
 	// デバッグカメラの値を渡して更新
 	if (isDebugCameraActive_)
@@ -606,8 +584,6 @@ void Scene::Update()
 
 	// 軸方向表示を更新
 	axialDirectoinDisplay_->Update(camera3d_->rotation_);
-
-#endif
 
 	// メインカメラの値を渡して更新
 	if (isDebugCameraActive_ == false)
@@ -626,7 +602,6 @@ void Scene::Update()
 void Scene::Draw()
 {
 	// デバッグカメラの表示
-#ifdef _DEBUG
 
 	if (isDebugCameraActive_)
 	{
@@ -639,8 +614,6 @@ void Scene::Draw()
 
 	// 軸方向表示を描画
 	axialDirectoinDisplay_->Draw();
-
-#endif
 
 
 }
