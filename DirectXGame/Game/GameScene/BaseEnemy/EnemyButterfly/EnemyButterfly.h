@@ -30,7 +30,7 @@ public:
 	/// 本体のワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetBodyWorldPosition() override;
+	Vector3 GetBodyWorldPosition() const override;
 
 	/// <summary>
 	/// 当たり判定用のAABBのGetter

@@ -35,6 +35,18 @@ public:
 	/// <returns></returns>
 	Vector3 GetBulletWorldTransform();
 
+	/// <summary>
+	/// モデルハンドルのSetter
+	/// </summary>
+	/// <param name="modelHandle"></param>
+	void SetModelHandle(uint32_t modelHandle) { bulletModelHandle_ = modelHandle; }
+
+	/// <summary>
+	/// モデルハンドルのSetter
+	/// </summary>
+	/// <param name="modelHandles"></param>
+	void SetModelHandle(std::vector<uint32_t> modelHandles) override;
+
 
 private:
 

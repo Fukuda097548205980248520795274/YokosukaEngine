@@ -25,11 +25,6 @@ class GameScene : public Scene
 public:
 
 	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~GameScene();
-
-	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="engine">エンジン</param>
@@ -56,13 +51,13 @@ public:
 	/// プレイヤーの弾を発射する
 	/// </summary>
 	/// <param name="playerBullet"></param>
-	void PlayerBulletShot(BasePlayerBullet* playerBullet);
+	void PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet);
 
 	/// <summary>
 	/// 敵の弾を発射する
 	/// </summary>
 	/// <param name="enemyBullet"></param>
-	void EnemyBulletShot(BaseEnemyBullet* enemyBullet);
+	void EnemyBulletShot(std::unique_ptr<BaseEnemyBullet> enemyBullet);
 
 
 private:
@@ -81,11 +76,6 @@ private:
 	/// 敵の弾の更新処理
 	/// </summary>
 	void EnemyBulletUpdate();
-
-	/// <summary>
-	/// ボスの更新処理
-	/// </summary>
-	void BossUpdate();
 
 	/// <summary>
 	/// 全ての当たり判定を行う
@@ -116,18 +106,17 @@ private:
 	std::unique_ptr<Player> player_ = nullptr;
 
 	// プレイヤーの弾のリスト
-	std::list<BasePlayerBullet*> playerBullets_;
+	std::list<std::unique_ptr<BasePlayerBullet>> playerBullets_;
+
+	uint32_t playerBulletWeekModelHandle_ = 0;
+	uint32_t playerBulletStrongModelHandle_ = 0;
 
 
 	// 敵のリスト
-	std::list<BaseEnemy*> enemies_;
+	std::list<std::unique_ptr<BaseEnemy>> enemies_;
 
 	// 敵の弾のリスト
-	std::list<BaseEnemyBullet*> enemyBullets_;
-
-
-	// ボスのリスト
-	std::list<BaseBoss*> bosses_;
+	std::list<std::unique_ptr<BaseEnemyBullet>> enemyBullets_;
 
 
 	// グロースクリーン

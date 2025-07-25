@@ -347,12 +347,12 @@ void Player::BulletShotGamepad()
 		if (shotTimer_ >= kBigShotTime)
 		{
 			// 弾の生成と初期化
-			PlayerBulletStrong* newBullet = new PlayerBulletStrong();
+			std::unique_ptr<PlayerBulletStrong> newBullet = std::make_unique<PlayerBulletStrong>();
 			newBullet->Initialize(engine_, camera3d_, worldTransform_->translation_ ,worldTransform_->parent_);
 			newBullet->SetDirection(direction);
 
 			// リストに登録する
-			gameScene_->PlayerBulletShot(newBullet);
+			gameScene_->PlayerBulletShot(std::move(newBullet));
 
 			// カメラをシェイクする
 			gameScene_->CameraShake(0.5f, 1.0f);
@@ -368,12 +368,12 @@ void Player::BulletShotGamepad()
 			// 小発射
 
 			// 弾の生成と初期化
-			PlayerBulletWeek* newBullet = new PlayerBulletWeek();
+			std::unique_ptr<PlayerBulletWeek> newBullet = std::make_unique<PlayerBulletWeek>();
 			newBullet->Initialize(engine_, camera3d_, worldTransform_->translation_, worldTransform_->parent_);
 			newBullet->SetDirection(direction);
 
 			// リストに登録する
-			gameScene_->PlayerBulletShot(newBullet);
+			gameScene_->PlayerBulletShot(std::move(newBullet));
 
 			// タイマーを初期化する
 			shotTimer_ = 1.0f;

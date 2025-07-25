@@ -17,7 +17,6 @@ void PlayerBulletStrong::Initialize(const YokosukaEngine* engine, const Camera3D
 	bulletWorldTransform_->Initialize();
 	bulletWorldTransform_->SetParent(worldTransform_.get());
 	bulletWorldTransform_->scale_ *= 3.0f;
-	bulletModelHandle_ = engine_->LoadModelData("./Resources/Models/playerBullet/week", "week.obj");
 
 	// 弾のポイントライトの生成と初期化
 	bulletPointLight_ = std::make_unique<PointLight>();
@@ -85,4 +84,13 @@ Vector3 PlayerBulletStrong::GetBulletWorldTransform()
 	worldPosition.z = bulletWorldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
+}
+
+/// <summary>
+/// モデルハンドルのSetter
+/// </summary>
+/// <param name="modelHandles"></param>
+void PlayerBulletStrong::SetModelHandle(std::vector<uint32_t> modelHandles)
+{
+	bulletModelHandle_ = modelHandles[0];
 }

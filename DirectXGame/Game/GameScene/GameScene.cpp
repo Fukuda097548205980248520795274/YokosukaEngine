@@ -1,40 +1,6 @@
 #include "GameScene.h"
 
 /// <summary>
-/// デストラクタ
-/// </summary>
-GameScene::~GameScene()
-{
-	// プレイヤーの弾
-	for (BasePlayerBullet* playerBullet : playerBullets_)
-	{
-		delete playerBullet;
-	}
-	playerBullets_.clear();
-
-	// 敵
-	for (BaseEnemy* enemy : enemies_)
-	{
-		delete enemy;
-	}
-	enemies_.clear();
-
-	// 敵の弾
-	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
-	{
-		delete enemyBullet;
-	}
-	enemyBullets_.clear();
-
-	// ボス
-	for (BaseBoss* boss : bosses_)
-	{
-		delete boss;
-	}
-	bosses_.clear();
-}
-
-/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine">エンジン</param>
@@ -77,10 +43,15 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 	// 敵の追加
 	for (uint32_t i = 0; i < 3; i++)
 	{
-		EnemyButterfly* enemy = new EnemyButterfly();
+		std::unique_ptr<EnemyButterfly> enemy = std::make_unique<EnemyButterfly>();
 		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 0.0f, 20.0f), centerAxis_.get(), player_.get(), this);
-		enemies_.push_back(enemy);
+		enemies_.push_back(std::move(enemy));
 	}
+
+
+	// モデルを読み込む
+	playerBulletWeekModelHandle_ = engine_->LoadModelData("./Resources/Models/playerBullet/week", "week.obj");
+	playerBulletStrongModelHandle_ = engine_->LoadModelData("./Resources/Models/playerBullet/week", "week.obj");
 }
 
 /// <summary>
@@ -121,9 +92,6 @@ void GameScene::Update()
 	// 敵の弾の更新
 	EnemyBulletUpdate();
 
-	// ボスの更新
-	BossUpdate();
-
 
 	// 全ての当たり判定を行う
 	AllCheckCollision();
@@ -144,27 +112,21 @@ void GameScene::Draw()
 	player_->Draw();
 
 	// プレイヤーの弾
-	for (BasePlayerBullet* playerBullet : playerBullets_)
+	for (std::unique_ptr<BasePlayerBullet>& playerBullet : playerBullets_)
 	{
 		playerBullet->Draw();
 	}
 
 	// 敵の描画
-	for (BaseEnemy* enemy : enemies_)
+	for (std::unique_ptr<BaseEnemy>& enemy : enemies_)
 	{
 		enemy->Draw();
 	}
 
 	// 敵の弾の描画
-	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
+	for (std::unique_ptr<BaseEnemyBullet>& enemyBullet : enemyBullets_)
 	{
 		enemyBullet->Draw();
-	}
-
-	// ボスの描画
-	for (BaseBoss* boss : bosses_)
-	{
-		boss->Draw();
 	}
 
 
@@ -208,26 +170,28 @@ void GameScene::Draw()
 /// プレイヤーの弾を発射する
 /// </summary>
 /// <param name="playerBullet"></param>
-void GameScene::PlayerBulletShot(BasePlayerBullet* playerBullet)
+void GameScene::PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet)
 {
-	// nullptrチェック
-	assert(playerBullet);
+	std::vector<uint32_t> playerBulletModelHandles;
+	playerBulletModelHandles.push_back(playerBulletWeekModelHandle_);
+
+	playerBullet->SetModelHandle(playerBulletModelHandles);
 
 	// リストに追加する
-	playerBullets_.push_back(playerBullet);
+	playerBullets_.push_back(std::move(playerBullet));
 }
 
 /// <summary>
 /// 敵の弾を発射する
 /// </summary>
 /// <param name="enemyBullet"></param>
-void GameScene::EnemyBulletShot(BaseEnemyBullet* enemyBullet)
+void GameScene::EnemyBulletShot(std::unique_ptr<BaseEnemyBullet> enemyBullet)
 {
 	// nullptrチェック
 	assert(enemyBullet);
 
 	// リストに追加する
-	enemyBullets_.push_back(enemyBullet);
+	enemyBullets_.push_back(std::move(enemyBullet));
 }
 
 
@@ -238,17 +202,17 @@ void GameScene::EnemyBulletShot(BaseEnemyBullet* enemyBullet)
 void GameScene::PlayerBulletUpdate()
 {
 	// プレイヤーの弾の更新
-	for (BasePlayerBullet* playerBullet : playerBullets_)
+	for (std::unique_ptr<BasePlayerBullet>& playerBullet : playerBullets_)
 	{
 		playerBullet->Update();
 	}
 
 	// 終了したプレイヤーの弾をリストから削除する
-	playerBullets_.remove_if([](BasePlayerBullet* playerBullet)
+	playerBullets_.remove_if([](std::unique_ptr<BasePlayerBullet>& playerBullet)
 		{
 			if (playerBullet->IsFinished())
 			{
-				delete playerBullet;
+				playerBullet.release();
 				return true;
 			}
 			return false;
@@ -262,17 +226,17 @@ void GameScene::PlayerBulletUpdate()
 void GameScene::EnemyUpdate()
 {
 	// 敵の更新
-	for (BaseEnemy* enemy : enemies_)
+	for (std::unique_ptr<BaseEnemy>& enemy : enemies_)
 	{
 		enemy->Update();
 	}
 
 	// 終了した敵をリストから削除する
-	enemies_.remove_if([](BaseEnemy* enemy)
+	enemies_.remove_if([](std::unique_ptr<BaseEnemy>& enemy)
 		{
 			if (enemy->IsFinished())
 			{
-				delete enemy;
+				enemy.release();
 				return true;
 			}
 			return false;
@@ -286,41 +250,17 @@ void GameScene::EnemyUpdate()
 void GameScene::EnemyBulletUpdate()
 {
 	// 敵の弾の更新
-	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
+	for (std::unique_ptr<BaseEnemyBullet>& enemyBullet : enemyBullets_)
 	{
 		enemyBullet->Update();
 	}
 
 	// 終了した敵の弾をリストから削除する
-	enemyBullets_.remove_if([](BaseEnemyBullet* enemyBullet)
+	enemyBullets_.remove_if([](std::unique_ptr<BaseEnemyBullet>& enemyBullet)
 		{
 			if (enemyBullet->IsFinished())
 			{
-				delete enemyBullet;
-				return true;
-			}
-			return false;
-		}
-	);
-}
-
-/// <summary>
-/// ボスの更新処理
-/// </summary>
-void GameScene::BossUpdate()
-{
-	// ボスの更新
-	for (BaseBoss* boss : bosses_)
-	{
-		boss->Update();
-	}
-
-	// 終了したボスをリストから削除する
-	bosses_.remove_if([](BaseBoss* boss)
-		{
-			if (boss->IsFinished())
-			{
-				delete boss;
+				delete enemyBullet.release();
 				return true;
 			}
 			return false;
@@ -341,18 +281,18 @@ void GameScene::AllCheckCollision()
 	AABB aabb;
 
 	// プレイヤーの弾 敵
-	for (BasePlayerBullet* playerBullet : playerBullets_)
+	for (std::unique_ptr<BasePlayerBullet>& playerBullet : playerBullets_)
 	{
 		segment = playerBullet->GetCollisionSegment();
 
-		for (BaseEnemy* enemy : enemies_)
+		for (std::unique_ptr<BaseEnemy>& enemy : enemies_)
 		{
 			aabb = enemy->GetCollisionAABB();
 
 			if (IsCollision(aabb, segment))
 			{
-				playerBullet->OnCollision(enemy);
-				enemy->OnCollision(playerBullet);
+				playerBullet->OnCollision(enemy.get());
+				enemy->OnCollision(playerBullet.get());
 			}
 		}
 	}
@@ -361,19 +301,19 @@ void GameScene::AllCheckCollision()
 	aabb = player_->GetCollisionAABB();
 
 	// プレイヤー 敵の弾
-	for (BaseEnemyBullet* enemyBullet : enemyBullets_)
+	for (std::unique_ptr<BaseEnemyBullet>& enemyBullet : enemyBullets_)
 	{
 		segment = enemyBullet->GetCollisionSegment();
 		
 		if (IsCollision(aabb, segment))
 		{
-			player_->OnCollision(enemyBullet);
+			player_->OnCollision(enemyBullet.get());
 			enemyBullet->OnCollision(player_.get());
 		}
 	}
 
 	// プレイヤー 敵
-	for (BaseEnemy* enemy : enemies_)
+	for (std::unique_ptr<BaseEnemy>& enemy : enemies_)
 	{
 		// 敵が攻撃時当たり判定をする
 		if (enemy->IsAttack() == false)
@@ -381,7 +321,7 @@ void GameScene::AllCheckCollision()
 
 		if (IsCollision(aabb, enemy->GetCollisionAABB()))
 		{
-			player_->OnCollision(enemy);
+			player_->OnCollision(enemy.get());
 		}
 	}
 }

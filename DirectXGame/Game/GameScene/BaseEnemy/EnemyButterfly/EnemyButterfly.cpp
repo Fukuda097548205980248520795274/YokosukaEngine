@@ -12,6 +12,7 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 {
 	// 基底クラス初期化
 	BaseEnemy::Initialize(engine, camera3d, position,centerAxis, target, gameScene);
+
 	worldTransform_->scale_ *= 2.0f;
 
 	hitSize_ = { 2.0f , 2.0f , 1.0f };
@@ -143,7 +144,7 @@ void EnemyButterfly::Draw()
 /// 本体のワールド座標のGetter
 /// </summary>
 /// <returns></returns>
-Vector3 EnemyButterfly::GetBodyWorldPosition()
+Vector3 EnemyButterfly::GetBodyWorldPosition() const
 {
 	// ワールド座標
 	Vector3 worldPosition;
@@ -481,12 +482,12 @@ void EnemyButterfly::BehaviorShotUpdate()
 void EnemyButterfly::BulletShot()
 {
 	// 新規の弾の生成
-	EnemyBulletWeek* enemyBullet = new EnemyBulletWeek();
+	std::unique_ptr<EnemyBulletWeek> enemyBullet = std::make_unique<EnemyBulletWeek>();
 	enemyBullet->Initialize(engine_, camera3d_, worldTransform_->translation_, worldTransform_->parent_);
 
 	// ターゲットの方向に発射する
 	enemyBullet->SetDirection(Normalize(target_->GetWorldTransform()->translation_ - worldTransform_->translation_));
 
 	// ゲームシーンのリストに追加する
-	gameScene_->EnemyBulletShot(enemyBullet);
+	gameScene_->EnemyBulletShot(std::move(enemyBullet));
 }
