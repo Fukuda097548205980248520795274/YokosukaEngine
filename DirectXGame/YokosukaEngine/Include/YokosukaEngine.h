@@ -762,6 +762,12 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+	/// <summary>
+	/// 終了フラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished() const { return isFinished_; }
+
 
 protected:
 
@@ -776,6 +782,10 @@ protected:
 
 	// メインカメラ
 	std::unique_ptr<MainCamera> mainCamera_ = nullptr;
+
+
+	// 終了フラグ
+	bool isFinished_ = false;
 
 
 private:

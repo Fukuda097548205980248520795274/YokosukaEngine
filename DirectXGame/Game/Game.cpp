@@ -14,7 +14,7 @@ void Game::Initialize(const YokosukaEngine* engine)
 
 
 	// タイトルシーンの生成と初期化
-	scene_ = std::make_unique<GameScene>();
+	scene_ = std::make_unique<TitleScene>();
 	scene_->Initialize(engine_);
 }
 
@@ -58,6 +58,27 @@ void Game::Update()
 
 	// シーンの更新処理
 	scene_->Update();
+
+
+	// 終了フラグの判定
+	if (scene_->IsFinished())
+	{
+		// 現在のフェーズに合わせて切り替える
+		switch (scenePhase_)
+		{
+		case kTitle:
+			// タイトル
+
+			scenePhaseRequest_ = kGame;
+
+			break;
+
+		case kGame:
+			// ゲーム
+
+			break;
+		}
+	}
 }
 
 /// <summary>
