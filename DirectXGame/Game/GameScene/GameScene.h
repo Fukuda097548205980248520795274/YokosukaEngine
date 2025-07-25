@@ -100,6 +100,7 @@ private:
 	uint32_t playHandle_ = 0;
 
 
+
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 

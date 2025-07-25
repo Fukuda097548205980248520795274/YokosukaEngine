@@ -94,9 +94,11 @@ void GameScene::Update()
 	// Scene更新
 	Scene::Update();
 
+
+
 	if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
 	{
-		playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
+		playHandle_ = engine_->PlaySoundData(soundHandle_ , volume);
 	}
 
 
