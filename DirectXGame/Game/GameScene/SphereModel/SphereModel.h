@@ -38,6 +38,9 @@ private:
 	// UVトランスフォーム
 	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
 
+	// 色
+	Vector4 color_ = { 1.0f,1.0f,1.0f,1.0f };
+
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 

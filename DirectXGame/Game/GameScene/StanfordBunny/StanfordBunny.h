@@ -38,6 +38,9 @@ private:
 	// UVトランスフォームの可変子配列
 	std::vector<std::unique_ptr<UvTransform>> uvTransforms_;
 
+	// 色
+	Vector4 color_ = { 1.0f , 1.0f , 1.0f , 1.0f };
+
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;
 };

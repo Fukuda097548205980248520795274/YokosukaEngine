@@ -40,6 +40,7 @@ void Sprite::Update()
 		ImGui::DragFloat("rotation", &worldTransform_->rotation_.z, 0.01f);
 		ImGui::DragFloat2("translation", &worldTransform_->translation_.x, 1.0f);
 		ImGui::Text("\n");
+		ImGui::ColorEdit4("color", &color_.x);
 		ImGui::DragFloat2("uvScale", &uvTransform_->scale_.x, 0.1f);
 		ImGui::DragFloat("uvRotation", &uvTransform_->rotation_.z, 0.01f);
 		ImGui::DragFloat2("uvTranslation", &uvTransform_->translation_.x, 0.1f);
@@ -57,5 +58,5 @@ void Sprite::Update()
 void Sprite::Draw()
 {
 	// スプライトを描画する
-	engine_->DrawSprite(worldTransform_.get(), uvTransform_.get(), camera2d_, textureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	engine_->DrawSprite(worldTransform_.get(), uvTransform_.get(), camera2d_, textureHandle_, color_);
 }

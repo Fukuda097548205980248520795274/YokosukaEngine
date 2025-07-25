@@ -18,7 +18,6 @@ void StanfordBunny::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
-	worldTransform_->scale_ *= 12.0f;
 	worldTransform_->translation_.x = -10.0f;
 
 	// UVトランスフォームの生成と初期化
@@ -27,7 +26,7 @@ void StanfordBunny::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 	uvTransforms_.push_back(std::move(uvTransform));
 
 	// モデルを読み込む
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/stanfordBunny", "stanfordBunny.obj");
+	modelHandle_ = engine_->LoadModelData("./Resources/Models/bunny", "bunny.obj");
 }
 
 /// <summary>
@@ -41,6 +40,7 @@ void StanfordBunny::Update()
 		ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
 		ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
 		ImGui::Text("\n");
+		ImGui::ColorEdit4("color", &color_.x);
 		ImGui::DragFloat2("uvScale", &uvTransforms_[0]->scale_.x, 0.1f);
 		ImGui::DragFloat("uvRotation", &uvTransforms_[0]->rotation_.z, 0.01f);
 		ImGui::DragFloat2("uvTranslation", &uvTransforms_[0]->translation_.x, 0.1f);
@@ -61,5 +61,5 @@ void StanfordBunny::Update()
 void StanfordBunny::Draw(bool enableLighting, bool enableHalfLambert)
 {
 	// モデルを描画する
-	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_, modelHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), enableLighting, enableHalfLambert);
+	engine_->DrawModel(worldTransform_.get(), uvTransforms_, camera3d_, modelHandle_, color_, enableLighting, enableHalfLambert);
 }

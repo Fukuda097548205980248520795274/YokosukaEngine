@@ -39,6 +39,7 @@ void SphereModel::Update()
 		ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
 		ImGui::DragFloat3("translation", &worldTransform_->translation_.x, 0.1f);
 		ImGui::Text("\n");
+		ImGui::ColorEdit4("color", &color_.x);
 		ImGui::DragFloat2("uvScale", &uvTransform_->scale_.x, 0.1f);
 		ImGui::DragFloat("uvRotation", &uvTransform_->rotation_.z, 0.01f);
 		ImGui::DragFloat2("uvTranslation", &uvTransform_->translation_.x, 0.1f);
@@ -59,5 +60,5 @@ void SphereModel::Update()
 void SphereModel::Draw(bool enableLighting, bool enableHalfLambert)
 {
 	// モデルを描画する
-	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, segment, ring, Vector4(1.0f, 1.0f, 1.0f, 1.0f), enableLighting , enableHalfLambert);
+	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, segment, ring, color_, enableLighting , enableHalfLambert);
 }
