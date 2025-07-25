@@ -122,6 +122,13 @@ public:
 	void SetVolume(uint32_t playHandle, float volume) const { audioStore_->SetVolume(playHandle, volume); }
 
 	/// <summary>
+	/// ピッチの設定
+	/// </summary>
+	/// <param name="playHandle"></param>
+	/// <param name="pitch"></param>
+	void SetPitch(uint32_t playHandle, float pitch)const { audioStore_->SetPitch(playHandle, pitch); }
+
+	/// <summary>
 	/// 音声データを再生する
 	/// </summary>
 	/// <param name="soundHandle"></param>

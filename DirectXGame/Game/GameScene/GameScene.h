@@ -102,6 +102,9 @@ private:
 	// 音量
 	float volume = 0.3f;
 
+	// ピッチ
+	float pitch = 1.0f;
+
 
 
 	// 平行光源

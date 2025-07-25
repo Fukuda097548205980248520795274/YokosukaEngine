@@ -215,6 +215,27 @@ void AudioStore::SetVolume(uint32_t playHandle, float setVolume)
 }
 
 /// <summary>
+/// ピッチを設定する
+/// </summary>
+/// <param name="playHandle"></param>
+/// <param name="pitch"></param>
+void AudioStore::SetPitch(uint32_t playHandle, float pitch)
+{
+	// ハンドルが一致する構造体を探す
+	for (SoundPlayStructure* soundPlayStructure : soundPlayStructure_)
+	{
+		if (playHandle == soundPlayStructure->playHandle)
+		{
+			soundPlayStructure->pSourceVoice->SetFrequencyRatio(pitch);
+
+			return;
+		}
+	}
+
+	return;
+}
+
+/// <summary>
 /// 音楽が再生しているかどうか
 /// </summary>
 /// <param name="playHandle"></param>
