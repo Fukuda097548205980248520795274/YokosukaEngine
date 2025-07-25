@@ -187,6 +187,34 @@ void AudioStore::StopSound(uint32_t playHandle)
 }
 
 /// <summary>
+/// 音量を設定する
+/// </summary>
+/// <param name="playHandle"></param>
+/// <param name="setVolume"></param>
+void AudioStore::SetVolume(uint32_t playHandle, float setVolume)
+{
+	const float kMaxSoundVolume = 1.0f;
+	const float kMinSoundVolume = 0.0f;
+
+	// 規格外の音にならぬようにする
+	setVolume = std::max(kMinSoundVolume, setVolume);
+	setVolume = std::min(kMaxSoundVolume, setVolume);
+
+	// ハンドルが一致する構造体を探す
+	for (SoundPlayStructure* soundPlayStructure : soundPlayStructure_)
+	{
+		if (playHandle == soundPlayStructure->playHandle)
+		{
+			soundPlayStructure->pSourceVoice->SetVolume(setVolume);
+
+			return;
+		}
+	}
+
+	return;
+}
+
+/// <summary>
 /// 音楽が再生しているかどうか
 /// </summary>
 /// <param name="playHandle"></param>

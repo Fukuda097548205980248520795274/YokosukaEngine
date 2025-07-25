@@ -33,21 +33,21 @@ private:
 	std::unique_ptr<Scene> scene_ = nullptr;
 
 
-	/*-------------
-	    フェーズ
-	-------------*/
+	/*-----------------
+	    シーンフェーズ
+	-----------------*/
 
-	enum Phase
+	enum ScenePhase
 	{
 		kTitle,
 		kGame
 	};
 
-	// 現在のフェーズ
-	Phase phase_ = kTitle;
+	// 現在のシーンフェーズ
+	ScenePhase scenePhase_ = kTitle;
 
-	// 次のフェーズのリクエスト
-	std::optional<Phase> phaseRequest_ = std::nullopt;
+	// 次のシーンフェーズのリクエスト
+	std::optional<ScenePhase> scenePhaseRequest_ = std::nullopt;
 
 
 };

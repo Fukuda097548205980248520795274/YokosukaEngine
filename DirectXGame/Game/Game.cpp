@@ -14,7 +14,7 @@ void Game::Initialize(const YokosukaEngine* engine)
 
 
 	// タイトルシーンの生成と初期化
-	scene_ = std::make_unique<TitleScene>();
+	scene_ = std::make_unique<GameScene>();
 	scene_->Initialize(engine_);
 }
 
@@ -24,16 +24,16 @@ void Game::Initialize(const YokosukaEngine* engine)
 void Game::Update()
 {
 	// 次のフェーズのリクエストがあったとき
-	if (phaseRequest_)
+	if (scenePhaseRequest_)
 	{
 		// フェーズ変更
-		phase_ = phaseRequest_.value();
+		scenePhase_ = scenePhaseRequest_.value();
 
 		// シーンの初期化
 		scene_.release();
 
 		// 切り替えたフェーズの生成と初期化
-		switch (phase_)
+		switch (scenePhase_)
 		{
 		case kTitle:
 			// タイトル
@@ -53,7 +53,7 @@ void Game::Update()
 		}
 
 		// フェーズリクエストの消去
-		phaseRequest_ = std::nullopt;
+		scenePhaseRequest_ = std::nullopt;
 	}
 
 	// シーンの更新処理

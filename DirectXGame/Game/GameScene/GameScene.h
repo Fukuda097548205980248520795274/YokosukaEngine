@@ -99,6 +99,10 @@ private:
 	// プレイハンドル
 	uint32_t playHandle_ = 0;
 
+	// 音量
+	float volume = 0.3f;
+
+
 
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;

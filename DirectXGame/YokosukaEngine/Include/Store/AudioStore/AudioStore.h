@@ -53,6 +53,13 @@ public:
 	void StopSound(uint32_t playHandle);
 
 	/// <summary>
+	/// 音量を設定する
+	/// </summary>
+	/// <param name="playHandle"></param>
+	/// <param name="setVolume"></param>
+	void SetVolume(uint32_t playHandle, float setVolume);
+
+	/// <summary>
 	/// 音楽が再生されているかどうか
 	/// </summary>
 	/// <param name="playHandle"></param>

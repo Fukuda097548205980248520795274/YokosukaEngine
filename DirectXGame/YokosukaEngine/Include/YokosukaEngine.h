@@ -115,6 +115,13 @@ public:
 	void UpdateAudioStore() { audioStore_->DeleteStopAudio(); };
 
 	/// <summary>
+	/// 音量の設定
+	/// </summary>
+	/// <param name="playHandle"></param>
+	/// <param name="volume"></param>
+	void SetVolume(uint32_t playHandle, float volume) const { audioStore_->SetVolume(playHandle, volume); }
+
+	/// <summary>
 	/// 音声データを再生する
 	/// </summary>
 	/// <param name="soundHandle"></param>
@@ -712,6 +719,17 @@ private:
 
 	// ピボットのワールドトランスフォーム
 	std::unique_ptr<WorldTransform> pivotWorldTransform_ = nullptr;
+};
+
+/// <summary>
+/// フェード
+/// </summary>
+class Fade
+{
+public:
+
+
+private:
 };
 
 /// <summary>
