@@ -1,6 +1,7 @@
 #pragma once
 #include "../YokosukaEngine/Include/YokosukaEngine.h"
 #include "GameScene/GameScene.h"
+#include "TitleScene/TitleScene.h"
 
 class Game
 {
@@ -28,7 +29,25 @@ private:
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
 
-	// ゲームシーン
-	std::unique_ptr<GameScene> gameScene_ = nullptr;
+	// シーン
+	std::unique_ptr<Scene> scene_ = nullptr;
+
+
+	/*-------------
+	    フェーズ
+	-------------*/
+
+	enum Phase
+	{
+		kTitle,
+		kGame
+	};
+
+	// 現在のフェーズ
+	Phase phase_ = kTitle;
+
+	// 次のフェーズのリクエスト
+	std::optional<Phase> phaseRequest_ = std::nullopt;
+
 
 };

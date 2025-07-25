@@ -382,6 +382,9 @@
     <Filter Include="Game\GameScene\PlayerStateHud">
       <UniqueIdentifier>{7d067d9d-a0ab-432a-a514-f26719bf0fa1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\TitleScene">
+      <UniqueIdentifier>{3428f662-9a98-484a-9eb1-6f48dee47e4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -713,6 +716,9 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene\PlayerStateHud\PlayerStateHud.cpp">
       <Filter>Game\GameScene\PlayerStateHud</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TitleScene\TitleScene.cpp">
+      <Filter>Game\TitleScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1048,6 +1054,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene\PlayerStateHud\PlayerStateHud.h">
       <Filter>Game\GameScene\PlayerStateHud</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TitleScene\TitleScene.h">
+      <Filter>Game\TitleScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

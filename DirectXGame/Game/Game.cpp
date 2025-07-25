@@ -13,9 +13,9 @@ void Game::Initialize(const YokosukaEngine* engine)
 	engine_ = engine;
 
 
-	// ゲームシーンの生成と初期化
-	gameScene_ = std::make_unique<GameScene>();
-	gameScene_->Initialize(engine_);
+	// タイトルシーンの生成と初期化
+	scene_ = std::make_unique<TitleScene>();
+	scene_->Initialize(engine_);
 }
 
 /// <summary>
@@ -23,8 +23,41 @@ void Game::Initialize(const YokosukaEngine* engine)
 /// </summary>
 void Game::Update()
 {
-	// ゲームシーンの更新
-	gameScene_->Update();
+	// 次のフェーズのリクエストがあったとき
+	if (phaseRequest_)
+	{
+		// フェーズ変更
+		phase_ = phaseRequest_.value();
+
+		// シーンの初期化
+		scene_.release();
+
+		// 切り替えたフェーズの生成と初期化
+		switch (phase_)
+		{
+		case kTitle:
+			// タイトル
+
+			scene_ = std::make_unique<TitleScene>();
+			scene_->Initialize(engine_);
+
+			break;
+
+		case kGame:
+			// ゲーム
+
+			scene_ = std::make_unique<GameScene>();
+			scene_->Initialize(engine_);
+
+			break;
+		}
+
+		// フェーズリクエストの消去
+		phaseRequest_ = std::nullopt;
+	}
+
+	// シーンの更新処理
+	scene_->Update();
 }
 
 /// <summary>
@@ -32,7 +65,6 @@ void Game::Update()
 /// </summary>
 void Game::Draw()
 {
-
-	// ゲームシーンの描画
-	gameScene_->Draw();
+	// シーンの描画処理
+	scene_->Draw();
 }
