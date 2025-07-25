@@ -101,30 +101,6 @@ void GameScene::Update()
 		playHandle_ = engine_->PlaySoundData(soundHandle_ , volume);
 	}
 
-	if (engine_->GetKeyTrigger(DIK_W))
-	{
-		volume += 0.1f;
-		engine_->SetVolume(playHandle_, volume);
-	}
-
-	if (engine_->GetKeyTrigger(DIK_S))
-	{
-		volume -= 0.1f;
-		engine_->SetVolume(playHandle_, volume);
-	}
-
-	if (engine_->GetKeyTrigger(DIK_D))
-	{
-		pitch += 0.1f;
-		engine_->SetPitch(playHandle_, pitch);
-	}
-
-	if (engine_->GetKeyTrigger(DIK_A))
-	{
-		pitch -= 0.1f;
-		engine_->SetPitch(playHandle_, pitch);
-	}
-
 
 	// 中心軸の更新
 	centerAxis_->Update();
