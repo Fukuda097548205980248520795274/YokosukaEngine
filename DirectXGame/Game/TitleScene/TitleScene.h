@@ -1,7 +1,8 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../BaseScene/BaseScene.h"
 
-class TitleScene : public Scene
+class TitleScene : public BaseScene
 {
 public:
 
@@ -9,7 +10,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="engine"></param>
-	void Initialize(const YokosukaEngine* engine) override;
+	void Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore) override;
 
 	/// <summary>
 	/// 更新処理

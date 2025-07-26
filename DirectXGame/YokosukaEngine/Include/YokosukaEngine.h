@@ -763,10 +763,16 @@ public:
 	virtual void Draw();
 
 	/// <summary>
-	/// 終了フラグのGetter
+	/// メインカメラのインスタンスのGetter
 	/// </summary>
 	/// <returns></returns>
-	bool IsFinished() const { return isFinished_; }
+	MainCamera* GetMainCameraInstance() { return mainCamera_.get(); }
+
+	/// <summary>
+	/// 3DカメラのインスタンスのGetter
+	/// </summary>
+	/// <returns></returns>
+	Camera3D* GetCamera3D() { return camera3d_.get(); }
 
 
 protected:
@@ -782,10 +788,6 @@ protected:
 
 	// メインカメラ
 	std::unique_ptr<MainCamera> mainCamera_ = nullptr;
-
-
-	// 終了フラグ
-	bool isFinished_ = false;
 
 
 private:

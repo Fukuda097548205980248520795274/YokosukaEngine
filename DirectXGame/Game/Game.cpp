@@ -12,10 +12,13 @@ void Game::Initialize(const YokosukaEngine* engine)
 	// 引数を受け取る
 	engine_ = engine;
 
+	// モデルハンドル格納場所の生成と初期化
+	modelHandleStore_ = std::make_unique<ModelHandleStore>();
+	modelHandleStore_->Initialize(engine_);
 
 	// タイトルシーンの生成と初期化
 	scene_ = std::make_unique<TitleScene>();
-	scene_->Initialize(engine_);
+	scene_->Initialize(engine_ , modelHandleStore_.get());
 }
 
 /// <summary>
@@ -39,7 +42,7 @@ void Game::Update()
 			// タイトル
 
 			scene_ = std::make_unique<TitleScene>();
-			scene_->Initialize(engine_);
+			scene_->Initialize(engine_, modelHandleStore_.get());
 
 			break;
 
@@ -47,7 +50,8 @@ void Game::Update()
 			// ゲーム
 
 			scene_ = std::make_unique<GameScene>();
-			scene_->Initialize(engine_);
+			scene_->Initialize(engine_, modelHandleStore_.get());
+			
 
 			break;
 		}

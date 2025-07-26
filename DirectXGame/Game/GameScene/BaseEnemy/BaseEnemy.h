@@ -71,6 +71,12 @@ public:
 	/// <param name="playerBullet"></param>
 	virtual void OnCollision(const BasePlayerBullet* playerBullet);
 
+	/// <summary>
+	/// モデルハンドルのSetter
+	/// </summary>
+	/// <param name="modelHandles"></param>
+	virtual void SetModelHandles(std::vector<uint32_t> modelHandles) = 0;
+
 
 protected:
 

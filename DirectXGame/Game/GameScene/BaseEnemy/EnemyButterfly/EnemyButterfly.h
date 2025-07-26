@@ -44,6 +44,12 @@ public:
 	/// <param name="playerBullet"></param>
 	void OnCollision(const BasePlayerBullet* playerBullet) override;
 
+	/// <summary>
+	/// モデルハンドルのSetter
+	/// </summary>
+	/// <param name="modelHandles"></param>
+	void SetModelHandles(std::vector<uint32_t> modelHandles) override;
+
 
 private:
 

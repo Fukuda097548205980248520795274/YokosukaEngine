@@ -1,16 +1,14 @@
 #include "GameScene.h"
+#include "../ModelHandleStore/ModelHandleStore.h"
 
 /// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine">エンジン</param>
-void GameScene::Initialize(const YokosukaEngine* engine)
+void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore)
 {
-	// nullptrチェック
-	assert(engine);
-
-	// Scene更新
-	Scene::Initialize(engine);
+	// BaseScene更新
+	BaseScene::Initialize(engine , modelHandleStore);
 
 	// サウンドを読み込む
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Addictive_Waveform.mp3");
@@ -18,7 +16,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// 中心軸の生成と初期化
 	centerAxis_ = std::make_unique<CenterAxis>();
-	centerAxis_->Initliaze(engine_ , camera3d_.get());
+	centerAxis_->Initliaze(engine_ , camera3d_);
 
 	// 中心軸をメインカメラの親とする
 	mainCamera_->SetPivotParent(centerAxis_->GetWorldTransform());
@@ -31,27 +29,14 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
-	skydome_->Initialize(engine_, camera3d_.get());
+	skydome_->Initialize(engine_, camera3d_);
 	skydome_->SetPosition(centerAxis_->GetWorldPosition());
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_.get());
+	player_->Initialize(engine_, camera3d_);
 	player_->SetGameScene(this);
 	player_->SetParent(mainCamera_->GetPivotWorldTransform());
-
-	// 敵の追加
-	for (uint32_t i = 0; i < 3; i++)
-	{
-		std::unique_ptr<EnemyButterfly> enemy = std::make_unique<EnemyButterfly>();
-		enemy->Initialize(engine_, camera3d_.get(), Vector3(-15.0f + 15.0f * i, 0.0f, 20.0f), centerAxis_.get(), player_.get(), this);
-		enemies_.push_back(std::move(enemy));
-	}
-
-
-	// モデルを読み込む
-	playerBulletWeekModelHandle_ = engine_->LoadModelData("./Resources/Models/playerBullet/week", "week.obj");
-	playerBulletStrongModelHandle_ = engine_->LoadModelData("./Resources/Models/playerBullet/week", "week.obj");
 }
 
 /// <summary>
@@ -63,7 +48,7 @@ void GameScene::Update()
 	mainCamera_->SetCameraRotate(centerAxis_->GetWorldTransform()->rotation_);
 
 	// Scene更新
-	Scene::Update();
+	BaseScene::Update();
 
 
 
@@ -154,7 +139,7 @@ void GameScene::Draw()
 	engine_->SetCopyImageBlendMode(kBlendModeNormal);
 
 	// Scene描画
-	Scene::Draw();
+	BaseScene::Draw();
 
 
 	// 中心軸の描画
@@ -172,10 +157,8 @@ void GameScene::Draw()
 /// <param name="playerBullet"></param>
 void GameScene::PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet)
 {
-	std::vector<uint32_t> playerBulletModelHandles;
-	playerBulletModelHandles.push_back(playerBulletWeekModelHandle_);
-
-	playerBullet->SetModelHandle(playerBulletModelHandles);
+	// モデルハンドルを渡す
+	playerBullet->SetModelHandle(modelHandleStore_->GetModelHandle(ModelHandleStore::kPlayerBulletWeek));
 
 	// リストに追加する
 	playerBullets_.push_back(std::move(playerBullet));

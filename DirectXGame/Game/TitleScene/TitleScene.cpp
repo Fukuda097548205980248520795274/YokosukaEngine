@@ -4,10 +4,10 @@
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
-void TitleScene::Initialize(const YokosukaEngine* engine)
+void TitleScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore)
 {
 	// 基底クラス初期化
-	Scene::Initialize(engine);
+	BaseScene::Initialize(engine , modelHandleStore);
 
 	// サウンドを読み込む
 	shGlassBreaks_ = engine_->LoadSound("./Resources/Sounds/Se/title/glass.mp3");
@@ -19,7 +19,7 @@ void TitleScene::Initialize(const YokosukaEngine* engine)
 void TitleScene::Update()
 {
 	// 基底クラス更新処理
-	Scene::Update();
+	BaseScene::Update();
 
 	// 次のビヘイビアのリクエストがあるとき
 	if (behaviorRequest_)
@@ -104,7 +104,7 @@ void TitleScene::Draw()
 	}
 
 	// 基底クラス描画処理
-	Scene::Draw();
+	BaseScene::Draw();
 }
 
 

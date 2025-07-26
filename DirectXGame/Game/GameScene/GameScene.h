@@ -1,5 +1,6 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../BaseScene/BaseScene.h"
 
 #include "CenterAxis/CenterAxis.h"
 
@@ -9,9 +10,6 @@
 #include "BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
-#include "BaseBoss/BaseBoss.h"
-#include "BaseBoss/BossBenkei/BossBenkei.h"
-
 #include "BaseEnemy/BaseEnemy.h"
 #include "BaseEnemy/EnemyButterfly/EnemyButterfly.h"
 
@@ -19,8 +17,7 @@
 
 #include "Skydome/Skydome.h"
 
-
-class GameScene : public Scene
+class GameScene : public BaseScene
 {
 public:
 
@@ -28,7 +25,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="engine">エンジン</param>
-	void Initialize(const YokosukaEngine* engine) override;
+	void Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore) override;
 
 	/// <summary>
 	/// 更新処理
@@ -83,6 +80,7 @@ private:
 	void AllCheckCollision();
 
 
+
 	// サウンドハンドル
 	uint32_t soundHandle_ = 0;
 
@@ -107,9 +105,6 @@ private:
 
 	// プレイヤーの弾のリスト
 	std::list<std::unique_ptr<BasePlayerBullet>> playerBullets_;
-
-	uint32_t playerBulletWeekModelHandle_ = 0;
-	uint32_t playerBulletStrongModelHandle_ = 0;
 
 
 	// 敵のリスト
