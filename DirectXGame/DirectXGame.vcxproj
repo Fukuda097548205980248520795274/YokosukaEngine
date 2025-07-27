@@ -119,6 +119,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\BaseScene.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseBullet.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.cpp" />
@@ -239,6 +241,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\BaseScene\BaseScene.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseBullet.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.h" />

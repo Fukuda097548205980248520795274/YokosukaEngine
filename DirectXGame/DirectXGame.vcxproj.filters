@@ -762,6 +762,12 @@
     <ClCompile Include="Game\BaseScene\BaseScene.cpp">
       <Filter>Game\BaseScene</Filter>
     </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseBullet.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="YokosukaEngine\Include\YokosukaEngine.h">
@@ -1117,6 +1123,12 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\BaseScene.h">
       <Filter>Game\BaseScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseBullet.h">
+      <Filter>Game\BaseScene\GameScene\BaseBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
