@@ -8,6 +8,21 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 {
 	// 基底クラスの初期化
 	Scene::Initialize(engine);
+
+	// 平行光源の生成と初期化
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
+
+	// ワールドトランスフォームの生成と初期化
+	worldTransform_ = std::make_unique<WorldTransform>();
+	worldTransform_->Initialize();
+
+	// UVトランスフォームの生成と初期化
+	uvTransform_ = std::make_unique<UvTransform>();
+	uvTransform_->Initialize();
+
+	// モデルを読み込む
+	textureHandle_ = engine_->LoadTexture("./Resources/Textures/uvChecker.png");
 }
 
 /// <summary>
@@ -17,6 +32,14 @@ void GameScene::Update()
 {
 	// 基底クラスの更新処理
 	Scene::Update();
+
+
+	// ワールド行列を取得する
+	worldTransform_->worldMatrix_ = 
+		MakeScaleMatrix(worldTransform_->scale_) * MakeRotateMatrix(worldTransform_->rotation_) * MakeTranslateMatrix(worldTransform_->translation_);
+
+	// UVトランスフォームの更新
+	uvTransform_->UpdateWorldMatrix();
 }
 
 /// <summary>
@@ -24,6 +47,12 @@ void GameScene::Update()
 /// </summary>
 void GameScene::Draw()
 {
+	// 平行光源の設置
+	engine_->SetDirectionalLight(directionalLight_.get());
+
+	// 球を描画する
+	engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_.get(), textureHandle_, 12, 6, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
+
 	// 基底クラスの描画処理
 	Scene::Draw();
 }
