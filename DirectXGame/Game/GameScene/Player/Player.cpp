@@ -52,9 +52,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	bodyPointLight_->Initialize();
 	bodyPointLight_->radius_ = 24.0f;
 
-	// モデルを読み込む
-	bodyModelHandle_ = engine_->LoadModelData("./Resources/Models/Player", "Player.obj");
-
 	// ギミック : 浮遊 : 初期化
 	GimmickFloatInitialize();
 
@@ -218,6 +215,15 @@ AABB Player::GetCollisionAABB()const
 	aabb.min = (-1.0f * hitSize_) + Vector3(worldMatrix.m[3][0], worldMatrix.m[3][1], worldMatrix.m[3][2]);
 
 	return aabb;
+}
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="modelHandle"></param>
+void Player::SetModelHandle(std::vector<uint32_t> modelHandle)
+{
+	bodyModelHandle_ = modelHandle[0];
 }
 
 

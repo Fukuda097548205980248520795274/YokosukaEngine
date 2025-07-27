@@ -18,9 +18,6 @@ void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* c
 	bulletWorldTransform_->Initialize();
 	bulletWorldTransform_->SetParent(worldTransform_.get());
 
-	// モデルを読み込む
-	bulletModelHandle_ = engine_->LoadModelData("./Resources/Models/enemyBullet/week", "week.obj");
-
 	// ポイントライトの生成
 	bulletPointLight_ = std::make_unique<PointLight>();
 	bulletPointLight_->Initialize();
@@ -85,4 +82,13 @@ Vector3 EnemyBulletWeek::GetBulletWorldPosition() const
 	worldPosition.z = bulletWorldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
+}
+
+/// <summary>
+/// モデルハンドルのSetter
+/// </summary>
+/// <param name="modelHandles"></param>
+void EnemyBulletWeek::SetModelHandle(std::vector<uint32_t> modelHandles)
+{
+	bulletModelHandle_ = modelHandles[0];
 }

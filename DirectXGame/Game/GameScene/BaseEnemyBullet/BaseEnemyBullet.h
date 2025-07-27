@@ -55,6 +55,12 @@ public:
 	/// <param name="enemy"></param>
 	void OnCollision(const Player* player);
 
+	/// <summary>
+	/// モデルハンドルのSetter
+	/// </summary>
+	/// <param name="modelHandles"></param>
+	virtual void SetModelHandle(std::vector<uint32_t> modelHandles) = 0;
+
 
 protected:
 

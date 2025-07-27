@@ -97,6 +97,12 @@ public:
 	/// <returns></returns>
 	AABB GetCollisionAABB()const;
 
+	/// <summary>
+	/// モデルハンドルのSetter
+	/// </summary>
+	/// <param name="modelHandle"></param>
+	void SetModelHandle(std::vector<uint32_t> modelHandle);
+
 
 private:
 

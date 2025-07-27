@@ -35,6 +35,12 @@ public:
 	/// <returns></returns>
 	Vector3 GetBulletWorldPosition() const;
 
+	/// <summary>
+	/// モデルハンドルのSetter
+	/// </summary>
+	/// <param name="modelHandles"></param>
+	void SetModelHandle(std::vector<uint32_t> modelHandles) override;
+
 
 private:
 
