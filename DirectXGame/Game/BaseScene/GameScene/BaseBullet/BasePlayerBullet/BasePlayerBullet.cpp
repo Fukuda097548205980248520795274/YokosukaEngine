@@ -1,5 +1,5 @@
 #include "BasePlayerBullet.h"
-#include "../BaseEnemy/BaseEnemy.h"
+#include "../../BaseCharacter/BaseEnemy/BaseEnemy.h"
 
 
 /// <summary>

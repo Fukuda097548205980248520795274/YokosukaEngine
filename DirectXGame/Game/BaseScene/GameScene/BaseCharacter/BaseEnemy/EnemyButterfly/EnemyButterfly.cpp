@@ -1,6 +1,6 @@
 #include "EnemyButterfly.h"
 #include "../../Player/Player.h"
-#include "../../GameScene.h"
+#include "../../../GameScene.h"
 
 /// <summary>
 /// 初期化

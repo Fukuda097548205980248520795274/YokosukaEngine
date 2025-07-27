@@ -406,7 +406,7 @@
     <Filter Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletStrong">
       <UniqueIdentifier>{0a5f6acf-694f-45b1-976d-11eee3c83fe2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseStage">
+    <Filter Include="Game\BaseScene\GameScene\BaseStage">
       <UniqueIdentifier>{a26fac97-a5da-45d7-97ac-aaa001f15ccb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -648,19 +648,19 @@
     <ClCompile Include="YokosukaEngine\Include\Transform\WorldTransform2D\WorldTransform2D.cpp">
       <Filter>YokosukaEngine\Include\Transform\WorldTransform2D</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\Player\Player.cpp">
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\Skydome\Skydome.cpp">
       <Filter>Game\BaseScene\GameScene\Skydome</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BasePlayerBullet\BasePlayerBullet.cpp">
+    <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\BasePlayerBullet.cpp">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.cpp">
+    <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.cpp">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletWeek</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.cpp">
+    <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.cpp">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletStrong</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.cpp">
@@ -693,13 +693,13 @@
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.cpp">
       <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BaseEnemy\BaseEnemy.cpp">
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\BaseEnemy.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseStage\BaseStage.cpp">
-      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseStage</Filter>
+      <Filter>Game\BaseScene\GameScene\BaseStage</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.cpp">
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\EnemyButterfly.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll\RasterScroll.cpp">
@@ -720,10 +720,10 @@
     <ClCompile Include="YokosukaEngine\Include\Shape\Line\Line.cpp">
       <Filter>YokosukaEngine\Include\Shape\Line</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BaseEnemyBullet\BaseEnemyBullet.cpp">
+    <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.cpp">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.cpp">
+    <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.cpp">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek</Filter>
     </ClCompile>
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp">
@@ -1004,19 +1004,19 @@
     <ClInclude Include="YokosukaEngine\Include\Transform\WorldTransform2D\WorldTransform2D.h">
       <Filter>YokosukaEngine\Include\Transform\WorldTransform2D</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\Player\Player.h">
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\Player</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\Skydome\Skydome.h">
       <Filter>Game\BaseScene\GameScene\Skydome</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BasePlayerBullet\BasePlayerBullet.h">
+    <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\BasePlayerBullet.h">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.h">
+    <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.h">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletWeek</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.h">
+    <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.h">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletStrong</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Draw\GPUforPostEffect\GPUforPostEffect.h">
@@ -1049,13 +1049,13 @@
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\CopyImage\CopyImageBlendScreen\CopyImageBlendScreen.h">
       <Filter>YokosukaEngine\Include\PipelineStateObject\CopyImage\BlendScreen</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BaseEnemy\BaseEnemy.h">
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\BaseEnemy.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseStage\BaseStage.h">
-      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseStage</Filter>
+      <Filter>Game\BaseScene\GameScene\BaseStage</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BaseEnemy\EnemyButterfly\EnemyButterfly.h">
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\EnemyButterfly.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll\RasterScroll.h">
@@ -1076,10 +1076,10 @@
     <ClInclude Include="YokosukaEngine\Include\Shape\Line\Line.h">
       <Filter>YokosukaEngine\Include\Shape\Line</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BaseEnemyBullet\BaseEnemyBullet.h">
+    <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.h">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.h">
+    <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.h">
       <Filter>Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek</Filter>
     </ClInclude>
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h">

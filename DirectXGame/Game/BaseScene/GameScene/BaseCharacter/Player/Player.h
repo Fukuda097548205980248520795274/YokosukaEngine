@@ -1,9 +1,9 @@
 #pragma once
 #define NOMINMAX
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
-#include "../BasePlayerBullet/BasePlayerBullet.h"
-#include "../BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
-#include "../BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
+#include "../../BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
+#include "../../BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
+#include "../../BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
 // 前方宣言
 class GameScene;

@@ -1,8 +1,8 @@
 #pragma once
 #include "../BaseEnemy.h"
 
-#include "../../BaseEnemyBullet/BaseEnemyBullet.h"
-#include "../../BaseEnemyBullet/EnemyBulletWeek/EnemyBulletWeek.h"
+#include "../../../BaseBullet/BaseEnemyBullet/BaseEnemyBullet.h"
+#include "../../../BaseBullet/BaseEnemyBullet/EnemyBulletWeek/EnemyBulletWeek.h"
 
 class EnemyButterfly : public BaseEnemy
 {

@@ -4,16 +4,16 @@
 
 #include "CenterAxis/CenterAxis.h"
 
-#include "Player/Player.h"
+#include "BaseCharacter/Player/Player.h"
 
-#include "BasePlayerBullet/BasePlayerBullet.h"
-#include "BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
-#include "BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
+#include "BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
+#include "BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
+#include "BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
-#include "BaseEnemy/BaseEnemy.h"
-#include "BaseEnemy/EnemyButterfly/EnemyButterfly.h"
+#include "BaseCharacter/BaseEnemy/BaseEnemy.h"
+#include "BaseCharacter/BaseEnemy/EnemyButterfly/EnemyButterfly.h"
 
-#include "BaseEnemyBullet/BaseEnemyBullet.h"
+#include "BaseBullet/BaseEnemyBullet/BaseEnemyBullet.h"
 
 #include "Skydome/Skydome.h"
 

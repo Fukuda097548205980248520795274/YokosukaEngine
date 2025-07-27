@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "../GameScene.h"
+#include "../../GameScene.h"
 #include "../BaseEnemy/BaseEnemy.h"
 
 /// <summary>
