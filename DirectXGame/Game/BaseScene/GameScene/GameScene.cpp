@@ -1,5 +1,5 @@
 #include "GameScene.h"
-#include "../ModelHandleStore/ModelHandleStore.h"
+#include "../../ModelHandleStore/ModelHandleStore.h"
 
 /// <summary>
 /// 初期化

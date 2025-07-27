@@ -1,7 +1,7 @@
 #pragma once
 #include "../YokosukaEngine/Include/YokosukaEngine.h"
-#include "GameScene/GameScene.h"
-#include "TitleScene/TitleScene.h"
+#include "BaseScene/GameScene/GameScene.h"
+#include "BaseScene/TitleScene/TitleScene.h"
 #include "ModelHandleStore\/ModelHandleStore.h"
 
 class Game

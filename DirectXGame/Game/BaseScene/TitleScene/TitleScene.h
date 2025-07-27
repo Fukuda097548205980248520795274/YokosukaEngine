@@ -1,6 +1,6 @@
 #pragma once
-#include "../../YokosukaEngine/Include/YokosukaEngine.h"
-#include "../BaseScene/BaseScene.h"
+#include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../../BaseScene/BaseScene.h"
 
 class TitleScene : public BaseScene
 {
