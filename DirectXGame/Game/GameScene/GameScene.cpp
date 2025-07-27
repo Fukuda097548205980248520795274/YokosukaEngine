@@ -33,10 +33,15 @@ void GameScene::Update()
 	// 基底クラスの更新処理
 	Scene::Update();
 
+	ImGui::Begin("worldTransform");
+	ImGui::DragFloat3("rotation", &worldTransform_->rotation_.x, 0.01f);
+	ImGui::End();
 
 	// ワールド行列を取得する
-	worldTransform_->worldMatrix_ = 
-		MakeScaleMatrix(worldTransform_->scale_) * MakeRotateMatrix(worldTransform_->rotation_) * MakeTranslateMatrix(worldTransform_->translation_);
+	worldTransform_->worldMatrix_ =
+		MakeScaleMatrix(worldTransform_->scale_) * 
+		MakeRotateAxisAngle({ 1.0f ,1.0f , 1.0f }, worldTransform_->rotation_.x) *
+		MakeTranslateMatrix(worldTransform_->translation_);
 
 	// UVトランスフォームの更新
 	uvTransform_->UpdateWorldMatrix();

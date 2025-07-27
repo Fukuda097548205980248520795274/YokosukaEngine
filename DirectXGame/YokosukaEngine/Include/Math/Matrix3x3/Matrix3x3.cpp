@@ -64,6 +64,31 @@ Matrix3x3 MakeScaleMatrix(const Vector2& scale)
 }
 
 /// <summary>
+/// 拡大縮小行列を作る
+/// </summary>
+/// <param name="scale"></param>
+/// <returns></returns>
+Matrix3x3 MakeScaleMatrix3x3(const Vector3& scale)
+{
+	// 拡大縮小行列
+	Matrix3x3 scaleMatrix;
+
+	scaleMatrix.m[0][0] = scale.x;
+	scaleMatrix.m[0][1] = 0.0f;
+	scaleMatrix.m[0][2] = 0.0f;
+
+	scaleMatrix.m[1][0] = 0.0f;
+	scaleMatrix.m[1][1] = scale.y;
+	scaleMatrix.m[1][2] = 0.0f;
+
+	scaleMatrix.m[2][0] = 0.0f;
+	scaleMatrix.m[2][1] = 0.0f;
+	scaleMatrix.m[2][2] = scale.z;
+
+	return scaleMatrix;
+}
+
+/// <summary>
 /// 回転行列を作る
 /// </summary>
 /// <param name="radian">ラジアン</param>
@@ -224,7 +249,7 @@ Matrix3x3 MakeViewportMatrix(float left, float top, float width, float height)
 /// 単位行列を作る
 /// </summary>
 /// <returns></returns>
-Matrix3x3 MakeIdenityMatrix()
+Matrix3x3 MakeIdenityMatrix3x3()
 {
 	// 単位行列
 	Matrix3x3 idenityMatrix;

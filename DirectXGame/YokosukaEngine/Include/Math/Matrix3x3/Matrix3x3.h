@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cassert>
 #include "../Vector2/Vector2.h"
+#include "../Vector3/Vector3.h"
 
 // 3x3行列
 struct Matrix3x3
@@ -222,6 +223,13 @@ Vector2 TransformNormal(const Vector2& vector, const Matrix3x3& matrix);
 Matrix3x3 MakeScaleMatrix(const Vector2& scale);
 
 /// <summary>
+/// 拡大縮小行列を作る
+/// </summary>
+/// <param name="scale"></param>
+/// <returns></returns>
+Matrix3x3 MakeScaleMatrix3x3(const Vector3& scale);
+
+/// <summary>
 /// 回転行列を作る
 /// </summary>
 /// <param name="radian">ラジアン</param>
@@ -275,7 +283,7 @@ Matrix3x3 MakeViewportMatrix(float left, float top, float width, float height);
 /// 単位行列を作る
 /// </summary>
 /// <returns></returns>
-Matrix3x3 MakeIdenityMatrix();
+Matrix3x3 MakeIdenityMatrix3x3();
 
 /// <summary>
 /// 転置行列を作る

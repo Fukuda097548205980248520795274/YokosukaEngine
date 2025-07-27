@@ -337,3 +337,11 @@ Matrix4x4 MakeIdenityMatirx();
 /// <param name="m">行列</param>
 /// <returns></returns>
 Matrix4x4 MakeTransposeMatrix(Matrix4x4 m);
+
+/// <summary>
+/// 任意軸回転行列を作る
+/// </summary>
+/// <param name="axis">軸の向き</param>
+/// <param name="angle">角度</param>
+/// <returns></returns>
+Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle);

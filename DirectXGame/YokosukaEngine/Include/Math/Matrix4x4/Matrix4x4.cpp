@@ -1,4 +1,5 @@
 #include "Matrix4x4.h"
+#include "../Matrix3x3/Matrix3x3.h"
 
 /// <summary>
 /// 座標変換を行う
@@ -531,4 +532,74 @@ Matrix4x4 MakeTransposeMatrix(Matrix4x4 m)
 	transposeMatrix.m[3][3] = m.m[3][3];
 
 	return transposeMatrix;
+}
+
+/// <summary>
+/// 任意軸回転行列を作る
+/// </summary>
+/// <param name="axis">軸の向き</param>
+/// <param name="angle">角度</param>
+/// <returns></returns>
+Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle)
+{
+	// 軸を一応正規化する
+	Vector3 normalizeAxis = Normalize(axis);
+
+	// 角度の拡大縮小行列
+	Matrix3x3 cosScaleMatrix = MakeScaleMatrix3x3(Vector3(std::cos(angle) , std::cos(angle), std::cos(angle)));
+	Matrix3x3 sinScaleMatrix = MakeScaleMatrix3x3(Vector3(std::sin(angle), std::sin(angle), std::sin(angle)));
+
+
+
+	// 正射影行列
+	Matrix3x3 projectMatrix;
+	
+	projectMatrix.m[0][0] = normalizeAxis.x * normalizeAxis.x;
+	projectMatrix.m[0][1] = normalizeAxis.x * normalizeAxis.y;
+	projectMatrix.m[0][2] = normalizeAxis.x * normalizeAxis.z;
+
+	projectMatrix.m[1][0] = normalizeAxis.y * normalizeAxis.x;
+	projectMatrix.m[1][1] = normalizeAxis.y * normalizeAxis.y;
+	projectMatrix.m[1][2] = normalizeAxis.y * normalizeAxis.z;
+
+	projectMatrix.m[2][0] = normalizeAxis.z * normalizeAxis.x;
+	projectMatrix.m[2][1] = normalizeAxis.z * normalizeAxis.y;
+	projectMatrix.m[2][2] = normalizeAxis.z * normalizeAxis.z;
+
+	projectMatrix = (MakeIdenityMatrix3x3() - cosScaleMatrix) * projectMatrix;
+
+
+	// クロス積行列
+	Matrix3x3 crossMatrix;
+
+	crossMatrix.m[0][0] = 0.0f;
+	crossMatrix.m[0][1] = -normalizeAxis.z;
+	crossMatrix.m[0][2] = normalizeAxis.y;
+
+	crossMatrix.m[1][0] = normalizeAxis.z;
+	crossMatrix.m[1][1] = 0.0f;
+	crossMatrix.m[1][2] = -normalizeAxis.x;
+
+	crossMatrix.m[2][0] = -normalizeAxis.y;
+	crossMatrix.m[2][1] = normalizeAxis.x;
+	crossMatrix.m[2][2] = 0.0f;
+
+	crossMatrix = (-1.0f * sinScaleMatrix) * crossMatrix;
+
+
+	// 総計行列
+	Matrix3x3 sumMatrix3x3 = cosScaleMatrix + projectMatrix + crossMatrix;
+
+	Matrix4x4 sumMatrix4x4 = MakeIdenityMatirx();
+	sumMatrix4x4.m[0][0] = sumMatrix3x3.m[0][0];
+	sumMatrix4x4.m[0][1] = sumMatrix3x3.m[0][1];
+	sumMatrix4x4.m[0][2] = sumMatrix3x3.m[0][2];
+	sumMatrix4x4.m[1][0] = sumMatrix3x3.m[1][0];
+	sumMatrix4x4.m[1][1] = sumMatrix3x3.m[1][1];
+	sumMatrix4x4.m[1][2] = sumMatrix3x3.m[1][2];
+	sumMatrix4x4.m[2][0] = sumMatrix3x3.m[2][0];
+	sumMatrix4x4.m[2][1] = sumMatrix3x3.m[2][1];
+	sumMatrix4x4.m[2][2] = sumMatrix3x3.m[2][2];
+
+	return sumMatrix4x4;
 }
