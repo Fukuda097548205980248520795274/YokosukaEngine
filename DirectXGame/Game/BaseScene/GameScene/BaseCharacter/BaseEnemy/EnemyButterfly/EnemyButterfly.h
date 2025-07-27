@@ -14,7 +14,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const CenterAxis* centerAxis, const Player* target, GameScene* gameScene) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp) override;
 
 	/// <summary>
 	/// 更新処理
@@ -33,6 +33,12 @@ public:
 	Vector3 GetBodyWorldPosition() const override;
 
 	/// <summary>
+	/// 本体のワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetBodyWorldTransform() const override { return models_[kBody].worldTransform_.get(); }
+
+	/// <summary>
 	/// 当たり判定用のAABBのGetter
 	/// </summary>
 	/// <returns></returns>
@@ -43,12 +49,6 @@ public:
 	/// </summary>
 	/// <param name="playerBullet"></param>
 	void OnCollision(const BasePlayerBullet* playerBullet) override;
-
-	/// <summary>
-	/// モデルハンドルのSetter
-	/// </summary>
-	/// <param name="modelHandles"></param>
-	void SetModelHandles(std::vector<uint32_t> modelHandles) override;
 
 
 private:

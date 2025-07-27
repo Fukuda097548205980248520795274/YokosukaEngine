@@ -8,15 +8,15 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, const CenterAxis* centerAxis, const Player* target, GameScene* gameScene)
+void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp)
 {
 	// 基底クラス初期化
-	BaseEnemy::Initialize(engine, camera3d, position,centerAxis, target, gameScene);
+	BaseEnemy::Initialize(engine, camera3d, modelHandleStore , hp);
 
 	worldTransform_->scale_ *= 2.0f;
+	worldTransform_->translation_.z = 20.0f;
 
 	hitSize_ = { 2.0f , 2.0f , 1.0f };
-	hp_ = 50;
 
 	// 胴体の初期化
 	models_[kBody].worldTransform_ = std::make_unique<WorldTransform>();
@@ -41,6 +41,12 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kWingL].worldTransform_->translation_ = kStartPosition[kWingL];
 	models_[kWingL].worldTransform_->rotation_ = kStartRotation[kWingL];
 	models_[kWingL].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
+
+	// モデルハンドルを受け取る
+	for (uint32_t i = 0; i < kNumModel; i++)
+	{
+		models_[i].modelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kEnemyButterfly)[i];
+	}
 
 
 	// ポイントライトの生成と初期化
@@ -182,17 +188,6 @@ void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
 
 	// ダメージギミック初期化
 	GimmickDamageInitialize();
-}
-
-/// <summary>
-/// モデルハンドルのSetter
-/// </summary>
-/// <param name="modelHandles"></param>
-void EnemyButterfly::SetModelHandles(std::vector<uint32_t> modelHandles)
-{
-	models_[kBody].modelHandle_ = modelHandles[0];
-	models_[kWingR].modelHandle_ = modelHandles[1];
-	models_[kWingL].modelHandle_ = modelHandles[2];
 }
 
 

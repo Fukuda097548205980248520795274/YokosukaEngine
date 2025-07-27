@@ -6,7 +6,7 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="modelHandleStore"></param>
-void BaseCharacter::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore)
+void BaseCharacter::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp)
 {
 	// nullptrチェック
 	assert(engine);
@@ -17,6 +17,7 @@ void BaseCharacter::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 	engine_ = engine;
 	camera3d_ = camera3d;
 	modelHandleStore_ = modelHandleStore;
+	hp_ = hp;
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
@@ -28,6 +29,13 @@ void BaseCharacter::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 /// </summary>
 void BaseCharacter::Update()
 {
+	// 体力がなくなったら消滅する
+	if (hp_ <= 0)
+	{
+		isFinished_ = true;
+		return;
+	}
+
 	// ワールドトランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 }

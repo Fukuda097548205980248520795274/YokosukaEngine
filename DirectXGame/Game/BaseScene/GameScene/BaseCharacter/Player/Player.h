@@ -1,6 +1,6 @@
 #pragma once
 #define NOMINMAX
-#include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../BaseCharacter.h"
 #include "../../BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
@@ -11,7 +11,7 @@ class BaseEnemy;
 class BaseEnemyBullet;
 class CenterAxis;
 
-class Player
+class Player : public BaseCharacter
 {
 public:
 
@@ -25,17 +25,17 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp) override;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	void Draw();
+	void Draw() override;
 
 	/// <summary>
 	/// ワールド座標のGetter
@@ -50,28 +50,16 @@ public:
 	Vector3 GetBodyWorldPosition() const;
 
 	/// <summary>
-	/// ワールドトランスフォームのGetter
-	/// </summary>
-	/// <returns></returns>
-	WorldTransform* GetWorldTransform() const { return worldTransform_.get(); }
-
-	/// <summary>
 	/// 本体のワールドトランスフォームのGetter
 	/// </summary>
 	/// <returns></returns>
-	WorldTransform* GetBodyWorldTransform() const { return bodyWorldTransform_.get(); }
+	WorldTransform* GetBodyWorldTransform() const override { return bodyWorldTransform_.get(); };
 
 	/// <summary>
 	/// ゲームシーンのインスタンスのGetter
 	/// </summary>
 	/// <param name="gameScene"></param>
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
-
-	/// <summary>
-	/// 終了フラグのGetter
-	/// </summary>
-	/// <returns></returns>
-	bool IsFinished() const { return isFinished_; }
 
 	/// <summary>
 	/// 衝突判定応答
@@ -86,31 +74,14 @@ public:
 	void OnCollision(const BaseEnemyBullet* enemyBullet);
 
 	/// <summary>
-	/// 親のワールドトランスフォームのSetter
-	/// </summary>
-	/// <param name="worldTransform"></param>
-	void SetParent(WorldTransform* worldTransform) { worldTransform_->SetParent(worldTransform); }
-
-	/// <summary>
 	/// 当たり判定用のAABBを取得する
 	/// </summary>
 	/// <returns></returns>
 	AABB GetCollisionAABB()const;
 
-	/// <summary>
-	/// モデルハンドルのSetter
-	/// </summary>
-	/// <param name="modelHandle"></param>
-	void SetModelHandle(std::vector<uint32_t> modelHandle);
-
 
 private:
 
-	// エンジン
-	const YokosukaEngine* engine_ = nullptr;
-
-	// カメラ
-	const Camera3D* camera3d_ = nullptr;
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
@@ -119,15 +90,6 @@ private:
 	/*----------
 	    中心
 	----------*/
-
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
-
-	// 終了フラグ
-	bool isFinished_ = false;
-
-	// 体力
-	int32_t hp_ = 0;
 
 	// 当たり判定の大きさ
 	Vector3 hitSize_ = { 1.0f , 0.5f , 0.8f };

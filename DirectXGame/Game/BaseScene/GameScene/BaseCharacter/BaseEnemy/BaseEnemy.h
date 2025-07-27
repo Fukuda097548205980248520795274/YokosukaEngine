@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../BaseCharacter.h"
 
 // 前方宣言
 class BasePlayerBullet;
@@ -7,7 +7,7 @@ class Player;
 class GameScene;
 class CenterAxis;
 
-class BaseEnemy
+class BaseEnemy : public BaseCharacter
 {
 public:
 
@@ -17,17 +17,17 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position ,const CenterAxis* centerAxis, const Player* target_ , GameScene* gameScene);
+	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp) override;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update();
+	virtual void Update() override;
 
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	virtual void Draw() = 0;
+	virtual void Draw() override = 0;
 
 	/// <summary>
 	/// 終了フラグのGetter
@@ -60,6 +60,12 @@ public:
 	virtual Vector3 GetBodyWorldPosition() const = 0;
 
 	/// <summary>
+	/// 本体のワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	virtual WorldTransform* GetBodyWorldTransform() const override = 0;
+
+	/// <summary>
 	/// 当たり判定用のAABBのGetter
 	/// </summary>
 	/// <returns></returns>
@@ -72,22 +78,23 @@ public:
 	virtual void OnCollision(const BasePlayerBullet* playerBullet);
 
 	/// <summary>
-	/// モデルハンドルのSetter
+	/// ゲームシーンのSetter
 	/// </summary>
-	/// <param name="modelHandles"></param>
-	virtual void SetModelHandles(std::vector<uint32_t> modelHandles) = 0;
+	/// <param name="gameScene"></param>
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
+	/// <summary>
+	/// 対象のSetter
+	/// </summary>
+	/// <param name="target"></param>
+	void SetTarget(BaseCharacter* target) { target_ = target; }
 
 
 protected:
 
-	// エンジン
-	const YokosukaEngine* engine_ = nullptr;
-
-	// カメラ
-	const Camera3D* camera3d_ = nullptr;
 
 	// 対象
-	const Player* target_ = nullptr;
+	const BaseCharacter* target_ = nullptr;
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
@@ -107,17 +114,8 @@ protected:
 	};
 
 
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
-
 	// 当たり判定の大きさ
 	Vector3 hitSize_ = { 0.0f , 0.0f , 0.0f };
-
-	// 体力
-	int32_t hp_ = 0;
-
-	// 終了フラグ
-	bool isFinished_ = false;
 
 
 	// 攻撃力

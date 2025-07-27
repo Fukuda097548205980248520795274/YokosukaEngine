@@ -15,27 +15,10 @@ Player::~Player()
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
+void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp)
 {
-	// nullptrチェック
-	assert(engine);
-	assert(camera3d);
-
-	// 引数を受け取る
-	engine_ = engine;
-	camera3d_ = camera3d;
-
-
-	/*---------
-	    中心
-	----------*/
-
-	// ワールドトランスフォームの生成と初期化
-	worldTransform_ = std::make_unique<WorldTransform>();
-	worldTransform_->Initialize();
-
-	// 体力
-	hp_ = 100;
+	// 基底クラスの初期化
+	BaseCharacter::Initialize(engine, camera3d, modelHandleStore, hp);
 
 
 	/*----------
@@ -46,6 +29,8 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	bodyWorldTransform_ = std::make_unique<WorldTransform>();
 	bodyWorldTransform_->Initialize();
 	bodyWorldTransform_->SetParent(worldTransform_.get());
+
+	bodyModelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kPlayer)[0];
 
 	// ポイントライトの生成と初期化
 	bodyPointLight_ = std::make_unique<PointLight>();
@@ -88,12 +73,8 @@ void Player::Update()
 	// ギミック : 発射 : 更新処理
 	GimmickShotUpdate();
 
-	// 体力がなくなったら終了
-	if (hp_ <= 0)
-	{
-		isFinished_ = true;
-	}
-
+	// 基底クラスの更新処理
+	BaseCharacter::Update();
 
 	// 中心の更新
 	worldTransform_->UpdateWorldMatrix();
@@ -215,15 +196,6 @@ AABB Player::GetCollisionAABB()const
 	aabb.min = (-1.0f * hitSize_) + Vector3(worldMatrix.m[3][0], worldMatrix.m[3][1], worldMatrix.m[3][2]);
 
 	return aabb;
-}
-
-/// <summary>
-/// 
-/// </summary>
-/// <param name="modelHandle"></param>
-void Player::SetModelHandle(std::vector<uint32_t> modelHandle)
-{
-	bodyModelHandle_ = modelHandle[0];
 }
 
 

@@ -34,23 +34,20 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_);
+	player_->Initialize(engine_, camera3d_, modelHandleStore_, 100);
 	player_->SetGameScene(this);
 	player_->SetParent(mainCamera_->GetPivotWorldTransform());
-	player_->SetModelHandle(modelHandleStore_->GetModelHandle(ModelHandleStore::kPlayer));
 
 
 	// 敵の生成と初期化
-	for (uint32_t i = 0; i < 3; i++)
-	{
-		// 敵クラス
-		std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
-		enemyButterfly->Initialize(engine_, camera3d_, Vector3(-10.0f + i * 10.0f, 0.0f, 15.0f), centerAxis_.get(), player_.get(), this);
-		enemyButterfly->SetModelHandles(modelHandleStore_->GetModelHandle(ModelHandleStore::kEnemyButterfly));
+	std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
+	enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, 50);
+	enemyButterfly->SetParent(centerAxis_->GetWorldTransform());
+	enemyButterfly->SetTarget(player_.get());
+	enemyButterfly->SetGameScene(this);
 
-		// 登録する
-		enemies_.push_back(std::move(enemyButterfly));
-	}
+	// 登録する
+	enemies_.push_back(std::move(enemyButterfly));
 }
 
 /// <summary>
