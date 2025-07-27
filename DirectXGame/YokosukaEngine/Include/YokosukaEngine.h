@@ -762,6 +762,18 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+	/// <summary>
+	/// メインカメラのインスタンスのGetter
+	/// </summary>
+	/// <returns></returns>
+	MainCamera* GetMainCameraInstance() { return mainCamera_.get(); }
+
+	/// <summary>
+	/// 3DカメラのインスタンスのGetter
+	/// </summary>
+	/// <returns></returns>
+	Camera3D* GetCamera3D() { return camera3d_.get(); }
+
 
 protected:
 

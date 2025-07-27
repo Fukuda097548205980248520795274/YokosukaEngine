@@ -1,7 +1,8 @@
 #pragma once
 #include "../YokosukaEngine/Include/YokosukaEngine.h"
-#include "GameScene/GameScene.h"
-#include "TitleScene/TitleScene.h"
+#include "BaseScene/GameScene/GameScene.h"
+#include "BaseScene/TitleScene/TitleScene.h"
+#include "ModelHandleStore\/ModelHandleStore.h"
 
 class Game
 {
@@ -29,8 +30,11 @@ private:
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
 
+	// モデルハンドルの格納場所
+	std::unique_ptr<ModelHandleStore> modelHandleStore_ = nullptr;
+
 	// シーン
-	std::unique_ptr<Scene> scene_ = nullptr;
+	std::unique_ptr<BaseScene> scene_ = nullptr;
 
 
 	/*-----------------
