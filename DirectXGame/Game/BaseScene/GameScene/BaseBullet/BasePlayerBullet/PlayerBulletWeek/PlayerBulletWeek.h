@@ -11,7 +11,8 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, WorldTransform* parent) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore,
+		const Vector3& position) override;
 
 	/// <summary>
 	/// 更新処理
@@ -24,45 +25,13 @@ public:
 	void Draw() override;
 
 	/// <summary>
-	/// 向きのSetter
-	/// </summary>
-	/// <param name="direction"></param>
-	void SetDirection(const Vector3& direction) { direction_ = Normalize(direction); }
-
-	/// <summary>
 	/// 弾本体のワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
 	Vector3 GetBulletWorldTransform();
 
-	/// <summary>
-	/// モデルハンドルのSetter
-	/// </summary>
-	/// <param name="modelHandle"></param>
-	void SetModelHandle(uint32_t modelHandle) { bulletModelHandle_ = modelHandle; }
-
-	/// <summary>
-	/// モデルハンドルのSetter
-	/// </summary>
-	/// <param name="modelHandles"></param>
-	void SetModelHandle(std::vector<uint32_t> modelHandles) override;
-
 
 private:
-
-	// 向き
-	Vector3 direction_ = { 0.0f , 0.0f , 0.0f };
-
-	// 移動速度
-	const float speed = 5.0f;
-
-
-	// 寿命
-	const float kLifeTime = 0.75f;
-
-	// 寿命タイマー
-	float lifeTimer_ = 0.0f;
-
 
 	/*---------
 	    本体

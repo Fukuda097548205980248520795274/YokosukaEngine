@@ -397,6 +397,9 @@
     <Filter Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek">
       <UniqueIdentifier>{0d427355-9820-4c99-bea1-ba4edc4eb502}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseStage">
+      <UniqueIdentifier>{a26fac97-a5da-45d7-97ac-aaa001f15ccb}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet">
       <UniqueIdentifier>{8a206c1e-e9fb-47ce-8c9d-643857a12ba4}</UniqueIdentifier>
     </Filter>
@@ -405,9 +408,6 @@
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletStrong">
       <UniqueIdentifier>{0a5f6acf-694f-45b1-976d-11eee3c83fe2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseStage">
-      <UniqueIdentifier>{a26fac97-a5da-45d7-97ac-aaa001f15ccb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

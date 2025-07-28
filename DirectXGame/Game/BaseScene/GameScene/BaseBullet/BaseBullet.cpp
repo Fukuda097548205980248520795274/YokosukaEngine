@@ -7,7 +7,7 @@
 /// <param name="camera3d"></param>
 /// <param name="modelHandleStore"></param>
 void BaseBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore,
-	const Vector3& position, float shotTime)
+	const Vector3& position)
 {
 	// nullptrチェック
 	assert(engine);
@@ -23,9 +23,6 @@ void BaseBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
 	worldTransform_->translation_ = position;
-
-	// 発射時間
-	shotTime_ = shotTime;
 }
 
 /// <summary>
@@ -33,6 +30,9 @@ void BaseBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 /// </summary>
 void BaseBullet::Update()
 {
+	// 直前の座標を記録する
+	prevPosition_ = worldTransform_->translation_;
+
 	// タイマーを進める
 	shotTimer_ += 1.0f / 60.0f;
 
@@ -43,6 +43,26 @@ void BaseBullet::Update()
 		return;
 	}
 
+	// 向きと速度で移動する
+	worldTransform_->translation_ += direction_ * speed;
+
 	// ワールドトランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
+}
+
+
+/// <summary>
+/// ワールド座標のGetter
+/// </summary>
+/// <returns></returns>
+Vector3 BaseBullet::GetWorldPosition() const
+{
+	// ワールド座標
+	Vector3 worldPosition;
+
+	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
+	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
+	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
+
+	return worldPosition;
 }

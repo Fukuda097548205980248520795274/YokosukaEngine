@@ -168,8 +168,8 @@ void GameScene::Draw()
 /// <param name="playerBullet"></param>
 void GameScene::PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet)
 {
-	// モデルハンドルを渡す
-	playerBullet->SetModelHandle(modelHandleStore_->GetModelHandle(ModelHandleStore::kPlayerBulletWeek));
+	// 中心軸を親にする
+	playerBullet->SetParent(centerAxis_->GetWorldTransform());
 
 	// リストに追加する
 	playerBullets_.push_back(std::move(playerBullet));
