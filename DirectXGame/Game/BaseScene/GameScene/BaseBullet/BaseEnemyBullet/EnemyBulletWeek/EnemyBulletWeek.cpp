@@ -6,16 +6,16 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, WorldTransform* parent)
+void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore,
+	const Vector3& position)
 {
 	// 基底クラスの初期化
-	BaseEnemyBullet::Initialize(engine, camera3d, position , parent);
-
-	worldTransform_->scale_ *= 3.0f;
+	BaseEnemyBullet::Initialize(engine, camera3d, modelHandleStore , position);
 
 	// ワールドトランスフォームの生成
 	bulletWorldTransform_ = std::make_unique<WorldTransform>();
 	bulletWorldTransform_->Initialize();
+	bulletWorldTransform_->scale_ *= 3.0f;
 	bulletWorldTransform_->SetParent(worldTransform_.get());
 
 	// ポイントライトの生成
@@ -24,8 +24,22 @@ void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* c
 	bulletPointLight_->color_ = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
 	bulletPointLight_->radius_ = 32.0f;
 
+
+	/*-------------
+	    弾の設定
+	-------------*/
+
+	// モデルハンドル
+	bulletModelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kEnemyBulletWeek)[0];
+
+	// 発射時間
+	shotTime_ = 4.0f;
+
 	// 攻撃力
 	power_ = 2;
+
+	// 移動速度
+	speed = 0.5f;
 }
 
 /// <summary>
@@ -33,20 +47,8 @@ void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* c
 /// </summary>
 void EnemyBulletWeek::Update()
 {
-	// 寿命タイマーを進める
-	lifeTimer_ += 1.0f / 60.0f;
-
-	// 寿命を越えたら消滅する
-	if (lifeTimer_ >= kLifeTime)
-		isFinished_ = true;
-
-
-	// 向きと速度で移動する
-	worldTransform_->translation_ += direction_ * speed;
-
 	// 基底クラス更新
 	BaseEnemyBullet::Update();
-
 
 	// 本体の更新
 	bulletWorldTransform_->UpdateWorldMatrix();
@@ -82,13 +84,4 @@ Vector3 EnemyBulletWeek::GetBulletWorldPosition() const
 	worldPosition.z = bulletWorldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
-}
-
-/// <summary>
-/// モデルハンドルのSetter
-/// </summary>
-/// <param name="modelHandles"></param>
-void EnemyBulletWeek::SetModelHandle(std::vector<uint32_t> modelHandles)
-{
-	bulletModelHandle_ = modelHandles[0];
 }

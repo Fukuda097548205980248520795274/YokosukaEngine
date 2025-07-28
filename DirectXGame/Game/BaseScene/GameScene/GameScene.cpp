@@ -181,8 +181,8 @@ void GameScene::PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet)
 /// <param name="enemyBullet"></param>
 void GameScene::EnemyBulletShot(std::unique_ptr<BaseEnemyBullet> enemyBullet)
 {
-	// モデルハンドルを渡す
-	enemyBullet->SetModelHandle(modelHandleStore_->GetModelHandle(ModelHandleStore::kEnemyBulletWeek));
+	// 中心軸を親にする
+	enemyBullet->SetParent(centerAxis_->GetWorldTransform());
 
 	// リストに追加する
 	enemyBullets_.push_back(std::move(enemyBullet));
