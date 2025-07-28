@@ -8,13 +8,12 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp)
+void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
 {
 	// 基底クラス初期化
-	BaseEnemy::Initialize(engine, camera3d, modelHandleStore , hp);
+	BaseEnemy::Initialize(engine, camera3d, modelHandleStore ,position, hp);
 
 	worldTransform_->scale_ *= 2.0f;
-	worldTransform_->translation_.z = 20.0f;
 
 	hitSize_ = { 2.0f , 2.0f , 1.0f };
 

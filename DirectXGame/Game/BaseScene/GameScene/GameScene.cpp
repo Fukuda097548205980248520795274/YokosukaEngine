@@ -34,14 +34,14 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_, modelHandleStore_, 100);
+	player_->Initialize(engine_, camera3d_, modelHandleStore_,Vector3(0.0f , 0.0f , 0.0f), 100);
 	player_->SetGameScene(this);
 	player_->SetParent(mainCamera_->GetPivotWorldTransform());
 
 
 	// 敵の生成と初期化
 	std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
-	enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, 50);
+	enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 20.0f), 50);
 	enemyButterfly->SetParent(centerAxis_->GetWorldTransform());
 	enemyButterfly->SetTarget(player_.get());
 	enemyButterfly->SetGameScene(this);

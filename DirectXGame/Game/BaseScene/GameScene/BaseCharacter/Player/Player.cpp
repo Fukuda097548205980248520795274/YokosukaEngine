@@ -3,22 +3,14 @@
 #include "../BaseEnemy/BaseEnemy.h"
 
 /// <summary>
-/// デストラクタ
-/// </summary>
-Player::~Player()
-{
-	
-}
-
-/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp)
+void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
 {
 	// 基底クラスの初期化
-	BaseCharacter::Initialize(engine, camera3d, modelHandleStore, hp);
+	BaseCharacter::Initialize(engine, camera3d, modelHandleStore,position, hp);
 
 	/*----------
 	    本体
