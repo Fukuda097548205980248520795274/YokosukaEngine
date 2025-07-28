@@ -326,7 +326,7 @@ void Player::BulletShotGamepad()
 		{
 			// 弾の生成と初期化
 			std::unique_ptr<PlayerBulletStrong> newBullet = std::make_unique<PlayerBulletStrong>();
-			newBullet->Initialize(engine_, camera3d_, worldTransform_->translation_ ,worldTransform_->parent_);
+			newBullet->Initialize(engine_, camera3d_, modelHandleStore_, worldTransform_->translation_);
 			newBullet->SetDirection(direction);
 
 			// リストに登録する
@@ -347,7 +347,7 @@ void Player::BulletShotGamepad()
 
 			// 弾の生成と初期化
 			std::unique_ptr<PlayerBulletWeek> newBullet = std::make_unique<PlayerBulletWeek>();
-			newBullet->Initialize(engine_, camera3d_, worldTransform_->translation_, worldTransform_->parent_);
+			newBullet->Initialize(engine_, camera3d_, modelHandleStore_, worldTransform_->translation_);
 			newBullet->SetDirection(direction);
 
 			// リストに登録する

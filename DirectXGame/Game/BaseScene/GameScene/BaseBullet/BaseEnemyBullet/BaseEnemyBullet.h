@@ -1,10 +1,10 @@
 #pragma once
-#include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../BaseBullet.h"
 
 // 前方宣言
 class Player;
 
-class BaseEnemyBullet
+class BaseEnemyBullet : public BaseBullet
 {
 public:
 
@@ -14,34 +14,18 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position , WorldTransform* parent);
+	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore,
+		const Vector3& position) override;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update();
+	virtual void Update() override;
 
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	virtual void Draw() = 0;
-
-	/// <summary>
-	/// ワールド座標のGetter
-	/// </summary>
-	Vector3 GetWorldPosition() const;
-
-	/// <summary>
-	/// 終了フラグのGetter
-	/// </summary>
-	/// <returns></returns>
-	bool IsFinished()const { return isFinished_; }
-
-	/// <summary>
-	/// 攻撃力のGetter
-	/// </summary>
-	/// <returns></returns>
-	uint32_t GetPower() const { return power_; }
+	virtual void Draw() override = 0;
 
 	/// <summary>
 	/// 当たり判定用の線分のGetter
@@ -55,32 +39,5 @@ public:
 	/// <param name="enemy"></param>
 	void OnCollision(const Player* player);
 
-	/// <summary>
-	/// モデルハンドルのSetter
-	/// </summary>
-	/// <param name="modelHandles"></param>
-	virtual void SetModelHandle(std::vector<uint32_t> modelHandles) = 0;
-
-
-protected:
-
-	// エンジン
-	const YokosukaEngine* engine_ = nullptr;
-
-	// カメラ
-	const Camera3D* camera3d_ = nullptr;
-
-	
-	// ワールドトランスフォーム
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
-
-	// 終了フラグ
-	bool isFinished_ = false;
-
-	// 1フレーム前の座標
-	Vector3 prevPosition_ = { 0.0f , 0.0f , 0.0f };
-
-	// 攻撃力
-	uint32_t power_ = 0;
 };
 

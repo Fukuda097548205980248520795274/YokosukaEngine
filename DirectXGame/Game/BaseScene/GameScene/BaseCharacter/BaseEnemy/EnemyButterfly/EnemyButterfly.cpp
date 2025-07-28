@@ -486,7 +486,7 @@ void EnemyButterfly::BulletShot()
 {
 	// 新規の弾の生成
 	std::unique_ptr<EnemyBulletWeek> enemyBullet = std::make_unique<EnemyBulletWeek>();
-	enemyBullet->Initialize(engine_, camera3d_, worldTransform_->translation_, worldTransform_->parent_);
+	enemyBullet->Initialize(engine_, camera3d_, modelHandleStore_ , worldTransform_->translation_);
 
 	// ターゲットの方向に発射する
 	enemyBullet->SetDirection(Normalize(target_->GetWorldTransform()->translation_ - worldTransform_->translation_));

@@ -7,21 +7,11 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void BaseEnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position, WorldTransform* parent)
+void BaseEnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore,
+	const Vector3& position)
 {
-	// nullptrチェック
-	assert(engine);
-	assert(camera3d);
-
-	// 引数を受け取る
-	engine_ = engine;
-	camera3d_ = camera3d;
-
-	// ワールドトランスフォームの生成と初期化
-	worldTransform_ = std::make_unique<WorldTransform>();
-	worldTransform_->Initialize();
-	worldTransform_->SetParent(parent);
-	worldTransform_->translation_ = position;
+	// 基底クラスの初期化
+	BaseBullet::Initialize(engine, camera3d, modelHandleStore, position);
 }
 
 /// <summary>
@@ -29,26 +19,8 @@ void BaseEnemyBullet::Initialize(const YokosukaEngine* engine, const Camera3D* c
 /// </summary>
 void BaseEnemyBullet::Update()
 {
-	// 直前の座標を記録する
-	prevPosition_ = worldTransform_->translation_;
-
-	// ワールドトランスフォームの更新処理
-	worldTransform_->UpdateWorldMatrix();
-}
-
-/// <summary>
-/// ワールド座標のGetter
-/// </summary>
-Vector3 BaseEnemyBullet::GetWorldPosition() const
-{
-	// ワールド座標
-	Vector3 worldPosition;
-
-	worldPosition.x = worldTransform_->worldMatrix_.m[3][0];
-	worldPosition.y = worldTransform_->worldMatrix_.m[3][1];
-	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
-
-	return worldPosition;
+	// 基底クラスの更新処理
+	BaseBullet::Update();
 }
 
 
