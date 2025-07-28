@@ -40,7 +40,9 @@ void GameScene::Update()
 	// ワールド行列を取得する
 	worldTransform_->worldMatrix_ =
 		MakeScaleMatrix(worldTransform_->scale_) * 
-		MakeRotateAxisAngle({ 1.0f ,1.0f , 1.0f }, worldTransform_->rotation_.x) *
+		MakeRotateAxisAngle({ 1.0f ,0.0f , 0.0f }, worldTransform_->rotation_.x) *
+		MakeRotateAxisAngle({ 0.0f ,1.0f , 0.0f }, worldTransform_->rotation_.y) *
+		MakeRotateAxisAngle({ 0.0f ,0.0f , 1.0f }, worldTransform_->rotation_.z) *
 		MakeTranslateMatrix(worldTransform_->translation_);
 
 	// UVトランスフォームの更新
