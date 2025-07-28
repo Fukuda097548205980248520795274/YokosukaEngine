@@ -191,6 +191,15 @@ void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
 	GimmickDamageInitialize();
 }
 
+/// <summary>
+/// ステートを変更
+/// </summary>
+/// <param name="state"></param>
+void EnemyButterfly::ChangeState(std::unique_ptr<BaseEnemyButterflyState> state)
+{
+	state_ = std::move(state);
+}
+
 
 
 /*-----------------------

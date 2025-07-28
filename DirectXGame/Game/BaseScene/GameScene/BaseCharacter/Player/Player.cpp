@@ -20,7 +20,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	// 基底クラスの初期化
 	BaseCharacter::Initialize(engine, camera3d, modelHandleStore, hp);
 
-
 	/*----------
 	    本体
 	----------*/

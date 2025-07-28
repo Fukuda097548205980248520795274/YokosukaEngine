@@ -6,8 +6,14 @@
 
 #include "../../../BaseGimmick/GimmickFloating/GimmickFloating.h"
 
+#include "BaseEnemyButterflyState/BaseEnemyButterflyState.h"
+#include "BaseEnemyButterflyState/EnemyButterflyStateApproachingRearLeft/EnemyButterflyStateApproachingRearLeft.h"
+#include "BaseEnemyButterflyState/EnemyButterflyStateStop/EnemyButterflyStateStop.h"
+
 class EnemyButterfly : public BaseEnemy
 {
+
+
 public:
 
 	/// <summary>
@@ -52,8 +58,18 @@ public:
 	/// <param name="playerBullet"></param>
 	void OnCollision(const BasePlayerBullet* playerBullet) override;
 
+	/// <summary>
+	/// ステートを変更
+	/// </summary>
+	/// <param name="state"></param>
+	void ChangeState(std::unique_ptr<BaseEnemyButterflyState> state);
+
 
 private:
+
+
+	// 状態
+	std::unique_ptr<BaseEnemyButterflyState> state_ = nullptr;
 
 
 	// モデル列挙体
