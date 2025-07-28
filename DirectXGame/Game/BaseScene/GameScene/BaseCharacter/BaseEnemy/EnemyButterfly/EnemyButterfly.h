@@ -4,6 +4,8 @@
 #include "../../../BaseBullet/BaseEnemyBullet/BaseEnemyBullet.h"
 #include "../../../BaseBullet/BaseEnemyBullet/EnemyBulletWeek/EnemyBulletWeek.h"
 
+#include "../../../BaseGimmick/GimmickFloating/GimmickFloating.h"
+
 class EnemyButterfly : public BaseEnemy
 {
 public:
@@ -86,32 +88,8 @@ private:
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
 
 
-
-	/*--------------------
-	    ギミック : 浮遊
-	--------------------*/
-
-	/// <summary>
-	/// ギミック : 浮遊 : 初期化
-	/// </summary>
-	void GimmickFloatingInitialize();
-
-	/// <summary>
-	/// ギミック : 浮遊 : 更新処理
-	/// </summary>
-	void GimmickFloatingUpdate();
-
-	// 浮遊ギミックのパラメータ
-	float floatingParameter_ = 0.0f;
-
-	// 浮遊ギミックの最大値
-	const float kFloatingParameterMax = std::numbers::pi_v<float> *2.0f;
-
-	// 浮遊ギミックの速度
-	float floatingVelocity_ = 0.0f;
-
-	// 浮遊ギミックの振幅
-	float floatingAmplitude_ = 0.0f;
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 
 
 	/*-----------------------
