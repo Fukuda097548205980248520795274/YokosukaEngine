@@ -4,8 +4,16 @@
 #include "../../../BaseBullet/BaseEnemyBullet/BaseEnemyBullet.h"
 #include "../../../BaseBullet/BaseEnemyBullet/EnemyBulletWeek/EnemyBulletWeek.h"
 
+#include "../../../BaseGimmick/GimmickFloating/GimmickFloating.h"
+
+#include "BaseEnemyButterflyState/BaseEnemyButterflyState.h"
+#include "BaseEnemyButterflyState/EnemyButterflyStateApproachingRearLeft/EnemyButterflyStateApproachingRearLeft.h"
+#include "BaseEnemyButterflyState/EnemyButterflyStateStop/EnemyButterflyStateStop.h"
+
 class EnemyButterfly : public BaseEnemy
 {
+
+
 public:
 
 	/// <summary>
@@ -14,7 +22,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
 
 	/// <summary>
 	/// 更新処理
@@ -50,8 +58,18 @@ public:
 	/// <param name="playerBullet"></param>
 	void OnCollision(const BasePlayerBullet* playerBullet) override;
 
+	/// <summary>
+	/// ステートを変更
+	/// </summary>
+	/// <param name="state"></param>
+	void ChangeState(std::unique_ptr<BaseEnemyButterflyState> state);
+
 
 private:
+
+
+	// 状態
+	std::unique_ptr<BaseEnemyButterflyState> state_ = nullptr;
 
 
 	// モデル列挙体
@@ -86,32 +104,8 @@ private:
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
 
 
-
-	/*--------------------
-	    ギミック : 浮遊
-	--------------------*/
-
-	/// <summary>
-	/// ギミック : 浮遊 : 初期化
-	/// </summary>
-	void GimmickFloatingInitialize();
-
-	/// <summary>
-	/// ギミック : 浮遊 : 更新処理
-	/// </summary>
-	void GimmickFloatingUpdate();
-
-	// 浮遊ギミックのパラメータ
-	float floatingParameter_ = 0.0f;
-
-	// 浮遊ギミックの最大値
-	const float kFloatingParameterMax = std::numbers::pi_v<float> *2.0f;
-
-	// 浮遊ギミックの速度
-	float floatingVelocity_ = 0.0f;
-
-	// 浮遊ギミックの振幅
-	float floatingAmplitude_ = 0.0f;
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 
 
 	/*-----------------------

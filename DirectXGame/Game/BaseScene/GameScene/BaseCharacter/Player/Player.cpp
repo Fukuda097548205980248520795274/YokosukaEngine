@@ -3,23 +3,14 @@
 #include "../BaseEnemy/BaseEnemy.h"
 
 /// <summary>
-/// デストラクタ
-/// </summary>
-Player::~Player()
-{
-	
-}
-
-/// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp)
+void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
 {
 	// 基底クラスの初期化
-	BaseCharacter::Initialize(engine, camera3d, modelHandleStore, hp);
-
+	BaseCharacter::Initialize(engine, camera3d, modelHandleStore,position, hp);
 
 	/*----------
 	    本体
@@ -37,8 +28,9 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	bodyPointLight_->Initialize();
 	bodyPointLight_->radius_ = 24.0f;
 
-	// ギミック : 浮遊 : 初期化
-	GimmickFloatInitialize();
+	// 浮遊ギミックの初期化
+	gimmickFloating_ = std::make_unique<GimmickFloating>();
+	gimmickFloating_->Initialize(bodyWorldTransform_.get(), 0.05f);
 
 
 	/*-------------
@@ -64,8 +56,8 @@ void Player::Update()
 	// 入力操作
 	Input();
 
-	// ギミック : 浮遊 : 更新処理
-	GimmickFloatUpdate();
+	// 浮遊ギミックの更新
+	gimmickFloating_->Update();
 
 	// ギミック : 傾き : 更新処理
 	GimmickTiltUpdate();
@@ -372,45 +364,6 @@ void Player::BulletShotKeyboard()
 {
 
 }
-
-
-
-/*-------------
-    ギミック
--------------*/
-
-/*   浮き   */
-
-/// <summary>
-/// ギミック : 浮き : 初期化
-/// </summary>
-void Player::GimmickFloatInitialize()
-{
-	// 浮きパラメータ
-	floatParameter_ = 0.0f;
-
-	// 浮きパラメータ速度
-	kFloatPrameterVelocity = 0.05f;
-
-	// 浮き振れ幅
-	kFloatAmplitude = 0.3f;
-}
-
-/// <summary>
-/// ギミック : 浮き : 更新処理
-/// </summary>
-void Player::GimmickFloatUpdate()
-{
-	// パラメータを進める
-	floatParameter_ += kFloatPrameterVelocity;
-
-	// 上限を越えたら初期化する
-	floatParameter_ = std::fmod(floatParameter_, kMaxFloatParameter);
-
-	// ふわふわさせる
-	bodyWorldTransform_->translation_.y = std::sin(floatParameter_) * kFloatAmplitude;
-}
-
 
 
 /*   傾き   */

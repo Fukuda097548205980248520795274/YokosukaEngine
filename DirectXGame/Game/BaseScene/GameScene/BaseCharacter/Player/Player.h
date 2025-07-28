@@ -5,6 +5,8 @@
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
+#include "../../BaseGimmick/GimmickFloating/GimmickFloating.h"
+
 // 前方宣言
 class GameScene;
 class BaseEnemy;
@@ -16,16 +18,11 @@ class Player : public BaseCharacter
 public:
 
 	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~Player();
-
-	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
 
 	/// <summary>
 	/// 更新処理
@@ -178,33 +175,8 @@ private:
 
 
 
-	/*-------------
-	    ギミック
-	-------------*/
-
-	/*   浮き   */
-
-	/// <summary>
-	/// ギミック : 浮き : 初期化
-	/// </summary>
-	void GimmickFloatInitialize();
-
-	/// <summary>
-	/// ギミック : 浮き : 更新処理
-	/// </summary>
-	void GimmickFloatUpdate();
-
-	// 浮きパラメータ
-	float floatParameter_ = 0.0f;
-
-	// 浮きパラメータ速度
-	float kFloatPrameterVelocity = 0.05f;
-
-	// 浮きパラメータ上限
-	const float kMaxFloatParameter = std::numbers::pi_v<float> * 2.0f;
-
-	// 浮き振れ幅
-	float kFloatAmplitude = 0.3f;
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 
 
 	/*   傾き   */

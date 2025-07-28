@@ -8,13 +8,12 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, int32_t hp)
+void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
 {
 	// 基底クラス初期化
-	BaseEnemy::Initialize(engine, camera3d, modelHandleStore , hp);
+	BaseEnemy::Initialize(engine, camera3d, modelHandleStore ,position, hp);
 
 	worldTransform_->scale_ *= 2.0f;
-	worldTransform_->translation_.z = 20.0f;
 
 	hitSize_ = { 2.0f , 2.0f , 1.0f };
 
@@ -53,9 +52,10 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	pointLight_ = std::make_unique<PointLight>();
 	pointLight_->Initialize();
 
-
 	// 浮遊ギミック初期化
-	GimmickFloatingInitialize();
+	gimmickFloating_ = std::make_unique<GimmickFloating>();
+	gimmickFloating_->Initialize(models_[kBody].worldTransform_.get(), 0.075f);
+	gimmickFloating_->SetAmplitude(0.25f);
 }
 
 /// <summary>
@@ -190,39 +190,15 @@ void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
 	GimmickDamageInitialize();
 }
 
-
-
-/*-----------------
-    浮遊ギミック
------------------*/
-
 /// <summary>
-/// ギミック : 浮遊 : 初期化
+/// ステートを変更
 /// </summary>
-void EnemyButterfly::GimmickFloatingInitialize()
+/// <param name="state"></param>
+void EnemyButterfly::ChangeState(std::unique_ptr<BaseEnemyButterflyState> state)
 {
-	// 浮遊ギミックのパラメータ
-	floatingParameter_ = 0.0f;
-
-	// 浮遊ギミックの速度
-	floatingVelocity_ = 0.075f;
-
-	// 浮遊ギミックの振幅
-	floatingAmplitude_ = 0.25f;
+	state_ = std::move(state);
 }
 
-/// <summary>
-/// ギミック : 浮遊 : 更新処理
-/// </summary>
-void EnemyButterfly::GimmickFloatingUpdate()
-{
-	// パラメータを進める
-	floatingParameter_ += floatingVelocity_;
-	floatingParameter_ = std::fmod(floatingParameter_, kFloatingParameterMax);
-
-	// 上下に移動する
-	models_[kBody].worldTransform_->translation_.y = std::sin(floatingParameter_) * floatingAmplitude_;
-}
 
 
 /*-----------------------
@@ -427,7 +403,7 @@ void EnemyButterfly::BehaviorNormalUpdate()
 
 
 	// 浮遊ギミック 更新
-	GimmickFloatingUpdate();
+	gimmickFloating_->Update();
 
 	// 羽ばたきギミック 更新
 	GimmickFlappingUpdate();
@@ -469,7 +445,7 @@ void EnemyButterfly::BehaviorShotUpdate()
 
 
 	// 浮遊ギミック 更新
-	GimmickFloatingUpdate();
+	gimmickFloating_->Update();
 
 	// 発射動作ギミック更新
 	GimmickShotActionUpdate();
