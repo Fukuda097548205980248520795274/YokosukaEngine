@@ -409,6 +409,12 @@
     <Filter Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletStrong">
       <UniqueIdentifier>{0a5f6acf-694f-45b1-976d-11eee3c83fe2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseGimmick">
+      <UniqueIdentifier>{f610a5ed-4560-433e-849a-03a0c4800a0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFloating">
+      <UniqueIdentifier>{3486d430-1717-4874-8997-d2ed4c5911bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -767,6 +773,12 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\BaseGimmick.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseGimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFloating\GimmickFloating.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseGimmick\GimmickFloating</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1129,6 +1141,12 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\BaseGimmick.h">
+      <Filter>Game\BaseScene\GameScene\BaseGimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFloating\GimmickFloating.h">
+      <Filter>Game\BaseScene\GameScene\BaseGimmick\GimmickFloating</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

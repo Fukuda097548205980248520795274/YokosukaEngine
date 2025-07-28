@@ -5,6 +5,8 @@
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
+#include "../../BaseGimmick/GimmickFloating/GimmickFloating.h"
+
 // 前方宣言
 class GameScene;
 class BaseEnemy;
@@ -178,33 +180,8 @@ private:
 
 
 
-	/*-------------
-	    ギミック
-	-------------*/
-
-	/*   浮き   */
-
-	/// <summary>
-	/// ギミック : 浮き : 初期化
-	/// </summary>
-	void GimmickFloatInitialize();
-
-	/// <summary>
-	/// ギミック : 浮き : 更新処理
-	/// </summary>
-	void GimmickFloatUpdate();
-
-	// 浮きパラメータ
-	float floatParameter_ = 0.0f;
-
-	// 浮きパラメータ速度
-	float kFloatPrameterVelocity = 0.05f;
-
-	// 浮きパラメータ上限
-	const float kMaxFloatParameter = std::numbers::pi_v<float> * 2.0f;
-
-	// 浮き振れ幅
-	float kFloatAmplitude = 0.3f;
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 
 
 	/*   傾き   */
