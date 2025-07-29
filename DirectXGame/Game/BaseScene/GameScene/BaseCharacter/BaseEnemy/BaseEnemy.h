@@ -89,6 +89,12 @@ public:
 	/// <param name="target"></param>
 	void SetTarget(BaseCharacter* target) { target_ = target; }
 
+	/// <summary>
+	/// ターゲットのGetter
+	/// </summary>
+	/// <returns></returns>
+	const BaseCharacter* GetTarget() const { return target_; }
+
 
 protected:
 
