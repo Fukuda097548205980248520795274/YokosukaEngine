@@ -51,7 +51,14 @@ void Game::Update()
 
 			scene_ = std::make_unique<GameScene>();
 			scene_->Initialize(engine_, modelHandleStore_.get());
-			
+
+			break;
+
+		case kClear:
+			// クリア
+
+			scene_ = std::make_unique<ClearScene>();
+			scene_->Initialize(engine_ , modelHandleStore_.get());
 
 			break;
 		}
@@ -79,6 +86,11 @@ void Game::Update()
 
 		case kGame:
 			// ゲーム
+
+			break;
+
+		case kClear:
+			// クリア
 
 			break;
 		}

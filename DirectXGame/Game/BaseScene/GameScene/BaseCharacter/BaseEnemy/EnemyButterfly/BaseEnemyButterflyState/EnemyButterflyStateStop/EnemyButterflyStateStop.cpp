@@ -8,6 +8,7 @@
 EnemyButterflyStateStop::EnemyButterflyStateStop(EnemyButterfly* enemy)
 	: BaseEnemyButterflyState(enemy) 
 {
+	// 通常ビヘイビアから始める
 	behavior_ = std::make_unique<EnemyButterflyBehaviorNormal>(enemy);
 
 
