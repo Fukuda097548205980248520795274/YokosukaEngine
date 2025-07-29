@@ -13,10 +13,20 @@ EnemyButterflyBehaviorNormal::EnemyButterflyBehaviorNormal(EnemyButterfly* enemy
 	// 発射タイマー
 	shotTimer_ = 0.0f;
 
-	// 羽ばたきギミック初期化
+	// 浮遊ギミック初期化
 	enemy_->gimmickFloating_->Initialize(bodyWorldTransform, 0.075f);
 
-	enemy_->GimmickFlappingInitialize();
+
+	// 羽ばたきギミックの生成と初期化
+	gimmickFlappingWingR_ = std::make_unique<GimmickFlapping>();
+	gimmickFlappingWingR_->Initialize(enemy_->GetWingRWorldTransform(), 0.085f);
+	gimmickFlappingWingR_->SetAmplitude(0.75f);
+
+	gimmickFlappingWingL_ = std::make_unique<GimmickFlapping>();
+	gimmickFlappingWingL_->Initialize(enemy_->GetWingLWorldTransform(), -0.085f);
+	gimmickFlappingWingL_->SetAmplitude(0.75f);
+	
+
 	enemy_->GimmickDamageInitialize();
 }
 
@@ -39,8 +49,9 @@ void EnemyButterflyBehaviorNormal::Update()
 	// 浮遊ギミック 更新
 	enemy_->gimmickFloating_->Update();
 
-	// 羽ばたきギミック 更新
-	enemy_->GimmickFlappingUpdate();
+	// 羽ばたきギミックの更新
+	gimmickFlappingWingR_->Update();
+	gimmickFlappingWingL_->Update();
 
 	// ダメージギミック 更新
 	enemy_->GimmickDamageUpdate();

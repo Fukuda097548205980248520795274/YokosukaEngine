@@ -157,25 +157,6 @@ private:
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
 
 
-	/*-----------------------
-	    ギミック : 羽ばたく
-	-----------------------*/
-
-	
-
-	// 羽ばたきギミックのパラメータ
-	float flappingParameter_ = 0.0f;
-
-	// 羽ばたきギミックの最大値
-	const float kFlappingPrameterMax = std::numbers::pi_v<float> *2.0f;
-
-	// 羽ばたきギミックの速度
-	float flappingVelocity_ = 0.0f;
-
-	// 幅だきぎいっくの振幅
-	float flappingAmplitude_ = 0.0f;
-
-
 
 	/*----------------------
 		ギミック : ダメージ

@@ -1,6 +1,5 @@
 #pragma once
 #include "../BaseEnemyButterflyState.h"
-
 #include "../../BaseEnemyButterflyBehavior/BaseEnemyButterflyBehavior.h"
 
 class EnemyButterflyStateStop : public BaseEnemyButterflyState

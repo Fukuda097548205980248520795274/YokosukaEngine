@@ -157,41 +157,6 @@ void EnemyButterfly::ChangeState(std::unique_ptr<BaseEnemyButterflyState> state)
 }
 
 
-
-/*-----------------------
-	ギミック : 羽ばたく
------------------------*/
-
-/// <summary>
-/// ギミック : 羽ばたく : 初期化
-/// </summary>
-void EnemyButterfly::GimmickFlappingInitialize()
-{
-	// 羽ばたきギミックのパラメータ
-	flappingParameter_ = 0.0f;
-
-	// 羽ばたきギミックの速度
-	flappingVelocity_ = 0.085f;
-
-	// 幅だきぎいっくの振幅
-	flappingAmplitude_ = 0.75f;
-}
-
-/// <summary>
-/// ギミック : 羽ばたく : 更新処理
-/// </summary>
-void EnemyButterfly::GimmickFlappingUpdate()
-{
-	// パラメータを進める
-	flappingParameter_ += flappingVelocity_;
-	flappingParameter_ = std::fmod(flappingParameter_, kFlappingPrameterMax);
-
-	// 羽を動かす
-	models_[kWingR].worldTransform_->rotation_.y = std::sin(flappingParameter_) * flappingAmplitude_;
-	models_[kWingL].worldTransform_->rotation_.y = -std::sin(flappingParameter_) * flappingAmplitude_;
-}
-
-
 /*----------------------
 	ギミック : ダメージ
 ----------------------*/
