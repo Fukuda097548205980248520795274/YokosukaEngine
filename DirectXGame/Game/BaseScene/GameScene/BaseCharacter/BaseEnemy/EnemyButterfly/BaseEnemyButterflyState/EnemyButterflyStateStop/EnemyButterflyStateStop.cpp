@@ -8,7 +8,7 @@
 EnemyButterflyStateStop::EnemyButterflyStateStop(EnemyButterfly* enemy)
 	: BaseEnemyButterflyState(enemy) 
 {
-	behavior_ = std::make_unique<EnemyButterflyBehaviorShot>(enemy);
+	behavior_ = std::make_unique<EnemyButterflyBehaviorNormal>(enemy);
 }
 
 /// <summary>

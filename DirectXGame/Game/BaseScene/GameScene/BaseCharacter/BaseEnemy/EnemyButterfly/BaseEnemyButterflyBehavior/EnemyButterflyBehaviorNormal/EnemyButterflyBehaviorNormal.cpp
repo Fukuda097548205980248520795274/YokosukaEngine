@@ -15,6 +15,9 @@ EnemyButterflyBehaviorNormal::EnemyButterflyBehaviorNormal(EnemyButterfly* enemy
 
 	// 羽ばたきギミック初期化
 	enemy_->gimmickFloating_->Initialize(bodyWorldTransform, 0.075f);
+
+	enemy_->GimmickFlappingInitialize();
+	enemy_->GimmickDamageInitialize();
 }
 
 /// <summary>
