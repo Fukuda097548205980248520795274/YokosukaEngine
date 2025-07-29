@@ -34,7 +34,14 @@ void BaseBullet::Update()
 	prevPosition_ = worldTransform_->translation_;
 
 	// タイマーを進める
-	shotTimer_ += 1.0f / 60.0f;
+	if (gameTimer_)
+	{
+		shotTimer_ += (1.0f / 60.0f) * (*gameTimer_);
+	}
+	else
+	{
+		shotTimer_ += 1.0f / 60.0f;
+	}
 
 	// 発射時間を越えたら消滅する
 	if (shotTimer_ >= shotTime_)
@@ -44,7 +51,14 @@ void BaseBullet::Update()
 	}
 
 	// 向きと速度で移動する
-	worldTransform_->translation_ += direction_ * speed;
+	if (gameTimer_)
+	{
+		worldTransform_->translation_ += (direction_ * speed) * (*gameTimer_);
+	}
+	else
+	{
+		worldTransform_->translation_ += direction_ * speed;
+	}
 
 	// ワールドトランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();

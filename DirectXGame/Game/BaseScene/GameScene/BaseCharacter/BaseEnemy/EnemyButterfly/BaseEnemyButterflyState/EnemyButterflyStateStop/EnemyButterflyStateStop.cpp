@@ -14,6 +14,7 @@ EnemyButterflyStateStop::EnemyButterflyStateStop(EnemyButterfly* enemy)
 
 	// 浮遊ギミック初期化
 	gimmickFloating_ = std::make_unique<GimmickFloating>();
+	gimmickFloating_->SetGameTimer(enemy_->GetGameTimer());
 	gimmickFloating_->Initialize(enemy_->GetBodyWorldTransform(), 0.075f);
 	gimmickFloating_->SetAmplitude(0.25f);
 }
@@ -25,6 +26,7 @@ void EnemyButterflyStateStop::Update()
 {
 	// ワールドトランスフォームを取得する
 	WorldTransform* worldTransform = enemy_->GetWorldTransform();
+
 
 	// 浮遊ギミックの更新
 	gimmickFloating_->Update();

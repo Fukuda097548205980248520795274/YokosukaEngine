@@ -19,7 +19,14 @@ void BaseGimmick::Initialize(WorldTransform* worldTransform, float parameterVelo
 void BaseGimmick::Update()
 {
 	// パラメータを加算する
-	parameter_ += parameterVelocity_;
+	if (gameTimer_)
+	{
+		parameter_ += parameterVelocity_ * (*gameTimer_);
+	}
+	else
+	{
+		parameter_ += parameterVelocity_;
+	}
 
 	// 範囲を制限する
 	parameter_ = std::fmod(parameter_, parameterMax_);

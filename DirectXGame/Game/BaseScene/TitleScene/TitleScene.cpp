@@ -9,8 +9,15 @@ void TitleScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore
 	// 基底クラス初期化
 	BaseScene::Initialize(engine , modelHandleStore);
 
-	// サウンドを読み込む
+	// 効果音を読み込む
 	shGlassBreaks_ = engine_->LoadSound("./Resources/Sounds/Se/title/glass.mp3");
+
+	// サウンドを読み込む
+	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Sagittarius_2.mp3");
+
+
+	// フェードイン初期化
+	BehaviorFadeInInitialize();
 }
 
 /// <summary>
@@ -20,6 +27,7 @@ void TitleScene::Update()
 {
 	// 基底クラス更新処理
 	BaseScene::Update();
+
 
 	// 次のビヘイビアのリクエストがあるとき
 	if (behaviorRequest_)
@@ -122,6 +130,15 @@ void TitleScene::BehaviorFadeInInitialize()
 {
 	// フェードインパラメータ
 	fadeInParameter_ = 0.0f;
+
+
+
+	// ガラスの効果音
+	phGlassBreaks_ = engine_->PlaySoundData(shGlassBreaks_, 0.5f);
+
+	// ガラスの効果音のピッチを通常にする
+	phGlassBreaksPitch_ = 1.0f;
+	engine_->SetPitch(phGlassBreaks_, phGlassBreaksPitch_);
 }
 
 /// <summary>
@@ -133,9 +150,19 @@ void TitleScene::BehaviorFadeInUpdate()
 	fadeInParameter_ += 1.0f / 60.0f;
 	fadeInParameter_ = std::min(fadeInParameter_, kFadeInPrameterMax);
 
+
+	// ピッチの速度を上げる
+	phGlassBreaksPitch_ -= 1.0f / 60.0f;
+	phGlassBreaksPitch_ = std::max(phGlassBreaksPitch_, 0.0f);
+	engine_->SetPitch(phGlassBreaks_, phGlassBreaksPitch_);
+
+
 	// 最大値になったら操作に遷移する
 	if (fadeInParameter_ >= kFadeInPrameterMax)
 	{
+		// ガラス音を止める
+		engine_->StopSound(phGlassBreaks_);
+
 		behaviorRequest_ = kOperation;
 		return;
 	}
@@ -171,9 +198,18 @@ void TitleScene::BehaviorOperationInitialize()
 /// </summary>
 void TitleScene::BehaviorOperationUpdate()
 {
+	// BGMをループさせる
+	if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
+	{
+		playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
+	}
+
 	if (engine_->GetKeyTrigger(DIK_A))
 	{
 		behaviorRequest_ = kFadeOut;
+
+		// BGMを止める
+		engine_->StopSound(playHandle_);
 	}
 }
 
@@ -201,6 +237,15 @@ void TitleScene::BehaviorFadeOutInitialize()
 {
 	// フェードアウトパラメータ
 	fadeOutParameter_ = 0.0f;
+
+
+
+	// ガラスの効果音
+	phGlassBreaks_ = engine_->PlaySoundData(shGlassBreaks_, 0.5f);
+
+	// ガラスの効果音のピッチを下げる
+	phGlassBreaksPitch_ = 0.0f;
+	engine_->SetPitch(phGlassBreaks_, phGlassBreaksPitch_);
 }
 
 /// <summary>
@@ -218,6 +263,13 @@ void TitleScene::BehaviorFadeOutUpdate()
 		isFinished_ = true;
 		return;
 	}
+
+
+
+	// ピッチの速度を上げる
+	phGlassBreaksPitch_ += 1.0f / 60.0f;
+	phGlassBreaksPitch_ = std::min(phGlassBreaksPitch_, 1.0f);
+	engine_->SetPitch(phGlassBreaks_, phGlassBreaksPitch_);
 }
 
 /// <summary>

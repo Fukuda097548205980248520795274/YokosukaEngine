@@ -35,6 +35,12 @@ public:
 	void Draw() override;
 
 	/// <summary>
+	/// ゲームタイマーのインスタンスのGetter
+	/// </summary>
+	/// <returns></returns>
+	const float* GetGameTimer() const { return &gameTimer_; };
+
+	/// <summary>
 	/// ワールド座標のGetter
 	/// </summary>
 	/// <returns></returns>
@@ -94,6 +100,9 @@ private:
 	// ダメージ音
 	uint32_t soundHandleDamage1_ = 0;
 	uint32_t soundHandleDamage2_ = 0;
+
+	// ゲームタイマー
+	float gameTimer_ = 1.0f;
 
 	/// <summary>
 	/// 入力操作

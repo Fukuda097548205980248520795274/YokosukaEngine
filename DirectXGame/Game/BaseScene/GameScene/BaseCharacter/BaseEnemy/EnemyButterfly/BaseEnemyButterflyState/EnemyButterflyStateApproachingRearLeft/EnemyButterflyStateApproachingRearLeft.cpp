@@ -19,6 +19,10 @@ void EnemyButterflyStateApproachingRearLeft::Update()
 	// ワールドトランスフォームを取得する
 	WorldTransform* worldTransform = enemy_->GetWorldTransform();
 
+	// ゲームタイマーを取得する
+	const float* gameTimer = enemy_->GetGameTimer();
+
+
 	// ビヘイビア更新
 	behavior_->Update();
 

@@ -16,10 +16,12 @@ EnemyButterflyBehaviorNormal::EnemyButterflyBehaviorNormal(EnemyButterfly* enemy
 
 	// 羽ばたきギミックの生成と初期化
 	gimmickFlappingWingR_ = std::make_unique<GimmickFlapping>();
+	gimmickFlappingWingR_->SetGameTimer(enemy_->GetGameTimer());
 	gimmickFlappingWingR_->Initialize(enemy_->GetWingRWorldTransform(), 0.085f);
 	gimmickFlappingWingR_->SetAmplitude(0.75f);
 
 	gimmickFlappingWingL_ = std::make_unique<GimmickFlapping>();
+	gimmickFlappingWingL_->SetGameTimer(enemy_->GetGameTimer());
 	gimmickFlappingWingL_->Initialize(enemy_->GetWingLWorldTransform(), -0.085f);
 	gimmickFlappingWingL_->SetAmplitude(0.75f);
 	
@@ -30,8 +32,11 @@ EnemyButterflyBehaviorNormal::EnemyButterflyBehaviorNormal(EnemyButterfly* enemy
 /// </summary>
 void EnemyButterflyBehaviorNormal::Update()
 {
+	// ゲームタイマーを取得する
+	const float* gameTimer = enemy_->GetGameTimer();
+
 	// タイマーを進める
-	shotTimer_ += kShotTimerVelocity;
+	shotTimer_ += kShotTimerVelocity * (*gameTimer);
 	shotTimer_ = std::min(shotTimer_, kShotTime);
 
 	// 時間が終わったら終了する

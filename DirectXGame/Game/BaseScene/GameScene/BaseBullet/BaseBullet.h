@@ -44,6 +44,13 @@ public:
 	uint32_t GetPower()const { return power_; }
 
 	/// <summary>
+	/// ゲームタイマーのSetter
+	/// </summary>
+	/// <param name="gameTimer"></param>
+	/// <returns></returns>
+	void SetGameTimer(const float* gameTimer) { gameTimer_ = gameTimer; }
+
+	/// <summary>
 	/// トランスフォームの親のSetter
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -95,5 +102,10 @@ protected:
 
 	// 攻撃力
 	uint32_t power_ = 0;
+
+
+
+	// ゲームタイマー
+	const float* gameTimer_ = nullptr;
 };
 

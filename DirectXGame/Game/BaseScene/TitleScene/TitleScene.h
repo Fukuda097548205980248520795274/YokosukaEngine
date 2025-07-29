@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../../BaseScene/BaseScene.h"
 
@@ -42,6 +43,13 @@ private:
 
 	// 次のビヘイビアのリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+
+
+	// サウンドハンドル
+	uint32_t soundHandle_ = 0;
+
+	// プレイハンドル
+	uint32_t playHandle_ = 0;
 
 
 
