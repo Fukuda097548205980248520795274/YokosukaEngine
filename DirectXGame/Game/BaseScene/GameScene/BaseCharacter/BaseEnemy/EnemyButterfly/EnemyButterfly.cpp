@@ -52,11 +52,6 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	pointLight_ = std::make_unique<PointLight>();
 	pointLight_->Initialize();
 
-	// 浮遊ギミック初期化
-	gimmickFloating_ = std::make_unique<GimmickFloating>();
-	gimmickFloating_->Initialize(models_[kBody].worldTransform_.get(), 0.075f);
-	gimmickFloating_->SetAmplitude(0.25f);
-
 
 	state_ = std::make_unique<EnemyButterflyStateStop>(this);
 }

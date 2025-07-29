@@ -25,10 +25,6 @@ void EnemyButterflyBehaviorShot::Update()
 		return;
 	}
 
-
-	// 浮遊ギミック 更新
-	enemy_->gimmickFloating_->Update();
-
 	// 発射アクション
 	ShotAction();
 

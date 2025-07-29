@@ -1,6 +1,7 @@
 #pragma once
 #include "../BaseEnemyButterflyState.h"
 #include "../../BaseEnemyButterflyBehavior/BaseEnemyButterflyBehavior.h"
+#include "../../../../../BaseGimmick/GimmickFloating/GimmickFloating.h"
 
 class EnemyButterflyStateStop : public BaseEnemyButterflyState
 {
@@ -35,5 +36,9 @@ private:
 
 	// 次のビヘイビアのリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+
+
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 };
 

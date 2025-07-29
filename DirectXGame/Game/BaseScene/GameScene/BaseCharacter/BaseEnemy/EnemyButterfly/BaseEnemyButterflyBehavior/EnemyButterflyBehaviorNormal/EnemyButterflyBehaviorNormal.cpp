@@ -13,9 +13,6 @@ EnemyButterflyBehaviorNormal::EnemyButterflyBehaviorNormal(EnemyButterfly* enemy
 	// 発射タイマー
 	shotTimer_ = 0.0f;
 
-	// 浮遊ギミック初期化
-	enemy_->gimmickFloating_->Initialize(bodyWorldTransform, 0.075f);
-
 
 	// 羽ばたきギミックの生成と初期化
 	gimmickFlappingWingR_ = std::make_unique<GimmickFlapping>();
@@ -44,10 +41,6 @@ void EnemyButterflyBehaviorNormal::Update()
 	{
 		return;
 	}
-
-
-	// 浮遊ギミック 更新
-	enemy_->gimmickFloating_->Update();
 
 	// 羽ばたきギミックの更新
 	gimmickFlappingWingR_->Update();

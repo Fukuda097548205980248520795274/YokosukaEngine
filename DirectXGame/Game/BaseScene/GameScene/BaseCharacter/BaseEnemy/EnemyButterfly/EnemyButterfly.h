@@ -94,27 +94,6 @@ public:
 	void BulletShot();
 
 
-	// 浮遊ギミック
-	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
-
-
-
-
-
-
-
-
-	/// <summary>
-	/// ギミック : 羽ばたく : 初期化
-	/// </summary>
-	void GimmickFlappingInitialize();
-
-	/// <summary>
-	/// ギミック : 羽ばたく : 更新処理
-	/// </summary>
-	void GimmickFlappingUpdate();
-
-
 
 
 
