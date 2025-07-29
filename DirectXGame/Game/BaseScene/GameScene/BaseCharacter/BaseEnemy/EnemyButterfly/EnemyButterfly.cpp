@@ -41,10 +41,15 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kWingL].worldTransform_->rotation_ = kStartRotation[kWingL];
 	models_[kWingL].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
 
-	// モデルハンドルを受け取る
+	// 共通した処理
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
+		// モデルハンドルを読み込む
 		models_[i].modelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kEnemyButterfly)[i];
+
+		// ダメージカラーギミックの生成と初期化
+		models_[i].gimmickDamageColor_ = std::make_unique<GimmickDamageColor>();
+		models_[i].gimmickDamageColor_->Initialize(models_[i].worldTransform_.get(), 1.0f / 3.0f);
 	}
 
 
@@ -71,6 +76,9 @@ void EnemyButterfly::Update()
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
 		models_[i].worldTransform_->UpdateWorldMatrix();
+
+		// ダメージカラーギミックの更新
+		models_[i].gimmickDamageColor_->Update();
 	}
 
 	// ポイントライトを本体に追従する
@@ -89,10 +97,10 @@ void EnemyButterfly::Draw()
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
 		engine_->DrawModel(models_[i].worldTransform_.get(), camera3d_, models_[i].modelHandle_,models_[i].color, true);
-	}
 
-	// ダメージギミックの描画
-	GimmickDamageDraw();
+		// ダメージカラーギミックの描画
+		models_[i].gimmickDamageColor_->Draw(engine_, camera3d_, models_[i].modelHandle_, Vector3(1.0f, 1.0f, 1.0f));
+	}
 }
 
 /// <summary>
@@ -137,9 +145,6 @@ void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
 {
 	// 基底クラスの衝突判定応答
 	BaseEnemy::OnCollision(playerBullet);
-
-	// ダメージギミック初期化
-	GimmickDamageInitialize();
 }
 
 /// <summary>
@@ -149,59 +154,6 @@ void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
 void EnemyButterfly::ChangeState(std::unique_ptr<BaseEnemyButterflyState> state)
 {
 	state_ = std::move(state);
-}
-
-
-/*----------------------
-	ギミック : ダメージ
-----------------------*/
-
-/// <summary>
-/// ギミック : ダメージ : 初期化
-/// </summary>
-void EnemyButterfly::GimmickDamageInitialize()
-{
-	// ダメージギミックのパラメータ
-	damageParameter_ = 0.0f;
-
-	// ダメージの色
-	damageColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-}
-
-/// <summary>
-/// ギミック : ダメージ : 更新処理
-/// </summary>
-void EnemyButterfly::GimmickDamageUpdate()
-{
-	// パラメータが最大値に達したら処理しない
-	if (damageParameter_ >= kDamageParameterMax)
-		return;
-
-	// パラメータを進める
-	damageParameter_ += damageVelocity_;
-	damageParameter_ = std::min(damageParameter_, kDamageParameterMax);
-
-	// 補間
-	float t = damageParameter_ / kDamageParameterMax;
-
-	// 徐々に透明にする
-	damageColor.w = (1.0f - t);
-}
-
-/// <summary>
-/// ギミック : ダメージ : 描画処理
-/// </summary>
-void EnemyButterfly::GimmickDamageDraw()
-{
-	// パラメータが最大値に達したら処理しない
-	if (damageParameter_ >= kDamageParameterMax)
-		return;
-
-	// モデルの描画
-	for (uint32_t i = 0; i < kNumModel; i++)
-	{
-		engine_->DrawModel(models_[i].worldTransform_.get(), camera3d_, models_[i].modelHandle_, damageColor, false);
-	}
 }
 
 
@@ -219,4 +171,16 @@ void EnemyButterfly::BulletShot()
 
 	// ゲームシーンのリストに追加する
 	gameScene_->EnemyBulletShot(std::move(enemyBullet));
+}
+
+/// <summary>
+/// ダメージカラー
+/// </summary>
+void EnemyButterfly::DamageColor()
+{
+	// ダメージカラーをリセットする
+	for (uint32_t i = 0; i < kNumModel; i++)
+	{
+		models_[i].gimmickDamageColor_->Reset();
+	}
 }

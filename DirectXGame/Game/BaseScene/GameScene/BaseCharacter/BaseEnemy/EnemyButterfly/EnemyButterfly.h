@@ -94,20 +94,12 @@ public:
 	void BulletShot();
 
 
-
-
-
-	/// <summary>
-	/// ギミック : ダメージ : 初期化
-	/// </summary>
-	void GimmickDamageInitialize();
-
-	/// <summary>
-	/// ギミック : ダメージ : 更新処理
-	/// </summary>
-	void GimmickDamageUpdate();
-
 private:
+
+	/// <summary>
+	/// ダメージカラー
+	/// </summary>
+	void DamageColor() override;
 
 
 	// 状態
@@ -134,28 +126,5 @@ private:
 
 	// ポイントライト
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
-
-
-
-	/*----------------------
-		ギミック : ダメージ
-	----------------------*/
-
-	/// <summary>
-	/// ギミック : ダメージ : 描画処理
-	/// </summary>
-	void GimmickDamageDraw();
-
-	// ダメージギミックのパラメータ
-	float damageParameter_ = 0.1f;
-
-	// ダメージギミックの最大値
-	const float kDamageParameterMax = 0.1f;
-
-	// ダメージギミックの速度
-	float damageVelocity_ = 1.0f / 60.0f;
-
-	// ダメージの色
-	Vector4 damageColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 };
 

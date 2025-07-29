@@ -23,8 +23,6 @@ EnemyButterflyBehaviorNormal::EnemyButterflyBehaviorNormal(EnemyButterfly* enemy
 	gimmickFlappingWingL_->Initialize(enemy_->GetWingLWorldTransform(), -0.085f);
 	gimmickFlappingWingL_->SetAmplitude(0.75f);
 	
-
-	enemy_->GimmickDamageInitialize();
 }
 
 /// <summary>
@@ -45,7 +43,4 @@ void EnemyButterflyBehaviorNormal::Update()
 	// 羽ばたきギミックの更新
 	gimmickFlappingWingR_->Update();
 	gimmickFlappingWingL_->Update();
-
-	// ダメージギミック 更新
-	enemy_->GimmickDamageUpdate();
 }

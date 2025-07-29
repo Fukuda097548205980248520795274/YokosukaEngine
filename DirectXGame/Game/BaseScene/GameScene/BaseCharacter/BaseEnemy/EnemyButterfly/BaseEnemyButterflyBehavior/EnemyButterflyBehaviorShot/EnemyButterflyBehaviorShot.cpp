@@ -27,9 +27,6 @@ void EnemyButterflyBehaviorShot::Update()
 
 	// 発射アクション
 	ShotAction();
-
-	// ダメージギミック 更新
-	enemy_->GimmickDamageUpdate();
 }
 
 /// <summary>
