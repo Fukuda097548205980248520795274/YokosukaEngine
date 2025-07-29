@@ -21,11 +21,20 @@ public:
 	/// <param name="parameterMax"></param>
 	void SetParameterVelocity(float parameterVelocity) { parameterVelocity_ = parameterVelocity; }
 
+	/// <summary>
+	/// ゲームタイマーのSetter
+	/// </summary>
+	/// <param name="gameTimer"></param>
+	void SetGameTimer(const float* gameTimer) { gameTimer_ = gameTimer; }
+
 
 protected:
 
 	// ワールドトランスフォーム
 	WorldTransform* worldTransform_ = nullptr;
+
+	// ゲームタイマー
+	const float* gameTimer_ = nullptr;
 
 	// パラメータ
 	float parameter_ = 0.0f;

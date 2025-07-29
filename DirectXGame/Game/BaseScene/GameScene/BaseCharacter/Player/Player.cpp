@@ -53,6 +53,10 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
+	ImGui::Begin("gmaeTimer");
+	ImGui::SliderFloat("gameTimer", &gameTimer_, 0.0f, 1.0f);
+	ImGui::End();
+
 	// 入力操作
 	Input();
 

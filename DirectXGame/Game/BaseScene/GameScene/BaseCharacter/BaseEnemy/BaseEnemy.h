@@ -96,6 +96,18 @@ public:
 	/// <returns></returns>
 	const BaseCharacter* GetTarget() const { return target_; }
 
+	/// <summary>
+	/// ゲームタイマーのSetter
+	/// </summary>
+	/// <param name="gameTimer"></param>
+	void SetGameTimer(const float* gameTimer) { gameTimer_ = gameTimer; }
+
+	/// <summary>
+	/// ゲームタイマーのGetter
+	/// </summary>
+	/// <returns></returns>
+	const float* GetGameTimer() { return gameTimer_; }
+
 
 protected:
 
@@ -110,6 +122,9 @@ protected:
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
+
+	// ゲームタイマー
+	const float* gameTimer_ = nullptr;
 
 
 	// モデル構造体

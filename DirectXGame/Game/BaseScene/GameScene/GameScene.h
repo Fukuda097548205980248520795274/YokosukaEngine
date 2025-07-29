@@ -88,7 +88,6 @@ private:
 	uint32_t playHandle_ = 0;
 
 
-
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 
@@ -102,6 +101,9 @@ private:
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+	// ゲームタイマー
+	const float* gameTimer_ = nullptr;
 
 	// プレイヤーの弾のリスト
 	std::list<std::unique_ptr<BasePlayerBullet>> playerBullets_;

@@ -2,7 +2,8 @@
 #include "../YokosukaEngine/Include/YokosukaEngine.h"
 #include "BaseScene/GameScene/GameScene.h"
 #include "BaseScene/TitleScene/TitleScene.h"
-#include "ModelHandleStore\/ModelHandleStore.h"
+#include "BaseScene/ClearScene/ClearScene.h"
+#include "ModelHandleStore/ModelHandleStore.h"
 
 class Game
 {
@@ -44,7 +45,8 @@ private:
 	enum ScenePhase
 	{
 		kTitle,
-		kGame
+		kGame,
+		kClear
 	};
 
 	// 現在のシーンフェーズ

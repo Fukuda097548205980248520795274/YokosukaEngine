@@ -14,6 +14,12 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Addictive_Waveform.mp3");
 
 
+	// 平行光源の生成と初期化
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
+	directionalLight_->intensity_ = 0.5f;
+
+
 	// 中心軸の生成と初期化
 	centerAxis_ = std::make_unique<CenterAxis>();
 	centerAxis_->Initliaze(engine_ , camera3d_);
@@ -22,32 +28,35 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	mainCamera_->SetPivotParent(centerAxis_->GetWorldTransform());
 
 
-	// 平行光源の生成と初期化
-	directionalLight_ = std::make_unique<DirectionalLight>();
-	directionalLight_->Initialize();
-	directionalLight_->intensity_ = 0.5f;
+	// プレイヤーの生成と初期化
+	player_ = std::make_unique<Player>();
+	player_->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 0.0f), 100);
+	player_->SetGameScene(this);
+	player_->SetParent(mainCamera_->GetPivotWorldTransform());
+
+	// ゲームタイマーを取得する
+	gameTimer_ = player_->GetGameTimer();
+
 
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_);
 	skydome_->SetPosition(centerAxis_->GetWorldPosition());
 
-	// プレイヤーの生成と初期化
-	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_, modelHandleStore_,Vector3(0.0f , 0.0f , 0.0f), 100);
-	player_->SetGameScene(this);
-	player_->SetParent(mainCamera_->GetPivotWorldTransform());
-
 
 	// 敵の生成と初期化
-	std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
-	enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 20.0f), 50);
-	enemyButterfly->SetParent(centerAxis_->GetWorldTransform());
-	enemyButterfly->SetTarget(player_.get());
-	enemyButterfly->SetGameScene(this);
+	for (uint32_t i = 0; i < 3; i++)
+	{
+		std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
+		enemyButterfly->SetGameTimer(gameTimer_);
+		enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(-10.0f + i * 10.0f, 0.0f, 25.0f), 50);
+		enemyButterfly->SetParent(centerAxis_->GetWorldTransform());
+		enemyButterfly->SetTarget(player_.get());
+		enemyButterfly->SetGameScene(this);
 
-	// 登録する
-	enemies_.push_back(std::move(enemyButterfly));
+		// 登録する
+		enemies_.push_back(std::move(enemyButterfly));
+	}
 }
 
 /// <summary>

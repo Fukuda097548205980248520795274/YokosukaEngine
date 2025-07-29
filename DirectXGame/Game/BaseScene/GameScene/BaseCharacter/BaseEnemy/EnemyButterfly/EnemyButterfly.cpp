@@ -165,6 +165,7 @@ void EnemyButterfly::BulletShot()
 {
 	// 新規の弾の生成
 	std::unique_ptr<EnemyBulletWeek> enemyBullet = std::make_unique<EnemyBulletWeek>();
+	enemyBullet->SetGameTimer(gameTimer_);
 	enemyBullet->Initialize(engine_, camera3d_, modelHandleStore_ , worldTransform_->translation_);
 
 	// ターゲットの方向に発射する

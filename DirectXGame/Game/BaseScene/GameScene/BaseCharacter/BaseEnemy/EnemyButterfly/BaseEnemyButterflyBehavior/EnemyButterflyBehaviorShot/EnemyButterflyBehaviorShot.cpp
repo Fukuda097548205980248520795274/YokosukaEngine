@@ -15,13 +15,17 @@ EnemyButterflyBehaviorShot::EnemyButterflyBehaviorShot(EnemyButterfly* enemy) : 
 /// </summary>
 void EnemyButterflyBehaviorShot::Update()
 {
+	// ゲームタイマーを取得する
+	const float* gameTimer = enemy_->GetGameTimer();
+
 	// 発射パラメータを進める
-	shotParameter_ += kShotParameterVelocity;
+	shotParameter_ += kShotParameterVelocity * (*gameTimer);
 	shotParameter_ = std::min(shotParameter_, kShotParameterMax);
 
-	// 発射パラメータが終了したら、通所ビヘイビアに遷移する
+	// 発射パラメータが最大値で終了する
 	if (shotParameter_ >= kShotParameterMax)
 	{
+		isFinished_ = true;
 		return;
 	}
 
@@ -48,9 +52,12 @@ void EnemyButterflyBehaviorShot::ShotAction()
 	// ターゲットのインスタンスを取得する
 	const BaseCharacter* target = enemy_->GetTarget();
 
+	// ゲームタイマーを取得する
+	const float* gameTimer = enemy_->GetGameTimer();
+
 
 	// パラメータを進める
-	parameter_ += kShotParameterVelocity;
+	parameter_ += kShotParameterVelocity * (*gameTimer);
 	parameter_ = std::min(parameter_, kShotParameterMax);
 
 	// 羽を広げる

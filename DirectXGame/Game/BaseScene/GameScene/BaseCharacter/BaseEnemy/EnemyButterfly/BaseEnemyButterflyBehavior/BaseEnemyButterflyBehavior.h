@@ -21,10 +21,19 @@ public:
 	/// </summary>
 	virtual void Update() = 0;
 
+	/// <summary>
+	/// 終了フラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsFinished()const { return isFinished_; }
+
 
 protected:
 
 	// 敵
 	EnemyButterfly* enemy_ = nullptr;
+
+	// 終了フラグ
+	bool isFinished_ = false;
 };
 

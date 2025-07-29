@@ -6,7 +6,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	// エンジンの生成と初期化
 	YokosukaEngine* engine = new YokosukaEngine();
-	engine->Initialize(1280, 720, "LE2A_11_フクダ_ソウワ");
+	engine->Initialize(1280, 720, "LE2A_11_フクダ_ソウワ_時を紡ぐ千早振り");
 
 	// ゲームインスタンスの生成と初期化
 	Game* game = new Game();
