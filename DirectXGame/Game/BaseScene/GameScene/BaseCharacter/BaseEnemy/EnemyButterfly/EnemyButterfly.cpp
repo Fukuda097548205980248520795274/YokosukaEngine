@@ -58,6 +58,7 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	pointLight_->Initialize();
 
 
+	// ステートの生成
 	state_ = std::make_unique<EnemyButterflyStateStop>(this);
 }
 
