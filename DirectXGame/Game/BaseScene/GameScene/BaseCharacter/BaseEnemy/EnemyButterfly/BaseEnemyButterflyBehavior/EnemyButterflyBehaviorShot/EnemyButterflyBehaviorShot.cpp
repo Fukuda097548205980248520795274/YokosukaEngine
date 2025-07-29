@@ -19,9 +19,10 @@ void EnemyButterflyBehaviorShot::Update()
 	shotParameter_ += kShotParameterVelocity;
 	shotParameter_ = std::min(shotParameter_, kShotParameterMax);
 
-	// 発射パラメータが終了したら、通所ビヘイビアに遷移する
+	// 発射パラメータが最大値で終了する
 	if (shotParameter_ >= kShotParameterMax)
 	{
+		isFinished_ = true;
 		return;
 	}
 

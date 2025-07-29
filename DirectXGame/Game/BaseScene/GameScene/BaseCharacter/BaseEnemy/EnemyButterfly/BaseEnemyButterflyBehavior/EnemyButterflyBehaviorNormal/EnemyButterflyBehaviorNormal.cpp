@@ -34,9 +34,10 @@ void EnemyButterflyBehaviorNormal::Update()
 	shotTimer_ += kShotTimerVelocity;
 	shotTimer_ = std::min(shotTimer_, kShotTime);
 
-	// 発射ビヘイビアに遷移する
+	// 時間が終わったら終了する
 	if (shotTimer_ >= kShotTime)
 	{
+		isFinished_ = true;
 		return;
 	}
 

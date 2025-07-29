@@ -59,4 +59,23 @@ void EnemyButterflyStateStop::Update()
 
 	// ビヘイビア更新
 	behavior_->Update();
+
+	// 終了したら、現在のビヘイビアに合わせて予約する
+	if (behavior_->IsFinished())
+	{
+		switch (currentBehavior_)
+		{
+		case kNormal:
+			// 通常
+			behaviorRequest_ = kShot;
+
+			break;
+
+		case kShot:
+			// 発射
+			behaviorRequest_ = kNormal;
+
+			break;
+		}
+	}
 }
