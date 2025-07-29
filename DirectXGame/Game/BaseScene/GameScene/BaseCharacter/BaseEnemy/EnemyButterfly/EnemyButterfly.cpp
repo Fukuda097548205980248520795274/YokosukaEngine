@@ -41,10 +41,15 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	models_[kWingL].worldTransform_->rotation_ = kStartRotation[kWingL];
 	models_[kWingL].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
 
-	// モデルハンドルを受け取る
+	// 共通した処理
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
+		// モデルハンドルを読み込む
 		models_[i].modelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kEnemyButterfly)[i];
+
+		// ダメージカラーギミックの生成と初期化
+		models_[i].gimmickDamageColor_ = std::make_unique<GimmickDamageColor>();
+		models_[i].gimmickDamageColor_->Initialize(models_[i].worldTransform_.get(), 1.0f / 3.0f);
 	}
 
 
@@ -52,10 +57,9 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	pointLight_ = std::make_unique<PointLight>();
 	pointLight_->Initialize();
 
-	// 浮遊ギミック初期化
-	gimmickFloating_ = std::make_unique<GimmickFloating>();
-	gimmickFloating_->Initialize(models_[kBody].worldTransform_.get(), 0.075f);
-	gimmickFloating_->SetAmplitude(0.25f);
+
+	// ステートの生成
+	state_ = std::make_unique<EnemyButterflyStateStop>(this);
 }
 
 /// <summary>
@@ -63,54 +67,8 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 /// </summary>
 void EnemyButterfly::Update()
 {
-	// 次のビヘイビアの予定があるとき
-	if (requestBehavior_ != kNothing)
-	{
-		// ビヘイビアを変更する
-		behavior_ = requestBehavior_;
-
-		// 初期化する
-		switch (behavior_)
-		{
-		case kNormal:
-		default:
-			// 通常
-
-			BehaviorNormalInitialize();
-
-			break;
-
-		case kShot:
-			// 発射
-
-			BehaviorShotInitialize();
-
-			break;
-		}
-
-		// 予定を消す
-		requestBehavior_ = kNothing;
-	}
-
-	// 現在のビヘイビアの更新処理
-	switch (behavior_)
-	{
-	case kNormal:
-	default:
-		// 通常
-
-		BehaviorNormalUpdate();
-
-		break;
-
-	case kShot:
-		// 発射
-
-		BehaviorShotUpdate();
-
-		break;
-	}
-
+	// ステート更新
+	state_->Update();
 
 	// 基底クラス更新
 	BaseEnemy::Update();
@@ -119,6 +77,9 @@ void EnemyButterfly::Update()
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
 		models_[i].worldTransform_->UpdateWorldMatrix();
+
+		// ダメージカラーギミックの更新
+		models_[i].gimmickDamageColor_->Update();
 	}
 
 	// ポイントライトを本体に追従する
@@ -137,10 +98,10 @@ void EnemyButterfly::Draw()
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
 		engine_->DrawModel(models_[i].worldTransform_.get(), camera3d_, models_[i].modelHandle_,models_[i].color, true);
-	}
 
-	// ダメージギミックの描画
-	GimmickDamageDraw();
+		// ダメージカラーギミックの描画
+		models_[i].gimmickDamageColor_->Draw(engine_, camera3d_, models_[i].modelHandle_, Vector3(1.0f, 1.0f, 1.0f));
+	}
 }
 
 /// <summary>
@@ -185,9 +146,6 @@ void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
 {
 	// 基底クラスの衝突判定応答
 	BaseEnemy::OnCollision(playerBullet);
-
-	// ダメージギミック初期化
-	GimmickDamageInitialize();
 }
 
 /// <summary>
@@ -197,261 +155,6 @@ void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
 void EnemyButterfly::ChangeState(std::unique_ptr<BaseEnemyButterflyState> state)
 {
 	state_ = std::move(state);
-}
-
-
-
-/*-----------------------
-	ギミック : 羽ばたく
------------------------*/
-
-/// <summary>
-/// ギミック : 羽ばたく : 初期化
-/// </summary>
-void EnemyButterfly::GimmickFlappingInitialize()
-{
-	// 羽ばたきギミックのパラメータ
-	flappingParameter_ = 0.0f;
-
-	// 羽ばたきギミックの速度
-	flappingVelocity_ = 0.085f;
-
-	// 幅だきぎいっくの振幅
-	flappingAmplitude_ = 0.75f;
-}
-
-/// <summary>
-/// ギミック : 羽ばたく : 更新処理
-/// </summary>
-void EnemyButterfly::GimmickFlappingUpdate()
-{
-	// パラメータを進める
-	flappingParameter_ += flappingVelocity_;
-	flappingParameter_ = std::fmod(flappingParameter_, kFlappingPrameterMax);
-
-	// 羽を動かす
-	models_[kWingR].worldTransform_->rotation_.y = std::sin(flappingParameter_) * flappingAmplitude_;
-	models_[kWingL].worldTransform_->rotation_.y = -std::sin(flappingParameter_) * flappingAmplitude_;
-}
-
-
-/*----------------------
-	ギミック : ダメージ
-----------------------*/
-
-/// <summary>
-/// ギミック : ダメージ : 初期化
-/// </summary>
-void EnemyButterfly::GimmickDamageInitialize()
-{
-	// ダメージギミックのパラメータ
-	damageParameter_ = 0.0f;
-
-	// ダメージの色
-	damageColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-}
-
-/// <summary>
-/// ギミック : ダメージ : 更新処理
-/// </summary>
-void EnemyButterfly::GimmickDamageUpdate()
-{
-	// パラメータが最大値に達したら処理しない
-	if (damageParameter_ >= kDamageParameterMax)
-		return;
-
-	// パラメータを進める
-	damageParameter_ += damageVelocity_;
-	damageParameter_ = std::min(damageParameter_, kDamageParameterMax);
-
-	// 補間
-	float t = damageParameter_ / kDamageParameterMax;
-
-	// 徐々に透明にする
-	damageColor.w = (1.0f - t);
-}
-
-/// <summary>
-/// ギミック : ダメージ : 描画処理
-/// </summary>
-void EnemyButterfly::GimmickDamageDraw()
-{
-	// パラメータが最大値に達したら処理しない
-	if (damageParameter_ >= kDamageParameterMax)
-		return;
-
-	// モデルの描画
-	for (uint32_t i = 0; i < kNumModel; i++)
-	{
-		engine_->DrawModel(models_[i].worldTransform_.get(), camera3d_, models_[i].modelHandle_, damageColor, false);
-	}
-}
-
-
-/*--------------------
-    ギミック : 発射
---------------------*/
-
-/// <summary>
-/// ギミック : 発射動作 : 初期化
-/// </summary>
-void EnemyButterfly::GimmickShotActionInitliaze()
-{
-	// 発射動作パラメータ
-	shotActionParameter_ = 0.0f;
-
-	// 現在の角度
-	shotActionCurrentRotation_ = worldTransform_->rotation_.y;
-
-	// 発射フラグ
-	isShot_ = false;
-}
-
-/// <summary>
-/// ギミック : 発射動作 : 更新処理
-/// </summary>
-void EnemyButterfly::GimmickShotActionUpdate()
-{
-	// 発射ビヘイビアが終了するまでパラメータを進める
-	if (shotActionParameter_ >= kShotParameterMax)
-		return;
-
-	// パラメータを進める
-	shotActionParameter_ += kShotParameterVelocity;
-	shotActionParameter_ = std::min(shotActionParameter_, kShotParameterMax);
-
-	// 羽を広げる
-	if (shotActionParameter_ >= kShotActionStartRotationParameter[0] && shotActionParameter_ <= kShotActionStartRotationParameter[1])
-	{
-		// 補間
-		float t = (shotActionParameter_ - kShotActionStartRotationParameter[0]) / (kShotActionStartRotationParameter[1] - kShotActionStartRotationParameter[0]);
-		float easing = 1.0f - std::powf(1.0f - t, 3);
-
-		models_[kWingR].worldTransform_->rotation_.y = Lerp(models_[kWingR].worldTransform_->rotation_.y, kShotActionStartRotation[kWingR], t);
-		models_[kWingL].worldTransform_->rotation_.y = Lerp(models_[kWingL].worldTransform_->rotation_.y, kShotActionStartRotation[kWingL], t);
-	}
-	
-	// 羽を閉じる
-	if (shotActionParameter_ >= kShotActionRotationParameter[0] && shotActionParameter_ <= kShotActionRotationParameter[1])
-	{
-		// 補間
-		float t = (shotActionParameter_ - kShotActionRotationParameter[0]) / (kShotActionRotationParameter[1] - kShotActionRotationParameter[0]);
-		float easing = 1.0f - std::powf(1.0f - t, 3);
-
-		models_[kWingR].worldTransform_->rotation_.y = Lerp(kShotActionStartRotation[kWingR], kShotActionRotation[kWingR], t);
-		models_[kWingL].worldTransform_->rotation_.y = Lerp(kShotActionStartRotation[kWingL], kShotActionRotation[kWingL], t);
-	}
-
-	// 羽を閉じ終えたら発射する
-	if (shotActionParameter_ >= kShotActionRotationParameter[1])
-	{
-		if (isShot_ == false)
-		{
-			isShot_ = true;
-			BulletShot();
-		}
-	}
-
-	// 羽を戻す
-	if (shotActionParameter_ >= kShotActionEndRotationParameter[0] && shotActionParameter_ <= kShotActionEndRotationParameter[1])
-	{
-		// 補間
-		float t = (shotActionParameter_ - kShotActionEndRotationParameter[0]) / (kShotActionEndRotationParameter[1] - kShotActionEndRotationParameter[0]);
-
-		models_[kWingR].worldTransform_->rotation_.y = Lerp(kShotActionRotation[kWingR], kShotActionEndRotation[kWingR], t);
-		models_[kWingL].worldTransform_->rotation_.y = Lerp(kShotActionRotation[kWingL], kShotActionEndRotation[kWingL], t);
-	}
-
-
-	// ターゲットの方向を向くようにする
-	Vector3 toTarget = -1.0f * Normalize(target_->GetWorldTransform()->translation_ - worldTransform_->translation_);
-	worldTransform_->rotation_.y = std::atan2(toTarget.x, toTarget.z);
-	float length = std::sqrt(std::pow(toTarget.x, 2.0f) + std::pow(toTarget.z, 2.0f));
-	worldTransform_->rotation_.x = std::atan2(-toTarget.y, length);
-}
-
-
-
-/*----------------------
-    ビヘイビア : 通常
-----------------------*/
-
-/// <summary>
-/// ビヘイビア : 通常 : 初期化
-/// </summary>
-void EnemyButterfly::BehaviorNormalInitialize()
-{
-	// 発射タイマー
-	shotTimer_ = 0.0f;
-
-	// 羽ばたきギミック初期化
-	GimmickFlappingInitialize();
-}
-
-/// <summary>
-/// ビヘイビア : 通常 : 更新処理
-/// </summary>
-void EnemyButterfly::BehaviorNormalUpdate()
-{
-	// タイマーを進める
-	shotTimer_ += kShotTimerVelocity;
-	shotTimer_ = std::min(shotTimer_, kShotTime);
-
-	// 発射ビヘイビアに遷移する
-	if (shotTimer_ >= kShotTime)
-		requestBehavior_ = kShot;
-
-
-	// 浮遊ギミック 更新
-	gimmickFloating_->Update();
-
-	// 羽ばたきギミック 更新
-	GimmickFlappingUpdate();
-
-	// ダメージギミック 更新
-	GimmickDamageUpdate();
-}
-
-
-
-/*----------------------
-    ビヘイビア : 発射
-----------------------*/
-
-/// <summary>
-/// ビヘイビア : 発射 : 初期化
-/// </summary>
-void EnemyButterfly::BehaviorShotInitialize()
-{
-	// 発射パラメータ
-	shotParameter_ = 0.0f;
-
-	// 発射動作ギミック初期化
-	GimmickShotActionInitliaze();
-}
-
-/// <summary>
-/// ビヘイビア : 発射 : 更新処理
-/// </summary>
-void EnemyButterfly::BehaviorShotUpdate()
-{
-	// 発射パラメータを進める
-	shotParameter_ += kShotParameterVelocity;
-	shotParameter_ = std::min(shotParameter_, kShotParameterMax);
-	
-	// 発射パラメータが終了したら、通所ビヘイビアに遷移する
-	if (shotParameter_ >= kShotParameterMax)
-		requestBehavior_ = kNormal;
-
-
-	// 浮遊ギミック 更新
-	gimmickFloating_->Update();
-
-	// 発射動作ギミック更新
-	GimmickShotActionUpdate();
-
-	// ダメージギミック 更新
-	GimmickDamageUpdate();
 }
 
 
@@ -469,4 +172,16 @@ void EnemyButterfly::BulletShot()
 
 	// ゲームシーンのリストに追加する
 	gameScene_->EnemyBulletShot(std::move(enemyBullet));
+}
+
+/// <summary>
+/// ダメージカラー
+/// </summary>
+void EnemyButterfly::DamageColor()
+{
+	// ダメージカラーをリセットする
+	for (uint32_t i = 0; i < kNumModel; i++)
+	{
+		models_[i].gimmickDamageColor_->Reset();
+	}
 }

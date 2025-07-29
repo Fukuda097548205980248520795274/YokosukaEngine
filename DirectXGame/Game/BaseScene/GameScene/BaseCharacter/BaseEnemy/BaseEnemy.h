@@ -1,5 +1,6 @@
 #pragma once
 #include "../BaseCharacter.h"
+#include "../../BaseGimmick/GimmickDamageColor/GimmickDamageColor.h"
 
 // 前方宣言
 class BasePlayerBullet;
@@ -89,8 +90,19 @@ public:
 	/// <param name="target"></param>
 	void SetTarget(BaseCharacter* target) { target_ = target; }
 
+	/// <summary>
+	/// ターゲットのGetter
+	/// </summary>
+	/// <returns></returns>
+	const BaseCharacter* GetTarget() const { return target_; }
+
 
 protected:
+
+	/// <summary>
+	/// ダメージカラー
+	/// </summary>
+	virtual void DamageColor() = 0;
 
 
 	// 対象
@@ -111,6 +123,9 @@ protected:
 
 		// 色
 		Vector4 color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+
+		// ダメージカラーギミック
+		std::unique_ptr<GimmickDamageColor> gimmickDamageColor_ = nullptr;
 	};
 
 

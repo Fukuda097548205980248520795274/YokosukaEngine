@@ -1,7 +1,9 @@
 #pragma once
 #include "../BaseEnemyButterflyState.h"
 
-class EnemyButterflyStateApproachingRearLeft : BaseEnemyButterflyState
+#include "../../BaseEnemyButterflyBehavior/BaseEnemyButterflyBehavior.h"
+
+class EnemyButterflyStateApproachingRearLeft : public BaseEnemyButterflyState
 {
 public:
 
@@ -24,5 +26,8 @@ private:
 
 	// タイマー
 	float timer_ = 0.0f;
+
+	// ビヘイビア
+	std::unique_ptr<BaseEnemyButterflyBehavior> behavior_ = nullptr;
 };
 

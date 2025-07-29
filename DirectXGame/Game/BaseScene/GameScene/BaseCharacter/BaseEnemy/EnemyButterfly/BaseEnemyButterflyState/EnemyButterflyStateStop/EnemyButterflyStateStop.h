@@ -1,5 +1,7 @@
 #pragma once
 #include "../BaseEnemyButterflyState.h"
+#include "../../BaseEnemyButterflyBehavior/BaseEnemyButterflyBehavior.h"
+#include "../../../../../BaseGimmick/GimmickFloating/GimmickFloating.h"
 
 class EnemyButterflyStateStop : public BaseEnemyButterflyState
 {
@@ -15,5 +17,28 @@ public:
 	/// 更新処理
 	/// </summary>
 	void Update() override;
+
+
+private:
+
+	// ビヘイビア
+	enum Behavior
+	{
+		kNormal,
+		kShot
+	};
+
+	// ビヘイビア
+	std::unique_ptr<BaseEnemyButterflyBehavior> behavior_ = nullptr;
+
+	// 現在のビヘイビア
+	Behavior currentBehavior_ = kNormal;
+
+	// 次のビヘイビアのリクエスト
+	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+
+
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 };
 

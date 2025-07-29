@@ -1,6 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <time.h>
+#include <optional>
 #include "Func/CrashHandler/CrashHandler.h"
 #include "Base/WinApp/WinApp.h"
 #include "Base/DirectXCommon/DirectXCommon.h"

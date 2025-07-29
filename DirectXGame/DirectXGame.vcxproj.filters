@@ -424,6 +424,21 @@
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop">
       <UniqueIdentifier>{6ab18b8e-34f8-49a2-b623-f1ac09e4dced}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior">
+      <UniqueIdentifier>{edc766d7-f0ce-4986-b1dd-9d93f92f287b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot">
+      <UniqueIdentifier>{5a7b96ac-49c3-497e-a8e1-6bf127a4af53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal">
+      <UniqueIdentifier>{ff05f379-0a50-476a-843d-1cacf4bf7f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping">
+      <UniqueIdentifier>{3dc7568b-d55b-48ba-a794-85be1deec369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor">
+      <UniqueIdentifier>{99f37e59-cec4-4288-9b1d-8f2970f7e68e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -797,6 +812,21 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop\EnemyButterflyStateStop.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\BaseEnemyButterflyBehavior.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot\EnemyButterflyBehaviorShot.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal\EnemyButterflyBehaviorNormal.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping\GimmickFlapping.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1174,6 +1204,21 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop\EnemyButterflyStateStop.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\BaseEnemyButterflyBehavior.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot\EnemyButterflyBehaviorShot.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal\EnemyButterflyBehaviorNormal.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping\GimmickFlapping.h">
+      <Filter>Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.h">
+      <Filter>Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

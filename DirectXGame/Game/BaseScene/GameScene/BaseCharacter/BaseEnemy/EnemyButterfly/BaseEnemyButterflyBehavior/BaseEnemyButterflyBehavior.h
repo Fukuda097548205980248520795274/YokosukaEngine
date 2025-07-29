@@ -4,17 +4,17 @@
 // 前方宣言
 class EnemyButterfly;
 
-class BaseEnemyButterflyState
+class BaseEnemyButterflyBehavior
 {
 public:
 
-	virtual ~BaseEnemyButterflyState() = default;
+	virtual ~BaseEnemyButterflyBehavior() = default;
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="enemy"></param>
-	BaseEnemyButterflyState(EnemyButterfly* enemy) : enemy_(enemy) {};
+	BaseEnemyButterflyBehavior(EnemyButterfly* enemy) : enemy_(enemy) {}
 
 	/// <summary>
 	/// 更新処理

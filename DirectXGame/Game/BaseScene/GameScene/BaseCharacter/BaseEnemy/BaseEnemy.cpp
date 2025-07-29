@@ -64,4 +64,7 @@ void BaseEnemy::OnCollision(const BasePlayerBullet* playerBullet)
 
 	// 弾の種類に合わせて体力が減る
 	hp_ -= playerBullet->GetPower();
+
+	// ダメージカラーをリセットする
+	DamageColor();
 }
