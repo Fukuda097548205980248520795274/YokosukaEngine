@@ -53,9 +53,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
-	ImGui::Begin("gmaeTimer");
-	ImGui::SliderFloat("gameTimer", &gameTimer_, 0.0f, 1.0f);
-	ImGui::End();
 
 	// 入力操作
 	Input();
@@ -210,6 +207,9 @@ void Player::Input()
 
 	// 弾の発射操作
 	BulletShot();
+
+	// 時間操作
+	OperationTimer();
 }
 
 
@@ -368,6 +368,99 @@ void Player::BulletShotKeyboard()
 {
 
 }
+
+
+
+/*--------------
+	時間操作
+--------------*/
+
+/// <summary>
+/// 時間操作
+/// </summary>
+void Player::OperationTimer()
+{
+	// 時間操作中
+	if (isOperationTimer_)
+	{
+		// 時間操作の更新処理
+		OperationTimerUpdate();
+	}
+	else
+	{
+		// クールタイムを進める
+		if (operationTimerCooltimer_ < kMaxOperationTimerCooltimer)
+		{
+			operationTimerCooltimer_ += 1.0f / 60.0f;
+			operationTimerCooltimer_ = std::min(operationTimerCooltimer_, kMaxOperationTimerCooltimer);
+
+			return;
+		}
+
+		// ゲームパッドが有効かどうか
+		if (engine_->IsGamepadEnable(0))
+		{
+			OperationTimerGamepad();
+		} 
+		else
+		{
+			OperatoinTimerKeyboard();
+		}
+	}
+}
+
+/// <summary>
+/// 時間操作の更新処理
+/// </summary>
+void Player::OperationTimerUpdate()
+{
+	// 遅延タイマーを進める
+	slowTimer_ += 1.0f / 60.0f;
+
+	// 最大値を超えないようにする
+	slowTimer_ = std::min(slowTimer_, slowTime_);
+
+	// 最大値についたら、時間操作を終了する
+	if (slowTimer_ >= slowTime_)
+	{
+		isOperationTimer_ = false;
+
+		// 時間操作クールタイムを開始する
+		operationTimerCooltimer_ = 0.0f;
+
+		// ゲームタイマーを戻す
+		gameTimer_ = 1.0f;
+
+		return;
+	}
+}
+
+/// <summary>
+/// ゲームパッドでの時間操作
+/// </summary>
+void Player::OperationTimerGamepad()
+{
+	// 左スティック押し込みで時間操作する
+	if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_LEFT_THUMB))
+	{
+		isOperationTimer_ = true;
+
+		// ゲームタイマーを遅くする
+		gameTimer_ = 0.1f;
+
+		// 遅延タイマーを初期化する
+		slowTimer_ = 0.0f;
+	}
+}
+
+/// <summary>
+/// キーボードでの時間操作
+/// </summary>
+void Player::OperatoinTimerKeyboard()
+{
+
+}
+
 
 
 /*   傾き   */

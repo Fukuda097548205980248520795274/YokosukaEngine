@@ -168,6 +168,49 @@ private:
 	uint32_t bigShotSoundHandle_ = 0;
 
 
+	/*--------------
+	    時間操作
+	--------------*/
+
+	/// <summary>
+	/// 時間操作
+	/// </summary>
+	void OperationTimer();
+
+	/// <summary>
+	/// 時間操作の更新処理
+	/// </summary>
+	void OperationTimerUpdate();
+
+	/// <summary>
+	/// ゲームパッドでの時間操作
+	/// </summary>
+	void OperationTimerGamepad();
+
+	/// <summary>
+	/// キーボードでの時間操作
+	/// </summary>
+	void OperatoinTimerKeyboard();
+
+
+	// 遅延する時間
+	float slowTime_ = 3.0f;
+
+	// 遅延タイマー
+	float slowTimer_ = 0.0f;
+
+
+	// 時間操作の最大クールタイム
+	const float kMaxOperationTimerCooltimer = 3.0f;
+
+	// 時間操作のクールタイム
+	float operationTimerCooltimer_ = 3.0f;
+
+
+	// 時間操作フラグ
+	bool isOperationTimer_ = false;
+
+
 
 	/*---------
 	    本体
