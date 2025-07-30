@@ -386,7 +386,8 @@ void Player::OperationTimer()
 	// 最速になったら音声を止める
 	if (phClockPicth_ >= 5.0f)
 	{
-		engine_->StopSound(phClock_);
+		if(engine_->IsSoundPlay(phClock_))
+			engine_->StopSound(phClock_);
 	} 
 	else
 	{
