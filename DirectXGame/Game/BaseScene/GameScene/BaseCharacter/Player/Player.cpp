@@ -394,6 +394,15 @@ void Player::OperationTimer()
 			operationTimerCooltimer_ += 1.0f / 60.0f;
 			operationTimerCooltimer_ = std::min(operationTimerCooltimer_, kMaxOperationTimerCooltimer);
 
+			if (operationTimerCooltimer_ <= 0.5f)
+			{
+				float t = operationTimerCooltimer_ / 0.5f;
+				t = std::min(t, 1.0f);
+				float easing = 1.0f - std::powf(1.0f - t, 3.0f);
+
+				gameTimer_ = Lerp(0.1f, 1.0f, t);
+			}
+
 			return;
 		}
 
@@ -420,6 +429,15 @@ void Player::OperationTimerUpdate()
 	// 最大値を超えないようにする
 	slowTimer_ = std::min(slowTimer_, slowTime_);
 
+	if (slowTimer_ <= 0.5f)
+	{
+		float t = slowTimer_ / 0.5f;
+		t = std::min(t, 1.0f);
+		float easing = 1.0f - std::powf(1.0f - t, 3.0f);
+
+		gameTimer_ = Lerp(1.0f, 0.1f, t);
+	}
+
 	// 最大値についたら、時間操作を終了する
 	if (slowTimer_ >= slowTime_)
 	{
@@ -427,9 +445,6 @@ void Player::OperationTimerUpdate()
 
 		// 時間操作クールタイムを開始する
 		operationTimerCooltimer_ = 0.0f;
-
-		// ゲームタイマーを戻す
-		gameTimer_ = 1.0f;
 
 		return;
 	}
@@ -444,9 +459,6 @@ void Player::OperationTimerGamepad()
 	if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_LEFT_THUMB))
 	{
 		isOperationTimer_ = true;
-
-		// ゲームタイマーを遅くする
-		gameTimer_ = 0.1f;
 
 		// 遅延タイマーを初期化する
 		slowTimer_ = 0.0f;
