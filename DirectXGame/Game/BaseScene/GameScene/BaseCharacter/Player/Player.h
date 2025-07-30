@@ -210,6 +210,11 @@ private:
 	// 時間操作フラグ
 	bool isOperationTimer_ = false;
 
+	// 時計の音
+	uint32_t shClock_ = 0;
+	uint32_t phClock_ = 0;
+	float phClockPicth_ = 5.0f;
+
 
 
 	/*---------

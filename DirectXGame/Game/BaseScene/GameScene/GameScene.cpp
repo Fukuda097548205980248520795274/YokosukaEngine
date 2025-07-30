@@ -77,6 +77,8 @@ void GameScene::Update()
 		playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
 	}
 
+	engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
+
 
 	// 中心軸の更新
 	centerAxis_->Update();
