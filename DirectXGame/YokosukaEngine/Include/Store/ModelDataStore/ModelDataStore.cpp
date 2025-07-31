@@ -248,6 +248,7 @@ std::vector<ModelData> LoadObjFile(const std::string& directoryPath, const std::
 		modelData.rootNode = ReadNode(scene->mRootNode);
 	}
 
+
 	/*   マテリアルを解析する   */
 
 	// ファイルを開く
