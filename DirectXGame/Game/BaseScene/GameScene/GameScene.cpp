@@ -49,19 +49,9 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	skydome_->SetPosition(centerAxis_->GetWorldPosition());
 
 
-	// 敵の生成と初期化
-	for (uint32_t i = 0; i < 3; i++)
-	{
-		std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
-		enemyButterfly->SetGameTimer(gameTimer_);
-		enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(-10.0f + i * 10.0f, 0.0f, 25.0f), 50);
-		enemyButterfly->SetParent(centerAxis_->GetWorldTransform());
-		enemyButterfly->SetTarget(player_.get());
-		enemyButterfly->SetGameScene(this);
-
-		// 登録する
-		enemies_.push_back(std::move(enemyButterfly));
-	}
+	// ステージの生成と初期化
+	stage_ = std::make_unique<Stage>();
+	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer());
 }
 
 /// <summary>
@@ -99,6 +89,9 @@ void GameScene::Update()
 	engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
 
 
+	// ステージの更新
+	stage_->Update();
+
 	// 中心軸の更新
 	centerAxis_->Update();
 
@@ -130,6 +123,9 @@ void GameScene::Draw()
 {
 	// 平行光源の設置
 	engine_->SetDirectionalLight(directionalLight_.get());
+
+	// ステージの描画
+	stage_->Draw();
 
 	// 天球の描画
 	skydome_->Draw();
@@ -178,6 +174,9 @@ void GameScene::Draw()
 	engine_->SetCopyImageBlendMode(kBlendModeAdd);
 	engine_->CopyRtvImage(screenHandleGrow_);
 	engine_->SetCopyImageBlendMode(kBlendModeNormal);
+
+	// ポーズの描画
+	pose_->Draw();
 
 	// Scene描画
 	BaseScene::Draw();

@@ -445,6 +445,18 @@
     <Filter Include="Game\BaseScene\GameScene\Pose">
       <UniqueIdentifier>{fe473151-848b-4fcd-962f-615d273b900a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage">
+      <UniqueIdentifier>{b356f1e1-e984-43b4-aa8f-74fb39460a7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject">
+      <UniqueIdentifier>{f19a43c7-d117-4ed0-a27b-8b17726e5f07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet">
+      <UniqueIdentifier>{69854a4c-c925-4074-b470-2ea38ad2acc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles">
+      <UniqueIdentifier>{ed287c48-030f-464d-9f2b-9cf9b552968c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -839,6 +851,18 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\Pose\Pose.cpp">
       <Filter>Game\BaseScene\GameScene\Pose</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\Stage.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\BaseStageObject.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1237,6 +1261,18 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\Pose\Pose.h">
       <Filter>Game\BaseScene\GameScene\Pose</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\Stage.h">
+      <Filter>Game\BaseScene\GameScene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\BaseStageObject.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

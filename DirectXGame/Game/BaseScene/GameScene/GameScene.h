@@ -4,6 +4,8 @@
 
 #include "Pose/Pose.h"
 
+#include "Stage/Stage.h"
+
 #include "CenterAxis/CenterAxis.h"
 
 #include "BaseCharacter/Player/Player.h"
@@ -95,6 +97,9 @@ private:
 
 	// ポーズ
 	std::unique_ptr<Pose> pose_ = nullptr;
+
+	// ステージ
+	std::unique_ptr<Stage> stage_ = nullptr;
 
 
 	// 平行光源

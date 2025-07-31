@@ -133,6 +133,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping\GimmickFlapping.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFloating\GimmickFloating.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Pose\Pose.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\BaseStageObject.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\Stage.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.cpp" />
@@ -153,6 +156,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandles\PlayerBulletStrongModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandles\PlayerBulletWeekModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerModelHandles\PlayerModelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\ModelHandleStore.cpp" />
     <ClCompile Include="Game\BaseScene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp" />
@@ -267,6 +271,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping\GimmickFlapping.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFloating\GimmickFloating.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Pose\Pose.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\BaseStageObject.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\Stage.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.h" />
@@ -287,6 +294,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandles\PlayerBulletStrongModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandles\PlayerBulletWeekModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerModelHandles\PlayerModelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\ModelHandleStore.h" />
     <ClInclude Include="Game\BaseScene\TitleScene\TitleScene.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h" />
