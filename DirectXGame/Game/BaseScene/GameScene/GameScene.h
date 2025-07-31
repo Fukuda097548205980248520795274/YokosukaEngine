@@ -2,6 +2,8 @@
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../../BaseScene/BaseScene.h"
 
+#include "Pose/Pose.h"
+
 #include "CenterAxis/CenterAxis.h"
 
 #include "BaseCharacter/Player/Player.h"
@@ -89,6 +91,10 @@ private:
 
 	// ピッチ
 	float pitch_ = 1.0f;
+
+
+	// ポーズ
+	std::unique_ptr<Pose> pose_ = nullptr;
 
 
 	// 平行光源

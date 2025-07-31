@@ -14,6 +14,11 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Addictive_Waveform.mp3");
 
 
+	// ポーズの生成と初期化
+	pose_ = std::make_unique<Pose>();
+	pose_->Initialize(engine_);
+
+
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
@@ -69,6 +74,20 @@ void GameScene::Update()
 
 	// Scene更新
 	BaseScene::Update();
+
+
+	if (engine_->IsGamepadEnable(0))
+	{
+		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_START))
+		{
+			pose_->PoseButton();
+		}
+	}
+
+	pose_->Update();
+
+	if (pose_->IsPose())
+		return;
 
 
 
