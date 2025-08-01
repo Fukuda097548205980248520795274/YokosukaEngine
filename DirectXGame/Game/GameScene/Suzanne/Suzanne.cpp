@@ -19,6 +19,7 @@ void Suzanne::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
 	worldTransform_->translation_.x = -5.0f;
+	worldTransform_->rotation_.y = std::numbers::pi_v<float>;
 
 	// UVトランスフォームの生成と初期化
 	std::unique_ptr uvTransform = std::make_unique<UvTransform>();

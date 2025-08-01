@@ -199,40 +199,76 @@ std::vector<ModelData> LoadObjFile(const std::string& directoryPath, const std::
 		assert(mesh->HasNormals());
 
 		// テクスチャ座標系がないMeshは非対応
-		assert(mesh->HasTextureCoords(0));
-
-
-		/*   フェイスを解析する   */
-
-		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex)
+		if (mesh->HasTextureCoords(0))
 		{
-			aiFace& face = mesh->mFaces[faceIndex];
+			/*   フェイスを解析する   */
 
-			// 三角形のみサポート
-			assert(face.mNumIndices == 3);
-
-
-			/*   フェイスの中身（頂点）の解析を行う   */
-
-			for (uint32_t element = 0; element < face.mNumIndices; ++element)
+			for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex)
 			{
-				uint32_t vertexIndex = face.mIndices[element];
-				aiVector3D& position = mesh->mVertices[vertexIndex];
-				aiVector3D& normal = mesh->mNormals[vertexIndex];
-				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
+				aiFace& face = mesh->mFaces[faceIndex];
 
-				// 頂点
-				VertexData vertex;
-				vertex.position = { position.x , position.y , position.z , 1.0f };
-				vertex.normal = { normal.x , normal.y , normal.z };
-				vertex.texcoord = { texcoord.x , texcoord.y };
+				// 三角形のみサポート
+				assert(face.mNumIndices == 3);
 
-				// 右手座標系 -> 左手座標系
-				vertex.position.x *= -1.0f;
-				vertex.normal.x *= -1.0f;
 
-				// 頂点を登録する
-				modelData.vertices.push_back(vertex);
+				/*   フェイスの中身（頂点）の解析を行う   */
+
+				for (uint32_t element = 0; element < face.mNumIndices; ++element)
+				{
+					uint32_t vertexIndex = face.mIndices[element];
+					aiVector3D& position = mesh->mVertices[vertexIndex];
+					aiVector3D& normal = mesh->mNormals[vertexIndex];
+					aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
+
+					// 頂点
+					VertexData vertex;
+					vertex.position = { position.x , position.y , position.z , 1.0f };
+					vertex.normal = { normal.x , normal.y , normal.z };
+					vertex.texcoord = { texcoord.x , texcoord.y };
+
+					// 右手座標系 -> 左手座標系
+					vertex.position.x *= -1.0f;
+					vertex.normal.x *= -1.0f;
+
+					// 頂点を登録する
+					modelData.vertices.push_back(vertex);
+				}
+			}
+		}
+		else
+		{
+			/*   フェイスを解析する   */
+
+			for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex)
+			{
+				aiFace& face = mesh->mFaces[faceIndex];
+
+				// 三角形のみサポート
+				assert(face.mNumIndices == 3);
+
+
+				/*   フェイスの中身（頂点）の解析を行う   */
+
+				for (uint32_t element = 0; element < face.mNumIndices; ++element)
+				{
+					uint32_t vertexIndex = face.mIndices[element];
+					aiVector3D& position = mesh->mVertices[vertexIndex];
+					aiVector3D& normal = mesh->mNormals[vertexIndex];
+					aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
+
+					// 頂点
+					VertexData vertex;
+					vertex.position = { position.x , position.y , position.z , 1.0f };
+					vertex.normal = { normal.x , normal.y , normal.z };
+					vertex.texcoord = { 0.0f , 0.0f };
+
+					// 右手座標系 -> 左手座標系
+					vertex.position.x *= -1.0f;
+					vertex.normal.x *= -1.0f;
+
+					// 頂点を登録する
+					modelData.vertices.push_back(vertex);
+				}
 			}
 		}
 
