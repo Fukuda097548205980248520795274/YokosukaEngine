@@ -48,6 +48,20 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	skydome_->Initialize(engine_, camera3d_);
 	skydome_->SetPosition(centerAxis_->GetWorldPosition());
 
+	// 敵の生成と初期化
+	for (uint32_t i = 0; i < 3; i++)
+	{
+		std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
+		enemyButterfly->SetGameTimer(gameTimer_);
+		enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(-10.0f + i * 10.0f, 0.0f, 25.0f), 50);
+		enemyButterfly->SetParent(centerAxis_->GetWorldTransform());
+		enemyButterfly->SetTarget(player_.get());
+		enemyButterfly->SetGameScene(this);
+
+		// 登録する
+		enemies_.push_back(std::move(enemyButterfly));
+	}
+
 
 	// ステージの生成と初期化
 	stage_ = std::make_unique<Stage>();
