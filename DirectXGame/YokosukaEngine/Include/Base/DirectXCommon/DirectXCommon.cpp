@@ -2752,6 +2752,9 @@ void DirectXCommon::DrawCopyImage()
 	// PSOの設定
 	psoPostEffect_[kCopyImage]->CommandListSet(directXCommand_->GetCommandList());
 
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	// RenderTextureのRTVを張り付ける
 	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
@@ -2780,6 +2783,9 @@ void DirectXCommon::DrawGrayScale()
 	// PSOの設定
 	psoPostEffect_[kGrayScale]->CommandListSet(directXCommand_->GetCommandList());
 
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	// RenderTextureのRTVを張り付ける
 	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
@@ -2806,6 +2812,9 @@ void DirectXCommon::DrawSepia()
 
 	// PSOの設定
 	psoPostEffect_[kSepia]->CommandListSet(directXCommand_->GetCommandList());
+
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// RenderTextureのRTVを張り付ける
 	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
@@ -2835,6 +2844,9 @@ void DirectXCommon::DrawVignetting()
 	// PSOの設定
 	psoPostEffect_[kVignetteing]->CommandListSet(directXCommand_->GetCommandList());
 
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	// RenderTextureのRTVを張り付ける
 	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
@@ -2861,6 +2873,9 @@ void DirectXCommon::DrawSmoothing()
 
 	// PSOの設定
 	psoPostEffect_[kSmoothing]->CommandListSet(directXCommand_->GetCommandList());
+
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// RenderTextureのRTVを張り付ける
 	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
@@ -2889,6 +2904,9 @@ void DirectXCommon::DrawGaussianFilter()
 	// PSOの設定
 	psoPostEffect_[kGaussianFilter]->CommandListSet(directXCommand_->GetCommandList());
 
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	// RenderTextureのRTVを張り付ける
 	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
@@ -2916,6 +2934,9 @@ void DirectXCommon::DrawOutline()
 	// PSOの設定
 	psoPostEffect_[kLuminanceBaseOutline]->CommandListSet(directXCommand_->GetCommandList());
 
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	// RenderTextureのRTVを張り付ける
 	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
 
@@ -2942,6 +2963,9 @@ void DirectXCommon::DrawBrightnessExtraction()
 
 	// PSOの設定
 	psoPostEffect_[kBrightnessExtraction]->CommandListSet(directXCommand_->GetCommandList());
+
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// Luminanceの設定
 	GPUforLuminance* luminanceData = nullptr;
@@ -2977,6 +3001,9 @@ void DirectXCommon::DrawHide()
 	// PSOの設定
 	psoPostEffect_[kHide]->CommandListSet(directXCommand_->GetCommandList());
 
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	// 頂点3つ描画
 	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 
@@ -3000,6 +3027,9 @@ void DirectXCommon::DrawRasterScroll()
 
 	// PSOの設定
 	psoPostEffect_[kRasterScroll]->CommandListSet(directXCommand_->GetCommandList());
+
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// RasterScrollの設定
 	GPUforRasterScroll* rasterScrollData = nullptr;

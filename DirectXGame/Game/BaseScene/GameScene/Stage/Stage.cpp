@@ -21,7 +21,8 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 
 	
 	saturnPlanet_ = std::make_unique<StageObjectSaturnPlanet>();
-	saturnPlanet_->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f));
+	saturnPlanet_->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f,
+		Vector3(0.0f, 0.0f, 800.0f), Vector3(0.0f, std::numbers::pi_v<float>, 0.0f));
 	saturnPlanet_->InfiniteTimer();
 }
 

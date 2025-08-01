@@ -111,6 +111,16 @@ private:
 
 	// 中心軸
 	std::unique_ptr<CenterAxis> centerAxis_ = nullptr;
+	std::vector<Vector3> controlPoint_;
+
+	Vector3 controlPointTable[4] =
+	{
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 170.0f},
+		{30.0f , 0.0f , 200.0f},
+		{200.0f , 0.0f , 350.0f}
+
+	};
 
 
 	// プレイヤー

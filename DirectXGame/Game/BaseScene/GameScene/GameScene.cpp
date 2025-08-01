@@ -52,6 +52,12 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	// ステージの生成と初期化
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer());
+
+	// 制御点の登録
+	for (uint32_t i = 0; i < _countof(controlPointTable); ++i)
+	{
+		controlPoint_.push_back(controlPointTable[i]);
+	}
 }
 
 /// <summary>
@@ -150,6 +156,9 @@ void GameScene::Draw()
 	{
 		enemyBullet->Draw();
 	}
+
+	// 制御点の描画
+	engine_->DrwaCatmullRomSpline(controlPoint_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
 
 
 	// 高輝度抽出
