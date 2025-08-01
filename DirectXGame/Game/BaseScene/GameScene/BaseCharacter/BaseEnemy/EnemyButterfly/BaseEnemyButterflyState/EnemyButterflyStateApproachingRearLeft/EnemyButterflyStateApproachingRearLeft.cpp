@@ -8,7 +8,11 @@
 EnemyButterflyStateApproachingRearLeft::EnemyButterflyStateApproachingRearLeft(EnemyButterfly* enemy)
 	: BaseEnemyButterflyState(enemy) 
 {
-	behavior_ = std::make_unique<EnemyButterflyBehaviorShot>(enemy);
+	behavior_ = std::make_unique<EnemyButterflyBehaviorNormal>(enemy);
+
+	// ワールドトランスフォームを取得する
+	WorldTransform* worldTransform = enemy_->GetWorldTransform();
+	worldTransform->translation_.z += -50.0f;
 }
 
 /// <summary>
@@ -18,6 +22,7 @@ void EnemyButterflyStateApproachingRearLeft::Update()
 {
 	// ワールドトランスフォームを取得する
 	WorldTransform* worldTransform = enemy_->GetWorldTransform();
+	worldTransform->translation_.z += 1.0f;
 
 	// ゲームタイマーを取得する
 	const float* gameTimer = enemy_->GetGameTimer();
@@ -26,9 +31,11 @@ void EnemyButterflyStateApproachingRearLeft::Update()
 	// ビヘイビア更新
 	behavior_->Update();
 
+	timer_ += 1.0f / 60.0f;
+
 	// タイマーを越えたら停止状態に移行する
 	if (timer_ >= time_)
 	{
-		
+		enemy_->ChangeState(EnemyButterfly::kStop);
 	}
 }

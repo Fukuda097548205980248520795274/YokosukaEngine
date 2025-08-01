@@ -48,7 +48,7 @@ void CenterAxis::Update()
 	ImGui::DragFloat3("4", &controlPoint_[4].x);
 	ImGui::End();
 
-	t_ += 0.0005f;
+	t_ += 0.0005f * (*gameTimer_);
 
 	worldTransform_->translation_ = engine_->CatmullRomPosition(controlPoint_, t_);
 	Vector3 nextPos = engine_->CatmullRomPosition(controlPoint_, t_ + 0.0001f);

@@ -25,6 +25,13 @@ public:
 		kNumModel
 	};
 
+	// ステート
+	enum State
+	{
+		kApproachingRearLeft,
+		kStop
+	};
+
 
 public:
 
@@ -86,7 +93,7 @@ public:
 	/// ステートを変更
 	/// </summary>
 	/// <param name="state"></param>
-	void ChangeState(std::unique_ptr<BaseEnemyButterflyState> state);
+	void ChangeState(State state);
 
 	/// <summary>
 	/// 弾を発射する

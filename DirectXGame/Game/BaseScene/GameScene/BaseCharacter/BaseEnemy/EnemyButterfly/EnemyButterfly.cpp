@@ -59,7 +59,7 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 
 
 	// ステートの生成
-	state_ = std::make_unique<EnemyButterflyStateStop>(this);
+	state_ = std::make_unique<EnemyButterflyStateApproachingRearLeft>(this);
 }
 
 /// <summary>
@@ -152,9 +152,22 @@ void EnemyButterfly::OnCollision(const BasePlayerBullet* playerBullet)
 /// ステートを変更
 /// </summary>
 /// <param name="state"></param>
-void EnemyButterfly::ChangeState(std::unique_ptr<BaseEnemyButterflyState> state)
+void EnemyButterfly::ChangeState(State state)
 {
-	state_ = std::move(state);
+	switch (state)
+	{
+	case kApproachingRearLeft:
+		// 左後方から
+		state_ = std::move(std::make_unique<EnemyButterflyStateApproachingRearLeft>(this));
+
+		break;
+
+	case kStop:
+		// 停止
+		state_ = std::move(std::make_unique<EnemyButterflyStateStop>(this));
+
+		break;
+	}
 }
 
 

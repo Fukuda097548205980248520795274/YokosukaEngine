@@ -415,24 +415,6 @@
     <Filter Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFloating">
       <UniqueIdentifier>{3486d430-1717-4874-8997-d2ed4c5911bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState">
-      <UniqueIdentifier>{f816f59d-168a-44cd-9751-f1629feb554e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft">
-      <UniqueIdentifier>{571f6b67-1b34-4c72-b9be-0bcce67cabb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop">
-      <UniqueIdentifier>{6ab18b8e-34f8-49a2-b623-f1ac09e4dced}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior">
-      <UniqueIdentifier>{edc766d7-f0ce-4986-b1dd-9d93f92f287b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot">
-      <UniqueIdentifier>{5a7b96ac-49c3-497e-a8e1-6bf127a4af53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal">
-      <UniqueIdentifier>{ff05f379-0a50-476a-843d-1cacf4bf7f31}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping">
       <UniqueIdentifier>{3dc7568b-d55b-48ba-a794-85be1deec369}</UniqueIdentifier>
     </Filter>
@@ -456,6 +438,27 @@
     </Filter>
     <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles">
       <UniqueIdentifier>{ed287c48-030f-464d-9f2b-9cf9b552968c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior">
+      <UniqueIdentifier>{edc766d7-f0ce-4986-b1dd-9d93f92f287b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot">
+      <UniqueIdentifier>{5a7b96ac-49c3-497e-a8e1-6bf127a4af53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal">
+      <UniqueIdentifier>{ff05f379-0a50-476a-843d-1cacf4bf7f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState">
+      <UniqueIdentifier>{f816f59d-168a-44cd-9751-f1629feb554e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft">
+      <UniqueIdentifier>{571f6b67-1b34-4c72-b9be-0bcce67cabb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop">
+      <UniqueIdentifier>{6ab18b8e-34f8-49a2-b623-f1ac09e4dced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseEnemyGroup">
+      <UniqueIdentifier>{b3ff7e40-0510-4712-9c2c-756e349783b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -863,6 +866,9 @@
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.cpp">
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1273,6 +1279,9 @@
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.h">
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.h">
+      <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

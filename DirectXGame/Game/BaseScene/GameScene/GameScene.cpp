@@ -42,6 +42,9 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	// ゲームタイマーを取得する
 	gameTimer_ = player_->GetGameTimer();
 
+	// 中心軸にゲームタイマーを渡す
+	centerAxis_->SetGameTimer(gameTimer_);
+
 
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
@@ -53,7 +56,7 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	{
 		std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
 		enemyButterfly->SetGameTimer(gameTimer_);
-		enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(-10.0f + i * 10.0f, 0.0f, 25.0f), 50);
+		enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(-10.0f + i * 10.0f, 0.0f, -40.0f), 50);
 		enemyButterfly->SetParent(centerAxis_->GetWorldTransform());
 		enemyButterfly->SetTarget(player_.get());
 		enemyButterfly->SetGameScene(this);

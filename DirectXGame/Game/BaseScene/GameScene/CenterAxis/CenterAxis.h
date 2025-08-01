@@ -34,6 +34,12 @@ public:
 	/// <returns></returns>
 	Vector3 GetWorldPosition()const;
 
+	/// <summary>
+	/// ゲームタイマーのSetter
+	/// </summary>
+	/// <param name="gameTimer"></param>
+	void SetGameTimer(const float* gameTimer) { gameTimer_ = gameTimer; }
+
 
 private:
 
@@ -42,6 +48,9 @@ private:
 
 	// カメラ
 	const Camera3D* camera3d_ = nullptr;
+
+	// ゲームタイム
+	const float* gameTimer_ = nullptr;
 
 
 	// ワールドトランスフォーム
