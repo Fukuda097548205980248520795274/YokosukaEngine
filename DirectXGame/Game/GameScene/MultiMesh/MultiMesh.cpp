@@ -56,6 +56,10 @@ void MultiMesh::Update()
 		ImGui::TreePop();
 	}
 
+	worldTransform_->rotation_.y += 0.01f;
+	uvTransforms_[0]->translation_.y += 0.1f;
+	uvTransforms_[1]->translation_.x += 0.1f;
+
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 	for (std::unique_ptr<UvTransform>& uvTransform : uvTransforms_)

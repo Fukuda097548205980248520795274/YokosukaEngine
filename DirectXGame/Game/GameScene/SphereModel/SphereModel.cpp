@@ -49,6 +49,9 @@ void SphereModel::Update()
 		ImGui::TreePop();
 	}
 
+	worldTransform_->rotation_.x += 0.01f;
+	uvTransform_->translation_.y += 0.01f;
+
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();

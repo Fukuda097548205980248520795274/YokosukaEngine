@@ -18,7 +18,7 @@ void Sprite::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d)
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform2D>();
 	worldTransform_->Initialize();
-	worldTransform_->translation_ = { 240.0f , 135.0f , 0.0f };
+	worldTransform_->translation_ = { 100.0f , 50.0f , 0.0f };
 	worldTransform_->scale_ = { 240.0f , 135.0f , 0.0f };
 
 	// UVトランスフォームの生成と初期化
@@ -46,6 +46,9 @@ void Sprite::Update()
 		ImGui::DragFloat2("uvTranslation", &uvTransform_->translation_.x, 0.1f);
 		ImGui::TreePop();
 	}
+
+	worldTransform_->rotation_.z += 0.01f;
+	uvTransform_->rotation_.z += 0.01f;
 
 	// トランスフォームを更新する
 	worldTransform_->UpdateWorldMatrix();

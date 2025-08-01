@@ -47,6 +47,9 @@ void Plane::Update()
 		ImGui::TreePop();
 	}
 
+	worldTransform_->rotation_.z += 0.01f;
+	uvTransforms_[0]->rotation_.z += 0.01f;
+
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 	for (std::unique_ptr<UvTransform>& uvTransform : uvTransforms_)

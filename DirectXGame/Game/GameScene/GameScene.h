@@ -36,6 +36,9 @@ private:
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 
+	// 明るさの波
+	float cosCave = 0.0f;
+
 	
 	// 平面
 	std::unique_ptr<Plane> plane_ = nullptr;
@@ -74,4 +77,9 @@ private:
 
 	// プレイハンドル
 	uint32_t playHandle_ = 0;
+
+
+	// ライティング切り替えタイマー
+	float lightingSwithingTimer_ = 0.0f;
+	const float kLightingSwichingTime = 6.0f;
 };

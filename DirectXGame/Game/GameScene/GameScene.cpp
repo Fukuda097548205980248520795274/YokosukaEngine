@@ -51,6 +51,7 @@ void GameScene::Initialize(const YokosukaEngine* engine)
 
 	// Bgmを読み込む
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Jinro_No_Tameno_Komoriuta.mp3");
+	playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
 }
 
 /// <summary>
@@ -69,6 +70,8 @@ void GameScene::Update()
 	// スプライトの更新
 	sprite_->Update();
 
+	cosCave += 0.01f;
+	directionalLight_->direction_.z = std::cos(cosCave);
 
 	if (ImGui::TreeNode("Light"))
 	{
@@ -119,6 +122,25 @@ void GameScene::Update()
 		ImGui::TreePop();
 	}
 
+	lightingSwithingTimer_ += 1.0f / 60.0f;
+	lightingSwithingTimer_ = std::fmod(lightingSwithingTimer_, kLightingSwichingTime);
+
+	if (lightingSwithingTimer_ < 2.0f)
+	{
+		enableLighting_ = false;
+		enableHalfLambert_ = false;
+	}
+	else if (lightingSwithingTimer_ < 4.0f)
+	{
+		enableLighting_ = true;
+		enableHalfLambert_ = false;
+	}
+	else if (lightingSwithingTimer_ <= 6.0f)
+	{
+		enableLighting_ = true;
+		enableHalfLambert_ = true;
+	}
+
 	// ライティングオプション
 	if (ImGui::TreeNode("LightingOption"))
 	{
@@ -127,6 +149,7 @@ void GameScene::Update()
 		{
 			enableLighting_ = false;
 			enableHalfLambert_ = false;
+			lightingSwithingTimer_ = 0.0f;
 		}
 
 		// ランバーテインリフレクタンス
@@ -134,6 +157,7 @@ void GameScene::Update()
 		{
 			enableLighting_ = true;
 			enableHalfLambert_ = false;
+			lightingSwithingTimer_ = 2.0f;
 		}
 
 		// ハーフランバート
@@ -141,6 +165,7 @@ void GameScene::Update()
 		{
 			enableLighting_ = true;
 			enableHalfLambert_ = true;
+			lightingSwithingTimer_ = 4.0f;
 		}
 
 		ImGui::TreePop();

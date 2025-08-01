@@ -51,6 +51,11 @@ void Suzanne::Update()
 		ImGui::TreePop();
 	}
 
+	worldTransform_->rotation_.z += 0.01f;
+	color_.x = static_cast<float>(rand() % 11) / 10.0f;
+	color_.y = static_cast<float>(rand() % 11) / 10.0f;
+	color_.z = static_cast<float>(rand() % 11) / 10.0f;
+
 	if (engine_->IsGamepadEnable(0))
 	{
 		// カメラの向きで移動方向を変える
