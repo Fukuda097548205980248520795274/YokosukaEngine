@@ -39,7 +39,7 @@ void EnemyBulletWeek::Initialize(const YokosukaEngine* engine, const Camera3D* c
 	power_ = 2;
 
 	// 移動速度
-	speed = 0.5f;
+	speed = 1.0f;
 }
 
 /// <summary>

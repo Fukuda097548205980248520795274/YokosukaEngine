@@ -46,6 +46,9 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	// ダメージ音
 	soundHandleDamage1_ = engine_->LoadSound("./Resources/Sounds/Se/player/damage/damage1.mp3");
 	soundHandleDamage2_ = engine_->LoadSound("./Resources/Sounds/Se/player/damage/damage2.mp3");
+
+	// 時計の音
+	shClock_ = engine_->LoadSound("./Resources/Sounds/Se/player/attack/clock.mp3");
 }
 
 /// <summary>
@@ -53,9 +56,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
-	ImGui::Begin("gmaeTimer");
-	ImGui::SliderFloat("gameTimer", &gameTimer_, 0.0f, 1.0f);
-	ImGui::End();
 
 	// 入力操作
 	Input();
@@ -210,6 +210,9 @@ void Player::Input()
 
 	// 弾の発射操作
 	BulletShot();
+
+	// 時間操作
+	OperationTimer();
 }
 
 
@@ -368,6 +371,130 @@ void Player::BulletShotKeyboard()
 {
 
 }
+
+
+
+/*--------------
+	時間操作
+--------------*/
+
+/// <summary>
+/// 時間操作
+/// </summary>
+void Player::OperationTimer()
+{
+	// 最速になったら音声を止める
+	if (phClockPicth_ >= 5.0f)
+	{
+		if(engine_->IsSoundPlay(phClock_))
+			engine_->StopSound(phClock_);
+	} 
+	else
+	{
+		if (!engine_->IsSoundPlay(phClock_) || phClock_ == 0)
+		{
+			phClock_ = engine_->PlaySoundData(shClock_, 0.5f);
+		}
+
+		engine_->SetPitch(phClock_, phClockPicth_);
+	}
+
+
+	// 時間操作中
+	if (isOperationTimer_)
+	{
+		// 時間操作の更新処理
+		OperationTimerUpdate();
+	}
+	else
+	{
+		// クールタイムを進める
+		if (operationTimerCooltimer_ < kMaxOperationTimerCooltimer)
+		{
+			operationTimerCooltimer_ += 1.0f / 60.0f;
+			operationTimerCooltimer_ = std::min(operationTimerCooltimer_, kMaxOperationTimerCooltimer);
+
+			if (operationTimerCooltimer_ <= 0.6f)
+			{
+				float t = operationTimerCooltimer_ / 0.5f;
+				t = std::min(t, 1.0f);
+				float easing = 1.0f - std::powf(1.0f - t, 3.0f);
+
+				gameTimer_ = Lerp(0.1f, 1.0f, t);
+				phClockPicth_ = Lerp(1.0f, 5.0f, t);
+			}
+
+			return;
+		}
+
+		// ゲームパッドが有効かどうか
+		if (engine_->IsGamepadEnable(0))
+		{
+			OperationTimerGamepad();
+		} 
+		else
+		{
+			OperatoinTimerKeyboard();
+		}
+	}
+}
+
+/// <summary>
+/// 時間操作の更新処理
+/// </summary>
+void Player::OperationTimerUpdate()
+{
+	// 遅延タイマーを進める
+	slowTimer_ += 1.0f / 60.0f;
+
+	// 最大値を超えないようにする
+	slowTimer_ = std::min(slowTimer_, slowTime_);
+
+	if (slowTimer_ <= 0.6f)
+	{
+		float t = slowTimer_ / 0.5f;
+		t = std::min(t, 1.0f);
+		float easing = 1.0f - std::powf(1.0f - t, 3.0f);
+
+		gameTimer_ = Lerp(1.0f, 0.1f, t);
+		phClockPicth_ = Lerp(5.0f, 1.0f, t);
+	}
+
+	// 最大値についたら、時間操作を終了する
+	if (slowTimer_ >= slowTime_)
+	{
+		isOperationTimer_ = false;
+
+		// 時間操作クールタイムを開始する
+		operationTimerCooltimer_ = 0.0f;
+
+		return;
+	}
+}
+
+/// <summary>
+/// ゲームパッドでの時間操作
+/// </summary>
+void Player::OperationTimerGamepad()
+{
+	// 左スティック押し込みで時間操作する
+	if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_LEFT_THUMB))
+	{
+		isOperationTimer_ = true;
+
+		// 遅延タイマーを初期化する
+		slowTimer_ = 0.0f;
+	}
+}
+
+/// <summary>
+/// キーボードでの時間操作
+/// </summary>
+void Player::OperatoinTimerKeyboard()
+{
+
+}
+
 
 
 /*   傾き   */

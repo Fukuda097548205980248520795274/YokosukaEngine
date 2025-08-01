@@ -32,4 +32,8 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	// プレイヤーのハンドルの生成と初期化
 	modelHandles_[kEnemyBulletWeek] = std::make_unique<EnemyBulletWeekModelHandles>();
 	modelHandles_[kEnemyBulletWeek]->Initialize(engine_);
+
+	// ステージオブジェクトの土星のモデルハンドルの生成と初期化
+	modelHandles_[kStageObjectSaturnPlanet] = std::make_unique<StageObjectSaturnPlanetModelHandles>();
+	modelHandles_[kStageObjectSaturnPlanet]->Initialize(engine_);
 }

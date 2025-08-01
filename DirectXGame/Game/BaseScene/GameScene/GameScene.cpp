@@ -14,6 +14,11 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Addictive_Waveform.mp3");
 
 
+	// ポーズの生成と初期化
+	pose_ = std::make_unique<Pose>();
+	pose_->Initialize(engine_);
+
+
 	// 平行光源の生成と初期化
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
@@ -43,7 +48,6 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	skydome_->Initialize(engine_, camera3d_);
 	skydome_->SetPosition(centerAxis_->GetWorldPosition());
 
-
 	// 敵の生成と初期化
 	for (uint32_t i = 0; i < 3; i++)
 	{
@@ -57,6 +61,11 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 		// 登録する
 		enemies_.push_back(std::move(enemyButterfly));
 	}
+
+
+	// ステージの生成と初期化
+	stage_ = std::make_unique<Stage>();
+	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer());
 }
 
 /// <summary>
@@ -71,12 +80,31 @@ void GameScene::Update()
 	BaseScene::Update();
 
 
+	if (engine_->IsGamepadEnable(0))
+	{
+		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_START))
+		{
+			pose_->PoseButton();
+		}
+	}
+
+	pose_->Update();
+
+	if (pose_->IsPose())
+		return;
+
+
 
 	if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
 	{
 		playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
 	}
 
+	engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
+
+
+	// ステージの更新
+	stage_->Update();
 
 	// 中心軸の更新
 	centerAxis_->Update();
@@ -109,6 +137,9 @@ void GameScene::Draw()
 {
 	// 平行光源の設置
 	engine_->SetDirectionalLight(directionalLight_.get());
+
+	// ステージの描画
+	stage_->Draw();
 
 	// 天球の描画
 	skydome_->Draw();
@@ -158,16 +189,15 @@ void GameScene::Draw()
 	engine_->CopyRtvImage(screenHandleGrow_);
 	engine_->SetCopyImageBlendMode(kBlendModeNormal);
 
+	// ポーズの描画
+	pose_->Draw();
+
 	// Scene描画
 	BaseScene::Draw();
 
 
 	// 中心軸の描画
-#ifdef _DEBUG
-
-	//centerAxis_->Draw();
-
-#endif
+	centerAxis_->Draw();
 }
 
 

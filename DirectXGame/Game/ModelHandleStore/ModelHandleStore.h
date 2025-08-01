@@ -2,11 +2,15 @@
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 
 #include "BaseModelHandles/BaseModelHandles.h"
+
 #include "BaseModelHandles/PlayerModelHandles/PlayerModelHandles.h"
 #include "BaseModelHandles/PlayerBulletWeekModelHandles/PlayerBulletWeekModelHandles.h"
 #include "BaseModelHandles/PlayerBulletStrongModelHandles/PlayerBulletStrongModelHandles.h"
+
 #include "BaseModelHandles/EnemyButterflyModelHandles/EnemyButterflyodelHandles.h"
 #include "BaseModelHandles/EnemyBulletWeekModelHandles/EnemyBulletWeekModelHandles.h"
+
+#include "BaseModelHandles/StageObjectSaturnPlanetModelHandles/StageObjectSaturnPlanetModelHandles.h"
 
 class ModelHandleStore
 {
@@ -27,6 +31,7 @@ public:
 		kPlayerBulletStrong,
 		kEnemyButterfly,
 		kEnemyBulletWeek,
+		kStageObjectSaturnPlanet,
 		kNumHandleName
 	};
 

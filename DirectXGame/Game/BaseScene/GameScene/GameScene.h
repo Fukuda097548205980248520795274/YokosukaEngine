@@ -2,6 +2,10 @@
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../../BaseScene/BaseScene.h"
 
+#include "Pose/Pose.h"
+
+#include "Stage/Stage.h"
+
 #include "CenterAxis/CenterAxis.h"
 
 #include "BaseCharacter/Player/Player.h"
@@ -86,6 +90,16 @@ private:
 
 	// プレイハンドル
 	uint32_t playHandle_ = 0;
+
+	// ピッチ
+	float pitch_ = 1.0f;
+
+
+	// ポーズ
+	std::unique_ptr<Pose> pose_ = nullptr;
+
+	// ステージ
+	std::unique_ptr<Stage> stage_ = nullptr;
 
 
 	// 平行光源
