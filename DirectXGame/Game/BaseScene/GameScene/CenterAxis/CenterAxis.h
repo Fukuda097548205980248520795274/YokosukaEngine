@@ -52,5 +52,22 @@ private:
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+
+
+
+	Vector3 controlPointTable[6] =
+	{
+		{0.0f , 0.0f , 0.0f},
+		{0.0f , 0.0f , 450.0f},
+		{100.0f , 0.0f , 573.0f},
+		{200.0f , 0.0f , 660.0f},
+		{250.0f , 0.0f , 750.0f},
+		{230.0f , 0.0f , 800.0f}
+
+	};
+
+	float t_ = 0.0f;
+
+	std::vector<Vector3> controlPoint_;
 };
 
