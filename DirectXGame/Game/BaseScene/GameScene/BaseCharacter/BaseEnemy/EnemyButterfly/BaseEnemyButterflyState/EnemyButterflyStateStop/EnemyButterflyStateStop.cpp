@@ -81,4 +81,16 @@ void EnemyButterflyStateStop::Update()
 			break;
 		}
 	}
+
+	// 通常ビヘイビア時にタイマーを進める
+	if (currentBehavior_ == kNormal)
+	{
+		timer_ += 1.0f / 60.0f;
+
+		// 終了したら、離脱する
+		if (timer_ >= time_)
+		{
+			enemy_->ChangeState(EnemyButterfly::kAwayTop);
+		}
+	}
 }

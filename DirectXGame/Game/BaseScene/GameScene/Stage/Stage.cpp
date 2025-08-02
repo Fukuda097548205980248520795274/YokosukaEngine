@@ -109,6 +109,48 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 	stageObject15->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(100.0f, 0.0f, 650.0f), Vector3(0.0f, 0.0f, 0.0f));
 	stageObject15->InfiniteTimer();
 	stageObjects_.push_back(std::move(stageObject15));
+
+
+	std::unique_ptr<StageObjectBuildingB> stageObject16 = std::make_unique<StageObjectBuildingB>();
+	stageObject16->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(200.0f, 0.0f, 800.0f), Vector3(0.0f, 1.0f, 0.0f));
+	stageObject16->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject16));
+
+	std::unique_ptr<StageObjectBuildingD> stageObject17 = std::make_unique<StageObjectBuildingD>();
+	stageObject17->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(10.0f, 0.0f, 800.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject17->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject17));
+
+	std::unique_ptr<StageObjectBuildingA> stageObject18 = std::make_unique<StageObjectBuildingA>();
+	stageObject18->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(250.0f, 0.0f, 900.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject18->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject18));
+
+	std::unique_ptr<StageObjectBuildingC> stageObject19 = std::make_unique<StageObjectBuildingC>();
+	stageObject19->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(200.0f, 0.0f, 900.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject19->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject19));
+
+
+	std::unique_ptr<StageObjectBuildingA> stageObject20 = std::make_unique<StageObjectBuildingA>();
+	stageObject20->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(300.0f, 0.0f, 800.0f), Vector3(0.0f, 1.0f, 0.0f));
+	stageObject20->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject20));
+
+	std::unique_ptr<StageObjectBuildingC> stageObject21 = std::make_unique<StageObjectBuildingC>();
+	stageObject21->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(410.0f, 0.0f, 800.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject21->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject21));
+
+	std::unique_ptr<StageObjectBuildingB> stageObject22 = std::make_unique<StageObjectBuildingB>();
+	stageObject22->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(350.0f, 0.0f, 900.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject22->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject22));
+
+	std::unique_ptr<StageObjectBuildingD> stageObject23 = std::make_unique<StageObjectBuildingD>();
+	stageObject23->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(300.0f, 0.0f, 900.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject23->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject23));
 }
 
 /// <summary>

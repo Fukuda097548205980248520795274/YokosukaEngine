@@ -8,10 +8,10 @@
 
 #include "BaseEnemyButterflyState/EnemyButterflyStateApproachingRearLeft/EnemyButterflyStateApproachingRearLeft.h"
 #include "BaseEnemyButterflyState/EnemyButterflyStateStop/EnemyButterflyStateStop.h"
+#include "BaseEnemyButterflyState/EnemyButterflyStateAwayTop/EnemyButterflyStateAwayTop.h"
 
 #include "BaseEnemyButterflyBehavior/EnemyButterflyBehaviorNormal/EnemyButterflyBehaviorNormal.h"
 #include "BaseEnemyButterflyBehavior/EnemyButterflyBehaviorShot/EnemyButterflyBehaviorShot.h"
-
 class EnemyButterfly : public BaseEnemy
 {
 public:
@@ -29,7 +29,8 @@ public:
 	enum State
 	{
 		kApproachingRearLeft,
-		kStop
+		kStop,
+		kAwayTop
 	};
 
 

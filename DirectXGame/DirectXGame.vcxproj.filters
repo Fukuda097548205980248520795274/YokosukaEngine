@@ -481,6 +481,9 @@
     <Filter Include="Game\BaseScene\GameScene\Stage\CenterAxis">
       <UniqueIdentifier>{e07be900-aef5-444a-baa6-fb50f19e5b43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop">
+      <UniqueIdentifier>{25fb350b-a25a-4042-ac1d-7a4a6cc57138}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -911,6 +914,9 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.cpp">
       <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1345,6 +1351,9 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.h">
       <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

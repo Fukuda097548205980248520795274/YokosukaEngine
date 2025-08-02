@@ -167,6 +167,12 @@ void EnemyButterfly::ChangeState(State state)
 		state_ = std::move(std::make_unique<EnemyButterflyStateStop>(this));
 
 		break;
+
+	case kAwayTop:
+		// 上方向に離脱
+		state_ = std::move(std::make_unique<EnemyButterflyStateAwayTop>(this));
+
+		break;
 	}
 }
 
