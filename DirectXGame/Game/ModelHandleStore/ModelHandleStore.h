@@ -12,6 +12,11 @@
 
 #include "BaseModelHandles/StageObjectSaturnPlanetModelHandles/StageObjectSaturnPlanetModelHandles.h"
 
+#include "BaseModelHandles/StageObjectBuildingAModelHandles/StageObjectBuildingAModelHandles.h"
+#include "BaseModelHandles/StageObjectBuildingBModelHandles/StageObjectBuildingBModelHandles.h"
+#include "BaseModelHandles/StageObjectBuildingCModelHandles/StageObjectBuildingCModelHandles.h"
+#include "BaseModelHandles/StageObjectBuildingDModelHandles/StageObjectBuildingDModelHandles.h"
+
 class ModelHandleStore
 {
 public:
@@ -32,6 +37,10 @@ public:
 		kEnemyButterfly,
 		kEnemyBulletWeek,
 		kStageObjectSaturnPlanet,
+		kStageObjectBuildingA,
+		kStageObjectBuildingB,
+		kStageObjectBuildingC,
+		kStageObjectBuildingD,
 		kNumHandleName
 	};
 

@@ -5,6 +5,11 @@
 
 #include "BaseStageObject/StageObjectSaturnPlanet/StageObjectSaturnPlanet.h"
 
+#include "BaseStageObject/StageObjectBuildingA/StageObjectBuildingA.h"
+#include "BaseStageObject/StageObjectBuildingB/StageObjectBuildingB.h"
+#include "BaseStageObject/StageObjectBuildingC/StageObjectBuildingC.h"
+#include "BaseStageObject/StageObjectBuildingD/StageObjectBuildingD.h"
+
 class Stage
 {
 public:
@@ -57,7 +62,7 @@ private:
 	std::stringstream stageStream_;
 
 
-	// 惑星
-	std::unique_ptr<StageObjectSaturnPlanet> saturnPlanet_ = nullptr;
+	// ステージオブジェクトのリスト
+	std::list<std::unique_ptr<BaseStageObject>> stageObjects_;
 };
 

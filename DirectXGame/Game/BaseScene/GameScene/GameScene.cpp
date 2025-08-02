@@ -168,30 +168,6 @@ void GameScene::Draw()
 		enemyBullet->Draw();
 	}
 
-
-	// 高輝度抽出
-	engine_->SetOffscreenEffect(kBrightnessExtraction);
-
-	// ガウシアンフィルター *3
-	engine_->SetOffscreenEffect(kGaussianFilter);
-	engine_->SetOffscreenEffect(kGaussianFilter);
-	engine_->SetOffscreenEffect(kGaussianFilter);
-
-	// スクリーンコピー
-	screenHandleGrow_ = engine_->SetOffscreenEffect(kCopyImage);
-
-
-	// レイヤーを隠す
-	engine_->SetOffscreenEffect(kHide);
-
-	// 第一レイヤー描画
-	engine_->CopyRtvImage(0);
-
-	// 高輝度抽出 * ガウシアンフィルター　加算合成
-	engine_->SetCopyImageBlendMode(kBlendModeAdd);
-	engine_->CopyRtvImage(screenHandleGrow_);
-	engine_->SetCopyImageBlendMode(kBlendModeNormal);
-
 	// ポーズの描画
 	pose_->Draw();
 

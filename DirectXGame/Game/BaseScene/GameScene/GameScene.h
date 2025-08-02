@@ -128,8 +128,4 @@ private:
 
 	// 敵の弾のリスト
 	std::list<std::unique_ptr<BaseEnemyBullet>> enemyBullets_;
-
-
-	// グロースクリーン
-	uint32_t screenHandleGrow_ = 0;
 };

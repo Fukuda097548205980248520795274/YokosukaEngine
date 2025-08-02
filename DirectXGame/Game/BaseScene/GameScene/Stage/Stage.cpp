@@ -20,10 +20,90 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 	gameFrame_ = gameFrame;
 
 	
-	saturnPlanet_ = std::make_unique<StageObjectSaturnPlanet>();
-	saturnPlanet_->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f,
-		Vector3(0.0f, 0.0f, 800.0f), Vector3(0.0f, std::numbers::pi_v<float>, 0.0f));
-	saturnPlanet_->InfiniteTimer();
+	
+	std::unique_ptr<StageObjectBuildingA> stageObject0 = std::make_unique<StageObjectBuildingA>();
+	stageObject0->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(50.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject0->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject0));
+
+	std::unique_ptr<StageObjectBuildingB> stageObject1 = std::make_unique<StageObjectBuildingB>();
+	stageObject1->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(-50.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject1->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject1));
+
+	std::unique_ptr<StageObjectBuildingC> stageObject2 = std::make_unique<StageObjectBuildingC>();
+	stageObject2->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(50.0f, 0.0f, 100.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject2->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject2));
+
+	std::unique_ptr<StageObjectBuildingD> stageObject3 = std::make_unique<StageObjectBuildingD>();
+	stageObject3->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(-50.0f, 0.0f, 100.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject3->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject3));
+
+
+
+	std::unique_ptr<StageObjectBuildingD> stageObject4 = std::make_unique<StageObjectBuildingD>();
+	stageObject4->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(50.0f, 0.0f, 200.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject4->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject4));
+
+	std::unique_ptr<StageObjectBuildingB> stageObject5 = std::make_unique<StageObjectBuildingB>();
+	stageObject5->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(-50.0f, 0.0f, 200.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject5->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject5));
+
+	std::unique_ptr<StageObjectBuildingC> stageObject6 = std::make_unique<StageObjectBuildingC>();
+	stageObject6->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(50.0f, 0.0f, 300.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject6->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject6));
+
+	std::unique_ptr<StageObjectBuildingA> stageObject7 = std::make_unique<StageObjectBuildingA>();
+	stageObject7->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(-50.0f, 0.0f, 300.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject7->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject7));
+
+
+	std::unique_ptr<StageObjectBuildingD> stageObject8 = std::make_unique<StageObjectBuildingD>();
+	stageObject8->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(50.0f, 0.0f, 400.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject8->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject8));
+
+	std::unique_ptr<StageObjectBuildingB> stageObject9 = std::make_unique<StageObjectBuildingB>();
+	stageObject9->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(-50.0f, 0.0f, 400.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject9->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject9));
+
+	std::unique_ptr<StageObjectBuildingC> stageObject10 = std::make_unique<StageObjectBuildingC>();
+	stageObject10->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(80.0f, 0.0f, 500.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject10->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject10));
+
+	std::unique_ptr<StageObjectBuildingA> stageObject11 = std::make_unique<StageObjectBuildingA>();
+	stageObject11->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(-20.0f, 0.0f, 500.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject11->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject11));
+
+
+	std::unique_ptr<StageObjectBuildingD> stageObject12 = std::make_unique<StageObjectBuildingD>();
+	stageObject12->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(200.0f, 0.0f, 600.0f), Vector3(0.0f, 1.0f, 0.0f));
+	stageObject12->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject12));
+
+	std::unique_ptr<StageObjectBuildingB> stageObject13 = std::make_unique<StageObjectBuildingB>();
+	stageObject13->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(10.0f, 0.0f, 600.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject13->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject13));
+
+	std::unique_ptr<StageObjectBuildingC> stageObject14 = std::make_unique<StageObjectBuildingC>();
+	stageObject14->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(160.0f, 0.0f, 700.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject14->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject14));
+
+	std::unique_ptr<StageObjectBuildingA> stageObject15 = std::make_unique<StageObjectBuildingA>();
+	stageObject15->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(100.0f, 0.0f, 650.0f), Vector3(0.0f, 0.0f, 0.0f));
+	stageObject15->InfiniteTimer();
+	stageObjects_.push_back(std::move(stageObject15));
 }
 
 /// <summary>
@@ -31,7 +111,23 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 /// </summary>
 void Stage::Update()
 {
-	saturnPlanet_->Update();
+	// ステージオブジェクトの更新
+	for (std::unique_ptr<BaseStageObject>& stageObject : stageObjects_)
+	{
+		stageObject->Update();
+	}
+
+	// 終了したステージオブジェクトをリストから除外する
+	stageObjects_.remove_if([](std::unique_ptr<BaseStageObject>& stageObject)
+		{
+			if (stageObject->IsFinished())
+			{
+				stageObject.release();
+				return true;
+			}
+			return false;
+		}
+	);
 }
 
 /// <summary>
@@ -39,7 +135,11 @@ void Stage::Update()
 /// </summary>
 void Stage::Draw()
 {
-	saturnPlanet_->Draw();
+	// ステージオブジェクトの描画
+	for (std::unique_ptr<BaseStageObject>& stageObject : stageObjects_)
+	{
+		stageObject->Draw();
+	}
 }
 
 /// <summary>

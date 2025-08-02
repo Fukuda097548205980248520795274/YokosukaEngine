@@ -87,6 +87,8 @@ void Game::Update()
 		case kGame:
 			// ゲーム
 
+			scenePhaseRequest_ = kTitle;
+
 			break;
 
 		case kClear:

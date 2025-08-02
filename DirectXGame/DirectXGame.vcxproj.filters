@@ -367,9 +367,6 @@
     <Filter Include="Game\BaseScene\GameScene\Skydome">
       <UniqueIdentifier>{9f1d50d8-4b34-4ef6-8df0-48713bd1fd62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\CenterAxis">
-      <UniqueIdentifier>{e07be900-aef5-444a-baa6-fb50f19e5b43}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\GameScene\PlayerStateHud">
       <UniqueIdentifier>{7d067d9d-a0ab-432a-a514-f26719bf0fa1}</UniqueIdentifier>
     </Filter>
@@ -459,6 +456,33 @@
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseEnemyGroup">
       <UniqueIdentifier>{b3ff7e40-0510-4712-9c2c-756e349783b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles">
+      <UniqueIdentifier>{fb9ab72f-ca1c-4135-ab5f-cb963353c5a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles">
+      <UniqueIdentifier>{37967ea0-3971-4a22-8485-59a20e7dac00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles">
+      <UniqueIdentifier>{956ae533-b879-4ce9-aadd-1d9e1baa745e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles">
+      <UniqueIdentifier>{d6fd1cbd-de5c-4693-9f60-590c1ce3d33c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA">
+      <UniqueIdentifier>{2159293b-9134-4d5a-b7b3-d541e128036c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB">
+      <UniqueIdentifier>{57c59212-df7e-45a0-aeb4-aa64e186de4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC">
+      <UniqueIdentifier>{abe605a1-abdc-4963-9c26-187db726f8fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD">
+      <UniqueIdentifier>{126a56ab-8ae5-48b2-a9ea-7af04d27bbb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\CenterAxis">
+      <UniqueIdentifier>{e07be900-aef5-444a-baa6-fb50f19e5b43}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -781,7 +805,7 @@
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\CenterAxis\CenterAxis.cpp">
-      <Filter>Game\BaseScene\GameScene\CenterAxis</Filter>
+      <Filter>Game\BaseScene\GameScene\Stage\CenterAxis</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.cpp">
       <Filter>Game\BaseScene\GameScene\PlayerStateHud</Filter>
@@ -869,6 +893,30 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.cpp">
       <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles\StageObjectBuildingAModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles\StageObjectBuildingBModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles\StageObjectBuildingCModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles\StageObjectBuildingDModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA\StageObjectBuildingA.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB\StageObjectBuildingB.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC\StageObjectBuildingC.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1194,7 +1242,7 @@
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\CenterAxis\CenterAxis.h">
-      <Filter>Game\BaseScene\GameScene\CenterAxis</Filter>
+      <Filter>Game\BaseScene\GameScene\Stage\CenterAxis</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.h">
       <Filter>Game\BaseScene\GameScene\PlayerStateHud</Filter>
@@ -1282,6 +1330,30 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.h">
       <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles\StageObjectBuildingAModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles\StageObjectBuildingBModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles\StageObjectBuildingCModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles\StageObjectBuildingDModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA\StageObjectBuildingA.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB\StageObjectBuildingB.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC\StageObjectBuildingC.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
