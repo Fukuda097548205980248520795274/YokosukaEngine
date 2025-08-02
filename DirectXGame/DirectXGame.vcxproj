@@ -149,8 +149,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\BasePlayerBullet.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.cpp" />
-    <ClCompile Include="Game\BaseScene\GameScene\BaseStage\BaseStage.cpp" />
-    <ClCompile Include="Game\BaseScene\GameScene\CenterAxis\CenterAxis.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\CenterAxis\CenterAxis.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\GameScene.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.cpp" />
@@ -296,8 +295,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\BasePlayerBullet.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletStrong\PlayerBulletStrong.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet\PlayerBulletWeek\PlayerBulletWeek.h" />
-    <ClInclude Include="Game\BaseScene\GameScene\BaseStage\BaseStage.h" />
-    <ClInclude Include="Game\BaseScene\GameScene\CenterAxis\CenterAxis.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\CenterAxis\CenterAxis.h" />
     <ClInclude Include="Game\BaseScene\GameScene\GameScene.h" />
     <ClInclude Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.h" />

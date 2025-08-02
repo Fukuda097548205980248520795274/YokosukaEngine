@@ -3,6 +3,8 @@
 #include "../../../ModelHandleStore/ModelHandleStore.h"
 #include <sstream>
 
+#include "CenterAxis/CenterAxis.h"
+
 #include "BaseStageObject/StageObjectSaturnPlanet/StageObjectSaturnPlanet.h"
 
 #include "BaseStageObject/StageObjectBuildingA/StageObjectBuildingA.h"
@@ -37,6 +39,18 @@ public:
 	/// <param name="filePath"></param>
 	void LoadStageScript(const char* filePath);
 
+	/// <summary>
+	/// 中心軸のワールドトランスフォームのGetter
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform* GetCenterAxisWorldTransform() const { return centerAxis_->GetWorldTransform(); }
+
+	/// <summary>
+	/// 中心軸のワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetCenterAxisWorldPosition() const { return centerAxis_->GetWorldPosition(); }
+
 
 private:
 
@@ -56,6 +70,10 @@ private:
 	/// ステージスクリプトの更新処理
 	/// </summary>
 	void StageScriptUpdate();
+
+
+	// 中心軸
+	std::unique_ptr<CenterAxis> centerAxis_ = nullptr;
 
 
 	// 文字列ストリーム

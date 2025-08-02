@@ -6,8 +6,6 @@
 
 #include "Stage/Stage.h"
 
-#include "CenterAxis/CenterAxis.h"
-
 #include "BaseCharacter/Player/Player.h"
 
 #include "BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
@@ -107,10 +105,6 @@ private:
 
 	// 天球
 	std::unique_ptr<Skydome> skydome_ = nullptr;
-
-
-	// 中心軸
-	std::unique_ptr<CenterAxis> centerAxis_ = nullptr;
 
 
 	// プレイヤー

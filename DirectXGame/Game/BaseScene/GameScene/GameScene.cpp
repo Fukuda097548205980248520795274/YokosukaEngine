@@ -25,14 +25,6 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	directionalLight_->intensity_ = 0.5f;
 
 
-	// 中心軸の生成と初期化
-	centerAxis_ = std::make_unique<CenterAxis>();
-	centerAxis_->Initliaze(engine_ , camera3d_);
-
-	// 中心軸をメインカメラの親とする
-	mainCamera_->SetPivotParent(centerAxis_->GetWorldTransform());
-
-
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
 	player_->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 0.0f), 100);
@@ -42,14 +34,19 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	// ゲームタイマーを取得する
 	gameTimer_ = player_->GetGameTimer();
 
-	// 中心軸にゲームタイマーを渡す
-	centerAxis_->SetGameTimer(gameTimer_);
+
+	// ステージの生成と初期化
+	stage_ = std::make_unique<Stage>();
+	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer());
+
+	// 中心軸をメインカメラの親とする
+	mainCamera_->SetPivotParent(stage_->GetCenterAxisWorldTransform());
 
 
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_);
-	skydome_->SetPosition(centerAxis_->GetWorldPosition());
+	skydome_->SetPosition(stage_->GetCenterAxisWorldPosition());
 
 	// 敵の生成と初期化
 	for (uint32_t i = 0; i < 3; i++)
@@ -57,18 +54,13 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 		std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
 		enemyButterfly->SetGameTimer(gameTimer_);
 		enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(-10.0f + i * 10.0f, 0.0f, -40.0f), 50);
-		enemyButterfly->SetParent(centerAxis_->GetWorldTransform());
+		enemyButterfly->SetParent(stage_->GetCenterAxisWorldTransform());
 		enemyButterfly->SetTarget(player_.get());
 		enemyButterfly->SetGameScene(this);
 
 		// 登録する
 		enemies_.push_back(std::move(enemyButterfly));
 	}
-
-
-	// ステージの生成と初期化
-	stage_ = std::make_unique<Stage>();
-	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer());
 }
 
 /// <summary>
@@ -77,7 +69,7 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 void GameScene::Update()
 {
 	// 中心軸の回転をメインカメラに渡す
-	mainCamera_->SetCameraRotate(centerAxis_->GetWorldTransform()->rotation_);
+	mainCamera_->SetCameraRotate(stage_->GetCenterAxisWorldTransform()->rotation_);
 
 	// Scene更新
 	BaseScene::Update();
@@ -109,11 +101,8 @@ void GameScene::Update()
 	// ステージの更新
 	stage_->Update();
 
-	// 中心軸の更新
-	centerAxis_->Update();
-
 	// 天球の更新が中心軸の位置に移動する
-	skydome_->SetPosition(centerAxis_->GetWorldPosition());
+	skydome_->SetPosition(stage_->GetCenterAxisWorldPosition());
 	skydome_->Update();
 
 	// プレイヤーの更新
@@ -173,10 +162,6 @@ void GameScene::Draw()
 
 	// Scene描画
 	BaseScene::Draw();
-
-
-	// 中心軸の描画
-	centerAxis_->Draw();
 }
 
 
@@ -187,7 +172,7 @@ void GameScene::Draw()
 void GameScene::PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet)
 {
 	// 中心軸を親にする
-	playerBullet->SetParent(centerAxis_->GetWorldTransform());
+	playerBullet->SetParent(stage_->GetCenterAxisWorldTransform());
 
 	// リストに追加する
 	playerBullets_.push_back(std::move(playerBullet));
@@ -200,7 +185,7 @@ void GameScene::PlayerBulletShot(std::unique_ptr<BasePlayerBullet> playerBullet)
 void GameScene::EnemyBulletShot(std::unique_ptr<BaseEnemyBullet> enemyBullet)
 {
 	// 中心軸を親にする
-	enemyBullet->SetParent(centerAxis_->GetWorldTransform());
+	enemyBullet->SetParent(stage_->GetCenterAxisWorldTransform());
 
 	// リストに追加する
 	enemyBullets_.push_back(std::move(enemyBullet));

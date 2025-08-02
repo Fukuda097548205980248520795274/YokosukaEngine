@@ -19,6 +19,11 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 	modelHandleStore_ = modelHandleStore;
 	gameFrame_ = gameFrame;
 
+	// 中心軸の生成と初期化
+	centerAxis_ = std::make_unique<CenterAxis>();
+	centerAxis_->Initliaze(engine_, camera3d_);
+	centerAxis_->SetGameTimer(gameFrame_);
+
 	
 	
 	std::unique_ptr<StageObjectBuildingA> stageObject0 = std::make_unique<StageObjectBuildingA>();
@@ -111,6 +116,9 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, c
 /// </summary>
 void Stage::Update()
 {
+	// 中心軸の更新処理
+	centerAxis_->Update();
+
 	// ステージオブジェクトの更新
 	for (std::unique_ptr<BaseStageObject>& stageObject : stageObjects_)
 	{
@@ -135,6 +143,9 @@ void Stage::Update()
 /// </summary>
 void Stage::Draw()
 {
+	// 中心軸の描画処理
+	centerAxis_->Draw();
+
 	// ステージオブジェクトの描画
 	for (std::unique_ptr<BaseStageObject>& stageObject : stageObjects_)
 	{
