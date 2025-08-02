@@ -21,7 +21,7 @@ public:
 private:
 
 	// 発射までの時間
-	const float kShotTime = 3.0f;
+	const float kShotTime = 1.0f;
 
 	// 発射タイマー
 	float shotTimer_ = 0.0f;

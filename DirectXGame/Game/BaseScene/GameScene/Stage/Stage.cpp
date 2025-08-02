@@ -1,23 +1,29 @@
 #include "Stage.h"
+#include "../GameScene.h"
+#include "../BaseCharacter/BaseEnemy/EnemyButterfly/EnemyButterfly.h"
+#include "../BaseCharacter/Player/Player.h"
 
 /// <summary>
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const float* gameFrame)
+void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
+	const ModelHandleStore* modelHandleStore, const float* gameFrame, GameScene* gameScene)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(camera3d);
 	assert(modelHandleStore);
 	assert(gameFrame);
+	assert(gameScene);
 
 	// 引数を受け取る
 	engine_ = engine;
 	camera3d_ = camera3d;
 	modelHandleStore_ = modelHandleStore;
 	gameFrame_ = gameFrame;
+	gameScene_ = gameScene;
 
 	// 中心軸の生成と初期化
 	centerAxis_ = std::make_unique<CenterAxis>();
@@ -160,6 +166,28 @@ void Stage::Update()
 {
 	// 中心軸の更新処理
 	centerAxis_->Update();
+
+
+	// タイマーを進める
+	timer_ += 1.0f / 60.0f;
+
+	if (timer_ >= 1.5f)
+	{
+		float posX = static_cast<float>(rand() % 20 - 10);
+		float posY = static_cast<float>(rand() % 20 - 10);
+
+		std::unique_ptr<EnemyButterfly> enemy_ = std::make_unique<EnemyButterfly>();
+		enemy_->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(posX, posY, -30.0f), 5);
+		enemy_->SetGameScene(gameScene_);
+		enemy_->SetParent(centerAxis_->GetWorldTransform());
+		enemy_->SetTarget(target_);
+		enemy_->SetGameTimer(gameFrame_);
+
+		gameScene_->EnemySummon(std::move(enemy_));
+	}
+
+	timer_ = std::fmod(timer_, 1.5f);
+
 
 	// ステージオブジェクトの更新
 	for (std::unique_ptr<BaseStageObject>& stageObject : stageObjects_)

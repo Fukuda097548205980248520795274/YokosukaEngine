@@ -22,16 +22,18 @@ void EnemyButterflyStateApproachingRearLeft::Update()
 {
 	// ワールドトランスフォームを取得する
 	WorldTransform* worldTransform = enemy_->GetWorldTransform();
-	worldTransform->translation_.z += 1.0f;
 
 	// ゲームタイマーを取得する
 	const float* gameTimer = enemy_->GetGameTimer();
+
+	// 奥に進む
+	worldTransform->translation_.z += 1.0f * (*gameTimer);
 
 
 	// ビヘイビア更新
 	behavior_->Update();
 
-	timer_ += 1.0f / 60.0f;
+	timer_ += (1.0f / 60.0f) * (*gameTimer);
 
 	// タイマーを越えたら停止状態に移行する
 	if (timer_ >= time_)

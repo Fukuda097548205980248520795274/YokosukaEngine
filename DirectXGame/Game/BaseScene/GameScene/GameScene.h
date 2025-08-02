@@ -47,6 +47,12 @@ public:
 	void CameraShake(float shakeTime, float shakeSize) { mainCamera_->SetShake(shakeTime, shakeSize); }
 
 	/// <summary>
+	/// 敵を出現させる
+	/// </summary>
+	/// <param name="enemies"></param>
+	void EnemySummon(std::unique_ptr<BaseEnemy> enemy);
+
+	/// <summary>
 	/// プレイヤーの弾を発射する
 	/// </summary>
 	/// <param name="playerBullet"></param>

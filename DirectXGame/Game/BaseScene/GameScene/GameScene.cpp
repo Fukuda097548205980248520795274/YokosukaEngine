@@ -37,7 +37,8 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// ステージの生成と初期化
 	stage_ = std::make_unique<Stage>();
-	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer());
+	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer(),this);
+	stage_->SetTarget(player_.get());
 
 	// 中心軸をメインカメラの親とする
 	mainCamera_->SetPivotParent(stage_->GetCenterAxisWorldTransform());
@@ -47,20 +48,6 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_);
 	skydome_->SetPosition(stage_->GetCenterAxisWorldPosition());
-
-	// 敵の生成と初期化
-	for (uint32_t i = 0; i < 3; i++)
-	{
-		std::unique_ptr<EnemyButterfly> enemyButterfly = std::make_unique<EnemyButterfly>();
-		enemyButterfly->SetGameTimer(gameTimer_);
-		enemyButterfly->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(-10.0f + i * 10.0f, 0.0f, -40.0f), 5);
-		enemyButterfly->SetParent(stage_->GetCenterAxisWorldTransform());
-		enemyButterfly->SetTarget(player_.get());
-		enemyButterfly->SetGameScene(this);
-
-		// 登録する
-		enemies_.push_back(std::move(enemyButterfly));
-	}
 }
 
 /// <summary>
@@ -164,6 +151,16 @@ void GameScene::Draw()
 	BaseScene::Draw();
 }
 
+
+/// <summary>
+/// 敵を出現させる
+/// </summary>
+/// <param name="enemies"></param>
+void GameScene::EnemySummon(std::unique_ptr<BaseEnemy> enemy)
+{
+	// リストに追加する
+	enemies_.push_back(std::move(enemy));
+}
 
 /// <summary>
 /// プレイヤーの弾を発射する
