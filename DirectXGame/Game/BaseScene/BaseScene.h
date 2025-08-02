@@ -27,6 +27,11 @@ public:
 	/// </summary>
 	bool IsFinished() { return isFinished_; }
 
+	/// <summary>
+	/// 強制的に終了させる
+	/// </summary>
+	void FinisheIt() { isFinished_ = true; }
+
 
 protected:
 

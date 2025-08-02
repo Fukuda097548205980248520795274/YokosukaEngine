@@ -1,6 +1,9 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
+// 前方宣言
+class GameScene;
+
 class CenterAxis
 {
 public:
@@ -21,6 +24,12 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// ゲームシーンのSetter
+	/// </summary>
+	/// <param name="gameScene"></param>
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 	/// <summary>
 	/// ワールドトランスフォームのGetter
@@ -51,6 +60,9 @@ private:
 
 	// ゲームタイム
 	const float* gameTimer_ = nullptr;
+
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 
 
 	// ワールドトランスフォーム

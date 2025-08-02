@@ -29,6 +29,7 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 	centerAxis_ = std::make_unique<CenterAxis>();
 	centerAxis_->Initliaze(engine_, camera3d_);
 	centerAxis_->SetGameTimer(gameFrame_);
+	centerAxis_->SetGameScene(gameScene_);
 
 	
 	

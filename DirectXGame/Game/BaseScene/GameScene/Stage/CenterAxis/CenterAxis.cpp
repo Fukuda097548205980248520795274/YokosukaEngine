@@ -1,4 +1,5 @@
 #include "CenterAxis.h"
+#include "../../GameScene.h"
 
 /// <summary>
 /// 初期化
@@ -49,6 +50,12 @@ void CenterAxis::Update()
 	ImGui::End();
 
 	t_ += 0.0005f * (*gameTimer_);
+
+	if (t_ + 0.0001f > 1.0f)
+	{
+		gameScene_->FinisheIt();
+		return;
+	}
 
 	worldTransform_->translation_ = engine_->CatmullRomPosition(controlPoint_, t_);
 	Vector3 nextPos = engine_->CatmullRomPosition(controlPoint_, t_ + 0.0001f);
