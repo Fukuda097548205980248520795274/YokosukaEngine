@@ -49,6 +49,12 @@ public:
 	/// <param name="gameTimer"></param>
 	void SetGameTimer(const float* gameTimer) { gameTimer_ = gameTimer; }
 
+	/// <summary>
+	/// ゴールフラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsGoal()const { return isGoal_; }
+
 
 private:
 
@@ -75,6 +81,8 @@ private:
 	uint32_t textureHandle_ = 0;
 
 
+	// ゴールフラグ
+	bool isGoal_ = false;
 
 	Vector3 controlPointTable[7] =
 	{

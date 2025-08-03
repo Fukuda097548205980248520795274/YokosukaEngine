@@ -63,6 +63,12 @@ public:
 	/// <param name="target"></param>
 	void SetTarget(BaseCharacter* target) { target_ = target; }
 
+	/// <summary>
+	/// クリアフラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsClear()const { return isClear_; }
+
 
 private:
 
@@ -92,6 +98,9 @@ private:
 
 	// タイマー
 	float timer_ = 0.0f;
+
+	// クリアフラグ
+	bool isClear_ = false;
 
 
 	// 中心軸

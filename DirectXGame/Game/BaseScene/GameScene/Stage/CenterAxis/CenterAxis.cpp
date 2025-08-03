@@ -41,19 +41,13 @@ void CenterAxis::Initliaze(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void CenterAxis::Update()
 {
-	ImGui::Begin("controlPoint");
-	ImGui::DragFloat3("0", &controlPoint_[0].x);
-	ImGui::DragFloat3("1", &controlPoint_[1].x);
-	ImGui::DragFloat3("2", &controlPoint_[2].x);
-	ImGui::DragFloat3("3", &controlPoint_[3].x);
-	ImGui::DragFloat3("4", &controlPoint_[4].x);
-	ImGui::End();
 
 	t_ += 0.0005f * (*gameTimer_);
 
+	// ゴールしたかどうか
 	if (t_ + 0.0001f > 1.0f)
 	{
-		gameScene_->FinisheIt();
+		isGoal_ = true;
 		return;
 	}
 

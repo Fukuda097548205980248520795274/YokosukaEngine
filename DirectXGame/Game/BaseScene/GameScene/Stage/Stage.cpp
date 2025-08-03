@@ -168,6 +168,13 @@ void Stage::Update()
 	// 中心軸の更新処理
 	centerAxis_->Update();
 
+	// ゴールしたらクリア
+	if (centerAxis_->IsGoal())
+	{
+		isClear_ = true;
+		return;
+	}
+
 
 	// タイマーを進める
 	timer_ += 1.0f / 60.0f;

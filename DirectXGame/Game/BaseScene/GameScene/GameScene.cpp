@@ -88,6 +88,14 @@ void GameScene::Update()
 	// ステージの更新
 	stage_->Update();
 
+	// ステージクリアで終了する
+	if (stage_->IsClear())
+	{
+		engine_->StopSound(playHandle_);
+		isFinished_ = true;
+		return;
+	}
+
 	// 天球の更新が中心軸の位置に移動する
 	skydome_->SetPosition(stage_->GetCenterAxisWorldPosition());
 	skydome_->Update();
