@@ -71,7 +71,7 @@ void CenterAxis::Update()
 void CenterAxis::Draw()
 {
 	// 制御点の描画
-	engine_->DrwaCatmullRomSpline(controlPoint_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
+	//engine_->DrwaCatmullRomSpline(controlPoint_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
 
 	// 弾を描画する
 	//engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, 10, 5, Vector4(1.0f, 0.0f, 0.0f, 1.0f), false);

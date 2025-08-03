@@ -50,6 +50,9 @@ protected:
 	// 3Dカメラ
 	const Camera3D* camera3d_ = nullptr;
 
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
+
 
 	// 終了フラグ
 	bool isFinished_ = false;

@@ -15,7 +15,7 @@ public:
 	/// テクスチャハンドルのGetter
 	/// </summary>
 	/// <returns></returns>
-	uint32_t GetTextureHandles() { return textureHandle_; }
+	uint32_t GetTextureHandles() const { return textureHandle_; }
 
 
 protected:

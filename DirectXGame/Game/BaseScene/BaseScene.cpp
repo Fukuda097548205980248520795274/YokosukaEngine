@@ -20,6 +20,10 @@ void BaseScene::Initialize(const YokosukaEngine* engine , const ModelHandleStore
 	scene_ = std::make_unique<Scene>();
 	scene_->Initialize(engine);
 
+	// 2Dカメラの生成と初期化
+	camera2d_ = std::make_unique<Camera2D>();
+	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
 	// メインカメラの取得
 	mainCamera_ = scene_->GetMainCameraInstance();
 
