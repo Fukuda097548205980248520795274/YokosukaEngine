@@ -484,6 +484,24 @@
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop">
       <UniqueIdentifier>{25fb350b-a25a-4042-ac1d-7a4a6cc57138}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\TextureHandleStore">
+      <UniqueIdentifier>{26bc058a-15dd-42bc-bec6-91923258190c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles">
+      <UniqueIdentifier>{9fcd247c-a248-4bec-9e94-38e81ac99223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle">
+      <UniqueIdentifier>{820e67d4-d20f-4797-8977-624f09c47cc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle">
+      <UniqueIdentifier>{9ed88a95-cf4f-46f9-a3aa-8539b0210ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle">
+      <UniqueIdentifier>{716221f5-6b16-456f-8672-62a4d43d8b33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle">
+      <UniqueIdentifier>{a16b93b9-0d16-4345-9ac1-fe1f3a60a0c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -917,6 +935,24 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\TextureHandleStore.cpp">
+      <Filter>Game\TextureHandleStore</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1354,6 +1390,24 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\TextureHandleStore.h">
+      <Filter>Game\TextureHandleStore</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

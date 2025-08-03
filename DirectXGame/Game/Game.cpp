@@ -16,6 +16,10 @@ void Game::Initialize(const YokosukaEngine* engine)
 	modelHandleStore_ = std::make_unique<ModelHandleStore>();
 	modelHandleStore_->Initialize(engine_);
 
+	// テクスチャハンドル格納場所の生成と初期化
+	textureHandleStore_ = std::make_unique<TextureHandleStore>();
+	textureHandleStore_->Initialize(engine_);
+
 	// タイトルシーンの生成と初期化
 	scene_ = std::make_unique<TitleScene>();
 	scene_->Initialize(engine_ , modelHandleStore_.get());

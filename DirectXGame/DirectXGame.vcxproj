@@ -168,6 +168,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\ModelHandleStore.cpp" />
     <ClCompile Include="Game\BaseScene\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\TextureHandleStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp" />
@@ -315,6 +321,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\ModelHandleStore.h" />
     <ClInclude Include="Game\BaseScene\TitleScene\TitleScene.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.h" />
+    <ClInclude Include="Game\TextureHandleStore\TextureHandleStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXGPU\DirectXGPU.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h" />

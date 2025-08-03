@@ -4,6 +4,7 @@
 #include "BaseScene/TitleScene/TitleScene.h"
 #include "BaseScene/ClearScene/ClearScene.h"
 #include "ModelHandleStore/ModelHandleStore.h"
+#include "TextureHandleStore/TextureHandleStore.h"
 
 class Game
 {
@@ -33,6 +34,9 @@ private:
 
 	// モデルハンドルの格納場所
 	std::unique_ptr<ModelHandleStore> modelHandleStore_ = nullptr;
+
+	// テクスチャハンドルの格納場所
+	std::unique_ptr<TextureHandleStore> textureHandleStore_ = nullptr;
 
 	// シーン
 	std::unique_ptr<BaseScene> scene_ = nullptr;

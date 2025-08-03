@@ -1,6 +1,7 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../ModelHandleStore/ModelHandleStore.h"
+#include "../TextureHandleStore/TextureHandleStore.h"
 
 class BaseScene
 {
@@ -32,6 +33,9 @@ protected:
 
 	// モデルハンドル格納場所
 	const ModelHandleStore* modelHandleStore_ = nullptr;
+
+	// テクスチャハンドル格納場所
+	const TextureHandleStore* textureHandleStore_ = nullptr;
 
 
 	// シーン
