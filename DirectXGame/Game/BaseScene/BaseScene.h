@@ -11,7 +11,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="engine"></param>
-	virtual void Initialize(const YokosukaEngine* engine , const ModelHandleStore* modelHandleStore);
+	virtual void Initialize(const YokosukaEngine* engine , const ModelHandleStore* modelHandleStore , const TextureHandleStore* textureHandleStore);
 
 	/// <summary>
 	/// 更新処理

@@ -22,7 +22,7 @@ void Game::Initialize(const YokosukaEngine* engine)
 
 	// タイトルシーンの生成と初期化
 	scene_ = std::make_unique<TitleScene>();
-	scene_->Initialize(engine_ , modelHandleStore_.get());
+	scene_->Initialize(engine_ , modelHandleStore_.get() , textureHandleStore_.get());
 }
 
 /// <summary>
@@ -46,7 +46,7 @@ void Game::Update()
 			// タイトル
 
 			scene_ = std::make_unique<TitleScene>();
-			scene_->Initialize(engine_, modelHandleStore_.get());
+			scene_->Initialize(engine_, modelHandleStore_.get(), textureHandleStore_.get());
 
 			break;
 
@@ -54,7 +54,7 @@ void Game::Update()
 			// ゲーム
 
 			scene_ = std::make_unique<GameScene>();
-			scene_->Initialize(engine_, modelHandleStore_.get());
+			scene_->Initialize(engine_, modelHandleStore_.get(), textureHandleStore_.get());
 
 			break;
 
@@ -62,7 +62,7 @@ void Game::Update()
 			// クリア
 
 			scene_ = std::make_unique<ClearScene>();
-			scene_->Initialize(engine_ , modelHandleStore_.get());
+			scene_->Initialize(engine_ , modelHandleStore_.get(), textureHandleStore_.get());
 
 			break;
 		}

@@ -27,7 +27,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="engine">エンジン</param>
-	void Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore) override;
+	void Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore, const TextureHandleStore* textureHandleStore) override;
 
 	/// <summary>
 	/// 更新処理

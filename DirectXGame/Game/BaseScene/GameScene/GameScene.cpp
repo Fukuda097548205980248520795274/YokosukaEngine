@@ -5,10 +5,10 @@
 /// 初期化
 /// </summary>
 /// <param name="engine">エンジン</param>
-void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore)
+void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore, const TextureHandleStore* textureHandleStore)
 {
 	// BaseScene更新
-	BaseScene::Initialize(engine , modelHandleStore);
+	BaseScene::Initialize(engine , modelHandleStore , textureHandleStore);
 
 	// サウンドを読み込む
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Addictive_Waveform.mp3");

@@ -4,10 +4,10 @@
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
-void TitleScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore)
+void TitleScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore, const TextureHandleStore* textureHandleStore)
 {
 	// 基底クラス初期化
-	BaseScene::Initialize(engine , modelHandleStore);
+	BaseScene::Initialize(engine , modelHandleStore , textureHandleStore);
 
 	// 効果音を読み込む
 	shGlassBreaks_ = engine_->LoadSound("./Resources/Sounds/Se/title/glass.mp3");
