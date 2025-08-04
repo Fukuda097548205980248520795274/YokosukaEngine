@@ -43,22 +43,5 @@ private:
 
 	// テクスチャハンドル格納場所
 	const TextureHandleStore* textureHandleStore_ = nullptr;
-
-
-
-	// Aボタン
-	std::unique_ptr<WorldTransform2D> aButtonWorldTransform_ = nullptr;
-	std::unique_ptr<UvTransform> aButtonUvTransform_ = nullptr;
-	uint32_t aButtonTextureHandle_ = 0;
-
-	// Lスティック
-	std::unique_ptr<WorldTransform2D> lStickWorldTransform_ = nullptr;
-	std::unique_ptr<UvTransform> lStickUvTransform_ = nullptr;
-	uint32_t lStickTextureHandle_ = 0;
-
-	// Lスティック押し込み
-	std::unique_ptr<WorldTransform2D> lStickThumbWorldTransform_ = nullptr;
-	std::unique_ptr<UvTransform> lStickThumbUvTransform_ = nullptr;
-	uint32_t lStickThumbTextureHandle_ = 0;
 };
 

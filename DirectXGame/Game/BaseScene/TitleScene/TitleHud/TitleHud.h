@@ -43,11 +43,5 @@ private:
 
 	// テクスチャハンドル格納場所
 	const TextureHandleStore* textureHandleStore_ = nullptr;
-
-
-	// スタート
-	std::unique_ptr<WorldTransform2D> startWorldTransform_ = nullptr;
-	std::unique_ptr<UvTransform> startUvTransform_ = nullptr;
-	uint32_t startTextureHandle_ = 0;
 };
 

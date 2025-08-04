@@ -22,36 +22,6 @@ void PlayerStateHud::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 	camera2d_ = camera2d;
 	modelHandleStore_ = modelHandleStore;
 	textureHandleStore_ = textureHandleStore;
-
-
-	// Aボタン
-	aButtonWorldTransform_ = std::make_unique<WorldTransform2D>();
-	aButtonWorldTransform_->Initialize();
-	aButtonWorldTransform_->scale_ = Vector3(96.0f, 32.0f, 0.0f);
-	aButtonWorldTransform_->translation_ = Vector3(96.0f, 32.0f, 0.0f);
-	aButtonUvTransform_ = std::make_unique<UvTransform>();
-	aButtonUvTransform_->Initialize();
-	aButtonTextureHandle_ = textureHandleStore_->GetTextureHandle(TextureHandleStore::kAButton);
-
-
-	// Aボタン
-	lStickWorldTransform_ = std::make_unique<WorldTransform2D>();
-	lStickWorldTransform_->Initialize();
-	lStickWorldTransform_->scale_ = Vector3(96.0f, 32.0f, 0.0f);
-	lStickWorldTransform_->translation_ = Vector3(96.0f, 152.0f, 0.0f);
-	lStickUvTransform_ = std::make_unique<UvTransform>();
-	lStickUvTransform_->Initialize();
-	lStickTextureHandle_ = textureHandleStore_->GetTextureHandle(TextureHandleStore::kLStick);
-
-
-	// Aボタン
-	lStickThumbWorldTransform_ = std::make_unique<WorldTransform2D>();
-	lStickThumbWorldTransform_->Initialize();
-	lStickThumbWorldTransform_->scale_ = Vector3(96.0f, 32.0f, 0.0f);
-	lStickThumbWorldTransform_->translation_ = Vector3(96.0f, 272.0f, 0.0f);
-	lStickThumbUvTransform_ = std::make_unique<UvTransform>();
-	lStickThumbUvTransform_->Initialize();
-	lStickThumbTextureHandle_ = textureHandleStore_->GetTextureHandle(TextureHandleStore::kLStickThumb);
 }
 
 /// <summary>
@@ -59,14 +29,7 @@ void PlayerStateHud::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 /// </summary>
 void PlayerStateHud::Update()
 {
-	aButtonWorldTransform_->UpdateWorldMatrix();
-	aButtonUvTransform_->UpdateWorldMatrix();
-
-	lStickWorldTransform_->UpdateWorldMatrix();
-	lStickUvTransform_->UpdateWorldMatrix();
-
-	lStickThumbWorldTransform_->UpdateWorldMatrix();
-	lStickThumbUvTransform_->UpdateWorldMatrix();
+	
 }
 
 /// <summary>
@@ -74,8 +37,5 @@ void PlayerStateHud::Update()
 /// </summary>
 void PlayerStateHud::Draw()
 {
-	// スプライトを描画する
-	engine_->DrawSprite(aButtonWorldTransform_.get(), aButtonUvTransform_.get(), camera2d_, aButtonTextureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-	engine_->DrawSprite(lStickWorldTransform_.get(), lStickUvTransform_.get(), camera2d_, lStickTextureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-	engine_->DrawSprite(lStickThumbWorldTransform_.get(), lStickThumbUvTransform_.get(), camera2d_, lStickThumbTextureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	
 }
