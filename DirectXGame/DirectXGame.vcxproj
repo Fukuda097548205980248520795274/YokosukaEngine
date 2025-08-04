@@ -142,6 +142,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Stage\Stage.cpp" />
+    <ClCompile Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.cpp" />
@@ -295,6 +296,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Stage\Stage.h" />
+    <ClInclude Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.h" />

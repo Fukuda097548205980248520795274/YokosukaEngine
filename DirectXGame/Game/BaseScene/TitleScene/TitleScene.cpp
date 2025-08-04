@@ -16,6 +16,10 @@ void TitleScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Sagittarius_2.mp3");
 
 
+	// タイトルのHudの初期化
+	titleHud_ = std::make_unique<TitleHud>();
+	titleHud_->Initialize(engine_ , camera3d_ , camera2d_.get() , modelHandleStore_ , textureHandleStore_);
+
 	// フェードイン初期化
 	BehaviorFadeInInitialize();
 }
@@ -27,6 +31,9 @@ void TitleScene::Update()
 {
 	// 基底クラス更新処理
 	BaseScene::Update();
+
+	// タイトルのHUDの更新処理
+	titleHud_->Update();
 
 
 	// 次のビヘイビアのリクエストがあるとき
@@ -101,6 +108,9 @@ void TitleScene::Draw()
 	case kOperation:
 		// 操作
 		BehaviorOperationDraw();
+
+		// タイトルのHUDの描画処理
+		titleHud_->Draw();
 
 		break;
 
@@ -204,12 +214,16 @@ void TitleScene::BehaviorOperationUpdate()
 		playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
 	}
 
-	if (engine_->GetKeyTrigger(DIK_A))
+	// Startボタンでフェードアウトする
+	if (engine_->IsGamepadEnable(0))
 	{
-		behaviorRequest_ = kFadeOut;
+		if (engine_->GetGamepadButtonTrigger(0,XINPUT_GAMEPAD_START))
+		{
+			behaviorRequest_ = kFadeOut;
 
-		// BGMを止める
-		engine_->StopSound(playHandle_);
+			// BGMを止める
+			engine_->StopSound(playHandle_);
+		}
 	}
 }
 

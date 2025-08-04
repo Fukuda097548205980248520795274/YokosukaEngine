@@ -3,6 +3,8 @@
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../../BaseScene/BaseScene.h"
 
+#include "TitleHud/TitleHud.h"
+
 class TitleScene : public BaseScene
 {
 public:
@@ -25,6 +27,9 @@ public:
 
 private:
 
+
+	// タイトルのHUD
+	std::unique_ptr<TitleHud> titleHud_ = nullptr;
 
 	/*---------------
 		ビヘイビア

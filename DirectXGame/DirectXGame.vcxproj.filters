@@ -502,6 +502,9 @@
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle">
       <UniqueIdentifier>{a16b93b9-0d16-4345-9ac1-fe1f3a60a0c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\TitleScene\TitleHud">
+      <UniqueIdentifier>{fbeb40ab-39c3-44fb-9dd1-94cbff0fa11a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -953,6 +956,9 @@
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.cpp">
+      <Filter>Game\BaseScene\TitleScene\TitleHud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1408,6 +1414,9 @@
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.h">
+      <Filter>Game\BaseScene\TitleScene\TitleHud</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
