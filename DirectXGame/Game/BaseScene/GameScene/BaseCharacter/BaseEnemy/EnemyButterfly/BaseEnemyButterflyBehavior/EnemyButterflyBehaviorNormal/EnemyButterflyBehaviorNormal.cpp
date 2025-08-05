@@ -39,14 +39,13 @@ void EnemyButterflyBehaviorNormal::Update()
 	shotTimer_ += kShotTimerVelocity * (*gameTimer);
 	shotTimer_ = std::min(shotTimer_, kShotTime);
 
+	// 羽ばたきギミックの更新
+	gimmickFlappingWingR_->Update();
+	gimmickFlappingWingL_->Update();
+
 	// 時間が終わったら終了する
 	if (shotTimer_ >= kShotTime)
 	{
 		isFinished_ = true;
-		return;
 	}
-
-	// 羽ばたきギミックの更新
-	gimmickFlappingWingR_->Update();
-	gimmickFlappingWingL_->Update();
 }

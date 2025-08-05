@@ -16,9 +16,13 @@ void Game::Initialize(const YokosukaEngine* engine)
 	modelHandleStore_ = std::make_unique<ModelHandleStore>();
 	modelHandleStore_->Initialize(engine_);
 
+	// テクスチャハンドル格納場所の生成と初期化
+	textureHandleStore_ = std::make_unique<TextureHandleStore>();
+	textureHandleStore_->Initialize(engine_);
+
 	// タイトルシーンの生成と初期化
-	scene_ = std::make_unique<GameScene>();
-	scene_->Initialize(engine_ , modelHandleStore_.get());
+	scene_ = std::make_unique<TitleScene>();
+	scene_->Initialize(engine_ , modelHandleStore_.get() , textureHandleStore_.get());
 }
 
 /// <summary>
@@ -42,7 +46,7 @@ void Game::Update()
 			// タイトル
 
 			scene_ = std::make_unique<TitleScene>();
-			scene_->Initialize(engine_, modelHandleStore_.get());
+			scene_->Initialize(engine_, modelHandleStore_.get(), textureHandleStore_.get());
 
 			break;
 
@@ -50,7 +54,7 @@ void Game::Update()
 			// ゲーム
 
 			scene_ = std::make_unique<GameScene>();
-			scene_->Initialize(engine_, modelHandleStore_.get());
+			scene_->Initialize(engine_, modelHandleStore_.get(), textureHandleStore_.get());
 
 			break;
 
@@ -58,7 +62,7 @@ void Game::Update()
 			// クリア
 
 			scene_ = std::make_unique<ClearScene>();
-			scene_->Initialize(engine_ , modelHandleStore_.get());
+			scene_->Initialize(engine_ , modelHandleStore_.get(), textureHandleStore_.get());
 
 			break;
 		}
@@ -86,6 +90,8 @@ void Game::Update()
 
 		case kGame:
 			// ゲーム
+
+			scenePhaseRequest_ = kTitle;
 
 			break;
 

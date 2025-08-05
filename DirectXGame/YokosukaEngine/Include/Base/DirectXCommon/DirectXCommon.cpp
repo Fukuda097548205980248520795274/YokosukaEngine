@@ -203,9 +203,6 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 	// インデックスリソース
 	indexResourceSprite_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(uint32_t) * 6);
 
-	// 頂点リソース
-	vertexBufferResourceSprite_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(VertexData) * 4);
-
 
 	for (uint32_t i = 0; i < kMaxNumResource; i++)
 	{
@@ -231,6 +228,7 @@ void DirectXCommon::Initialize(Logging* logging, WinApp* winApp)
 		cameraResourceModel_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(CameraForGPU));
 
 		// スプライト
+		vertexBufferResourceSprite_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(VertexData) * 4);
 		materialResourceSprite_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(Material));
 		transformationResourceSprite_[i] = CreateBufferResource(directXGPU_->GetDevice(), sizeof(TransformationMatrix));
 
@@ -1999,13 +1997,13 @@ void DirectXCommon::DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2
 
 	// ビューを作成する
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
-	vertexBufferView.BufferLocation = vertexBufferResourceSprite_->GetGPUVirtualAddress();
+	vertexBufferView.BufferLocation = vertexBufferResourceSprite_[useNumResourceSprite_]->GetGPUVirtualAddress();
 	vertexBufferView.SizeInBytes = sizeof(VertexData) * 4;
 	vertexBufferView.StrideInBytes = sizeof(VertexData);
 
 	// データを書き込む
 	VertexData* vertexData = nullptr;
-	vertexBufferResourceSprite_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+	vertexBufferResourceSprite_[useNumResourceSprite_]->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
 
 
 	// 左下

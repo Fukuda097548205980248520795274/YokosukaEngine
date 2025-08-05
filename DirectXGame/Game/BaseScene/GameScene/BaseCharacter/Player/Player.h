@@ -132,6 +132,9 @@ private:
 	// 移動速度
 	const float speed = 0.4f;
 
+	// 移動範囲
+	Vector2 moveRange_ = { 16.0f , 9.0f };
+
 
 	/*------------
 	    弾の発射

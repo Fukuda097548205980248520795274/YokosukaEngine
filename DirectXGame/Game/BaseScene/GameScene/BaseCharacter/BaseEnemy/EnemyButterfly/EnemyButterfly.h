@@ -8,10 +8,10 @@
 
 #include "BaseEnemyButterflyState/EnemyButterflyStateApproachingRearLeft/EnemyButterflyStateApproachingRearLeft.h"
 #include "BaseEnemyButterflyState/EnemyButterflyStateStop/EnemyButterflyStateStop.h"
+#include "BaseEnemyButterflyState/EnemyButterflyStateAwayTop/EnemyButterflyStateAwayTop.h"
 
 #include "BaseEnemyButterflyBehavior/EnemyButterflyBehaviorNormal/EnemyButterflyBehaviorNormal.h"
 #include "BaseEnemyButterflyBehavior/EnemyButterflyBehaviorShot/EnemyButterflyBehaviorShot.h"
-
 class EnemyButterfly : public BaseEnemy
 {
 public:
@@ -23,6 +23,14 @@ public:
 		kWingR,
 		kWingL,
 		kNumModel
+	};
+
+	// ステート
+	enum State
+	{
+		kApproachingRearLeft,
+		kStop,
+		kAwayTop
 	};
 
 
@@ -86,7 +94,7 @@ public:
 	/// ステートを変更
 	/// </summary>
 	/// <param name="state"></param>
-	void ChangeState(std::unique_ptr<BaseEnemyButterflyState> state);
+	void ChangeState(State state);
 
 	/// <summary>
 	/// 弾を発射する

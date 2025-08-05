@@ -367,9 +367,6 @@
     <Filter Include="Game\BaseScene\GameScene\Skydome">
       <UniqueIdentifier>{9f1d50d8-4b34-4ef6-8df0-48713bd1fd62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\CenterAxis">
-      <UniqueIdentifier>{e07be900-aef5-444a-baa6-fb50f19e5b43}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\GameScene\PlayerStateHud">
       <UniqueIdentifier>{7d067d9d-a0ab-432a-a514-f26719bf0fa1}</UniqueIdentifier>
     </Filter>
@@ -397,9 +394,6 @@
     <Filter Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek">
       <UniqueIdentifier>{0d427355-9820-4c99-bea1-ba4edc4eb502}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseStage">
-      <UniqueIdentifier>{a26fac97-a5da-45d7-97ac-aaa001f15ccb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseBullet\BasePlayerBullet">
       <UniqueIdentifier>{8a206c1e-e9fb-47ce-8c9d-643857a12ba4}</UniqueIdentifier>
     </Filter>
@@ -414,24 +408,6 @@
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFloating">
       <UniqueIdentifier>{3486d430-1717-4874-8997-d2ed4c5911bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState">
-      <UniqueIdentifier>{f816f59d-168a-44cd-9751-f1629feb554e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft">
-      <UniqueIdentifier>{571f6b67-1b34-4c72-b9be-0bcce67cabb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop">
-      <UniqueIdentifier>{6ab18b8e-34f8-49a2-b623-f1ac09e4dced}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior">
-      <UniqueIdentifier>{edc766d7-f0ce-4986-b1dd-9d93f92f287b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot">
-      <UniqueIdentifier>{5a7b96ac-49c3-497e-a8e1-6bf127a4af53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal">
-      <UniqueIdentifier>{ff05f379-0a50-476a-843d-1cacf4bf7f31}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping">
       <UniqueIdentifier>{3dc7568b-d55b-48ba-a794-85be1deec369}</UniqueIdentifier>
@@ -456,6 +432,78 @@
     </Filter>
     <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles">
       <UniqueIdentifier>{ed287c48-030f-464d-9f2b-9cf9b552968c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior">
+      <UniqueIdentifier>{edc766d7-f0ce-4986-b1dd-9d93f92f287b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot">
+      <UniqueIdentifier>{5a7b96ac-49c3-497e-a8e1-6bf127a4af53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal">
+      <UniqueIdentifier>{ff05f379-0a50-476a-843d-1cacf4bf7f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState">
+      <UniqueIdentifier>{f816f59d-168a-44cd-9751-f1629feb554e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft">
+      <UniqueIdentifier>{571f6b67-1b34-4c72-b9be-0bcce67cabb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop">
+      <UniqueIdentifier>{6ab18b8e-34f8-49a2-b623-f1ac09e4dced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseEnemyGroup">
+      <UniqueIdentifier>{b3ff7e40-0510-4712-9c2c-756e349783b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles">
+      <UniqueIdentifier>{fb9ab72f-ca1c-4135-ab5f-cb963353c5a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles">
+      <UniqueIdentifier>{37967ea0-3971-4a22-8485-59a20e7dac00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles">
+      <UniqueIdentifier>{956ae533-b879-4ce9-aadd-1d9e1baa745e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles">
+      <UniqueIdentifier>{d6fd1cbd-de5c-4693-9f60-590c1ce3d33c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA">
+      <UniqueIdentifier>{2159293b-9134-4d5a-b7b3-d541e128036c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB">
+      <UniqueIdentifier>{57c59212-df7e-45a0-aeb4-aa64e186de4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC">
+      <UniqueIdentifier>{abe605a1-abdc-4963-9c26-187db726f8fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD">
+      <UniqueIdentifier>{126a56ab-8ae5-48b2-a9ea-7af04d27bbb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\CenterAxis">
+      <UniqueIdentifier>{e07be900-aef5-444a-baa6-fb50f19e5b43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop">
+      <UniqueIdentifier>{25fb350b-a25a-4042-ac1d-7a4a6cc57138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore">
+      <UniqueIdentifier>{26bc058a-15dd-42bc-bec6-91923258190c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles">
+      <UniqueIdentifier>{9fcd247c-a248-4bec-9e94-38e81ac99223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle">
+      <UniqueIdentifier>{820e67d4-d20f-4797-8977-624f09c47cc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle">
+      <UniqueIdentifier>{9ed88a95-cf4f-46f9-a3aa-8539b0210ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle">
+      <UniqueIdentifier>{716221f5-6b16-456f-8672-62a4d43d8b33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle">
+      <UniqueIdentifier>{a16b93b9-0d16-4345-9ac1-fe1f3a60a0c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\TitleScene\TitleHud">
+      <UniqueIdentifier>{fbeb40ab-39c3-44fb-9dd1-94cbff0fa11a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -744,9 +792,6 @@
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\BaseEnemy.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BaseStage\BaseStage.cpp">
-      <Filter>Game\BaseScene\GameScene\BaseStage</Filter>
-    </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\EnemyButterfly.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly</Filter>
     </ClCompile>
@@ -777,8 +822,8 @@
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.cpp">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\CenterAxis\CenterAxis.cpp">
-      <Filter>Game\BaseScene\GameScene\CenterAxis</Filter>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\CenterAxis\CenterAxis.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\CenterAxis</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.cpp">
       <Filter>Game\BaseScene\GameScene\PlayerStateHud</Filter>
@@ -863,6 +908,57 @@
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.cpp">
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles\StageObjectBuildingAModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles\StageObjectBuildingBModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles\StageObjectBuildingCModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles\StageObjectBuildingDModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA\StageObjectBuildingA.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB\StageObjectBuildingB.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC\StageObjectBuildingC.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\TextureHandleStore.cpp">
+      <Filter>Game\TextureHandleStore</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.cpp">
+      <Filter>Game\BaseScene\TitleScene\TitleHud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1154,9 +1250,6 @@
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\BaseEnemy.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BaseStage\BaseStage.h">
-      <Filter>Game\BaseScene\GameScene\BaseStage</Filter>
-    </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\EnemyButterfly.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly</Filter>
     </ClInclude>
@@ -1187,8 +1280,8 @@
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\Resource\Resource.h">
       <Filter>YokosukaEngine\Include\Base\DirectXCommon\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\CenterAxis\CenterAxis.h">
-      <Filter>Game\BaseScene\GameScene\CenterAxis</Filter>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\CenterAxis\CenterAxis.h">
+      <Filter>Game\BaseScene\GameScene\Stage\CenterAxis</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.h">
       <Filter>Game\BaseScene\GameScene\PlayerStateHud</Filter>
@@ -1273,6 +1366,57 @@
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.h">
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.h">
+      <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles\StageObjectBuildingAModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles\StageObjectBuildingBModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles\StageObjectBuildingCModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles\StageObjectBuildingDModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA\StageObjectBuildingA.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB\StageObjectBuildingB.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC\StageObjectBuildingC.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\TextureHandleStore.h">
+      <Filter>Game\TextureHandleStore</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.h">
+      <Filter>Game\BaseScene\TitleScene\TitleHud</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

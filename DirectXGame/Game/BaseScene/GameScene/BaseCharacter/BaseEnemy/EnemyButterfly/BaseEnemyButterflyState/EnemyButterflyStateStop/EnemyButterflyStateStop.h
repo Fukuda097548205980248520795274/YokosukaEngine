@@ -37,6 +37,12 @@ private:
 	// 次のビヘイビアのリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
+	// タイマー
+	float timer_ = 0.0f;
+
+	// 時間
+	float time_ = 10.0f;
+
 
 	// 浮遊ギミック
 	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;

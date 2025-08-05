@@ -4,19 +4,25 @@
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
-void BaseScene::Initialize(const YokosukaEngine* engine , const ModelHandleStore* modelHandleStore)
+void BaseScene::Initialize(const YokosukaEngine* engine , const ModelHandleStore* modelHandleStore, const TextureHandleStore* textureHandleStore)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(modelHandleStore);
+	assert(textureHandleStore);
 
 	// 引数を受け取る
 	engine_ = engine;
 	modelHandleStore_ = modelHandleStore;
+	textureHandleStore_ = textureHandleStore;
 
 	// シーンの生成と初期化
 	scene_ = std::make_unique<Scene>();
 	scene_->Initialize(engine);
+
+	// 2Dカメラの生成と初期化
+	camera2d_ = std::make_unique<Camera2D>();
+	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
 
 	// メインカメラの取得
 	mainCamera_ = scene_->GetMainCameraInstance();

@@ -22,7 +22,7 @@ public:
 private:
 
 	// 時間
-	float time_ = 4.0f;
+	float time_ = 2.0f;
 
 	// タイマー
 	float timer_ = 0.0f;

@@ -269,6 +269,18 @@ void Player::MoveGamepad()
 
 	// 速度 と スティックの距離 を反映させて移動させる
 	worldTransform_->translation_ += move * (speed * stickLength);
+
+	// 移動範囲を越えたら傾かなくなる
+	if (worldTransform_->translation_.x >= moveRange_.x || worldTransform_->translation_.x <= -moveRange_.x)
+	{
+		gimmickTilt_ = kStraight;
+	}
+
+	// 移動範囲を越えないようにする
+	worldTransform_->translation_.x = std::min(worldTransform_->translation_.x, moveRange_.x);
+	worldTransform_->translation_.x = std::max(worldTransform_->translation_.x, -moveRange_.x);
+	worldTransform_->translation_.y = std::min(worldTransform_->translation_.y, moveRange_.y);
+	worldTransform_->translation_.y = std::max(worldTransform_->translation_.y, -moveRange_.y);
 }
 
 /// <summary>

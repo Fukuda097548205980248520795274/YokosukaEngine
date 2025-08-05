@@ -6,9 +6,8 @@
 
 #include "Stage/Stage.h"
 
-#include "CenterAxis/CenterAxis.h"
-
 #include "BaseCharacter/Player/Player.h"
+#include "PlayerStateHud/PlayerStateHud.h"
 
 #include "BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
 #include "BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
@@ -29,7 +28,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="engine">エンジン</param>
-	void Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore) override;
+	void Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore, const TextureHandleStore* textureHandleStore) override;
 
 	/// <summary>
 	/// 更新処理
@@ -47,6 +46,12 @@ public:
 	/// <param name="shakeTime"></param>
 	/// <param name="shakeSize"></param>
 	void CameraShake(float shakeTime, float shakeSize) { mainCamera_->SetShake(shakeTime, shakeSize); }
+
+	/// <summary>
+	/// 敵を出現させる
+	/// </summary>
+	/// <param name="enemies"></param>
+	void EnemySummon(std::unique_ptr<BaseEnemy> enemy);
 
 	/// <summary>
 	/// プレイヤーの弾を発射する
@@ -109,12 +114,9 @@ private:
 	std::unique_ptr<Skydome> skydome_ = nullptr;
 
 
-	// 中心軸
-	std::unique_ptr<CenterAxis> centerAxis_ = nullptr;
-
-
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+	std::unique_ptr<PlayerStateHud> playerStateHud_ = nullptr;
 
 	// ゲームタイマー
 	const float* gameTimer_ = nullptr;
@@ -128,8 +130,4 @@ private:
 
 	// 敵の弾のリスト
 	std::list<std::unique_ptr<BaseEnemyBullet>> enemyBullets_;
-
-
-	// グロースクリーン
-	uint32_t screenHandleGrow_ = 0;
 };

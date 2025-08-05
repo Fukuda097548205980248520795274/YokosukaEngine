@@ -834,7 +834,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexResourceSprite_ = { nullptr };
 
 	// 頂点バッファリソース
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSprite_ = { nullptr };
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBufferResourceSprite_[1024] = { nullptr };
 
 	// マテリアルリソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> materialResourceSprite_[1024] = { nullptr };

@@ -1,6 +1,7 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../ModelHandleStore/ModelHandleStore.h"
+#include "../TextureHandleStore/TextureHandleStore.h"
 
 class BaseScene
 {
@@ -10,7 +11,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="engine"></param>
-	virtual void Initialize(const YokosukaEngine* engine , const ModelHandleStore* modelHandleStore);
+	virtual void Initialize(const YokosukaEngine* engine , const ModelHandleStore* modelHandleStore , const TextureHandleStore* textureHandleStore);
 
 	/// <summary>
 	/// 更新処理
@@ -33,6 +34,9 @@ protected:
 	// モデルハンドル格納場所
 	const ModelHandleStore* modelHandleStore_ = nullptr;
 
+	// テクスチャハンドル格納場所
+	const TextureHandleStore* textureHandleStore_ = nullptr;
+
 
 	// シーン
 	std::unique_ptr<Scene> scene_ = nullptr;
@@ -45,6 +49,9 @@ protected:
 
 	// 3Dカメラ
 	const Camera3D* camera3d_ = nullptr;
+
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
 
 
 	// 終了フラグ

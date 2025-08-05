@@ -4,10 +4,10 @@
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
-void ClearScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore)
+void ClearScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore, const TextureHandleStore* textureHandleStore)
 {
 	// 基底クラスの初期化
-	BaseScene::Initialize(engine, modelHandleStore);
+	BaseScene::Initialize(engine, modelHandleStore , textureHandleStore);
 }
 
 /// <summary>

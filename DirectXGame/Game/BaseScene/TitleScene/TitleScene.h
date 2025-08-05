@@ -3,6 +3,8 @@
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../../BaseScene/BaseScene.h"
 
+#include "TitleHud/TitleHud.h"
+
 class TitleScene : public BaseScene
 {
 public:
@@ -11,7 +13,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="engine"></param>
-	void Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore) override;
+	void Initialize(const YokosukaEngine* engine, const ModelHandleStore* modelHandleStore, const TextureHandleStore* textureHandleStore) override;
 
 	/// <summary>
 	/// 更新処理
@@ -25,6 +27,9 @@ public:
 
 private:
 
+
+	// タイトルのHUD
+	std::unique_ptr<TitleHud> titleHud_ = nullptr;
 
 	/*---------------
 		ビヘイビア
