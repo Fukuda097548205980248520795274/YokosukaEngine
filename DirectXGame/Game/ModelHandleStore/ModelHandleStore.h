@@ -8,6 +8,7 @@
 #include "BaseModelHandles/PlayerBulletStrongModelHandles/PlayerBulletStrongModelHandles.h"
 
 #include "BaseModelHandles/EnemyButterflyModelHandles/EnemyButterflyodelHandles.h"
+#include "BaseModelHandles/EnemyBirdModelHandles/EnemyBirdModelHandles.h"
 #include "BaseModelHandles/EnemyBulletWeekModelHandles/EnemyBulletWeekModelHandles.h"
 
 #include "BaseModelHandles/StageObjectSaturnPlanetModelHandles/StageObjectSaturnPlanetModelHandles.h"
@@ -35,6 +36,7 @@ public:
 		kPlayerBulletWeek,
 		kPlayerBulletStrong,
 		kEnemyButterfly,
+		kEnemyBird,
 		kEnemyBulletWeek,
 		kStageObjectSaturnPlanet,
 		kStageObjectBuildingA,

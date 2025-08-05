@@ -505,6 +505,12 @@
     <Filter Include="Game\BaseScene\TitleScene\TitleHud">
       <UniqueIdentifier>{fbeb40ab-39c3-44fb-9dd1-94cbff0fa11a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird">
+      <UniqueIdentifier>{d67a08b3-19de-4dbe-b80e-ea22511a680c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandle">
+      <UniqueIdentifier>{ca05a82f-78f9-4582-ad19-1810413cf167}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -959,6 +965,12 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.cpp">
       <Filter>Game\BaseScene\TitleScene\TitleHud</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\EnemyBird.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandles\EnemyBirdModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1417,6 +1429,12 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.h">
       <Filter>Game\BaseScene\TitleScene\TitleHud</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\EnemyBird.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandles\EnemyBirdModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
