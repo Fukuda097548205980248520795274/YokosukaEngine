@@ -3,6 +3,8 @@
 
 #include "../../BaseEnemyButterflyBehavior/BaseEnemyButterflyBehavior.h"
 
+#include "../../../../../BaseGimmick/GimmickFlapping/GimmickFlapping.h"
+
 class EnemyButterflyStateApproachingRearLeft : public BaseEnemyButterflyState
 {
 public:
@@ -21,13 +23,8 @@ public:
 
 private:
 
-	// 時間
-	float time_ = 2.0f;
-
-	// タイマー
-	float timer_ = 0.0f;
-
-	// ビヘイビア
-	std::unique_ptr<BaseEnemyButterflyBehavior> behavior_ = nullptr;
+	// 羽ばたきギミック
+	std::unique_ptr<GimmickFlapping> gimmickFlappingWingR_ = nullptr;
+	std::unique_ptr<GimmickFlapping> gimmickFlappingWingL_ = nullptr;
 };
 
