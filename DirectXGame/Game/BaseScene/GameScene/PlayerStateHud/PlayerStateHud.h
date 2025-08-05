@@ -43,5 +43,31 @@ private:
 
 	// テクスチャハンドル格納場所
 	const TextureHandleStore* textureHandleStore_ = nullptr;
+
+
+	// モデル
+	enum ModelName
+	{
+		kStateArea,
+		kHp,
+		kBulletEnergy,
+		kNumModel
+	};
+
+	// モデルの構造体
+	struct ModelStruct
+	{
+		// ワールドトランスフォーム
+		std::unique_ptr<WorldTransform> worldTransform = nullptr;
+
+		// モデルハンドル
+		uint32_t modelHandle = 0;
+
+		// 色
+		Vector4 color = { 1.0f , 1.0f , 1.0f , 1.0f };
+	};
+
+	// モデル
+	ModelStruct models_[kNumModel];
 };
 
