@@ -107,16 +107,20 @@ private:
 	const Vector3 kStartPosition[kNumModel] =
 	{
 		{0.0f,0.0f,0.0f},
-		{0.0f,0.25f,0.0f},
-		{0.0f,0.25f,0.0f}
+		{0.2f,0.2f,0.0f},
+		{-0.2f,0.2f,0.0f},
+		{1.2f,0.0f,0.2f},
+		{-1.2f,0.0f,0.2f}
 	};
 
 	// モデルの初期回転
 	const Vector3 kStartRotation[kNumModel] =
 	{
-		{0.0f , 0.0f , 0.0f},
-		{0.0f , 0.0f , 0.0f},
-		{0.0f , 0.0f , 0.0f}
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f}
 	};
 
 	// ポイントライト

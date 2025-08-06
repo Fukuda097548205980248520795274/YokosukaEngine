@@ -96,9 +96,6 @@ private:
 	void StageScriptUpdate();
 
 
-	// タイマー
-	float timer_ = 0.0f;
-
 	// クリアフラグ
 	bool isClear_ = false;
 

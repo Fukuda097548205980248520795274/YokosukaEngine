@@ -15,6 +15,8 @@
 
 #include "BaseCharacter/BaseEnemy/BaseEnemy.h"
 #include "BaseCharacter/BaseEnemy/EnemyButterfly/EnemyButterfly.h"
+#include "BaseCharacter/BaseEnemy/EnemyBird/EnemyBird.h"
+#include "BaseCharacter/BaseEnemy/EnemyStingray/EnemyStingray.h"
 
 #include "BaseBullet/BaseEnemyBullet/BaseEnemyBullet.h"
 

@@ -122,6 +122,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\ClearScene\ClearScene.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseBullet.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\BaseEnemyBirdBehavior.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\BaseEnemyBirdState.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\EnemyBird.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\BaseEnemyButterflyBehavior.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal\EnemyButterflyBehaviorNormal.cpp" />
@@ -286,6 +288,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\ClearScene\ClearScene.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseBullet.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\BaseEnemyBirdBehavior.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\BaseEnemyBirdState.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\EnemyBird.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\BaseEnemyButterflyBehavior.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal\EnemyButterflyBehaviorNormal.h" />

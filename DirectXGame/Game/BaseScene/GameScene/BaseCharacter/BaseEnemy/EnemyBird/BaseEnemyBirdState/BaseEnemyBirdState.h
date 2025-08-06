@@ -2,9 +2,9 @@
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
 // 前方宣言
-class EnemyButterfly;
+class EnemyBird;
 
-class BaseEnemyButterflyState
+class BaseEnemyBirdState
 {
 public:
 
@@ -12,7 +12,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="enemy"></param>
-	BaseEnemyButterflyState(EnemyButterfly* enemy) : enemy_(enemy) {};
+	BaseEnemyBirdState(EnemyBird* enemy) : enemy_(enemy) {};
 
 	/// <summary>
 	/// 更新処理
@@ -23,7 +23,7 @@ public:
 protected:
 
 	// 敵
-	EnemyButterfly* enemy_ = nullptr;
+	EnemyBird* enemy_ = nullptr;
 
 	// タイマー
 	float timer_ = 0.0f;

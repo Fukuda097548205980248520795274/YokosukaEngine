@@ -33,6 +33,10 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	modelHandles_[kEnemyBird] = std::make_unique<EnemyBirdModelHandles>();
 	modelHandles_[kEnemyBird]->Initialize(engine_);
 
+	// 敵 : エイ
+	modelHandles_[kEnemyStingray] = std::make_unique<EnemyStingrayModelHandles>();
+	modelHandles_[kEnemyStingray]->Initialize(engine_);
+
 	// プレイヤーのハンドル
 	modelHandles_[kEnemyBulletWeek] = std::make_unique<EnemyBulletWeekModelHandles>();
 	modelHandles_[kEnemyBulletWeek]->Initialize(engine_);

@@ -556,6 +556,12 @@
     <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerModelHandles">
       <UniqueIdentifier>{d5c64a14-91bf-4121-8875-4a29e4d26e13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState">
+      <UniqueIdentifier>{1301844e-a1ad-4048-9146-b1dfe7839252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior">
+      <UniqueIdentifier>{f70ac5f7-da73-4d8f-b404-30beb236a6a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1040,6 +1046,12 @@
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyStingrayModelHandles\EnemyStingrayModelHandles.cpp">
       <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyStingrayModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\BaseEnemyBirdState.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\BaseEnemyBirdBehavior.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1528,6 +1540,12 @@
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyStingrayModelHandles\EnemyStingrayModelHandles.h">
       <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyStingrayModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\BaseEnemyBirdState.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\BaseEnemyBirdBehavior.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

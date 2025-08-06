@@ -42,7 +42,7 @@ void CenterAxis::Initliaze(const YokosukaEngine* engine, const Camera3D* camera3
 void CenterAxis::Update()
 {
 
-	t_ += 0.0005f * (*gameTimer_);
+	//t_ += 0.0005f * (*gameTimer_);
 
 	// ゴールしたかどうか
 	if (t_ + 0.0001f > 1.0f)

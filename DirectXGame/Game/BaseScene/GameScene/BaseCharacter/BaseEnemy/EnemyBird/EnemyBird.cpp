@@ -28,7 +28,7 @@ void EnemyBird::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 		models_[i].worldTransform_->rotation_ = kStartRotation[i];
 
 		// モデルハンドルを読み込む
-		models_[i].modelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kEnemyButterfly)[i];
+		models_[i].modelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kEnemyBird)[i];
 
 		// ダメージカラーギミックの生成と初期化
 		models_[i].gimmickDamageColor_ = std::make_unique<GimmickDamageColor>();
@@ -37,23 +37,23 @@ void EnemyBird::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 
 	// 胴体の親と色を設定
 	models_[kBody].worldTransform_->SetParent(worldTransform_.get());
-	models_[kBody].color = Vector4(0.5f, 0.0f, 0.0f, 1.0f);
+	models_[kBody].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 
 	// 上の右の羽の親と色を設定
 	models_[kTopWingR].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
-	models_[kTopWingR].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
+	models_[kTopWingR].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 
 	// 上の左の羽の親と色を設定
 	models_[kTopWingL].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
-	models_[kTopWingL].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
+	models_[kTopWingL].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 
 	// 下の右の羽の親と色を設定
 	models_[kBottomWingR].worldTransform_->SetParent(models_[kTopWingR].worldTransform_.get());
-	models_[kBottomWingR].color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	models_[kBottomWingR].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 
 	// 下の左の羽の親と色を設定
 	models_[kBottomWingL].worldTransform_->SetParent(models_[kTopWingL].worldTransform_.get());
-	models_[kBottomWingL].color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	models_[kBottomWingL].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 
 
 	// ポイントライトの生成と初期化
@@ -67,6 +67,13 @@ void EnemyBird::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void EnemyBird::Update()
 {
+	ImGui::Begin("transform");
+	ImGui::DragFloat3("topWingR", &models_[kTopWingR].worldTransform_->translation_.x, 0.1f);
+	ImGui::DragFloat3("topWingL", &models_[kTopWingL].worldTransform_->translation_.x, 0.1f);
+	ImGui::DragFloat3("bottomWingR", &models_[kBottomWingR].worldTransform_->translation_.x, 0.1f);
+	ImGui::DragFloat3("bottomWingL", &models_[kBottomWingL].worldTransform_->translation_.x, 0.1f);
+	ImGui::End();
+
 	// 基底クラス更新
 	BaseEnemy::Update();
 

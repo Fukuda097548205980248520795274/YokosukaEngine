@@ -1,6 +1,7 @@
 #include "Stage.h"
 #include "../GameScene.h"
 #include "../BaseCharacter/BaseEnemy/EnemyButterfly/EnemyButterfly.h"
+#include "../BaseCharacter/BaseEnemy/EnemyBird/EnemyBird.h"
 #include "../BaseCharacter/Player/Player.h"
 
 /// <summary>
@@ -158,6 +159,16 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 	stageObject23->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(300.0f, 0.0f, 900.0f), Vector3(0.0f, 0.0f, 0.0f));
 	stageObject23->InfiniteTimer();
 	stageObjects_.push_back(std::move(stageObject23));
+
+
+
+	std::unique_ptr<EnemyStingray> enemy = std::make_unique<EnemyStingray>();
+	enemy->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 15.0f), 50);
+	enemy->SetGameScene(gameScene_);
+	enemy->SetParent(centerAxis_->GetWorldTransform());
+	enemy->SetGameTimer(gameFrame_);
+	enemy->SetTarget(target_);
+	gameScene_->EnemySummon(std::move(enemy));
 }
 
 /// <summary>
@@ -174,27 +185,6 @@ void Stage::Update()
 		isClear_ = true;
 		return;
 	}
-
-
-	// タイマーを進める
-	timer_ += 1.0f / 60.0f;
-
-	if (timer_ >= 1.5f)
-	{
-		float posX = static_cast<float>(rand() % 20 - 10);
-		float posY = static_cast<float>(rand() % 20 - 10);
-
-		std::unique_ptr<EnemyButterfly> enemy_ = std::make_unique<EnemyButterfly>();
-		enemy_->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(posX, posY, -30.0f), 5);
-		enemy_->SetGameScene(gameScene_);
-		enemy_->SetParent(centerAxis_->GetWorldTransform());
-		enemy_->SetTarget(target_);
-		enemy_->SetGameTimer(gameFrame_);
-
-		gameScene_->EnemySummon(std::move(enemy_));
-	}
-
-	timer_ = std::fmod(timer_, 1.5f);
 
 
 	// ステージオブジェクトの更新
