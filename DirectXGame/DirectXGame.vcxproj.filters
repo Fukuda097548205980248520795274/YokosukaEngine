@@ -343,21 +343,6 @@
     <Filter Include="Game\ModelHandleStore\BaseModelHandles">
       <UniqueIdentifier>{ecf9ed14-f302-4c5a-82da-e532758fac8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\EnemyButterflyModelHandle">
-      <UniqueIdentifier>{6286938e-d9ea-462d-8916-faefeda79902}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletWeekModelHandle">
-      <UniqueIdentifier>{8b226ad1-18b9-4173-b178-39f4631fc8fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandle">
-      <UniqueIdentifier>{ce39094a-33ec-41ba-ba4a-f97005e00b9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandle">
-      <UniqueIdentifier>{0ca8515e-0c81-4572-8a82-3f1f5995ba8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\PlayerModelHandles">
-      <UniqueIdentifier>{d5c64a14-91bf-4121-8875-4a29e4d26e13}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene">
       <UniqueIdentifier>{888e7eaf-da4b-4b8c-a876-5c37e2dd647b}</UniqueIdentifier>
     </Filter>
@@ -430,9 +415,6 @@
     <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet">
       <UniqueIdentifier>{69854a4c-c925-4074-b470-2ea38ad2acc2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles">
-      <UniqueIdentifier>{ed287c48-030f-464d-9f2b-9cf9b552968c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior">
       <UniqueIdentifier>{edc766d7-f0ce-4986-b1dd-9d93f92f287b}</UniqueIdentifier>
     </Filter>
@@ -453,18 +435,6 @@
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseEnemyGroup">
       <UniqueIdentifier>{b3ff7e40-0510-4712-9c2c-756e349783b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles">
-      <UniqueIdentifier>{fb9ab72f-ca1c-4135-ab5f-cb963353c5a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles">
-      <UniqueIdentifier>{37967ea0-3971-4a22-8485-59a20e7dac00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles">
-      <UniqueIdentifier>{956ae533-b879-4ce9-aadd-1d9e1baa745e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles">
-      <UniqueIdentifier>{d6fd1cbd-de5c-4693-9f60-590c1ce3d33c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA">
       <UniqueIdentifier>{2159293b-9134-4d5a-b7b3-d541e128036c}</UniqueIdentifier>
@@ -508,8 +478,83 @@
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird">
       <UniqueIdentifier>{d67a08b3-19de-4dbe-b80e-ea22511a680c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandle">
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy">
+      <UniqueIdentifier>{823cfc72-0ebc-41b1-b46c-6edd5fd4343d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil">
+      <UniqueIdentifier>{229c72c2-cfc5-4b28-81c4-68224590777a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet">
+      <UniqueIdentifier>{164834d6-0e8a-4c3c-9de4-73df0e57fbd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray">
+      <UniqueIdentifier>{76d6d45c-e055-4670-9c21-30d9591cc93c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject">
+      <UniqueIdentifier>{1d6220f5-5472-4a4f-83e0-8b8b7e425d1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingAModelHandles">
+      <UniqueIdentifier>{fb9ab72f-ca1c-4135-ab5f-cb963353c5a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingBModelHandles">
+      <UniqueIdentifier>{37967ea0-3971-4a22-8485-59a20e7dac00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingCModelHandles">
+      <UniqueIdentifier>{956ae533-b879-4ce9-aadd-1d9e1baa745e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingDModelHandles">
+      <UniqueIdentifier>{d6fd1cbd-de5c-4693-9f60-590c1ce3d33c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectSaturnPlanetModelHandles">
+      <UniqueIdentifier>{ed287c48-030f-464d-9f2b-9cf9b552968c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character">
+      <UniqueIdentifier>{b819ce66-8595-4c3c-9030-03e54cd26452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Enemy">
+      <UniqueIdentifier>{5f367059-171c-485f-a10e-e4c1727c5c75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyBirdModelHandle">
       <UniqueIdentifier>{ca05a82f-78f9-4582-ad19-1810413cf167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyButterflyModelHandle">
+      <UniqueIdentifier>{6286938e-d9ea-462d-8916-faefeda79902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyFairyModelHandles">
+      <UniqueIdentifier>{73799854-98fb-4f43-b9ab-f5af5ee9fdea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyDevilModelHandles">
+      <UniqueIdentifier>{d4152300-f940-49e7-af74-268af212f67f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyJetModelHandles">
+      <UniqueIdentifier>{70284c1f-bfd0-4264-9dae-b4c469088d42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyStingrayModelHandles">
+      <UniqueIdentifier>{b84978dc-421f-4cd2-8f30-2234a20a431c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet">
+      <UniqueIdentifier>{327c7dbc-31e3-4422-b0ce-a2882821950d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\PlayerBullet">
+      <UniqueIdentifier>{eff494bc-70a2-4c6f-995f-5b9060b416b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\PlayerBullet\PlayerBulletStrongModelHandle">
+      <UniqueIdentifier>{ce39094a-33ec-41ba-ba4a-f97005e00b9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\PlayerBullet\PlayerBulletWeekModelHandle">
+      <UniqueIdentifier>{0ca8515e-0c81-4572-8a82-3f1f5995ba8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet">
+      <UniqueIdentifier>{053d0454-347a-47a9-a280-815ec2cc3434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletWeekModelHandle">
+      <UniqueIdentifier>{8b226ad1-18b9-4173-b178-39f4631fc8fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player">
+      <UniqueIdentifier>{f42c4c3c-b86a-4dd8-9278-f627cd53ee00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerModelHandles">
+      <UniqueIdentifier>{d5c64a14-91bf-4121-8875-4a29e4d26e13}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -844,19 +889,19 @@
       <Filter>Game\ModelHandleStore\BaseModelHandles</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerModelHandles\PlayerModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\PlayerModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerModelHandles</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandles\PlayerBulletWeekModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\PlayerBullet\PlayerBulletWeekModelHandle</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandles\PlayerBulletStrongModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\PlayerBullet\PlayerBulletStrongModelHandle</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyButterflyModelHandles\EnemyButterflyodelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\EnemyButterflyModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyButterflyModelHandle</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletWeekModelHandles\EnemyBulletWeekModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\EnemyBulletWeekModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletWeekModelHandle</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\BaseScene.cpp">
       <Filter>Game\BaseScene</Filter>
@@ -913,22 +958,22 @@
       <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectSaturnPlanetModelHandles</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.cpp">
       <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles\StageObjectBuildingAModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingAModelHandles</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles\StageObjectBuildingBModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingBModelHandles</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles\StageObjectBuildingCModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingCModelHandles</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles\StageObjectBuildingDModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingDModelHandles</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA\StageObjectBuildingA.cpp">
       <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA</Filter>
@@ -970,7 +1015,31 @@
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandles\EnemyBirdModelHandles.cpp">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyBirdModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\EnemyFairy.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\EnemyDevil.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\EnemyJet.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\EnemyStingray.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyDevilModelHandles\EnemyDevilModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyDevilModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyFairyModelHandles\EnemyFairyModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyFairyModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyJetModelHandles\EnemyJetModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyJetModelHandles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyStingrayModelHandles\EnemyStingrayModelHandles.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyStingrayModelHandles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1308,19 +1377,19 @@
       <Filter>Game\ModelHandleStore\BaseModelHandles</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerModelHandles\PlayerModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\PlayerModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerModelHandles</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandles\PlayerBulletWeekModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\PlayerBullet\PlayerBulletWeekModelHandle</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandles\PlayerBulletStrongModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\PlayerBullet\PlayerBulletStrongModelHandle</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyButterflyModelHandles\EnemyButterflyodelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\EnemyButterflyModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyButterflyModelHandle</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletWeekModelHandles\EnemyBulletWeekModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\EnemyBulletWeekModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletWeekModelHandle</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\BaseScene.h">
       <Filter>Game\BaseScene</Filter>
@@ -1377,22 +1446,22 @@
       <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectSaturnPlanetModelHandles</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.h">
       <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles\StageObjectBuildingAModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingAModelHandles</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles\StageObjectBuildingBModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingBModelHandles</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles\StageObjectBuildingCModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingCModelHandles</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles\StageObjectBuildingDModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingDModelHandles</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA\StageObjectBuildingA.h">
       <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA</Filter>
@@ -1434,7 +1503,31 @@
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandles\EnemyBirdModelHandles.h">
-      <Filter>Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandle</Filter>
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyBirdModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\EnemyFairy.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\EnemyDevil.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\EnemyJet.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\EnemyStingray.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyDevilModelHandles\EnemyDevilModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyDevilModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyFairyModelHandles\EnemyFairyModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyFairyModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyJetModelHandles\EnemyJetModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyJetModelHandles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyStingrayModelHandles\EnemyStingrayModelHandles.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Enemy\EnemyStingrayModelHandles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

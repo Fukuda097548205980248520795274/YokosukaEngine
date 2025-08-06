@@ -4,15 +4,16 @@
 #include "BaseModelHandles/BaseModelHandles.h"
 
 #include "BaseModelHandles/PlayerModelHandles/PlayerModelHandles.h"
+
 #include "BaseModelHandles/PlayerBulletWeekModelHandles/PlayerBulletWeekModelHandles.h"
 #include "BaseModelHandles/PlayerBulletStrongModelHandles/PlayerBulletStrongModelHandles.h"
 
 #include "BaseModelHandles/EnemyButterflyModelHandles/EnemyButterflyodelHandles.h"
 #include "BaseModelHandles/EnemyBirdModelHandles/EnemyBirdModelHandles.h"
+
 #include "BaseModelHandles/EnemyBulletWeekModelHandles/EnemyBulletWeekModelHandles.h"
 
 #include "BaseModelHandles/StageObjectSaturnPlanetModelHandles/StageObjectSaturnPlanetModelHandles.h"
-
 #include "BaseModelHandles/StageObjectBuildingAModelHandles/StageObjectBuildingAModelHandles.h"
 #include "BaseModelHandles/StageObjectBuildingBModelHandles/StageObjectBuildingBModelHandles.h"
 #include "BaseModelHandles/StageObjectBuildingCModelHandles/StageObjectBuildingCModelHandles.h"

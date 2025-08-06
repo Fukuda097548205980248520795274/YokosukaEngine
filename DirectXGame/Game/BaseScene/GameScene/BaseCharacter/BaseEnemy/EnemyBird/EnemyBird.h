@@ -1,8 +1,6 @@
 #pragma once
 #include "../BaseEnemy.h"
 
-/*
-
 class EnemyBird : public BaseEnemy
 {
 public:
@@ -88,12 +86,6 @@ public:
 	void OnCollision(const BasePlayerBullet* playerBullet) override;
 
 	/// <summary>
-	/// ステートを変更
-	/// </summary>
-	/// <param name="state"></param>
-	void ChangeState(State state);
-
-	/// <summary>
 	/// 弾を発射する
 	/// </summary>
 	void BulletShot();
@@ -107,8 +99,6 @@ private:
 	void DamageColor() override;
 
 
-	// 状態
-	std::unique_ptr<BaseEnemyButterflyState> state_ = nullptr;
 
 	// モデル構造体
 	ModelStruct models_[kNumModel];
@@ -132,5 +122,3 @@ private:
 	// ポイントライト
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
 };
-
-*/

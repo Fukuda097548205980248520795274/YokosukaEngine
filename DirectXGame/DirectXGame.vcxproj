@@ -130,6 +130,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft\EnemyButterflyStateApproachingRearLeft.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop\EnemyButterflyStateStop.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\EnemyDevil.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\EnemyFairy.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\EnemyJet.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\EnemyStingray.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\BaseGimmick.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.cpp" />
@@ -161,6 +165,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandles\EnemyBirdModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletWeekModelHandles\EnemyBulletWeekModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyButterflyModelHandles\EnemyButterflyodelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyDevilModelHandles\EnemyDevilModelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyFairyModelHandles\EnemyFairyModelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyJetModelHandles\EnemyJetModelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyStingrayModelHandles\EnemyStingrayModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandles\PlayerBulletStrongModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandles\PlayerBulletWeekModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerModelHandles\PlayerModelHandles.cpp" />
@@ -286,6 +294,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft\EnemyButterflyStateApproachingRearLeft.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop\EnemyButterflyStateStop.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\EnemyDevil.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\EnemyFairy.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\EnemyJet.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\EnemyStingray.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\BaseGimmick.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.h" />
@@ -317,6 +329,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandles\EnemyBirdModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletWeekModelHandles\EnemyBulletWeekModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyButterflyModelHandles\EnemyButterflyodelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyDevilModelHandles\EnemyDevilModelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyFairyModelHandles\EnemyFairyModelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyJetModelHandles\EnemyJetModelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyStingrayModelHandles\EnemyStingrayModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandles\PlayerBulletStrongModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandles\PlayerBulletWeekModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerModelHandles\PlayerModelHandles.h" />
