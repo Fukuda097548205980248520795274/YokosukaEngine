@@ -162,7 +162,7 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 
 
 
-	std::unique_ptr<EnemyDevil> enemy = std::make_unique<EnemyDevil>();
+	std::unique_ptr<EnemyFairy> enemy = std::make_unique<EnemyFairy>();
 	enemy->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 15.0f), 50);
 	enemy->SetGameScene(gameScene_);
 	enemy->SetParent(centerAxis_->GetWorldTransform());
