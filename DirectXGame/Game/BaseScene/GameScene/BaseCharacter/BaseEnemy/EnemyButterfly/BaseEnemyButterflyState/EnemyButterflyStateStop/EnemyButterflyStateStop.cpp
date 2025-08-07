@@ -17,6 +17,13 @@ EnemyButterflyStateStop::EnemyButterflyStateStop(EnemyButterfly* enemy)
 	gimmickFloating_->SetGameTimer(enemy_->GetGameTimer());
 	gimmickFloating_->Initialize(enemy_->GetBodyWorldTransform(), 0.075f);
 	gimmickFloating_->SetAmplitude(0.25f);
+
+
+	// タイマー
+	timer_ = 0.0f;
+
+	// 時間
+	time_ = 5.0f;
 }
 
 /// <summary>

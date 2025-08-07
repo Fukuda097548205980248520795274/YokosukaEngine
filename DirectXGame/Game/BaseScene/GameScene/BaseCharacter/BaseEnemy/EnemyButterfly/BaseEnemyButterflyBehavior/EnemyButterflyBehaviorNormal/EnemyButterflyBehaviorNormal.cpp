@@ -35,13 +35,15 @@ void EnemyButterflyBehaviorNormal::Update()
 	// ゲームタイマーを取得する
 	const float* gameTimer = enemy_->GetGameTimer();
 
-	// タイマーを進める
-	shotTimer_ += kShotTimerVelocity * (*gameTimer);
-	shotTimer_ = std::min(shotTimer_, kShotTime);
 
 	// 羽ばたきギミックの更新
 	gimmickFlappingWingR_->Update();
 	gimmickFlappingWingL_->Update();
+
+
+	// タイマーを進める
+	shotTimer_ += kShotTimerVelocity * (*gameTimer);
+	shotTimer_ = std::min(shotTimer_, kShotTime);
 
 	// 時間が終わったら終了する
 	if (shotTimer_ >= kShotTime)

@@ -8,8 +8,6 @@ class BaseEnemyButterflyBehavior
 {
 public:
 
-	virtual ~BaseEnemyButterflyBehavior() = default;
-
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>

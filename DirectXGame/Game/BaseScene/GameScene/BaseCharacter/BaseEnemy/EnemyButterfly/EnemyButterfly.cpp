@@ -17,33 +17,16 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 
 	hitSize_ = { 2.0f , 2.0f , 1.0f };
 
-	// 胴体の初期化
-	models_[kBody].worldTransform_ = std::make_unique<WorldTransform>();
-	models_[kBody].worldTransform_->Initialize();
-	models_[kBody].worldTransform_->SetParent(worldTransform_.get());
-	models_[kBody].worldTransform_->translation_ = kStartPosition[kBody];
-	models_[kBody].worldTransform_->rotation_ = kStartRotation[kBody];
-	models_[kBody].color = Vector4(0.5f, 0.0f, 0.0f, 1.0f);
-
-	// 右の羽の初期化
-	models_[kWingR].worldTransform_ = std::make_unique<WorldTransform>();
-	models_[kWingR].worldTransform_->Initialize();
-	models_[kWingR].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
-	models_[kWingR].worldTransform_->translation_ = kStartPosition[kWingR];
-	models_[kWingR].worldTransform_->rotation_ = kStartRotation[kWingR];
-	models_[kWingR].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
-
-	// 左の羽の初期化
-	models_[kWingL].worldTransform_ = std::make_unique<WorldTransform>();
-	models_[kWingL].worldTransform_->Initialize();
-	models_[kWingL].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
-	models_[kWingL].worldTransform_->translation_ = kStartPosition[kWingL];
-	models_[kWingL].worldTransform_->rotation_ = kStartRotation[kWingL];
-	models_[kWingL].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
 
 	// 共通した処理
 	for (uint32_t i = 0; i < kNumModel; i++)
 	{
+		// ワールドトランスフォームの生成と初期化
+		models_[i].worldTransform_ = std::make_unique<WorldTransform>();
+		models_[i].worldTransform_->Initialize();
+		models_[i].worldTransform_->translation_ = kStartPosition[i];
+		models_[i].worldTransform_->rotation_ = kStartRotation[i];
+
 		// モデルハンドルを読み込む
 		models_[i].modelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kEnemyButterfly)[i];
 
@@ -51,6 +34,18 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 		models_[i].gimmickDamageColor_ = std::make_unique<GimmickDamageColor>();
 		models_[i].gimmickDamageColor_->Initialize(models_[i].worldTransform_.get(), 1.0f / 3.0f);
 	}
+
+	// 胴体の親と色を設定
+	models_[kBody].worldTransform_->SetParent(worldTransform_.get());
+	models_[kBody].color = Vector4(0.5f, 0.0f, 0.0f, 1.0f);
+
+	// 右の羽の親と色を設定
+	models_[kWingR].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
+	models_[kWingR].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
+
+	// 左の羽の親と色を設定
+	models_[kWingL].worldTransform_->SetParent(models_[kBody].worldTransform_.get());
+	models_[kWingL].color = Vector4(0.5f, 0.5f, 1.0f, 1.0f);
 
 
 	// ポイントライトの生成と初期化

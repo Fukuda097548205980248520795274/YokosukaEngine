@@ -8,8 +8,6 @@ class BaseEnemyButterflyState
 {
 public:
 
-	virtual ~BaseEnemyButterflyState() = default;
-
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -26,5 +24,11 @@ protected:
 
 	// 敵
 	EnemyButterfly* enemy_ = nullptr;
+
+	// タイマー
+	float timer_ = 0.0f;
+
+	// 時間
+	float time_ = 0.0f;
 };
 

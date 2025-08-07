@@ -8,11 +8,28 @@
 EnemyButterflyStateApproachingRearLeft::EnemyButterflyStateApproachingRearLeft(EnemyButterfly* enemy)
 	: BaseEnemyButterflyState(enemy) 
 {
-	behavior_ = std::make_unique<EnemyButterflyBehaviorNormal>(enemy);
-
 	// ワールドトランスフォームを取得する
 	WorldTransform* worldTransform = enemy_->GetWorldTransform();
 	worldTransform->translation_.z += -50.0f;
+
+
+	// 羽ばたきギミックの生成と初期化
+	gimmickFlappingWingR_ = std::make_unique<GimmickFlapping>();
+	gimmickFlappingWingR_->SetGameTimer(enemy_->GetGameTimer());
+	gimmickFlappingWingR_->Initialize(enemy_->GetWingRWorldTransform(), 0.085f);
+	gimmickFlappingWingR_->SetAmplitude(0.75f);
+
+	gimmickFlappingWingL_ = std::make_unique<GimmickFlapping>();
+	gimmickFlappingWingL_->SetGameTimer(enemy_->GetGameTimer());
+	gimmickFlappingWingL_->Initialize(enemy_->GetWingLWorldTransform(), -0.085f);
+	gimmickFlappingWingL_->SetAmplitude(0.75f);
+
+
+	// 時間
+	time_ = 2.0f;
+
+	// タイマー
+	timer_ = 0.0f;
 }
 
 /// <summary>
@@ -26,13 +43,17 @@ void EnemyButterflyStateApproachingRearLeft::Update()
 	// ゲームタイマーを取得する
 	const float* gameTimer = enemy_->GetGameTimer();
 
+
+
+	// 羽ばたきギミックの更新
+	gimmickFlappingWingR_->Update();
+	gimmickFlappingWingL_->Update();
+
+
 	// 奥に進む
 	worldTransform->translation_.z += 1.0f * (*gameTimer);
 
-
-	// ビヘイビア更新
-	behavior_->Update();
-
+	// タイマーを進める
 	timer_ += (1.0f / 60.0f) * (*gameTimer);
 
 	// タイマーを越えたら停止状態に移行する
