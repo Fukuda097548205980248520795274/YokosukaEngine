@@ -59,11 +59,6 @@ void EnemyStingray::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 /// </summary>
 void EnemyStingray::Update()
 {
-	ImGui::Begin("transform");
-	ImGui::DragFloat3("topWingR", &models_[kWingR].worldTransform_->translation_.x, 0.1f);
-	ImGui::DragFloat3("topWingL", &models_[kWingL].worldTransform_->translation_.x, 0.1f);
-	ImGui::End();
-
 	// 基底クラス更新
 	BaseEnemy::Update();
 
