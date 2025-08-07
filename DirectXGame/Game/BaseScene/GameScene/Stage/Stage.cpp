@@ -162,7 +162,7 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 
 
 
-	std::unique_ptr<EnemyFairy> enemy = std::make_unique<EnemyFairy>();
+	std::unique_ptr<EnemyJet> enemy = std::make_unique<EnemyJet>();
 	enemy->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 15.0f), 50);
 	enemy->SetGameScene(gameScene_);
 	enemy->SetParent(centerAxis_->GetWorldTransform());

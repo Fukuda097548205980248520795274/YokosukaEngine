@@ -37,6 +37,10 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	modelHandles_[kEnemyStingray] = std::make_unique<EnemyStingrayModelHandles>();
 	modelHandles_[kEnemyStingray]->Initialize(engine_);
 
+	// 敵 : 戦闘機
+	modelHandles_[kEnemyJet] = std::make_unique<EnemyJetModelHandles>();
+	modelHandles_[kEnemyJet]->Initialize(engine_);
+
 	// 敵 : 妖精
 	modelHandles_[kEnemyFairy] = std::make_unique<EnemyFairyModelHandles>();
 	modelHandles_[kEnemyFairy]->Initialize(engine_);

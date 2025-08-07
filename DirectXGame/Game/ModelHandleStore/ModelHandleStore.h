@@ -11,6 +11,7 @@
 #include "BaseModelHandles/EnemyButterflyModelHandles/EnemyButterflyodelHandles.h"
 #include "BaseModelHandles/EnemyBirdModelHandles/EnemyBirdModelHandles.h"
 #include "BaseModelHandles/EnemyStingrayModelHandles/EnemyStingrayModelHandles.h"
+#include "BaseModelHandles/EnemyJetModelHandles/EnemyJetModelHandles.h"
 #include "BaseModelHandles/EnemyFairyModelHandles/EnemyFairyModelHandles.h"
 #include "BaseModelHandles/EnemyDevilModelHandles/EnemyDevilModelHandles.h"
 
@@ -42,6 +43,7 @@ public:
 		kEnemyButterfly,
 		kEnemyBird,
 		kEnemyStingray,
+		kEnemyJet,
 		kEnemyFairy,
 		kEnemyDevil,
 		kEnemyBulletWeek,
