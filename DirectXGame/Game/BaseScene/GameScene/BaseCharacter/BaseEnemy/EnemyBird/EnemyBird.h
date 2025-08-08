@@ -1,6 +1,8 @@
 #pragma once
 #include "../BaseEnemy.h"
 
+#include "../../../BaseGimmick/GimmickFloating/GimmickFloating.h"
+
 #include "BaseEnemyBirdState/EnemyBirdStateApproachingRear/EnemyBirdStateApproacingRear.h"
 #include "BaseEnemyBirdState/EnemyBirdStateAwayTop/EnemyBirdStateAwayTop.h"
 
@@ -143,4 +145,8 @@ private:
 
 	// ポイントライト
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
+
+
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 };

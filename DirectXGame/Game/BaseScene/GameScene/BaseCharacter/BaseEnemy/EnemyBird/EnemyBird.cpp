@@ -62,6 +62,11 @@ void EnemyBird::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 
 	// ステートの生成
 	state_ = std::make_unique<EnemyBirdStateApproacingRear>(this);
+
+	// 浮遊ギミックの生成と初期化
+	gimmickFloating_ = std::make_unique<GimmickFloating>();
+	gimmickFloating_->Initialize(models_[kBody].worldTransform_.get(), 0.7f);
+	gimmickFloating_->SetAmplitude(0.03f);
 }
 
 
@@ -70,6 +75,9 @@ void EnemyBird::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void EnemyBird::Update()
 {
+	// 浮遊ギミックの更新
+	gimmickFloating_->Update();
+
 	// ステート更新
 	state_->Update();
 

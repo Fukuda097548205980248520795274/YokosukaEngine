@@ -55,6 +55,10 @@ void EnemyStingray::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 
 	// ステートの生成
 	state_ = std::make_unique<EnemyStingrayStateApproachingRear>(this);
+
+	// 浮遊ギミックの生成と初期化
+	gimmickFloating_ = std::make_unique<GimmickFloating>();
+	gimmickFloating_->Initialize(models_[kBody].worldTransform_.get(), 0.02f);
 }
 
 
@@ -63,6 +67,9 @@ void EnemyStingray::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 /// </summary>
 void EnemyStingray::Update()
 {
+	// 浮遊ギミックの更新
+	gimmickFloating_->Update();
+
 	// ステート更新
 	state_->Update();
 
