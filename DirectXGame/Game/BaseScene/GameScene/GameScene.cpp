@@ -27,7 +27,7 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 0.0f), 100);
+	player_->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 0.0f), 5);
 	player_->SetGameScene(this);
 	player_->SetParent(mainCamera_->GetPivotWorldTransform());
 
@@ -39,6 +39,9 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer(),this);
 	stage_->SetTarget(player_.get());
+
+	// 敵を生成する
+	stage_->SummonEnemy();
 
 	// 中心軸をメインカメラの親とする
 	mainCamera_->SetPivotParent(stage_->GetCenterAxisWorldTransform());

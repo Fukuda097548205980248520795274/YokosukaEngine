@@ -23,6 +23,11 @@ void PlayerHUDHp::Initialize(const YokosukaEngine* engine, const Camera3D* camer
 /// </summary>
 void PlayerHUDHp::Update()
 {
+	// 体力の割合を求める
+	float t = static_cast<float>(*hp_) / static_cast<float>(maxHp_);
+
+	// 割合で体力バーのサイズを調整する
+	worldTransform_->scale_.x = t;
 
 	// 基底クラスを更新
 	BasePlayerHUD::Update();

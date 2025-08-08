@@ -159,16 +159,6 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 	stageObject23->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 1.0f, Vector3(300.0f, 0.0f, 900.0f), Vector3(0.0f, 0.0f, 0.0f));
 	stageObject23->InfiniteTimer();
 	stageObjects_.push_back(std::move(stageObject23));
-
-
-
-	std::unique_ptr<EnemyDevil> enemy = std::make_unique<EnemyDevil>();
-	enemy->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 15.0f), 50);
-	enemy->SetGameScene(gameScene_);
-	enemy->SetParent(centerAxis_->GetWorldTransform());
-	enemy->SetGameTimer(gameFrame_);
-	enemy->SetTarget(target_);
-	gameScene_->EnemySummon(std::move(enemy));
 }
 
 /// <summary>
@@ -249,4 +239,19 @@ void Stage::LoadStageScript(const char* filePath)
 void Stage::StageScriptUpdate()
 {
 
+}
+
+
+/// <summary>
+/// 敵を生成する
+/// </summary>
+void Stage::SummonEnemy()
+{
+	std::unique_ptr<EnemyButterfly> enemy = std::make_unique<EnemyButterfly>();
+	enemy->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 15.0f), 50);
+	enemy->SetGameScene(gameScene_);
+	enemy->SetParent(centerAxis_->GetWorldTransform());
+	enemy->SetGameTimer(gameFrame_);
+	enemy->SetTarget(target_);
+	gameScene_->EnemySummon(std::move(enemy));
 }

@@ -21,5 +21,26 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// 最大の弾エネルギーのSetter
+	/// </summary>
+	/// <param name="maxBulletEnergy"></param>
+	void SetMaxBulletEnergy(float maxBulletEnergy) { maxBulletEnergy_ = maxBulletEnergy; }
+
+	/// <summary>
+	/// 弾エネルギーのSetter
+	/// </summary>
+	/// <param name="bulletEnergy"></param>
+	void SetBulletEnergy(const float* bulletEnergy) { bulletEnergy_ = bulletEnergy; }
+
+
+private:
+
+	// 最大の弾エネルギー
+	float maxBulletEnergy_ = 0.0f;
+
+	// 弾エネルギー
+	const float* bulletEnergy_ = nullptr;
 };
 

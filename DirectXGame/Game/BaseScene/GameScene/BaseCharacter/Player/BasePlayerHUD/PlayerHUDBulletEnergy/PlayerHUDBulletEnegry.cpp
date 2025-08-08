@@ -23,6 +23,12 @@ void PlayerHUDBulletEnegry::Initialize(const YokosukaEngine* engine, const Camer
 /// </summary>
 void PlayerHUDBulletEnegry::Update()
 {
+	// 割合を求める
+	float t = *bulletEnergy_ / maxBulletEnergy_;
+
+	// 割合で大きさを調整する
+	worldTransform_->scale_.x = t;
+
 	// 基底クラスを更新
 	BasePlayerHUD::Update();
 }

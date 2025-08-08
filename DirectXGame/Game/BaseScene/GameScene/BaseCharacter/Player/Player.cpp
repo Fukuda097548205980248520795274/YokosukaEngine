@@ -48,10 +48,14 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	// HP
 	hudHp_ = std::make_unique<PlayerHUDHp>();
 	hudHp_->Initialize(engine_, hudCamera3d_.get(), modelHandleStore_);
+	hudHp_->SetHp(&hp_);
+	hudHp_->SetMaxHp(hp_);
 
 	// 弾のエネルギー
 	hudBulletEnergy_ = std::make_unique<PlayerHUDBulletEnegry>();
 	hudBulletEnergy_->Initialize(engine_, hudCamera3d_.get(), modelHandleStore_);
+	hudBulletEnergy_->SetMaxBulletEnergy(kBigShotTime);
+	hudBulletEnergy_->SetBulletEnergy(&shotTimer_);
 
 	// テキスト : HP
 	hudTextHp_ = std::make_unique<PlayerHUDTextHp>();
