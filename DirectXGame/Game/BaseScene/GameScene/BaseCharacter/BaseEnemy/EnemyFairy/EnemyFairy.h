@@ -1,6 +1,10 @@
 #pragma once
 #include "../BaseEnemy.h"
 
+#include "BaseEnemyFairyState/EnemyFairyStateApproachingRear/EnemyFairyStateApproachingRear.h"
+#include "BaseEnemyFairyState/EnemyFairyStateAwayTop/EnemyFairyStateAwayTop.h"
+#include "BaseEnemyFairyState/EnemyFairyStateStop/EnemyFairyStateStop.h"
+
 class EnemyFairy : public BaseEnemy
 {
 public:
@@ -18,6 +22,14 @@ public:
 		kWingL,
 		kWeapon,
 		kNumModel
+	};
+
+	// ステート
+	enum State
+	{
+		kApproachingRear,
+		kStop,
+		kAwayTop
 	};
 
 
@@ -120,6 +132,12 @@ public:
 	/// </summary>
 	void BulletShot();
 
+	/// <summary>
+	/// ステートを変更
+	/// </summary>
+	/// <param name="state"></param>
+	void ChangeState(State state);
+
 
 private:
 
@@ -129,6 +147,8 @@ private:
 	void DamageColor() override;
 
 
+	// 状態
+	std::unique_ptr<BaseEnemyFairyState> state_ = nullptr;
 
 	// モデル構造体
 	ModelStruct models_[kNumModel];

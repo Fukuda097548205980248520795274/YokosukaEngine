@@ -64,6 +64,9 @@ void EnemyDevil::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 	// ポイントライトの生成と初期化
 	pointLight_ = std::make_unique<PointLight>();
 	pointLight_->Initialize();
+
+	// ステートの生成
+	state_ = std::make_unique<EnemyDevilStateApproachingRear>(this);
 }
 
 
@@ -72,6 +75,8 @@ void EnemyDevil::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 /// </summary>
 void EnemyDevil::Update()
 {
+	// ステート更新
+	state_->Update();
 
 	// 基底クラス更新
 	BaseEnemy::Update();
@@ -168,6 +173,34 @@ void EnemyDevil::BulletShot()
 
 	// ゲームシーンのリストに追加する
 	gameScene_->EnemyBulletShot(std::move(enemyBullet));
+}
+
+/// <summary>
+/// ステートを変更
+/// </summary>
+/// <param name="state"></param>
+void EnemyDevil::ChangeState(State state)
+{
+	switch (state)
+	{
+	case kApproachingRear:
+		// 後方から
+		state_ = std::move(std::make_unique<EnemyDevilStateApproachingRear>(this));
+
+		break;
+
+	case kStop:
+		// 停止
+		state_ = std::move(std::make_unique<EnemyDevilStateStop>(this));
+
+		break;
+
+	case kAwayTop:
+		// 上方向に離脱
+		state_ = std::move(std::make_unique<EnemyDevilStateAwayTop>(this));
+
+		break;
+	}
 }
 
 /// <summary>

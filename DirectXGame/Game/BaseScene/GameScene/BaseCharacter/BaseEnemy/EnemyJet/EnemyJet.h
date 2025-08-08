@@ -1,6 +1,9 @@
 #pragma once
 #include "../BaseEnemy.h"
 
+#include "BaseEnemyJetState/EnemyJetStateApproachingRear/EnemyJetStateApproachingRear.h"
+#include "BaseEnemyJetState/EnemyJetStateAwayTop/EnemyJetStateAwayTop.h"
+
 class EnemyJet : public BaseEnemy
 {
 public:
@@ -10,6 +13,13 @@ public:
 	{
 		kBody,
 		kNumModel
+	};
+
+	// ステート
+	enum State
+	{
+		kApproachingRear,
+		kAwayTop
 	};
 
 
@@ -62,6 +72,12 @@ public:
 	/// </summary>
 	void BulletShot();
 
+	/// <summary>
+	/// ステートを変更
+	/// </summary>
+	/// <param name="state"></param>
+	void ChangeState(State state);
+
 
 private:
 
@@ -71,6 +87,8 @@ private:
 	void DamageColor() override;
 
 
+	// 状態
+	std::unique_ptr<BaseEnemyJetState> state_ = nullptr;
 
 	// モデル構造体
 	ModelStruct models_[kNumModel];

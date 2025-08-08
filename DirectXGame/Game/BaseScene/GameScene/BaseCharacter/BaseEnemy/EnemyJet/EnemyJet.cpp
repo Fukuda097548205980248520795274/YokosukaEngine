@@ -41,6 +41,10 @@ void EnemyJet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d
 	// ポイントライトの生成と初期化
 	pointLight_ = std::make_unique<PointLight>();
 	pointLight_->Initialize();
+
+
+	// ステートの生成
+	state_ = std::make_unique<EnemyJetStateApproachingRear>(this);
 }
 
 
@@ -49,6 +53,9 @@ void EnemyJet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d
 /// </summary>
 void EnemyJet::Update()
 {
+	// ステート更新
+	state_->Update();
+
 	// 基底クラス更新
 	BaseEnemy::Update();
 
@@ -144,6 +151,28 @@ void EnemyJet::BulletShot()
 
 	// ゲームシーンのリストに追加する
 	gameScene_->EnemyBulletShot(std::move(enemyBullet));
+}
+
+/// <summary>
+/// ステートを変更
+/// </summary>
+/// <param name="state"></param>
+void EnemyJet::ChangeState(State state)
+{
+	switch (state)
+	{
+	case kApproachingRear:
+		// 後方から
+		state_ = std::move(std::make_unique<EnemyJetStateApproachingRear>(this));
+
+		break;
+
+	case kAwayTop:
+		// 上に逃げる
+		state_ = std::move(std::make_unique<EnemyJetStateAwayTop>(this));
+
+		break;
+	}
 }
 
 /// <summary>
