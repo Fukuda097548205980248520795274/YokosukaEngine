@@ -7,7 +7,6 @@
 #include "Stage/Stage.h"
 
 #include "BaseCharacter/Player/Player.h"
-#include "PlayerStateHud/PlayerStateHud.h"
 
 #include "BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
 #include "BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
@@ -121,7 +120,6 @@ private:
 
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
-	std::unique_ptr<PlayerStateHud> playerStateHud_ = nullptr;
 
 	// ゲームタイマー
 	const float* gameTimer_ = nullptr;

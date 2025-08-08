@@ -34,10 +34,6 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	// ゲームタイマーを取得する
 	gameTimer_ = player_->GetGameTimer();
 
-	// プレイヤーのHUDの生成と初期化
-	playerStateHud_ = std::make_unique<PlayerStateHud>();
-	playerStateHud_->Initialize(engine_, camera3d_, camera2d_.get(), modelHandleStore_, textureHandleStore_);
-
 
 	// ステージの生成と初期化
 	stage_ = std::make_unique<Stage>();
@@ -110,9 +106,6 @@ void GameScene::Update()
 	// プレイヤーの弾の更新
 	PlayerBulletUpdate();
 
-	// プレイヤーのHUDの更新
-	playerStateHud_->Update();
-
 	// 敵の更新
 	EnemyUpdate();
 
@@ -159,15 +152,16 @@ void GameScene::Draw()
 		enemyBullet->Draw();
 	}
 
+
+	// プレイヤーのHUD
+	player_->DrawHUD();
+
+
 	// ポーズの描画
 	pose_->Draw();
 
 	// Scene描画
 	BaseScene::Draw();
-
-
-	// プレイヤーのHUDの描画
-	playerStateHud_->Draw();
 }
 
 

@@ -33,6 +33,31 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 	gimmickFloating_->Initialize(bodyWorldTransform_.get(), 0.05f);
 
 
+	/*---------
+	    HUD
+	---------*/
+
+	// HUD用カメラの生成と初期化
+	hudCamera3d_ = std::make_unique<Camera3D>();
+	hudCamera3d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+	// ステートエリアの生成と初期化
+	hudStateArea_ = std::make_unique<PlayerHUDStateArea>();
+	hudStateArea_->Initialize(engine_, hudCamera3d_.get(), modelHandleStore_);
+
+	// HP
+	hudHp_ = std::make_unique<PlayerHUDHp>();
+	hudHp_->Initialize(engine_, hudCamera3d_.get(), modelHandleStore_);
+
+	// 弾のエネルギー
+	hudBulletEnergy_ = std::make_unique<PlayerHUDBulletEnegry>();
+	hudBulletEnergy_->Initialize(engine_, hudCamera3d_.get(), modelHandleStore_);
+
+	// テキスト : HP
+	hudTextHp_ = std::make_unique<PlayerHUDTextHp>();
+	hudTextHp_->Initialize(engine_, hudCamera3d_.get(), modelHandleStore_);
+
+
 	/*-------------
 	    サウンド
 	-------------*/
@@ -80,6 +105,23 @@ void Player::Update()
 
 	// 本体の位置にポイントライトを置く
 	bodyPointLight_->position_ = GetBodyWorldPosition();
+
+
+
+	// HUD用カメラの更新
+	hudCamera3d_->UpdateMatrix();
+
+	// ステートエリアの更新
+	hudStateArea_->Update();
+
+	// HPの更新
+	hudHp_->Update();
+
+	// 弾のエネルギーの更新
+	hudBulletEnergy_->Update();
+
+	// テキスト : HPの更新
+	hudTextHp_->Update();
 }
 
 /// <summary>
@@ -92,6 +134,24 @@ void Player::Draw()
 
 	// 本体を描画する
 	engine_->DrawModel(bodyWorldTransform_.get(), camera3d_, bodyModelHandle_, Vector4(0.0f, 0.0f, 0.0f, 1.0f), true);
+}
+
+/// <summary>
+/// HUDの描画処理
+/// </summary>
+void Player::DrawHUD()
+{
+	// ステートエリアの描画
+	hudStateArea_->Draw();
+
+	// HPの更新
+	hudHp_->Draw();
+
+	// 弾のエネルギーの描画
+	hudBulletEnergy_->Draw();
+
+	// テキスト : HPの描画
+	hudTextHp_->Draw();
 }
 
 

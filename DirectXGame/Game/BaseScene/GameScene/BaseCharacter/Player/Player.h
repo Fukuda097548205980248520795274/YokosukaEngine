@@ -5,6 +5,11 @@
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
+#include "BasePlayerHUD/PlayerHUDStateArea/PlayerHUDStateArea.h"
+#include "BasePlayerHUD/PlayerHUDHp/PlayerHUDHp.h"
+#include "BasePlayerHUD/PlayerHUDTextHp/PlayerHUDTextHp.h"
+#include "BasePlayerHUD/PlayerHudBulletEnergy/PlayerHUDBulletEnegry.h"
+
 #include "../../BaseGimmick/GimmickFloating/GimmickFloating.h"
 
 // 前方宣言
@@ -33,6 +38,11 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// HUDの描画処理
+	/// </summary>
+	void DrawHUD();
 
 	/// <summary>
 	/// ゲームタイマーのインスタンスのGetter
@@ -288,5 +298,26 @@ private:
 
 	// 発射したときのゴール地点
 	const Vector3 shotGoal_ = Vector3(0.0f, 0.0f, 0.0f);
+
+
+
+	/*----------
+	    HUD
+	----------*/
+
+	// HUD用カメラ
+	std::unique_ptr<Camera3D> hudCamera3d_ = nullptr;
+
+	// ステートのエリア
+	std::unique_ptr<PlayerHUDStateArea> hudStateArea_ = nullptr;
+
+	// HP
+	std::unique_ptr<PlayerHUDHp> hudHp_ = nullptr;
+
+	// 弾のエネルギー
+	std::unique_ptr<PlayerHUDBulletEnegry> hudBulletEnergy_ = nullptr;
+
+	// テキスト : HP
+	std::unique_ptr<PlayerHUDTextHp> hudTextHp_ = nullptr;
 };
 

@@ -352,9 +352,6 @@
     <Filter Include="Game\BaseScene\GameScene\Skydome">
       <UniqueIdentifier>{9f1d50d8-4b34-4ef6-8df0-48713bd1fd62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\PlayerStateHud">
-      <UniqueIdentifier>{7d067d9d-a0ab-432a-a514-f26719bf0fa1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\TitleScene">
       <UniqueIdentifier>{3428f662-9a98-484a-9eb1-6f48dee47e4b}</UniqueIdentifier>
     </Filter>
@@ -621,6 +618,21 @@
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateAwayTop">
       <UniqueIdentifier>{8f9768ed-5f18-4ac8-8d60-466ba56bb16e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD">
+      <UniqueIdentifier>{66d3ab37-3754-41bb-8450-edf1ec267c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp">
+      <UniqueIdentifier>{b5b8199c-837c-49fc-b220-abca59e3cfbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea">
+      <UniqueIdentifier>{6d2d69c9-a627-4c06-a28f-72ae330a8dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnegry">
+      <UniqueIdentifier>{0c34e3f7-5643-4989-b9f3-362d528d0522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp">
+      <UniqueIdentifier>{cd18d873-5152-4a16-8afc-10a0d2ec6001}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -942,9 +954,6 @@
     <ClCompile Include="Game\BaseScene\GameScene\Stage\CenterAxis\CenterAxis.cpp">
       <Filter>Game\BaseScene\GameScene\Stage\CenterAxis</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.cpp">
-      <Filter>Game\BaseScene\GameScene\PlayerStateHud</Filter>
-    </ClCompile>
     <ClCompile Include="Game\BaseScene\TitleScene\TitleScene.cpp">
       <Filter>Game\BaseScene\TitleScene</Filter>
     </ClCompile>
@@ -1172,6 +1181,21 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateAwayTop\EnemyDevilStateAwayTop.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateAwayTop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\BasePlayerHUD.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea\PlayerHUDStateArea.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp\PlayerHUDHp.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp\PlayerHUDTextHp.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnergy\PlayerHUDBulletEnegry.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnegry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1496,9 +1520,6 @@
     <ClInclude Include="Game\BaseScene\GameScene\Stage\CenterAxis\CenterAxis.h">
       <Filter>Game\BaseScene\GameScene\Stage\CenterAxis</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.h">
-      <Filter>Game\BaseScene\GameScene\PlayerStateHud</Filter>
-    </ClInclude>
     <ClInclude Include="Game\BaseScene\TitleScene\TitleScene.h">
       <Filter>Game\BaseScene\TitleScene</Filter>
     </ClInclude>
@@ -1726,6 +1747,21 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateAwayTop\EnemyDevilStateAwayTop.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateAwayTop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\BasePlayerHUD.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea\PlayerHUDStateArea.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp\PlayerHUDHp.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp\PlayerHUDTextHp.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnergy\PlayerHUDBulletEnegry.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnegry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
