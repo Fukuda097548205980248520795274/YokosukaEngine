@@ -27,22 +27,21 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 0.0f), 100);
+	player_->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 0.0f), 5);
 	player_->SetGameScene(this);
 	player_->SetParent(mainCamera_->GetPivotWorldTransform());
 
 	// ゲームタイマーを取得する
 	gameTimer_ = player_->GetGameTimer();
 
-	// プレイヤーのHUDの生成と初期化
-	playerStateHud_ = std::make_unique<PlayerStateHud>();
-	playerStateHud_->Initialize(engine_, camera3d_, camera2d_.get(), modelHandleStore_, textureHandleStore_);
-
 
 	// ステージの生成と初期化
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer(),this);
 	stage_->SetTarget(player_.get());
+
+	// 敵を生成する
+	stage_->SummonEnemy();
 
 	// 中心軸をメインカメラの親とする
 	mainCamera_->SetPivotParent(stage_->GetCenterAxisWorldTransform());
@@ -110,9 +109,6 @@ void GameScene::Update()
 	// プレイヤーの弾の更新
 	PlayerBulletUpdate();
 
-	// プレイヤーのHUDの更新
-	playerStateHud_->Update();
-
 	// 敵の更新
 	EnemyUpdate();
 
@@ -159,15 +155,16 @@ void GameScene::Draw()
 		enemyBullet->Draw();
 	}
 
+
+	// プレイヤーのHUD
+	player_->DrawHUD();
+
+
 	// ポーズの描画
 	pose_->Draw();
 
 	// Scene描画
 	BaseScene::Draw();
-
-
-	// プレイヤーのHUDの描画
-	playerStateHud_->Draw();
 }
 
 

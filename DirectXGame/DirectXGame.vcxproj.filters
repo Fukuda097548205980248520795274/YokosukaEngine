@@ -352,9 +352,6 @@
     <Filter Include="Game\BaseScene\GameScene\Skydome">
       <UniqueIdentifier>{9f1d50d8-4b34-4ef6-8df0-48713bd1fd62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\PlayerStateHud">
-      <UniqueIdentifier>{7d067d9d-a0ab-432a-a514-f26719bf0fa1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\TitleScene">
       <UniqueIdentifier>{3428f662-9a98-484a-9eb1-6f48dee47e4b}</UniqueIdentifier>
     </Filter>
@@ -585,6 +582,87 @@
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior">
       <UniqueIdentifier>{3a2247f0-3aa8-45b6-b972-b5106365da6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingRear">
+      <UniqueIdentifier>{811f01a8-96d5-4c42-88a0-eaa3646b737e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateAwayTop">
+      <UniqueIdentifier>{35ac9864-8eab-46fe-a461-924d7ed85436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateApproachingRear">
+      <UniqueIdentifier>{71fcb7bc-84e4-4637-98ce-b62ec8049209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateStop">
+      <UniqueIdentifier>{caf7ae7d-4e26-4d2e-a120-d13b42b25636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateAwayTop">
+      <UniqueIdentifier>{4786b6b3-597d-4f28-8e8d-39bc6dfbf715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateApproachingRear">
+      <UniqueIdentifier>{f55b648f-0e2f-4bbb-939c-d9359d558dca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateStop">
+      <UniqueIdentifier>{0ec6f1c7-3693-4153-9757-36dce1c7e643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateAwayTop">
+      <UniqueIdentifier>{72d88150-ad53-4e37-beea-b9e871571887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateApproachingRear">
+      <UniqueIdentifier>{f25e7c88-652f-4b3b-84f3-8d7cfe3727ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateAwayTop">
+      <UniqueIdentifier>{6dc255ed-a14d-4d4d-82b1-2966cfef2e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateApproachingRear">
+      <UniqueIdentifier>{66d6aaba-e338-44b1-b754-c69dbbd92c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateAwayTop">
+      <UniqueIdentifier>{8f9768ed-5f18-4ac8-8d60-466ba56bb16e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD">
+      <UniqueIdentifier>{66d3ab37-3754-41bb-8450-edf1ec267c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp">
+      <UniqueIdentifier>{b5b8199c-837c-49fc-b220-abca59e3cfbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea">
+      <UniqueIdentifier>{6d2d69c9-a627-4c06-a28f-72ae330a8dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnegry">
+      <UniqueIdentifier>{0c34e3f7-5643-4989-b9f3-362d528d0522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp">
+      <UniqueIdentifier>{cd18d873-5152-4a16-8afc-10a0d2ec6001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorNormal">
+      <UniqueIdentifier>{46863a21-70b1-4b1a-8a01-7deedcb434d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorShot">
+      <UniqueIdentifier>{49b09935-c357-4ae3-a523-a12c814d2c7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorNormal">
+      <UniqueIdentifier>{3a30889a-33c0-438e-aa9d-0e8e0c023f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorShot">
+      <UniqueIdentifier>{9b386690-d885-4458-9d96-2286ed59d01f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorNormal">
+      <UniqueIdentifier>{7756da49-ac93-4606-ae8f-49af7342fe19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorShot">
+      <UniqueIdentifier>{d26cda4f-7237-4e23-bd5b-35f904ac4916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorNormal">
+      <UniqueIdentifier>{49854d56-8830-4cf4-a0b0-3771fd80880b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot">
+      <UniqueIdentifier>{a0bd0c5d-69b6-4d0a-b623-d02e6d01e81c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorNormal">
+      <UniqueIdentifier>{a946535a-261c-4390-8c58-647ee1503490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorShot">
+      <UniqueIdentifier>{bc093522-341a-47d9-9e6d-20397442a877}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -906,9 +984,6 @@
     <ClCompile Include="Game\BaseScene\GameScene\Stage\CenterAxis\CenterAxis.cpp">
       <Filter>Game\BaseScene\GameScene\Stage\CenterAxis</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.cpp">
-      <Filter>Game\BaseScene\GameScene\PlayerStateHud</Filter>
-    </ClCompile>
     <ClCompile Include="Game\BaseScene\TitleScene\TitleScene.cpp">
       <Filter>Game\BaseScene\TitleScene</Filter>
     </ClCompile>
@@ -1100,6 +1175,87 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\BaseEnemyStingrayState.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingRear\EnemyBirdStateApproacingRear.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingRear</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateAwayTop\EnemyBirdStateAwayTop.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateAwayTop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateApproachingRear\EnemyJetStateApproachingRear.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateApproachingRear</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateAwayTop\EnemyJetStateAwayTop.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateAwayTop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateApproachingRear\EnemyStingrayStateApproachingRear.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateApproachingRear</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateAwayTop\EnemyStingrayStateAwayTop.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateAwayTop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateApproachingRear\EnemyFairyStateApproachingRear.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateApproachingRear</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateAwayTop\EnemyFairyStateAwayTop.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateAwayTop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateStop\EnemyFairyStateStop.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateStop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateApprochingRear\EnemyDevilStateApproachingRear.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateApproachingRear</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateStop\EnemyDevilStateStop.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateStop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateAwayTop\EnemyDevilStateAwayTop.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateAwayTop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\BasePlayerHUD.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea\PlayerHUDStateArea.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp\PlayerHUDHp.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp\PlayerHUDTextHp.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnergy\PlayerHUDBulletEnegry.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnegry</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorNormal\EnemyStingrayBehaviorNormal.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorShot\EnemyStingrayBehaviorShot.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorShot</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorNormal\EnemyBirdBehaviorNormal.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorShot\EnemyBirdBehaviorShot.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorShot</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorNormal\EnemyJetBehaviorNormal.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorShot\EnemyJetBehaviorShot.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorShot</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorNormal\EnemyDevilBehaviorNormal.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorShot\EnemyDevilBehaviorShot.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorShot</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorNormal\EnemyFairyBehaviorNormal.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorNormal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot\EnemyFairyBehaviorShot.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1424,9 +1580,6 @@
     <ClInclude Include="Game\BaseScene\GameScene\Stage\CenterAxis\CenterAxis.h">
       <Filter>Game\BaseScene\GameScene\Stage\CenterAxis</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\PlayerStateHud\PlayerStateHud.h">
-      <Filter>Game\BaseScene\GameScene\PlayerStateHud</Filter>
-    </ClInclude>
     <ClInclude Include="Game\BaseScene\TitleScene\TitleScene.h">
       <Filter>Game\BaseScene\TitleScene</Filter>
     </ClInclude>
@@ -1618,6 +1771,87 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\BaseEnemyStingrayState.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingRear\EnemyBirdStateApproacingRear.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingRear</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateAwayTop\EnemyBirdStateAwayTop.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateAwayTop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateApproachingRear\EnemyJetStateApproachingRear.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateApproachingRear</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateAwayTop\EnemyJetStateAwayTop.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetState\EnemyJetStateAwayTop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateApproachingRear\EnemyStingrayStateApproachingRear.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateApproachingRear</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateAwayTop\EnemyStingrayStateAwayTop.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayState\EnemyStingrayStateAwayTop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateApproachingRear\EnemyFairyStateApproachingRear.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateApproachingRear</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateAwayTop\EnemyFairyStateAwayTop.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateAwayTop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateStop\EnemyFairyStateStop.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateStop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateApprochingRear\EnemyDevilStateApproachingRear.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateApproachingRear</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateStop\EnemyDevilStateStop.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateStop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateAwayTop\EnemyDevilStateAwayTop.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilState\EnemyDevilStateAwayTop</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\BasePlayerHUD.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea\PlayerHUDStateArea.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp\PlayerHUDHp.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp\PlayerHUDTextHp.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnergy\PlayerHUDBulletEnegry.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDBulletEnegry</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorNormal\EnemyStingrayBehaviorNormal.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorShot\EnemyStingrayBehaviorShot.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyStingray\BaseEnemyStingrayBehavior\EnemyStingrayBehaviorShot</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorNormal\EnemyBirdBehaviorNormal.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorShot\EnemyBirdBehaviorShot.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdBehavior\EnemyBirdBehaviorShot</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorNormal\EnemyJetBehaviorNormal.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorShot\EnemyJetBehaviorShot.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorShot</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorNormal\EnemyDevilBehaviorNormal.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorShot\EnemyDevilBehaviorShot.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\EnemyDevilBehaviorShot</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorNormal\EnemyFairyBehaviorNormal.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorNormal</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot\EnemyFairyBehaviorShot.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

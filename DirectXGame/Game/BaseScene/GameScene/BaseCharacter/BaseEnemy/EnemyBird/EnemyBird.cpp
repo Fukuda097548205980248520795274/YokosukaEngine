@@ -59,6 +59,14 @@ void EnemyBird::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 	// ポイントライトの生成と初期化
 	pointLight_ = std::make_unique<PointLight>();
 	pointLight_->Initialize();
+
+	// ステートの生成
+	state_ = std::make_unique<EnemyBirdStateApproacingRear>(this);
+
+	// 浮遊ギミックの生成と初期化
+	gimmickFloating_ = std::make_unique<GimmickFloating>();
+	gimmickFloating_->Initialize(models_[kBody].worldTransform_.get(), 0.7f);
+	gimmickFloating_->SetAmplitude(0.03f);
 }
 
 
@@ -67,12 +75,11 @@ void EnemyBird::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void EnemyBird::Update()
 {
-	ImGui::Begin("transform");
-	ImGui::DragFloat3("topWingR", &models_[kTopWingR].worldTransform_->translation_.x, 0.1f);
-	ImGui::DragFloat3("topWingL", &models_[kTopWingL].worldTransform_->translation_.x, 0.1f);
-	ImGui::DragFloat3("bottomWingR", &models_[kBottomWingR].worldTransform_->translation_.x, 0.1f);
-	ImGui::DragFloat3("bottomWingL", &models_[kBottomWingL].worldTransform_->translation_.x, 0.1f);
-	ImGui::End();
+	// 浮遊ギミックの更新
+	gimmickFloating_->Update();
+
+	// ステート更新
+	state_->Update();
 
 	// 基底クラス更新
 	BaseEnemy::Update();
@@ -169,6 +176,28 @@ void EnemyBird::BulletShot()
 
 	// ゲームシーンのリストに追加する
 	gameScene_->EnemyBulletShot(std::move(enemyBullet));
+}
+
+/// <summary>
+/// ステートを変更
+/// </summary>
+/// <param name="state"></param>
+void EnemyBird::ChangeState(State state)
+{
+	switch (state)
+	{
+	case kApproachingRear:
+		// 後方から
+		state_ = std::move(std::make_unique<EnemyBirdStateApproacingRear>(this));
+
+		break;
+
+	case kAwayTop:
+		// 上に逃げる
+		state_ = std::move(std::make_unique<EnemyBirdStateAwayTop>(this));
+
+		break;
+	}
 }
 
 /// <summary>

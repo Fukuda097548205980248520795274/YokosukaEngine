@@ -1,6 +1,15 @@
 #pragma once
 #include "../BaseEnemy.h"
 
+#include "../../../BaseGimmick/GimmickFloating/GimmickFloating.h"
+
+#include "BaseEnemyJetState/EnemyJetStateApproachingRear/EnemyJetStateApproachingRear.h"
+#include "BaseEnemyJetState/EnemyJetStateAwayTop/EnemyJetStateAwayTop.h"
+
+#include "BaseEnemyJetBehavior/BaseEnemyJetBehavior.h"
+#include "BaseEnemyJetBehavior/EnemyJetBehaviorNormal/EnemyJetBehaviorNormal.h"
+#include "BaseEnemyJetBehavior/EnemyJetBehaviorShot/EnemyJetBehaviorShot.h"
+
 class EnemyJet : public BaseEnemy
 {
 public:
@@ -10,6 +19,13 @@ public:
 	{
 		kBody,
 		kNumModel
+	};
+
+	// ステート
+	enum State
+	{
+		kApproachingRear,
+		kAwayTop
 	};
 
 
@@ -62,6 +78,12 @@ public:
 	/// </summary>
 	void BulletShot();
 
+	/// <summary>
+	/// ステートを変更
+	/// </summary>
+	/// <param name="state"></param>
+	void ChangeState(State state);
+
 
 private:
 
@@ -71,6 +93,8 @@ private:
 	void DamageColor() override;
 
 
+	// 状態
+	std::unique_ptr<BaseEnemyJetState> state_ = nullptr;
 
 	// モデル構造体
 	ModelStruct models_[kNumModel];
@@ -89,5 +113,9 @@ private:
 
 	// ポイントライト
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
+
+
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 };
 

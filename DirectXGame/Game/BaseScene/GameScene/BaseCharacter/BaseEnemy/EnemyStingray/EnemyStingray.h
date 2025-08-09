@@ -1,6 +1,15 @@
 #pragma once
 #include "../BaseEnemy.h"
 
+#include "../../../BaseGimmick/GimmickFloating/GimmickFloating.h"
+
+#include "BaseEnemyStingrayState/EnemyStingrayStateApproachingRear/EnemyStingrayStateApproachingRear.h"
+#include "BaseEnemyStingrayState/EnemyStingrayStateAwayTop/EnemyStingrayStateAwayTop.h"
+
+#include "BaseEnemyStingrayBehavior/BaseEnemyStingrayBehavior.h"
+#include "BaseEnemyStingrayBehavior/EnemyStingrayBehaviorNormal/EnemyStingrayBehaviorNormal.h"
+#include "BaseEnemyStingrayBehavior/EnemyStingrayBehaviorShot/EnemyStingrayBehaviorShot.h"
+
 class EnemyStingray : public BaseEnemy
 {
 public:
@@ -12,6 +21,13 @@ public:
 		kWingR,
 		kWingL,
 		kNumModel
+	};
+
+	// ステート
+	enum State
+	{
+		kApproachingRear,
+		kAwayTop
 	};
 
 
@@ -76,6 +92,12 @@ public:
 	/// </summary>
 	void BulletShot();
 
+	/// <summary>
+	/// ステートを変更
+	/// </summary>
+	/// <param name="state"></param>
+	void ChangeState(State state);
+
 
 private:
 
@@ -85,6 +107,8 @@ private:
 	void DamageColor() override;
 
 
+	// 状態
+	std::unique_ptr<BaseEnemyStingrayState> state_ = nullptr;
 
 	// モデル構造体
 	ModelStruct models_[kNumModel];
@@ -107,5 +131,9 @@ private:
 
 	// ポイントライト
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
+
+
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 };
 

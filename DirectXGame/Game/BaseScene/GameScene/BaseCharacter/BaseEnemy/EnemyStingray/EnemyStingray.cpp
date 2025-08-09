@@ -51,6 +51,14 @@ void EnemyStingray::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 	// ポイントライトの生成と初期化
 	pointLight_ = std::make_unique<PointLight>();
 	pointLight_->Initialize();
+
+
+	// ステートの生成
+	state_ = std::make_unique<EnemyStingrayStateApproachingRear>(this);
+
+	// 浮遊ギミックの生成と初期化
+	gimmickFloating_ = std::make_unique<GimmickFloating>();
+	gimmickFloating_->Initialize(models_[kBody].worldTransform_.get(), 0.02f);
 }
 
 
@@ -59,6 +67,12 @@ void EnemyStingray::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 /// </summary>
 void EnemyStingray::Update()
 {
+	// 浮遊ギミックの更新
+	gimmickFloating_->Update();
+
+	// ステート更新
+	state_->Update();
+
 	// 基底クラス更新
 	BaseEnemy::Update();
 
@@ -154,6 +168,28 @@ void EnemyStingray::BulletShot()
 
 	// ゲームシーンのリストに追加する
 	gameScene_->EnemyBulletShot(std::move(enemyBullet));
+}
+
+/// <summary>
+/// ステートを変更
+/// </summary>
+/// <param name="state"></param>
+void EnemyStingray::ChangeState(State state)
+{
+	switch (state)
+	{
+	case kApproachingRear:
+		// 後方から
+		state_ = std::move(std::make_unique<EnemyStingrayStateApproachingRear>(this));
+
+		break;
+
+	case kAwayTop:
+		// 上に逃げる
+		state_ = std::move(std::make_unique<EnemyStingrayStateAwayTop>(this));
+
+		break;
+	}
 }
 
 /// <summary>

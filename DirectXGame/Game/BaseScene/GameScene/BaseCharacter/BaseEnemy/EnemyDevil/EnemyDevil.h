@@ -1,6 +1,14 @@
 #pragma once
 #include "../BaseEnemy.h"
 
+#include "BaseEnemyDevilState/EnemyDevilStateApprochingRear/EnemyDevilStateApproachingRear.h"
+#include "BaseEnemyDevilState/EnemyDevilStateAwayTop/EnemyDevilStateAwayTop.h"
+#include "BaseEnemyDevilState/EnemyDevilStateStop/EnemyDevilStateStop.h"
+
+#include "BaseEnemyDevilBehavior/BaseEnemyDevilBehavior.h"
+#include "BaseEnemyDevilBehavior/EnemyDevilBehaviorNormal/EnemyDevilBehaviorNormal.h"
+#include "BaseEnemyDevilBehavior/EnemyDevilBehaviorShot/EnemyDevilBehaviorShot.h"
+
 class EnemyDevil : public BaseEnemy
 {
 public:
@@ -18,6 +26,14 @@ public:
 		kWingL,
 		kWeapon,
 		kNumModel
+	};
+
+	// ステート
+	enum State
+	{
+		kApproachingRear,
+		kStop,
+		kAwayTop
 	};
 
 
@@ -120,6 +136,12 @@ public:
 	/// </summary>
 	void BulletShot();
 
+	/// <summary>
+	/// ステートを変更
+	/// </summary>
+	/// <param name="state"></param>
+	void ChangeState(State state);
+
 
 private:
 
@@ -129,6 +151,8 @@ private:
 	void DamageColor() override;
 
 
+	// 状態
+	std::unique_ptr<BaseEnemyDevilState> state_ = nullptr;
 
 	// モデル構造体
 	ModelStruct models_[kNumModel];

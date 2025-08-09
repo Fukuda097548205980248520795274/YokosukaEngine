@@ -69,6 +69,11 @@ public:
 	/// <returns></returns>
 	bool IsClear()const { return isClear_; }
 
+	/// <summary>
+	/// 敵を生成する
+	/// </summary>
+	void SummonEnemy();
+
 
 private:
 
