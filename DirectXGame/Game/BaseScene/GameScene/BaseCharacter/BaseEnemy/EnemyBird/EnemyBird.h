@@ -6,6 +6,10 @@
 #include "BaseEnemyBirdState/EnemyBirdStateApproachingRear/EnemyBirdStateApproacingRear.h"
 #include "BaseEnemyBirdState/EnemyBirdStateAwayTop/EnemyBirdStateAwayTop.h"
 
+#include "BaseEnemyBirdBehavior/BaseEnemyBirdBehavior.h"
+#include "BaseEnemyBirdBehavior/EnemyBirdBehaviorNormal/EnemyBirdBehaviorNormal.h"
+#include "BaseEnemyBirdBehavior/EnemyBirdBehaviorShot/EnemyBirdBehaviorShot.h"
+
 class EnemyBird : public BaseEnemy
 {
 public:

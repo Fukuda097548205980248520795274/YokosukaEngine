@@ -5,6 +5,10 @@
 #include "BaseEnemyDevilState/EnemyDevilStateAwayTop/EnemyDevilStateAwayTop.h"
 #include "BaseEnemyDevilState/EnemyDevilStateStop/EnemyDevilStateStop.h"
 
+#include "BaseEnemyDevilBehavior/BaseEnemyDevilBehavior.h"
+#include "BaseEnemyDevilBehavior/EnemyDevilBehaviorNormal/EnemyDevilBehaviorNormal.h"
+#include "BaseEnemyDevilBehavior/EnemyDevilBehaviorShot/EnemyDevilBehaviorShot.h"
+
 class EnemyDevil : public BaseEnemy
 {
 public:

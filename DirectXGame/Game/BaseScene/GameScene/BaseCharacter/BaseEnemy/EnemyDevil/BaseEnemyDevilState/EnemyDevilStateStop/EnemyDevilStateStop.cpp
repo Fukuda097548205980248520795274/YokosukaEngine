@@ -17,6 +17,10 @@ EnemyDevilStateStop::EnemyDevilStateStop(EnemyDevil* enemy)
 
 	// タイマー
 	timer_ = 0.0f;
+
+
+	// 通常ビヘイビアから
+	behavior_ = std::make_unique<EnemyDevilBehaviorNormal>(enemy_);
 }
 
 /// <summary>
@@ -31,12 +35,67 @@ void EnemyDevilStateStop::Update()
 	const float* gameTimer = enemy_->GetGameTimer();
 
 
-	// タイマーを進める
-	timer_ += (1.0f / 60.0f) * (*gameTimer);
-
-	// タイマーを越えたら停止状態に移行する
-	if (timer_ >= time_)
+	// ビヘイビア切り替え
+	if (behaviorRequest_)
 	{
-		enemy_->ChangeState(EnemyDevil::kAwayTop);
+		// 現在のビヘイビアを切り替える
+		currentBehavior_ = behaviorRequest_.value();
+
+		// ビヘイビアを削除する
+		behavior_.release();
+
+		switch (currentBehavior_)
+		{
+		case kNormal:
+			// 通常
+			behavior_ = std::make_unique<EnemyDevilBehaviorNormal>(enemy_);
+
+			break;
+
+		case kShot:
+			// 発射
+			behavior_ = std::make_unique<EnemyDevilBehaviorShot>(enemy_);
+
+			break;
+		}
+
+		// リクエストを消す
+		behaviorRequest_ = std::nullopt;
+	}
+
+	// ビヘイビア更新
+	behavior_->Update();
+
+
+	// 終了したら、現在のビヘイビアに合わせて予約する
+	if (behavior_->IsFinished())
+	{
+		switch (currentBehavior_)
+		{
+		case kNormal:
+			// 通常
+			behaviorRequest_ = kShot;
+
+			break;
+
+		case kShot:
+			// 発射
+			behaviorRequest_ = kNormal;
+
+			break;
+		}
+	}
+
+
+	// 通常ビヘイビア時にタイマーを進める
+	if (currentBehavior_ == kNormal)
+	{
+		timer_ += 1.0f / 60.0f * (*gameTimer);
+
+		// 終了したら、離脱する
+		if (timer_ >= time_)
+		{
+			enemy_->ChangeState(EnemyDevil::kAwayTop);
+		}
 	}
 }

@@ -5,6 +5,10 @@
 #include "BaseEnemyFairyState/EnemyFairyStateAwayTop/EnemyFairyStateAwayTop.h"
 #include "BaseEnemyFairyState/EnemyFairyStateStop/EnemyFairyStateStop.h"
 
+#include "BaseEnemyFairyBehavior/BaseEnemyFairyBehavior.h"
+#include "BaseEnemyFairyBehavior/EnemyFairyBehaviorNormal/EnemyFairyBehaviorNormal.h"
+#include "BaseEnemyFairyBehavior/EnemyFairyBehaviorShot/EnemyFairyBehaviorShot.h"
+
 class EnemyFairy : public BaseEnemy
 {
 public:

@@ -6,6 +6,10 @@
 #include "BaseEnemyJetState/EnemyJetStateApproachingRear/EnemyJetStateApproachingRear.h"
 #include "BaseEnemyJetState/EnemyJetStateAwayTop/EnemyJetStateAwayTop.h"
 
+#include "BaseEnemyJetBehavior/BaseEnemyJetBehavior.h"
+#include "BaseEnemyJetBehavior/EnemyJetBehaviorNormal/EnemyJetBehaviorNormal.h"
+#include "BaseEnemyJetBehavior/EnemyJetBehaviorShot/EnemyJetBehaviorShot.h"
+
 class EnemyJet : public BaseEnemy
 {
 public:

@@ -6,6 +6,10 @@
 #include "BaseEnemyStingrayState/EnemyStingrayStateApproachingRear/EnemyStingrayStateApproachingRear.h"
 #include "BaseEnemyStingrayState/EnemyStingrayStateAwayTop/EnemyStingrayStateAwayTop.h"
 
+#include "BaseEnemyStingrayBehavior/BaseEnemyStingrayBehavior.h"
+#include "BaseEnemyStingrayBehavior/EnemyStingrayBehaviorNormal/EnemyStingrayBehaviorNormal.h"
+#include "BaseEnemyStingrayBehavior/EnemyStingrayBehaviorShot/EnemyStingrayBehaviorShot.h"
+
 class EnemyStingray : public BaseEnemy
 {
 public:
