@@ -25,6 +25,22 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	modelHandles_[kPlayerBulletStrong] = std::make_unique<PlayerBulletStrongModelHandles>();
 	modelHandles_[kPlayerBulletStrong]->Initialize(engine_);
 
+	// プレイヤーのHUD : ステートエリア
+	modelHandles_[kPlayerHUDStateArea] = std::make_unique<PlayerHUDStateAreaModelHandle>();
+	modelHandles_[kPlayerHUDStateArea]->Initialize(engine_);
+
+	// プレイヤーのHUD : HP
+	modelHandles_[kPlayerHUDHp] = std::make_unique<PlayerHUDHpModelHandle>();
+	modelHandles_[kPlayerHUDHp]->Initialize(engine_);
+
+	// プレイヤーのHUD : 弾エネルギー
+	modelHandles_[kPlayerHUDBulletEnergy] = std::make_unique<PlayerHUDBulletEnergyModelHandle>();
+	modelHandles_[kPlayerHUDBulletEnergy]->Initialize(engine_);
+
+	// プレイヤーのHUD : HPのテキスト
+	modelHandles_[kPlayerHUDTextHp] = std::make_unique<PlayerHUDTextHpModelHandle>();
+	modelHandles_[kPlayerHUDTextHp]->Initialize(engine_);
+
 	// 敵 : 蝶
 	modelHandles_[kEnemyButterfly] = std::make_unique<EnemyButterflyodelHandles>();
 	modelHandles_[kEnemyButterfly]->Initialize(engine_);

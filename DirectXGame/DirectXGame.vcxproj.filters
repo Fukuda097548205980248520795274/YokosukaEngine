@@ -664,6 +664,18 @@
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorShot">
       <UniqueIdentifier>{bc093522-341a-47d9-9e6d-20397442a877}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDTextHp">
+      <UniqueIdentifier>{7e98b812-beb6-4323-bc1c-9c74903f7665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDBulletEnergy">
+      <UniqueIdentifier>{406466a7-92f5-46fc-9604-98be8f390464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDHp">
+      <UniqueIdentifier>{d074c18d-fdd6-4bc8-ac67-0954754d0127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDStateArea">
+      <UniqueIdentifier>{59bfa985-d29b-4477-ace4-403957460a26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1256,6 +1268,18 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot\EnemyFairyBehaviorShot.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDStateAreaModelHandle\PlayerHUDStateAreaModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDStateArea</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDHpModelHandle\PlayerHUDHpModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDHp</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDBulletEnergyModelHandle\PlayerHUDBulletEnergyModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDBulletEnergy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDTextHpModelHandle\PlayerHUDTextHpModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDTextHp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1852,6 +1876,18 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot\EnemyFairyBehaviorShot.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDStateAreaModelHandle\PlayerHUDStateAreaModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDStateArea</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDHpModelHandle\PlayerHUDHpModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDHp</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDBulletEnergyModelHandle\PlayerHUDBulletEnergyModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDBulletEnergy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDTextHpModelHandle\PlayerHUDTextHpModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDTextHp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

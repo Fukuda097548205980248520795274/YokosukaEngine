@@ -8,6 +8,11 @@
 #include "BaseModelHandles/PlayerBulletWeekModelHandles/PlayerBulletWeekModelHandles.h"
 #include "BaseModelHandles/PlayerBulletStrongModelHandles/PlayerBulletStrongModelHandles.h"
 
+#include "BaseModelHandles/PlayerHUDStateAreaModelHandle/PlayerHUDStateAreaModelHandle.h"
+#include "BaseModelHandles/PlayerHUDHpModelHandle/PlayerHUDHpModelHandle.h"
+#include "BaseModelHandles/PlayerHUDBulletEnergyModelHandle/PlayerHUDBulletEnergyModelHandle.h"
+#include "BaseModelHandles/PlayerHUDTextHpModelHandle/PlayerHUDTextHpModelHandle.h"
+
 #include "BaseModelHandles/EnemyButterflyModelHandles/EnemyButterflyodelHandles.h"
 #include "BaseModelHandles/EnemyBirdModelHandles/EnemyBirdModelHandles.h"
 #include "BaseModelHandles/EnemyStingrayModelHandles/EnemyStingrayModelHandles.h"
@@ -40,6 +45,10 @@ public:
 		kPlayer,
 		kPlayerBulletWeek,
 		kPlayerBulletStrong,
+		kPlayerHUDStateArea,
+		kPlayerHUDHp,
+		kPlayerHUDBulletEnergy,
+		kPlayerHUDTextHp,
 		kEnemyButterfly,
 		kEnemyBird,
 		kEnemyStingray,
