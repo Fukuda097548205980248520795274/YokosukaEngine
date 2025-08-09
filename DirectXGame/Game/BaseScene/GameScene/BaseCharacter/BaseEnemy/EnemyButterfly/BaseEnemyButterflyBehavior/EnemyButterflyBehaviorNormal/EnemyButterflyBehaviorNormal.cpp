@@ -19,11 +19,15 @@ EnemyButterflyBehaviorNormal::EnemyButterflyBehaviorNormal(EnemyButterfly* enemy
 	gimmickFlappingWingR_->SetGameTimer(enemy_->GetGameTimer());
 	gimmickFlappingWingR_->Initialize(enemy_->GetWingRWorldTransform(), 0.085f);
 	gimmickFlappingWingR_->SetAmplitude(0.75f);
+	gimmickFlappingWingR_->SetRotationAxis(GimmickFlapping::kY);
+	gimmickFlappingWingR_->SetStartRotation(0.0f);
 
 	gimmickFlappingWingL_ = std::make_unique<GimmickFlapping>();
 	gimmickFlappingWingL_->SetGameTimer(enemy_->GetGameTimer());
 	gimmickFlappingWingL_->Initialize(enemy_->GetWingLWorldTransform(), -0.085f);
 	gimmickFlappingWingL_->SetAmplitude(0.75f);
+	gimmickFlappingWingL_->SetRotationAxis(GimmickFlapping::kY);
+	gimmickFlappingWingL_->SetStartRotation(0.0f);
 	
 }
 

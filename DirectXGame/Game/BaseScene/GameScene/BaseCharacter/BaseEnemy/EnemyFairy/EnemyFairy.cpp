@@ -75,6 +75,11 @@ void EnemyFairy::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 /// </summary>
 void EnemyFairy::Update()
 {
+	ImGui::Begin("fairy");
+	ImGui::DragFloat3("armR", &models_[kArmR].worldTransform_->rotation_.x, 0.01f);
+	ImGui::DragFloat3("armL", &models_[kArmL].worldTransform_->rotation_.x, 0.01f);
+	ImGui::End();
+
 	// ステート更新
 	state_->Update();
 
