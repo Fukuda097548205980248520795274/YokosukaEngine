@@ -73,19 +73,27 @@ void GameScene::Update()
 		}
 	}
 
+	// ポーズの更新
 	pose_->Update();
 
+	// ポーズ中は音楽を停止する
 	if (pose_->IsPose())
-		return;
-
-
-
-	if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
 	{
-		playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
+		engine_->SetVolume(playHandle_, 0.0f);
+		engine_->SetPitch(playHandle_, 0.0f);
+		return;
 	}
+	else
+	{
+		// ポーズ中ではないときは、音楽を流す
+		if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
+		{
+			playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
+		}
 
-	engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
+		engine_->SetVolume(playHandle_, 0.3f);
+		engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
+	}
 
 
 	// ステージの更新
