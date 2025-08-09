@@ -676,6 +676,9 @@
     <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDStateArea">
       <UniqueIdentifier>{59bfa985-d29b-4477-ace4-403957460a26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline">
+      <UniqueIdentifier>{62e0a3b9-5a8f-48ac-8009-1e8468756398}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1280,6 +1283,9 @@
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDTextHpModelHandle\PlayerHUDTextHpModelHandle.cpp">
       <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDTextHp</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline\Scanline.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1889,6 +1895,9 @@
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDTextHpModelHandle\PlayerHUDTextHpModelHandle.h">
       <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDTextHp</Filter>
     </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline\Scanline.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="YokosukaEngine\Shader\Object3d\Object3d.VS.hlsl">
@@ -1949,6 +1958,9 @@
       <Filter>YokosukaEngine\Shader\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\PostEffect\RasterScroll.PS.hlsl">
+      <Filter>YokosukaEngine\Shader\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\ScanLine.PS.hlsl">
       <Filter>YokosukaEngine\Shader\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>

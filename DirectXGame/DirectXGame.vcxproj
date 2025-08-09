@@ -247,6 +247,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\LuminanceBaseOutline\LuminanceBaseOutline.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll\RasterScroll.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline\Scanline.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing\Smoothing.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette\Vignette.cpp" />
@@ -451,6 +452,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\LuminanceBaseOutline\LuminanceBaseOutline.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\PostEffect.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\RasterScroll\RasterScroll.h" />
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline\Scanline.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Sepia\Sepia.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Smoothing\Smoothing.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Vignette\Vignette.h" />
@@ -605,6 +607,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <FxCompile Include="YokosukaEngine\Shader\PostEffect\RasterScroll.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\ScanLine.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>

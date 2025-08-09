@@ -133,6 +133,13 @@ void GameScene::Update()
 /// </summary>
 void GameScene::Draw()
 {
+	// プレイヤーHUDのレイヤー
+	screenHandlePlayerHUD_ = engine_->SetOffscreenEffect(kHide);
+	player_->DrawHUD();
+	engine_->SetOffscreenEffect(kHide);
+
+
+
 	// 平行光源の設置
 	engine_->SetDirectionalLight(directionalLight_.get());
 
@@ -164,8 +171,13 @@ void GameScene::Draw()
 	}
 
 
-	// プレイヤーのHUD
-	player_->DrawHUD();
+	// プレイヤーHUDのスクリーンを加算する
+	engine_->SetCopyImageBlendMode(kBlendModeScreen);
+	engine_->CopyRtvImage(screenHandlePlayerHUD_);
+	engine_->SetCopyImageBlendMode(kBlendModeNormal);
+
+	// 走査線
+	engine_->SetOffscreenEffect(kScanline);
 
 
 	// ポーズの描画

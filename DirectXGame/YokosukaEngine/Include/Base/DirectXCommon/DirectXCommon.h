@@ -77,6 +77,7 @@
 #include "../../PipelineStateObject/PostEffect/BrightnessExtraction/BrightnessExtraction.h"
 #include "../../PipelineStateObject/PostEffect/Hide/Hide.h"
 #include "../../PipelineStateObject/PostEffect/RasterScroll/RasterScroll.h"
+#include "../../PipelineStateObject/PostEffect/Scanline/Scanline.h"
 
 #include "../../Transform/WorldTransform/WorldTransform.h"
 #include "../../Transform/WorldTransform2D/WorldTransform2D.h"
@@ -125,6 +126,9 @@ enum Effect
 
 	// ラスタースクロール
 	kRasterScroll,
+
+	// 走査線
+	kScanline,
 
 	// エフェクトの数
 	kEfectCount,
@@ -739,6 +743,11 @@ private:
 	/// </summary>
 	void DrawRasterScroll();
 
+	/// <summary>
+	/// スキャンライン
+	/// </summary>
+	void DrawScanline();
+
 
 	// PostEffectピクセルシェーダ
 	PostEffect* psoPostEffect_[kEfectCount] = { nullptr };
@@ -751,10 +760,12 @@ private:
 	Microsoft::WRL::ComPtr<IDxcBlob> brightnessExtractionPixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> hidePixelShaderBlob_ = nullptr;
 	Microsoft::WRL::ComPtr<IDxcBlob> rasterScrollPixelShaderBlob_ = nullptr;
+	Microsoft::WRL::ComPtr<IDxcBlob> scanlinePixelShaderBlob_ = nullptr;
 
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> luminanceResource_ = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> rasterScrollResource_ = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> scanlineResource_ = nullptr;
 
 	// リソースの最大数
 	const uint32_t kMaxNumResource = 1024;
