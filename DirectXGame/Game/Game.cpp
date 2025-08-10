@@ -21,8 +21,9 @@ void Game::Initialize(const YokosukaEngine* engine)
 	textureHandleStore_->Initialize(engine_);
 
 	// タイトルシーンの生成と初期化
-	scene_ = std::make_unique<TitleScene>();
+	scene_ = std::make_unique<GameScene>();
 	scene_->Initialize(engine_ , modelHandleStore_.get() , textureHandleStore_.get());
+	scenePhase_ = kGame;
 }
 
 /// <summary>

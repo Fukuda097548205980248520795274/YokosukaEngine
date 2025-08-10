@@ -116,7 +116,7 @@ void Stage::StageScriptUpdate()
 /// </summary>
 void Stage::SummonEnemy()
 {
-	std::unique_ptr<EnemyButterfly> enemy = std::make_unique<EnemyButterfly>();
+	std::unique_ptr<EnemyBird> enemy = std::make_unique<EnemyBird>();
 	enemy->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 15.0f), 50);
 	enemy->SetGameScene(gameScene_);
 	enemy->SetParent(centerAxis_->GetWorldTransform());

@@ -28,5 +28,23 @@ private:
 
 	// 発射パラメータの速度
 	const float kShotParameterVelocity = 1.0f / 60.0f;
+
+
+
+	/*-------------
+	    縮こまり
+	-------------*/
+
+
+
+	/*----------
+	    1回転
+	----------*/
+
+	// 回転するフレーム
+	float rotateFrames[2] = { 2.0f , 3.0f };
+
+	// 回転する値
+	float rotateValues[2] = { 0.0f , std::numbers::pi_v<float> *2.0f };
 };
 

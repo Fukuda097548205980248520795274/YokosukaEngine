@@ -14,7 +14,7 @@ EnemyBirdStateApproacingRear::EnemyBirdStateApproacingRear(EnemyBird* enemy)
 
 
 	// 時間
-	time_ = 2.0f;
+	time_ = 5.0f;
 
 	// タイマー
 	timer_ = 0.0f;

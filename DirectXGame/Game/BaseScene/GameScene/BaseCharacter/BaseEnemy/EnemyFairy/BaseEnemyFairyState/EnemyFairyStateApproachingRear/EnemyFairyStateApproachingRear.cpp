@@ -10,7 +10,6 @@ EnemyFairyStateApproachingRear::EnemyFairyStateApproachingRear(EnemyFairy* enemy
 {
 	// ワールドトランスフォームを取得する
 	WorldTransform* worldTransform = enemy_->GetWorldTransform();
-	worldTransform->translation_.z += -50.0f;
 
 
 	// 時間
@@ -18,6 +17,22 @@ EnemyFairyStateApproachingRear::EnemyFairyStateApproachingRear(EnemyFairy* enemy
 
 	// タイマー
 	timer_ = 0.0f;
+
+
+	// 羽ばたきギミックの生成と初期化
+	flappingArmR_ = std::make_unique<GimmickFlapping>();
+	flappingArmR_->SetGameTimer(enemy_->GetGameTimer());
+	flappingArmR_->Initialize(enemy_->GetArmRWorldTransform(), 0.085f);
+	flappingArmR_->SetAmplitude(0.2f);
+	flappingArmR_->SetRotationAxis(GimmickFlapping::kZ);
+	flappingArmR_->SetStartRotation(-0.8f);
+
+	flappingArmL_ = std::make_unique<GimmickFlapping>();
+	flappingArmL_->SetGameTimer(enemy_->GetGameTimer());
+	flappingArmL_->Initialize(enemy_->GetArmLWorldTransform(), -0.085f);
+	flappingArmL_->SetAmplitude(0.2f);
+	flappingArmL_->SetRotationAxis(GimmickFlapping::kZ);
+	flappingArmL_->SetStartRotation(0.8f);
 }
 
 /// <summary>
@@ -31,6 +46,10 @@ void EnemyFairyStateApproachingRear::Update()
 	// ゲームタイマーを取得する
 	const float* gameTimer = enemy_->GetGameTimer();
 
+
+	// 羽ばたきギミックの更新
+	flappingArmR_->Update();
+	flappingArmL_->Update();
 
 	// 奥に進む
 	worldTransform->translation_.z += 1.0f * (*gameTimer);
