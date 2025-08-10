@@ -16,7 +16,7 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// ポーズの生成と初期化
 	pose_ = std::make_unique<Pose>();
-	pose_->Initialize(engine_);
+	pose_->Initialize(engine_ , camera3d_);
 
 
 	// 平行光源の生成と初期化

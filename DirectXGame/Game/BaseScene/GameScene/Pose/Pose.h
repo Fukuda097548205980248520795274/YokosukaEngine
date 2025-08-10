@@ -9,7 +9,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="engine"></param>
-	void Initialize(const YokosukaEngine* engine);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d);
 
 	/// <summary>
 	/// 更新処理
@@ -42,6 +42,11 @@ private:
 
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
+
+	// 3Dカメラ
+	const Camera3D* camera3d_ = nullptr;
+
+
 
 
 	// ポーズフラグ
