@@ -29,5 +29,10 @@ private:
 
 	// 発射タイマーの速度
 	const float kShotTimerVelocity = 1.0f / 60.0f;
+
+
+	// 羽ばたき
+	std::unique_ptr<GimmickFlapping> flappingWingR_ = nullptr;
+	std::unique_ptr<GimmickFlapping> flappingWingL_ = nullptr;
 };
 

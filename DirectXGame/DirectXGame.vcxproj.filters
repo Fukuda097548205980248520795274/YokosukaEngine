@@ -664,6 +664,27 @@
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorShot">
       <UniqueIdentifier>{bc093522-341a-47d9-9e6d-20397442a877}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDTextHp">
+      <UniqueIdentifier>{7e98b812-beb6-4323-bc1c-9c74903f7665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDBulletEnergy">
+      <UniqueIdentifier>{406466a7-92f5-46fc-9604-98be8f390464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDHp">
+      <UniqueIdentifier>{d074c18d-fdd6-4bc8-ac67-0954754d0127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDStateArea">
+      <UniqueIdentifier>{59bfa985-d29b-4477-ace4-403957460a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline">
+      <UniqueIdentifier>{62e0a3b9-5a8f-48ac-8009-1e8468756398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletTrident">
+      <UniqueIdentifier>{adabf9f1-6d66-4928-a7e0-4f072507f1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletStar">
+      <UniqueIdentifier>{49e8273c-f324-4e95-bc33-6d700d103670}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1256,6 +1277,27 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot\EnemyFairyBehaviorShot.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDStateAreaModelHandle\PlayerHUDStateAreaModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDStateArea</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDHpModelHandle\PlayerHUDHpModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDHp</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDBulletEnergyModelHandle\PlayerHUDBulletEnergyModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDBulletEnergy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDTextHpModelHandle\PlayerHUDTextHpModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDTextHp</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline\Scanline.cpp">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletTrident\EnemyBulletTrident.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletTrident</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletStar\EnemyBulletStar.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletStar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1853,6 +1895,27 @@
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot\EnemyFairyBehaviorShot.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyBehavior\EnemyFairyBehaviorShot</Filter>
     </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDStateAreaModelHandle\PlayerHUDStateAreaModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDStateArea</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDHpModelHandle\PlayerHUDHpModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDHp</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDBulletEnergyModelHandle\PlayerHUDBulletEnergyModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDBulletEnergy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDTextHpModelHandle\PlayerHUDTextHpModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Character\Player\PlayerHUDTextHp</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline\Scanline.h">
+      <Filter>YokosukaEngine\Include\PipelineStateObject\PostEffect\Scanline</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletTrident\EnemyBulletTrident.h">
+      <Filter>Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletTrident</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletStar\EnemyBulletStar.h">
+      <Filter>Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletStar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="YokosukaEngine\Shader\Object3d\Object3d.VS.hlsl">
@@ -1913,6 +1976,9 @@
       <Filter>YokosukaEngine\Shader\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="YokosukaEngine\Shader\PostEffect\RasterScroll.PS.hlsl">
+      <Filter>YokosukaEngine\Shader\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="YokosukaEngine\Shader\PostEffect\ScanLine.PS.hlsl">
       <Filter>YokosukaEngine\Shader\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>

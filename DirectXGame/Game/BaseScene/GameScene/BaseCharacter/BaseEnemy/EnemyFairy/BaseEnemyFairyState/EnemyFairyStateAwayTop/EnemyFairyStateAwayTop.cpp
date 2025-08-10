@@ -17,6 +17,22 @@ EnemyFairyStateAwayTop::EnemyFairyStateAwayTop(EnemyFairy* enemy)
 
 	// タイマー
 	timer_ = 0.0f;
+
+
+	// 羽ばたきギミックの生成と初期化
+	flappingWingR_ = std::make_unique<GimmickFlapping>();
+	flappingWingR_->SetGameTimer(enemy_->GetGameTimer());
+	flappingWingR_->Initialize(enemy_->GetWingRWorldTransform(), 1.0f);
+	flappingWingR_->SetAmplitude(0.4f);
+	flappingWingR_->SetRotationAxis(GimmickFlapping::kY);
+	flappingWingR_->SetStartRotation(-0.5f);
+
+	flappingWingL_ = std::make_unique<GimmickFlapping>();
+	flappingWingL_->SetGameTimer(enemy_->GetGameTimer());
+	flappingWingL_->Initialize(enemy_->GetWingLWorldTransform(), -1.0f);
+	flappingWingL_->SetAmplitude(0.4f);
+	flappingWingL_->SetRotationAxis(GimmickFlapping::kY);
+	flappingWingL_->SetStartRotation(0.5f);
 }
 
 /// <summary>
@@ -30,6 +46,10 @@ void EnemyFairyStateAwayTop::Update()
 	// ゲームタイマーを取得する
 	const float* gameTimer = enemy_->GetGameTimer();
 
+
+	// 羽ばたきギミックの更新
+	flappingWingR_->Update();
+	flappingWingL_->Update();
 
 	// 上に動かす
 	worldTransform->translation_.y += 1.0f * (*gameTimer);

@@ -642,6 +642,12 @@ uint32_t DirectXCommon::SetOffscreenEffect(Effect effect)
 		DrawRasterScroll();
 
 		break;
+
+	case kScanline:
+		// 走査線
+		DrawScanline();
+
+		break;
 	}
 
 
@@ -2732,6 +2738,13 @@ void DirectXCommon::CreatePostEffect()
 	psoPostEffect_[kRasterScroll] = new RasterScroll();
 	psoPostEffect_[kRasterScroll]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), rasterScrollPixelShaderBlob_.Get());
 	rasterScrollResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(GPUforRasterScroll));
+
+	// scanlineのシェーダをコンパイルする
+	scanlinePixelShaderBlob_ = dxc_->CompileShader(L"YokosukaEngine/Shader/PostEffect/ScanLine.PS.hlsl", L"ps_6_0");
+	assert(scanlinePixelShaderBlob_ != nullptr);
+	psoPostEffect_[kScanline] = new Scanline();
+	psoPostEffect_[kScanline]->Initialize(logging_, dxc_.get(), directXGPU_->GetDevice(), fullscreenVertexShaderBlob_.Get(), scanlinePixelShaderBlob_.Get());
+	scanlineResource_ = CreateBufferResource(directXGPU_->GetDevice(), sizeof(GPUforScanline));
 }
 
 /// <summary>
@@ -3038,6 +3051,48 @@ void DirectXCommon::DrawRasterScroll()
 	rasterScrollData->scrollSpeed = 0.0f;
 	rasterScrollData->time = 0.0f;
 	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, rasterScrollResource_->GetGPUVirtualAddress());
+
+	// RenderTextureのRTVを張り付ける
+	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);
+
+	// 頂点3つ描画
+	directXCommand_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
+
+	// PixelShader -> RenderTarget
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+
+/// <summary>
+/// スキャンライン
+/// </summary>
+void DirectXCommon::DrawScanline()
+{
+	// 既にオフスクリーンを使用していたら上書きする
+	if (useNumOffscreen_ <= 0)
+		return;
+
+	// RenderTarget -> PixelShader
+	ChangeResourceState(directXCommand_->GetCommandList(),
+		offscreen_[useNumOffscreen_ - 1].renderTextureResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// PSOの設定
+	psoPostEffect_[kScanline]->CommandListSet(directXCommand_->GetCommandList());
+
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// scanlineの設定
+	GPUforScanline* scanlineData = nullptr;
+	scanlineResource_->Map(0, nullptr, reinterpret_cast<void**>(&scanlineData));
+	scanlineData->screenSize = Vector2(static_cast<float>(winApp_->GetWindowWidth()), static_cast<float>(winApp_->GetWindowHeight()));
+	scanlineData->thickness = 0.1f;
+	scanlineData->intensity = 0.5f;
+	scanlineData->spacing = 0.9f;
+	scanlineData->time = 0.0f;
+	scanlineData->speed = 0.0f;
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, scanlineResource_->GetGPUVirtualAddress());
 
 	// RenderTextureのRTVを張り付ける
 	directXCommand_->GetCommandList()->SetGraphicsRootDescriptorTable(0, offscreen_[useNumOffscreen_ - 1].renderTextureSrvGPUHandle);

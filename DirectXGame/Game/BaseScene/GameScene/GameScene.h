@@ -133,4 +133,9 @@ private:
 
 	// 敵の弾のリスト
 	std::list<std::unique_ptr<BaseEnemyBullet>> enemyBullets_;
+
+
+
+	// プレイヤーHUDのスクリーンハンドル
+	uint32_t screenHandlePlayerHUD_ = 0;
 };

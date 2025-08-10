@@ -1,6 +1,8 @@
 #pragma once
 #include "../BaseEnemyFairyBehavior.h"
 
+#include "../../../../../BaseGimmick/GimmickFlapping/GimmickFlapping.h"
+
 class EnemyFairyBehaviorNormal : public BaseEnemyFairyBehavior
 {
 public:
@@ -27,5 +29,9 @@ private:
 
 	// 発射タイマーの速度
 	const float kShotTimerVelocity = 1.0f / 60.0f;
+
+	// 腕の羽ばたき
+	std::unique_ptr<GimmickFlapping> flappingArmR_ = nullptr;
+	std::unique_ptr<GimmickFlapping> flappingArmL_ = nullptr;
 };
 

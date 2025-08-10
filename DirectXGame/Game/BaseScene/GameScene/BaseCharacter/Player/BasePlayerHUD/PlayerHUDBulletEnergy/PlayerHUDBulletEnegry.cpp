@@ -15,7 +15,7 @@ void PlayerHUDBulletEnegry::Initialize(const YokosukaEngine* engine, const Camer
 	worldTransform_->rotation_ = Vector3(0.0f, -0.57f, 0.0f);
 
 	// モデルを読み込む
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/Player/Hud/bulletEnergy", "bulletEnergy.obj");
+	modelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kPlayerHUDBulletEnergy)[0];
 }
 
 /// <summary>

@@ -22,5 +22,16 @@ void GimmickFlapping::Update()
 	BaseGimmick::Update();
 
 	// ふわふわさせる
-	worldTransform_->rotation_.y = std::sin(parameter_) * amplitude_;
+	if (axis_ == kX)
+	{
+		worldTransform_->rotation_.x = startRotation_ + (std::sin(parameter_) * amplitude_);
+	}
+	else if(axis_ == kY)
+	{
+		worldTransform_->rotation_.y = startRotation_ + (std::sin(parameter_) * amplitude_);
+	}
+	else if (axis_ = kZ)
+	{
+		worldTransform_->rotation_.z = startRotation_ + (std::sin(parameter_) * amplitude_);
+	}
 }

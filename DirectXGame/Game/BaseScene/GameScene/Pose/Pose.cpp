@@ -4,13 +4,15 @@
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
-void Pose::Initialize(const YokosukaEngine* engine)
+void Pose::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 {
 	// nullptrチェック
 	assert(engine);
+	assert(camera3d);
 
 	// 引数を受け取る
 	engine_ = engine;
+	camera3d_ = camera3d;
 
 
 	// 効果音を読み込む

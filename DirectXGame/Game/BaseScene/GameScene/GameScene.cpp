@@ -16,7 +16,7 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// ポーズの生成と初期化
 	pose_ = std::make_unique<Pose>();
-	pose_->Initialize(engine_);
+	pose_->Initialize(engine_ , camera3d_);
 
 
 	// 平行光源の生成と初期化
@@ -73,19 +73,27 @@ void GameScene::Update()
 		}
 	}
 
+	// ポーズの更新
 	pose_->Update();
 
+	// ポーズ中は音楽を停止する
 	if (pose_->IsPose())
-		return;
-
-
-
-	if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
 	{
-		playHandle_ = engine_->PlaySoundData(soundHandle_ , 0.3f);
+		engine_->SetVolume(playHandle_, 0.0f);
+		engine_->SetPitch(playHandle_, 0.0f);
+		return;
 	}
+	else
+	{
+		// ポーズ中ではないときは、音楽を流す
+		if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
+		{
+			playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
+		}
 
-	engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
+		engine_->SetVolume(playHandle_, 0.3f);
+		engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
+	}
 
 
 	// ステージの更新
@@ -125,6 +133,13 @@ void GameScene::Update()
 /// </summary>
 void GameScene::Draw()
 {
+	// プレイヤーHUDのレイヤー
+	screenHandlePlayerHUD_ = engine_->SetOffscreenEffect(kHide);
+	player_->DrawHUD();
+	engine_->SetOffscreenEffect(kHide);
+
+
+
 	// 平行光源の設置
 	engine_->SetDirectionalLight(directionalLight_.get());
 
@@ -156,8 +171,13 @@ void GameScene::Draw()
 	}
 
 
-	// プレイヤーのHUD
-	player_->DrawHUD();
+	// プレイヤーHUDのスクリーンを加算する
+	engine_->SetCopyImageBlendMode(kBlendModeScreen);
+	engine_->CopyRtvImage(screenHandlePlayerHUD_);
+	engine_->SetCopyImageBlendMode(kBlendModeNormal);
+
+	// 走査線
+	engine_->SetOffscreenEffect(kScanline);
 
 
 	// ポーズの描画

@@ -15,7 +15,7 @@ void PlayerHUDTextHp::Initialize(const YokosukaEngine* engine, const Camera3D* c
 	worldTransform_->rotation_ = Vector3(0.0f, -0.57f, 0.0f);
 
 	// モデルを読み込む
-	modelHandle_ = engine_->LoadModelData("./Resources/Models/Player/Hud/textHp", "textHp.obj");
+	modelHandle_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kPlayerHUDTextHp)[0];
 }
 
 /// <summary>

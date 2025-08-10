@@ -75,6 +75,7 @@ void EnemyFairy::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 /// </summary>
 void EnemyFairy::Update()
 {
+
 	// ステート更新
 	state_->Update();
 

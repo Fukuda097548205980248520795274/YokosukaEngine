@@ -2,6 +2,8 @@
 #include "../BaseEnemyDevilState.h"
 #include "../../BaseEnemyDevilBehavior/BaseEnemyDevilBehavior.h"
 
+#include "../../../../../BaseGimmick/GimmickFlapping/GimmickFlapping.h"
+
 class EnemyDevilStateStop : public BaseEnemyDevilState
 {
 public:
@@ -35,5 +37,10 @@ private:
 
 	// 次のビヘイビアのリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+
+
+	// 羽ばたき
+	std::unique_ptr<GimmickFlapping> flappingWingR_ = nullptr;
+	std::unique_ptr<GimmickFlapping> flappingWingL_ = nullptr;
 };
 
