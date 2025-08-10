@@ -19,20 +19,21 @@ EnemyFairyStateApproachingRear::EnemyFairyStateApproachingRear(EnemyFairy* enemy
 	timer_ = 0.0f;
 
 
-	// 羽ばたきギミックの生成と初期化
-	flappingArmR_ = std::make_unique<GimmickFlapping>();
-	flappingArmR_->SetGameTimer(enemy_->GetGameTimer());
-	flappingArmR_->Initialize(enemy_->GetArmRWorldTransform(), 0.085f);
-	flappingArmR_->SetAmplitude(0.2f);
-	flappingArmR_->SetRotationAxis(GimmickFlapping::kZ);
-	flappingArmR_->SetStartRotation(-0.8f);
 
-	flappingArmL_ = std::make_unique<GimmickFlapping>();
-	flappingArmL_->SetGameTimer(enemy_->GetGameTimer());
-	flappingArmL_->Initialize(enemy_->GetArmLWorldTransform(), -0.085f);
-	flappingArmL_->SetAmplitude(0.2f);
-	flappingArmL_->SetRotationAxis(GimmickFlapping::kZ);
-	flappingArmL_->SetStartRotation(0.8f);
+	// 羽ばたきギミックの生成と初期化
+	flappingWingR_ = std::make_unique<GimmickFlapping>();
+	flappingWingR_->SetGameTimer(enemy_->GetGameTimer());
+	flappingWingR_->Initialize(enemy_->GetWingRWorldTransform(), 1.0f);
+	flappingWingR_->SetAmplitude(0.4f);
+	flappingWingR_->SetRotationAxis(GimmickFlapping::kY);
+	flappingWingR_->SetStartRotation(-0.5f);
+
+	flappingWingL_ = std::make_unique<GimmickFlapping>();
+	flappingWingL_->SetGameTimer(enemy_->GetGameTimer());
+	flappingWingL_->Initialize(enemy_->GetWingLWorldTransform(), -1.0f);
+	flappingWingL_->SetAmplitude(0.4f);
+	flappingWingL_->SetRotationAxis(GimmickFlapping::kY);
+	flappingWingL_->SetStartRotation(0.5f);
 }
 
 /// <summary>
@@ -48,8 +49,8 @@ void EnemyFairyStateApproachingRear::Update()
 
 
 	// 羽ばたきギミックの更新
-	flappingArmR_->Update();
-	flappingArmL_->Update();
+	flappingWingR_->Update();
+	flappingWingL_->Update();
 
 	// 奥に進む
 	worldTransform->translation_.z += 1.0f * (*gameTimer);

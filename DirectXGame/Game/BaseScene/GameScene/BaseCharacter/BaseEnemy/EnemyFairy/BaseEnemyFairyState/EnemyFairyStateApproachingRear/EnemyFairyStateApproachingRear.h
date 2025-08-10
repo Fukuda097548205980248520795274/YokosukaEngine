@@ -21,8 +21,8 @@ public:
 
 private:
 
-	// 腕の羽ばたき
-	std::unique_ptr<GimmickFlapping> flappingArmR_ = nullptr;
-	std::unique_ptr<GimmickFlapping> flappingArmL_ = nullptr;
+	// 羽ばたき
+	std::unique_ptr<GimmickFlapping> flappingWingR_ = nullptr;
+	std::unique_ptr<GimmickFlapping> flappingWingL_ = nullptr;
 };
 
