@@ -62,6 +62,6 @@ void EnemyDevilStateApproachingRear::Update()
 	// タイマーを越えたら停止状態に移行する
 	if (timer_ >= time_)
 	{
-		enemy_->ChangeState(EnemyDevil::kStop);
+		enemy_->ChangeState(EnemyDevil::kTurn);
 	}
 }

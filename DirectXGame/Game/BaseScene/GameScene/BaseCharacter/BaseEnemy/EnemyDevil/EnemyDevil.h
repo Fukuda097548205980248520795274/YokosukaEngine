@@ -4,6 +4,7 @@
 #include "BaseEnemyDevilState/EnemyDevilStateApprochingRear/EnemyDevilStateApproachingRear.h"
 #include "BaseEnemyDevilState/EnemyDevilStateAwayTop/EnemyDevilStateAwayTop.h"
 #include "BaseEnemyDevilState/EnemyDevilStateStop/EnemyDevilStateStop.h"
+#include "BaseEnemyDevilState/EnemyDevilStateTurn/EnemyDevilStateTurn.h"
 
 #include "BaseEnemyDevilBehavior/BaseEnemyDevilBehavior.h"
 #include "BaseEnemyDevilBehavior/EnemyDevilBehaviorNormal/EnemyDevilBehaviorNormal.h"
@@ -32,6 +33,7 @@ public:
 	enum State
 	{
 		kApproachingRear,
+		kTurn,
 		kStop,
 		kAwayTop
 	};
