@@ -154,6 +154,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateApproachingRear\EnemyFairyStateApproachingRear.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateAwayTop\EnemyFairyStateAwayTop.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateStop\EnemyFairyStateStop.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateTurn\EnemyFairyStateTurn.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\EnemyFairy.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\BaseEnemyJetBehavior.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorNormal\EnemyJetBehaviorNormal.cpp" />
@@ -362,6 +363,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateApproachingRear\EnemyFairyStateApproachingRear.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateAwayTop\EnemyFairyStateAwayTop.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateStop\EnemyFairyStateStop.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateTurn\EnemyFairyStateTurn.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\EnemyFairy.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\BaseEnemyJetBehavior.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyJet\BaseEnemyJetBehavior\EnemyJetBehaviorNormal\EnemyJetBehaviorNormal.h" />

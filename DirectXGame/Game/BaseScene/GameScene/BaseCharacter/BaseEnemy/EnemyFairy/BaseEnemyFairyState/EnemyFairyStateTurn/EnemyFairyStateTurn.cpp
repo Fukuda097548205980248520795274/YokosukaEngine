@@ -1,12 +1,12 @@
-#include "EnemyDevilStateTurn.h"
-#include "../../EnemyDevil.h"
+#include "EnemyFairyStateTurn.h"
+#include "../../EnemyFairy.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 /// <param name="enemy"></param>
-EnemyDevilStateTurn::EnemyDevilStateTurn(EnemyDevil* enemy)
-	: BaseEnemyDevilState(enemy)
+EnemyFairyStateTurn::EnemyFairyStateTurn(EnemyFairy* enemy)
+	: BaseEnemyFairyState(enemy)
 {
 	// 時間
 	time_ = 0.75f;
@@ -18,7 +18,7 @@ EnemyDevilStateTurn::EnemyDevilStateTurn(EnemyDevil* enemy)
 /// <summary>
 /// 更新処理
 /// </summary>
-void EnemyDevilStateTurn::Update()
+void EnemyFairyStateTurn::Update()
 {
 	// ワールドトランスフォームを取得する
 	WorldTransform* worldTransform = enemy_->GetWorldTransform();
@@ -38,8 +38,7 @@ void EnemyDevilStateTurn::Update()
 	if (diff > std::numbers::pi_v<float>)
 	{
 		diff += -2.0f * std::numbers::pi_v<float>;
-	} 
-	else if (diff < -std::numbers::pi_v<float>)
+	} else if (diff < -std::numbers::pi_v<float>)
 	{
 		diff += 2.0f * std::numbers::pi_v<float>;
 	}
@@ -54,6 +53,6 @@ void EnemyDevilStateTurn::Update()
 	// タイマーを越えたら停止状態に移行する
 	if (timer_ >= time_)
 	{
-		enemy_->ChangeState(EnemyDevil::kStop);
+		enemy_->ChangeState(EnemyFairy::kStop);
 	}
 }

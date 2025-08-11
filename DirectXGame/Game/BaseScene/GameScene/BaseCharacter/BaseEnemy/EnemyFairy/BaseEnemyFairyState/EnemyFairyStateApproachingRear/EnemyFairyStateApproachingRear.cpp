@@ -61,6 +61,6 @@ void EnemyFairyStateApproachingRear::Update()
 	// タイマーを越えたら停止状態に移行する
 	if (timer_ >= time_)
 	{
-		enemy_->ChangeState(EnemyFairy::kStop);
+		enemy_->ChangeState(EnemyFairy::kTurn);
 	}
 }
