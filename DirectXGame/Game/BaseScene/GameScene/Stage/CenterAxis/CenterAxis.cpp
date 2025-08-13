@@ -51,11 +51,14 @@ void CenterAxis::Update()
 		return;
 	}
 
+	// 現在の位置
 	worldTransform_->translation_ = engine_->CatmullRomPosition(controlPoint_, t_);
 	Vector3 nextPos = engine_->CatmullRomPosition(controlPoint_, t_ + 0.0001f);
 
+	// 次の位置
 	Vector3 toNextPos = nextPos - worldTransform_->translation_;
 
+	// 進む方向を向く
 	worldTransform_->rotation_.y = std::atan2(toNextPos.x, toNextPos.z);
 	float length = std::sqrt(std::pow(toNextPos.x, 2.0f) + std::pow(toNextPos.z, 2.0f));
 	worldTransform_->rotation_.x = std::atan2(-toNextPos.y, length);
@@ -71,10 +74,7 @@ void CenterAxis::Update()
 void CenterAxis::Draw()
 {
 	// 制御点の描画
-	//engine_->DrwaCatmullRomSpline(controlPoint_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
-
-	// 弾を描画する
-	//engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, 10, 5, Vector4(1.0f, 0.0f, 0.0f, 1.0f), false);
+	engine_->DrwaCatmullRomSpline(controlPoint_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
 }
 
 

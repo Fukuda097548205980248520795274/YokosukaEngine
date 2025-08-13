@@ -1,0 +1,4 @@
+// 蝶の敵
+ENEMY,Butterfly,50,0.0f,0.0f,0.0f
+WAIT,3.0f
+ENEMY,Devil,50,0.0f,5.0f,0.0f

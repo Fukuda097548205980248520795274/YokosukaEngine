@@ -72,10 +72,16 @@ public:
 	/// <summary>
 	/// 敵を生成する
 	/// </summary>
-	void SummonEnemy();
+	void SummonEnemy(std::string& enemyType, int32_t hp, const Vector3& position);
+
+	/// <summary>
+	/// ステージオブジェクトを生成する
+	/// </summary>
+	void SummonStageObject(std::string& enemyType, const Vector3& position, const Vector3& rotation);
 
 
 private:
+
 
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
@@ -115,5 +121,12 @@ private:
 
 	// ステージオブジェクトのリスト
 	std::list<std::unique_ptr<BaseStageObject>> stageObjects_;
+
+
+	// 待機フラグ
+	bool isWait_ = false;
+
+	// 待機タイマー
+	float waitTimer_ = 0.0f;
 };
 
