@@ -39,7 +39,8 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer(),this);
 	stage_->SetTarget(player_.get());
-	stage_->LoadStageScript("./Resources/Script/Stage1.txt");
+	stage_->LoadEnemyScript("./Resources/Script/Stage1/enemy.txt");
+	stage_->LoadStageObjectScript("./Resources/Script/Stage1/stageObject.txt");
 
 	// 中心軸をメインカメラの親とする
 	mainCamera_->SetPivotParent(stage_->GetCenterAxisWorldTransform());

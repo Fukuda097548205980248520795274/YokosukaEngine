@@ -35,8 +35,11 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 /// </summary>
 void Stage::Update()
 {
-	// ステージスクリプトを更新する
-	StageScriptUpdate();
+	// 敵スクリプトを更新する
+	EnemyScriptUpdate();
+
+	// ステージオブジェクトスクリプトを更新する
+	StageObjectScriptUpdate();
 
 	// 中心軸の更新処理
 	centerAxis_->Update();
@@ -87,7 +90,7 @@ void Stage::Draw()
 /// ステージのスクリプトを読み込む
 /// </summary>
 /// <param name="filePath"></param>
-void Stage::LoadStageScript(const char* filePath)
+void Stage::LoadEnemyScript(const char* filePath)
 {
 	// nullptrチェック
 	assert(filePath);
@@ -98,7 +101,28 @@ void Stage::LoadStageScript(const char* filePath)
 	assert(file.is_open());
 
 	// ファイルの内容を文字列ストリームにコピー
-	stageStream_ << file.rdbuf();
+	enemyStream_ << file.rdbuf();
+
+	// ファイルを閉じる
+	file.close();
+}
+
+/// <summary>
+/// ステージオブジェクトのスクリプトを読み込む
+/// </summary>
+/// <param name="filePath"></param>
+void Stage::LoadStageObjectScript(const char* filePath)
+{
+	// nullptrチェック
+	assert(filePath);
+
+	// ファイルを開く
+	std::ifstream file;
+	file.open(filePath);
+	assert(file.is_open());
+
+	// ファイルの内容を文字列ストリームにコピー
+	stageObjectStream_ << file.rdbuf();
 
 	// ファイルを閉じる
 	file.close();
@@ -106,18 +130,18 @@ void Stage::LoadStageScript(const char* filePath)
 
 
 /// <summary>
-/// ステージスクリプトの更新処理
+/// 敵スクリプトの更新処理
 /// </summary>
-void Stage::StageScriptUpdate()
+void Stage::EnemyScriptUpdate()
 {
-	if (isWait_)
+	if (isWaitEnemyScript_)
 	{
-		waitTimer_ -= 1.0f / 60.0f;
+		waitEnemyScriptTimer_ -= 1.0f / 60.0f;
 
-		if (waitTimer_ <= 0.0f)
+		if (waitEnemyScriptTimer_ <= 0.0f)
 		{
 			// 待機をやめる
-			isWait_ = false;
+			isWaitEnemyScript_ = false;
 		}
 		
 		return;
@@ -128,7 +152,7 @@ void Stage::StageScriptUpdate()
 	std::string line;
 
 	// コマンド実行ループ
-	while (std::getline(stageStream_, line))
+	while (std::getline(enemyStream_, line))
 	{
 		// 1行分の文字列をストリームに変換して解析しやすくする
 		std::istringstream line_stream(line);
@@ -173,7 +197,63 @@ void Stage::StageScriptUpdate()
 
 			SummonEnemy(enemyType, hp, Vector3(x, y, z));
 		}
-		
+
+		if (word.find("WAIT") == 0)
+		{
+			std::getline(line_stream, word, ',');
+
+			// 待ち時間
+			float waitTime = (float)std::atof(word.c_str());
+
+			isWaitEnemyScript_ = true;
+			waitEnemyScriptTimer_ = waitTime;
+
+			break;
+		}
+	}
+}
+
+/// <summary>
+/// ステージオブジェクトスクリプトの更新処理
+/// </summary>
+void Stage::StageObjectScriptUpdate()
+{
+	if (isWaitStageObjectScript_)
+	{
+		waitStageObjectScriptTimer_ -= 1.0f / 60.0f;
+
+		if (waitStageObjectScriptTimer_ <= 0.0f)
+		{
+			// 待機をやめる
+			isWaitStageObjectScript_ = false;
+		}
+
+		return;
+	}
+
+
+	// 1行分の文字列を入れる変数
+	std::string line;
+
+	// コマンド実行ループ
+	while (std::getline(stageObjectStream_, line))
+	{
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		// 文字
+		std::string word;
+
+		// カンマ区切りで行の先頭文字列を取得する
+		std::getline(line_stream, word, ',');
+
+		// "//"から始まるのはコメントのため無視する
+		if (word.find("//") == 0)
+		{
+			continue;
+		}
+
+
 		if (word.find("STAGE_OBJECT") == 0)
 		{
 			// オブジェクトの種類
@@ -214,8 +294,8 @@ void Stage::StageScriptUpdate()
 			// 待ち時間
 			float waitTime = (float)std::atof(word.c_str());
 
-			isWait_ = true;
-			waitTimer_ = waitTime;
+			isWaitStageObjectScript_ = true;
+			waitStageObjectScriptTimer_ = waitTime;
 
 			break;
 		}
