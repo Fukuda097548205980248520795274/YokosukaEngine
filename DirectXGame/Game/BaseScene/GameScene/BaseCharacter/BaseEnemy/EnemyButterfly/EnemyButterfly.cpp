@@ -54,7 +54,7 @@ void EnemyButterfly::Initialize(const YokosukaEngine* engine, const Camera3D* ca
 
 
 	// ステートの生成
-	state_ = std::make_unique<EnemyButterflyStateApproachingRearLeft>(this);
+	state_ = std::make_unique<EnemyButterflyStateApproachingRear>(this);
 }
 
 /// <summary>
@@ -153,7 +153,7 @@ void EnemyButterfly::ChangeState(State state)
 	{
 	case kApproachingRear:
 		// 後方から
-		state_ = std::move(std::make_unique<EnemyButterflyStateApproachingRearLeft>(this));
+		state_ = std::move(std::make_unique<EnemyButterflyStateApproachingRear>(this));
 
 		break;
 

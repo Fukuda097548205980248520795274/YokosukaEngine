@@ -1,16 +1,15 @@
-#include "EnemyButterflyStateApproachingRearLeft.h"
+#include "EnemyButterflyStateApproachingRear.h"
 #include "../../EnemyButterfly.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 /// <param name="enemy"></param>
-EnemyButterflyStateApproachingRearLeft::EnemyButterflyStateApproachingRearLeft(EnemyButterfly* enemy)
+EnemyButterflyStateApproachingRear::EnemyButterflyStateApproachingRear(EnemyButterfly* enemy)
 	: BaseEnemyButterflyState(enemy) 
 {
 	// ワールドトランスフォームを取得する
 	WorldTransform* worldTransform = enemy_->GetWorldTransform();
-	worldTransform->translation_.z += -50.0f;
 
 
 	// 羽ばたきギミックの生成と初期化
@@ -39,7 +38,7 @@ EnemyButterflyStateApproachingRearLeft::EnemyButterflyStateApproachingRearLeft(E
 /// <summary>
 /// 更新処理
 /// </summary>
-void EnemyButterflyStateApproachingRearLeft::Update()
+void EnemyButterflyStateApproachingRear::Update()
 {
 	// ワールドトランスフォームを取得する
 	WorldTransform* worldTransform = enemy_->GetWorldTransform();

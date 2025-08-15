@@ -424,14 +424,8 @@
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState">
       <UniqueIdentifier>{f816f59d-168a-44cd-9751-f1629feb554e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft">
-      <UniqueIdentifier>{571f6b67-1b34-4c72-b9be-0bcce67cabb2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop">
       <UniqueIdentifier>{6ab18b8e-34f8-49a2-b623-f1ac09e4dced}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseEnemyGroup">
-      <UniqueIdentifier>{b3ff7e40-0510-4712-9c2c-756e349783b5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingA">
       <UniqueIdentifier>{2159293b-9134-4d5a-b7b3-d541e128036c}</UniqueIdentifier>
@@ -693,6 +687,15 @@
     </Filter>
     <Filter Include="Game\BaseScene\GameScene\Pose\PoseBox">
       <UniqueIdentifier>{86746fd0-ff4b-487c-8415-1e3b92d0e1d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRear">
+      <UniqueIdentifier>{571f6b67-1b34-4c72-b9be-0bcce67cabb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingLeft">
+      <UniqueIdentifier>{4746709e-0b44-4605-944e-54dc45948899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingRight">
+      <UniqueIdentifier>{91986200-6bff-4829-959f-3437aef3a448}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1056,8 +1059,8 @@
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\BaseEnemyButterflyState.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft\EnemyButterflyStateApproachingRearLeft.cpp">
-      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft</Filter>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRear\EnemyButterflyStateApproachingRear.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRear</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop\EnemyButterflyStateStop.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop</Filter>
@@ -1094,9 +1097,6 @@
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.cpp">
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectSaturnPlanetModelHandles</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.cpp">
-      <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles\StageObjectBuildingAModelHandles.cpp">
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingAModelHandles</Filter>
@@ -1682,8 +1682,8 @@
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\BaseEnemyButterflyState.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft\EnemyButterflyStateApproachingRearLeft.h">
-      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft</Filter>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRear\EnemyButterflyStateApproachingRear.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRear</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop\EnemyButterflyStateStop.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop</Filter>
@@ -1720,9 +1720,6 @@
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.h">
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectSaturnPlanetModelHandles</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.h">
-      <Filter>Game\BaseScene\GameScene\BaseEnemyGroup</Filter>
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingAModelHandles\StageObjectBuildingAModelHandles.h">
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectBuildingAModelHandles</Filter>

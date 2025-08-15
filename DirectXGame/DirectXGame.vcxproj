@@ -135,7 +135,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal\EnemyButterflyBehaviorNormal.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot\EnemyButterflyBehaviorShot.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\BaseEnemyButterflyState.cpp" />
-    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft\EnemyButterflyStateApproachingRearLeft.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRear\EnemyButterflyStateApproachingRear.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop\EnemyButterflyStateStop.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\BaseEnemyDevilBehavior.cpp" />
@@ -175,7 +175,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp\PlayerHUDHp.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea\PlayerHUDStateArea.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp\PlayerHUDTextHp.cpp" />
-    <ClCompile Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\BaseGimmick.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping\GimmickFlapping.cpp" />
@@ -345,7 +344,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorNormal\EnemyButterflyBehaviorNormal.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyBehavior\EnemyButterflyBehaviorShot\EnemyButterflyBehaviorShot.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\BaseEnemyButterflyState.h" />
-    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRearLeft\EnemyButterflyStateApproachingRearLeft.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRear\EnemyButterflyStateApproachingRear.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateAwayTop\EnemyButterflyStateAwayTop.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateStop\EnemyButterflyStateStop.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyDevil\BaseEnemyDevilBehavior\BaseEnemyDevilBehavior.h" />
@@ -385,7 +384,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDHp\PlayerHUDHp.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDStateArea\PlayerHUDStateArea.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\BasePlayerHUD\PlayerHUDTextHp\PlayerHUDTextHp.h" />
-    <ClInclude Include="Game\BaseScene\GameScene\BaseEnemyGroup\BaseEnemyGroup.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\BaseGimmick.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping\GimmickFlapping.h" />

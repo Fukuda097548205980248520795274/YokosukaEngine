@@ -5,7 +5,7 @@
 
 #include "../../../../../BaseGimmick/GimmickFlapping/GimmickFlapping.h"
 
-class EnemyButterflyStateApproachingRearLeft : public BaseEnemyButterflyState
+class EnemyButterflyStateApproachingRear : public BaseEnemyButterflyState
 {
 public:
 
@@ -13,7 +13,7 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="enemy"></param>
-	EnemyButterflyStateApproachingRearLeft(EnemyButterfly* enemy);
+	EnemyButterflyStateApproachingRear(EnemyButterfly* enemy);
 
 	/// <summary>
 	/// 更新処理
