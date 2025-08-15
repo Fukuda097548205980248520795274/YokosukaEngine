@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "PoseBox/PoseBox.h"
+#include "PoseBg/PoseBg.h"
 
 class Pose
 {
@@ -69,6 +70,9 @@ private:
 
 	// ポーズの箱
 	std::unique_ptr<PoseBox> poseBox_ = nullptr;
+
+	// ポーズの背景
+	std::unique_ptr<PoseBg> poseBg_ = nullptr;
 
 
 	// ポーズ音
