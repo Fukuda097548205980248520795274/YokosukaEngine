@@ -8,6 +8,8 @@
 
 #include "BaseCharacter/Player/Player.h"
 
+#include "DamageParticle/DamageParticle.h"
+
 #include "BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
 #include "BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
@@ -83,6 +85,11 @@ private:
 	void EnemyUpdate();
 
 	/// <summary>
+	/// ダメージパーティクルの更新処理
+	/// </summary>
+	void DamageParticleUpdate();
+
+	/// <summary>
 	/// 敵の弾の更新処理
 	/// </summary>
 	void EnemyBulletUpdate();
@@ -134,6 +141,10 @@ private:
 	// 敵の弾のリスト
 	std::list<std::unique_ptr<BaseEnemyBullet>> enemyBullets_;
 
+
+
+	// ダメージパーティクルのリスト
+	std::list<std::unique_ptr<DamageParticle>> damageParticles_;
 
 
 	// プレイヤーHUDのスクリーンハンドル

@@ -179,6 +179,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping\GimmickFlapping.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFloating\GimmickFloating.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\DamageParticle\DamageParticle.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Pose\Pose.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Pose\PoseBg\PoseBg.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Pose\PoseBox\PoseBox.cpp" />
@@ -389,6 +390,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFlapping\GimmickFlapping.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickFloating\GimmickFloating.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\DamageParticle\DamageParticle.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Pose\Pose.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Pose\PoseBg\PoseBg.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Pose\PoseBox\PoseBox.h" />
