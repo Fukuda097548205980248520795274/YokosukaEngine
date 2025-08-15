@@ -28,7 +28,7 @@ public:
 	// ステート
 	enum State
 	{
-		kApproachingRearLeft,
+		kApproachingRear,
 		kStop,
 		kAwayTop
 	};

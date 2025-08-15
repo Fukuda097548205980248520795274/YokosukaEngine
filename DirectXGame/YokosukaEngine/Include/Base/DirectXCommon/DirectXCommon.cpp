@@ -1964,6 +1964,82 @@ void DirectXCommon::DrawLine(const Vector3& start, const Vector3& end, const Cam
 }
 
 /// <summary>
+/// 線を描画する
+/// </summary>
+/// <param name="start"></param>
+/// <param name="end"></param>
+/// <param name="camera"></param>
+/// <param name="color"></param>
+void DirectXCommon::DrawLine(const Vector2& start, const Vector2& end, const Camera2D* camera, Vector4 color)
+{
+	// 使用できるリソース数を越えないようにする
+	if (useNumResourceLine_ >= kMaxNumResource)
+	{
+		return;
+	}
+
+	/*----------
+		頂点
+	----------*/
+
+	// 頂点データを書き込む
+	Vector4* vertexData = nullptr;
+	lineResources_[useNumResourceLine_]->vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
+
+	vertexData[0] = { start.x,start.y,0.0f,1.0f };
+	vertexData[1] = { end.x,end.y,0.0f,1.0f };
+
+
+	/*---------------
+		マテリアル
+	---------------*/
+
+	// データを書き込む
+	Vector4* materialData = nullptr;
+	lineResources_[useNumResourceLine_]->materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
+	*materialData = color;
+
+
+	/*-------------
+		座標変換
+	-------------*/
+
+	// データを書き込む
+	Matrix4x4* transformationData = nullptr;
+	lineResources_[useNumResourceLine_]->transformationResource_->Map(0, nullptr, reinterpret_cast<void**>(&transformationData));
+
+	// ワールド行列
+	Matrix4x4 worldMatrix = MakeAffineMatrix({ 1.0f , 1.0f , 1.0f }, { 0.0f , 0.0f , 0.0f }, { 0.0f , 0.0f , 0.0f });
+
+	*transformationData = worldMatrix * camera->viewMatrix_ * camera->projectionMatrix_;
+
+
+	/*------------------
+		コマンドを積む
+	------------------*/
+
+	psoLine3d_[useLine3dBlendMode_]->CommandListSet(directXCommand_->GetCommandList());
+
+	// VBVを設定する
+	directXCommand_->GetCommandList()->IASetVertexBuffers(0, 1, &lineResources_[useNumResourceLine_]->vertexBufferView_);
+
+	// 形状を設定
+	directXCommand_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+	// マテリアル用のCBVを設定
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(0, lineResources_[useNumResourceLine_]->materialResource_->GetGPUVirtualAddress());
+
+	// 座標変換用のCBVを設定
+	directXCommand_->GetCommandList()->SetGraphicsRootConstantBufferView(1, lineResources_[useNumResourceLine_]->transformationResource_->GetGPUVirtualAddress());
+
+	// 描画する
+	directXCommand_->GetCommandList()->DrawInstanced(2, 1, 0, 0);
+
+
+	useNumResourceLine_++;
+}
+
+/// <summary>
 /// スプライトを描画する
 /// </summary>
 /// <param name="worldTransform">ワールドトランスフォーム</param>

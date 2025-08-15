@@ -151,8 +151,8 @@ void EnemyButterfly::ChangeState(State state)
 {
 	switch (state)
 	{
-	case kApproachingRearLeft:
-		// 左後方から
+	case kApproachingRear:
+		// 後方から
 		state_ = std::move(std::make_unique<EnemyButterflyStateApproachingRearLeft>(this));
 
 		break;

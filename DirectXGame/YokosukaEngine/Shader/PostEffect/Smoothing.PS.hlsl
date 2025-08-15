@@ -10,24 +10,28 @@ SamplerState gSampler : register(s0);
 
 PixelShaderOutput main(VertexShaderOutput input)
 {
-    const float2 kIndex5x5[5][5] =
+    const float2 kIndex5x5[7][7] =
     {
-        { { -2.0f, -2.0f }, { -1.0f, -2.0f }, { 0.0f, -2.0f }, { 1.0f, -2.0f }, { 2.0f, -2.0f } },
-        { { -2.0f, -1.0f }, { -1.0f, -1.0f }, { 0.0f, -1.0f }, { 1.0f, -1.0f }, { 2.0f, -1.0f } },
-        { { -2.0f, 0.0f }, { -1.0f, 0.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 2.0f, 0.0f } },
-        { { -2.0f, 1.0f }, { -1.0f, 1.0f }, { 0.0f, 1.0f }, { 1.0f, 1.0f }, { 2.0f, 1.0f } },
-        { { -2.0f, 2.0f }, { -1.0f, 2.0f }, { 0.0f, 2.0f }, { 1.0f, 2.0f }, { 2.0f, 2.0f } }
+        { { -3.0f, -3.0f }, { -2.0f, -3.0f }, { -1.0f, -3.0f }, { 0.0f, -3.0f }, { 1.0f, -3.0f }, { 2.0f, -3.0f }, { 3.0f, -3.0f } },
+        { { -3.0f, -2.0f }, { -2.0f, -2.0f }, { -1.0f, -2.0f }, { 0.0f, -2.0f }, { 1.0f, -2.0f }, { 2.0f, -2.0f }, { 3.0f, -2.0f } },
+        { { -3.0f, -1.0f }, { -2.0f, -1.0f }, { -1.0f, -1.0f }, { 0.0f, -1.0f }, { 1.0f, -1.0f }, { 2.0f, -1.0f }, { 3.0f, -1.0f } },
+        { { -3.0f, 0.0f }, { -2.0f, 0.0f }, { -1.0f, 0.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 2.0f, 0.0f }, { 3.0f, 0.0f } },
+        { { -3.0f, 1.0f }, { -2.0f, 1.0f }, { -1.0f, 1.0f }, { 0.0f, 1.0f }, { 1.0f, 1.0f }, { 2.0f, 1.0f }, { 3.0f, 1.0f } },
+        { { -3.0f, 2.0f }, { -2.0f, 2.0f }, { -1.0f, 2.0f }, { 0.0f, 2.0f }, { 1.0f, 2.0f }, { 2.0f, 2.0f }, { 3.0f, 2.0f } },
+        { { -3.0f, 3.0f }, { -2.0f, 3.0f }, { -1.0f, 3.0f }, { 0.0f, 3.0f }, { 1.0f, 3.0f }, { 2.0f, 3.0f }, { 3.0f, 3.0f } }
     };
     
-    float sum = 25.0f;
+    float sum = 49.0f;
     
-    const float kKernel5x5[5][5] =
+    const float kKernel5x5[7][7] =
     {
-        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
-        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
-        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
-        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
-        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum }
+        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
+        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
+        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
+        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
+        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
+        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum },
+        { 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum, 1.0f / sum }
     };
     
    /*-------------------------
@@ -48,9 +52,9 @@ PixelShaderOutput main(VertexShaderOutput input)
     
     
     // 3x3ループを回す
-    for (int x = 0; x < 5; x++)
+    for (int x = 0; x < 7; x++)
     {
-        for (int y = 0; y < 5; y++)
+        for (int y = 0; y < 7; y++)
         {
             // 現在のテクスチャ座標系を求める
             float2 texcoord = input.texcoord + kIndex5x5[x][y] * uvStepSize;

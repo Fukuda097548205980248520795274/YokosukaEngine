@@ -691,6 +691,9 @@
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateTurn">
       <UniqueIdentifier>{4db80c08-b306-435e-bf78-21a6821347b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Pose\PoseBox">
+      <UniqueIdentifier>{86746fd0-ff4b-487c-8415-1e3b92d0e1d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1310,6 +1313,9 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateTurn\EnemyFairyStateTurn.cpp">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateTurn</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Pose\PoseBox\PoseBox.cpp">
+      <Filter>Game\BaseScene\GameScene\Pose\PoseBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1933,6 +1939,9 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateTurn\EnemyFairyStateTurn.h">
       <Filter>Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyFairy\BaseEnemyFairyState\EnemyFairyStateTurn</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Pose\PoseBox\PoseBox.h">
+      <Filter>Game\BaseScene\GameScene\Pose\PoseBox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
