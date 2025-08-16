@@ -58,5 +58,5 @@ void DamageParticle::Update()
 /// </summary>
 void DamageParticle::Draw()
 {
-	engine_->DrawRing(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, 12, 12.0f, 8.0f, Vector4(1.0f, 1.0f, 1.0f, 1.0f), false);
+	engine_->DrawRing(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, 12, 4.0f, 2.0f, Vector4(1.0f, 1.0f, 1.0f, 1.0f), false);
 }

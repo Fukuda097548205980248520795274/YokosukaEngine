@@ -82,7 +82,8 @@ public:
 	/// <summary>
 	/// 敵を生成する
 	/// </summary>
-	void SummonEnemy(std::string& enemyType, int32_t hp, const Vector3& position);
+	void SummonEnemy(std::string& enemyType, int32_t hp, const Vector3& position,
+		const Vector3 approachingDirection, float approachingTime, const Vector3 awayDirection, float awayTime);
 
 	/// <summary>
 	/// ステージオブジェクトを生成する

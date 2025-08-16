@@ -177,25 +177,118 @@ void Stage::EnemyScriptUpdate()
 			std::getline(line_stream, word, ',');
 			std::string enemyType = word;
 
-
 			// 敵の体力
-			std::getline(line_stream, word, ',');
-			int32_t hp = (int32_t)std::atoi(word.c_str());
+			int32_t hp = 0;
+			std::getline(line_stream, word, '(');
+			if (word.find("Hp") == 0)
+			{
+				std::getline(line_stream, word, ')');
+				hp = (int32_t)std::atoi(word.c_str());
+
+				std::getline(line_stream, word, ',');
+			}
+
+			// 敵の位置
+			Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
+			std::getline(line_stream, word, '(');
+			if (word.find("Position") == 0)
+			{
+				// x座標
+				std::getline(line_stream, word, ',');
+				pos.x = (float)std::atof(word.c_str());
+
+				// y座標
+				std::getline(line_stream, word, ',');
+				pos.y = (float)std::atof(word.c_str());
+
+				// z座標
+				std::getline(line_stream, word, ')');
+				pos.z = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+			}
+
+			// 接近
+			Vector3 approachingDirection = Vector3(0.0f, 0.0f, 0.0f);
+			float approachingTime = 0.0f;
+
+			std::getline(line_stream, word, '(');
+			if (word.find("Approaching") == 0)
+			{
+				std::getline(line_stream, word, '(');
+				if (word.find("Direction") == 0)
+				{
+					// x座標
+					std::getline(line_stream, word, ',');
+					approachingDirection.x = (float)std::atof(word.c_str());
+
+					// y座標
+					std::getline(line_stream, word, ',');
+					approachingDirection.y = (float)std::atof(word.c_str());
+
+					// z座標
+					std::getline(line_stream, word, ')');
+					approachingDirection.z = (float)std::atof(word.c_str());
+
+					// 正規化
+					approachingDirection = Normalize(approachingDirection);
+
+					std::getline(line_stream, word, ',');
+				}
+
+				std::getline(line_stream, word, '(');
+				if (word.find("Time") == 0)
+				{
+					std::getline(line_stream, word, ')');
+					approachingTime = (float)std::atoi(word.c_str());
+				}
+
+				std::getline(line_stream, word, ')');
+				std::getline(line_stream, word, ',');
+			}
+			
+
+			// 離脱
+			Vector3 AwayDirection = Vector3(0.0f, 0.0f, 0.0f);
+			float AwayTime = 0.0f;
+
+			std::getline(line_stream, word, '(');
+			if (word.find("Away") == 0)
+			{
+				std::getline(line_stream, word, '(');
+				if (word.find("Direction") == 0)
+				{
+					// x座標
+					std::getline(line_stream, word, ',');
+					AwayDirection.x = (float)std::atof(word.c_str());
+
+					// y座標
+					std::getline(line_stream, word, ',');
+					AwayDirection.y = (float)std::atof(word.c_str());
+
+					// z座標
+					std::getline(line_stream, word, ')');
+					AwayDirection.z = (float)std::atof(word.c_str());
+
+					// 正規化
+					AwayDirection = Normalize(AwayDirection);
+
+					std::getline(line_stream, word, ',');
+				}
+
+				std::getline(line_stream, word, '(');
+				if (word.find("Time") == 0)
+				{
+					std::getline(line_stream, word, ')');
+					AwayTime = (float)std::atoi(word.c_str());
+				}
+
+				std::getline(line_stream, word, ')');
+				std::getline(line_stream, word, ',');
+			}
 
 
-			// x座標
-			std::getline(line_stream, word, ',');
-			float x = (float)std::atof(word.c_str());
-
-			// y座標
-			std::getline(line_stream, word, ',');
-			float y = (float)std::atof(word.c_str());
-
-			// z座標
-			std::getline(line_stream, word, ',');
-			float z = (float)std::atof(word.c_str());
-
-			SummonEnemy(enemyType, hp, Vector3(x, y, z));
+			SummonEnemy(enemyType, hp, pos , approachingDirection , approachingTime , AwayDirection , AwayTime);
 		}
 
 		if (word.find("WAIT") == 0)
@@ -260,7 +353,6 @@ void Stage::StageObjectScriptUpdate()
 			std::getline(line_stream, word, ',');
 			std::string stageObjectType = word;
 
-
 			// x座標
 			std::getline(line_stream, word, ',');
 			float x = (float)std::atof(word.c_str());
@@ -306,7 +398,8 @@ void Stage::StageObjectScriptUpdate()
 /// <summary>
 /// 敵を生成する
 /// </summary>
-void Stage::SummonEnemy(std::string& enemyType, int32_t hp, const Vector3& position)
+void Stage::SummonEnemy(std::string& enemyType, int32_t hp, const Vector3& position ,
+	const Vector3 approachingDirection , float approachingTime , const Vector3 awayDirection, float awayTime)
 {
 	if (strcmp(enemyType.c_str(), "Butterfly") == 0)
 	{
