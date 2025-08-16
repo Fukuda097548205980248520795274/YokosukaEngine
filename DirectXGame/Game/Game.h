@@ -3,6 +3,7 @@
 #include "BaseScene/GameScene/GameScene.h"
 #include "BaseScene/TitleScene/TitleScene.h"
 #include "BaseScene/ClearScene/ClearScene.h"
+#include "BaseScene/StageSelectScene/StageSelectScene.h"
 #include "ModelHandleStore/ModelHandleStore.h"
 #include "TextureHandleStore/TextureHandleStore.h"
 
@@ -49,6 +50,7 @@ private:
 	enum ScenePhase
 	{
 		kTitle,
+		kStageSelect,
 		kGame,
 		kClear
 	};

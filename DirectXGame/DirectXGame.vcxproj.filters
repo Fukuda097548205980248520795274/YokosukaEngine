@@ -703,6 +703,9 @@
     <Filter Include="Game\BaseScene\GameScene\DamageParticle">
       <UniqueIdentifier>{3fb9e017-a206-428b-bef1-3ad1fc0f3ea1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\StageSelectScene">
+      <UniqueIdentifier>{e2ea2a70-f2da-4867-b927-82ebcee6b004}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1328,6 +1331,9 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\DamageParticle\DamageParticle.cpp">
       <Filter>Game\BaseScene\GameScene\DamageParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\StageSelectScene\StageSelectScene.cpp">
+      <Filter>Game\BaseScene\StageSelectScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1957,6 +1963,9 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\DamageParticle\DamageParticle.h">
       <Filter>Game\BaseScene\GameScene\DamageParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\StageSelectScene\StageSelectScene.h">
+      <Filter>Game\BaseScene\StageSelectScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

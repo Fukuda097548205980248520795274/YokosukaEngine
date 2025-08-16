@@ -21,7 +21,7 @@ void Game::Initialize(const YokosukaEngine* engine)
 	textureHandleStore_->Initialize(engine_);
 
 	// タイトルシーンの生成と初期化
-	scene_ = std::make_unique<GameScene>();
+	scene_ = std::make_unique<StageSelectScene>();
 	scene_->Initialize(engine_ , modelHandleStore_.get() , textureHandleStore_.get());
 	scenePhase_ = kGame;
 }
@@ -47,6 +47,14 @@ void Game::Update()
 			// タイトル
 
 			scene_ = std::make_unique<TitleScene>();
+			scene_->Initialize(engine_, modelHandleStore_.get(), textureHandleStore_.get());
+
+			break;
+
+		case kStageSelect:
+			// ステージセレクト
+
+			scene_ = std::make_unique<StageSelectScene>();
 			scene_->Initialize(engine_, modelHandleStore_.get(), textureHandleStore_.get());
 
 			break;
@@ -84,6 +92,13 @@ void Game::Update()
 		{
 		case kTitle:
 			// タイトル
+
+			scenePhaseRequest_ = kStageSelect;
+
+			break;
+
+		case kStageSelect:
+			// ステージセレクト
 
 			scenePhaseRequest_ = kGame;
 
