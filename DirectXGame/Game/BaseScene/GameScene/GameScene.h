@@ -76,7 +76,8 @@ public:
 	/// </summary>
 	/// <param name="enemyScriptPass"></param>
 	/// <param name="stageObjectScriptPass"></param>
-	void CreateStage(const std::string& enemyScriptPass, const std::string& stageObjectScriptPass) override;
+	void CreateStage(const std::string& controlPointScriptPass, 
+		const std::string& enemyScriptPass, const std::string& stageObjectScriptPass) override;
 
 
 private:

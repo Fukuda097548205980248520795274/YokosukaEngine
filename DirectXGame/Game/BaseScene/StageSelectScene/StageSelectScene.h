@@ -34,6 +34,11 @@ public:
 	/// <returns></returns>
 	std::string GetStageObjectScriptPass()override { return stageObjectScriptPass_[currentStage]; }
 
+	/// <summary>
+	/// 制御点のスクリプトのパスのGetter
+	/// </summary>
+	/// <returns></returns>
+	std::string GetControlPointScriptPass()override { return controlPointScriptPass_[currentStage]; }
 
 private:
 
@@ -77,6 +82,15 @@ private:
 		{-10.0f , 10.0f , 500.0f},
 		{5.0f , -5.0f , 1000.0f},
 		{0.0f , 20.0f , 1500.0f},
+	};
+
+	// 制御点のスクリプトパス
+	std::string controlPointScriptPass_[kNumStage] =
+	{
+		{"./Resources/Script/Tutorial/controlPoint.txt"},
+		{"./Resources/Script/Stage1/controlPoint.txt"},
+		{"./Resources/Script/Stage2/controlPoint.txt"},
+		{"./Resources/Script/Stage3/controlPoint.txt"}
 	};
 
 	// 敵のスクリプトパス

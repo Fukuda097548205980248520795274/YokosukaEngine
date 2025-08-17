@@ -27,8 +27,6 @@ void CenterAxis::Initliaze(const YokosukaEngine* engine, const Camera3D* camera3
 
 	// テクスチャを読み込む
 	textureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
-
-	LoadControlPointScript("./Resources/Script/Stage1/controlPoint.txt");
 }
 
 /// <summary>

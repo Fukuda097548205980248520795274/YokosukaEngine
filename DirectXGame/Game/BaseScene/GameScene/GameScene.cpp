@@ -187,11 +187,13 @@ void GameScene::Draw()
 /// </summary>
 /// <param name="enemyScriptPass"></param>
 /// <param name="stageObjectScriptPass"></param>
-void GameScene::CreateStage(const std::string& enemyScriptPass, const std::string& stageObjectScriptPass)
+void GameScene::CreateStage(const std::string& controlPointScriptPass, 
+	const std::string& enemyScriptPass, const std::string& stageObjectScriptPass)
 {
 	// ステージの生成と初期化
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer(), this);
+	stage_->LoadControlPointScript(controlPointScriptPass.c_str());
 	stage_->SetTarget(player_.get());
 	stage_->LoadEnemyScript(enemyScriptPass.c_str());
 	stage_->LoadStageObjectScript(stageObjectScriptPass.c_str());

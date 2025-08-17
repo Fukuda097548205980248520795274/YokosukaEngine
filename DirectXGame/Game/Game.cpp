@@ -65,7 +65,7 @@ void Game::Update()
 
 			scene_ = std::make_unique<GameScene>();
 			scene_->Initialize(engine_, modelHandleStore_.get(), textureHandleStore_.get());
-			scene_->CreateStage(enemyScript_, stageObjectScript_);
+			scene_->CreateStage(controlPointScript_,enemyScript_, stageObjectScript_);
 
 			break;
 
@@ -105,6 +105,7 @@ void Game::Update()
 			scenePhaseRequest_ = kGame;
 
 			// パスを取得する
+			controlPointScript_ = scene_->GetControlPointScriptPass();
 			enemyScript_ = scene_->GetEnemyScriptPass();
 			stageObjectScript_ = scene_->GetStageObjectScriptPass();
 

@@ -40,6 +40,12 @@ public:
 	void Draw();
 
 	/// <summary>
+	/// 制御点スクリプトを読み込む
+	/// </summary>
+	/// <param name="filePath"></param>
+	void LoadControlPointScript(const char* filePath) { centerAxis_->LoadControlPointScript(filePath); }
+
+	/// <summary>
 	/// 敵のスクリプトを読み込む
 	/// </summary>
 	/// <param name="filePath"></param>

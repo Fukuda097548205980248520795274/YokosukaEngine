@@ -62,6 +62,9 @@ private:
 	std::optional<ScenePhase> scenePhaseRequest_ = std::nullopt;
 
 
+	// 制御点スクリプト
+	std::string controlPointScript_;
+
 	// 敵スクリプト
 	std::string enemyScript_;
 
