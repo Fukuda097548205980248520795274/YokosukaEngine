@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
-class BaseEnemyGroup
+class DamageParticle
 {
 public:
 
@@ -10,18 +10,17 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	/// <param name="position"></param>
-	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, WorldTransform* worldTransform, const Vector3& position);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const Vector3& position);
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update();
+	void Update();
 
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	virtual void Draw() = 0;
+	void Draw();
 
 	/// <summary>
 	/// 終了フラグのGetter
@@ -30,7 +29,7 @@ public:
 	bool IsFinished()const { return isFinished_; }
 
 
-protected:
+private:
 
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
@@ -38,16 +37,22 @@ protected:
 	// カメラ
 	const Camera3D* camera3d_ = nullptr;
 
+
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// UVトランスフォーム
+	std::unique_ptr<UvTransform> uvTransform_ = nullptr;
+
+	// テクスチャ
+	uint32_t textureHandle_ = 0;
 
 
 	// タイマー
 	float timer_ = 0.0f;
 
-	// 時間
-	float time_ = 0.0f;
-
+	// 最大時間
+	float maxTime_ = 0.1f;
 
 	// 終了フラグ
 	bool isFinished_ = false;

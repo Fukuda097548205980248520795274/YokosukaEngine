@@ -1,5 +1,7 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "PoseBox/PoseBox.h"
+#include "PoseBg/PoseBg.h"
 
 class Pose
 {
@@ -46,6 +48,9 @@ private:
 	// 3Dカメラ
 	const Camera3D* camera3d_ = nullptr;
 
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
+
 
 
 
@@ -62,6 +67,12 @@ private:
 
 	// 現在のフェーズ
 	Phase phase_ = kFadeIn;
+
+	// ポーズの箱
+	std::unique_ptr<PoseBox> poseBox_ = nullptr;
+
+	// ポーズの背景
+	std::unique_ptr<PoseBg> poseBg_ = nullptr;
 
 
 	// ポーズ音

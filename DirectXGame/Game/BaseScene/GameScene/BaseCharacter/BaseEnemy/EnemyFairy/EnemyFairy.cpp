@@ -190,6 +190,12 @@ void EnemyFairy::ChangeState(State state)
 
 		break;
 
+	case kTurn:
+		// 旋回
+		state_ = std::move(std::make_unique<EnemyFairyStateTurn>(this));
+
+		break;
+
 	case kStop:
 		// 停止
 		state_ = std::move(std::make_unique<EnemyFairyStateStop>(this));

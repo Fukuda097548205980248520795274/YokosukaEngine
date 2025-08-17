@@ -27,13 +27,6 @@ void CenterAxis::Initliaze(const YokosukaEngine* engine, const Camera3D* camera3
 
 	// テクスチャを読み込む
 	textureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
-
-
-	// 制御点の登録
-	for (uint32_t i = 0; i < _countof(controlPointTable); ++i)
-	{
-		controlPoint_.push_back(controlPointTable[i]);
-	}
 }
 
 /// <summary>
@@ -51,11 +44,14 @@ void CenterAxis::Update()
 		return;
 	}
 
+	// 現在の位置
 	worldTransform_->translation_ = engine_->CatmullRomPosition(controlPoint_, t_);
 	Vector3 nextPos = engine_->CatmullRomPosition(controlPoint_, t_ + 0.0001f);
 
+	// 次の位置
 	Vector3 toNextPos = nextPos - worldTransform_->translation_;
 
+	// 進む方向を向く
 	worldTransform_->rotation_.y = std::atan2(toNextPos.x, toNextPos.z);
 	float length = std::sqrt(std::pow(toNextPos.x, 2.0f) + std::pow(toNextPos.z, 2.0f));
 	worldTransform_->rotation_.x = std::atan2(-toNextPos.y, length);
@@ -71,10 +67,7 @@ void CenterAxis::Update()
 void CenterAxis::Draw()
 {
 	// 制御点の描画
-	//engine_->DrwaCatmullRomSpline(controlPoint_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
-
-	// 弾を描画する
-	//engine_->DrawSphere(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, 10, 5, Vector4(1.0f, 0.0f, 0.0f, 1.0f), false);
+	engine_->DrwaCatmullRomSpline(controlPoint_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
 }
 
 
@@ -92,4 +85,71 @@ Vector3 CenterAxis::GetWorldPosition()const
 	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
+}
+
+/// <summary>
+/// 制御点スクリプトを読み込む
+/// </summary>
+/// <param name="filePath"></param>
+void CenterAxis::LoadControlPointScript(const char* filePath)
+{
+	// nullptrチェック
+	assert(filePath);
+
+	// ファイルを開く
+	std::ifstream file;
+	file.open(filePath);
+	assert(file.is_open());
+
+	// ファイルの内容を文字列ストリームにコピー
+	controlPointStream_ << file.rdbuf();
+
+	// ファイルを閉じる
+	file.close();
+
+
+	// 1行分の文字列を入れる変数
+	std::string line;
+
+	// コマンド実行ループ
+	while (std::getline(controlPointStream_, line))
+	{
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		// 文字
+		std::string word;
+
+		// カッコまでの文字を取得する
+		std::getline(line_stream, word, '(');
+
+		// "//"から始まるのはコメントのため無視する
+		if (word.find("//") == 0)
+		{
+			continue;
+		}
+
+
+		// 点
+		if (word.find("P") == 0)
+		{
+			// 3次元ベクトル
+			Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
+
+			// X軸
+			std::getline(line_stream, word, ',');
+			pos.x = (float)std::atof(word.c_str());
+
+			// Y軸
+			std::getline(line_stream, word, ',');
+			pos.y = (float)std::atof(word.c_str());
+
+			// Z軸
+			std::getline(line_stream, word, ')');
+			pos.z = (float)std::atof(word.c_str());
+
+			// 追加する
+			controlPoint_.push_back(pos);
+		}
+	}
 }

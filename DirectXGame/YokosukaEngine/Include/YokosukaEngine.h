@@ -43,6 +43,13 @@ enum MouseButton
 	kMouseButtonCenter
 };
 
+// 塗りつぶしモード
+enum class FillMode
+{
+	kSolid,
+	kWireFrame
+};
+
 class YokosukaEngine
 {
 
@@ -306,7 +313,7 @@ public:
 	/// <param name="textureHandle"></param>
 	/// <param name="color"></param>
 	void DrawSprite(const WorldTransform2D* worldTransform,const UvTransform* uvTransform, 
-		const Camera2D* camera, uint32_t textureHandle, Vector4 color) const
+		const Camera2D* camera, uint32_t textureHandle, Vector4 color , FillMode fillMode) const
 	{
 		// ワールドビュープロジェクション行列
 		Matrix4x4 worldViewProjectionMatrix = worldTransform->worldMatrix_ * camera->viewMatrix_ * camera->projectionMatrix_;
@@ -322,9 +329,18 @@ public:
 			Transform(Transform(Vector3(1.0f , 1.0f) , worldViewProjectionMatrix), viewportMatrix)
 		};
 
-
-		directXCommon_->DrawSprite(Vector2(vertecies[0].x, vertecies[0].y), Vector2(vertecies[1].x, vertecies[1].y),
-			Vector2(vertecies[2].x, vertecies[2].y), Vector2(vertecies[3].x, vertecies[3].y), uvTransform, camera, textureHandle, color);
+		if (fillMode == FillMode::kSolid)
+		{
+			directXCommon_->DrawSprite(Vector2(vertecies[0].x, vertecies[0].y), Vector2(vertecies[1].x, vertecies[1].y),
+				Vector2(vertecies[2].x, vertecies[2].y), Vector2(vertecies[3].x, vertecies[3].y), uvTransform, camera, textureHandle, color);
+		}
+		else if (fillMode == FillMode::kWireFrame)
+		{
+			directXCommon_->DrawLine(Vector2(vertecies[0].x, vertecies[0].y), Vector2(vertecies[1].x, vertecies[1].y), camera, color);
+			directXCommon_->DrawLine(Vector2(vertecies[0].x, vertecies[0].y), Vector2(vertecies[2].x, vertecies[2].y), camera, color);
+			directXCommon_->DrawLine(Vector2(vertecies[1].x, vertecies[1].y), Vector2(vertecies[3].x, vertecies[3].y), camera, color);
+			directXCommon_->DrawLine(Vector2(vertecies[2].x, vertecies[2].y), Vector2(vertecies[3].x, vertecies[3].y), camera, color);
+		}
 	}
 
 	/// <summary>

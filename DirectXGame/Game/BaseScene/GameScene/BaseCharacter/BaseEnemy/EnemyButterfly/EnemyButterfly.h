@@ -6,7 +6,7 @@
 
 #include "../../../BaseGimmick/GimmickFloating/GimmickFloating.h"
 
-#include "BaseEnemyButterflyState/EnemyButterflyStateApproachingRearLeft/EnemyButterflyStateApproachingRearLeft.h"
+#include "BaseEnemyButterflyState/EnemyButterflyStateApproachingRear/EnemyButterflyStateApproachingRear.h"
 #include "BaseEnemyButterflyState/EnemyButterflyStateStop/EnemyButterflyStateStop.h"
 #include "BaseEnemyButterflyState/EnemyButterflyStateAwayTop/EnemyButterflyStateAwayTop.h"
 
@@ -28,7 +28,7 @@ public:
 	// ステート
 	enum State
 	{
-		kApproachingRearLeft,
+		kApproachingRear,
 		kStop,
 		kAwayTop
 	};

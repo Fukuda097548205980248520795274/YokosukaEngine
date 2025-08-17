@@ -8,6 +8,8 @@
 
 #include "BaseCharacter/Player/Player.h"
 
+#include "DamageParticle/DamageParticle.h"
+
 #include "BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
 #include "BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
@@ -69,6 +71,14 @@ public:
 	/// <param name="enemyBullet"></param>
 	void EnemyBulletShot(std::unique_ptr<BaseEnemyBullet> enemyBullet);
 
+	/// <summary>
+	/// ステージを生成する
+	/// </summary>
+	/// <param name="enemyScriptPass"></param>
+	/// <param name="stageObjectScriptPass"></param>
+	void CreateStage(const std::string& controlPointScriptPass, 
+		const std::string& enemyScriptPass, const std::string& stageObjectScriptPass) override;
+
 
 private:
 
@@ -81,6 +91,11 @@ private:
 	/// 敵の更新処理
 	/// </summary>
 	void EnemyUpdate();
+
+	/// <summary>
+	/// ダメージパーティクルの更新処理
+	/// </summary>
+	void DamageParticleUpdate();
 
 	/// <summary>
 	/// 敵の弾の更新処理
@@ -134,6 +149,10 @@ private:
 	// 敵の弾のリスト
 	std::list<std::unique_ptr<BaseEnemyBullet>> enemyBullets_;
 
+
+
+	// ダメージパーティクルのリスト
+	std::list<std::unique_ptr<DamageParticle>> damageParticles_;
 
 
 	// プレイヤーHUDのスクリーンハンドル

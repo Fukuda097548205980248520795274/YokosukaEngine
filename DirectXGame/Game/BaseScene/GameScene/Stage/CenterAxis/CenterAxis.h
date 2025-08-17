@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include <sstream>
 
 // 前方宣言
 class GameScene;
@@ -55,6 +56,12 @@ public:
 	/// <returns></returns>
 	bool IsGoal()const { return isGoal_; }
 
+	/// <summary>
+	/// 制御点スクリプトを読み込む
+	/// </summary>
+	/// <param name="filePath"></param>
+	void LoadControlPointScript(const char* filePath);
+
 
 private:
 
@@ -81,20 +88,16 @@ private:
 	uint32_t textureHandle_ = 0;
 
 
+
+	/*--------------------
+	    制御点スクリプト
+	--------------------*/
+
+	// 制御点スクリプトの文字ストリーム
+	std::stringstream controlPointStream_;
+
 	// ゴールフラグ
 	bool isGoal_ = false;
-
-	Vector3 controlPointTable[7] =
-	{
-		{0.0f , 20.0f , 0.0f},
-		{0.0f , 20.0f , 450.0f},
-		{100.0f , 20.0f , 573.0f},
-		{200.0f , 20.0f , 660.0f},
-		{250.0f , 20.0f , 750.0f},
-		{230.0f , 20.0f , 800.0f},
-		{100.0f , 20.0f , 900.0f}
-
-	};
 
 	float t_ = 0.0f;
 

@@ -34,23 +34,9 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	// ゲームタイマーを取得する
 	gameTimer_ = player_->GetGameTimer();
 
-
-	// ステージの生成と初期化
-	stage_ = std::make_unique<Stage>();
-	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer(),this);
-	stage_->SetTarget(player_.get());
-
-	// 敵を生成する
-	stage_->SummonEnemy();
-
-	// 中心軸をメインカメラの親とする
-	mainCamera_->SetPivotParent(stage_->GetCenterAxisWorldTransform());
-
-
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_);
-	skydome_->SetPosition(stage_->GetCenterAxisWorldPosition());
 }
 
 /// <summary>
@@ -123,6 +109,9 @@ void GameScene::Update()
 	// 敵の弾の更新
 	EnemyBulletUpdate();
 
+	// ダメージパーティクルの更新
+	DamageParticleUpdate();
+
 
 	// 全ての当たり判定を行う
 	AllCheckCollision();
@@ -170,6 +159,12 @@ void GameScene::Draw()
 		enemyBullet->Draw();
 	}
 
+	// ダメージパーティクルの描画
+	for (std::unique_ptr<DamageParticle>& damageParticle : damageParticles_)
+	{
+		damageParticle->Draw();
+	}
+
 
 	// プレイヤーHUDのスクリーンを加算する
 	engine_->SetCopyImageBlendMode(kBlendModeScreen);
@@ -185,6 +180,29 @@ void GameScene::Draw()
 
 	// Scene描画
 	BaseScene::Draw();
+}
+
+/// <summary>
+/// ステージを生成する
+/// </summary>
+/// <param name="enemyScriptPass"></param>
+/// <param name="stageObjectScriptPass"></param>
+void GameScene::CreateStage(const std::string& controlPointScriptPass, 
+	const std::string& enemyScriptPass, const std::string& stageObjectScriptPass)
+{
+	// ステージの生成と初期化
+	stage_ = std::make_unique<Stage>();
+	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer(), this);
+	stage_->LoadControlPointScript(controlPointScriptPass.c_str());
+	stage_->SetTarget(player_.get());
+	stage_->LoadEnemyScript(enemyScriptPass.c_str());
+	stage_->LoadStageObjectScript(stageObjectScriptPass.c_str());
+
+
+	// 中心軸をメインカメラの親とする
+	mainCamera_->SetPivotParent(stage_->GetCenterAxisWorldTransform());
+
+	skydome_->SetPosition(stage_->GetCenterAxisWorldPosition());
 }
 
 
@@ -275,6 +293,30 @@ void GameScene::EnemyUpdate()
 }
 
 /// <summary>
+/// ダメージパーティクルの更新処理
+/// </summary>
+void GameScene::DamageParticleUpdate()
+{
+	// ダメージパーティクルの更新
+	for (std::unique_ptr<DamageParticle>& damageParticle : damageParticles_)
+	{
+		damageParticle->Update();
+	}
+
+	// 終了したダメージパーティクルをリストから削除する
+	damageParticles_.remove_if([](std::unique_ptr<DamageParticle>& damageParticle)
+		{
+			if (damageParticle->IsFinished())
+			{
+				damageParticle.release();
+				return true;
+			}
+			return false;
+		}
+	);
+}
+
+/// <summary>
 /// 敵の弾の更新処理
 /// </summary>
 void GameScene::EnemyBulletUpdate()
@@ -323,6 +365,10 @@ void GameScene::AllCheckCollision()
 			{
 				playerBullet->OnCollision(enemy.get());
 				enemy->OnCollision(playerBullet.get());
+
+				std::unique_ptr<DamageParticle> damageParticle = std::make_unique<DamageParticle>();
+				damageParticle->Initialize(engine_, camera3d_ , enemy->GetWorldPosition());
+				damageParticles_.push_back(std::move(damageParticle));
 			}
 		}
 	}

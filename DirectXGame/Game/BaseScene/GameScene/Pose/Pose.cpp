@@ -14,6 +14,18 @@ void Pose::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	engine_ = engine;
 	camera3d_ = camera3d;
 
+	// 2Dカメラの生成ト初期化
+	camera2d_ = std::make_unique<Camera2D>();
+	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+	// ポーズの箱の生成と初期化
+	poseBox_ = std::make_unique<PoseBox>();
+	poseBox_->Initialize(engine_ , camera2d_.get());
+
+	// ポーズの背景の生成と初期化
+	poseBg_ = std::make_unique<PoseBg>();
+	poseBg_->Initialize(engine_, camera2d_.get());
+
 
 	// 効果音を読み込む
 	shPose_ = engine_->LoadSound("./Resources/Sounds/Se/pose/pose.mp3");
@@ -28,6 +40,16 @@ void Pose::Update()
 	// ポーズしていないときは処理しない
 	if (isPose_ == false)
 		return;
+
+	// 2Dカメラの更新
+	camera2d_->UpdateMatrix();
+
+	// ポーズボックスの更新
+	poseBox_->Update();
+
+	// ポーズ背景の更新
+	poseBg_->Update();
+
 
 	// フェーズの更新処理
 	switch (phase_)
@@ -67,6 +89,14 @@ void Pose::Draw()
 	// ポーズしていないときは処理しない
 	if (isPose_ == false)
 		return;
+
+	engine_->SetOffscreenEffect(kSmoothing);
+
+	// ポーズ背景の描画
+	poseBg_->Draw();
+
+	// ポーズボックスの描画
+	poseBox_->Draw();
 }
 
 /// <summary>
@@ -128,6 +158,12 @@ void Pose::FadeInInitialize()
 
 	// フェードインパラメータ
 	parameterFadeIn_ = 0.0f;
+
+	// ポーズボックスが開く
+	poseBox_->OpenReset(kMaxParameterFadeIn);
+
+	// ポーズ背景が色づく
+	poseBg_->ColoredReset(kMaxParameterFadeIn);
 }
 
 /// <summary>
@@ -157,6 +193,12 @@ void Pose::FadeOutInitialize()
 
 	// フェードアウトパラメータ
 	parameterFadeOut_ = 0.0f;
+
+	// ポーズボックスが閉じる
+	poseBox_->CloseReset(kMaxParameterFadeOut);
+
+	// ポーズ背景が消える
+	poseBg_->ColorFabesReset(kMaxParameterFadeIn);
 }
 
 /// <summary>

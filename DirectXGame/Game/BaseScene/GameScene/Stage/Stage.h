@@ -40,10 +40,26 @@ public:
 	void Draw();
 
 	/// <summary>
-	/// ステージのスクリプトを読み込む
+	/// 制御点スクリプトを読み込む
 	/// </summary>
 	/// <param name="filePath"></param>
-	void LoadStageScript(const char* filePath);
+	void LoadControlPointScript(const char* filePath) { centerAxis_->LoadControlPointScript(filePath); }
+
+	/// <summary>
+	/// 敵のスクリプトを読み込む
+	/// </summary>
+	/// <param name="filePath"></param>
+	void LoadEnemyScript(const char* filePath);
+
+	/// <summary>
+	/// ステージオブジェクトのスクリプトを読み込む
+	/// </summary>
+	/// <param name="filePath"></param>
+	void LoadStageObjectScript(const char* filePath);
+
+
+
+
 
 	/// <summary>
 	/// 中心軸のワールドトランスフォームのGetter
@@ -72,10 +88,17 @@ public:
 	/// <summary>
 	/// 敵を生成する
 	/// </summary>
-	void SummonEnemy();
+	void SummonEnemy(std::string& enemyType, int32_t hp, const Vector3& position,
+		const Vector3 approachingDirection, float approachingTime, const Vector3 awayDirection, float awayTime);
+
+	/// <summary>
+	/// ステージオブジェクトを生成する
+	/// </summary>
+	void SummonStageObject(std::string& enemyType, const Vector3& position, const Vector3& rotation);
 
 
 private:
+
 
 	// エンジン
 	const YokosukaEngine* engine_ = nullptr;
@@ -95,11 +118,6 @@ private:
 	// 対象キャラ
 	BaseCharacter* target_ = nullptr;
 
-	/// <summary>
-	/// ステージスクリプトの更新処理
-	/// </summary>
-	void StageScriptUpdate();
-
 
 	// クリアフラグ
 	bool isClear_ = false;
@@ -108,12 +126,45 @@ private:
 	// 中心軸
 	std::unique_ptr<CenterAxis> centerAxis_ = nullptr;
 
-
-	// 文字列ストリーム
-	std::stringstream stageStream_;
-
-
 	// ステージオブジェクトのリスト
 	std::list<std::unique_ptr<BaseStageObject>> stageObjects_;
+
+
+	/*-----------------
+	    敵スクリプト
+	-----------------*/
+
+	/// <summary>
+	/// 敵スクリプトの更新処理
+	/// </summary>
+	void EnemyScriptUpdate();
+
+	// 敵の文字列ストリーム
+	std::stringstream enemyStream_;
+
+	// 待機フラグ
+	bool isWaitEnemyScript_ = false;
+
+	// 待機タイマー
+	float waitEnemyScriptTimer_ = 0.0f;
+
+
+	/*--------------------------------
+	    ステージオブジェクトスクリプト
+	--------------------------------*/
+
+	/// <summary>
+	/// ステージオブジェクトスクリプトの更新処理
+	/// </summary>
+	void StageObjectScriptUpdate();
+
+	// ステージオブジェクトの文字列ストリーム
+	std::stringstream stageObjectStream_;
+
+	// 待機フラグ
+	bool isWaitStageObjectScript_ = false;
+
+	// 待機タイマー
+	float waitStageObjectScriptTimer_ = 0.0f;
 };
 

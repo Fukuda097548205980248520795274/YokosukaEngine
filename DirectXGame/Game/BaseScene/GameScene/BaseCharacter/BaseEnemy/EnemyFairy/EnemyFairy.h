@@ -4,6 +4,7 @@
 #include "BaseEnemyFairyState/EnemyFairyStateApproachingRear/EnemyFairyStateApproachingRear.h"
 #include "BaseEnemyFairyState/EnemyFairyStateAwayTop/EnemyFairyStateAwayTop.h"
 #include "BaseEnemyFairyState/EnemyFairyStateStop/EnemyFairyStateStop.h"
+#include "BaseEnemyFairyState/EnemyFairyStateTurn/EnemyFairyStateTurn.h"
 
 #include "BaseEnemyFairyBehavior/BaseEnemyFairyBehavior.h"
 #include "BaseEnemyFairyBehavior/EnemyFairyBehaviorNormal/EnemyFairyBehaviorNormal.h"
@@ -33,7 +34,8 @@ public:
 	{
 		kApproachingRear,
 		kStop,
-		kAwayTop
+		kAwayTop,
+		kTurn,
 	};
 
 

@@ -350,6 +350,15 @@ public:
 	void DrawLine(const Vector3& start, const Vector3& end, const Camera3D* camera, Vector4 color);
 
 	/// <summary>
+	/// 線を描画する
+	/// </summary>
+	/// <param name="start"></param>
+	/// <param name="end"></param>
+	/// <param name="camera"></param>
+	/// <param name="color"></param>
+	void DrawLine(const Vector2& start, const Vector2& end, const Camera2D* camera, Vector4 color);
+
+	/// <summary>
 	/// スプライトを描画する
 	/// </summary>
 	/// <param name="worldTransform">ワールドトランスフォーム</param>

@@ -1,6 +1,5 @@
 #pragma once
 #define NOMINMAX
-#include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../../BaseScene/BaseScene.h"
 
 #include "TitleHud/TitleHud.h"
