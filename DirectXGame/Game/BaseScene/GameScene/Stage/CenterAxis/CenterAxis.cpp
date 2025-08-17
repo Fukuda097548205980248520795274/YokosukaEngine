@@ -28,12 +28,7 @@ void CenterAxis::Initliaze(const YokosukaEngine* engine, const Camera3D* camera3
 	// テクスチャを読み込む
 	textureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
 
-
-	// 制御点の登録
-	for (uint32_t i = 0; i < _countof(controlPointTable); ++i)
-	{
-		controlPoint_.push_back(controlPointTable[i]);
-	}
+	LoadControlPointScript("./Resources/Script/Stage1/controlPoint.txt");
 }
 
 /// <summary>
@@ -92,4 +87,71 @@ Vector3 CenterAxis::GetWorldPosition()const
 	worldPosition.z = worldTransform_->worldMatrix_.m[3][2];
 
 	return worldPosition;
+}
+
+/// <summary>
+/// 制御点スクリプトを読み込む
+/// </summary>
+/// <param name="filePath"></param>
+void CenterAxis::LoadControlPointScript(const char* filePath)
+{
+	// nullptrチェック
+	assert(filePath);
+
+	// ファイルを開く
+	std::ifstream file;
+	file.open(filePath);
+	assert(file.is_open());
+
+	// ファイルの内容を文字列ストリームにコピー
+	controlPointStream_ << file.rdbuf();
+
+	// ファイルを閉じる
+	file.close();
+
+
+	// 1行分の文字列を入れる変数
+	std::string line;
+
+	// コマンド実行ループ
+	while (std::getline(controlPointStream_, line))
+	{
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		// 文字
+		std::string word;
+
+		// カッコまでの文字を取得する
+		std::getline(line_stream, word, '(');
+
+		// "//"から始まるのはコメントのため無視する
+		if (word.find("//") == 0)
+		{
+			continue;
+		}
+
+
+		// 点
+		if (word.find("P") == 0)
+		{
+			// 3次元ベクトル
+			Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
+
+			// X軸
+			std::getline(line_stream, word, ',');
+			pos.x = (float)std::atof(word.c_str());
+
+			// Y軸
+			std::getline(line_stream, word, ',');
+			pos.y = (float)std::atof(word.c_str());
+
+			// Z軸
+			std::getline(line_stream, word, ')');
+			pos.z = (float)std::atof(word.c_str());
+
+			// 追加する
+			controlPoint_.push_back(pos);
+		}
+	}
 }

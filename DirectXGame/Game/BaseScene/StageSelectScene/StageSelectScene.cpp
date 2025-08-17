@@ -14,6 +14,13 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 	{
 		controlPoints_.push_back(controlPoint_[i]);
 	}
+
+	// ワールドトランスフォームの生成と初期化
+	worldTransform_ = std::make_unique<WorldTransform>();
+	worldTransform_->Initialize();
+	
+	// メインカメラを中心軸に設定する
+	mainCamera_->SetPivotParent(worldTransform_.get());
 }
 
 /// <summary>
@@ -29,6 +36,9 @@ void StageSelectScene::Update()
 
 	// 基底クラスの更新処理
 	BaseScene::Update();
+
+	// ワールドトランスフォームの更新
+	worldTransform_->UpdateWorldMatrix();
 }
 
 /// <summary>
@@ -71,7 +81,7 @@ void StageSelectScene::Move()
 	float t = moveTimer_ / kMoveTime;
 	float easing = std::powf(t, 2.0f);
 
-	position_ = Lerp(prevPosition, nextPosition, t);
+	worldTransform_->translation_ = Lerp(prevPosition, nextPosition, t);
 }
 
 /// <summary>
@@ -136,6 +146,12 @@ void StageSelectScene::SelectKeyboard()
 /// </summary>
 void StageSelectScene::SelectGamepad()
 {
+	if (engine_->GetGamepadButtonTrigger(0,XINPUT_GAMEPAD_A))
+	{
+		isFinished_ = true;
+		return;
+	}
+
 	// 左スティック上で奥のステージへ
 	if (engine_->GetGamepadLeftStick(0).y >= 0.5f)
 	{

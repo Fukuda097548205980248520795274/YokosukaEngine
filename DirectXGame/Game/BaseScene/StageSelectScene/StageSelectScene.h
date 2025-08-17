@@ -122,5 +122,9 @@ private:
 
 	// 移動タイマー
 	float moveTimer_ = 0.0f;
+
+
+	// ワールドトランスフォーム
+	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 };
 

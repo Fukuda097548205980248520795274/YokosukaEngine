@@ -128,7 +128,6 @@ void Stage::LoadStageObjectScript(const char* filePath)
 	file.close();
 }
 
-
 /// <summary>
 /// 敵スクリプトの更新処理
 /// </summary>
