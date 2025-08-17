@@ -71,6 +71,13 @@ public:
 	/// <param name="enemyBullet"></param>
 	void EnemyBulletShot(std::unique_ptr<BaseEnemyBullet> enemyBullet);
 
+	/// <summary>
+	/// ステージを生成する
+	/// </summary>
+	/// <param name="enemyScriptPass"></param>
+	/// <param name="stageObjectScriptPass"></param>
+	void CreateStage(const std::string& enemyScriptPass, const std::string& stageObjectScriptPass) override;
+
 
 private:
 

@@ -98,6 +98,12 @@ void StageSelectScene::Select()
 /// </summary>
 void StageSelectScene::SelectKeyboard()
 {
+	if (engine_->GetKeyTrigger(DIK_SPACE))
+	{
+		isFinished_ = true;
+		return;
+	}
+
 	// 上キーで奥のステージへ
 	if (engine_->GetKeyTrigger(DIK_UP))
 	{

@@ -23,7 +23,8 @@ void Game::Initialize(const YokosukaEngine* engine)
 	// タイトルシーンの生成と初期化
 	scene_ = std::make_unique<StageSelectScene>();
 	scene_->Initialize(engine_ , modelHandleStore_.get() , textureHandleStore_.get());
-	scenePhase_ = kGame;
+
+	scenePhase_ = kStageSelect;
 }
 
 /// <summary>
@@ -64,6 +65,7 @@ void Game::Update()
 
 			scene_ = std::make_unique<GameScene>();
 			scene_->Initialize(engine_, modelHandleStore_.get(), textureHandleStore_.get());
+			scene_->CreateStage(enemyScript_, stageObjectScript_);
 
 			break;
 
@@ -101,6 +103,10 @@ void Game::Update()
 			// ステージセレクト
 
 			scenePhaseRequest_ = kGame;
+
+			// パスを取得する
+			enemyScript_ = scene_->GetEnemyScriptPass();
+			stageObjectScript_ = scene_->GetStageObjectScriptPass();
 
 			break;
 

@@ -28,6 +28,25 @@ public:
 	/// </summary>
 	bool IsFinished() { return isFinished_; }
 
+	/// <summary>
+	/// 敵のスクリプトのGetter
+	/// </summary>
+	/// <returns></returns>
+	virtual std::string GetEnemyScriptPass() { std::string str = ""; return str; }
+
+	/// <summary>
+	/// ステージオブジェクトのスクリプトのGetter
+	/// </summary>
+	/// <returns></returns>
+	virtual std::string GetStageObjectScriptPass() { std::string str = ""; return str; }
+
+	/// <summary>
+	/// ステージを生成する
+	/// </summary>
+	/// <param name="enemyScriptPass"></param>
+	/// <param name="stageObjectScriptPass"></param>
+	virtual void CreateStage(const std::string& enemyScriptPass, const std::string& stageObjectScriptPass) {};
+
 
 protected:
 
