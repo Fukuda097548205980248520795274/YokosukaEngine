@@ -28,6 +28,8 @@
 #include "BaseModelHandles/StageObjectBuildingCModelHandles/StageObjectBuildingCModelHandles.h"
 #include "BaseModelHandles/StageObjectBuildingDModelHandles/StageObjectBuildingDModelHandles.h"
 
+#include "BaseModelHandles/UniverseModelHandle/UniverseModelHandle.h"
+
 class ModelHandleStore
 {
 public:
@@ -61,6 +63,7 @@ public:
 		kStageObjectBuildingB,
 		kStageObjectBuildingC,
 		kStageObjectBuildingD,
+		kUniverse,
 		kNumHandleName
 	};
 

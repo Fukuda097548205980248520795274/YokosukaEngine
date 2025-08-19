@@ -88,4 +88,8 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	// ステージオブジェクトのビルディングD
 	modelHandles_[kStageObjectBuildingD] = std::make_unique<StageObjectBuildingDModelHandles>();
 	modelHandles_[kStageObjectBuildingD]->Initialize(engine_);
+
+	// 宇宙
+	modelHandles_[kUniverse] = std::make_unique<UniverseModelHandle>();
+	modelHandles_[kUniverse]->Initialize(engine_);
 }

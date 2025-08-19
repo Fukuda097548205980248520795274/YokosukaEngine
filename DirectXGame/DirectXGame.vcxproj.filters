@@ -706,6 +706,18 @@
     <Filter Include="Game\BaseScene\StageSelectScene">
       <UniqueIdentifier>{e2ea2a70-f2da-4867-b927-82ebcee6b004}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\StageSelectScene\PlayerJet">
+      <UniqueIdentifier>{3db99b2e-b149-42df-99a4-7408c467d7a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\StageSelectScene\UniverseSkydome">
+      <UniqueIdentifier>{d69df1fe-c217-4c58-b9dd-86118dbcc097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageSelect">
+      <UniqueIdentifier>{8beda1d2-4db2-4cef-8fe9-2c9e798294a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageSelect\UniverseModelHandle">
+      <UniqueIdentifier>{a44b6d7d-f0d9-4ba3-a2ab-3e03c8a34036}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1334,6 +1346,15 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\StageSelectScene\StageSelectScene.cpp">
       <Filter>Game\BaseScene\StageSelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\StageSelectScene\PlayerJet\PlayerJet.cpp">
+      <Filter>Game\BaseScene\StageSelectScene\PlayerJet</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\StageSelectScene\UniverseSkydome\UniverseSkydome.cpp">
+      <Filter>Game\BaseScene\StageSelectScene\UniverseSkydome</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\UniverseModelHandle\UniverseModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageSelect\UniverseModelHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1966,6 +1987,15 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\StageSelectScene\StageSelectScene.h">
       <Filter>Game\BaseScene\StageSelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\StageSelectScene\PlayerJet\PlayerJet.h">
+      <Filter>Game\BaseScene\StageSelectScene\PlayerJet</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\StageSelectScene\UniverseSkydome\UniverseSkydome.h">
+      <Filter>Game\BaseScene\StageSelectScene\UniverseSkydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\UniverseModelHandle\UniverseModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageSelect\UniverseModelHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
