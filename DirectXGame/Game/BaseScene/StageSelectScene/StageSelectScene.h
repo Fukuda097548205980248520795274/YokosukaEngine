@@ -142,7 +142,7 @@ private:
 	bool isMove_ = false;
 
 	// 移動時間
-	const float kMoveTime = 0.5f;
+	const float kMoveTime = 1.0f;
 
 	// 移動タイマー
 	float moveTimer_ = 0.0f;

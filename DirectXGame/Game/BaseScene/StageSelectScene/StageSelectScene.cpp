@@ -141,7 +141,13 @@ void StageSelectScene::Move()
 	// タイマーが終了していたら処理しない
 	if (moveTimer_ >= kMoveTime)
 	{
+		// 進まない
 		isMove_ = false;
+
+		// 前方向を向く
+		WorldTransform* playerJetWorldTransform = playerJet_->GetWorldTransform();
+		playerJetWorldTransform->rotation_ = Lerp(playerJetWorldTransform->rotation_, Vector3(0.0f , 0.0f , 0.0f), 0.1f);
+
 		return;
 	}
 
@@ -161,6 +167,9 @@ void StageSelectScene::Move()
 	float easing = 1.0f -  std::powf(1.0f - t, 3.0f);
 
 	worldTransform_->translation_ = Lerp(prevPosition, nextPosition, easing);
+
+	// 進む方向を向く
+	playerJet_->MoveDirection(controlPoints_[nextStage_] - controlPoints_[prevStage_]);
 }
 
 /// <summary>

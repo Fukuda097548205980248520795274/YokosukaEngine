@@ -2,6 +2,8 @@
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../../../ModelHandleStore/ModelHandleStore.h"
 
+#include "../../GameScene/BaseGimmick/GimmickFloating/GimmickFloating.h"
+
 class PlayerJet
 {
 public:
@@ -23,6 +25,12 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// 進む方向を向く
+	/// </summary>
+	/// <param name="direction"></param>
+	void MoveDirection(const Vector3& direction);
 
 	/// <summary>
 	/// ワールドトランスフォームのGetter
@@ -54,5 +62,8 @@ private:
 
 	// モデルハンドル
 	uint32_t modelHandle_ = 0;
+
+	// 浮遊ギミック
+	std::unique_ptr<GimmickFloating> gimmickFloating_ = nullptr;
 };
 
