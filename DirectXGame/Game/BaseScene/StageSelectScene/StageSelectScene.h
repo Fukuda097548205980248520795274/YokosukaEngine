@@ -5,6 +5,7 @@
 
 #include "PlayerJet/PlayerJet.h"
 #include "UniverseSkydome/UniverseSkydome.h"
+#include "StageBox/StageBox.h"
 
 class StageSelectScene : public BaseScene
 {
@@ -116,9 +117,21 @@ private:
 	};
 
 
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
+
+
 	// bgm
 	uint32_t soundHandle_ = 0;
 	uint32_t playHandle_ = 0;
+
+	// 進む音
+	uint32_t shMove_ = 0;
+	uint32_t phMove_ = 0;
+
+
+	// 平行光源
+	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 
 
 	// 現在地
@@ -156,6 +169,9 @@ private:
 
 	// 宇宙
 	std::unique_ptr<UniverseSkydome> universeSkydome_ = nullptr;
+
+	// ステージボックス
+	std::unique_ptr<StageBox> stageBox_ = nullptr;
 
 
 	/*---------------

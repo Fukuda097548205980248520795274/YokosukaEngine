@@ -191,6 +191,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Stage\Stage.cpp" />
     <ClCompile Include="Game\BaseScene\StageSelectScene\PlayerJet\PlayerJet.cpp" />
+    <ClCompile Include="Game\BaseScene\StageSelectScene\StageBox\StageBox.cpp" />
     <ClCompile Include="Game\BaseScene\StageSelectScene\StageSelectScene.cpp" />
     <ClCompile Include="Game\BaseScene\StageSelectScene\UniverseSkydome\UniverseSkydome.cpp" />
     <ClCompile Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.cpp" />
@@ -406,6 +407,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Stage\Stage.h" />
     <ClInclude Include="Game\BaseScene\StageSelectScene\PlayerJet\PlayerJet.h" />
+    <ClInclude Include="Game\BaseScene\StageSelectScene\StageBox\StageBox.h" />
     <ClInclude Include="Game\BaseScene\StageSelectScene\StageSelectScene.h" />
     <ClInclude Include="Game\BaseScene\StageSelectScene\UniverseSkydome\UniverseSkydome.h" />
     <ClInclude Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.h" />

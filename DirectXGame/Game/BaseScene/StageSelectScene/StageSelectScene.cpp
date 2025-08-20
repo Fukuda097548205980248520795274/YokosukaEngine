@@ -18,6 +18,18 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 	// BGMを読み込む
 	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Hard_Advent.mp3");
 
+	// 進む音
+	shMove_ = engine_->LoadSound("./Resources/Sounds/Se/stageSelect/move.mp3");
+
+
+	// 平行光源の生成と初期化
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
+
+	// 2D1カメラの生成と初期化
+	camera2d_ = std::make_unique<Camera2D>();
+	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
@@ -26,6 +38,7 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 	// メインカメラを中心軸に設定する
 	mainCamera_->SetPivotParent(worldTransform_.get());
 	mainCamera_->SetCameraRotate(Vector3(0.1f , 0.0f , 0.0f));
+	mainCamera_->SetPivotPointPosition(Vector3(-10.0f, 0.0f, 0.0f));
 
 
 	// プレイヤー戦闘機の生成と初期化
@@ -36,6 +49,10 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 	// 宇宙の生成と初期化
 	universeSkydome_ = std::make_unique<UniverseSkydome>();
 	universeSkydome_->Initialize(engine_, camera3d_, modelHandleStore_);
+
+	// ステージボックスの生成と初期化
+	stageBox_ = std::make_unique<StageBox>();
+	stageBox_->Initialize(engine_, camera2d_.get());
 }
 
 /// <summary>
@@ -112,6 +129,9 @@ void StageSelectScene::Update()
 
 	// 宇宙の更新
 	universeSkydome_->Update();
+
+	// ステージボックスの更新
+	stageBox_->Update();
 }
 
 /// <summary>
@@ -119,6 +139,9 @@ void StageSelectScene::Update()
 /// </summary>
 void StageSelectScene::Draw()
 {
+	// 平行光源を設置する
+	engine_->SetDirectionalLight(directionalLight_.get());
+
 	// 制御点の描画
 	engine_->DrwaCatmullRomSpline(controlPoints_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
 
@@ -127,6 +150,9 @@ void StageSelectScene::Draw()
 
 	// 宇宙の描画
 	universeSkydome_->Draw();
+
+	// ステージボックスの描画
+	stageBox_->Draw();
 
 	// 基底クラス描画処理
 	BaseScene::Draw();
@@ -150,6 +176,14 @@ void StageSelectScene::Move()
 
 		return;
 	}
+
+
+	// 半秒立ったらボックスが開く
+	if (moveTimer_ >= kMoveTime / 2.0f && moveTimer_ - (1.0f / 60.0f) <= kMoveTime / 2.0f)
+	{
+		stageBox_->OpenReset(kMoveTime / 2.0f);
+	}
+
 
 	// 移動する
 	isMove_ = true;
@@ -217,6 +251,12 @@ void StageSelectScene::SelectKeyboard()
 			nextStage_ = currentStage;
 			prevStage_ = currentStage - 1;
 
+			// 進む音を流す
+			phMove_ = engine_->PlaySoundData(shMove_, 0.5f);
+
+			// ボックスを閉じる
+			stageBox_->CloseReset(kMoveTime / 2.0f);
+
 			moveTimer_ = 0.0f;
 		}
 	}
@@ -229,6 +269,12 @@ void StageSelectScene::SelectKeyboard()
 			currentStage--;
 			nextStage_ = currentStage;
 			prevStage_ = currentStage + 1;
+
+			// 進む音を流す
+			phMove_ = engine_->PlaySoundData(shMove_, 0.5f);
+
+			// ボックスを閉じる
+			stageBox_->CloseReset(kMoveTime / 2.0f);
 
 			moveTimer_ = 0.0f;
 		}
@@ -261,6 +307,12 @@ void StageSelectScene::SelectGamepad()
 			nextStage_ = currentStage;
 			prevStage_ = currentStage - 1;
 
+			// 進む音を流す
+			phMove_ = engine_->PlaySoundData(shMove_, 0.5f);
+
+			// ボックスを閉じる
+			stageBox_->CloseReset(kMoveTime / 2.0f);
+
 			moveTimer_ = 0.0f;
 		}
 	}
@@ -273,6 +325,12 @@ void StageSelectScene::SelectGamepad()
 			currentStage--;
 			nextStage_ = currentStage;
 			prevStage_ = currentStage + 1;
+
+			// 進む音を流す
+			phMove_ = engine_->PlaySoundData(shMove_, 0.5f);
+
+			// ボックスを閉じる
+			stageBox_->CloseReset(kMoveTime / 2.0f);
 
 			moveTimer_ = 0.0f;
 		}
