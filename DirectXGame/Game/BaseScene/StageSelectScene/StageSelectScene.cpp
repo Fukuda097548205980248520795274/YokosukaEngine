@@ -15,12 +15,44 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 		controlPoints_.push_back(controlPoint_[i]);
 	}
 
+	// BGMを読み込む
+	soundHandle_ = engine_->LoadSound("./Resources/Sounds/Bgm/Hard_Advent.mp3");
+
+	// 進む音
+	shMove_ = engine_->LoadSound("./Resources/Sounds/Se/stageSelect/move.mp3");
+
+
+	// 平行光源の生成と初期化
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
+
+	// 2D1カメラの生成と初期化
+	camera2d_ = std::make_unique<Camera2D>();
+	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
 	
 	// メインカメラを中心軸に設定する
 	mainCamera_->SetPivotParent(worldTransform_.get());
+	mainCamera_->SetCameraRotate(Vector3(0.1f , 0.0f , 0.0f));
+	mainCamera_->SetPivotPointPosition(Vector3(-10.0f, 0.0f, 0.0f));
+
+
+	// プレイヤー戦闘機の生成と初期化
+	playerJet_ = std::make_unique<PlayerJet>();
+	playerJet_->Initialize(engine_, camera3d_, modelHandleStore_);
+	playerJet_->SetParent(worldTransform_.get());
+
+	// 宇宙の生成と初期化
+	universeSkydome_ = std::make_unique<UniverseSkydome>();
+	universeSkydome_->Initialize(engine_, camera3d_, modelHandleStore_);
+
+	// ステージボックスの生成と初期化
+	stageBox_ = std::make_unique<StageBox>();
+	stageBox_->Initialize(engine_, camera2d_.get());
 }
 
 /// <summary>
@@ -28,17 +60,78 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 /// </summary>
 void StageSelectScene::Update()
 {
-	// 選択
-	Select();
+	// 次のビヘイビアのリクエストがあるとき
+	if (behaviorRequest_)
+	{
+		// ビヘイビアを切り替える
+		behavior_ = behaviorRequest_.value();
 
-	// 移動
-	Move();
+		// ビヘイビア初期化
+		switch (behavior_)
+		{
+		case kFadeIn:
+			// フェードイン
+			BehaviorFadeInInitialize();
+
+			break;
+
+		case kOperation:
+			// 操作
+			BehaviorOperationInitialize();
+
+			break;
+
+		case kFadeOut:
+			// フェードアウト
+			BehaviorFadeOutInitialize();
+
+			break;
+		}
+
+		// ビヘイビアリクエストを初期化
+		behaviorRequest_ = std::nullopt;
+	}
+
+	// ビヘイビア更新処理
+	switch (behavior_)
+	{
+	case kFadeIn:
+		// フェードイン
+		BehaviorFadeInUpdate();
+
+		break;
+
+	case kOperation:
+		// 操作
+		BehaviorOperationUpdate();
+
+		break;
+
+	case kFadeOut:
+		// フェードアウト
+		BehaviorFadeOutUpdate();
+
+		break;
+	}
+
+
+	// 宇宙の天球がワールドトランスフォームの場所に追従するようにする
+	universeSkydome_->SetPosition(worldTransform_->translation_);
 
 	// 基底クラスの更新処理
 	BaseScene::Update();
 
 	// ワールドトランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
+
+	// プレイヤー戦闘機の更新
+	playerJet_->Update();
+
+	// 宇宙の更新
+	universeSkydome_->Update();
+
+	// ステージボックスの更新
+	stageBox_->Update();
 }
 
 /// <summary>
@@ -46,8 +139,20 @@ void StageSelectScene::Update()
 /// </summary>
 void StageSelectScene::Draw()
 {
+	// 平行光源を設置する
+	engine_->SetDirectionalLight(directionalLight_.get());
+
 	// 制御点の描画
 	engine_->DrwaCatmullRomSpline(controlPoints_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
+
+	// プレイヤー戦闘機の描画
+	playerJet_->Draw();
+
+	// 宇宙の描画
+	universeSkydome_->Draw();
+
+	// ステージボックスの描画
+	stageBox_->Draw();
 
 	// 基底クラス描画処理
 	BaseScene::Draw();
@@ -62,9 +167,23 @@ void StageSelectScene::Move()
 	// タイマーが終了していたら処理しない
 	if (moveTimer_ >= kMoveTime)
 	{
+		// 進まない
 		isMove_ = false;
+
+		// 前方向を向く
+		WorldTransform* playerJetWorldTransform = playerJet_->GetWorldTransform();
+		playerJetWorldTransform->rotation_ = Lerp(playerJetWorldTransform->rotation_, Vector3(0.0f , 0.0f , 0.0f), 0.1f);
+
 		return;
 	}
+
+
+	// 半秒立ったらボックスが開く
+	if (moveTimer_ >= kMoveTime / 2.0f && moveTimer_ - (1.0f / 60.0f) <= kMoveTime / 2.0f)
+	{
+		stageBox_->OpenReset(kMoveTime / 2.0f);
+	}
+
 
 	// 移動する
 	isMove_ = true;
@@ -79,9 +198,12 @@ void StageSelectScene::Move()
 
 	// 補間を求める
 	float t = moveTimer_ / kMoveTime;
-	float easing = std::powf(t, 2.0f);
+	float easing = 1.0f -  std::powf(1.0f - t, 3.0f);
 
-	worldTransform_->translation_ = Lerp(prevPosition, nextPosition, t);
+	worldTransform_->translation_ = Lerp(prevPosition, nextPosition, easing);
+
+	// 進む方向を向く
+	playerJet_->MoveDirection(controlPoints_[nextStage_] - controlPoints_[prevStage_]);
 }
 
 /// <summary>
@@ -108,9 +230,15 @@ void StageSelectScene::Select()
 /// </summary>
 void StageSelectScene::SelectKeyboard()
 {
+	// スペースキーでフェードアウトする
 	if (engine_->GetKeyTrigger(DIK_SPACE))
 	{
-		isFinished_ = true;
+		// フェードアウト
+		behaviorRequest_ = kFadeOut;
+
+		// BGMを止める
+		engine_->StopSound(playHandle_);
+
 		return;
 	}
 
@@ -122,6 +250,12 @@ void StageSelectScene::SelectKeyboard()
 			currentStage++;
 			nextStage_ = currentStage;
 			prevStage_ = currentStage - 1;
+
+			// 進む音を流す
+			phMove_ = engine_->PlaySoundData(shMove_, 0.5f);
+
+			// ボックスを閉じる
+			stageBox_->CloseReset(kMoveTime / 2.0f);
 
 			moveTimer_ = 0.0f;
 		}
@@ -136,6 +270,12 @@ void StageSelectScene::SelectKeyboard()
 			nextStage_ = currentStage;
 			prevStage_ = currentStage + 1;
 
+			// 進む音を流す
+			phMove_ = engine_->PlaySoundData(shMove_, 0.5f);
+
+			// ボックスを閉じる
+			stageBox_->CloseReset(kMoveTime / 2.0f);
+
 			moveTimer_ = 0.0f;
 		}
 	}
@@ -146,9 +286,15 @@ void StageSelectScene::SelectKeyboard()
 /// </summary>
 void StageSelectScene::SelectGamepad()
 {
+	// Aボタンでフェードアウトする
 	if (engine_->GetGamepadButtonTrigger(0,XINPUT_GAMEPAD_A))
 	{
-		isFinished_ = true;
+		// フェードアウト
+		behaviorRequest_ = kFadeOut;
+
+		// BGMを止める
+		engine_->StopSound(playHandle_);
+
 		return;
 	}
 
@@ -160,6 +306,12 @@ void StageSelectScene::SelectGamepad()
 			currentStage++;
 			nextStage_ = currentStage;
 			prevStage_ = currentStage - 1;
+
+			// 進む音を流す
+			phMove_ = engine_->PlaySoundData(shMove_, 0.5f);
+
+			// ボックスを閉じる
+			stageBox_->CloseReset(kMoveTime / 2.0f);
 
 			moveTimer_ = 0.0f;
 		}
@@ -174,7 +326,144 @@ void StageSelectScene::SelectGamepad()
 			nextStage_ = currentStage;
 			prevStage_ = currentStage + 1;
 
+			// 進む音を流す
+			phMove_ = engine_->PlaySoundData(shMove_, 0.5f);
+
+			// ボックスを閉じる
+			stageBox_->CloseReset(kMoveTime / 2.0f);
+
 			moveTimer_ = 0.0f;
 		}
 	}
+}
+
+
+
+
+
+
+
+/*----------------------------
+	ビヘイビア : フェードイン
+----------------------------*/
+
+/// <summary>
+/// ビヘイビア : フェードイン : 初期化
+/// </summary>
+void StageSelectScene::BehaviorFadeInInitialize()
+{
+	// フェードインパラメータ
+	fadeInParameter_ = 0.0f;
+}
+
+/// <summary>
+/// ビヘイビア : フェードイン : 更新処理
+/// </summary>
+void StageSelectScene::BehaviorFadeInUpdate()
+{
+	// パラメータを進める
+	fadeInParameter_ += 1.0f / 60.0f;
+	fadeInParameter_ = std::min(fadeInParameter_, kFadeInPrameterMax);
+
+
+	// 最大値になったら操作に遷移する
+	if (fadeInParameter_ >= kFadeInPrameterMax)
+	{
+		behaviorRequest_ = kOperation;
+		return;
+	}
+}
+
+/// <summary>
+/// ビヘイビア : フェードイン : 描画処理
+/// </summary>
+void StageSelectScene::BehaviorFadeInDraw()
+{
+
+}
+
+
+
+
+
+
+/*---------------------
+	ビヘイビア : 操作
+---------------------*/
+
+/// <summary>
+/// ビヘイビア : 操作 : 初期化
+/// </summary>
+void StageSelectScene::BehaviorOperationInitialize()
+{
+
+}
+
+/// <summary>
+/// ビヘイビア : 操作 : 更新処理
+/// </summary>
+void StageSelectScene::BehaviorOperationUpdate()
+{
+	// BGMをループさせる
+	if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
+	{
+		playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
+	}
+
+	// 選択
+	Select();
+
+	// 移動
+	Move();
+}
+
+/// <summary>
+/// ビヘイビア : 操作 : 描画処理
+/// </summary>
+void StageSelectScene::BehaviorOperationDraw()
+{
+
+}
+
+
+
+
+
+
+/*-----------------------------
+	ビヘイビア : フェードアウト
+-----------------------------*/
+
+/// <summary>
+/// ビヘイビア : フェードアウト : 初期化
+/// </summary>
+void StageSelectScene::BehaviorFadeOutInitialize()
+{
+	// フェードアウトパラメータ
+	fadeOutParameter_ = 0.0f;
+}
+
+/// <summary>
+/// ビヘイビア : フェードアウト : 更新処理
+/// </summary>
+void StageSelectScene::BehaviorFadeOutUpdate()
+{
+	// パラメータを進める
+	fadeOutParameter_ += 1.0f / 60.0f;
+	fadeOutParameter_ = std::min(fadeOutParameter_, kFadeOutPrameterMax);
+
+	// 最大値になったら終了する
+	if (fadeOutParameter_ >= kFadeOutPrameterMax)
+	{
+		isFinished_ = true;
+		return;
+	}
+}
+
+/// <summary>
+/// ビヘイビア : フェードアウト : 描画処理
+/// </summary>
+void StageSelectScene::BehaviorFadeOutDraw()
+{
+
 }

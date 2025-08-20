@@ -1,6 +1,11 @@
 #pragma once
 #define NOMINMAX
+#include <optional>
 #include "../BaseScene.h"
+
+#include "PlayerJet/PlayerJet.h"
+#include "UniverseSkydome/UniverseSkydome.h"
+#include "StageBox/StageBox.h"
 
 class StageSelectScene : public BaseScene
 {
@@ -111,6 +116,24 @@ private:
 		{"./Resources/Script/Stage3/stageObject.txt"}
 	};
 
+
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
+
+
+	// bgm
+	uint32_t soundHandle_ = 0;
+	uint32_t playHandle_ = 0;
+
+	// 進む音
+	uint32_t shMove_ = 0;
+	uint32_t phMove_ = 0;
+
+
+	// 平行光源
+	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
+
+
 	// 現在地
 	Vector3 position_ = { 0.0f , 0.0f , 0.0f };
 
@@ -132,7 +155,7 @@ private:
 	bool isMove_ = false;
 
 	// 移動時間
-	const float kMoveTime = 0.5f;
+	const float kMoveTime = 1.0f;
 
 	// 移動タイマー
 	float moveTimer_ = 0.0f;
@@ -140,5 +163,104 @@ private:
 
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+
+	// プレイヤーの戦闘機
+	std::unique_ptr<PlayerJet> playerJet_ = nullptr;
+
+	// 宇宙
+	std::unique_ptr<UniverseSkydome> universeSkydome_ = nullptr;
+
+	// ステージボックス
+	std::unique_ptr<StageBox> stageBox_ = nullptr;
+
+
+	/*---------------
+	    ビヘイビア
+	---------------*/
+
+	enum Behavior
+	{
+		kFadeIn,
+		kOperation,
+		kFadeOut
+	};
+
+	// 現在のビヘイビア
+	Behavior behavior_ = kFadeIn;
+
+	// 次のビヘイビアのリクエスト
+	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+
+
+	/*----------------------------
+		ビヘイビア : フェードイン
+	----------------------------*/
+
+	/// <summary>
+	/// ビヘイビア : フェードイン : 初期化
+	/// </summary>
+	void BehaviorFadeInInitialize();
+
+	/// <summary>
+	/// ビヘイビア : フェードイン : 更新処理
+	/// </summary>
+	void BehaviorFadeInUpdate();
+
+	/// <summary>
+	/// ビヘイビア : フェードイン : 描画処理
+	/// </summary>
+	void BehaviorFadeInDraw();
+
+	// フェードインパラメータ
+	float fadeInParameter_ = 0.0f;
+
+	// フェードんインパラメータの最大値
+	const float kFadeInPrameterMax = 2.0f;
+
+
+	/*---------------------
+		ビヘイビア : 操作
+	---------------------*/
+
+	/// <summary>
+	/// ビヘイビア : 操作 : 初期化
+	/// </summary>
+	void BehaviorOperationInitialize();
+
+	/// <summary>
+	/// ビヘイビア : 操作 : 更新処理
+	/// </summary>
+	void BehaviorOperationUpdate();
+
+	/// <summary>
+	/// ビヘイビア : 操作 : 描画処理
+	/// </summary>
+	void BehaviorOperationDraw();
+
+
+	/*-----------------------------
+		ビヘイビア : フェードアウト
+	-----------------------------*/
+
+	/// <summary>
+	/// ビヘイビア : フェードアウト : 初期化
+	/// </summary>
+	void BehaviorFadeOutInitialize();
+
+	/// <summary>
+	/// ビヘイビア : フェードアウト : 更新処理
+	/// </summary>
+	void BehaviorFadeOutUpdate();
+
+	/// <summary>
+	/// ビヘイビア : フェードアウト : 描画処理
+	/// </summary>
+	void BehaviorFadeOutDraw();
+
+	// フェードアウトパラメータ
+	float fadeOutParameter_ = 0.0f;
+
+	// フェードアウトパラメータの最大値
+	const float kFadeOutPrameterMax = 2.0f;
 };
 

@@ -704,6 +704,12 @@ public:
 	void SetCameraRotate(const Vector3& rotate) { camera3d_->rotation_ = rotate; }
 
 	/// <summary>
+	/// ピボットポイントの位置
+	/// </summary>
+	/// <param name="offset"></param>
+	void SetPivotPointPosition(const Vector3 position) { pivotWorldTransform_->translation_ = position; }
+
+	/// <summary>
 	/// シェイクの設定
 	/// </summary>
 	/// <param name="shakeTime">時間</param>
