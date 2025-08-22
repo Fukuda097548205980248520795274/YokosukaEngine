@@ -68,7 +68,8 @@ void StageBox::Update()
 void StageBox::Draw()
 {
 	// 白い図形を描画する
-	engine_->DrawSprite(worldTransform_.get(), uvTransform_.get(), camera2d_, whiteTextureHandle_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), FillMode::kWireFrame);
+	engine_->DrawSprite(worldTransform_.get(), uvTransform_.get(), camera2d_, whiteTextureHandle_, Vector4(0.0f, 0.0f, 0.0f, 0.8f), FillMode::kSolid);
+	engine_->DrawSprite(worldTransform_.get(), uvTransform_.get(), camera2d_, whiteTextureHandle_, Vector4(0.5f, 0.5f, 0.5f, 1.0f), FillMode::kWireFrame);
 }
 
 /// <summary>

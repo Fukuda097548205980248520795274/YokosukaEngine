@@ -157,4 +157,90 @@ private:
 
 	// プレイヤーHUDのスクリーンハンドル
 	uint32_t screenHandlePlayerHUD_ = 0;
+
+
+
+	/*-------------
+	    フェーズ
+	-------------*/
+
+	enum Phase
+	{
+		kFadeIn,
+		kGameOperation,
+		kClearMovie,
+		kClearOperation,
+		kFadeOut
+	};
+
+	// 現在のフェーズ
+	Phase phase_ = kFadeIn;
+
+
+	/*-----------------
+	    フェードイン
+	-----------------*/
+
+	/// <summary>
+	/// フェードインの更新処理
+	/// </summary>
+	void PhaseFadeInUpdate();
+
+	// フェードインパラメータ
+	float fadeInParameter_ = 0.0f;
+
+	// フェードんインパラメータの最大値
+	const float kFadeInPrameterMax = 4.0f;
+
+
+	/*--------------
+	    ゲーム操作
+	--------------*/
+
+	/// <summary>
+	/// ゲーム操作の更新処理
+	/// </summary>
+	void PhaseGameOperation();
+
+
+	/*-----------------
+	    クリアムービー
+	-----------------*/
+
+	/// <summary>
+	/// クリアムービーの更新処理
+	/// </summary>
+	void PhaseClearMovide();
+
+	// クリアムービーパラメータ
+	float clearMovieParameter_ = 0.0f;
+
+	// クリアムービーパラメータの最大値
+	const float kClearMoviePrameterMax = 1.5f;
+
+
+	/*---------------
+	    クリア操作
+	---------------*/
+
+	/// <summary>
+	/// クリア操作の更新処理
+	/// </summary>
+	void PhaseClearOperation();
+
+
+	/*------------------
+	    フェードアウト
+	------------------*/
+
+	/// <summary>
+	/// フェードアウトの更新処理
+	/// </summary>
+	void PhaseFadeOut();
+
+	// フェードアウトパラメータ
+	float fadeOutParameter_ = 0.0f;
+
+	// フェードアウトパラメータの最大値
+	const float kFadeOutPrameterMax = 2.0f;
 };

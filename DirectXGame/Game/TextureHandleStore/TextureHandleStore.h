@@ -6,6 +6,11 @@
 #include "BaseTextureHandles/TextLStickTextureHandle/TextLStickTextureHandle.h"
 #include "BaseTextureHandles/TextLStickThumbTextureHandle/TextLStrickThumbTextureHandle.h"
 
+#include "BaseTextureHandles/TextStageServiceRailwayTextureHandle/TextStageServiceRailwayTextureHandle.h"
+#include "BaseTextureHandles/TextStageEfforTownTextureHandle/TextStageEfforTownTextureHandle.h"
+#include "BaseTextureHandles/TextStageTechnoRootTextureHandle/TextStageTechnoRootTextureHandle.h"
+#include "BaseTextureHandles/TextStageImaginaryPlamTextureHandle/TextStageImaginaryPlamTextureHandle.h"
+
 class TextureHandleStore
 {
 public:
@@ -17,6 +22,10 @@ public:
 		kAButton,
 		kLStick,
 		kLStickThumb,
+		kStageServiceRailway,
+		kStageEfforTown,
+		kStageTechnoRoot,
+		kStageImaginaryPlam,
 		kNumHandleName
 	};
 

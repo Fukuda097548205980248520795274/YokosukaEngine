@@ -85,9 +85,16 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
+	// ゲームクリアしていないときは操作できる
+	if (isGameClear_ == false)
+	{
+		Input();
+	}
+	else
+	{
 
-	// 入力操作
-	Input();
+	}
+
 
 	// 浮遊ギミックの更新
 	gimmickFloating_->Update();

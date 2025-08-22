@@ -26,7 +26,7 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	directionalLight_->Initialize();
 
-	// 2D1カメラの生成と初期化
+	// 2Dカメラの生成と初期化
 	camera2d_ = std::make_unique<Camera2D>();
 	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
 
@@ -239,6 +239,9 @@ void StageSelectScene::SelectKeyboard()
 		// BGMを止める
 		engine_->StopSound(playHandle_);
 
+		// ボックスを閉じる
+		stageBox_->CloseReset(kMoveTime / 2.0f);
+
 		return;
 	}
 
@@ -294,6 +297,9 @@ void StageSelectScene::SelectGamepad()
 
 		// BGMを止める
 		engine_->StopSound(playHandle_);
+
+		// ボックスを閉じる
+		stageBox_->CloseReset(kMoveTime / 2.0f);
 
 		return;
 	}
