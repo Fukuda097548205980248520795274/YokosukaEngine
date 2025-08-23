@@ -455,7 +455,60 @@ void Player::MoveGamepad()
 /// </summary>
 void Player::MoveKeyboard()
 {
+	// 移動量
+	Vector3 move = Vector3(0.0f, 0.0f, 0.0f);
 
+	// S or ↓ で下移動
+	if (engine_->GetKeyPress(DIK_S) || engine_->GetKeyPress(DIK_DOWN))
+	{
+		move.y += -1.0f;
+	}
+
+	// W or ↑ で上移動
+	if (engine_->GetKeyPress(DIK_W) || engine_->GetKeyPress(DIK_UP))
+	{
+		move.y += 1.0f;
+	}
+
+	// A or ← で左移動
+	if (engine_->GetKeyPress(DIK_A) || engine_->GetKeyPress(DIK_LEFT))
+	{
+		move.x += -1.0f;
+	}
+
+	// D or → で左移動
+	if (engine_->GetKeyPress(DIK_D) || engine_->GetKeyPress(DIK_RIGHT))
+	{
+		move.x += 1.0f;
+	}
+
+	// 正規化する
+	move = Normalize(move);
+
+	// 左右の移動量により機体を傾ける
+	if (move.x > 0.7f)
+	{
+		gimmickTilt_ = kRight;
+	} 
+	else if (move.x < -0.7f)
+	{
+		gimmickTilt_ = kLeft;
+	}
+
+	// 速度 と スティックの距離 を反映させて移動させる
+	worldTransform_->translation_ += move * speed;
+
+	// 移動範囲を越えたら傾かなくなる
+	if (worldTransform_->translation_.x >= moveRange_.x || worldTransform_->translation_.x <= -moveRange_.x)
+	{
+		gimmickTilt_ = kStraight;
+	}
+
+	// 移動範囲を越えないようにする
+	worldTransform_->translation_.x = std::min(worldTransform_->translation_.x, moveRange_.x);
+	worldTransform_->translation_.x = std::max(worldTransform_->translation_.x, -moveRange_.x);
+	worldTransform_->translation_.y = std::min(worldTransform_->translation_.y, moveRange_.y);
+	worldTransform_->translation_.y = std::max(worldTransform_->translation_.y, -moveRange_.y);
 }
 
 
@@ -548,7 +601,53 @@ void Player::BulletShotGamepad()
 /// </summary>
 void Player::BulletShotKeyboard()
 {
+	// Aボタンで弾を発射する
+	if (engine_->GetKeyPress(DIK_SPACE))
+	{
+		// プレイヤーの向きを取得する
+		Vector3 direction = Normalize(Transform(Vector3(0.0f, 0.0f, 1.0f), MakeRotateMatrix(worldTransform_->rotation_)));
 
+		// 大発射
+		if (shotTimer_ >= kBigShotTime)
+		{
+			// 弾の生成と初期化
+			std::unique_ptr<PlayerBulletStrong> newBullet = std::make_unique<PlayerBulletStrong>();
+			newBullet->Initialize(engine_, camera3d_, modelHandleStore_, worldTransform_->translation_);
+			newBullet->SetDirection(direction);
+
+			// リストに登録する
+			gameScene_->PlayerBulletShot(std::move(newBullet));
+
+			// カメラをシェイクする
+			gameScene_->CameraShake(0.5f, 1.0f);
+
+			// タイマーを初期化する
+			shotTimer_ = 0.0f;
+
+			// 発射音を鳴らす
+			engine_->PlaySoundData(bigShotSoundHandle_, 0.6f);
+		} else
+		{
+			// 小発射
+
+			// 弾の生成と初期化
+			std::unique_ptr<PlayerBulletWeek> newBullet = std::make_unique<PlayerBulletWeek>();
+			newBullet->Initialize(engine_, camera3d_, modelHandleStore_, worldTransform_->translation_);
+			newBullet->SetDirection(direction);
+
+			// リストに登録する
+			gameScene_->PlayerBulletShot(std::move(newBullet));
+
+			// タイマーを初期化する
+			shotTimer_ = 1.0f;
+
+			// 発射音を鳴らす
+			engine_->PlaySoundData(minShotSoundHandle_, 0.3f);
+		}
+
+		// 発射ギミックの初期化
+		GimmickShotInitialize();
+	}
 }
 
 
