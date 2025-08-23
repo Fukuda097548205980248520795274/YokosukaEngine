@@ -135,7 +135,7 @@ void Stage::EnemyScriptUpdate()
 {
 	if (isWaitEnemyScript_)
 	{
-		waitEnemyScriptTimer_ -= 1.0f / 60.0f;
+		waitEnemyScriptTimer_ -= (1.0f / 60.0f) * (*gameFrame_);
 
 		if (waitEnemyScriptTimer_ <= 0.0f)
 		{
@@ -312,7 +312,7 @@ void Stage::StageObjectScriptUpdate()
 {
 	if (isWaitStageObjectScript_)
 	{
-		waitStageObjectScriptTimer_ -= 1.0f / 60.0f;
+		waitStageObjectScriptTimer_ -= (1.0f / 60.0f) * (*gameFrame_);
 
 		if (waitStageObjectScriptTimer_ <= 0.0f)
 		{

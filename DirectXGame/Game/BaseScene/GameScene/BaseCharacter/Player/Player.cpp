@@ -133,8 +133,21 @@ void Player::Update()
 /// </summary>
 void Player::ClearUpdate()
 {
+	// 角加速度を加算する
+	flyRadian_ += flyRadianVel_;
+
+	float velZ = std::cos(flyRadian_) * flyMove_;
+	float velY = std::sin(flyRadian_) * flyMove_;
+
+	worldTransform_->translation_.y += velY;
+	worldTransform_->translation_.z += velZ;
+
+
 	// 浮遊ギミックの更新
 	gimmickFloating_->Update();
+
+	// 傾きを通常に戻す
+	gimmickTilt_ = kStraight;
 
 	// ギミック : 傾き : 更新処理
 	GimmickTiltUpdate();
@@ -177,6 +190,10 @@ void Player::ClearUpdate()
 /// </summary>
 void Player::FailedUpdate()
 {
+	// 加速度を加算する
+	fallVeloity_ += kGraivtyAcceleration * (1.0f / 60.0f);
+	worldTransform_->translation_.y += fallVeloity_ * (1.0f / 60.0f);
+
 
 	// 基底クラスの更新処理
 	BaseCharacter::Update();

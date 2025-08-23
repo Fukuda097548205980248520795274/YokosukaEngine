@@ -556,7 +556,7 @@ void GameScene::PhaseClearMovide()
 /// </summary>
 void GameScene::PhaseFailedMovie()
 {
-	// プレイ屋０の失敗更新処理
+	// プレイヤーの失敗更新処理
 	player_->FailedUpdate();
 
 	// パラメータを進める

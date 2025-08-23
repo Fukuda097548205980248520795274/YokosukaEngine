@@ -217,7 +217,7 @@ private:
 	float clearMovieParameter_ = 0.0f;
 
 	// クリアムービーパラメータの最大値
-	const float kClearMoviePrameterMax = 1.5f;
+	const float kClearMoviePrameterMax = 2.0f;
 
 
 
@@ -234,7 +234,7 @@ private:
 	float failedMovieParameter_ = 0.0f;
 
 	// 失敗ムービーパラメータの最大値
-	const float kFailedMoviePrameterMax = 1.5f;
+	const float kFailedMoviePrameterMax = 2.0f;
 
 
 	/*---------------

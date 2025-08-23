@@ -319,6 +319,33 @@ private:
 
 
 
+	/*-----------
+	    クリア
+	-----------*/
+
+	// 飛行角度
+	float flyRadian_ = 0.0f;
+
+	// 飛行角速度
+	float flyRadianVel_ = 0.02f;
+
+	// 速度
+	float flyMove_ = 2.0f;
+
+
+
+	/*----------
+	    失敗
+	----------*/
+
+	// 落下速度
+	float fallVeloity_ = 0.0f;
+
+	// 重力加速度
+	const float kGraivtyAcceleration = -9.8f;
+
+
+
 	/*----------
 	    HUD
 	----------*/
