@@ -35,6 +35,16 @@ public:
 	void Update() override;
 
 	/// <summary>
+	/// クリアの更新処理
+	/// </summary>
+	void ClearUpdate();
+
+	/// <summary>
+	/// 失敗の更新処理
+	/// </summary>
+	void FailedUpdate();
+
+	/// <summary>
 	/// 描画処理
 	/// </summary>
 	void Draw() override;
@@ -91,6 +101,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	AABB GetCollisionAABB()const;
+
+	/// <summary>
+	/// ゲームクリアフラグのSetter
+	/// </summary>
+	/// <param name="isGameClear"></param>
+	void SetIsGameClear(bool isGameClear) { isGameClear_ = isGameClear; }
 
 
 private:
@@ -206,19 +222,21 @@ private:
 	void OperatoinTimerKeyboard();
 
 
+	// ゲームクリアフラグ
+	bool isGameClear_ = false;
+
+
 	// 遅延する時間
 	float slowTime_ = 3.0f;
 
 	// 遅延タイマー
 	float slowTimer_ = 0.0f;
 
-
 	// 時間操作の最大クールタイム
 	const float kMaxOperationTimerCooltimer = 3.0f;
 
 	// 時間操作のクールタイム
 	float operationTimerCooltimer_ = 3.0f;
-
 
 	// 時間操作フラグ
 	bool isOperationTimer_ = false;

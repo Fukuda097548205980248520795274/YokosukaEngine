@@ -51,54 +51,52 @@ void GameScene::Update()
 	BaseScene::Update();
 
 
-	if (engine_->IsGamepadEnable(0))
+	// フェーズ切り替え
+	switch (phase_)
 	{
-		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_START))
-		{
-			pose_->PoseButton();
-		}
+	case kFadeIn:
+	default:
+		// フェードイン
+		PhaseFadeInUpdate();
+
+		break;
+
+	case kGameOperation:
+		// ゲーム操作
+		PhaseGameOperation();
+
+		break;
+
+	case kClearMovie:
+		// クリアムービー
+		PhaseClearMovide();
+
+		break;
+
+	case kFailedMovie:
+		// 失敗ムービー
+		PhaseFailedMovie();
+
+		break;
+
+	case kResultOperation:
+		// クリア操作
+		PhaseResultOperation();
+
+		break;
+
+	case kFadeOut:
+		// フェードアウト
+		PhaseFadeOut();
+
+		break;
 	}
 
-	// ポーズの更新
-	pose_->Update();
 
-	// ポーズ中は音楽を停止する
+	// ポーズ中は処理しない
 	if (pose_->IsPose())
-	{
-		engine_->SetVolume(playHandle_, 0.0f);
-		engine_->SetPitch(playHandle_, 0.0f);
 		return;
-	}
-	else
-	{
-		// ポーズ中ではないときは、音楽を流す
-		if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
-		{
-			playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
-		}
 
-		engine_->SetVolume(playHandle_, 0.3f);
-		engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
-	}
-
-
-	// ステージの更新
-	stage_->Update();
-
-	// ステージクリアで終了する
-	if (stage_->IsClear())
-	{
-		engine_->StopSound(playHandle_);
-		isFinished_ = true;
-		return;
-	}
-
-	// 天球の更新が中心軸の位置に移動する
-	skydome_->SetPosition(stage_->GetCenterAxisWorldPosition());
-	skydome_->Update();
-
-	// プレイヤーの更新
-	player_->Update();
 
 	// プレイヤーの弾の更新
 	PlayerBulletUpdate();
@@ -112,6 +110,10 @@ void GameScene::Update()
 	// ダメージパーティクルの更新
 	DamageParticleUpdate();
 
+
+	// 天球の更新が中心軸の位置に移動する
+	skydome_->SetPosition(stage_->GetCenterAxisWorldPosition());
+	skydome_->Update();
 
 	// 全ての当たり判定を行う
 	AllCheckCollision();
@@ -399,5 +401,199 @@ void GameScene::AllCheckCollision()
 		{
 			player_->OnCollision(enemy.get());
 		}
+	}
+}
+
+
+
+
+
+/// <summary>
+/// フェードインの更新処理
+/// </summary>
+void GameScene::PhaseFadeInUpdate()
+{
+	// スタートボタンでポーズ
+	if (engine_->IsGamepadEnable(0))
+	{
+		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_START))
+		{
+			pose_->PoseButton();
+		}
+	}
+
+	// ポーズの更新
+	pose_->Update();
+
+	// ポーズ中は音楽を停止する
+	if (pose_->IsPose())
+	{
+		engine_->SetVolume(playHandle_, 0.0f);
+		engine_->SetPitch(playHandle_, 0.0f);
+		return;
+	} else
+	{
+		// ポーズ中ではないときは、音楽を流す
+		if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
+		{
+			playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
+		}
+
+		engine_->SetVolume(playHandle_, 0.3f);
+		engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
+	}
+
+
+	// パラメータを進める
+	fadeInParameter_ += 1.0f / 60.0f;
+	fadeInParameter_ = std::min(fadeInParameter_, kFadeInPrameterMax);
+
+	// パラメータ最大でゲーム操作フェーズに移行する
+	if (fadeInParameter_ >= kFadeInPrameterMax)
+	{
+		phase_ = kGameOperation;
+	}
+
+
+	// ステージの更新
+	stage_->Update();
+
+	// プレイヤーの更新
+	player_->Update();
+}
+
+/// <summary>
+/// ゲーム操作の更新処理
+/// </summary>
+void GameScene::PhaseGameOperation()
+{
+	// スタートボタンでポーズ
+	if (engine_->IsGamepadEnable(0))
+	{
+		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_START))
+		{
+			pose_->PoseButton();
+		}
+	}
+
+	// ポーズの更新
+	pose_->Update();
+
+	// ポーズ中は音楽を停止する
+	if (pose_->IsPose())
+	{
+		engine_->SetVolume(playHandle_, 0.0f);
+		engine_->SetPitch(playHandle_, 0.0f);
+		return;
+	} else
+	{
+		// ポーズ中ではないときは、音楽を流す
+		if (!engine_->IsSoundPlay(playHandle_) || playHandle_ == 0)
+		{
+			playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
+		}
+
+		engine_->SetVolume(playHandle_, 0.3f);
+		engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
+	}
+
+
+
+	// ステージの更新
+	stage_->Update();
+
+	// プレイヤーの更新
+	player_->Update();
+
+	// プレイヤーが終了したら、ゲームオーバムービーを流す
+	if (player_->IsFinished())
+	{
+		// BGMを止める
+		engine_->StopSound(playHandle_);
+
+		// クリアムービーに移行する
+		phase_ = kFailedMovie;
+
+		return;
+	}
+
+	// 最後までたどり着いたらプレイヤーがゲームクリア状態になる
+	if (stage_->IsClear())
+	{
+		player_->SetIsGameClear(true);
+
+		// BGMを止める
+		engine_->StopSound(playHandle_);
+
+		// クリアムービーに移行する
+		phase_ = kClearMovie;
+
+		return;
+	}
+}
+
+/// <summary>
+/// クリアムービーの更新処理
+/// </summary>
+void GameScene::PhaseClearMovide()
+{
+	// プレイヤーのクリア更新処理
+	player_->ClearUpdate();
+
+	// パラメータを進める
+	clearMovieParameter_ += 1.0f / 60.0f;
+	clearMovieParameter_ = std::min(clearMovieParameter_, kClearMoviePrameterMax);
+
+	// パラメータが最大で終了する
+	if (clearMovieParameter_ >= kClearMoviePrameterMax)
+	{
+		phase_ = kResultOperation;
+	}
+}
+
+/// <summary>
+/// 失敗ムービーの更新処理
+/// </summary>
+void GameScene::PhaseFailedMovie()
+{
+	// プレイ屋０の失敗更新処理
+	player_->FailedUpdate();
+
+	// パラメータを進める
+	failedMovieParameter_ += 1.0f / 60.0f;
+	failedMovieParameter_ = std::min(failedMovieParameter_, kFailedMoviePrameterMax);
+
+	// パラメータが最大で終了する
+	if (failedMovieParameter_ >= kFailedMoviePrameterMax)
+	{
+		phase_ = kResultOperation;
+	}
+}
+
+/// <summary>
+/// クリア操作の更新処理
+/// </summary>
+void GameScene::PhaseResultOperation()
+{
+	if (engine_->GetKeyTrigger(DIK_SPACE))
+	{
+		phase_ = kFadeOut;
+	}
+}
+
+/// <summary>
+/// フェードアウトの更新処理
+/// </summary>
+void GameScene::PhaseFadeOut()
+{
+	// パラメータを進める
+	fadeOutParameter_ += 1.0f / 60.0f;
+	fadeOutParameter_ = std::min(fadeOutParameter_, kFadeOutPrameterMax);
+
+	// パラメータが最大で終了する
+	if (fadeOutParameter_ >= kFadeOutPrameterMax)
+	{
+		isFinished_ = true;
+		return;
 	}
 }

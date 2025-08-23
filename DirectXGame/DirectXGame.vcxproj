@@ -234,6 +234,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageEfforTownTextureHandle\TextStageEfforTownTextureHandle.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle\TextStageImaginaryPlamTextureHandle.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageServiceRailwayTextureHandle\TextStageServiceRailwayTextureHandle.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageTechnoRootTextureHandle\TextStageTechnoRootTextureHandle.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.cpp" />
     <ClCompile Include="Game\TextureHandleStore\TextureHandleStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp" />
@@ -450,6 +454,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageEfforTownTextureHandle\TextStageEfforTownTextureHandle.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle\TextStageImaginaryPlamTextureHandle.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageServiceRailwayTextureHandle\TextStageServiceRailwayTextureHandle.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageTechnoRootTextureHandle\TextStageTechnoRootTextureHandle.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.h" />
     <ClInclude Include="Game\TextureHandleStore\TextureHandleStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h" />

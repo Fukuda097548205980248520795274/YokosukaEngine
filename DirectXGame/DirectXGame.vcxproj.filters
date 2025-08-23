@@ -721,6 +721,18 @@
     <Filter Include="Game\BaseScene\StageSelectScene\StageBox">
       <UniqueIdentifier>{abf846af-632f-4d95-a414-ccbb13d2ee42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextStageServiceRailwayTextureHandle">
+      <UniqueIdentifier>{09e0b28e-b89b-41e3-8425-28ddb8161280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextStageEfforTownTextureHandle">
+      <UniqueIdentifier>{fe4aaf69-1154-4dcc-8d86-3821e74eeea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextStageTechnoRootTextureHandle">
+      <UniqueIdentifier>{b3c2ca3c-0185-4525-ba23-d8fb5027ef24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle">
+      <UniqueIdentifier>{adeba7ec-c8bd-468b-a016-6ff5ef7a4db6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1361,6 +1373,18 @@
     </ClCompile>
     <ClCompile Include="Game\BaseScene\StageSelectScene\StageBox\StageBox.cpp">
       <Filter>Game\BaseScene\StageSelectScene\StageBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageServiceRailwayTextureHandle\TextStageServiceRailwayTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageServiceRailwayTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageEfforTownTextureHandle\TextStageEfforTownTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageEfforTownTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageTechnoRootTextureHandle\TextStageTechnoRootTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageTechnoRootTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle\TextStageImaginaryPlamTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2005,6 +2029,18 @@
     </ClInclude>
     <ClInclude Include="Game\BaseScene\StageSelectScene\StageBox\StageBox.h">
       <Filter>Game\BaseScene\StageSelectScene\StageBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageServiceRailwayTextureHandle\TextStageServiceRailwayTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageServiceRailwayTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageEfforTownTextureHandle\TextStageEfforTownTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageEfforTownTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageTechnoRootTextureHandle\TextStageTechnoRootTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageTechnoRootTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle\TextStageImaginaryPlamTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

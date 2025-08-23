@@ -85,7 +85,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
-
 	// 入力操作
 	Input();
 
@@ -127,6 +126,88 @@ void Player::Update()
 	// テキスト : HPの更新
 	hudTextHp_->Update();
 }
+
+
+/// <summary>
+/// クリアの更新処理
+/// </summary>
+void Player::ClearUpdate()
+{
+	// 浮遊ギミックの更新
+	gimmickFloating_->Update();
+
+	// ギミック : 傾き : 更新処理
+	GimmickTiltUpdate();
+
+	// ギミック : 発射 : 更新処理
+	GimmickShotUpdate();
+
+	// 基底クラスの更新処理
+	BaseCharacter::Update();
+
+	// 中心の更新
+	worldTransform_->UpdateWorldMatrix();
+
+	// 本体の更新
+	bodyWorldTransform_->UpdateWorldMatrix();
+
+	// 本体の位置にポイントライトを置く
+	bodyPointLight_->position_ = GetBodyWorldPosition();
+
+
+
+	// HUD用カメラの更新
+	hudCamera3d_->UpdateMatrix();
+
+	// ステートエリアの更新
+	hudStateArea_->Update();
+
+	// HPの更新
+	hudHp_->Update();
+
+	// 弾のエネルギーの更新
+	hudBulletEnergy_->Update();
+
+	// テキスト : HPの更新
+	hudTextHp_->Update();
+}
+
+/// <summary>
+/// 失敗の更新処理
+/// </summary>
+void Player::FailedUpdate()
+{
+
+	// 基底クラスの更新処理
+	BaseCharacter::Update();
+
+	// 中心の更新
+	worldTransform_->UpdateWorldMatrix();
+
+	// 本体の更新
+	bodyWorldTransform_->UpdateWorldMatrix();
+
+	// 本体の位置にポイントライトを置く
+	bodyPointLight_->position_ = GetBodyWorldPosition();
+
+
+
+	// HUD用カメラの更新
+	hudCamera3d_->UpdateMatrix();
+
+	// ステートエリアの更新
+	hudStateArea_->Update();
+
+	// HPの更新
+	hudHp_->Update();
+
+	// 弾のエネルギーの更新
+	hudBulletEnergy_->Update();
+
+	// テキスト : HPの更新
+	hudTextHp_->Update();
+}
+
 
 /// <summary>
 /// 描画処理
@@ -222,6 +303,11 @@ void Player::OnCollision(const BaseEnemy* enemy)
 /// <param name="bullet"></param>
 void Player::OnCollision(const BaseEnemyBullet* enemyBullet)
 {
+	// ゲームクリア時は処理しない
+	if (isGameClear_)
+		return;
+
+
 	// ダメージが入る
 	hp_ -= enemyBullet->GetPower();
 	hp_ = std::max(hp_, 0);
