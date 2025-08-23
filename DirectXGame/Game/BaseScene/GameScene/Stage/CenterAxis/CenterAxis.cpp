@@ -34,11 +34,13 @@ void CenterAxis::Initliaze(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void CenterAxis::Update()
 {
+	float tAdd = 0.00025f;
+
 	// 進める
-	t_ += 0.0005f * (*gameTimer_);
+	t_ += tAdd * (*gameTimer_);
 
 	// ゴールしたかどうか
-	if (t_ + 0.0001f > 1.0f)
+	if (t_ + tAdd > 1.0f)
 	{
 		isGoal_ = true;
 		return;
