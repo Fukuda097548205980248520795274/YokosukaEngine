@@ -295,6 +295,10 @@ void Stage::EnemyScriptUpdate()
 			enemy->SetParent(centerAxis_->GetWorldTransform());
 			enemy->SetGameTimer(gameFrame_);
 			enemy->SetTarget(target_);
+			enemy->SetApproachingDirection(approachingDirection);
+			enemy->SetApproachingTimer(approachingTime);
+			enemy->SetAwayDirection(AwayDirection);
+			enemy->SetAwayTimer(AwayTime);
 			gameScene_->EnemySummon(std::move(enemy));
 		}
 

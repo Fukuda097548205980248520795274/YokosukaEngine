@@ -88,16 +88,16 @@ void EnemyBirdStateApproacingRear::Update()
 
 
 	// 奥に進む
-	worldTransform->translation_.z += 1.0f * (*gameTimer);
+	worldTransform->translation_ += enemy_->GetApproachingDirection() * (*gameTimer);
 
 
 	// 通常ビヘイビア時にタイマーを進める
 	if (currentBehavior_ == kNormal)
 	{
-		timer_ += 1.0f / 60.0f * (*gameTimer);
+		timer_ += (1.0f / 60.0f) * (*gameTimer);
 
 		// 終了したら、離脱する
-		if (timer_ >= time_)
+		if (timer_ >= enemy_->GetApproachingTimer())
 		{
 			enemy_->ChangeState(EnemyBird::kAwayTop);
 		}

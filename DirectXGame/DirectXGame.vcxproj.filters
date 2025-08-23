@@ -691,12 +691,6 @@
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRear">
       <UniqueIdentifier>{571f6b67-1b34-4c72-b9be-0bcce67cabb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingLeft">
-      <UniqueIdentifier>{4746709e-0b44-4605-944e-54dc45948899}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingRight">
-      <UniqueIdentifier>{91986200-6bff-4829-959f-3437aef3a448}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\GameScene\Pose\PoseBg">
       <UniqueIdentifier>{31e42bb1-d000-4ac8-83b0-3e46cddd28f3}</UniqueIdentifier>
     </Filter>

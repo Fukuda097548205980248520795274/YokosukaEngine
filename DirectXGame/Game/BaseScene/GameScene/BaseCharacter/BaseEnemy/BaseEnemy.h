@@ -108,6 +108,54 @@ public:
 	void SetGameTimer(const float* gameTimer) { gameTimer_ = gameTimer; }
 
 	/// <summary>
+	/// 接近する方向のSetter
+	/// </summary>
+	/// <param name="direction"></param>
+	void SetApproachingDirection(const Vector3& direction) { approachingDirection_ = direction; }
+
+	/// <summary>
+	/// 接近する時間のSetter
+	/// </summary>
+	/// <param name="timer"></param>
+	void SetApproachingTimer(float timer) { approachingTimer_ = timer; }
+
+	/// <summary>
+	/// 接近する方向のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetApproachingDirection() { return approachingDirection_; }
+
+	/// <summary>
+	/// 接近する時間のGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetApproachingTimer() { return approachingTimer_; }
+
+	/// <summary>
+	/// 離脱する方向のSetter
+	/// </summary>
+	/// <param name="direction"></param>
+	void SetAwayDirection(const Vector3& direction) { awayDirection_ = direction; }
+
+	/// <summary>
+	/// 離脱する時間のSetter
+	/// </summary>
+	/// <param name="timer"></param>
+	void SetAwayTimer(float timer) { awayTimer_ = timer; }
+
+	/// <summary>
+	/// 離脱する方向のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetAwayDirection() { return awayDirection_; }
+
+	/// <summary>
+	/// 離脱する時間のGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetAwayTimer() { return awayTimer_; }
+
+	/// <summary>
 	/// ゲームタイマーのGetter
 	/// </summary>
 	/// <returns></returns>
@@ -165,5 +213,19 @@ protected:
 
 	// 撃破音
 	uint32_t soundHandleDestroy_ = 0;
+
+
+	// 接近する方向
+	Vector3 approachingDirection_ = { 0.0f , 0.0f , 0.0f };
+
+	// 接近する時間
+	float approachingTimer_ = 0.0f;
+
+
+	// 離脱する方向
+	Vector3 awayDirection_ = { 0.0f , 0.0f , 0.0f };
+
+	// 離脱する時間
+	float awayTimer_ = 0.0f;
 };
 

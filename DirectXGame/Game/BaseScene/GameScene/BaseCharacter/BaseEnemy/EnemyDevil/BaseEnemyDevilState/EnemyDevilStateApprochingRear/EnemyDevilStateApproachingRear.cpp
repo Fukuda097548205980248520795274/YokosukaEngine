@@ -54,13 +54,13 @@ void EnemyDevilStateApproachingRear::Update()
 
 
 	// 奥に進む
-	worldTransform->translation_.z += 1.0f * (*gameTimer);
+	worldTransform->translation_ += enemy_->GetApproachingDirection() * (*gameTimer);
 
 	// タイマーを進める
 	timer_ += (1.0f / 60.0f) * (*gameTimer);
 
 	// タイマーを越えたら停止状態に移行する
-	if (timer_ >= time_)
+	if (timer_ >= enemy_->GetApproachingTimer())
 	{
 		enemy_->ChangeState(EnemyDevil::kTurn);
 	}

@@ -1,4 +1,6 @@
 // 蝶の敵
 ENEMY,Butterfly,Hp(50),Position(0.0f,0.0f,0.0f),Approaching(Direction(0.0f,0.0f,1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Time(2.0f))
+
 WAIT,3.0f
+
 ENEMY,Devil,Hp(50),Position(0.0f,5.0f,0.0f),Approaching(Direction(0.0f,0.0f,1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Time(2.0f))
