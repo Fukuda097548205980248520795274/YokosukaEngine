@@ -209,6 +209,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\Skydome\Skydome.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\BaseModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandles\EnemyBirdModelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletStarModelHandle\EnemyBulletStarModelHandle.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletTridentModelHandle\EnemyBulletTridentModelHandle.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletWeekModelHandles\EnemyBulletWeekModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyButterflyModelHandles\EnemyButterflyodelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyDevilModelHandles\EnemyDevilModelHandles.cpp" />
@@ -429,6 +431,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\Skydome\Skydome.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\BaseModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBirdModelHandles\EnemyBirdModelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletStarModelHandle\EnemyBulletStarModelHandle.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletTridentModelHandle\EnemyBulletTridentModelHandle.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletWeekModelHandles\EnemyBulletWeekModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyButterflyModelHandles\EnemyButterflyodelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyDevilModelHandles\EnemyDevilModelHandles.h" />

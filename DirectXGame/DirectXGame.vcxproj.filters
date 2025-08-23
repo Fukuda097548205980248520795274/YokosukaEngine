@@ -727,6 +727,12 @@
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle">
       <UniqueIdentifier>{adeba7ec-c8bd-468b-a016-6ff5ef7a4db6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletTridentModelHandle">
+      <UniqueIdentifier>{9916be84-27d8-445e-a77c-203d737ea243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletStarModelHandle">
+      <UniqueIdentifier>{93ec1e51-0734-4d0a-a935-a0927ff004b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1379,6 +1385,12 @@
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle\TextStageImaginaryPlamTextureHandle.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletTridentModelHandle\EnemyBulletTridentModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletTridentModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletStarModelHandle\EnemyBulletStarModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletStarModelHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2035,6 +2047,12 @@
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle\TextStageImaginaryPlamTextureHandle.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletTridentModelHandle\EnemyBulletTridentModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletTridentModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletStarModelHandle\EnemyBulletStarModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletStarModelHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -21,6 +21,8 @@
 #include "BaseModelHandles/EnemyDevilModelHandles/EnemyDevilModelHandles.h"
 
 #include "BaseModelHandles/EnemyBulletWeekModelHandles/EnemyBulletWeekModelHandles.h"
+#include "BaseModelHandles/EnemyBulletStarModelHandle/EnemyBulletStarModelHandle.h"
+#include "BaseModelHandles/EnemyBulletTridentModelHandle/EnemyBulletTridentModelHandle.h"
 
 #include "BaseModelHandles/StageObjectSaturnPlanetModelHandles/StageObjectSaturnPlanetModelHandles.h"
 #include "BaseModelHandles/StageObjectBuildingAModelHandles/StageObjectBuildingAModelHandles.h"
@@ -45,25 +47,34 @@ public:
 	enum HandleName
 	{
 		kPlayer,
+
 		kPlayerBulletWeek,
 		kPlayerBulletStrong,
+
 		kPlayerHUDStateArea,
 		kPlayerHUDHp,
 		kPlayerHUDBulletEnergy,
 		kPlayerHUDTextHp,
+
 		kEnemyButterfly,
 		kEnemyBird,
 		kEnemyStingray,
 		kEnemyJet,
 		kEnemyFairy,
 		kEnemyDevil,
+
 		kEnemyBulletWeek,
+		kEnemyBulletTrident,
+		kEnemyBulletStar,
+
 		kStageObjectSaturnPlanet,
 		kStageObjectBuildingA,
 		kStageObjectBuildingB,
 		kStageObjectBuildingC,
 		kStageObjectBuildingD,
+
 		kUniverse,
+
 		kNumHandleName
 	};
 

@@ -65,9 +65,19 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	modelHandles_[kEnemyDevil] = std::make_unique<EnemyDevilModelHandles>();
 	modelHandles_[kEnemyDevil]->Initialize(engine_);
 
-	// プレイヤーのハンドル
+
+	// 敵の弾 : 弱
 	modelHandles_[kEnemyBulletWeek] = std::make_unique<EnemyBulletWeekModelHandles>();
 	modelHandles_[kEnemyBulletWeek]->Initialize(engine_);
+
+	// 敵の弾 : 槍
+	modelHandles_[kEnemyBulletTrident] = std::make_unique<EnemyBulletTridentModelHandle>();
+	modelHandles_[kEnemyBulletTrident]->Initialize(engine_);
+
+	// 敵の弾 : 星
+	modelHandles_[kEnemyBulletStar] = std::make_unique<EnemyBulletStarModelHandle>();
+	modelHandles_[kEnemyBulletStar]->Initialize(engine_);
+
 
 	// ステージオブジェクトの土星のモデルハンドル
 	modelHandles_[kStageObjectSaturnPlanet] = std::make_unique<StageObjectSaturnPlanetModelHandles>();
