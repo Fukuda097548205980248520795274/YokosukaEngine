@@ -214,10 +214,20 @@ void TitleScene::BehaviorOperationUpdate()
 		playHandle_ = engine_->PlaySoundData(soundHandle_, 0.3f);
 	}
 
-	// Startボタンでフェードアウトする
+	// Aボタンでフェードアウトする
 	if (engine_->IsGamepadEnable(0))
 	{
-		if (engine_->GetGamepadButtonTrigger(0,XINPUT_GAMEPAD_START))
+		if (engine_->GetGamepadButtonTrigger(0,XINPUT_GAMEPAD_A))
+		{
+			behaviorRequest_ = kFadeOut;
+
+			// BGMを止める
+			engine_->StopSound(playHandle_);
+		}
+	}
+	else
+	{
+		if (engine_->GetKeyTrigger(DIK_SPACE))
 		{
 			behaviorRequest_ = kFadeOut;
 
