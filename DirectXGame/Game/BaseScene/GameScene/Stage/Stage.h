@@ -4,6 +4,12 @@
 #include <sstream>
 
 #include "../BaseCharacter/BaseCharacter.h"
+#include "../BaseCharacter/BaseEnemy/EnemyBird/EnemyBird.h"
+#include "../BaseCharacter/BaseEnemy/EnemyButterfly/EnemyButterfly.h"
+#include "../BaseCharacter/BaseEnemy/EnemyDevil/EnemyDevil.h"
+#include "../BaseCharacter/BaseEnemy/EnemyFairy/EnemyFairy.h"
+#include "../BaseCharacter/BaseEnemy/EnemyJet/EnemyJet.h"
+#include "../BaseCharacter/BaseEnemy/EnemyStingray/EnemyStingray.h"
 
 #include "CenterAxis/CenterAxis.h"
 
@@ -88,8 +94,7 @@ public:
 	/// <summary>
 	/// 敵を生成する
 	/// </summary>
-	void SummonEnemy(std::string& enemyType, int32_t hp, const Vector3& position,
-		const Vector3 approachingDirection, float approachingTime, const Vector3 awayDirection, float awayTime);
+	std::unique_ptr<BaseEnemy> SummonEnemy(std::string& enemyType);
 
 	/// <summary>
 	/// ステージオブジェクトを生成する

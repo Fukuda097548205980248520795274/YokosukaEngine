@@ -287,7 +287,15 @@ void Stage::EnemyScriptUpdate()
 			}
 
 
-			SummonEnemy(enemyType, hp, pos , approachingDirection , approachingTime , AwayDirection , AwayTime);
+			std::unique_ptr<BaseEnemy> enemy = std::move(SummonEnemy(enemyType));
+
+			// 初期化と設定
+			enemy->Initialize(engine_, camera3d_, modelHandleStore_, pos, hp);
+			enemy->SetGameScene(gameScene_);
+			enemy->SetParent(centerAxis_->GetWorldTransform());
+			enemy->SetGameTimer(gameFrame_);
+			enemy->SetTarget(target_);
+			gameScene_->EnemySummon(std::move(enemy));
 		}
 
 		if (word.find("WAIT") == 0)
@@ -397,69 +405,41 @@ void Stage::StageObjectScriptUpdate()
 /// <summary>
 /// 敵を生成する
 /// </summary>
-void Stage::SummonEnemy(std::string& enemyType, int32_t hp, const Vector3& position ,
-	const Vector3 approachingDirection , float approachingTime , const Vector3 awayDirection, float awayTime)
+std::unique_ptr<BaseEnemy> Stage::SummonEnemy(std::string& enemyType)
 {
 	if (strcmp(enemyType.c_str(), "Butterfly") == 0)
 	{
 		std::unique_ptr<EnemyButterfly> enemy = std::make_unique<EnemyButterfly>();
-		enemy->Initialize(engine_, camera3d_, modelHandleStore_, position, hp);
-		enemy->SetGameScene(gameScene_);
-		enemy->SetParent(centerAxis_->GetWorldTransform());
-		enemy->SetGameTimer(gameFrame_);
-		enemy->SetTarget(target_);
-		gameScene_->EnemySummon(std::move(enemy));
+		return enemy;
 	}
 	else if (strcmp(enemyType.c_str(), "Bird") == 0)
 	{
 		std::unique_ptr<EnemyBird> enemy = std::make_unique<EnemyBird>();
-		enemy->Initialize(engine_, camera3d_, modelHandleStore_, position, hp);
-		enemy->SetGameScene(gameScene_);
-		enemy->SetParent(centerAxis_->GetWorldTransform());
-		enemy->SetGameTimer(gameFrame_);
-		enemy->SetTarget(target_);
-		gameScene_->EnemySummon(std::move(enemy));
+		return enemy;
 	}
 	else if (strcmp(enemyType.c_str(), "Stingray") == 0)
 	{
 		std::unique_ptr<EnemyStingray> enemy = std::make_unique<EnemyStingray>();
-		enemy->Initialize(engine_, camera3d_, modelHandleStore_, position, hp);
-		enemy->SetGameScene(gameScene_);
-		enemy->SetParent(centerAxis_->GetWorldTransform());
-		enemy->SetGameTimer(gameFrame_);
-		enemy->SetTarget(target_);
-		gameScene_->EnemySummon(std::move(enemy));
+		return enemy;
 	}
 	else if (strcmp(enemyType.c_str(), "Jet") == 0)
 	{
 		std::unique_ptr<EnemyJet> enemy = std::make_unique<EnemyJet>();
-		enemy->Initialize(engine_, camera3d_, modelHandleStore_, position, hp);
-		enemy->SetGameScene(gameScene_);
-		enemy->SetParent(centerAxis_->GetWorldTransform());
-		enemy->SetGameTimer(gameFrame_);
-		enemy->SetTarget(target_);
-		gameScene_->EnemySummon(std::move(enemy));
+		return enemy;
 	}
 	else if (strcmp(enemyType.c_str(), "Fairy") == 0)
 	{
 		std::unique_ptr<EnemyFairy> enemy = std::make_unique<EnemyFairy>();
-		enemy->Initialize(engine_, camera3d_, modelHandleStore_, position, hp);
-		enemy->SetGameScene(gameScene_);
-		enemy->SetParent(centerAxis_->GetWorldTransform());
-		enemy->SetGameTimer(gameFrame_);
-		enemy->SetTarget(target_);
-		gameScene_->EnemySummon(std::move(enemy));
+		return enemy;
 	}
 	else if (strcmp(enemyType.c_str(), "Devil") == 0)
 	{
 		std::unique_ptr<EnemyDevil> enemy = std::make_unique<EnemyDevil>();
-		enemy->Initialize(engine_, camera3d_, modelHandleStore_, position, hp);
-		enemy->SetGameScene(gameScene_);
-		enemy->SetParent(centerAxis_->GetWorldTransform());
-		enemy->SetGameTimer(gameFrame_);
-		enemy->SetTarget(target_);
-		gameScene_->EnemySummon(std::move(enemy));
+		return enemy;
 	}
+
+	assert(false);
+	return nullptr;
 }
 
 /// <summary>
