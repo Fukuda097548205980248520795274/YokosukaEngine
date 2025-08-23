@@ -169,7 +169,8 @@ private:
 		kFadeIn,
 		kGameOperation,
 		kClearMovie,
-		kClearOperation,
+		kFailedMovie,
+		kResultOperation,
 		kFadeOut
 	};
 
@@ -219,14 +220,31 @@ private:
 	const float kClearMoviePrameterMax = 1.5f;
 
 
+
+	/*----------------
+	    失敗ムービー
+	----------------*/
+
+	/// <summary>
+	/// クリアムービーの更新処理
+	/// </summary>
+	void PhaseFailedMovie();
+
+	// 失敗ムービーパラメータ
+	float failedMovieParameter_ = 0.0f;
+
+	// 失敗ムービーパラメータの最大値
+	const float kFailedMoviePrameterMax = 1.5f;
+
+
 	/*---------------
-	    クリア操作
+	    リザルト操作
 	---------------*/
 
 	/// <summary>
 	/// クリア操作の更新処理
 	/// </summary>
-	void PhaseClearOperation();
+	void PhaseResultOperation();
 
 
 	/*------------------

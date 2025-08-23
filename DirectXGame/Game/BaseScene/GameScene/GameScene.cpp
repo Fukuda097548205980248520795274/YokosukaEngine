@@ -73,9 +73,15 @@ void GameScene::Update()
 
 		break;
 
-	case kClearOperation:
+	case kFailedMovie:
+		// 失敗ムービー
+		PhaseFailedMovie();
+
+		break;
+
+	case kResultOperation:
 		// クリア操作
-		PhaseClearOperation();
+		PhaseResultOperation();
 
 		break;
 
@@ -91,9 +97,6 @@ void GameScene::Update()
 	if (pose_->IsPose())
 		return;
 
-
-	// プレイヤーの更新
-	player_->Update();
 
 	// プレイヤーの弾の更新
 	PlayerBulletUpdate();
@@ -454,6 +457,9 @@ void GameScene::PhaseFadeInUpdate()
 
 	// ステージの更新
 	stage_->Update();
+
+	// プレイヤーの更新
+	player_->Update();
 }
 
 /// <summary>
@@ -496,6 +502,21 @@ void GameScene::PhaseGameOperation()
 	// ステージの更新
 	stage_->Update();
 
+	// プレイヤーの更新
+	player_->Update();
+
+	// プレイヤーが終了したら、ゲームオーバムービーを流す
+	if (player_->IsFinished())
+	{
+		// BGMを止める
+		engine_->StopSound(playHandle_);
+
+		// クリアムービーに移行する
+		phase_ = kFailedMovie;
+
+		return;
+	}
+
 	// 最後までたどり着いたらプレイヤーがゲームクリア状態になる
 	if (stage_->IsClear())
 	{
@@ -506,6 +527,8 @@ void GameScene::PhaseGameOperation()
 
 		// クリアムービーに移行する
 		phase_ = kClearMovie;
+
+		return;
 	}
 }
 
@@ -514,6 +537,9 @@ void GameScene::PhaseGameOperation()
 /// </summary>
 void GameScene::PhaseClearMovide()
 {
+	// プレイヤーのクリア更新処理
+	player_->ClearUpdate();
+
 	// パラメータを進める
 	clearMovieParameter_ += 1.0f / 60.0f;
 	clearMovieParameter_ = std::min(clearMovieParameter_, kClearMoviePrameterMax);
@@ -521,16 +547,38 @@ void GameScene::PhaseClearMovide()
 	// パラメータが最大で終了する
 	if (clearMovieParameter_ >= kClearMoviePrameterMax)
 	{
-		phase_ = kClearOperation;
+		phase_ = kResultOperation;
+	}
+}
+
+/// <summary>
+/// 失敗ムービーの更新処理
+/// </summary>
+void GameScene::PhaseFailedMovie()
+{
+	// プレイ屋０の失敗更新処理
+	player_->FailedUpdate();
+
+	// パラメータを進める
+	failedMovieParameter_ += 1.0f / 60.0f;
+	failedMovieParameter_ = std::min(failedMovieParameter_, kFailedMoviePrameterMax);
+
+	// パラメータが最大で終了する
+	if (failedMovieParameter_ >= kFailedMoviePrameterMax)
+	{
+		phase_ = kResultOperation;
 	}
 }
 
 /// <summary>
 /// クリア操作の更新処理
 /// </summary>
-void GameScene::PhaseClearOperation()
+void GameScene::PhaseResultOperation()
 {
-	
+	if (engine_->GetKeyTrigger(DIK_SPACE))
+	{
+		phase_ = kFadeOut;
+	}
 }
 
 /// <summary>

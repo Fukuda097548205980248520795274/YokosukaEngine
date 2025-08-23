@@ -35,6 +35,16 @@ public:
 	void Update() override;
 
 	/// <summary>
+	/// クリアの更新処理
+	/// </summary>
+	void ClearUpdate();
+
+	/// <summary>
+	/// 失敗の更新処理
+	/// </summary>
+	void FailedUpdate();
+
+	/// <summary>
 	/// 描画処理
 	/// </summary>
 	void Draw() override;
