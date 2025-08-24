@@ -119,7 +119,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\BaseScene.cpp" />
-    <ClCompile Include="Game\BaseScene\ClearScene\ClearScene.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseBullet.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletStar\EnemyBulletStar.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletTrident\EnemyBulletTrident.cpp" />
@@ -342,7 +341,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\BaseScene\BaseScene.h" />
-    <ClInclude Include="Game\BaseScene\ClearScene\ClearScene.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseBullet.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletStar\EnemyBulletStar.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletTrident\EnemyBulletTrident.h" />
