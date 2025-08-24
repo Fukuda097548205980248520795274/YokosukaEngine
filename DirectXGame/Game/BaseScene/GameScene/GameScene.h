@@ -2,6 +2,8 @@
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../../BaseScene/BaseScene.h"
 
+#include "../../FadeScreen/FadeScreen.h"
+
 #include "Pose/Pose.h"
 
 #include "Stage/Stage.h"
@@ -111,12 +113,18 @@ private:
 	float pitch_ = 1.0f;
 
 
+	// フェード
+	std::unique_ptr<FadeScreen> fade_ = nullptr;
+
 	// ポーズ
 	std::unique_ptr<Pose> pose_ = nullptr;
 
 	// ステージ
 	std::unique_ptr<Stage> stage_ = nullptr;
 
+
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
 
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
@@ -169,6 +177,9 @@ private:
 	// 現在のフェーズ
 	Phase phase_ = kFadeIn;
 
+	// フェード用ワールドトランスフォーム
+	
+
 
 	/*-----------------
 	    フェードイン
@@ -183,7 +194,7 @@ private:
 	float fadeInParameter_ = 0.0f;
 
 	// フェードんインパラメータの最大値
-	const float kFadeInPrameterMax = 4.0f;
+	const float kFadeInPrameterMax = 1.0f;
 
 
 	/*--------------
@@ -252,5 +263,5 @@ private:
 	float fadeOutParameter_ = 0.0f;
 
 	// フェードアウトパラメータの最大値
-	const float kFadeOutPrameterMax = 2.0f;
+	const float kFadeOutPrameterMax = 1.0f;
 };

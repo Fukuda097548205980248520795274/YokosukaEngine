@@ -39,5 +39,16 @@ public:
 	/// <param name="enemy"></param>
 	void OnCollision(const Player* player);
 
+	/// <summary>
+	/// ターゲットのSetter
+	/// </summary>
+	/// <param name="target"></param>
+	void SetTarget(const Player* target) { target_ = target; }
+
+
+protected:
+
+	// ターゲット
+	const Player* target_ = nullptr;
 };
 

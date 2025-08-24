@@ -30,6 +30,11 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 	camera2d_ = std::make_unique<Camera2D>();
 	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
 
+	// フェードの生成と初期化
+	fade_ = std::make_unique<FadeScreen>();
+	fade_->Initialize(engine_ , camera2d_.get());
+	fade_->ResetFadeIn(kFadeInPrameterMax);
+
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform>();
@@ -121,6 +126,9 @@ void StageSelectScene::Update()
 	// 基底クラスの更新処理
 	BaseScene::Update();
 
+	// フェードの更新
+	fade_->Update();
+
 	// ワールドトランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 
@@ -153,6 +161,9 @@ void StageSelectScene::Draw()
 
 	// ステージボックスの描画
 	stageBox_->Draw();
+
+	// フェードの描画
+	fade_->Draw();
 
 	// 基底クラス描画処理
 	BaseScene::Draw();
@@ -447,6 +458,9 @@ void StageSelectScene::BehaviorFadeOutInitialize()
 {
 	// フェードアウトパラメータ
 	fadeOutParameter_ = 0.0f;
+
+	// フェードアウト開始
+	fade_->ResetFadeOut(kFadeOutPrameterMax);
 }
 
 /// <summary>

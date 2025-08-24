@@ -1,4 +1,5 @@
 #include "EnemyBulletStar.h"
+#include "../../../BaseCharacter/Player/Player.h"
 
 /// <summary>
 /// 初期化
@@ -47,6 +48,17 @@ void EnemyBulletStar::Initialize(const YokosukaEngine* engine, const Camera3D* c
 /// </summary>
 void EnemyBulletStar::Update()
 {
+	// 位置を取得する
+	Vector3 targetPosition = target_->GetBodyWorldPosition();
+	Vector3 bulletPosition = GetWorldPosition();
+
+	// ターゲットの方向のベクトル
+	Vector3 toTarget = Normalize(targetPosition - bulletPosition);
+
+	// 球面線形補間で向きを変える
+	direction_ = Slerp(direction_, toTarget, 0.01f);
+
+
 	// 基底クラス更新
 	BaseEnemyBullet::Update();
 

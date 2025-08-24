@@ -733,6 +733,9 @@
     <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletStarModelHandle">
       <UniqueIdentifier>{93ec1e51-0734-4d0a-a935-a0927ff004b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\FadeScreen">
+      <UniqueIdentifier>{fe3bf2b2-6c33-4cbb-8295-51c06d0fa605}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1391,6 +1394,9 @@
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletStarModelHandle\EnemyBulletStarModelHandle.cpp">
       <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletStarModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FadeScreen\FadeScreen.cpp">
+      <Filter>Game\FadeScreen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2053,6 +2059,9 @@
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletStarModelHandle\EnemyBulletStarModelHandle.h">
       <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletStarModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FadeScreen\FadeScreen.h">
+      <Filter>Game\FadeScreen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

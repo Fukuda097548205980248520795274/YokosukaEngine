@@ -195,6 +195,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\StageSelectScene\StageSelectScene.cpp" />
     <ClCompile Include="Game\BaseScene\StageSelectScene\UniverseSkydome\UniverseSkydome.cpp" />
     <ClCompile Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.cpp" />
+    <ClCompile Include="Game\FadeScreen\FadeScreen.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.cpp" />
@@ -417,6 +418,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\StageSelectScene\StageSelectScene.h" />
     <ClInclude Include="Game\BaseScene\StageSelectScene\UniverseSkydome\UniverseSkydome.h" />
     <ClInclude Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.h" />
+    <ClInclude Include="Game\FadeScreen\FadeScreen.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\BaseEnemyBullet.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseBullet\BaseEnemyBullet\EnemyBulletWeek\EnemyBulletWeek.h" />

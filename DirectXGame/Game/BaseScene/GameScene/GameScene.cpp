@@ -24,6 +24,15 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	directionalLight_->Initialize();
 	directionalLight_->intensity_ = 0.5f;
 
+	// 2Dカメラの生成と初期化
+	camera2d_ = std::make_unique<Camera2D>();
+	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+	// フェードの生成と初期化
+	fade_ = std::make_unique<FadeScreen>();
+	fade_->Initialize(engine_ , camera2d_.get());
+	fade_->ResetFadeIn(kFadeInPrameterMax);
+
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
@@ -49,6 +58,9 @@ void GameScene::Update()
 
 	// Scene更新
 	BaseScene::Update();
+
+	// 2Dカメラの更新
+	camera2d_->UpdateMatrix();
 
 
 	// フェーズ切り替え
@@ -97,7 +109,6 @@ void GameScene::Update()
 	if (pose_->IsPose())
 		return;
 
-
 	// プレイヤーの弾の更新
 	PlayerBulletUpdate();
 
@@ -110,6 +121,9 @@ void GameScene::Update()
 	// ダメージパーティクルの更新
 	DamageParticleUpdate();
 
+
+	// フェードの更新
+	fade_->Update();
 
 	// 天球の更新が中心軸の位置に移動する
 	skydome_->SetPosition(stage_->GetCenterAxisWorldPosition());
@@ -175,6 +189,9 @@ void GameScene::Draw()
 
 	// 走査線
 	engine_->SetOffscreenEffect(kScanline);
+
+	// フェードの描画
+	fade_->Draw();
 
 
 	// ポーズの描画
@@ -578,6 +595,7 @@ void GameScene::PhaseResultOperation()
 	if (engine_->GetKeyTrigger(DIK_SPACE))
 	{
 		phase_ = kFadeOut;
+		fade_->ResetFadeOut(kFadeOutPrameterMax);
 	}
 }
 
