@@ -228,7 +228,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles\StageObjectBuildingBModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles\StageObjectBuildingCModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles\StageObjectBuildingDModelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectHouseModelHandle\StageObjectHouseModelHandle.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectRainbowModelHandle\StageObjectRainbowModelHandle.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectTreeModelHandle\StageObjectTreeModelHandle.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\UniverseModelHandle\UniverseModelHandle.cpp" />
     <ClCompile Include="Game\ModelHandleStore\ModelHandleStore.cpp" />
     <ClCompile Include="Game\BaseScene\TitleScene\TitleScene.cpp" />
@@ -450,7 +453,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingBModelHandles\StageObjectBuildingBModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingCModelHandles\StageObjectBuildingCModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectBuildingDModelHandles\StageObjectBuildingDModelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectHouseModelHandle\StageObjectHouseModelHandle.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectRainbowModelHandle\StageObjectRainbowModelHandle.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectSaturnPlanetModelHandles\StageObjectSaturnPlanetModelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectTreeModelHandle\StageObjectTreeModelHandle.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\UniverseModelHandle\UniverseModelHandle.h" />
     <ClInclude Include="Game\ModelHandleStore\ModelHandleStore.h" />
     <ClInclude Include="Game\BaseScene\TitleScene\TitleScene.h" />

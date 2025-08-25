@@ -733,6 +733,15 @@
     <Filter Include="Game\FadeScreen">
       <UniqueIdentifier>{fe3bf2b2-6c33-4cbb-8295-51c06d0fa605}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectRainbowModelHandle">
+      <UniqueIdentifier>{ed5411d1-cc9e-452e-9920-a9330e9b18b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectTreeModelHandle">
+      <UniqueIdentifier>{8ea5ab42-f393-4ccd-9751-12c281405503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectHouseModelHandle">
+      <UniqueIdentifier>{362e7641-8bce-49c1-bdf9-b4bb12f4999d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1391,6 +1400,15 @@
     </ClCompile>
     <ClCompile Include="Game\FadeScreen\FadeScreen.cpp">
       <Filter>Game\FadeScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectRainbowModelHandle\StageObjectRainbowModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectRainbowModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectTreeModelHandle\StageObjectTreeModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectTreeModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectHouseModelHandle\StageObjectHouseModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectHouseModelHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2053,6 +2071,15 @@
     </ClInclude>
     <ClInclude Include="Game\FadeScreen\FadeScreen.h">
       <Filter>Game\FadeScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectRainbowModelHandle\StageObjectRainbowModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectRainbowModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectTreeModelHandle\StageObjectTreeModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectTreeModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectHouseModelHandle\StageObjectHouseModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectHouseModelHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

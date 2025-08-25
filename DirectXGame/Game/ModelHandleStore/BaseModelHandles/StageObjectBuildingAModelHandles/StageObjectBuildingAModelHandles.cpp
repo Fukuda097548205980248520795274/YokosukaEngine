@@ -10,5 +10,5 @@ void StageObjectBuildingAModelHandles::Initialize(const YokosukaEngine* engine)
 	BaseModelHandles::Initialize(engine);
 
 	// モデルを読み込む
-	modelHandles_.push_back(engine_->LoadModelData("./Resources/Models/stageObject/building/building_A", "building_0.obj"));
+	modelHandles_.push_back(engine_->LoadModelData("./Resources/Models/stageObject/building/building_A", "buildingA.obj"));
 }

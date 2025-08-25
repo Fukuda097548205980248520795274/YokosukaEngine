@@ -30,6 +30,10 @@
 #include "BaseModelHandles/StageObjectBuildingCModelHandles/StageObjectBuildingCModelHandles.h"
 #include "BaseModelHandles/StageObjectBuildingDModelHandles/StageObjectBuildingDModelHandles.h"
 
+#include "BaseModelHandles/StageObjectRainbowModelHandle/StageObjectRainbowModelHandle.h"
+#include "BaseModelHandles/StageObjectHouseModelHandle/StageObjectHouseModelHandle.h"
+#include "BaseModelHandles/StageObjectTreeModelHandle/StageObjectTreeModelHandle.h"
+
 #include "BaseModelHandles/UniverseModelHandle/UniverseModelHandle.h"
 
 class ModelHandleStore
@@ -72,6 +76,10 @@ public:
 		kStageObjectBuildingB,
 		kStageObjectBuildingC,
 		kStageObjectBuildingD,
+
+		kStageObjectRainbow,
+		kStageObjectHouse,
+		kStageObjectTree,
 
 		kUniverse,
 

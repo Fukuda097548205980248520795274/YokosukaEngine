@@ -99,6 +99,20 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	modelHandles_[kStageObjectBuildingD] = std::make_unique<StageObjectBuildingDModelHandles>();
 	modelHandles_[kStageObjectBuildingD]->Initialize(engine_);
 
+
+	// ステージオブジェクト : 虹
+	modelHandles_[kStageObjectRainbow] = std::make_unique<StageObjectRainbowModelHandle>();
+	modelHandles_[kStageObjectRainbow]->Initialize(engine_);
+
+	// ステージオブジェクト : 家
+	modelHandles_[kStageObjectHouse] = std::make_unique<StageObjectHouseModelHandle>();
+	modelHandles_[kStageObjectHouse]->Initialize(engine_);
+
+	// ステージオブジェクト : 木
+	modelHandles_[kStageObjectTree] = std::make_unique<StageObjectTreeModelHandle>();
+	modelHandles_[kStageObjectTree]->Initialize(engine_);
+
+
 	// 宇宙
 	modelHandles_[kUniverse] = std::make_unique<UniverseModelHandle>();
 	modelHandles_[kUniverse]->Initialize(engine_);
