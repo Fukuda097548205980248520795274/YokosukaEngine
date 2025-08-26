@@ -1,7 +1,7 @@
 #pragma once
 #include "../BaseTextureHandles.h"
 
-class TextAButtonTextureHandle : public BaseTextureHandles
+class TextGamepadPoseTextureHandle : public BaseTextureHandles
 {
 public:
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "../BaseTextureHandles.h"
 
-class TextLStickTextureHandle : public BaseTextureHandles
+class TextKeyboardTimeStopTextureHandle : public BaseTextureHandles
 {
 public:
 

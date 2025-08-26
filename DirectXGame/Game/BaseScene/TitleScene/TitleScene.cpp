@@ -20,6 +20,10 @@ void TitleScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore
 	titleHud_ = std::make_unique<TitleHud>();
 	titleHud_->Initialize(engine_ , camera3d_ , camera2d_.get() , modelHandleStore_ , textureHandleStore_);
 
+	// フェードの生成と初期化
+	fade_ = std::make_unique<FadeScreen>();
+	fade_->Initialize(engine_, camera2d_.get());
+
 	// フェードイン初期化
 	BehaviorFadeInInitialize();
 }
@@ -31,6 +35,9 @@ void TitleScene::Update()
 {
 	// 基底クラス更新処理
 	BaseScene::Update();
+
+	// フェードの更新
+	fade_->Update();
 
 	// タイトルのHUDの更新処理
 	titleHud_->Update();
@@ -48,6 +55,12 @@ void TitleScene::Update()
 		case kFadeIn:
 			// フェードイン
 			BehaviorFadeInInitialize();
+
+			break;
+
+		case kJetFly:
+			// ジェット被告
+			BehaviorJetFlyInitialize();
 
 			break;
 
@@ -74,6 +87,12 @@ void TitleScene::Update()
 	case kFadeIn:
 		// フェードイン
 		BehaviorFadeInUpdate();
+
+		break;
+
+	case kJetFly:
+		// ジェット飛行
+		BehaviorJetFlyUpdate();
 
 		break;
 
@@ -121,6 +140,9 @@ void TitleScene::Draw()
 		break;
 	}
 
+	// フェードの描画
+	fade_->Draw();
+
 	// 基底クラス描画処理
 	BaseScene::Draw();
 }
@@ -141,6 +163,50 @@ void TitleScene::BehaviorFadeInInitialize()
 	// フェードインパラメータ
 	fadeInParameter_ = 0.0f;
 
+	fade_->ResetFadeIn(kFadeInPrameterMax);
+}
+
+/// <summary>
+/// ビヘイビア : フェードイン : 更新処理
+/// </summary>
+void TitleScene::BehaviorFadeInUpdate()
+{
+	// パラメータを進める
+	fadeInParameter_ += 1.0f / 60.0f;
+	fadeInParameter_ = std::min(fadeInParameter_, kFadeInPrameterMax);
+
+
+	// 最大値になったら操作に遷移する
+	if (fadeInParameter_ >= kFadeInPrameterMax)
+	{
+		behaviorRequest_ = kJetFly;
+		return;
+	}
+}
+
+/// <summary>
+/// ビヘイビア : フェードイン : 描画処理
+/// </summary>
+void TitleScene::BehaviorFadeInDraw()
+{
+
+}
+
+
+
+
+/*-----------------------------
+	ビヘイビア : ジェット飛行
+-----------------------------*/
+
+/// <summary>
+/// ビヘイビア : フェードイン : 初期化
+/// </summary>
+void TitleScene::BehaviorJetFlyInitialize()
+{
+	// フェードインパラメータ
+	jetFlyParameter_ = 0.0f;
+
 
 
 	// ガラスの効果音
@@ -154,11 +220,11 @@ void TitleScene::BehaviorFadeInInitialize()
 /// <summary>
 /// ビヘイビア : フェードイン : 更新処理
 /// </summary>
-void TitleScene::BehaviorFadeInUpdate()
+void TitleScene::BehaviorJetFlyUpdate()
 {
 	// パラメータを進める
-	fadeInParameter_ += 1.0f / 60.0f;
-	fadeInParameter_ = std::min(fadeInParameter_, kFadeInPrameterMax);
+	jetFlyParameter_ += 1.0f / 60.0f;
+	jetFlyParameter_ = std::min(jetFlyParameter_, kJetFlyPrameterMax);
 
 
 	// ピッチの速度を上げる
@@ -168,7 +234,7 @@ void TitleScene::BehaviorFadeInUpdate()
 
 
 	// 最大値になったら操作に遷移する
-	if (fadeInParameter_ >= kFadeInPrameterMax)
+	if (jetFlyParameter_ >= kFadeInPrameterMax)
 	{
 		// ガラス音を止める
 		engine_->StopSound(phGlassBreaks_);
@@ -181,11 +247,10 @@ void TitleScene::BehaviorFadeInUpdate()
 /// <summary>
 /// ビヘイビア : フェードイン : 描画処理
 /// </summary>
-void TitleScene::BehaviorFadeInDraw()
+void TitleScene::BehaviorJetFlyDraw()
 {
 
 }
-
 
 
 
