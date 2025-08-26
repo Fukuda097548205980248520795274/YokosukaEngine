@@ -76,10 +76,10 @@ void Hammer::OnCollision([[maybe_unused]] Collider* other)
 		collisionRecord_->AddRecord(serialNumber);
 
 		// ヒットエフェクトの生成と初期化
-		HitEffect* hitEffect;
-		hitEffect = new HitEffect();
+		std::unique_ptr<HitEffect> hitEffect;
+		hitEffect = std::make_unique<HitEffect>();
 		hitEffect->Initialize(engine_, camera3d_, worldPosition);
-		gameScene_->EmitHitEffect(hitEffect);
+		gameScene_->EmitHitEffect(std::move(hitEffect));
 	}
 }
 

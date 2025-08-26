@@ -36,7 +36,7 @@ public:
 	/// <summary>
 	/// ヒットエフェクトを放出する
 	/// </summary>
-	void EmitHitEffect(HitEffect* hitEffect);
+	void EmitHitEffect(std::unique_ptr<HitEffect> hitEffect);
 
 
 private:
@@ -69,6 +69,6 @@ private:
 	std::unique_ptr<LockOn> lockOn_ = nullptr;
 
 	// ヒットエフェクト
-	std::list<HitEffect*> hitEffects_;
+	std::list<std::unique_ptr<HitEffect>> hitEffects_;
 };
 

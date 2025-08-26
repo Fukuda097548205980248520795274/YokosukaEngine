@@ -5,12 +5,7 @@
 /// </summary>
 GameScene::~GameScene()
 {
-	// ヒットエフェクト
-	for (HitEffect* hitEffect : hitEffects_)
-	{
-		delete hitEffect;
-	}
-	hitEffects_.clear();
+
 }
 
 /// <summary>
@@ -94,17 +89,17 @@ void GameScene::Update()
 	}
 
 	// ヒットエフェクトの更新
-	for (HitEffect* hitEffect : hitEffects_)
+	for (std::unique_ptr<HitEffect>& hitEffect : hitEffects_)
 	{
 		hitEffect->Update();
 	}
 
 	// 終了したヒットエフェクトをリストから削除する
-	hitEffects_.remove_if([](HitEffect* hitEffect)
+	hitEffects_.remove_if([](std::unique_ptr<HitEffect>& hitEffect)
 		{
 			if (hitEffect->IsFinished())
 			{
-				delete hitEffect;
+				hitEffect.release();
 				return true;
 			}
 			return false;
@@ -121,10 +116,10 @@ void GameScene::Update()
 /// <summary>
 /// ヒットエフェクトを放出する
 /// </summary>
-void GameScene::EmitHitEffect(HitEffect* hitEffect)
+void GameScene::EmitHitEffect(std::unique_ptr<HitEffect> hitEffect)
 {
 	// リストに追加する
-	hitEffects_.push_back(hitEffect);
+	hitEffects_.push_back(std::move(hitEffect));
 }
 
 /// <summary>
@@ -154,7 +149,7 @@ void GameScene::Draw()
 	lockOn_->Draw();
 
 	// ヒットエフェクトの描画
-	for (HitEffect* hitEffect : hitEffects_)
+	for (std::unique_ptr<HitEffect>& hitEffect : hitEffects_)
 	{
 		hitEffect->Draw();
 	}
