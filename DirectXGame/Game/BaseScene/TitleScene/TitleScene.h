@@ -2,6 +2,7 @@
 #define NOMINMAX
 #include "../../BaseScene/BaseScene.h"
 
+#include "../../FadeScreen/FadeScreen.h"
 #include "TitleHud/TitleHud.h"
 
 class TitleScene : public BaseScene
@@ -30,6 +31,9 @@ private:
 	// タイトルのHUD
 	std::unique_ptr<TitleHud> titleHud_ = nullptr;
 
+	// フェード
+	std::unique_ptr<FadeScreen> fade_ = nullptr;
+
 	/*---------------
 		ビヘイビア
 	---------------*/
@@ -38,6 +42,7 @@ private:
 	enum Behavior
 	{
 		kFadeIn,
+		kJetFly,
 		kOperation,
 		kFadeOut
 	};
@@ -80,7 +85,34 @@ private:
 	float fadeInParameter_ = 0.0f;
 
 	// フェードんインパラメータの最大値
-	const float kFadeInPrameterMax = 2.0f;
+	const float kFadeInPrameterMax = 1.0f;
+
+
+	/*-----------------------------
+	    ビヘイビア : ジェット飛行
+	-----------------------------*/
+
+	/// <summary>
+	/// ビヘイビア : フェードイン : 初期化
+	/// </summary>
+	void BehaviorJetFlyInitialize();
+
+	/// <summary>
+	/// ビヘイビア : フェードイン : 更新処理
+	/// </summary>
+	void BehaviorJetFlyUpdate();
+
+	/// <summary>
+	/// ビヘイビア : フェードイン : 描画処理
+	/// </summary>
+	void BehaviorJetFlyDraw();
+
+
+	// フェードインパラメータ
+	float jetFlyParameter_ = 0.0f;
+
+	// フェードんインパラメータの最大値
+	const float kJetFlyPrameterMax = 2.0f;
 
 
 	// ガラスが割れる音

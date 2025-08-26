@@ -13,21 +13,52 @@ void TextureHandleStore::Initialize(const YokosukaEngine* engine)
 	engine_ = engine;
 
 
-	// スタートのテクスチャ
-	textureHandles_[kStart] = std::make_unique<TextStartTextureHandle>();
-	textureHandles_[kStart]->Initialize(engine_);
+	// 画像 : 白
+	textureHandles_[kWhite] = std::make_unique<WhiteTextureHandle>();
+	textureHandles_[kWhite]->Initialize(engine_);
 
-	// Aボタンのテクスチャ
-	textureHandles_[kAButton] = std::make_unique<TextAButtonTextureHandle>();
-	textureHandles_[kAButton]->Initialize(engine_);
 
-	// Lスティックのテクスチャ
-	textureHandles_[kLStick] = std::make_unique<TextLStickTextureHandle>();
-	textureHandles_[kLStick]->Initialize(engine_);
+	// ゲームパッド操作 : ゲーム開始
+	textureHandles_[kGamepadStart] = std::make_unique<TextGamepadStartTextureHandle>();
+	textureHandles_[kGamepadStart]->Initialize(engine_);
 
-	// Lスティック押し込みのテクスチャ
-	textureHandles_[kLStickThumb] = std::make_unique<TextLStrickThumbTextureHandle>();
-	textureHandles_[kLStickThumb]->Initialize(engine_);
+	// ゲームパッド操作 : 移動
+	textureHandles_[kGamepadMove] = std::make_unique<TextGamepadMoveTextureHandle>();
+	textureHandles_[kGamepadMove]->Initialize(engine_);
+
+	// ゲームパッド操作 : 発射
+	textureHandles_[kGamepadShot] = std::make_unique<TextGamepadShotTextureHandle>();
+	textureHandles_[kGamepadShot]->Initialize(engine_);
+
+	// ゲームパッド操作 : 時止め
+	textureHandles_[kGamepadTimeStop] = std::make_unique<TextGamepadTimeStopTextureHandle>();
+	textureHandles_[kGamepadTimeStop]->Initialize(engine_);
+
+	// ゲームパッド操作 : ポーズ
+	textureHandles_[kGamepadPose] = std::make_unique<TextGamepadPoseTextureHandle>();
+	textureHandles_[kGamepadPose]->Initialize(engine_);
+
+
+	// キーボード操作 : ゲーム開始
+	textureHandles_[kKeyboardStart] = std::make_unique<TextkeyboardStartTextureHandle>();
+	textureHandles_[kKeyboardStart]->Initialize(engine_);
+
+	// キーボード操作 : 移動
+	textureHandles_[kKeyboardMove] = std::make_unique<TextKeyboardMoveTextureHandle>();
+	textureHandles_[kKeyboardMove]->Initialize(engine_);
+
+	// キーボード操作 : 発射
+	textureHandles_[kKeyboardShot] = std::make_unique<TextKeyboardShotTextureHandle>();
+	textureHandles_[kKeyboardShot]->Initialize(engine_);
+
+	// キーボード操作 : 時止め
+	textureHandles_[kKeyboardTimeStop] = std::make_unique<TextKeyboardTimeStopTextureHandle>();
+	textureHandles_[kKeyboardTimeStop]->Initialize(engine_);
+
+	// キーボード操作 : ポーズ
+	textureHandles_[kKeyboardPose] = std::make_unique<TextKeyboardPoseTextureHandle>();
+	textureHandles_[kKeyboardPose]->Initialize(engine_);
+
 
 	// ステージ : サービス軌道
 	textureHandles_[kStageServiceRailway] = std::make_unique<TextStageServiceRailwayTextureHandle>();

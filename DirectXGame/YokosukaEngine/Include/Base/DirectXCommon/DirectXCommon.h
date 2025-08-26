@@ -196,6 +196,20 @@ public:
 	uint32_t LoadTexture(const std::string& filePath) { return textureStore_->GetTextureHandle(filePath, directXGPU_->GetDevice(), srvDescriptorHeap_, directXCommand_->GetCommandList()); }
 
 	/// <summary>
+	/// テクスチャの横幅のGetter
+	/// </summary>
+	/// <param name="textureHandle"></param>
+	/// <returns></returns>
+	uint32_t GetTextureWidth(uint32_t textureHandle) { return textureStore_->GetWidth(textureHandle); }
+
+	/// <summary>
+	/// テクスチャの縦幅のGetter
+	/// </summary>
+	/// <param name="textureHandle"></param>
+	/// <returns></returns>
+	uint32_t GetTextureHeight(uint32_t textureHandle) { return textureStore_->GetHeight(textureHandle); }
+
+	/// <summary>
 	/// モデルデータを読み込む
 	/// </summary>
 	/// <param name="directory"></param>

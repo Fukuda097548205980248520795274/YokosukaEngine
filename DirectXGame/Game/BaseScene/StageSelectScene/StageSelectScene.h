@@ -3,6 +3,8 @@
 #include <optional>
 #include "../BaseScene.h"
 
+#include "../../FadeScreen/FadeScreen.h"
+
 #include "PlayerJet/PlayerJet.h"
 #include "UniverseSkydome/UniverseSkydome.h"
 #include "StageBox/StageBox.h"
@@ -161,6 +163,9 @@ private:
 	float moveTimer_ = 0.0f;
 
 
+	// フェード
+	std::unique_ptr<FadeScreen> fade_ = nullptr;
+
 	// ワールドトランスフォーム
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
@@ -215,7 +220,7 @@ private:
 	float fadeInParameter_ = 0.0f;
 
 	// フェードんインパラメータの最大値
-	const float kFadeInPrameterMax = 2.0f;
+	const float kFadeInPrameterMax = 1.0f;
 
 
 	/*---------------------
@@ -261,6 +266,6 @@ private:
 	float fadeOutParameter_ = 0.0f;
 
 	// フェードアウトパラメータの最大値
-	const float kFadeOutPrameterMax = 2.0f;
+	const float kFadeOutPrameterMax = 1.0f;
 };
 

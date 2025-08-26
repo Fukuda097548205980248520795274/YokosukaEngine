@@ -397,9 +397,6 @@
     <Filter Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor">
       <UniqueIdentifier>{99f37e59-cec4-4288-9b1d-8f2970f7e68e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\ClearScene">
-      <UniqueIdentifier>{3d81d0da-2652-468f-8091-a893ba5be264}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\GameScene\Pose">
       <UniqueIdentifier>{fe473151-848b-4fcd-962f-615d273b900a}</UniqueIdentifier>
     </Filter>
@@ -450,18 +447,6 @@
     </Filter>
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles">
       <UniqueIdentifier>{9fcd247c-a248-4bec-9e94-38e81ac99223}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle">
-      <UniqueIdentifier>{820e67d4-d20f-4797-8977-624f09c47cc9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle">
-      <UniqueIdentifier>{9ed88a95-cf4f-46f9-a3aa-8539b0210ee9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle">
-      <UniqueIdentifier>{716221f5-6b16-456f-8672-62a4d43d8b33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle">
-      <UniqueIdentifier>{a16b93b9-0d16-4345-9ac1-fe1f3a60a0c1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\BaseScene\TitleScene\TitleHud">
       <UniqueIdentifier>{fbeb40ab-39c3-44fb-9dd1-94cbff0fa11a}</UniqueIdentifier>
@@ -691,12 +676,6 @@
     <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyButterfly\BaseEnemyButterflyState\EnemyButterflyStateApproachingRear">
       <UniqueIdentifier>{571f6b67-1b34-4c72-b9be-0bcce67cabb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingLeft">
-      <UniqueIdentifier>{4746709e-0b44-4605-944e-54dc45948899}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\BaseEnemy\EnemyBird\BaseEnemyBirdState\EnemyBirdStateApproachingRight">
-      <UniqueIdentifier>{91986200-6bff-4829-959f-3437aef3a448}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\BaseScene\GameScene\Pose\PoseBg">
       <UniqueIdentifier>{31e42bb1-d000-4ac8-83b0-3e46cddd28f3}</UniqueIdentifier>
     </Filter>
@@ -732,6 +711,60 @@
     </Filter>
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle">
       <UniqueIdentifier>{adeba7ec-c8bd-468b-a016-6ff5ef7a4db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletTridentModelHandle">
+      <UniqueIdentifier>{9916be84-27d8-445e-a77c-203d737ea243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletStarModelHandle">
+      <UniqueIdentifier>{93ec1e51-0734-4d0a-a935-a0927ff004b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\FadeScreen">
+      <UniqueIdentifier>{fe3bf2b2-6c33-4cbb-8295-51c06d0fa605}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectRainbowModelHandle">
+      <UniqueIdentifier>{ed5411d1-cc9e-452e-9920-a9330e9b18b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectTreeModelHandle">
+      <UniqueIdentifier>{8ea5ab42-f393-4ccd-9751-12c281405503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectHouseModelHandle">
+      <UniqueIdentifier>{362e7641-8bce-49c1-bdf9-b4bb12f4999d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseSprite">
+      <UniqueIdentifier>{f23112fb-7e9f-40be-9565-89f96cdcf709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle">
+      <UniqueIdentifier>{aca18e39-04d5-4526-8006-b97d6857a596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardShotTextureHandle">
+      <UniqueIdentifier>{fb1e9115-f4db-414f-9612-3f3c1b61982c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardTimeStopTextureHandle">
+      <UniqueIdentifier>{619637ce-3137-4458-a0b1-3c128f4d2eba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardPoseTextureHandle">
+      <UniqueIdentifier>{b6a486a7-537a-44c7-ba4c-a3986185aff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadPoseTextureHandle">
+      <UniqueIdentifier>{36735693-41c9-4a4a-accb-cded20408c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadMoveTextureHandle">
+      <UniqueIdentifier>{7587842d-d92c-4bfa-8d07-576781235af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadShotTextureHandle">
+      <UniqueIdentifier>{4a3a8a27-4488-4996-9b06-880a550e16cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle">
+      <UniqueIdentifier>{aa41ecb7-fd0b-4d8b-8fc9-47d2b95e3ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle">
+      <UniqueIdentifier>{95004776-8a27-4866-92e0-dbf3e98bbc81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle">
+      <UniqueIdentifier>{50f40dd1-5d64-4160-a542-16e3f512318d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle">
+      <UniqueIdentifier>{4b2c3056-b663-425a-b071-625d52987dd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1116,9 +1149,6 @@
     <ClCompile Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.cpp">
       <Filter>Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor</Filter>
     </ClCompile>
-    <ClCompile Include="Game\BaseScene\ClearScene\ClearScene.cpp">
-      <Filter>Game\BaseScene\ClearScene</Filter>
-    </ClCompile>
     <ClCompile Include="Game\BaseScene\GameScene\Pose\Pose.cpp">
       <Filter>Game\BaseScene\GameScene\Pose</Filter>
     </ClCompile>
@@ -1166,18 +1196,6 @@
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.cpp">
-      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.cpp">
-      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.cpp">
-      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.cpp">
-      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.cpp">
       <Filter>Game\BaseScene\TitleScene\TitleHud</Filter>
@@ -1385,6 +1403,60 @@
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle\TextStageImaginaryPlamTextureHandle.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletTridentModelHandle\EnemyBulletTridentModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletTridentModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletStarModelHandle\EnemyBulletStarModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletStarModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FadeScreen\FadeScreen.cpp">
+      <Filter>Game\FadeScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectRainbowModelHandle\StageObjectRainbowModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectRainbowModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectTreeModelHandle\StageObjectTreeModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectTreeModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\StageObjectHouseModelHandle\StageObjectHouseModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectHouseModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseSprite\BaseSprite.cpp">
+      <Filter>Game\BaseSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle\TextKeyboardMoveTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardShotTextureHandle\TextKeyboardShotTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardShotTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardTimeStopTextureHandle\TextKeyboardTimeStopTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardTimeStopTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardPoseTextureHandle\TextKeyboardPoseTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardPoseTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadPoseTextureHandle\TextGamepadPoseTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadPoseTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadMoveTextureHandle\TextGamepadMoveTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadMoveTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadShotTextureHandle\TextGamepadShotTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadShotTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle\TextGamepadTimeStopTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle\TextkeyboardStartTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle\TextGamepadStartTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1772,9 +1844,6 @@
     <ClInclude Include="Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor\GimmickDamageColor.h">
       <Filter>Game\BaseScene\GameScene\BaseGimmick\GimmickDamageColor</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BaseScene\ClearScene\ClearScene.h">
-      <Filter>Game\BaseScene\ClearScene</Filter>
-    </ClInclude>
     <ClInclude Include="Game\BaseScene\GameScene\Pose\Pose.h">
       <Filter>Game\BaseScene\GameScene\Pose</Filter>
     </ClInclude>
@@ -1822,18 +1891,6 @@
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle\TextStartTextureHandle.h">
-      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStartTextureHandle</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle\TextLStickTextureHandle.h">
-      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickTextureHandle</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle\TextAButtonTextureHandle.h">
-      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextAButtonTextureHandle</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle\TextLStrickThumbTextureHandle.h">
-      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextLStickThumbTextureHandle</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseScene\TitleScene\TitleHud\TitleHud.h">
       <Filter>Game\BaseScene\TitleScene\TitleHud</Filter>
@@ -2041,6 +2098,60 @@
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle\TextStageImaginaryPlamTextureHandle.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextStageImaginaryPlamTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletTridentModelHandle\EnemyBulletTridentModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletTridentModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyBulletStarModelHandle\EnemyBulletStarModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\Bullet\EnemyBullet\EnemyBulletStarModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FadeScreen\FadeScreen.h">
+      <Filter>Game\FadeScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectRainbowModelHandle\StageObjectRainbowModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectRainbowModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectTreeModelHandle\StageObjectTreeModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectTreeModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\StageObjectHouseModelHandle\StageObjectHouseModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectHouseModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseSprite\BaseSprite.h">
+      <Filter>Game\BaseSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle\TextKeyboardMoveTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardShotTextureHandle\TextKeyboardShotTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardShotTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardTimeStopTextureHandle\TextKeyboardTimeStopTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardTimeStopTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardPoseTextureHandle\TextKeyboardPoseTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardPoseTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadPoseTextureHandle\TextGamepadPoseTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadPoseTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadMoveTextureHandle\TextGamepadMoveTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadMoveTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadShotTextureHandle\TextGamepadShotTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadShotTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle\TextGamepadTimeStopTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle\TextkeyboardStartTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle\TextGamepadStartTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

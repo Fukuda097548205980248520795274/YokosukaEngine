@@ -103,6 +103,20 @@ public:
 	uint32_t LoadTexture(const std::string& filePath) const { return directXCommon_->LoadTexture(filePath); }
 
 	/// <summary>
+	/// テクスチャの横幅のGetter
+	/// </summary>
+	/// <param name="textureHandle"></param>
+	/// <returns></returns>
+	int32_t GetTextureWidth(uint32_t textureHandle) const { return directXCommon_->GetTextureWidth(textureHandle); }
+
+	/// <summary>
+	/// テクスチャの縦幅のGetter
+	/// </summary>
+	/// <param name="textureHandle"></param>
+	/// <returns></returns>
+	int32_t GetTextureHeight(uint32_t textureHandle) const { return directXCommon_->GetTextureHeight(textureHandle); }
+
+	/// <summary>
 	/// モデルデータを読み込む
 	/// </summary>
 	/// <param name="directory"></param>

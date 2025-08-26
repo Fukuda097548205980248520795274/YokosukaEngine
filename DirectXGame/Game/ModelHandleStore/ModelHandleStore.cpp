@@ -65,9 +65,19 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	modelHandles_[kEnemyDevil] = std::make_unique<EnemyDevilModelHandles>();
 	modelHandles_[kEnemyDevil]->Initialize(engine_);
 
-	// プレイヤーのハンドル
+
+	// 敵の弾 : 弱
 	modelHandles_[kEnemyBulletWeek] = std::make_unique<EnemyBulletWeekModelHandles>();
 	modelHandles_[kEnemyBulletWeek]->Initialize(engine_);
+
+	// 敵の弾 : 槍
+	modelHandles_[kEnemyBulletTrident] = std::make_unique<EnemyBulletTridentModelHandle>();
+	modelHandles_[kEnemyBulletTrident]->Initialize(engine_);
+
+	// 敵の弾 : 星
+	modelHandles_[kEnemyBulletStar] = std::make_unique<EnemyBulletStarModelHandle>();
+	modelHandles_[kEnemyBulletStar]->Initialize(engine_);
+
 
 	// ステージオブジェクトの土星のモデルハンドル
 	modelHandles_[kStageObjectSaturnPlanet] = std::make_unique<StageObjectSaturnPlanetModelHandles>();
@@ -88,6 +98,20 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	// ステージオブジェクトのビルディングD
 	modelHandles_[kStageObjectBuildingD] = std::make_unique<StageObjectBuildingDModelHandles>();
 	modelHandles_[kStageObjectBuildingD]->Initialize(engine_);
+
+
+	// ステージオブジェクト : 虹
+	modelHandles_[kStageObjectRainbow] = std::make_unique<StageObjectRainbowModelHandle>();
+	modelHandles_[kStageObjectRainbow]->Initialize(engine_);
+
+	// ステージオブジェクト : 家
+	modelHandles_[kStageObjectHouse] = std::make_unique<StageObjectHouseModelHandle>();
+	modelHandles_[kStageObjectHouse]->Initialize(engine_);
+
+	// ステージオブジェクト : 木
+	modelHandles_[kStageObjectTree] = std::make_unique<StageObjectTreeModelHandle>();
+	modelHandles_[kStageObjectTree]->Initialize(engine_);
+
 
 	// 宇宙
 	modelHandles_[kUniverse] = std::make_unique<UniverseModelHandle>();

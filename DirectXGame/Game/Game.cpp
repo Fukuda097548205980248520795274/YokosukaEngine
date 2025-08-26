@@ -68,14 +68,6 @@ void Game::Update()
 			scene_->CreateStage(controlPointScript_,enemyScript_, stageObjectScript_);
 
 			break;
-
-		case kClear:
-			// クリア
-
-			scene_ = std::make_unique<ClearScene>();
-			scene_->Initialize(engine_ , modelHandleStore_.get(), textureHandleStore_.get());
-
-			break;
 		}
 
 		// フェーズリクエストの消去
@@ -115,11 +107,6 @@ void Game::Update()
 			// ゲーム
 
 			scenePhaseRequest_ = kTitle;
-
-			break;
-
-		case kClear:
-			// クリア
 
 			break;
 		}

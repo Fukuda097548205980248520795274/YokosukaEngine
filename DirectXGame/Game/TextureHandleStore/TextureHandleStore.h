@@ -1,10 +1,19 @@
 #pragma once
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 
-#include "BaseTextureHandles/TextStartTextureHandle/TextStartTextureHandle.h"
-#include "BaseTextureHandles/TextAButtonTextureHandle/TextAButtonTextureHandle.h"
-#include "BaseTextureHandles/TextLStickTextureHandle/TextLStickTextureHandle.h"
-#include "BaseTextureHandles/TextLStickThumbTextureHandle/TextLStrickThumbTextureHandle.h"
+#include "BaseTextureHandles/WhiteTextureHandle/WhiteTextureHandle.h"
+
+#include "BaseTextureHandles/TextGamepadStartTextureHandle/TextGamepadStartTextureHandle.h"
+#include "BaseTextureHandles/TextGamepadMoveTextureHandle/TextGamepadMoveTextureHandle.h"
+#include "BaseTextureHandles/TextGamepadShotTextureHandle/TextGamepadShotTextureHandle.h"
+#include "BaseTextureHandles/TextGamepadTimeStopTextureHandle/TextGamepadTimeStopTextureHandle.h"
+#include "BaseTextureHandles/TextGamepadPoseTextureHandle/TextGamepadPoseTextureHandle.h"
+
+#include "BaseTextureHandles/TextkeyboardStartTextureHandle/TextkeyboardStartTextureHandle.h"
+#include "BaseTextureHandles/TextKeyboardMoveTextureHandle/TextKeyboardMoveTextureHandle.h"
+#include "BaseTextureHandles/TextKeyboardShotTextureHandle/TextKeyboardShotTextureHandle.h"
+#include "BaseTextureHandles/TextKeyboardTimeStopTextureHandle/TextKeyboardTimeStopTextureHandle.h"
+#include "BaseTextureHandles/TextKeyboardPoseTextureHandle/TextKeyboardPoseTextureHandle.h"
 
 #include "BaseTextureHandles/TextStageServiceRailwayTextureHandle/TextStageServiceRailwayTextureHandle.h"
 #include "BaseTextureHandles/TextStageEfforTownTextureHandle/TextStageEfforTownTextureHandle.h"
@@ -18,14 +27,25 @@ public:
 	// ハンドルネーム
 	enum HandleName
 	{
-		kStart,
-		kAButton,
-		kLStick,
-		kLStickThumb,
+		kWhite,
+
+		kGamepadStart,
+		kGamepadMove,
+		kGamepadShot,
+		kGamepadTimeStop,
+		kGamepadPose,
+
+		kKeyboardStart,
+		kKeyboardMove,
+		kKeyboardShot,
+		kKeyboardTimeStop,
+		kKeyboardPose,
+
 		kStageServiceRailway,
 		kStageEfforTown,
 		kStageTechnoRoot,
 		kStageImaginaryPlam,
+
 		kNumHandleName
 	};
 

@@ -53,13 +53,13 @@ void EnemyButterflyStateAwayTop::Update()
 
 
 	// 上に動かす
-	worldTransform->translation_.y += 1.0f * (*gameTimer);
+	worldTransform->translation_ += enemy_->GetAwayDirection() * (*gameTimer);
 
 	// タイマーを進める
 	timer_ += (1.0f / 60.0f) * (*gameTimer);
 
 	// タイマーを越えたら消滅する
-	if (timer_ >= time_)
+	if (timer_ >= enemy_->GetAwayTimer())
 	{
 		enemy_->FinisheIt();
 	}

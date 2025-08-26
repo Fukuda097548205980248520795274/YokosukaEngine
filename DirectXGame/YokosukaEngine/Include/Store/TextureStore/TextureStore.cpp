@@ -96,6 +96,10 @@ uint32_t TextureStore::GetTextureHandle( const std::string& filePath, ID3D12Devi
 	device->CreateShaderResourceView(textureData->textureResource.Get(),
 		&textureData->srvDesc, textureData->textureSrvHandleCPU);
 
+	// 画像のサイズを取得する
+	textureData->width = static_cast<int32_t>(metadata.width);
+	textureData->height = static_cast<int32_t>(metadata.height);
+
 	// ベクトルに追加する
 	textureData_.push_back(textureData);
 
@@ -120,6 +124,46 @@ void TextureStore::SelectTexture(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandLis
 			break;
 		}
 	}
+}
+
+/// <summary>
+/// 横幅のGetter
+/// </summary>
+/// <param name="textureHandle"></param>
+/// <returns></returns>
+int32_t TextureStore::GetWidth(uint32_t textureHandle)
+{
+	for (int i = 0; i < 512; i++)
+	{
+		if (textureHandle == textureData_[i]->textureHandle)
+		{
+			return textureData_[i]->width;
+
+			break;
+		}
+	}
+
+	return 0;
+}
+
+/// <summary>
+/// 縦幅のGetter
+/// </summary>
+/// <param name="textureHandle"></param>
+/// <returns></returns>
+int32_t TextureStore::GetHeight(uint32_t textureHandle)
+{
+	for (int i = 0; i < 512; i++)
+	{
+		if (textureHandle == textureData_[i]->textureHandle)
+		{
+			return textureData_[i]->height;
+
+			break;
+		}
+	}
+
+	return 0;
 }
 
 
