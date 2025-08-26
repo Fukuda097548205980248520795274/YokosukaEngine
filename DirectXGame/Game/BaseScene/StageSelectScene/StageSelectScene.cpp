@@ -32,7 +32,7 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 
 	// フェードの生成と初期化
 	fade_ = std::make_unique<FadeScreen>();
-	fade_->Initialize(engine_ , camera2d_.get());
+	fade_->Initialize(engine_ , camera2d_.get() , textureHandleStore_);
 	fade_->ResetFadeIn(kFadeInPrameterMax);
 
 

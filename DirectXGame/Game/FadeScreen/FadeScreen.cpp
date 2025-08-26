@@ -5,15 +5,17 @@
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera2d"></param>
-void FadeScreen::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d)
+void FadeScreen::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d, const TextureHandleStore* textureHandleStore)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(camera2d);
+	assert(textureHandleStore);
 
 	// 引数を受け取る
 	engine_ = engine;
 	camera2d_ = camera2d;
+	textureHandleStore_ = textureHandleStore;
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform2D>();
@@ -26,7 +28,7 @@ void FadeScreen::Initialize(const YokosukaEngine* engine, const Camera2D* camera
 	uvTransform_->Initialize();
 
 	// テクスチャを読み込む
-	textureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
+	textureHandle_ = textureHandleStore_->GetTextureHandle(TextureHandleStore::kWhite);
 }
 
 /// <summary>

@@ -757,6 +757,15 @@
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle">
       <UniqueIdentifier>{aa41ecb7-fd0b-4d8b-8fc9-47d2b95e3ed7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle">
+      <UniqueIdentifier>{95004776-8a27-4866-92e0-dbf3e98bbc81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle">
+      <UniqueIdentifier>{50f40dd1-5d64-4160-a542-16e3f512318d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle">
+      <UniqueIdentifier>{4b2c3056-b663-425a-b071-625d52987dd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1439,6 +1448,15 @@
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle\TextGamepadTimeStopTextureHandle.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle\TextkeyboardStartTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle\TextGamepadStartTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2125,6 +2143,15 @@
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle\TextGamepadTimeStopTextureHandle.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadTimeStopTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle\TextkeyboardStartTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextkeyboardStartTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle\TextGamepadStartTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadStartTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -45,6 +45,20 @@ public:
 	/// <param name="textureHandle">テクスチャハンドル</param>
 	void SelectTexture(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList, uint32_t textureHandle);
 
+	/// <summary>
+	/// 横幅のGetter
+	/// </summary>
+	/// <param name="textureHandle"></param>
+	/// <returns></returns>
+	int32_t GetWidth(uint32_t textureHandle);
+
+	/// <summary>
+	/// 縦幅のGetter
+	/// </summary>
+	/// <param name="textureHandle"></param>
+	/// <returns></returns>
+	int32_t GetHeight(uint32_t textureHandle);
+
 
 private:
 
@@ -80,6 +94,12 @@ private:
 
 		// テクスチャハンドル
 		uint32_t textureHandle = 0;
+
+		// 画像の横幅
+		int32_t width = 0;
+
+		// 画像の縦幅
+		int32_t height = 0;
 	};
 
 	// テクスチャ格納のデータ

@@ -1,6 +1,7 @@
 #pragma once
 #define NOMINMAX
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../TextureHandleStore/TextureHandleStore.h"
 
 class FadeScreen
 {
@@ -24,7 +25,7 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera2d"></param>
-	void Initialize(const YokosukaEngine* engine , const Camera2D* camera2d);
+	void Initialize(const YokosukaEngine* engine , const Camera2D* camera2d , const TextureHandleStore* textureHandleStore);
 
 	/// <summary>
 	/// 更新処理
@@ -62,6 +63,9 @@ private:
 
 	// 2Dカメラ
 	const Camera2D* camera2d_ = nullptr;
+
+	// テクスチャ格納場所
+	const TextureHandleStore* textureHandleStore_ = nullptr;
 
 
 	// ワールドトランスフォーム

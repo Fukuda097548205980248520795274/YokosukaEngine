@@ -13,6 +13,15 @@ void TextureHandleStore::Initialize(const YokosukaEngine* engine)
 	engine_ = engine;
 
 
+	// 画像 : 白
+	textureHandles_[kWhite] = std::make_unique<WhiteTextureHandle>();
+	textureHandles_[kWhite]->Initialize(engine_);
+
+
+	// ゲームパッド操作 : ゲーム開始
+	textureHandles_[kGamepadStart] = std::make_unique<TextGamepadStartTextureHandle>();
+	textureHandles_[kGamepadStart]->Initialize(engine_);
+
 	// ゲームパッド操作 : 移動
 	textureHandles_[kGamepadMove] = std::make_unique<TextGamepadMoveTextureHandle>();
 	textureHandles_[kGamepadMove]->Initialize(engine_);
@@ -29,6 +38,10 @@ void TextureHandleStore::Initialize(const YokosukaEngine* engine)
 	textureHandles_[kGamepadPose] = std::make_unique<TextGamepadPoseTextureHandle>();
 	textureHandles_[kGamepadPose]->Initialize(engine_);
 
+
+	// キーボード操作 : ゲーム開始
+	textureHandles_[kKeyboardStart] = std::make_unique<TextkeyboardStartTextureHandle>();
+	textureHandles_[kKeyboardStart]->Initialize(engine_);
 
 	// キーボード操作 : 移動
 	textureHandles_[kKeyboardMove] = std::make_unique<TextKeyboardMoveTextureHandle>();

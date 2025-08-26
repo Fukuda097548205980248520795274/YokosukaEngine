@@ -3,6 +3,8 @@
 #include "../../../ModelHandleStore/ModelHandleStore.h"
 #include "../../../TextureHandleStore/TextureHandleStore.h"
 
+#include "../../../BaseSprite/BaseSprite.h"
+
 class TitleHud
 {
 public:
@@ -43,5 +45,12 @@ private:
 
 	// テクスチャハンドル格納場所
 	const TextureHandleStore* textureHandleStore_ = nullptr;
+
+
+	// ゲームパッド : スタート
+	std::unique_ptr<Sprite> spriteGamepadStart_ = nullptr;
+
+	// キーボード : スタート
+	std::unique_ptr<Sprite> spritekeyboardStart_ = nullptr;
 };
 
