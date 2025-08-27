@@ -36,5 +36,5 @@ void StageObjectBuildingB::Update()
 void StageObjectBuildingB::Draw()
 {
 	// モデルを描画する
-	engine_->DrawModel(worldTransform_.get(), camera3d_, mhSaturnPlanet_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), true);
+	engine_->DrawModel(worldTransform_.get(), camera3d_, mhSaturnPlanet_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), true);
 }

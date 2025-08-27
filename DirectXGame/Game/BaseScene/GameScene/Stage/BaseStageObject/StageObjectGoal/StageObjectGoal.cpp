@@ -18,6 +18,7 @@ void StageObjectGoal::Initialize(const YokosukaEngine* engine, const Camera3D* c
 
 	// モデルを受け取る
 	mhSaturnPlanet_ = modelHandleStore_->GetModelHandle(ModelHandleStore::kGoalFlag)[0];
+	worldTransform_->scale_ *= 3.0f;
 }
 
 /// <summary>

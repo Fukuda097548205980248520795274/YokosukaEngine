@@ -1,1 +1,14 @@
-OBJECT,Goal,Position(0.0f,0.0f,50.0f),Rotation(0.0f,0.0f,0.0f)
+OBJECT,Goal,Position(100.0f,20.0f,900.0f),Rotation(0.0f,0.0f,0.0f)
+
+
+OBJECT,BuildingA,Position(50.0f,0.0f,50.0f),Rotation(0.0f,0.0f,0.0f)
+OBJECT,BuildingA,Position(-50.0ff,0.0f,50.0f),Rotation(0.0f,0.0f,0.0f)
+
+OBJECT,BuildingA,Position(50.0f,0.0f,100.0f),Rotation(0.0f,0.0f,0.0f)
+OBJECT,BuildingA,Position(-50.0f,0.0f,100.0f),Rotation(0.0f,0.0f,0.0f)
+
+OBJECT,BuildingA,Position(50.0f,0.0f,150.0f),Rotation(0.0f,0.0f,0.0f)
+OBJECT,BuildingA,Position(-50.0ff,0.0f,150.0f),Rotation(0.0f,0.0f,0.0f)
+
+OBJECT,BuildingA,Position(50.0f,0.0f,200.0f),Rotation(0.0f,0.0f,0.0f)
+OBJECT,BuildingA,Position(-50.0f,0.0f,200.0f),Rotation(0.0f,0.0f,0.0f)
