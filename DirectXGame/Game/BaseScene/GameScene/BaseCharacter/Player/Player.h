@@ -164,6 +164,8 @@ private:
 	/// <returns></returns>
 	Vector3 GetWorldPosition3DReticle() const;
 
+	std::unique_ptr<WorldTransform> worldTransform3DReticle_ = nullptr;
+
 	// 画像 : レティクル
 	std::unique_ptr<Sprite> spriteReticle_ = nullptr;
 

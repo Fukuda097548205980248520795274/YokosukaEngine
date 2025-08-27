@@ -73,6 +73,9 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 	    レティクル
 	---------------*/
 
+	worldTransform3DReticle_ = std::make_unique<WorldTransform>();
+	worldTransform3DReticle_->Initialize();
+
 	// 画像 : レティクルを生成
 	spriteReticle_ = std::make_unique<Sprite>();
 	spriteReticle_->Initialize(engine_, camera2d_.get(), textureHandleStore_->GetTextureHandle(TextureHandleStore::kReticle));
@@ -397,38 +400,6 @@ AABB Player::GetCollisionAABB()const
 /// </summary>
 void Player::UpdateReticle()
 {
-	/*
-
-	// 自機から3Dレティクルの距離
-	const float kDistancePlayerTo3DReticle = 50.0f;
-
-	// オフセット
-	Vector3 offset = Vector3(0.0f, 0.0f, 1.0f);
-
-	// ベクトルの長さを変える
-	offset = Normalize(offset) * kDistancePlayerTo3DReticle;
-
-	// 3Dレティクルの座標を設定
-	worldTransform3DReticle_->translation_ = offset;
-	worldTransform3DReticle_->UpdateWorldMatrix();
-
-
-
-	Vector3 positionReticle = GetWorldPosition3DReticle();
-
-	// ビューポート変換行列
-	Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f,
-		static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()), 0.0f, 1.0f);
-
-	Matrix4x4 matViewProjectionViewport =
-		camera3d_->viewMatrix_ * camera3d_->projectionMatrix_ * viewportMatrix;
-
-	positionReticle = Transform(positionReticle, matViewProjectionViewport);
-
-	spriteReticle_->worldTransform_->translation_ = positionReticle;
-
-	*/
-
 	spriteReticle_->worldTransform_->translation_ = reticlePos_;
 
 	// ビューポート変換行列
@@ -438,6 +409,20 @@ void Player::UpdateReticle()
 	Matrix4x4 matVPV = camera3d_->viewMatrix_ * camera3d_->projectionMatrix_ * viewportMatrix;
 
 	Matrix4x4 matInverseVPV = MakeInverseMatrix(matVPV);
+
+	// スクリーン座標
+	Vector3 posNear = Vector3(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()), 0.0f);
+	Vector3 posFar = Vector3(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()), 1.0f);
+
+	posNear = Transform(posNear, matInverseVPV);
+	posFar = Transform(posFar, matInverseVPV);
+
+	Vector3 direction = posFar - posNear;
+	direction = Normalize(direction);
+
+	const float kDistanceTextObject = 50.0f;
+	worldTransform3DReticle_->translation_ = posNear + direction * kDistanceTextObject;
+	worldTransform3DReticle_->UpdateWorldMatrix();
 }
 
 /// <summary>
@@ -446,9 +431,8 @@ void Player::UpdateReticle()
 /// <returns></returns>
 Vector3 Player::GetWorldPosition3DReticle() const
 {
-	// ワールド座標
-	Vector3 worldPosition = Vector3(0.0f, 0.0f, 0.0f);
-	
+	Vector3 worldPosition;
+
 	worldPosition.x = worldTransform3DReticle_->worldMatrix_.m[3][0];
 	worldPosition.y = worldTransform3DReticle_->worldMatrix_.m[3][1];
 	worldPosition.z = worldTransform3DReticle_->worldMatrix_.m[3][2];
