@@ -6,12 +6,13 @@
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
-	const ModelHandleStore* modelHandleStore, const float* gameFrame, GameScene* gameScene)
+void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
+	const TextureHandleStore* textureHandleStore, const ModelHandleStore* modelHandleStore, const float* gameFrame, GameScene* gameScene)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(camera3d);
+	assert(textureHandleStore);
 	assert(modelHandleStore);
 	assert(gameFrame);
 	assert(gameScene);
@@ -19,6 +20,7 @@ void Stage::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 	// 引数を受け取る
 	engine_ = engine;
 	camera3d_ = camera3d;
+	textureHandleStore_ = textureHandleStore;
 	modelHandleStore_ = modelHandleStore;
 	gameFrame_ = gameFrame;
 	gameScene_ = gameScene;
@@ -210,6 +212,7 @@ void Stage::EnemyScriptUpdate()
 			// 接近
 			Vector3 approachingDirection = Vector3(0.0f, 0.0f, 0.0f);
 			float approachingTime = 0.0f;
+			float approachingSpeed = 0.0f;
 
 			std::getline(line_stream, word, '(');
 			if (word.find("Approaching") == 0)
@@ -236,10 +239,19 @@ void Stage::EnemyScriptUpdate()
 				}
 
 				std::getline(line_stream, word, '(');
+				if (word.find("Speed") == 0)
+				{
+					std::getline(line_stream, word, ')');
+					approachingSpeed = (float)std::atof(word.c_str());
+
+					std::getline(line_stream, word, ',');
+				}
+
+				std::getline(line_stream, word, '(');
 				if (word.find("Time") == 0)
 				{
 					std::getline(line_stream, word, ')');
-					approachingTime = (float)std::atoi(word.c_str());
+					approachingTime = (float)std::atof(word.c_str());
 				}
 
 				std::getline(line_stream, word, ')');
@@ -250,6 +262,7 @@ void Stage::EnemyScriptUpdate()
 			// 離脱
 			Vector3 AwayDirection = Vector3(0.0f, 0.0f, 0.0f);
 			float AwayTime = 0.0f;
+			float awaySpeed = 0.0f;
 
 			std::getline(line_stream, word, '(');
 			if (word.find("Away") == 0)
@@ -276,10 +289,19 @@ void Stage::EnemyScriptUpdate()
 				}
 
 				std::getline(line_stream, word, '(');
+				if (word.find("Speed") == 0)
+				{
+					std::getline(line_stream, word, ')');
+					awaySpeed = (float)std::atof(word.c_str());
+
+					std::getline(line_stream, word, ',');
+				}
+
+				std::getline(line_stream, word, '(');
 				if (word.find("Time") == 0)
 				{
 					std::getline(line_stream, word, ')');
-					AwayTime = (float)std::atoi(word.c_str());
+					AwayTime = (float)std::atof(word.c_str());
 				}
 
 				std::getline(line_stream, word, ')');
@@ -290,15 +312,17 @@ void Stage::EnemyScriptUpdate()
 			std::unique_ptr<BaseEnemy> enemy = std::move(SummonEnemy(enemyType));
 
 			// 初期化と設定
-			enemy->Initialize(engine_, camera3d_, modelHandleStore_, pos, hp);
+			enemy->Initialize(engine_, camera3d_,textureHandleStore_, modelHandleStore_, pos, hp);
 			enemy->SetGameScene(gameScene_);
 			enemy->SetParent(centerAxis_->GetWorldTransform());
 			enemy->SetGameTimer(gameFrame_);
 			enemy->SetTarget(target_);
 			enemy->SetApproachingDirection(approachingDirection);
 			enemy->SetApproachingTimer(approachingTime);
+			enemy->SetApproachingSpeed(approachingSpeed);
 			enemy->SetAwayDirection(AwayDirection);
 			enemy->SetAwayTimer(AwayTime);
+			enemy->SetAwaySpeed(awaySpeed);
 			gameScene_->EnemySummon(std::move(enemy));
 		}
 

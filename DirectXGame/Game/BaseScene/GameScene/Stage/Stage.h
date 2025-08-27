@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../../../TextureHandleStore/TextureHandleStore.h"
 #include "../../../ModelHandleStore/ModelHandleStore.h"
 #include <sstream>
 
@@ -33,7 +34,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d ,
-		const ModelHandleStore* modelHandleStore, const float* gameFrame , GameScene* gameScene);
+		const TextureHandleStore* textureHandleStore,const ModelHandleStore* modelHandleStore, const float* gameFrame , GameScene* gameScene);
 
 	/// <summary>
 	/// 更新処理
@@ -113,6 +114,9 @@ private:
 
 	// モデルハンドル格納場所
 	const ModelHandleStore* modelHandleStore_ = nullptr;
+
+	// テクスチャハンドル格納場所
+	const TextureHandleStore* textureHandleStore_ = nullptr;
 
 	// ゲームフレーム
 	const float* gameFrame_ = nullptr;

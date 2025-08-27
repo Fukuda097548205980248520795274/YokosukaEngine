@@ -53,7 +53,7 @@ void EnemyButterflyStateAwayTop::Update()
 
 
 	// 上に動かす
-	worldTransform->translation_ += enemy_->GetAwayDirection() * (*gameTimer);
+	worldTransform->translation_ += (enemy_->GetAwayDirection() * enemy_->GetAwaySpeed()) * (*gameTimer);
 
 	// タイマーを進める
 	timer_ += (1.0f / 60.0f) * (*gameTimer);

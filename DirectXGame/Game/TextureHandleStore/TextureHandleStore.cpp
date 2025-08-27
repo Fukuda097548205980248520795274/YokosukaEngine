@@ -17,6 +17,10 @@ void TextureHandleStore::Initialize(const YokosukaEngine* engine)
 	textureHandles_[kWhite] = std::make_unique<WhiteTextureHandle>();
 	textureHandles_[kWhite]->Initialize(engine_);
 
+	// 画像 : レティクル
+	textureHandles_[kReticle] = std::make_unique<ReticleTextureHandle>();
+	textureHandles_[kReticle]->Initialize(engine_);
+
 
 	// ゲームパッド操作 : ゲーム開始
 	textureHandles_[kGamepadStart] = std::make_unique<TextGamepadStartTextureHandle>();

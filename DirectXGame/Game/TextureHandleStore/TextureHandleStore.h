@@ -2,6 +2,7 @@
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 
 #include "BaseTextureHandles/WhiteTextureHandle/WhiteTextureHandle.h"
+#include "BaseTextureHandles/ReticleTextureHandle/ReticleTextureHandle.h"
 
 #include "BaseTextureHandles/TextGamepadStartTextureHandle/TextGamepadStartTextureHandle.h"
 #include "BaseTextureHandles/TextGamepadMoveTextureHandle/TextGamepadMoveTextureHandle.h"
@@ -28,6 +29,7 @@ public:
 	enum HandleName
 	{
 		kWhite,
+		kReticle,
 
 		kGamepadStart,
 		kGamepadMove,

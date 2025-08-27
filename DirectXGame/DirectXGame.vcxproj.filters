@@ -766,6 +766,12 @@
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle">
       <UniqueIdentifier>{4b2c3056-b663-425a-b071-625d52987dd4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseModel">
+      <UniqueIdentifier>{c5893fac-7759-41c2-b1ab-6d6012d5a983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle">
+      <UniqueIdentifier>{1fe97022-34a9-4b52-b158-40b227e2a84d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1457,6 +1463,12 @@
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Model\Model.cpp">
+      <Filter>Game\BaseModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle\ReticleTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2152,6 +2164,12 @@
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Model\Model.h">
+      <Filter>Game\BaseModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle\ReticleTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

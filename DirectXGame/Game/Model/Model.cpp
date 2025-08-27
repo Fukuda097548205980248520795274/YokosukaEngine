@@ -1,4 +1,4 @@
-#include "BaseSprite.h"
+#include "Model.h"
 
 /// <summary>
 /// 初期化
@@ -6,22 +6,20 @@
 /// <param name="engine"></param>
 /// <param name="camera2d"></param>
 /// <param name="textureHandle"></param>
-void Sprite::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d, uint32_t textureHandle)
+void Model::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, uint32_t modelHandle)
 {
 	// nullptrチェック
 	assert(engine);
-	assert(camera2d);
+	assert(camera3d);
 
 	// 引数を受け取る
 	engine_ = engine;
-	camera2d_ = camera2d;
-	textureHandle_ = textureHandle;
+	camera3d_ = camera3d;
+	modelHandle_ = modelHandle;
 
 	// ワールドトランスフォームの生成と初期化
-	worldTransform_ = std::make_unique<WorldTransform2D>();
+	worldTransform_ = std::make_unique<WorldTransform>();
 	worldTransform_->Initialize();
-	worldTransform_->scale_ =
-		Vector3(static_cast<float>(engine_->GetTextureWidth(textureHandle_)) / 2.0f, static_cast<float>(engine_->GetTextureHeight(textureHandle_)) / 2.0f, 0.0f);
 
 	// UVトランスフォームの生成と初期化
 	uvTransform_ = std::make_unique<UvTransform>();
@@ -31,7 +29,7 @@ void Sprite::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d, 
 /// <summary>
 /// 更新処理
 /// </summary>
-void Sprite::Update()
+void Model::Update()
 {
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
@@ -41,7 +39,7 @@ void Sprite::Update()
 /// <summary>
 /// 描画処理
 /// </summary>
-void Sprite::Draw()
+void Model::Draw()
 {
-	engine_->DrawSprite(worldTransform_.get(), uvTransform_.get(), camera2d_, textureHandle_, color_, FillMode::kSolid);
+	engine_->DrawModel(worldTransform_.get(), uvTransform_.get(), camera3d_, modelHandle_, color_, enableLighting_);
 }

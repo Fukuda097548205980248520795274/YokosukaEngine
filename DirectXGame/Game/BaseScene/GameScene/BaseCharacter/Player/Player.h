@@ -5,6 +5,8 @@
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
+#include "../../../../BaseSprite/BaseSprite.h"
+
 #include "BasePlayerHUD/PlayerHUDStateArea/PlayerHUDStateArea.h"
 #include "BasePlayerHUD/PlayerHUDHp/PlayerHUDHp.h"
 #include "BasePlayerHUD/PlayerHUDTextHp/PlayerHUDTextHp.h"
@@ -27,7 +29,8 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
+		const TextureHandleStore* textureStoreHandle, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
 
 	/// <summary>
 	/// 更新処理
@@ -108,12 +111,21 @@ public:
 	/// <param name="isGameClear"></param>
 	void SetIsGameClear(bool isGameClear) { isGameClear_ = isGameClear; }
 
+	/// <summary>
+	/// 3Dレティクルの親のSetter
+	/// </summary>
+	/// <param name="worldTransform"></param>
+	void Set3DReticleParent(WorldTransform* worldTransform) { worldTransform3DReticle_->SetParent(worldTransform); }
+
 
 private:
 
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
+
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
 
 
 	/*----------
@@ -134,6 +146,30 @@ private:
 	/// 入力操作
 	/// </summary>
 	void Input();
+
+
+
+	/*---------------
+	    レティクル
+	---------------*/
+
+	/// <summary>
+	/// レティクルの更新処理
+	/// </summary>
+	void UpdateReticle();
+
+	/// <summary>
+	/// 3Dレティクルのワールド座標のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetWorldPosition3DReticle() const;
+
+	// 画像 : レティクル
+	std::unique_ptr<Sprite> spriteReticle_ = nullptr;
+
+	// レティクルの位置
+	Vector3 reticlePos_ = Vector3(0.0f, 0.0f,50.0f);
+
 
 
 	/*---------

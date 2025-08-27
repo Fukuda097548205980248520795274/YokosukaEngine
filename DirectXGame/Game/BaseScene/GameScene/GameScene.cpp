@@ -36,9 +36,10 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// プレイヤーの生成と初期化
 	player_ = std::make_unique<Player>();
-	player_->Initialize(engine_, camera3d_, modelHandleStore_, Vector3(0.0f, 0.0f, 0.0f), 5);
+	player_->Initialize(engine_, camera3d_,textureHandleStore_, modelHandleStore_, Vector3(0.0f, 0.0f, 0.0f), 5);
 	player_->SetGameScene(this);
 	player_->SetParent(mainCamera_->GetPivotWorldTransform());
+	player_->Set3DReticleParent(mainCamera_->GetPivotWorldTransform());
 
 	// ゲームタイマーを取得する
 	gameTimer_ = player_->GetGameTimer();
@@ -211,7 +212,7 @@ void GameScene::CreateStage(const std::string& controlPointScriptPass,
 {
 	// ステージの生成と初期化
 	stage_ = std::make_unique<Stage>();
-	stage_->Initialize(engine_, camera3d_, modelHandleStore_, player_->GetGameTimer(), this);
+	stage_->Initialize(engine_, camera3d_,textureHandleStore_, modelHandleStore_, player_->GetGameTimer(), this);
 	stage_->LoadControlPointScript(controlPointScriptPass.c_str());
 	stage_->SetTarget(player_.get());
 	stage_->LoadEnemyScript(enemyScriptPass.c_str());

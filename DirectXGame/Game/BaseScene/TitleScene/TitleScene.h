@@ -165,5 +165,5 @@ private:
 	float fadeOutParameter_ = 0.0f;
 
 	// フェードアウトパラメータの最大値
-	const float kFadeOutPrameterMax = 2.0f;
+	const float kFadeOutPrameterMax = 3.0f;
 };

@@ -18,7 +18,8 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
+	virtual void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
+		const TextureHandleStore* textureStoreHandle, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
 
 	/// <summary>
 	/// 更新処理
@@ -120,6 +121,12 @@ public:
 	void SetApproachingTimer(float timer) { approachingTimer_ = timer; }
 
 	/// <summary>
+	/// 接近する速度のSetter
+	/// </summary>
+	/// <param name="speed"></param>
+	void SetApproachingSpeed(float speed) { approachingSpeed_ = speed; }
+
+	/// <summary>
 	/// 接近する方向のGetter
 	/// </summary>
 	/// <returns></returns>
@@ -130,6 +137,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	float GetApproachingTimer() { return approachingTimer_; }
+
+	/// <summary>
+	/// 接近する時間のGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetApproachingSpeed() { return approachingSpeed_; }
 
 	/// <summary>
 	/// 離脱する方向のSetter
@@ -144,6 +157,12 @@ public:
 	void SetAwayTimer(float timer) { awayTimer_ = timer; }
 
 	/// <summary>
+	/// 離脱する速度のSetter
+	/// </summary>
+	/// <param name="speed"></param>
+	void SetAwaySpeed(float speed) { awaySpeed_ = speed; }
+
+	/// <summary>
 	/// 離脱する方向のGetter
 	/// </summary>
 	/// <returns></returns>
@@ -154,6 +173,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	float GetAwayTimer() { return awayTimer_; }
+
+	/// <summary>
+	/// 離脱する時間のGetter
+	/// </summary>
+	/// <returns></returns>
+	float GetAwaySpeed() { return awaySpeed_; }
 
 	/// <summary>
 	/// ゲームタイマーのGetter
@@ -221,11 +246,17 @@ protected:
 	// 接近する時間
 	float approachingTimer_ = 0.0f;
 
+	// 接近する速度
+	float approachingSpeed_ = 0.0f;
+
 
 	// 離脱する方向
 	Vector3 awayDirection_ = { 0.0f , 0.0f , 0.0f };
 
 	// 離脱する時間
 	float awayTimer_ = 0.0f;
+
+	// 接近する速度
+	float awaySpeed_ = 0.0f;
 };
 

@@ -236,7 +236,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\UniverseModelHandle\UniverseModelHandle.cpp" />
     <ClCompile Include="Game\ModelHandleStore\ModelHandleStore.cpp" />
     <ClCompile Include="Game\BaseScene\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="Game\Model\Model.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle\ReticleTextureHandle.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadMoveTextureHandle\TextGamepadMoveTextureHandle.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadPoseTextureHandle\TextGamepadPoseTextureHandle.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadShotTextureHandle\TextGamepadShotTextureHandle.cpp" />
@@ -469,7 +471,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\UniverseModelHandle\UniverseModelHandle.h" />
     <ClInclude Include="Game\ModelHandleStore\ModelHandleStore.h" />
     <ClInclude Include="Game\BaseScene\TitleScene\TitleScene.h" />
+    <ClInclude Include="Game\Model\Model.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle\ReticleTextureHandle.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadMoveTextureHandle\TextGamepadMoveTextureHandle.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadPoseTextureHandle\TextGamepadPoseTextureHandle.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadShotTextureHandle\TextGamepadShotTextureHandle.h" />

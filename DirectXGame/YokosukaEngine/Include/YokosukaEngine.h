@@ -337,16 +337,20 @@ public:
 
 		Vector3 vertecies[4] =
 		{
-			Transform(Transform(Vector3(-1.0f , -1.0f) , worldViewProjectionMatrix), viewportMatrix),
-			Transform(Transform(Vector3(1.0f , -1.0f) , worldViewProjectionMatrix), viewportMatrix),
-			Transform(Transform(Vector3(-1.0f , 1.0f) , worldViewProjectionMatrix), viewportMatrix),
-			Transform(Transform(Vector3(1.0f , 1.0f) , worldViewProjectionMatrix), viewportMatrix)
+			Transform(Transform(Vector3(-1.0f , -1.0f , 0.0f) , worldViewProjectionMatrix), viewportMatrix),
+			Transform(Transform(Vector3(1.0f , -1.0f , 0.0f) , worldViewProjectionMatrix), viewportMatrix),
+			Transform(Transform(Vector3(-1.0f , 1.0f , 0.0f) , worldViewProjectionMatrix), viewportMatrix),
+			Transform(Transform(Vector3(1.0f , 1.0f , 0.0f) , worldViewProjectionMatrix), viewportMatrix)
 		};
 
 		if (fillMode == FillMode::kSolid)
 		{
-			directXCommon_->DrawSprite(Vector2(vertecies[0].x, vertecies[0].y), Vector2(vertecies[1].x, vertecies[1].y),
-				Vector2(vertecies[2].x, vertecies[2].y), Vector2(vertecies[3].x, vertecies[3].y), uvTransform, camera, textureHandle, color);
+			directXCommon_->DrawSprite(
+				Vector3(vertecies[0].x , vertecies[0].y, worldTransform->translation_.z),
+				Vector3(vertecies[1].x, vertecies[1].y, worldTransform->translation_.z),
+				Vector3(vertecies[2].x, vertecies[2].y, worldTransform->translation_.z),
+				Vector3(vertecies[3].x, vertecies[3].y, worldTransform->translation_.z),
+				uvTransform, camera, textureHandle, color);
 		}
 		else if (fillMode == FillMode::kWireFrame)
 		{

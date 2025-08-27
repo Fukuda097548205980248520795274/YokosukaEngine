@@ -9,10 +9,11 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
+void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
+	const TextureHandleStore* textureStoreHandle, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
 {
 	// 基底クラスを初期化する
-	BaseCharacter::Initialize(engine, camera3d, modelHandleStore,position, hp);
+	BaseCharacter::Initialize(engine, camera3d,textureStoreHandle, modelHandleStore,position, hp);
 
 
 	// ダメージ音を読み込む
