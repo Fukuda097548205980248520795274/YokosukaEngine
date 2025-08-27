@@ -7,9 +7,9 @@ WAIT,3.0f
 
 // 手前から
 
-ENEMY,Butterfly,Hp(10),Position(5.0f,0.0f,-60.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(5.0f,0.0f,-80.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
 
-ENEMY,Butterfly,Hp(10),Position(-5.0f,0.0f,-60.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(-5.0f,0.0f,-80.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
 
 
 
@@ -18,9 +18,9 @@ WAIT,1.0f
 
 // 左右から
 
-ENEMY,Butterfly,Hp(10),Position(60.0f,0.0f,40.0f),Approaching(Direction(-1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(1.0f,0.0f,0.0f),Speed(0.5f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(50.0f,0.0f,30.0f),Approaching(Direction(-1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(1.0f,0.0f,0.0f),Speed(0.5f),Time(2.0f))
 
-ENEMY,Butterfly,Hp(10),Position(-60.0f,0.0f,40.0f),Approaching(Direction(1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(-1.0f,0.0f,0.0f),Speed(0.5f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(-50.0f,0.0f,30.0f),Approaching(Direction(1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(-1.0f,0.0f,0.0f),Speed(0.5f),Time(2.0f))
 
 
 
@@ -29,9 +29,9 @@ WAIT,3.0f
 
 // 手前から
 
-ENEMY,Butterfly,Hp(10),Position(10.0f,0.0f,-60.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(10.0f,0.0f,-80.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
 
-ENEMY,Butterfly,Hp(10),Position(-10.0f,0.0f,-60.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(-10.0f,0.0f,-80.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
 
 
 
@@ -40,9 +40,9 @@ WAIT,1.0f
 
 // 左右から
 
-ENEMY,Butterfly,Hp(10),Position(60.0f,10.0f,40.0f),Approaching(Direction(-1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(-1.0f,0.0f,0.0f),Speed(0.5f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(50.0f,10.0f,30.0f),Approaching(Direction(-1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(-1.0f,0.0f,0.0f),Speed(0.5f),Time(2.0f))
 
-ENEMY,Butterfly,Hp(10),Position(-60.0f,-10.0f,40.0f),Approaching(Direction(1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(1.0f,0.0f,0.0f),Speed(0.5f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(-50.0f,-10.0f,30.0f),Approaching(Direction(1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(1.0f,0.0f,0.0f),Speed(0.5f),Time(2.0f))
 
 
 
@@ -51,9 +51,9 @@ WAIT,3.0f
 
 // 左右から
 
-ENEMY,Butterfly,Hp(10),Position(60.0f,-10.0f,40.0f),Approaching(Direction(-1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(-1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(50.0f,-10.0f,30.0f),Approaching(Direction(-1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(-1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f))
 
-ENEMY,Butterfly,Hp(10),Position(-60.0f,10.0f,40.0f),Approaching(Direction(1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(-50.0f,10.0f,30.0f),Approaching(Direction(1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(1.0f,0.0f,0.0f),Speed(0.3f),Time(2.0f))
 
 
 
@@ -61,9 +61,9 @@ WAIT,3.0f
 
 // 下から
 
-ENEMY,Butterfly,Hp(10),Position(5.0f,-50.0f,40.0f),Approaching(Direction(0.0f,1.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(0.0f,1.0f,0.0f),Speed(0.3f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(5.0f,-40.0f,30.0f),Approaching(Direction(0.0f,1.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(0.0f,1.0f,0.0f),Speed(0.3f),Time(2.0f))
 
-ENEMY,Butterfly,Hp(10),Position(-5.0f,-50.0f,40.0f),Approaching(Direction(0.0f,1.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(0.0f,1.0f,0.0f),Speed(0.3f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(-5.0f,-40.0f,30.0f),Approaching(Direction(0.0f,1.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(0.0f,1.0f,0.0f),Speed(0.3f),Time(2.0f))
 
 
 
@@ -72,9 +72,9 @@ WAIT,2.0f
 
 // 上から
 
-ENEMY,Butterfly,Hp(10),Position(15.0f,50.0f,40.0f),Approaching(Direction(0.0f,-1.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(0.0f,-1.0f,0.0f),Speed(0.3f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(15.0f,40.0f,30.0f),Approaching(Direction(0.0f,-1.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(0.0f,-1.0f,0.0f),Speed(0.3f),Time(2.0f))
 
-ENEMY,Butterfly,Hp(10),Position(-15.0f,50.0f,40.0f),Approaching(Direction(0.0f,-1.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(0.0f,-1.0f,0.0f),Speed(0.3f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(-15.0f,40.0f,30.0f),Approaching(Direction(0.0f,-1.0f,0.0f),Speed(0.3f),Time(2.0f)),Away(Direction(0.0f,-1.0f,0.0f),Speed(0.3f),Time(2.0f))
 
 
 
@@ -86,9 +86,9 @@ WAIT,3.0f
 
 // 手前から
 
-ENEMY,Butterfly,Hp(10),Position(10.0f,0.0f,-60.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(10.0f,0.0f,-50.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
 
-ENEMY,Butterfly,Hp(10),Position(-10.0f,0.0f,-60.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
+ENEMY,Butterfly,Hp(10),Position(-10.0f,0.0f,-50.0f),Approaching(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f)),Away(Direction(0.0f,0.0f,1.0f),Speed(1.0f),Time(2.0f))
 
 
 

@@ -39,7 +39,6 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	player_->Initialize(engine_, camera3d_,textureHandleStore_, modelHandleStore_, Vector3(0.0f, 0.0f, 0.0f), 5);
 	player_->SetGameScene(this);
 	player_->SetParent(mainCamera_->GetPivotWorldTransform());
-	player_->Set3DReticleParent(mainCamera_->GetPivotWorldTransform());
 
 	// ゲームタイマーを取得する
 	gameTimer_ = player_->GetGameTimer();

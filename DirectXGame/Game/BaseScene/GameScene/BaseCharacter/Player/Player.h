@@ -111,12 +111,6 @@ public:
 	/// <param name="isGameClear"></param>
 	void SetIsGameClear(bool isGameClear) { isGameClear_ = isGameClear; }
 
-	/// <summary>
-	/// 3Dレティクルの親のSetter
-	/// </summary>
-	/// <param name="worldTransform"></param>
-	void Set3DReticleParent(WorldTransform* worldTransform) { worldTransform3DReticle_->SetParent(worldTransform); }
-
 
 private:
 
@@ -149,31 +143,6 @@ private:
 
 
 
-	/*---------------
-	    レティクル
-	---------------*/
-
-	/// <summary>
-	/// レティクルの更新処理
-	/// </summary>
-	void UpdateReticle();
-
-	/// <summary>
-	/// 3Dレティクルのワールド座標のGetter
-	/// </summary>
-	/// <returns></returns>
-	Vector3 GetWorldPosition3DReticle() const;
-
-	std::unique_ptr<WorldTransform> worldTransform3DReticle_ = nullptr;
-
-	// 画像 : レティクル
-	std::unique_ptr<Sprite> spriteReticle_ = nullptr;
-
-	// レティクルの位置
-	Vector3 reticlePos_ = Vector3(0.0f, 0.0f,50.0f);
-
-
-
 	/*---------
 	    移動
 	---------*/
@@ -197,7 +166,7 @@ private:
 	const float speed = 0.4f;
 
 	// 移動範囲
-	Vector2 moveRange_ = { 16.0f , 9.0f };
+	Vector2 moveRange_ = { 22.0f , 11.0f };
 
 
 	/*------------

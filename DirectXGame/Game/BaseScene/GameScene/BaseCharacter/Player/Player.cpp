@@ -69,21 +69,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 	hudTextHp_->Initialize(engine_, hudCamera3d_.get(), modelHandleStore_);
 
 
-	/*---------------
-	    レティクル
-	---------------*/
-
-	worldTransform3DReticle_ = std::make_unique<WorldTransform>();
-	worldTransform3DReticle_->Initialize();
-
-	// 画像 : レティクルを生成
-	spriteReticle_ = std::make_unique<Sprite>();
-	spriteReticle_->Initialize(engine_, camera2d_.get(), textureHandleStore_->GetTextureHandle(TextureHandleStore::kReticle));
-
-	// レティクルの場所
-	reticlePos_ = Vector3(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()), 50.0f);
-
-
 	/*-------------
 	    サウンド
 	-------------*/
@@ -107,8 +92,6 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
 /// </summary>
 void Player::Update()
 {
-	// 3Dレティクルの更新
-	UpdateReticle();
 
 	// 入力操作
 	Input();
@@ -150,9 +133,6 @@ void Player::Update()
 
 	// テキスト : HPの更新
 	hudTextHp_->Update();
-
-	// 画像 : レティクルの更新
-	spriteReticle_->Update();
 }
 
 
@@ -264,9 +244,6 @@ void Player::Draw()
 
 	// 本体を描画する
 	engine_->DrawModel(bodyWorldTransform_.get(), camera3d_, bodyModelHandle_, Vector4(0.0f, 0.0f, 0.0f, 1.0f), true);
-
-	// 2Dレティクルを描画する
-	spriteReticle_->Draw();
 }
 
 /// <summary>
@@ -390,54 +367,6 @@ AABB Player::GetCollisionAABB()const
 	aabb.min = (-1.0f * hitSize_) + Vector3(worldMatrix.m[3][0], worldMatrix.m[3][1], worldMatrix.m[3][2]);
 
 	return aabb;
-}
-
-
-
-
-/// <summary>
-/// レティクルの更新処理
-/// </summary>
-void Player::UpdateReticle()
-{
-	spriteReticle_->worldTransform_->translation_ = reticlePos_;
-
-	// ビューポート変換行列
-	Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f,
-		static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()), 0.0f, 1.0f);
-
-	Matrix4x4 matVPV = camera3d_->viewMatrix_ * camera3d_->projectionMatrix_ * viewportMatrix;
-
-	Matrix4x4 matInverseVPV = MakeInverseMatrix(matVPV);
-
-	// スクリーン座標
-	Vector3 posNear = Vector3(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()), 0.0f);
-	Vector3 posFar = Vector3(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()), 1.0f);
-
-	posNear = Transform(posNear, matInverseVPV);
-	posFar = Transform(posFar, matInverseVPV);
-
-	Vector3 direction = posFar - posNear;
-	direction = Normalize(direction);
-
-	const float kDistanceTextObject = 50.0f;
-	worldTransform3DReticle_->translation_ = posNear + direction * kDistanceTextObject;
-	worldTransform3DReticle_->UpdateWorldMatrix();
-}
-
-/// <summary>
-/// 3Dレティクルのワールド座標のGetter
-/// </summary>
-/// <returns></returns>
-Vector3 Player::GetWorldPosition3DReticle() const
-{
-	Vector3 worldPosition;
-
-	worldPosition.x = worldTransform3DReticle_->worldMatrix_.m[3][0];
-	worldPosition.y = worldTransform3DReticle_->worldMatrix_.m[3][1];
-	worldPosition.z = worldTransform3DReticle_->worldMatrix_.m[3][2];
-
-	return worldPosition;
 }
 
 
