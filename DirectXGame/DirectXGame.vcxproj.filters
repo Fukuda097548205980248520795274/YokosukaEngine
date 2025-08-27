@@ -772,6 +772,21 @@
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle">
       <UniqueIdentifier>{1fe97022-34a9-4b52-b158-40b227e2a84d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\GoalModelHandle">
+      <UniqueIdentifier>{13974a1a-e484-431d-bc5d-c58f35887c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal">
+      <UniqueIdentifier>{c4e63f44-1c60-4b12-96ff-c382a865c28b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree">
+      <UniqueIdentifier>{56f9e94a-cfd3-480e-9668-f3f74897d8ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow">
+      <UniqueIdentifier>{395c400c-6a6b-4779-87db-506a5fd0c6e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse">
+      <UniqueIdentifier>{b9e76c4b-c902-4ac0-b17e-cadbe0f7cadf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1469,6 +1484,21 @@
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle\ReticleTextureHandle.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\GoalModelHandle\GoalModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\GoalModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal\StageObjectGoal.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree\StageObjectTree.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow\StageObjectRainbow.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse\StageObjectHouse.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2170,6 +2200,21 @@
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle\ReticleTextureHandle.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\GoalModelHandle\GoalModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\GoalModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal\StageObjectGoal.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree\StageObjectTree.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow\StageObjectRainbow.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse\StageObjectHouse.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

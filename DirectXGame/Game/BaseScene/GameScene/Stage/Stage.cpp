@@ -382,49 +382,53 @@ void Stage::StageObjectScriptUpdate()
 		}
 
 
-		if (word.find("STAGE_OBJECT") == 0)
+		if (word.find("OBJECT") == 0)
 		{
 			// オブジェクトの種類
 			std::getline(line_stream, word, ',');
 			std::string stageObjectType = word;
 
-			// x座標
-			std::getline(line_stream, word, ',');
-			float x = (float)std::atof(word.c_str());
+			Vector3 position = Vector3(0.0f, 0.0f, 0.0f);
+			Vector3 rotation = Vector3(0.0f, 0.0f, 0.0f);
 
-			// y座標
-			std::getline(line_stream, word, ',');
-			float y = (float)std::atof(word.c_str());
+			std::getline(line_stream, word, '(');
+			if (word.find("Position") == 0)
+			{
+				// x座標
+				std::getline(line_stream, word, ',');
+				position.x = (float)std::atof(word.c_str());
 
-			// z座標
-			std::getline(line_stream, word, ',');
-			float z = (float)std::atof(word.c_str());
+				// y座標
+				std::getline(line_stream, word, ',');
+				position.y = (float)std::atof(word.c_str());
+
+				// z座標
+				std::getline(line_stream, word, ')');
+				position.z = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+			}
+
+			std::getline(line_stream, word, '(');
+			if (word.find("Rotation") == 0)
+			{
+				// x座標
+				std::getline(line_stream, word, ',');
+				rotation.x = (float)std::atof(word.c_str());
+
+				// y座標
+				std::getline(line_stream, word, ',');
+				rotation.y = (float)std::atof(word.c_str());
+
+				// z座標
+				std::getline(line_stream, word, ')');
+				rotation.z = (float)std::atof(word.c_str());
+			}
 
 
-			// x座標
-			std::getline(line_stream, word, ',');
-			float rx = (float)std::atof(word.c_str());
-
-			// y座標
-			std::getline(line_stream, word, ',');
-			float ry = (float)std::atof(word.c_str());
-
-			// z座標
-			std::getline(line_stream, word, ',');
-			float rz = (float)std::atof(word.c_str());
-		}
-
-		if (word.find("WAIT") == 0)
-		{
-			std::getline(line_stream, word, ',');
-
-			// 待ち時間
-			float waitTime = (float)std::atof(word.c_str());
-
-			isWaitStageObjectScript_ = true;
-			waitStageObjectScriptTimer_ = waitTime;
-
-			break;
+			std::unique_ptr<BaseStageObject> stageObject = std::move(SummonStageObject(stageObjectType));
+			stageObject->Initialize(engine_, camera3d_, modelHandleStore_, gameFrame_, 0.0f, position, rotation);
+			stageObjects_.push_back(std::move(stageObject));
 		}
 	}
 }
@@ -473,7 +477,49 @@ std::unique_ptr<BaseEnemy> Stage::SummonEnemy(std::string& enemyType)
 /// <summary>
 /// ステージオブジェクトを生成する
 /// </summary>
-void Stage::SummonStageObject(std::string& enemyType, const Vector3& position, const Vector3& rotation)
+std::unique_ptr<BaseStageObject> Stage::SummonStageObject(std::string& stageObjectType)
 {
+	if (strcmp(stageObjectType.c_str(), "BuildingA") == 0)
+	{
+		std::unique_ptr<StageObjectBuildingA> stageObject = std::make_unique<StageObjectBuildingA>();
+		return stageObject;
+	}
+	else if(strcmp(stageObjectType.c_str(), "BuildingB") == 0)
+	{
+		std::unique_ptr<StageObjectBuildingB> stageObject = std::make_unique<StageObjectBuildingB>();
+		return stageObject;
+	}
+	else if (strcmp(stageObjectType.c_str(), "BuildingC") == 0)
+	{
+		std::unique_ptr<StageObjectBuildingC> stageObject = std::make_unique<StageObjectBuildingC>();
+		return stageObject;
+	}
+	else if (strcmp(stageObjectType.c_str(), "BuildingD") == 0)
+	{
+		std::unique_ptr<StageObjectBuildingD> stageObject = std::make_unique<StageObjectBuildingD>();
+		return stageObject;
+	}
+	else if (strcmp(stageObjectType.c_str(), "Goal") == 0)
+	{
+		std::unique_ptr<StageObjectGoal> stageObject = std::make_unique<StageObjectGoal>();
+		return stageObject;
+	}
+	else if (strcmp(stageObjectType.c_str(), "Tree") == 0)
+	{
+		std::unique_ptr<StageObjectTree> stageObject = std::make_unique<StageObjectTree>();
+		return stageObject;
+	}
+	else if (strcmp(stageObjectType.c_str(), "Rainbow") == 0)
+	{
+		std::unique_ptr<StageObjectRainbow> stageObject = std::make_unique<StageObjectRainbow>();
+		return stageObject;
+	}
+	else if (strcmp(stageObjectType.c_str(), "House") == 0)
+	{
+		std::unique_ptr<StageObjectHouse> stageObject = std::make_unique<StageObjectHouse>();
+		return stageObject;
+	}
 
+	assert(false);
+	return nullptr;
 }

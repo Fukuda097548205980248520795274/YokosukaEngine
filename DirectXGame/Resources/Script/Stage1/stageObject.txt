@@ -1,0 +1,1 @@
+OBJECT,Goal,Position(0.0f,0.0f,50.0f),Rotation(0.0f,0.0f,0.0f)

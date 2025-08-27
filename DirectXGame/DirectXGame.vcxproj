@@ -187,7 +187,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB\StageObjectBuildingB.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC\StageObjectBuildingC.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal\StageObjectGoal.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse\StageObjectHouse.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow\StageObjectRainbow.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree\StageObjectTree.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\Stage\Stage.cpp" />
     <ClCompile Include="Game\BaseScene\StageSelectScene\PlayerJet\PlayerJet.cpp" />
     <ClCompile Include="Game\BaseScene\StageSelectScene\StageBox\StageBox.cpp" />
@@ -218,6 +222,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyFairyModelHandles\EnemyFairyModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyJetModelHandles\EnemyJetModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\EnemyStingrayModelHandles\EnemyStingrayModelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\GoalModelHandle\GoalModelHandle.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandles\PlayerBulletStrongModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandles\PlayerBulletWeekModelHandles.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDBulletEnergyModelHandle\PlayerHUDBulletEnergyModelHandle.cpp" />
@@ -422,7 +427,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingB\StageObjectBuildingB.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingC\StageObjectBuildingC.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectBuildingD\StageObjectBuildingD.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal\StageObjectGoal.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse\StageObjectHouse.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow\StageObjectRainbow.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectSaturnPlanet\StageObjectSaturnPlanet.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree\StageObjectTree.h" />
     <ClInclude Include="Game\BaseScene\GameScene\Stage\Stage.h" />
     <ClInclude Include="Game\BaseScene\StageSelectScene\PlayerJet\PlayerJet.h" />
     <ClInclude Include="Game\BaseScene\StageSelectScene\StageBox\StageBox.h" />
@@ -453,6 +462,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyFairyModelHandles\EnemyFairyModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyJetModelHandles\EnemyJetModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\EnemyStingrayModelHandles\EnemyStingrayModelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\GoalModelHandle\GoalModelHandle.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletStrongModelHandles\PlayerBulletStrongModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerBulletWeekModelHandles\PlayerBulletWeekModelHandles.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\PlayerHUDBulletEnergyModelHandle\PlayerHUDBulletEnergyModelHandle.h" />

@@ -21,6 +21,12 @@
 #include "BaseStageObject/StageObjectBuildingC/StageObjectBuildingC.h"
 #include "BaseStageObject/StageObjectBuildingD/StageObjectBuildingD.h"
 
+#include "BaseStageObject/StageObjectGoal/StageObjectGoal.h"
+
+#include "BaseStageObject/StageObjectHouse/StageObjectHouse.h"
+#include "BaseStageObject/StageObjectRainbow/StageObjectRainbow.h"
+#include "BaseStageObject/StageObjectTree/StageObjectTree.h"
+
 // 前方宣言
 class GameScene;
 
@@ -100,7 +106,7 @@ public:
 	/// <summary>
 	/// ステージオブジェクトを生成する
 	/// </summary>
-	void SummonStageObject(std::string& enemyType, const Vector3& position, const Vector3& rotation);
+	std::unique_ptr<BaseStageObject> SummonStageObject(std::string& stageObjectType);
 
 
 private:

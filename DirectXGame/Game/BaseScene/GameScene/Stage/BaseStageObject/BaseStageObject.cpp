@@ -35,15 +35,7 @@ void BaseStageObject::Initialize(const YokosukaEngine* engine, const Camera3D* c
 /// </summary>
 void BaseStageObject::Update()
 {
-	// タイマーを進める
-	timer_ += frameTimer_;
 	
-	// 時間を越えたら、終了する
-	if (timer_ >= time_)
-	{
-		isFinished_ = true;
-		return;
-	}
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_->UpdateWorldMatrix();
