@@ -58,11 +58,17 @@ void EnemyJet::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d
 /// </summary>
 void EnemyJet::Update()
 {
-	// 浮遊ギミックの更新
-	gimmickFloating_->Update();
+	if (isDead_)
+	{
+		models_[kBody].worldTransform_->rotation_.y += 0.4f;
+	} else
+	{
+		// 浮遊ギミックの更新
+		gimmickFloating_->Update();
 
-	// ステート更新
-	state_->Update();
+		// ステート更新
+		state_->Update();
+	}
 
 	// 基底クラス更新
 	BaseEnemy::Update();

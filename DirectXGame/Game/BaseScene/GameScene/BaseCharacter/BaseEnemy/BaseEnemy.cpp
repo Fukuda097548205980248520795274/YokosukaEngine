@@ -28,10 +28,15 @@ void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void BaseEnemy::Update()
 {
-	// 体力がなくなったら撃破音を流す
-	if (hp_ <= 0)
+	if (isDead_)
 	{
-		engine_->PlaySoundData(soundHandleDestroy_ , 0.7f);
+		deadTimer_ += 1.0f / 60.0f;
+
+		if (deadTimer_ >= kDeadTime)
+		{
+			isFinished_ = true;
+			return;
+		}
 	}
 
 	// 基底クラスの更新
@@ -60,11 +65,21 @@ Vector3 BaseEnemy::GetWorldPosition() const
 /// <param name="playerBullet"></param>
 void BaseEnemy::OnCollision(const BasePlayerBullet* playerBullet)
 {
+	if (isDead_)
+		return;
+
 	// ダメージ音
 	engine_->PlaySoundData(soundHandleDamage_ , 0.5f);
 
 	// 弾の種類に合わせて体力が減る
 	hp_ -= playerBullet->GetPower();
+
+	// 体力がなくなったら撃破音を流す
+	if (hp_ <= 0)
+	{
+		engine_->PlaySoundData(soundHandleDestroy_, 0.7f);
+		isDead_ = true;
+	}
 
 	// ダメージカラーをリセットする
 	DamageColor();

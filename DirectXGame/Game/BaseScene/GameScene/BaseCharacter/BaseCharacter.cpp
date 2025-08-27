@@ -33,13 +33,6 @@ void BaseCharacter::Initialize(const YokosukaEngine* engine, const Camera3D* cam
 /// </summary>
 void BaseCharacter::Update()
 {
-	// 体力がなくなったら消滅する
-	if (hp_ <= 0)
-	{
-		isFinished_ = true;
-		return;
-	}
-
 	// ワールドトランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 }

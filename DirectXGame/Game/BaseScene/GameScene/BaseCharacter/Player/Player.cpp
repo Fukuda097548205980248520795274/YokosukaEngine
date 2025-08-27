@@ -349,6 +349,12 @@ void Player::OnCollision(const BaseEnemyBullet* enemyBullet)
 	{
 		engine_->PlaySoundData(soundHandleDamage2_, 0.5f);
 	}
+
+	// 体力がなくなったら消滅する
+	if (hp_ <= 0)
+	{
+		isFinished_ = true;
+	}
 }
 
 /// <summary>

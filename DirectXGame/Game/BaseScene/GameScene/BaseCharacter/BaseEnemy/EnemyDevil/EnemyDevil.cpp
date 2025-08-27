@@ -76,8 +76,14 @@ void EnemyDevil::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 /// </summary>
 void EnemyDevil::Update()
 {
-	// ステート更新
-	state_->Update();
+	if (isDead_)
+	{
+		models_[kBody].worldTransform_->rotation_.y += 0.4f;
+	} else
+	{
+		// ステート更新
+		state_->Update();
+	}
 
 	// 基底クラス更新
 	BaseEnemy::Update();

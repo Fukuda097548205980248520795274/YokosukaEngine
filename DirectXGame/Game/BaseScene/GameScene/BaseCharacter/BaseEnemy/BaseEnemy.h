@@ -258,5 +258,16 @@ protected:
 
 	// 接近する速度
 	float awaySpeed_ = 0.0f;
+
+
+	
+	// 死亡フラグ
+	bool isDead_ = false;
+
+	// 死亡タイマー
+	float deadTimer_ = 0.0f;
+
+	// 死亡時間
+	const float kDeadTime = 0.5f;
 };
 
