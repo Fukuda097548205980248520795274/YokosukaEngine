@@ -16,7 +16,7 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// ポーズの生成と初期化
 	pose_ = std::make_unique<Pose>();
-	pose_->Initialize(engine_ , camera3d_);
+	pose_->Initialize(engine_ , camera3d_ , textureHandleStore_);
 
 
 	// 平行光源の生成と初期化
@@ -95,6 +95,16 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	spriteKeyboardPose_->worldTransform_->translation_ = Vector3(
 		static_cast<float>(engine_->GetScreenWidth() - 10) - spriteKeyboardPose_->worldTransform_->scale_.x,
 		static_cast<float>(engine_->GetScreenHeight() - 10) - spriteKeyboardPose_->worldTransform_->scale_.y - 96.0f, 0.0f);
+
+	// スプライトの生成と初期化
+	gameClear_ = std::make_unique<Sprite>();
+	gameClear_->Initialize(engine_, camera2d_.get(), textureHandleStore_->GetTextureHandle(TextureHandleStore::kGameClear));
+	gameClear_->worldTransform_->translation_ = Vector3(static_cast<float>(engine_->GetScreenWidth() / 2.0f), 200.0f, 0.0f);
+
+	// スプライトの生成と初期化
+	gameOver_ = std::make_unique<Sprite>();
+	gameOver_->Initialize(engine_, camera2d_.get(), textureHandleStore_->GetTextureHandle(TextureHandleStore::kGameOver));
+	gameOver_->worldTransform_->translation_ = Vector3(static_cast<float>(engine_->GetScreenWidth() / 2.0f), 200.0f, 0.0f);
 	
 }
 
@@ -171,6 +181,14 @@ void GameScene::Update()
 	// ダメージパーティクルの更新
 	DamageParticleUpdate();
 
+
+	if (phase_ == kClearMovie)
+	{
+		gameClear_->Update();
+	} else if (phase_ == kFailedMovie)
+	{
+		gameOver_->Update();
+	}
 
 	// フェードの更新
 	fade_->Update();
@@ -254,6 +272,16 @@ void GameScene::Draw()
 			spriteKeyboardShot_->Draw();
 			spriteKeyboardPose_->Draw();
 		}
+	}
+
+
+	if (phase_ == kClearMovie)
+	{
+		gameClear_->Draw();
+	}
+	else if (phase_ == kFailedMovie)
+	{
+		gameOver_->Draw();
 	}
 
 

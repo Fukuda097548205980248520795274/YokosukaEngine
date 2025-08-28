@@ -2,6 +2,9 @@
 #define NOMINMAX
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 
+#include "../../../BaseSprite/BaseSprite.h"
+#include "../../../TextureHandleStore/TextureHandleStore.h"
+
 class StageBox
 {
 public:
@@ -11,7 +14,7 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera2d"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera2D* camera2d);
+	void Initialize(const YokosukaEngine* engine, const Camera2D* camera2d , const TextureHandleStore* textureHandleStore);
 
 	/// <summary>
 	/// 更新処理
@@ -21,7 +24,7 @@ public:
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	void Draw();
+	void Draw(int32_t stage);
 
 
 	/// <summary>
@@ -49,6 +52,9 @@ private:
 
 	// 2Dカメラ
 	const Camera2D* camera2d_ = nullptr;
+
+	// テクスチャハンドル格納場所
+	const TextureHandleStore* textureHandleStore_ = nullptr;
 
 
 	// ワールドトランスフォーム
@@ -84,5 +90,20 @@ private:
 	/// 閉じの更新処理
 	/// </summary>
 	void CloseUpdate();
+
+
+	// ステージ
+	enum Stage
+	{
+		kTutorial,
+		kStage1,
+		kStage2,
+		kStage3,
+		kNumStage
+	};
+
+	std::unique_ptr<Sprite> spriteStage1_ = nullptr;
+	std::unique_ptr<Sprite> spriteStage2_ = nullptr;
+	std::unique_ptr<Sprite> spriteStage3_ = nullptr;
 };
 

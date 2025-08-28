@@ -5,15 +5,17 @@
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera2d"></param>
-void StageBox::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d)
+void StageBox::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d, const TextureHandleStore* textureHandleStore)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(camera2d);
+	assert(textureHandleStore);
 
 	// 引数を受け取る
 	engine_ = engine;
 	camera2d_ = camera2d;
+	textureHandleStore_ = textureHandleStore;
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform2D>();
@@ -26,6 +28,22 @@ void StageBox::Initialize(const YokosukaEngine* engine, const Camera2D* camera2d
 
 	// テクスチャを読み込む
 	whiteTextureHandle_ = engine_->LoadTexture("./Resources/Textures/white2x2.png");
+
+	// スプライトの生成と初期化
+	spriteStage1_ = std::make_unique<Sprite>();
+	spriteStage1_->Initialize(engine_, camera2d_, textureHandleStore->GetTextureHandle(TextureHandleStore::kStage1));
+	spriteStage1_->worldTransform_->scale_ *= 2.0f;
+	spriteStage1_->worldTransform_->translation_ = Vector3(300.0f, 360.0f, 0.0f);
+
+	spriteStage2_ = std::make_unique<Sprite>();
+	spriteStage2_->Initialize(engine_, camera2d_, textureHandleStore->GetTextureHandle(TextureHandleStore::kStage2));
+	spriteStage2_->worldTransform_->scale_ *= 2.0f;
+	spriteStage2_->worldTransform_->translation_ = Vector3(300.0f, 360.0f, 0.0f);
+
+	spriteStage3_ = std::make_unique<Sprite>();
+	spriteStage3_->Initialize(engine_, camera2d_, textureHandleStore->GetTextureHandle(TextureHandleStore::kStage3));
+	spriteStage3_->worldTransform_->scale_ *= 2.0f;
+	spriteStage3_->worldTransform_->translation_ = Vector3(300.0f, 360.0f, 0.0f);
 }
 
 /// <summary>
@@ -60,16 +78,50 @@ void StageBox::Update()
 	// トランスフォームの更新
 	worldTransform_->UpdateWorldMatrix();
 	uvTransform_->UpdateWorldMatrix();
+
+	spriteStage1_->Update();
+	spriteStage2_->Update();
+	spriteStage3_->Update();
 }
 
 /// <summary>
 /// 描画処理
 /// </summary>
-void StageBox::Draw()
+void StageBox::Draw(int32_t stage)
 {
 	// 白い図形を描画する
 	engine_->DrawSprite(worldTransform_.get(), uvTransform_.get(), camera2d_, whiteTextureHandle_, Vector4(0.0f, 0.0f, 0.0f, 0.8f), FillMode::kSolid);
 	engine_->DrawSprite(worldTransform_.get(), uvTransform_.get(), camera2d_, whiteTextureHandle_, Vector4(0.5f, 0.5f, 0.5f, 1.0f), FillMode::kWireFrame);
+
+	if (mode_ == kOpen)
+	{
+		if (maxTime_ == 0.0f)
+			return;
+
+		if (timer_ >= maxTime_)
+		{
+			switch (stage)
+			{
+			case kStage1:
+
+				spriteStage1_->Draw();
+
+				break;
+
+			case kStage2:
+
+				spriteStage2_->Draw();
+
+				break;
+
+			case kStage3:
+
+				spriteStage3_->Draw();
+
+				break;
+			}
+		}
+	}
 }
 
 /// <summary>

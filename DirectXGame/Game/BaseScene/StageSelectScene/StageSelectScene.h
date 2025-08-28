@@ -179,6 +179,13 @@ private:
 	std::unique_ptr<StageBox> stageBox_ = nullptr;
 
 
+	// スプライト : ゲームパッド : 操作
+	std::unique_ptr<Sprite> spriteGamepadOperation_ = nullptr;
+
+	// スプライト : キーボード : 操作
+	std::unique_ptr<Sprite> spriteKeyboardOperation_ = nullptr;
+
+
 	/*---------------
 	    ビヘイビア
 	---------------*/

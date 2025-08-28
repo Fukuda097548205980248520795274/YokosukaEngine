@@ -180,6 +180,12 @@ private:
 	std::unique_ptr<Sprite> spriteKeyboardPose_ = nullptr;
 
 
+	// ゲームクリア
+	std::unique_ptr<Sprite> gameClear_ = nullptr;
+
+	// ゲームオーバー
+	std::unique_ptr<Sprite> gameOver_ = nullptr;
+
 
 	/*-------------
 	    フェーズ

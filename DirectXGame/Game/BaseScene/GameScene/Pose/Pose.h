@@ -3,6 +3,10 @@
 #include "PoseBox/PoseBox.h"
 #include "PoseBg/PoseBg.h"
 
+#include "../../../TextureHandleStore/TextureHandleStore.h"
+
+#include "../../../BaseSprite/BaseSprite.h"
+
 class Pose
 {
 public:
@@ -11,7 +15,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="engine"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d);
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const TextureHandleStore* textureHandleStore);
 
 	/// <summary>
 	/// 更新処理
@@ -54,6 +58,9 @@ private:
 	// 3Dカメラ
 	const Camera3D* camera3d_ = nullptr;
 
+	// テクスチャハンドル格納場所
+	const TextureHandleStore* textureHandleStore_ = nullptr;
+
 	// 2Dカメラ
 	std::unique_ptr<Camera2D> camera2d_ = nullptr;
 
@@ -79,6 +86,15 @@ private:
 
 	// ポーズの背景
 	std::unique_ptr<PoseBg> poseBg_ = nullptr;
+
+	// テキスト : ポーズ
+	std::unique_ptr<Sprite> spritePose_ = nullptr;
+
+	// テキスト : ゲームに戻る
+	std::unique_ptr<Sprite> spriteReturnGame_ = nullptr;
+
+	// テキスト : ゲームをやめる
+	std::unique_ptr<Sprite> spriteEndGame_ = nullptr;
 
 
 	// ポーズ音

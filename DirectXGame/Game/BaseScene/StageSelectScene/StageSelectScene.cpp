@@ -57,7 +57,24 @@ void StageSelectScene::Initialize(const YokosukaEngine* engine, const ModelHandl
 
 	// ステージボックスの生成と初期化
 	stageBox_ = std::make_unique<StageBox>();
-	stageBox_->Initialize(engine_, camera2d_.get());
+	stageBox_->Initialize(engine_, camera2d_.get() , textureHandleStore_);
+
+
+	// スプライトの生成と初期化
+	spriteGamepadOperation_ = std::make_unique<Sprite>();
+	spriteGamepadOperation_->Initialize(engine_, camera2d_.get(), textureHandleStore_->GetTextureHandle(TextureHandleStore::kGamepadStageSelect));
+	spriteGamepadOperation_->worldTransform_->scale_ *= 0.5f;
+	spriteGamepadOperation_->worldTransform_->translation_ = Vector3(
+		static_cast<float>(engine_->GetScreenWidth() - 10) - spriteGamepadOperation_->worldTransform_->scale_.x,
+		static_cast<float>(engine_->GetScreenHeight() - 10) - spriteGamepadOperation_->worldTransform_->scale_.y, 0.0f);
+
+	// スプライトの生成と初期化
+	spriteKeyboardOperation_ = std::make_unique<Sprite>();
+	spriteKeyboardOperation_->Initialize(engine_, camera2d_.get(), textureHandleStore_->GetTextureHandle(TextureHandleStore::kKeyboardStageSelect));
+	spriteKeyboardOperation_->worldTransform_->scale_ *= 0.5f;
+	spriteKeyboardOperation_->worldTransform_->translation_ = Vector3(
+		static_cast<float>(engine_->GetScreenWidth() - 10) - spriteKeyboardOperation_->worldTransform_->scale_.x,
+		static_cast<float>(engine_->GetScreenHeight() - 10) - spriteKeyboardOperation_->worldTransform_->scale_.y, 0.0f);
 }
 
 /// <summary>
@@ -140,6 +157,17 @@ void StageSelectScene::Update()
 
 	// ステージボックスの更新
 	stageBox_->Update();
+
+
+	// スプライトの更新
+	if (engine_->IsGamepadEnable(0))
+	{
+		spriteGamepadOperation_->Update();
+	}
+	else
+	{
+		spriteKeyboardOperation_->Update();
+	}
 }
 
 /// <summary>
@@ -157,7 +185,19 @@ void StageSelectScene::Draw()
 	universeSkydome_->Draw();
 
 	// ステージボックスの描画
-	stageBox_->Draw();
+	if (behavior_ == kOperation)
+	{
+		stageBox_->Draw(static_cast<int32_t>(currentStage));
+	}
+
+	// スプライトの更新
+	if (engine_->IsGamepadEnable(0))
+	{
+		spriteGamepadOperation_->Draw();
+	} else
+	{
+		spriteKeyboardOperation_->Draw();
+	}
 
 	// フェードの描画
 	fade_->Draw();

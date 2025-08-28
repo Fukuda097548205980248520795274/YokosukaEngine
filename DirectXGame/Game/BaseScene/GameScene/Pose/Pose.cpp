@@ -4,15 +4,17 @@
 /// 初期化
 /// </summary>
 /// <param name="engine"></param>
-void Pose::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
+void Pose::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d , const TextureHandleStore* textureHandleStore)
 {
 	// nullptrチェック
 	assert(engine);
 	assert(camera3d);
+	assert(textureHandleStore);
 
 	// 引数を受け取る
 	engine_ = engine;
 	camera3d_ = camera3d;
+	textureHandleStore_ = textureHandleStore;
 
 	// 2Dカメラの生成ト初期化
 	camera2d_ = std::make_unique<Camera2D>();
@@ -25,6 +27,22 @@ void Pose::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d)
 	// ポーズの背景の生成と初期化
 	poseBg_ = std::make_unique<PoseBg>();
 	poseBg_->Initialize(engine_, camera2d_.get());
+
+	// スプライトの生成
+	spritePose_ = std::make_unique<Sprite>();
+	spritePose_->Initialize(engine_, camera2d_.get(), textureHandleStore_->GetTextureHandle(TextureHandleStore::kPose));
+	spritePose_->worldTransform_->translation_ = Vector3(static_cast<float>(engine_->GetScreenWidth() / 2), 200.0f, 0.0f);
+	spritePose_->worldTransform_->scale_ *= 2.0f;
+
+	// スプライトの生成
+	spriteReturnGame_ = std::make_unique<Sprite>();
+	spriteReturnGame_->Initialize(engine_, camera2d_.get(), textureHandleStore_->GetTextureHandle(TextureHandleStore::kPoseReturnGame));
+	spriteReturnGame_->worldTransform_->translation_ = Vector3(static_cast<float>(engine_->GetScreenWidth() / 2), 400.0f, 0.0f);
+
+	// スプライトの生成
+	spriteEndGame_ = std::make_unique<Sprite>();
+	spriteEndGame_->Initialize(engine_, camera2d_.get(), textureHandleStore_->GetTextureHandle(TextureHandleStore::kPoseEndGame));
+	spriteEndGame_->worldTransform_->translation_ = Vector3(static_cast<float>(engine_->GetScreenWidth() / 2), 550.0f, 0.0f);
 
 
 	// 効果音を読み込む
@@ -65,7 +83,21 @@ void Pose::Update()
 
 		Operation();
 
-		
+		spritePose_->Update();
+
+		if (selectMenu == returnGame)
+		{
+			spriteReturnGame_->color_ = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+			spriteEndGame_->color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		else if (selectMenu == returnStageSelect)
+		{
+			spriteReturnGame_->color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+			spriteEndGame_->color_ = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+		}
+
+		spriteEndGame_->Update();
+		spriteReturnGame_->Update();
 
 		break;
 
@@ -93,6 +125,13 @@ void Pose::Draw()
 
 	// ポーズボックスの描画
 	poseBox_->Draw();
+
+	if (phase_ == kOperation)
+	{
+		spritePose_->Draw();
+		spriteEndGame_->Draw();
+		spriteReturnGame_->Draw();
+	}
 }
 
 /// <summary>
@@ -215,7 +254,7 @@ void Pose::OperationGamepad()
 	// デッドゾーン
 	float deadZone = 0.7f;
 
-	if (engine_->GetGamepadLeftStick(0).y <= deadZone)
+	if (engine_->GetGamepadLeftStick(0).y <= -deadZone)
 	{
 		if (selectMenu < returnStageSelect)
 		{
