@@ -6,12 +6,18 @@
 
 #include "BaseTextureHandles/TitleTextureHandle/TitleTextureHandle.h"
 
+#include "BaseTextureHandles/Stage1TextureHandle/Stage1TextureHandle.h"
+#include "BaseTextureHandles/Stage2TextureHandle/Stage2TextureHandle.h"
+#include "BaseTextureHandles/Stage3TextureHandle/Stage3TextureHandle.h"
+
+#include "BaseTextureHandles/TextGamepadStageSelectTextureHandle/TextGamepadStageSelectTextureHandle.h"
 #include "BaseTextureHandles/TextGamepadStartTextureHandle/TextGamepadStartTextureHandle.h"
 #include "BaseTextureHandles/TextGamepadMoveTextureHandle/TextGamepadMoveTextureHandle.h"
 #include "BaseTextureHandles/TextGamepadShotTextureHandle/TextGamepadShotTextureHandle.h"
 #include "BaseTextureHandles/TextGamepadTimeStopTextureHandle/TextGamepadTimeStopTextureHandle.h"
 #include "BaseTextureHandles/TextGamepadPoseTextureHandle/TextGamepadPoseTextureHandle.h"
 
+#include "BaseTextureHandles/TextKeyboardStageSelectTextureHandle/TextKeyboardStageSelectTextureHandle.h"
 #include "BaseTextureHandles/TextkeyboardStartTextureHandle/TextkeyboardStartTextureHandle.h"
 #include "BaseTextureHandles/TextKeyboardMoveTextureHandle/TextKeyboardMoveTextureHandle.h"
 #include "BaseTextureHandles/TextKeyboardShotTextureHandle/TextKeyboardShotTextureHandle.h"
@@ -22,6 +28,9 @@
 #include "BaseTextureHandles/TextStageEfforTownTextureHandle/TextStageEfforTownTextureHandle.h"
 #include "BaseTextureHandles/TextStageTechnoRootTextureHandle/TextStageTechnoRootTextureHandle.h"
 #include "BaseTextureHandles/TextStageImaginaryPlamTextureHandle/TextStageImaginaryPlamTextureHandle.h"
+
+#include "BaseTextureHandles/GameClearTextureHandle/GameClearTextureHandle.h"
+#include "BaseTextureHandles/GameOverTextureHandle/GameOverTextureHandle.h"
 
 #include "BaseTextureHandles/PoseTextureHandle/PoseTextureHandle.h"
 #include "BaseTextureHandles/PoseReturnGameTextureHandle/PoseReturnGameTextureHandle.h"
@@ -42,12 +51,18 @@ public:
 		kPoseReturnGame,
 		kPoseEndGame,
 
+		kStage1,
+		kStage2,
+		kStage3,
+
+		kGamepadStageSelect,
 		kGamepadStart,
 		kGamepadMove,
 		kGamepadShot,
 		kGamepadTimeStop,
 		kGamepadPose,
 
+		kKeyboardStageSelect,
 		kKeyboardStart,
 		kKeyboardMove,
 		kKeyboardShot,
@@ -58,6 +73,9 @@ public:
 		kStageEfforTown,
 		kStageTechnoRoot,
 		kStageImaginaryPlam,
+
+		kGameClear,
+		kGameOver,
 
 		kNumHandleName
 	};

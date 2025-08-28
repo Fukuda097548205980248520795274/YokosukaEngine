@@ -252,7 +252,7 @@ void GameScene::Draw()
 		{
 			spriteKeyboardMove_->Draw();
 			spriteKeyboardShot_->Draw();
-			spriteKeyboardMove_->Draw();
+			spriteKeyboardPose_->Draw();
 		}
 	}
 
@@ -694,7 +694,8 @@ void GameScene::PhaseClearMovide()
 	// パラメータが最大で終了する
 	if (clearMovieParameter_ >= kClearMoviePrameterMax)
 	{
-		phase_ = kResultOperation;
+		phase_ = kFadeOut;
+		fade_->ResetFadeOut(kFadeOutPrameterMax);
 	}
 }
 
@@ -713,7 +714,8 @@ void GameScene::PhaseFailedMovie()
 	// パラメータが最大で終了する
 	if (failedMovieParameter_ >= kFailedMoviePrameterMax)
 	{
-		phase_ = kResultOperation;
+		phase_ = kFadeOut;
+		fade_->ResetFadeOut(kFadeOutPrameterMax);
 	}
 }
 
@@ -722,11 +724,7 @@ void GameScene::PhaseFailedMovie()
 /// </summary>
 void GameScene::PhaseResultOperation()
 {
-	if (engine_->GetKeyTrigger(DIK_SPACE))
-	{
-		phase_ = kFadeOut;
-		fade_->ResetFadeOut(kFadeOutPrameterMax);
-	}
+	
 }
 
 /// <summary>

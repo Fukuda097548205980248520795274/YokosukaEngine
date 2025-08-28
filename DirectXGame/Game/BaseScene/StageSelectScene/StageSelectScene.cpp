@@ -150,9 +150,6 @@ void StageSelectScene::Draw()
 	// 平行光源を設置する
 	engine_->SetDirectionalLight(directionalLight_.get());
 
-	// 制御点の描画
-	engine_->DrwaCatmullRomSpline(controlPoints_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
-
 	// プレイヤー戦闘機の描画
 	playerJet_->Draw();
 
@@ -278,7 +275,7 @@ void StageSelectScene::SelectKeyboard()
 	// 下キーで手前のステージへ
 	if (engine_->GetKeyTrigger(DIK_DOWN))
 	{
-		if (currentStage > kTutorial)
+		if (currentStage > kStage1)
 		{
 			currentStage--;
 			nextStage_ = currentStage;
@@ -337,7 +334,7 @@ void StageSelectScene::SelectGamepad()
 	// 左スティック下で手前のステージへ
 	if (engine_->GetGamepadLeftStick(0).y <= -0.5f)
 	{
-		if (currentStage > kTutorial)
+		if (currentStage > kStage1)
 		{
 			currentStage--;
 			nextStage_ = currentStage;
