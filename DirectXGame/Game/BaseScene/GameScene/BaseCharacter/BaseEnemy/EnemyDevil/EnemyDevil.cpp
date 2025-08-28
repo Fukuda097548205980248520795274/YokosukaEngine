@@ -14,7 +14,7 @@ void EnemyDevil::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 	// 基底クラス初期化
 	BaseEnemy::Initialize(engine, camera3d,textureStoreHandle, modelHandleStore, position, hp);
 
-	hitSize_ = { 2.0f , 2.0f , 1.0f };
+	hitSize_ = { 2.0f , 4.0f , 1.0f };
 
 
 	// 共通した処理

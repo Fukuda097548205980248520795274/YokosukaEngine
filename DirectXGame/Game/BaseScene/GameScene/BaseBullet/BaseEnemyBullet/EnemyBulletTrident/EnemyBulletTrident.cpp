@@ -53,6 +53,12 @@ void EnemyBulletTrident::Update()
 	// 本体の更新
 	bulletWorldTransform_->UpdateWorldMatrix();
 
+	// ターゲットの方向を向くようにする
+	Vector3 toTarget = Normalize(direction_);
+	bulletWorldTransform_->rotation_.y = std::atan2(toTarget.x, toTarget.z);
+	float length = std::sqrt(std::pow(toTarget.x, 2.0f) + std::pow(toTarget.z, 2.0f));
+	bulletWorldTransform_->rotation_.x = std::atan2(-toTarget.y, length);
+
 	// 弾の位置にポイントライトを配置する
 	bulletPointLight_->position_ = GetBulletWorldPosition();
 }
