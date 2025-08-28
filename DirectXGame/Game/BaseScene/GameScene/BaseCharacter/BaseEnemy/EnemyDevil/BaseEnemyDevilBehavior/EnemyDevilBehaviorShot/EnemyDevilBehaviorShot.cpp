@@ -126,6 +126,12 @@ void EnemyDevilBehaviorShot::Update()
 		armRWorldTransform->rotation_.z = Lerp(oneSwingArmValueZ_[0], oneSwingArmValueZ_[1], easing);
 
 		bodyWorldTransform->rotation_.y = Lerp(oneSwingValues_[0], oneSwingValues_[1], easing);
+
+		if (isShotOneBullet_ == false)
+		{
+			enemy_->BulletShot();
+			isShotOneBullet_ = true;
+		}
 	}
 
 	if (shotParameter_ >= twoSwingFrames_[0] && shotParameter_ <= twoSwingFrames_[1])
@@ -139,6 +145,12 @@ void EnemyDevilBehaviorShot::Update()
 		armRWorldTransform->rotation_.z = Lerp(twoSwingArmValueZ_[0], twoSwingArmValueZ_[1], easing);
 
 		bodyWorldTransform->rotation_.y = Lerp(twoSwingValues_[0], twoSwingValues_[1], easing);
+
+		if (isShotTwoBullet_ == false)
+		{
+			enemy_->BulletShot();
+			isShotTwoBullet_ = true;
+		}
 	}
 
 	if (shotParameter_ >= threeSwingFrames_[0] && shotParameter_ <= threeSwingFrames_[1])
@@ -154,6 +166,12 @@ void EnemyDevilBehaviorShot::Update()
 		bodyWorldTransform->rotation_.y = Lerp(threeSwingValues_[0], threeSwingValues_[1], easing);
 
 		weaponWorldTransform->rotation_.y = Lerp(threeSwingWeaponValuesY_[0], threeSwingWeaponValuesY_[1], easing);
+
+		if (isShotThreeBullet_ == false)
+		{
+			enemy_->BulletShot();
+			isShotThreeBullet_ = true;
+		}
 	}
 
 	if (shotParameter_ >= returnFrames_[0] && shotParameter_ <= returnFrames_[1])

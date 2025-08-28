@@ -4,7 +4,6 @@
 
 // 前方宣言
 class BasePlayerBullet;
-class Player;
 class GameScene;
 class CenterAxis;
 

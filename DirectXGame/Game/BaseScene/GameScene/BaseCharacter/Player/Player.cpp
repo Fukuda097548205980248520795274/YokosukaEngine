@@ -393,7 +393,7 @@ void Player::Input()
 	BulletShot();
 
 	// 時間操作
-	OperationTimer();
+	//OperationTimer();
 }
 
 

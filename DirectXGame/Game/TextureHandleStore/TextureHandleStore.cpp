@@ -21,6 +21,23 @@ void TextureHandleStore::Initialize(const YokosukaEngine* engine)
 	textureHandles_[kReticle] = std::make_unique<ReticleTextureHandle>();
 	textureHandles_[kReticle]->Initialize(engine_);
 
+	// 画像 : タイトル
+	textureHandles_[kTitle] = std::make_unique<TitleTextureHandle>();
+	textureHandles_[kTitle]->Initialize(engine_);
+
+
+	// ポーズ :
+	textureHandles_[kPose] = std::make_unique<PoseTextureHandle>();
+	textureHandles_[kPose]->Initialize(engine_);
+
+	// ポーズ :
+	textureHandles_[kPoseReturnGame] = std::make_unique<PoseReturnGameTextureHandle>();
+	textureHandles_[kPoseReturnGame]->Initialize(engine_);
+
+	// ポーズ :
+	textureHandles_[kPoseEndGame] = std::make_unique<PoseEndGameTextureHandle>();
+	textureHandles_[kPoseEndGame]->Initialize(engine_);
+
 
 	// ゲームパッド操作 : ゲーム開始
 	textureHandles_[kGamepadStart] = std::make_unique<TextGamepadStartTextureHandle>();

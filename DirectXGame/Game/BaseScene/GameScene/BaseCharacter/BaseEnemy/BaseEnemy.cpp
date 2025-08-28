@@ -1,6 +1,6 @@
 #include "BaseEnemy.h"
 #include "../../BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
-#include "../Player/Player.h"
+#include "../BaseCharacter.h"
 #include "../../GameScene.h"
 
 /// <summary>

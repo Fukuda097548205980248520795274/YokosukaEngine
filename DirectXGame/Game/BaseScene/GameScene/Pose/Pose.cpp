@@ -62,14 +62,10 @@ void Pose::Update()
 
 	case kOperation:
 		// 操作
+
+		Operation();
+
 		
-		if (engine_->IsGamepadEnable(0))
-		{
-			if (engine_->GetGamepadButtonTrigger(0,XINPUT_GAMEPAD_START))
-			{
-				PoseReleaseButton();
-			}
-		}
 
 		break;
 
@@ -181,6 +177,123 @@ void Pose::FadeInUpdate()
 		phase_ = kOperation;
 	}
 }
+
+
+
+/// <summary>
+/// 操作
+/// </summary>
+void Pose::Operation()
+{
+	if (engine_->IsGamepadEnable(0))
+	{
+		OperationGamepad();
+	}
+	else
+	{
+		OperationKeyboard();
+	}
+}
+
+/// <summary>
+/// 操作 : ゲームパッド
+/// </summary>
+void Pose::OperationGamepad()
+{
+
+	if (engine_->IsGamepadEnable(0))
+	{
+		if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_START))
+		{
+			PoseReleaseButton();
+			return;
+		}
+	}
+
+
+
+	// デッドゾーン
+	float deadZone = 0.7f;
+
+	if (engine_->GetGamepadLeftStick(0).y <= deadZone)
+	{
+		if (selectMenu < returnStageSelect)
+		{
+			selectMenu++;
+		}
+	}
+
+	if (engine_->GetGamepadLeftStick(0).y >= deadZone)
+	{
+		if (selectMenu > returnGame)
+		{
+			selectMenu--;
+		}
+	}
+
+	if (engine_->GetGamepadButtonTrigger(0, XINPUT_GAMEPAD_A))
+	{
+		switch (selectMenu)
+		{
+		case returnGame:
+
+			PoseReleaseButton();
+			return;
+
+			break;
+
+		case returnStageSelect:
+
+			isEndGame_ = true;
+			return;
+
+			break;
+		}
+	}
+}
+
+/// <summary>
+/// 操作 : キーボード
+/// </summary>
+void Pose::OperationKeyboard()
+{
+	if (engine_->GetKeyTrigger(DIK_S) || engine_->GetKeyTrigger(DIK_DOWN))
+	{
+		if (selectMenu < returnStageSelect)
+		{
+			selectMenu++;
+		}
+	}
+
+	if (engine_->GetKeyTrigger(DIK_W) || engine_->GetKeyTrigger(DIK_UP))
+	{
+		if (selectMenu > returnGame)
+		{
+			selectMenu--;
+		}
+	}
+
+	if (engine_->GetKeyTrigger(DIK_SPACE))
+	{
+		switch (selectMenu)
+		{
+		case returnGame:
+
+			PoseReleaseButton();
+			return;
+
+			break;
+
+		case returnStageSelect:
+
+			isEndGame_ = true;
+			return;
+
+			break;
+		}
+	}
+}
+
 
 
 /// <summary>

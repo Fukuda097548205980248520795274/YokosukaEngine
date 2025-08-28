@@ -10,6 +10,8 @@
 #include "BaseEnemyFairyBehavior/EnemyFairyBehaviorNormal/EnemyFairyBehaviorNormal.h"
 #include "BaseEnemyFairyBehavior/EnemyFairyBehaviorShot/EnemyFairyBehaviorShot.h"
 
+#include "../../../BaseBullet/BaseEnemyBullet/EnemyBulletStar/EnemyBulletStar.h"
+
 class EnemyFairy : public BaseEnemy
 {
 public:

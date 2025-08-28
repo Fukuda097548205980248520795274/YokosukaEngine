@@ -65,6 +65,9 @@ private:
 	std::unique_ptr<Sprite> spriteBgBlack_ = nullptr;
 	float blackScaleY_ = 220.0f;
 
+	// タイトル
+	std::unique_ptr<Sprite> spriteTitle_ = nullptr;
+
 
 
 public:

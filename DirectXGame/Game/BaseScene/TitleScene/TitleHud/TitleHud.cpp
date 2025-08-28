@@ -61,6 +61,12 @@ void TitleHud::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d
 	spriteBgBlack_->worldTransform_->translation_ =
 		Vector3(static_cast<float>(engine_->GetScreenWidth()) / 2.0f, static_cast<float>(engine_->GetScreenHeight()), 0.0f);
 	spriteBgBlack_->color_ = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// タイトルの生成と初期化
+	spriteTitle_ = std::make_unique<Sprite>();
+	spriteTitle_->Initialize(engine_, camera2d_, textureHandleStore_->GetTextureHandle(TextureHandleStore::kTitle));
+	spriteTitle_->worldTransform_->translation_ = Vector3(820.0f, 250.0f, 0.0f);
+	spriteTitle_->worldTransform_->scale_ *= 2.0f;
 }
 
 /// <summary>
@@ -76,6 +82,7 @@ void TitleHud::Update()
 	spritekeyboardStart_->Update();
 	spriteBgWhite_->Update();
 	spriteBgBlack_->Update();
+	spriteTitle_->Update();
 }
 
 /// <summary>
@@ -87,6 +94,7 @@ void TitleHud::Draw()
 	playerJet_->Draw();
 
 	spriteBgWhite_->Draw();
+	spriteTitle_->Draw();
 	spriteBgBlack_->Draw();
 
 	// コントローラを使用しているかどうか

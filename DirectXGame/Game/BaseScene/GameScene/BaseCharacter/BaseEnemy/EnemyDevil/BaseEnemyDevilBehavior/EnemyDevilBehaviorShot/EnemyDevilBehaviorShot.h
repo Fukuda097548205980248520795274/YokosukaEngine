@@ -45,6 +45,8 @@ private:
 	float oneSwingArmValueY_[2] = { -std::numbers::pi_v<float> / 5.0f , -std::numbers::pi_v<float> / 1.5f };
 	float oneSwingArmValueZ_[2] = { std::numbers::pi_v<float> / 2.0f , std::numbers::pi_v<float> / 3.0f };
 
+	bool isShotOneBullet_ = false;
+
 
 	// 2振り
 	float twoSwingFrames_[2] = { 1.6f , 1.9f };
@@ -52,6 +54,8 @@ private:
 	float twoSwingArmValueX_[2] = { -std::numbers::pi_v<float> / 2.0f ,  -std::numbers::pi_v<float> / 2.0f };
 	float twoSwingArmValueY_[2] = { -std::numbers::pi_v<float> / 1.5f , std::numbers::pi_v<float> / 5.0f };
 	float twoSwingArmValueZ_[2] = { std::numbers::pi_v<float> / 3.0f ,  std::numbers::pi_v<float> / 3.0f };
+
+	bool isShotTwoBullet_ = false;
 
 
 	// 3振り
@@ -61,6 +65,8 @@ private:
 	float threeSwingArmValueY_[2] = { std::numbers::pi_v<float> / 5.0f , -std::numbers::pi_v<float> / 1.5f };
 	float threeSwingArmValueZ_[2] = { std::numbers::pi_v<float> / 3.0f , std::numbers::pi_v<float> / 3.0f };
 	float threeSwingWeaponValuesY_[2] = { 0.0f , std::numbers::pi_v<float> / 2.0f };
+
+	bool isShotThreeBullet_ = false;
 
 
 	// 元に戻す

@@ -47,6 +47,10 @@ private:
 	float veryUpFrames_[2] = { 0.5f , 1.5f };
 	float veryUpValues_[2] = { -1.0f , 3.0f };
 
+	bool isShot_ = false;
+
+	int shotTime_ = 0;
+
 	// 回転する
 	float rotateFrames_[2] = { 0.5f , 2.0f };
 	float rotateValues_[2] = { 0.0f , std::numbers::pi_v<float> * 2.0f };

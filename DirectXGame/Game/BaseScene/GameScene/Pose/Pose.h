@@ -39,6 +39,12 @@ public:
 	/// <returns></returns>
 	bool IsPose()const { return isPose_; }
 
+	/// <summary>
+	/// ゲーム終了フラグのGetter
+	/// </summary>
+	/// <returns></returns>
+	bool IsEndGame()const { return isEndGame_; }
+
 
 private:
 
@@ -108,6 +114,33 @@ private:
 
 
 	/*   操作   */
+
+	/// <summary>
+	/// 操作
+	/// </summary>
+	void Operation();
+
+	/// <summary>
+	/// 操作 : ゲームパッド
+	/// </summary>
+	void OperationGamepad();
+
+	/// <summary>
+	/// 操作 : キーボード
+	/// </summary>
+	void OperationKeyboard();
+
+	enum Menu
+	{
+		returnGame,
+		returnStageSelect
+	};
+
+	// 選んでいるメニュー
+	int32_t selectMenu = returnGame;
+
+	// ゲーム終了フラグ
+	bool isEndGame_ = false;
 
 
 

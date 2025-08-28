@@ -10,6 +10,8 @@
 #include "BaseEnemyDevilBehavior/EnemyDevilBehaviorNormal/EnemyDevilBehaviorNormal.h"
 #include "BaseEnemyDevilBehavior/EnemyDevilBehaviorShot/EnemyDevilBehaviorShot.h"
 
+#include "../../../BaseBullet/BaseEnemyBullet/EnemyBulletTrident/EnemyBulletTrident.h"
+
 class EnemyDevil : public BaseEnemy
 {
 public:

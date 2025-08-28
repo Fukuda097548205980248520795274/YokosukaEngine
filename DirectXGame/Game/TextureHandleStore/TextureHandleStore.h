@@ -4,6 +4,8 @@
 #include "BaseTextureHandles/WhiteTextureHandle/WhiteTextureHandle.h"
 #include "BaseTextureHandles/ReticleTextureHandle/ReticleTextureHandle.h"
 
+#include "BaseTextureHandles/TitleTextureHandle/TitleTextureHandle.h"
+
 #include "BaseTextureHandles/TextGamepadStartTextureHandle/TextGamepadStartTextureHandle.h"
 #include "BaseTextureHandles/TextGamepadMoveTextureHandle/TextGamepadMoveTextureHandle.h"
 #include "BaseTextureHandles/TextGamepadShotTextureHandle/TextGamepadShotTextureHandle.h"
@@ -21,6 +23,10 @@
 #include "BaseTextureHandles/TextStageTechnoRootTextureHandle/TextStageTechnoRootTextureHandle.h"
 #include "BaseTextureHandles/TextStageImaginaryPlamTextureHandle/TextStageImaginaryPlamTextureHandle.h"
 
+#include "BaseTextureHandles/PoseTextureHandle/PoseTextureHandle.h"
+#include "BaseTextureHandles/PoseReturnGameTextureHandle/PoseReturnGameTextureHandle.h"
+#include "BaseTextureHandles/PoseEndGameTextureHandle/PoseEndGameTextureHandle.h"
+
 class TextureHandleStore
 {
 public:
@@ -30,6 +36,11 @@ public:
 	{
 		kWhite,
 		kReticle,
+		kTitle,
+
+		kPose,
+		kPoseReturnGame,
+		kPoseEndGame,
 
 		kGamepadStart,
 		kGamepadMove,

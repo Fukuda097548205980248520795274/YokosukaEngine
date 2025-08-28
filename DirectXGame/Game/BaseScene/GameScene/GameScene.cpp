@@ -46,6 +46,56 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	// 天球の生成と初期化
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(engine_, camera3d_);
+
+
+	// スプライト : ゲームパッド : 移動
+	spriteGamepadMove_ = std::make_unique<Sprite>();
+	spriteGamepadMove_->Initialize(engine_, camera2d_.get(), textureHandleStore->GetTextureHandle(TextureHandleStore::kGamepadMove));
+	spriteGamepadMove_->worldTransform_->scale_ *= 0.5f;
+	spriteGamepadMove_->worldTransform_->translation_ = Vector3(
+		static_cast<float>(engine_->GetScreenWidth() - 10) - spriteGamepadMove_->worldTransform_->scale_.x,
+		static_cast<float>(engine_->GetScreenHeight() - 10) - spriteGamepadMove_->worldTransform_->scale_.y,0.0f);
+
+	// スプライト : キーボード : 移動
+	spriteKeyboardMove_ = std::make_unique<Sprite>();
+	spriteKeyboardMove_->Initialize(engine_, camera2d_.get(), textureHandleStore->GetTextureHandle(TextureHandleStore::kKeyboardMove));
+	spriteKeyboardMove_->worldTransform_->scale_ *= 0.5f;
+	spriteKeyboardMove_->worldTransform_->translation_ = Vector3(
+		static_cast<float>(engine_->GetScreenWidth() - 10) - spriteKeyboardMove_->worldTransform_->scale_.x,
+		static_cast<float>(engine_->GetScreenHeight() - 10) - spriteKeyboardMove_->worldTransform_->scale_.y, 0.0f);
+
+	// スプライト : ゲームパッド : 発射
+	spriteGamepadShot_ = std::make_unique<Sprite>();
+	spriteGamepadShot_->Initialize(engine_, camera2d_.get(), textureHandleStore->GetTextureHandle(TextureHandleStore::kGamepadShot));
+	spriteGamepadShot_->worldTransform_->scale_ *= 0.5f;
+	spriteGamepadShot_->worldTransform_->translation_ = Vector3(
+		static_cast<float>(engine_->GetScreenWidth() - 10) - spriteGamepadShot_->worldTransform_->scale_.x,
+		static_cast<float>(engine_->GetScreenHeight() - 10) - spriteGamepadShot_->worldTransform_->scale_.y - 48.0f, 0.0f);
+
+	// スプライト : キーボード : 発射
+	spriteKeyboardShot_ = std::make_unique<Sprite>();
+	spriteKeyboardShot_->Initialize(engine_, camera2d_.get(), textureHandleStore->GetTextureHandle(TextureHandleStore::kKeyboardShot));
+	spriteKeyboardShot_->worldTransform_->scale_ *= 0.5f;
+	spriteKeyboardShot_->worldTransform_->translation_ = Vector3(
+		static_cast<float>(engine_->GetScreenWidth() - 10) - spriteKeyboardShot_->worldTransform_->scale_.x,
+		static_cast<float>(engine_->GetScreenHeight() - 10) - spriteKeyboardShot_->worldTransform_->scale_.y - 48.0f, 0.0f);
+
+	// スプライト : ゲームパッド : ポーズ
+	spriteGamepadPose_ = std::make_unique<Sprite>();
+	spriteGamepadPose_->Initialize(engine_, camera2d_.get(), textureHandleStore->GetTextureHandle(TextureHandleStore::kGamepadPose));
+	spriteGamepadPose_->worldTransform_->scale_ *= 0.5f;
+	spriteGamepadPose_->worldTransform_->translation_ = Vector3(
+		static_cast<float>(engine_->GetScreenWidth() - 10) - spriteGamepadPose_->worldTransform_->scale_.x,
+		static_cast<float>(engine_->GetScreenHeight() - 10) - spriteGamepadPose_->worldTransform_->scale_.y - 96.0f, 0.0f);
+
+	// スプライト : キーボード : ポーズ
+	spriteKeyboardPose_ = std::make_unique<Sprite>();
+	spriteKeyboardPose_->Initialize(engine_, camera2d_.get(), textureHandleStore->GetTextureHandle(TextureHandleStore::kKeyboardPose));
+	spriteKeyboardPose_->worldTransform_->scale_ *= 0.5f;
+	spriteKeyboardPose_->worldTransform_->translation_ = Vector3(
+		static_cast<float>(engine_->GetScreenWidth() - 10) - spriteKeyboardPose_->worldTransform_->scale_.x,
+		static_cast<float>(engine_->GetScreenHeight() - 10) - spriteKeyboardPose_->worldTransform_->scale_.y - 96.0f, 0.0f);
+	
 }
 
 /// <summary>
@@ -190,12 +240,39 @@ void GameScene::Draw()
 	// 走査線
 	engine_->SetOffscreenEffect(kScanline);
 
-	// フェードの描画
-	fade_->Draw();
+	if (phase_ == kFadeIn || phase_ == kGameOperation)
+	{
+		// スプライトの更新
+		if (engine_->IsGamepadEnable(0))
+		{
+			spriteGamepadMove_->Draw();
+			spriteGamepadShot_->Draw();
+			spriteGamepadPose_->Draw();
+		} else
+		{
+			spriteKeyboardMove_->Draw();
+			spriteKeyboardShot_->Draw();
+			spriteKeyboardMove_->Draw();
+		}
+	}
 
 
-	// ポーズの描画
-	pose_->Draw();
+	if (phase_ == kFadeIn)
+	{
+		// フェードの描画
+		fade_->Draw();
+
+		// ポーズの描画
+		pose_->Draw();
+	}
+	else
+	{
+		// ポーズの描画
+		pose_->Draw();
+
+		// フェードの描画
+		fade_->Draw();
+	}
 
 	// Scene描画
 	BaseScene::Draw();
@@ -438,6 +515,13 @@ void GameScene::PhaseFadeInUpdate()
 			pose_->PoseButton();
 		}
 	}
+	else
+	{
+		if (engine_->GetKeyTrigger(DIK_ESCAPE))
+		{
+			pose_->PoseButton();
+		}
+	}
 
 	// ポーズの更新
 	pose_->Update();
@@ -447,6 +531,13 @@ void GameScene::PhaseFadeInUpdate()
 	{
 		engine_->SetVolume(playHandle_, 0.0f);
 		engine_->SetPitch(playHandle_, 0.0f);
+
+		if (pose_->IsEndGame())
+		{
+			phase_ = kFadeOut;
+			fade_->ResetFadeOut(kFadeOutPrameterMax);
+		}
+
 		return;
 	} else
 	{
@@ -477,6 +568,20 @@ void GameScene::PhaseFadeInUpdate()
 
 	// プレイヤーの更新
 	player_->Update();
+
+	// スプライトの更新
+	if (engine_->IsGamepadEnable(0))
+	{
+		spriteGamepadMove_->Update();
+		spriteGamepadShot_->Update();
+		spriteGamepadPose_->Update();
+	}
+	else
+	{
+		spriteKeyboardMove_->Update();
+		spriteKeyboardShot_->Update();
+		spriteKeyboardPose_->Update();
+	}
 }
 
 /// <summary>
@@ -491,6 +596,12 @@ void GameScene::PhaseGameOperation()
 		{
 			pose_->PoseButton();
 		}
+	} else
+	{
+		if (engine_->GetKeyTrigger(DIK_ESCAPE))
+		{
+			pose_->PoseButton();
+		}
 	}
 
 	// ポーズの更新
@@ -501,6 +612,13 @@ void GameScene::PhaseGameOperation()
 	{
 		engine_->SetVolume(playHandle_, 0.0f);
 		engine_->SetPitch(playHandle_, 0.0f);
+
+		if (pose_->IsEndGame())
+		{
+			phase_ = kFadeOut;
+			fade_->ResetFadeOut(kFadeOutPrameterMax);
+		}
+
 		return;
 	} else
 	{
@@ -514,13 +632,25 @@ void GameScene::PhaseGameOperation()
 		engine_->SetPitch(playHandle_, pitch_ * (*gameTimer_));
 	}
 
-
-
 	// ステージの更新
 	stage_->Update();
 
 	// プレイヤーの更新
 	player_->Update();
+
+	// スプライトの更新
+	if (engine_->IsGamepadEnable(0))
+	{
+		spriteGamepadMove_->Update();
+		spriteGamepadShot_->Update();
+		spriteGamepadPose_->Update();
+	} else
+	{
+		spriteKeyboardMove_->Update();
+		spriteKeyboardShot_->Update();
+		spriteKeyboardPose_->Update();
+	}
+
 
 	// プレイヤーが終了したら、ゲームオーバムービーを流す
 	if (player_->IsFinished())
@@ -604,6 +734,8 @@ void GameScene::PhaseResultOperation()
 /// </summary>
 void GameScene::PhaseFadeOut()
 {
+	fade_->Update();
+
 	// パラメータを進める
 	fadeOutParameter_ += 1.0f / 60.0f;
 	fadeOutParameter_ = std::min(fadeOutParameter_, kFadeOutPrameterMax);
