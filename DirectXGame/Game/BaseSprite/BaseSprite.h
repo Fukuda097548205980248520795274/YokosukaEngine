@@ -11,7 +11,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera2d"></param>
 	/// <param name="textureHandle"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera2D* camera2d, uint32_t textureHandle);
+	void Initialize(const YokosukaEngine* engine, const Camera2D* camera2d, const Vector2& anchor, uint32_t textureHandle);
 
 	/// <summary>
 	/// 更新処理

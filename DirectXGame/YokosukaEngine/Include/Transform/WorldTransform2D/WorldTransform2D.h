@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Math/Vector2/Vector2.h"
 #include "../../Math/Vector3/Vector3.h"
 #include "../../Math/Matrix4x4/Matrix4x4.h"
 
@@ -9,7 +10,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(const Vector2& anchor);
 
 	/// <summary>
 	/// 初期化
@@ -17,7 +18,7 @@ public:
 	/// <param name="scale"></param>
 	/// <param name="rotation"></param>
 	/// <param name="translation"></param>
-	void Initialize(const Vector3& scale, const Vector3& rotation, const Vector3& translation);
+	void Initialize(const Vector2& anchor ,const Vector3& scale, const Vector3& rotation, const Vector3& translation);
 
 	/// <summary>
 	/// 親のワールドトランスフォームのSetter
@@ -38,6 +39,9 @@ public:
 
 	// 移動
 	Vector3 translation_;
+
+	// アンカーポイント
+	Vector2 anchor_ = Vector2(0.0f,0.0f);
 
 	// ワールド行列
 	Matrix4x4 worldMatrix_{};

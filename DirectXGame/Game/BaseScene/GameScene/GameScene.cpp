@@ -10,7 +10,11 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	// BaseScene更新
 	BaseScene::Initialize(engine , modelHandleStore , textureHandleStore);
 
-	
+	// スプライトの生成と初期化
+	spriteWhite_ = std::make_unique<Sprite>();
+	spriteWhite_->Initialize(engine_  , camera2d_.get() , Vector2(0.0f , 0.0f) , textureHandleStore_->GetTextureHandle(TextureHandleStore::kWhite));
+	spriteWhite_->worldTransform_->translation_ = Vector3(12.0f, 12.0f, 0.0f);
+	spriteWhite_->worldTransform_->scale_ = Vector3(300.0f, 300.0f , 0.0f);
 	
 }
 
@@ -19,6 +23,9 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 /// </summary>
 void GameScene::Update()
 {
+	// スプライトの更新
+	spriteWhite_->Update();
+
 	// Scene更新
 	BaseScene::Update();
 }
@@ -28,6 +35,9 @@ void GameScene::Update()
 /// </summary>
 void GameScene::Draw()
 {
+	// スプライトの描画
+	spriteWhite_->Draw();
+
 	// Scene描画
 	BaseScene::Draw();
 }

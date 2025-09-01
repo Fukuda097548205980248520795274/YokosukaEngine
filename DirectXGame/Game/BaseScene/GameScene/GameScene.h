@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
 #include "../../BaseScene/BaseScene.h"
+#include "../../BaseSprite/BaseSprite.h"
 
 class GameScene : public BaseScene
 {
@@ -33,6 +34,7 @@ public:
 private:
 
 
-
+	// 白いスプライト
+	std::unique_ptr<Sprite> spriteWhite_ = nullptr;
 	
 };

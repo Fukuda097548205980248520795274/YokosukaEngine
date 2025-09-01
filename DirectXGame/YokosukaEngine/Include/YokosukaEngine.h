@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX
 #include <stdlib.h>
 #include <time.h>
 #include <optional>
@@ -335,12 +336,19 @@ public:
 		// ビューポート変換行列
 		Matrix4x4 viewportMatrix = MakeViewportMatrix(0.0f, 0.0f, camera->screenWidth_, camera->screenHeight_, 0.0f, 1.0f);
 
+		Vector2 anchor = worldTransform->anchor_;
+		anchor.x = std::min(anchor.x, 1.0f);
+		anchor.x = std::max(anchor.x, 0.0f);
+
+		anchor.y = std::min(anchor.y, 1.0f);
+		anchor.y = std::max(anchor.y, 0.0f);
+
 		Vector3 vertecies[4] =
 		{
-			Transform(Transform(Vector3(-1.0f , -1.0f , 0.0f) , worldViewProjectionMatrix), viewportMatrix),
-			Transform(Transform(Vector3(1.0f , -1.0f , 0.0f) , worldViewProjectionMatrix), viewportMatrix),
-			Transform(Transform(Vector3(-1.0f , 1.0f , 0.0f) , worldViewProjectionMatrix), viewportMatrix),
-			Transform(Transform(Vector3(1.0f , 1.0f , 0.0f) , worldViewProjectionMatrix), viewportMatrix)
+			Transform(Transform(Vector3(anchor.x ,anchor.y , 0.0f) , worldViewProjectionMatrix), viewportMatrix),
+			Transform(Transform(Vector3(1.0f - anchor.x  , anchor.y , 0.0f) , worldViewProjectionMatrix), viewportMatrix),
+			Transform(Transform(Vector3(anchor.x  ,1.0f - anchor.y , 0.0f) , worldViewProjectionMatrix), viewportMatrix),
+			Transform(Transform(Vector3(1.0f - anchor.x  , 1.0f - anchor.y , 0.0f) , worldViewProjectionMatrix), viewportMatrix)
 		};
 
 		if (fillMode == FillMode::kSolid)
@@ -365,7 +373,7 @@ public:
 	/// CatmullRomスプライン曲線を描画する
 	/// </summary>
 	/// <param name="controlPoints"></param>
-	void DrwaCatmullRomSpline(const std::vector<Vector3>& controlPoints, const Vector4& color, const Camera3D* camera3d) const;
+	void DrawCatmullRomSpline(const std::vector<Vector3>& controlPoints, const Vector4& color, const Camera3D* camera3d) const;
 
 	/// <summary>
 	/// CatmullRom全体で補間点を求める

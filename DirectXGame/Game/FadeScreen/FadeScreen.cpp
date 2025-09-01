@@ -19,7 +19,7 @@ void FadeScreen::Initialize(const YokosukaEngine* engine, const Camera2D* camera
 
 	// ワールドトランスフォームの生成と初期化
 	worldTransform_ = std::make_unique<WorldTransform2D>();
-	worldTransform_->Initialize();
+	worldTransform_->Initialize(Vector2(0.0f , 0.0f));
 	worldTransform_->translation_ = Vector3(static_cast<float>(engine_->GetScreenWidth() / 2.0f), static_cast<float>(engine_->GetScreenHeight() / 2.0f), 0.0f);
 	worldTransform_->scale_ = Vector3(static_cast<float>(engine_->GetScreenWidth() / 2.0f), static_cast<float>(engine_->GetScreenHeight() / 2.0f), 1.0f);
 
