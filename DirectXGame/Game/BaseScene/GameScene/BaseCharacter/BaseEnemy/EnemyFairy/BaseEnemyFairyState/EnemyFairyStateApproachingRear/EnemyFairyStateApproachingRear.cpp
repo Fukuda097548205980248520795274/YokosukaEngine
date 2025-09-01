@@ -53,7 +53,7 @@ void EnemyFairyStateApproachingRear::Update()
 	flappingWingL_->Update();
 
 	// 奥に進む
-	worldTransform->translation_ += enemy_->GetApproachingDirection() * (*gameTimer);
+	worldTransform->translation_ += (enemy_->GetApproachingDirection() * enemy_->GetApproachingSpeed()) * (*gameTimer);
 
 	// タイマーを進める
 	timer_ += (1.0f / 60.0f) * (*gameTimer);

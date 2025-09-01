@@ -1,6 +1,6 @@
 #include "BaseEnemy.h"
 #include "../../BaseBullet/BasePlayerBullet/BasePlayerBullet.h"
-#include "../Player/Player.h"
+#include "../BaseCharacter.h"
 #include "../../GameScene.h"
 
 /// <summary>
@@ -9,10 +9,11 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
+void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
+	const TextureHandleStore* textureStoreHandle, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
 {
 	// 基底クラスを初期化する
-	BaseCharacter::Initialize(engine, camera3d, modelHandleStore,position, hp);
+	BaseCharacter::Initialize(engine, camera3d,textureStoreHandle, modelHandleStore,position, hp);
 
 
 	// ダメージ音を読み込む
@@ -27,10 +28,15 @@ void BaseEnemy::Initialize(const YokosukaEngine* engine, const Camera3D* camera3
 /// </summary>
 void BaseEnemy::Update()
 {
-	// 体力がなくなったら撃破音を流す
-	if (hp_ <= 0)
+	if (isDead_)
 	{
-		engine_->PlaySoundData(soundHandleDestroy_ , 0.7f);
+		deadTimer_ += 1.0f / 60.0f;
+
+		if (deadTimer_ >= kDeadTime)
+		{
+			isFinished_ = true;
+			return;
+		}
 	}
 
 	// 基底クラスの更新
@@ -59,11 +65,21 @@ Vector3 BaseEnemy::GetWorldPosition() const
 /// <param name="playerBullet"></param>
 void BaseEnemy::OnCollision(const BasePlayerBullet* playerBullet)
 {
+	if (isDead_)
+		return;
+
 	// ダメージ音
 	engine_->PlaySoundData(soundHandleDamage_ , 0.5f);
 
 	// 弾の種類に合わせて体力が減る
 	hp_ -= playerBullet->GetPower();
+
+	// 体力がなくなったら撃破音を流す
+	if (hp_ <= 0)
+	{
+		engine_->PlaySoundData(soundHandleDestroy_, 0.7f);
+		isDead_ = true;
+	}
 
 	// ダメージカラーをリセットする
 	DamageColor();

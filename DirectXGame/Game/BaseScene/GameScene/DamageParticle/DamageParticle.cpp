@@ -36,6 +36,11 @@ void DamageParticle::Update()
 	// タイマーを進める
 	timer_ += 1.0f / 60.0f;
 
+	float t = timer_ / maxTime_;
+	float easing = 1.0f - std::powf(1.0f - t, 4.0f);
+	inRadius_ = Lerp(kMinInRadius, kMaxInRadius, easing);
+	outRadius_ = Lerp(kMinOutRadius, kMaxOutRadius, easing);
+
 	if (timer_ >= maxTime_)
 	{
 		isFinished_ = true;
@@ -58,5 +63,5 @@ void DamageParticle::Update()
 /// </summary>
 void DamageParticle::Draw()
 {
-	engine_->DrawRing(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, 12, 4.0f, 2.0f, Vector4(1.0f, 1.0f, 1.0f, 1.0f), false);
+	engine_->DrawRing(worldTransform_.get(), uvTransform_.get(), camera3d_, textureHandle_, 12, outRadius_, inRadius_, Vector4(1.0f, 1.0f, 1.0f, 1.0f), false);
 }

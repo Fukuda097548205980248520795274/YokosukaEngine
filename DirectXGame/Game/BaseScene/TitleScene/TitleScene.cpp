@@ -39,9 +39,6 @@ void TitleScene::Update()
 	// フェードの更新
 	fade_->Update();
 
-	// タイトルのHUDの更新処理
-	titleHud_->Update();
-
 
 	// 次のビヘイビアのリクエストがあるとき
 	if (behaviorRequest_)
@@ -61,18 +58,21 @@ void TitleScene::Update()
 		case kJetFly:
 			// ジェット被告
 			BehaviorJetFlyInitialize();
+			titleHud_->PhaseFlyJetInitialize(kJetFlyPrameterMax);
 
 			break;
 
 		case kOperation:
 			// 操作
 			BehaviorOperationInitialize();
+			titleHud_->PhaseOperationInitialize();
 
 			break;
 
 		case kFadeOut:
 			// フェードアウト
 			BehaviorFadeOutInitialize();
+			titleHud_->PhaseFadeOutInitialize(kFadeOutPrameterMax);
 
 			break;
 		}
@@ -93,21 +93,28 @@ void TitleScene::Update()
 	case kJetFly:
 		// ジェット飛行
 		BehaviorJetFlyUpdate();
+		titleHud_->PhaseFlyJetUpdate();
 
 		break;
 
 	case kOperation:
 		// 操作
 		BehaviorOperationUpdate();
+		titleHud_->PhaseOperationUpdate();
 
 		break;
 
 	case kFadeOut:
 		// フェードアウト
 		BehaviorFadeOutUpdate();
+		titleHud_->PhaseFadeOutUpdate();
 
 		break;
 	}
+
+
+	// タイトルのHUDの更新処理
+	titleHud_->Update();
 }
 
 /// <summary>
@@ -128,9 +135,6 @@ void TitleScene::Draw()
 		// 操作
 		BehaviorOperationDraw();
 
-		// タイトルのHUDの描画処理
-		titleHud_->Draw();
-
 		break;
 
 	case kFadeOut:
@@ -139,6 +143,9 @@ void TitleScene::Draw()
 
 		break;
 	}
+
+	// HUDの描画
+	titleHud_->Draw();
 
 	// フェードの描画
 	fade_->Draw();

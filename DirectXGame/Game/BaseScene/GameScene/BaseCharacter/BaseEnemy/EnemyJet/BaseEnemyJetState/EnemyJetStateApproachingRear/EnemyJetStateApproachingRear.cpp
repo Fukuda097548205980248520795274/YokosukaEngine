@@ -89,7 +89,7 @@ void EnemyJetStateApproachingRear::Update()
 
 
 	// 奥に進む
-	worldTransform->translation_ += enemy_->GetApproachingDirection() * (*gameTimer);
+	worldTransform->translation_ += (enemy_->GetApproachingDirection() * enemy_->GetApproachingSpeed()) * (*gameTimer);
 
 
 	// 通常ビヘイビア時にタイマーを進める

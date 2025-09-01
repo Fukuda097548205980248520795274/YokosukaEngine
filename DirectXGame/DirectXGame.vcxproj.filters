@@ -730,9 +730,6 @@
     <Filter Include="Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectHouseModelHandle">
       <UniqueIdentifier>{362e7641-8bce-49c1-bdf9-b4bb12f4999d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\BaseSprite">
-      <UniqueIdentifier>{f23112fb-7e9f-40be-9565-89f96cdcf709}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle">
       <UniqueIdentifier>{aca18e39-04d5-4526-8006-b97d6857a596}</UniqueIdentifier>
     </Filter>
@@ -765,6 +762,63 @@
     </Filter>
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle">
       <UniqueIdentifier>{4b2c3056-b663-425a-b071-625d52987dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle">
+      <UniqueIdentifier>{1fe97022-34a9-4b52-b158-40b227e2a84d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\GoalModelHandle">
+      <UniqueIdentifier>{13974a1a-e484-431d-bc5d-c58f35887c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal">
+      <UniqueIdentifier>{c4e63f44-1c60-4b12-96ff-c382a865c28b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree">
+      <UniqueIdentifier>{56f9e94a-cfd3-480e-9668-f3f74897d8ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow">
+      <UniqueIdentifier>{395c400c-6a6b-4779-87db-506a5fd0c6e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse">
+      <UniqueIdentifier>{b9e76c4b-c902-4ac0-b17e-cadbe0f7cadf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Sprite">
+      <UniqueIdentifier>{f23112fb-7e9f-40be-9565-89f96cdcf709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Model">
+      <UniqueIdentifier>{c5893fac-7759-41c2-b1ab-6d6012d5a983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TitleTextureHandle">
+      <UniqueIdentifier>{aab31fc2-9c8e-4887-ac2d-73c5e2a5da43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\PoseTextureHandle">
+      <UniqueIdentifier>{a64a71cf-f510-4ed9-8d40-925a5c9af697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\PoseReturnGameTextureHandle">
+      <UniqueIdentifier>{3f2f7029-63ca-4bab-be58-aae1fa66a89e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\PoseEndGameTextureHandle">
+      <UniqueIdentifier>{d0050756-6941-4e44-a258-2b60243902d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\Stage1TextureHandle">
+      <UniqueIdentifier>{0ccb380a-97bb-40a1-9046-2ff624bce053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\Stage2TextureHandle">
+      <UniqueIdentifier>{f11339c2-d40d-418e-bcfd-31a08eaaa3b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\Stage3TextureHandle">
+      <UniqueIdentifier>{c2055259-c9b0-4187-86c9-cb8b610efb25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardStageSelectTextureHandle">
+      <UniqueIdentifier>{c6770ac7-e7d1-415e-a130-1811cbf0ae13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadStageSelectTextureHandle">
+      <UniqueIdentifier>{1bf6f838-f9d4-4ad6-b600-90ea65946b07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\GameClearTextureHandle">
+      <UniqueIdentifier>{b39584a2-077d-42da-b305-70d6e17e07b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\GameOverTextureHandle">
+      <UniqueIdentifier>{95b50eab-469e-4c27-b721-0d21cc337736}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1423,7 +1477,7 @@
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectHouseModelHandle</Filter>
     </ClCompile>
     <ClCompile Include="Game\BaseSprite\BaseSprite.cpp">
-      <Filter>Game\BaseSprite</Filter>
+      <Filter>Game\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle\TextKeyboardMoveTextureHandle.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle</Filter>
@@ -1457,6 +1511,60 @@
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Model\Model.cpp">
+      <Filter>Game\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle\ReticleTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\GoalModelHandle\GoalModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\GoalModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal\StageObjectGoal.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree\StageObjectTree.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow\StageObjectRainbow.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse\StageObjectHouse.cpp">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TitleTextureHandle\TitleTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TitleTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\PoseTextureHandle\PoseTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\PoseTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\PoseReturnGameTextureHandle\PoseReturnGameTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\PoseReturnGameTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\PoseEndGameTextureHandle\PoseEndGameTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\PoseEndGameTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\Stage1TextureHandle\Stage1TextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\Stage1TextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\Stage2TextureHandle\Stage2TextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\Stage2TextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\Stage3TextureHandle\Stage3TextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\Stage3TextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadStageSelectTextureHandle\TextGamepadStageSelectTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadStageSelectTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardStageSelectTextureHandle\TextKeyboardStageSelectTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardStageSelectTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\GameOverTextureHandle\GameOverTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\GameOverTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\GameClearTextureHandle\GameClearTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\GameClearTextureHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2118,7 +2226,7 @@
       <Filter>Game\ModelHandleStore\BaseModelHandles\StageObject\StageObjectHouseModelHandle</Filter>
     </ClInclude>
     <ClInclude Include="Game\BaseSprite\BaseSprite.h">
-      <Filter>Game\BaseSprite</Filter>
+      <Filter>Game\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle\TextKeyboardMoveTextureHandle.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardMoveTextureHandle</Filter>
@@ -2152,6 +2260,60 @@
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Model\Model.h">
+      <Filter>Game\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle\ReticleTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\ReticleTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\GoalModelHandle\GoalModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\GoalModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal\StageObjectGoal.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectGoal</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree\StageObjectTree.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow\StageObjectRainbow.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectRainbow</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse\StageObjectHouse.h">
+      <Filter>Game\BaseScene\GameScene\Stage\BaseStageObject\StageObjectHouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TitleTextureHandle\TitleTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TitleTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\PoseTextureHandle\PoseTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\PoseTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\PoseReturnGameTextureHandle\PoseReturnGameTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\PoseReturnGameTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\PoseEndGameTextureHandle\PoseEndGameTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\PoseEndGameTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\Stage1TextureHandle\Stage1TextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\Stage1TextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\Stage2TextureHandle\Stage2TextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\Stage2TextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\Stage3TextureHandle\Stage3TextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\Stage3TextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextGamepadStageSelectTextureHandle\TextGamepadStageSelectTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextGamepadStageSelectTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\TextKeyboardStageSelectTextureHandle\TextKeyboardStageSelectTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\TextKeyboardStageSelectTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\GameOverTextureHandle\GameOverTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\GameOverTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\GameClearTextureHandle\GameClearTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\GameClearTextureHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

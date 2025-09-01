@@ -13,6 +13,10 @@ void ModelHandleStore::Initialize(const YokosukaEngine* engine)
 	engine_ = engine;
 
 
+	// ゴールの旗
+	modelHandles_[kGoalFlag] = std::make_unique<GoalModelHandle>();
+	modelHandles_[kGoalFlag]->Initialize(engine_);
+
 	// プレイヤーのハンドル
 	modelHandles_[kPlayer] = std::make_unique<PlayerModelHandles>();
 	modelHandles_[kPlayer]->Initialize(engine_);

@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../YokosukaEngine/Include/YokosukaEngine.h"
+#include "../../../TextureHandleStore/TextureHandleStore.h"
 #include "../../../ModelHandleStore/ModelHandleStore.h"
 #include <sstream>
 
@@ -20,6 +21,12 @@
 #include "BaseStageObject/StageObjectBuildingC/StageObjectBuildingC.h"
 #include "BaseStageObject/StageObjectBuildingD/StageObjectBuildingD.h"
 
+#include "BaseStageObject/StageObjectGoal/StageObjectGoal.h"
+
+#include "BaseStageObject/StageObjectHouse/StageObjectHouse.h"
+#include "BaseStageObject/StageObjectRainbow/StageObjectRainbow.h"
+#include "BaseStageObject/StageObjectTree/StageObjectTree.h"
+
 // 前方宣言
 class GameScene;
 
@@ -33,7 +40,7 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d ,
-		const ModelHandleStore* modelHandleStore, const float* gameFrame , GameScene* gameScene);
+		const TextureHandleStore* textureHandleStore,const ModelHandleStore* modelHandleStore, const float* gameFrame , GameScene* gameScene);
 
 	/// <summary>
 	/// 更新処理
@@ -99,7 +106,7 @@ public:
 	/// <summary>
 	/// ステージオブジェクトを生成する
 	/// </summary>
-	void SummonStageObject(std::string& enemyType, const Vector3& position, const Vector3& rotation);
+	std::unique_ptr<BaseStageObject> SummonStageObject(std::string& stageObjectType);
 
 
 private:
@@ -113,6 +120,9 @@ private:
 
 	// モデルハンドル格納場所
 	const ModelHandleStore* modelHandleStore_ = nullptr;
+
+	// テクスチャハンドル格納場所
+	const TextureHandleStore* textureHandleStore_ = nullptr;
 
 	// ゲームフレーム
 	const float* gameFrame_ = nullptr;

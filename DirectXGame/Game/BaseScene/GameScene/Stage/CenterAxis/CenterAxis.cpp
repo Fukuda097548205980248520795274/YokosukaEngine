@@ -68,8 +68,7 @@ void CenterAxis::Update()
 /// </summary>
 void CenterAxis::Draw()
 {
-	// 制御点の描画
-	engine_->DrwaCatmullRomSpline(controlPoint_, Vector4(1.0f, 0.0f, 0.0f, 1.0f), camera3d_);
+	
 }
 
 

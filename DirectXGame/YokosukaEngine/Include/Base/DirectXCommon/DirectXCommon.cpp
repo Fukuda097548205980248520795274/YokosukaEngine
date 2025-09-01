@@ -2047,7 +2047,7 @@ void DirectXCommon::DrawLine(const Vector2& start, const Vector2& end, const Cam
 /// <param name="camera">カメラ</param>
 /// <param name="textureHandle">テクスチャハンドル</param>
 /// <param name="color">色</param>
-void DirectXCommon::DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2 v3, const Vector2 v4,
+void DirectXCommon::DrawSprite(const Vector3 v1, const Vector3 v2, const Vector3 v3, const Vector3 v4,
 	const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color)
 {
 	// 使用できるリソース数を越えないようにする
@@ -2089,22 +2089,22 @@ void DirectXCommon::DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2
 
 
 	// 左下
-	vertexData[0].position = { v3.x , v3.y , 0.0f , 1.0f };
+	vertexData[0].position = { v3.x , v3.y , v3.z  , 1.0f };
 	vertexData[0].texcoord = { 0.0f , 1.0f };
 	vertexData[0].normal = { 0.0f , 0.0f , -1.0f };
 
 	// 左上
-	vertexData[1].position = { v1.x , v1.y , 0.0f , 1.0f };
+	vertexData[1].position = { v1.x , v1.y , v1.z , 1.0f };
 	vertexData[1].texcoord = { 0.0f , 0.0f };
 	vertexData[1].normal = { 0.0f , 0.0f , -1.0f };
 
 	// 右下
-	vertexData[2].position = { v4.x , v4.y , 0.0f , 1.0f };
+	vertexData[2].position = { v4.x , v4.y , v4.z  , 1.0f };
 	vertexData[2].texcoord = { 1.0f , 1.0f };
 	vertexData[2].normal = { 0.0f , 0.0f , -1.0f };
 
 	// 右上
-	vertexData[3].position = { v2.x , v2.y , 0.0f , 1.0f };
+	vertexData[3].position = { v2.x , v2.y , v2.z  , 1.0f };
 	vertexData[3].texcoord = { 1.0f , 0.0f };
 	vertexData[3].normal = { 0.0f , 0.0f , -1.0f };
 

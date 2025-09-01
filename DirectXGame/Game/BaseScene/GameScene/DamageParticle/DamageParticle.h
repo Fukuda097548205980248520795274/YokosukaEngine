@@ -52,9 +52,22 @@ private:
 	float timer_ = 0.0f;
 
 	// 最大時間
-	float maxTime_ = 0.1f;
+	float maxTime_ = 0.5f;
 
 	// 終了フラグ
 	bool isFinished_ = false;
+
+
+
+	float inRadius_ = 0.3f;
+	float outRadius_ = 1.0f;
+
+	// 最小サイズ
+	const float kMinInRadius = 0.3f;
+	const float kMinOutRadius = 1.0f;
+
+	// 最大サイズ
+	const float kMaxInRadius = 2.0f;
+	const float kMaxOutRadius = 2.0f;
 };
 

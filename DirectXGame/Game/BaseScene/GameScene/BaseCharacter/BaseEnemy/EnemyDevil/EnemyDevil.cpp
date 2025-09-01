@@ -8,12 +8,13 @@
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
 /// <param name="position"></param>
-void EnemyDevil::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
+void EnemyDevil::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
+	const TextureHandleStore* textureStoreHandle, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
 {
 	// 基底クラス初期化
-	BaseEnemy::Initialize(engine, camera3d, modelHandleStore, position, hp);
+	BaseEnemy::Initialize(engine, camera3d,textureStoreHandle, modelHandleStore, position, hp);
 
-	hitSize_ = { 2.0f , 2.0f , 1.0f };
+	hitSize_ = { 2.0f , 4.0f , 1.0f };
 
 
 	// 共通した処理
@@ -75,8 +76,14 @@ void EnemyDevil::Initialize(const YokosukaEngine* engine, const Camera3D* camera
 /// </summary>
 void EnemyDevil::Update()
 {
-	// ステート更新
-	state_->Update();
+	if (isDead_)
+	{
+		models_[kBody].worldTransform_->rotation_.y += 0.4f;
+	} else
+	{
+		// ステート更新
+		state_->Update();
+	}
 
 	// 基底クラス更新
 	BaseEnemy::Update();
@@ -164,7 +171,7 @@ void EnemyDevil::OnCollision(const BasePlayerBullet* playerBullet)
 void EnemyDevil::BulletShot()
 {
 	// 新規の弾の生成
-	std::unique_ptr<EnemyBulletWeek> enemyBullet = std::make_unique<EnemyBulletWeek>();
+	std::unique_ptr<EnemyBulletTrident> enemyBullet = std::make_unique<EnemyBulletTrident>();
 	enemyBullet->SetGameTimer(gameTimer_);
 	enemyBullet->Initialize(engine_, camera3d_, modelHandleStore_, worldTransform_->translation_);
 

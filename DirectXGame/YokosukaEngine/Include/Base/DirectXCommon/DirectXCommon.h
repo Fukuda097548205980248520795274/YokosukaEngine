@@ -380,7 +380,7 @@ public:
 	/// <param name="camera">カメラ</param>
 	/// <param name="textureHandle">テクスチャハンドル</param>
 	/// <param name="color">色</param>
-	void DrawSprite(const Vector2 v1, const Vector2 v2, const Vector2 v3, const Vector2 v4,
+	void DrawSprite(const Vector3 v1, const Vector3 v2, const Vector3 v3, const Vector3 v4,
 		const UvTransform* uvTransform, const Camera2D* camera, uint32_t textureHandle, Vector4 color);
 
 	/// <summary>

@@ -3,6 +3,8 @@
 
 #include "BaseModelHandles/BaseModelHandles.h"
 
+#include "BaseModelHandles/GoalModelHandle/GoalModelHandle.h"
+
 #include "BaseModelHandles/PlayerModelHandles/PlayerModelHandles.h"
 
 #include "BaseModelHandles/PlayerBulletWeekModelHandles/PlayerBulletWeekModelHandles.h"
@@ -50,6 +52,8 @@ public:
 	// ハンドルネーム
 	enum HandleName
 	{
+		kGoalFlag,
+
 		kPlayer,
 
 		kPlayerBulletWeek,

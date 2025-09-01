@@ -106,7 +106,7 @@ void Game::Update()
 		case kGame:
 			// ゲーム
 
-			scenePhaseRequest_ = kTitle;
+			scenePhaseRequest_ = kStageSelect;
 
 			break;
 		}

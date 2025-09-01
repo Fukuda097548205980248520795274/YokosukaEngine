@@ -90,6 +90,13 @@ void EnemyFairyBehaviorShot::Update()
 		float t = (shotParameter_ - veryUpFrames_[0]) / (veryUpFrames_[1] - veryUpFrames_[0]);
 		float easing = t < 0.5 ? 2.0f * t * t : 1 - std::powf(-2.0f * t + 2.0f, 2.0f) / 2.0f;
 		bodyWorldTransform->translation_.y = Lerp(veryUpValues_[0], veryUpValues_[1], easing);
+
+		if (shotTime_ % 10 == 0)
+		{
+			enemy_->BulletShot();
+		}
+
+		shotTime_++;
 	}
 
 	if (shotParameter_ >= rotateFrames_[0] && shotParameter_ <= rotateFrames_[1])

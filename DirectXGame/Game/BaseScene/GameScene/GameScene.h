@@ -18,6 +18,8 @@
 
 #include "BaseBullet/BaseEnemyBullet/BaseEnemyBullet.h"
 
+#include "../../BaseSprite/BaseSprite.h"
+
 #include "Skydome/Skydome.h"
 
 class GameScene : public BaseScene
@@ -158,6 +160,31 @@ private:
 	// プレイヤーHUDのスクリーンハンドル
 	uint32_t screenHandlePlayerHUD_ = 0;
 
+
+	// スプライト : ゲームパッド : 移動
+	std::unique_ptr<Sprite> spriteGamepadMove_ = nullptr;
+
+	// スプライト : キーボード : 移動
+	std::unique_ptr<Sprite> spriteKeyboardMove_ = nullptr;
+
+	// スプライト : ゲームパッド : 発射
+	std::unique_ptr<Sprite> spriteGamepadShot_ = nullptr;
+
+	// スプライト : キーボード : 発射
+	std::unique_ptr<Sprite> spriteKeyboardShot_ = nullptr;
+
+	// スプライト : ゲームパッド : ポーズ
+	std::unique_ptr<Sprite> spriteGamepadPose_ = nullptr;
+
+	// スプライト : キーボード : ポーズ
+	std::unique_ptr<Sprite> spriteKeyboardPose_ = nullptr;
+
+
+	// ゲームクリア
+	std::unique_ptr<Sprite> gameClear_ = nullptr;
+
+	// ゲームオーバー
+	std::unique_ptr<Sprite> gameOver_ = nullptr;
 
 
 	/*-------------

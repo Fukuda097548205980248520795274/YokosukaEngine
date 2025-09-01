@@ -85,10 +85,10 @@ private:
 	// 制御点
 	Vector3 controlPoint_[kNumStage] =
 	{
+		{0.0f , -10.0f , 0.0f},
 		{0.0f , 0.0f , 0.0f},
 		{-10.0f , 10.0f , 500.0f},
 		{5.0f , -5.0f , 1000.0f},
-		{0.0f , 20.0f , 1500.0f},
 	};
 
 	// 制御点のスクリプトパス
@@ -144,13 +144,13 @@ private:
 
 
 	// 現在のステージ
-	uint32_t currentStage = kTutorial;
+	uint32_t currentStage = kStage1;
 
 	// 次のステージ
-	uint32_t nextStage_ = kTutorial;
+	uint32_t nextStage_ = kStage1;
 
 	// 直前のステージ
-	uint32_t prevStage_ = kTutorial;
+	uint32_t prevStage_ = kStage1;
 
 
 	// 移動フラグ
@@ -177,6 +177,13 @@ private:
 
 	// ステージボックス
 	std::unique_ptr<StageBox> stageBox_ = nullptr;
+
+
+	// スプライト : ゲームパッド : 操作
+	std::unique_ptr<Sprite> spriteGamepadOperation_ = nullptr;
+
+	// スプライト : キーボード : 操作
+	std::unique_ptr<Sprite> spriteKeyboardOperation_ = nullptr;
 
 
 	/*---------------

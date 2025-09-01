@@ -10,6 +10,8 @@
 #include "BaseEnemyDevilBehavior/EnemyDevilBehaviorNormal/EnemyDevilBehaviorNormal.h"
 #include "BaseEnemyDevilBehavior/EnemyDevilBehaviorShot/EnemyDevilBehaviorShot.h"
 
+#include "../../../BaseBullet/BaseEnemyBullet/EnemyBulletTrident/EnemyBulletTrident.h"
+
 class EnemyDevil : public BaseEnemy
 {
 public:
@@ -47,7 +49,8 @@ public:
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
 	/// <param name="position"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
+		const TextureHandleStore* textureStoreHandle, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
 
 	/// <summary>
 	/// 更新処理

@@ -5,6 +5,8 @@
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletWeek/PlayerBulletWeek.h"
 #include "../../BaseBullet/BasePlayerBullet/PlayerBulletStrong/PlayerBulletStrong.h"
 
+#include "../../../../BaseSprite/BaseSprite.h"
+
 #include "BasePlayerHUD/PlayerHUDStateArea/PlayerHUDStateArea.h"
 #include "BasePlayerHUD/PlayerHUDHp/PlayerHUDHp.h"
 #include "BasePlayerHUD/PlayerHUDTextHp/PlayerHUDTextHp.h"
@@ -27,7 +29,8 @@ public:
 	/// </summary>
 	/// <param name="engine"></param>
 	/// <param name="camera3d"></param>
-	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
+	void Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
+		const TextureHandleStore* textureStoreHandle, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp) override;
 
 	/// <summary>
 	/// 更新処理
@@ -115,6 +118,9 @@ private:
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
 
+	// 2Dカメラ
+	std::unique_ptr<Camera2D> camera2d_ = nullptr;
+
 
 	/*----------
 	    中心
@@ -134,6 +140,7 @@ private:
 	/// 入力操作
 	/// </summary>
 	void Input();
+
 
 
 	/*---------
@@ -159,7 +166,7 @@ private:
 	const float speed = 0.4f;
 
 	// 移動範囲
-	Vector2 moveRange_ = { 16.0f , 9.0f };
+	Vector2 moveRange_ = { 22.0f , 11.0f };
 
 
 	/*------------

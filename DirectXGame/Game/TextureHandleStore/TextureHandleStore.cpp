@@ -17,6 +17,44 @@ void TextureHandleStore::Initialize(const YokosukaEngine* engine)
 	textureHandles_[kWhite] = std::make_unique<WhiteTextureHandle>();
 	textureHandles_[kWhite]->Initialize(engine_);
 
+	// 画像 : レティクル
+	textureHandles_[kReticle] = std::make_unique<ReticleTextureHandle>();
+	textureHandles_[kReticle]->Initialize(engine_);
+
+	// 画像 : タイトル
+	textureHandles_[kTitle] = std::make_unique<TitleTextureHandle>();
+	textureHandles_[kTitle]->Initialize(engine_);
+
+
+	// ポーズ :
+	textureHandles_[kPose] = std::make_unique<PoseTextureHandle>();
+	textureHandles_[kPose]->Initialize(engine_);
+
+	// ポーズ :
+	textureHandles_[kPoseReturnGame] = std::make_unique<PoseReturnGameTextureHandle>();
+	textureHandles_[kPoseReturnGame]->Initialize(engine_);
+
+	// ポーズ :
+	textureHandles_[kPoseEndGame] = std::make_unique<PoseEndGameTextureHandle>();
+	textureHandles_[kPoseEndGame]->Initialize(engine_);
+
+
+	// ステージ1
+	textureHandles_[kStage1] = std::make_unique<Stage1TextureHandle>();
+	textureHandles_[kStage1]->Initialize(engine_);
+
+	// ステージ2
+	textureHandles_[kStage2] = std::make_unique<Stage2TextureHandle>();
+	textureHandles_[kStage2]->Initialize(engine_);
+
+	// ステージ3
+	textureHandles_[kStage3] = std::make_unique<Stage3TextureHandle>();
+	textureHandles_[kStage3]->Initialize(engine_);
+
+
+	// ゲームパッド操作 : ステージセレクト
+	textureHandles_[kGamepadStageSelect] = std::make_unique<TextGamepadStageSelectTextureHandle>();
+	textureHandles_[kGamepadStageSelect]->Initialize(engine_);
 
 	// ゲームパッド操作 : ゲーム開始
 	textureHandles_[kGamepadStart] = std::make_unique<TextGamepadStartTextureHandle>();
@@ -38,6 +76,10 @@ void TextureHandleStore::Initialize(const YokosukaEngine* engine)
 	textureHandles_[kGamepadPose] = std::make_unique<TextGamepadPoseTextureHandle>();
 	textureHandles_[kGamepadPose]->Initialize(engine_);
 
+
+	// キーボード操作 : ステージセレクト
+	textureHandles_[kKeyboardStageSelect] = std::make_unique<TextKeyboardStageSelectTextureHandle>();
+	textureHandles_[kKeyboardStageSelect]->Initialize(engine_);
 
 	// キーボード操作 : ゲーム開始
 	textureHandles_[kKeyboardStart] = std::make_unique<TextkeyboardStartTextureHandle>();
@@ -75,4 +117,13 @@ void TextureHandleStore::Initialize(const YokosukaEngine* engine)
 	// ステージ : 架空の手のひら
 	textureHandles_[kStageImaginaryPlam] = std::make_unique<TextStageImaginaryPlamTextureHandle>();
 	textureHandles_[kStageImaginaryPlam]->Initialize(engine_);
+
+
+	// ゲームクリア
+	textureHandles_[kGameClear] = std::make_unique<GameClearTextureHandle>();
+	textureHandles_[kGameClear]->Initialize(engine_);
+
+	// ゲームオーバー
+	textureHandles_[kGameOver] = std::make_unique<GameOverTextureHandle>();
+	textureHandles_[kGameOver]->Initialize(engine_);
 }

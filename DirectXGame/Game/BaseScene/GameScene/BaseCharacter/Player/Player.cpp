@@ -7,10 +7,17 @@
 /// </summary>
 /// <param name="engine"></param>
 /// <param name="camera3d"></param>
-void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
+void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d,
+	const TextureHandleStore* textureStoreHandle , const ModelHandleStore* modelHandleStore, const Vector3& position, int32_t hp)
 {
 	// 基底クラスの初期化
-	BaseCharacter::Initialize(engine, camera3d, modelHandleStore,position, hp);
+	BaseCharacter::Initialize(engine, camera3d,textureStoreHandle, modelHandleStore,position, hp);
+
+	// 2Dカメラの生成と初期化
+	camera2d_ = std::make_unique<Camera2D>();
+	camera2d_->Initialize(static_cast<float>(engine_->GetScreenWidth()), static_cast<float>(engine_->GetScreenHeight()));
+
+
 
 	/*----------
 	    本体
@@ -85,6 +92,7 @@ void Player::Initialize(const YokosukaEngine* engine, const Camera3D* camera3d, 
 /// </summary>
 void Player::Update()
 {
+
 	// 入力操作
 	Input();
 
@@ -341,6 +349,12 @@ void Player::OnCollision(const BaseEnemyBullet* enemyBullet)
 	{
 		engine_->PlaySoundData(soundHandleDamage2_, 0.5f);
 	}
+
+	// 体力がなくなったら消滅する
+	if (hp_ <= 0)
+	{
+		isFinished_ = true;
+	}
 }
 
 /// <summary>
@@ -379,7 +393,7 @@ void Player::Input()
 	BulletShot();
 
 	// 時間操作
-	OperationTimer();
+	//OperationTimer();
 }
 
 
