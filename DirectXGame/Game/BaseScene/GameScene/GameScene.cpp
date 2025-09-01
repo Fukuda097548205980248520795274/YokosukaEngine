@@ -12,7 +12,7 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 
 	// スプライトの生成と初期化
 	spriteWhite_ = std::make_unique<Sprite>();
-	spriteWhite_->Initialize(engine_  , camera2d_.get() , Vector2(0.0f , 0.0f) , textureHandleStore_->GetTextureHandle(TextureHandleStore::kWhite));
+	spriteWhite_->Initialize(engine_  , camera2d_.get() , Vector2(0.0f , 0.0f) , textureHandleStore_->GetTextureHandle(TextureHandleStore::kUvChecker));
 	spriteWhite_->worldTransform_->translation_ = Vector3(12.0f, 12.0f, 0.0f);
 	spriteWhite_->worldTransform_->scale_ = Vector3(300.0f, 300.0f , 0.0f);
 	

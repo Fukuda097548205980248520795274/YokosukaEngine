@@ -370,6 +370,9 @@
     <Filter Include="Game\Model">
       <UniqueIdentifier>{c5893fac-7759-41c2-b1ab-6d6012d5a983}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle">
+      <UniqueIdentifier>{bd99e698-1961-4225-96a5-b0add4635d52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -689,6 +692,9 @@
     </ClCompile>
     <ClCompile Include="Game\Model\Model.cpp">
       <Filter>Game\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle\UvCheckerTextureHandle.cpp">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1012,6 +1018,9 @@
     </ClInclude>
     <ClInclude Include="Game\Model\Model.h">
       <Filter>Game\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle\UvCheckerTextureHandle.h">
+      <Filter>Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

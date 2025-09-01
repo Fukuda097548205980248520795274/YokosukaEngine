@@ -2,6 +2,7 @@
 #include "../../YokosukaEngine/Include/YokosukaEngine.h"
 
 #include "BaseTextureHandles/WhiteTextureHandle/WhiteTextureHandle.h"
+#include "BaseTextureHandles/UvCheckerTextureHandle/UvCheckerTextureHandle.h"
 
 class TextureHandleStore
 {
@@ -11,6 +12,7 @@ public:
 	enum HandleName
 	{
 		kWhite,
+		kUvChecker,
 
 		kNumHandleName
 	};

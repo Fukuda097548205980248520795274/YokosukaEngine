@@ -127,6 +127,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\ModelHandleStore\ModelHandleStore.cpp" />
     <ClCompile Include="Game\Model\Model.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.cpp" />
+    <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle\UvCheckerTextureHandle.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.cpp" />
     <ClCompile Include="Game\TextureHandleStore\TextureHandleStore.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.cpp" />
@@ -236,6 +237,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\ModelHandleStore\ModelHandleStore.h" />
     <ClInclude Include="Game\Model\Model.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.h" />
+    <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle\UvCheckerTextureHandle.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\WhiteTextureHandle\WhiteTextureHandle.h" />
     <ClInclude Include="Game\TextureHandleStore\TextureHandleStore.h" />
     <ClInclude Include="YokosukaEngine\Include\Base\DirectXCommon\DirectXCommand\DirectXCommand.h" />
