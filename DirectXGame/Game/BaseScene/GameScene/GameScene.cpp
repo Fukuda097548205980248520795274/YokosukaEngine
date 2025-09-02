@@ -51,7 +51,7 @@ void GameScene::Update()
 		// 敵の方向
 		Vector3 toEnemy = Normalize(enemy->GetWorldPosition() - player_->GetWorldPosition());
 
-		if (Dot(playerDirction, toEnemy) >= 0.75f)
+		if (Dot(playerDirction, toEnemy) >= 0.6f)
 		{
 			player_->OnCollision(enemy.get());
 		}
