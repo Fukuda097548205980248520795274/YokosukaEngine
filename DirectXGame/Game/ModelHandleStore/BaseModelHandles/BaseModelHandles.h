@@ -15,7 +15,7 @@ public:
 	/// モデルハンドルのGetter
 	/// </summary>
 	/// <returns></returns>
-	std::vector<uint32_t> GetModelHandles() { return modelHandles_; }
+	uint32_t GetModelHandles() { return modelHandles_; }
 
 
 protected:
@@ -24,6 +24,6 @@ protected:
 	const YokosukaEngine* engine_ = nullptr;
 
 	// モデルハンドルの可変長配列
-	std::vector<uint32_t> modelHandles_;
+	uint32_t modelHandles_;
 };
 

@@ -124,6 +124,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\GameScene.cpp" />
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\BaseModelHandles.cpp" />
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle\SuzanneModelHandle.cpp" />
     <ClCompile Include="Game\ModelHandleStore\ModelHandleStore.cpp" />
     <ClCompile Include="Game\Model\Model.cpp" />
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.cpp" />
@@ -234,6 +235,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\BaseScene\GameScene\GameScene.h" />
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\BaseModelHandles.h" />
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle\SuzanneModelHandle.h" />
     <ClInclude Include="Game\ModelHandleStore\ModelHandleStore.h" />
     <ClInclude Include="Game\Model\Model.h" />
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\BaseTextureHandles.h" />

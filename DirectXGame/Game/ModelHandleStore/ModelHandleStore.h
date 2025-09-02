@@ -3,6 +3,8 @@
 
 #include "BaseModelHandles/BaseModelHandles.h"
 
+#include "BaseModelHandles/SuzanneModelHandle/SuzanneModelHandle.h"
+
 class ModelHandleStore
 {
 public:
@@ -17,7 +19,7 @@ public:
 	// ハンドルネーム
 	enum HandleName
 	{
-		kNan,
+		kSuzanne,
 		kNumHandleName,
 	};
 
@@ -26,7 +28,7 @@ public:
 	/// </summary>
 	/// <param name="handleName"></param>
 	/// <returns></returns>
-	std::vector<uint32_t> GetModelHandle(HandleName handleName) const { return modelHandles_[handleName]->GetModelHandles(); }
+	uint32_t GetModelHandle(HandleName handleName) const { return modelHandles_[handleName]->GetModelHandles(); }
 
 
 private:

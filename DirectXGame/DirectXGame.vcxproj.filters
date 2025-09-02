@@ -373,6 +373,9 @@
     <Filter Include="Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle">
       <UniqueIdentifier>{bd99e698-1961-4225-96a5-b0add4635d52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle">
+      <UniqueIdentifier>{e3aa0f78-9f67-402b-ab83-e53163570d86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -695,6 +698,9 @@
     </ClCompile>
     <ClCompile Include="Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle\UvCheckerTextureHandle.cpp">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle\SuzanneModelHandle.cpp">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1021,6 +1027,9 @@
     </ClInclude>
     <ClInclude Include="Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle\UvCheckerTextureHandle.h">
       <Filter>Game\TextureHandleStore\BaseTextureHandles\UvCheckerTextureHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle\SuzanneModelHandle.h">
+      <Filter>Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
