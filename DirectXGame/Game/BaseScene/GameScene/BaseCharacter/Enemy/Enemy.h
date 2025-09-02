@@ -25,6 +25,18 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// 拡縮のSetter
+	/// </summary>
+	/// <param name="scale"></param>
+	void SetScale(const Vector3& scale) { worldTransform_->scale_ = scale; }
+
+	/// <summary>
+	/// 拡縮のGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetScale()const { return worldTransform_->scale_; }
+
 
 private:
 

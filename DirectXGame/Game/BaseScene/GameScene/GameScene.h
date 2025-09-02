@@ -41,8 +41,8 @@ private:
 	// プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
 
-	// 敵
-	std::unique_ptr<Enemy> enemy_ = nullptr;
+	// 敵のリスト
+	std::list<std::unique_ptr<Enemy>> enemies_;
 
 	// 平行光源
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;

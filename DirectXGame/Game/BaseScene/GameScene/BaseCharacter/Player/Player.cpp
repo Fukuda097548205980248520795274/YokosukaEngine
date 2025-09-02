@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "../Enemy/Enemy.h"
 
 /// <summary>
 /// 初期化
@@ -28,6 +28,11 @@ void Player::Initialize(const YokosukaEngine* engine, const ModelHandleStore* mo
 	// ゲームパッドの移動操作の生成と初期化
 	moveActionGamepad_ = std::make_unique<MoveActionGamepad>();
 	moveActionGamepad_->Initialize(engine_ , worldTransform_.get());
+
+	// ゲームパッドの拡縮操作
+	scaleActionGamepad_ = std::make_unique<ScaleActionGamepad>();
+	scaleActionGamepad_->Initialize(engine_ , worldTransform_.get());
+
 }
 
 /// <summary>
@@ -35,8 +40,17 @@ void Player::Initialize(const YokosukaEngine* engine, const ModelHandleStore* mo
 /// </summary>
 void Player::Update()
 {
-	// ゲームパッド操作
-	moveActionGamepad_->Update();
+	// ゲームパッドの拡縮操作
+	scaleActionGamepad_->SetTargets(targets_);
+	scaleActionGamepad_->Update();
+
+	// 拡縮操作中は移動操作ができない
+	if (scaleActionGamepad_->IsOperation() == false)
+	{
+		// ゲームパッドの移動操作
+		moveActionGamepad_->Update();
+	}
+
 
 	// 本体モデルの更新
 	modelBody_->Update();
@@ -46,6 +60,9 @@ void Player::Update()
 
 	// 基底クラスの更新
 	BaseCharacter::Update();
+
+	// ターゲットリストをクリアする
+	targets_.clear();
 }
 
 /// <summary>
@@ -55,4 +72,14 @@ void Player::Draw()
 {
 	// 本体モデルの描画
 	modelBody_->Draw();
+}
+
+
+/// <summary>
+/// 衝突判定応答
+/// </summary>
+/// <param name="enemy"></param>
+void Player::OnCollision(Enemy* enemy)
+{
+	targets_.push_back(enemy);
 }

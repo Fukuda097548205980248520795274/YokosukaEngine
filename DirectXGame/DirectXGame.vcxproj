@@ -124,6 +124,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\MoveActionGamepad\MoveActionGamepad.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.cpp" />
     <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\PlayerVisibility\PlayerVisibility.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\ScaleActionGamepad\ScaleActionGamepad.cpp" />
     <ClCompile Include="Game\BaseSprite\BaseSprite.cpp" />
     <ClCompile Include="Game\FadeScreen\FadeScreen.cpp" />
     <ClCompile Include="Game\Game.cpp" />
@@ -241,6 +242,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\MoveActionGamepad\MoveActionGamepad.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.h" />
     <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\PlayerVisibility\PlayerVisibility.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\ScaleActionGamepad\ScaleActionGamepad.h" />
     <ClInclude Include="Game\BaseSprite\BaseSprite.h" />
     <ClInclude Include="Game\FadeScreen\FadeScreen.h" />
     <ClInclude Include="Game\Game.h" />

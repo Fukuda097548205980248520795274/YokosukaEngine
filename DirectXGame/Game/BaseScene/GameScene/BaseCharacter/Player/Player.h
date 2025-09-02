@@ -4,6 +4,10 @@
 
 #include "PlayerVisibility/PlayerVisibility.h"
 #include "MoveActionGamepad/MoveActionGamepad.h"
+#include "ScaleActionGamepad/ScaleActionGamepad.h"
+
+// 前方宣言
+class Enemy;
 
 class Player : public BaseCharacter
 {
@@ -46,6 +50,12 @@ public:
 	/// <returns></returns>
 	Plane GetBottomPlane()const { return visibility_->GetBottomPlane(); }
 
+	/// <summary>
+	/// 衝突判定応答
+	/// </summary>
+	/// <param name="enemy"></param>
+	void OnCollision(Enemy* enemy);
+
 
 private:
 
@@ -57,5 +67,12 @@ private:
 
 	// ゲームパッドの移動操作
 	std::unique_ptr<MoveActionGamepad> moveActionGamepad_ = nullptr;
+
+	// ゲームパッドの拡縮操作
+	std::unique_ptr<ScaleActionGamepad> scaleActionGamepad_ = nullptr;
+
+
+	// ターゲットリスト
+	std::list<Enemy*> targets_;
 };
 
