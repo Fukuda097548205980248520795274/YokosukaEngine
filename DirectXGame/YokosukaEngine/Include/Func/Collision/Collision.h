@@ -4,6 +4,7 @@
 #include "../../Shape/Line/Line.h"
 #include "../../Shape/Ray/Ray.h"
 #include "../../Shape/Segment/Segment.h"
+#include "../../Shape/Plane/Plane.h"
 
 /// <summary>
 /// 衝突判定
@@ -28,3 +29,11 @@ bool IsCollision(const AABB& aabb1, const AABB& aabb2);
 /// <param name="segment"></param>
 /// <returns></returns>
 bool IsCollision(const AABB& aabb, const Segment& segment);
+
+/// <summary>
+/// 衝突判定
+/// </summary>
+/// <param name="aabb"></param>
+/// <param name="segment"></param>
+/// <returns></returns>
+bool IsCollision(const Plane& plane, const Sphere& sphere);

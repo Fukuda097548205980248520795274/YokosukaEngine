@@ -376,6 +376,24 @@
     <Filter Include="Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle">
       <UniqueIdentifier>{e3aa0f78-9f67-402b-ab83-e53163570d86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter">
+      <UniqueIdentifier>{2aa7bb2a-2790-45cb-aee0-78d1b36d5eff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player">
+      <UniqueIdentifier>{42a87448-08e8-44b7-abbc-1690acd5d15d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\PlayerVisibility">
+      <UniqueIdentifier>{e7db546e-6897-4bc5-b199-12181de3c575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YokosukaEngine\Include\Shape\Plane">
+      <UniqueIdentifier>{c8120ad1-b905-4051-90b2-77627ea7d7f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Enemy">
+      <UniqueIdentifier>{92b263af-d08b-48f2-8383-692de0661f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\BaseScene\GameScene\BaseCharacter\Player\MoveActionGamepad">
+      <UniqueIdentifier>{fad2e79f-4458-4f54-808c-4bf562172c6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -701,6 +719,24 @@
     </ClCompile>
     <ClCompile Include="Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle\SuzanneModelHandle.cpp">
       <Filter>Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\PlayerVisibility\PlayerVisibility.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\PlayerVisibility</Filter>
+    </ClCompile>
+    <ClCompile Include="YokosukaEngine\Include\Shape\Plane\Plane.cpp">
+      <Filter>YokosukaEngine\Include\Shape\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Enemy\Enemy.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\MoveActionGamepad\MoveActionGamepad.cpp">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\MoveActionGamepad</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1030,6 +1066,24 @@
     </ClInclude>
     <ClInclude Include="Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle\SuzanneModelHandle.h">
       <Filter>Game\ModelHandleStore\BaseModelHandles\SuzanneModelHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\PlayerVisibility\PlayerVisibility.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\PlayerVisibility</Filter>
+    </ClInclude>
+    <ClInclude Include="YokosukaEngine\Include\Shape\Plane\Plane.h">
+      <Filter>YokosukaEngine\Include\Shape\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Enemy\Enemy.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\MoveActionGamepad\MoveActionGamepad.h">
+      <Filter>Game\BaseScene\GameScene\BaseCharacter\Player\MoveActionGamepad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

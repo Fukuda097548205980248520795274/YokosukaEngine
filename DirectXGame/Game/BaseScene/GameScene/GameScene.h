@@ -3,6 +3,10 @@
 #include "../../BaseScene/BaseScene.h"
 #include "../../BaseSprite/BaseSprite.h"
 
+#include "BaseCharacter/BaseCharacter.h"
+#include "BaseCharacter/Player/Player.h"
+#include "BaseCharacter/Enemy/Enemy.h"
+
 class GameScene : public BaseScene
 {
 public:
@@ -34,7 +38,13 @@ public:
 private:
 
 
-	// 白いスプライト
-	std::unique_ptr<Sprite> spriteWhite_ = nullptr;
+	// プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
+
+	// 敵
+	std::unique_ptr<Enemy> enemy_ = nullptr;
+
+	// 平行光源
+	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 	
 };

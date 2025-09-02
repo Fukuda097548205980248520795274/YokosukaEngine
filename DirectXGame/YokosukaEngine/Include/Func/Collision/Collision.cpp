@@ -102,3 +102,27 @@ bool IsCollision(const AABB& aabb, const Segment& segment)
 
 	return false;
 }
+
+
+
+/// <summary>
+/// 衝突判定
+/// </summary>
+/// <param name="aabb"></param>
+/// <param name="segment"></param>
+/// <returns></returns>
+bool IsCollision(const Plane& plane, const Sphere& sphere)
+{
+	// 球までの距離
+	Vector3 toSphere = sphere.center - plane.origin;
+
+	// 距離
+	float distance = Dot(plane.normal, toSphere);
+
+	if (distance <= sphere.radius)
+	{
+		return true;
+	}
+
+	return false;
+}

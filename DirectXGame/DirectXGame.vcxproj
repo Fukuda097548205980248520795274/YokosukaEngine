@@ -119,6 +119,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
     <ClCompile Include="Game\BaseScene\BaseScene.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Enemy\Enemy.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\MoveActionGamepad\MoveActionGamepad.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.cpp" />
+    <ClCompile Include="Game\BaseScene\GameScene\BaseCharacter\Player\PlayerVisibility\PlayerVisibility.cpp" />
     <ClCompile Include="Game\BaseSprite\BaseSprite.cpp" />
     <ClCompile Include="Game\FadeScreen\FadeScreen.cpp" />
     <ClCompile Include="Game\Game.cpp" />
@@ -165,6 +170,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.cpp" />
     <ClCompile Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendSubtract\PrimitiveBlendSubtract.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Shape\Line\Line.cpp" />
+    <ClCompile Include="YokosukaEngine\Include\Shape\Plane\Plane.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Shape\Ray\Ray.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Shape\Segment\Segment.cpp" />
     <ClCompile Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.cpp" />
@@ -230,6 +236,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\BaseScene\BaseScene.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\BaseCharacter.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Enemy\Enemy.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\MoveActionGamepad\MoveActionGamepad.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\Player.h" />
+    <ClInclude Include="Game\BaseScene\GameScene\BaseCharacter\Player\PlayerVisibility\PlayerVisibility.h" />
     <ClInclude Include="Game\BaseSprite\BaseSprite.h" />
     <ClInclude Include="Game\FadeScreen\FadeScreen.h" />
     <ClInclude Include="Game\Game.h" />
@@ -276,6 +287,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendScreen\PrimitiveBlendScreen.h" />
     <ClInclude Include="YokosukaEngine\Include\PipelineStateObject\Primitive\BlendSubtract\PrimitiveBlendSubtract.h" />
     <ClInclude Include="YokosukaEngine\Include\Shape\Line\Line.h" />
+    <ClInclude Include="YokosukaEngine\Include\Shape\Plane\Plane.h" />
     <ClInclude Include="YokosukaEngine\Include\Shape\Ray\Ray.h" />
     <ClInclude Include="YokosukaEngine\Include\Shape\Segment\Segment.h" />
     <ClInclude Include="YokosukaEngine\Include\Store\AudioStore\AudioStore.h" />

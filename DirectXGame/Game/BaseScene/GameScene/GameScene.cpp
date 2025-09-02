@@ -10,11 +10,17 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 	// BaseScene更新
 	BaseScene::Initialize(engine , modelHandleStore , textureHandleStore);
 
-	// スプライトの生成と初期化
-	spriteWhite_ = std::make_unique<Sprite>();
-	spriteWhite_->Initialize(engine_  , camera2d_.get() , Vector2(0.0f , 0.0f) , textureHandleStore_->GetTextureHandle(TextureHandleStore::kUvChecker));
-	spriteWhite_->worldTransform_->translation_ = Vector3(12.0f, 12.0f, 0.0f);
-	spriteWhite_->worldTransform_->scale_ = Vector3(300.0f, 300.0f , 0.0f);
+	// プレイヤーの生成と初期化
+	player_ = std::make_unique<Player>();
+	player_->Initialize(engine_, modelHandleStore_, textureHandleStore_, camera3d_, Vector3(0.0f, 0.0f, 0.0f));
+
+	// 敵の生成と初期化
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize(engine_, modelHandleStore_, textureHandleStore_, camera3d_, Vector3(10.0f, 0.0f, 0.0f));
+
+	// 平行光源の生成と初期化
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	directionalLight_->Initialize();
 	
 }
 
@@ -23,8 +29,26 @@ void GameScene::Initialize(const YokosukaEngine* engine, const ModelHandleStore*
 /// </summary>
 void GameScene::Update()
 {
-	// スプライトの更新
-	spriteWhite_->Update();
+	// プレイヤーの更新処理
+	player_->Update();
+
+	// 敵の更新処理
+	enemy_->Update();
+
+
+	// 敵の当たり判定の球
+	Sphere enemySphere;
+	enemySphere.center = enemy_->GetWorldPosition();
+	enemySphere.radius = 1.0f;
+
+	if (IsCollision(player_->GetBackPlane(), enemySphere))
+	{
+		if (IsCollision(player_->GetTopPlane(), enemySphere) && IsCollision(player_->GetBottomPlane(), enemySphere))
+		{
+			ImGui::Text("hit");
+		}
+	}
+
 
 	// Scene更新
 	BaseScene::Update();
@@ -35,8 +59,14 @@ void GameScene::Update()
 /// </summary>
 void GameScene::Draw()
 {
-	// スプライトの描画
-	spriteWhite_->Draw();
+	// 平行光源の接地
+	engine_->SetDirectionalLight(directionalLight_.get());
+
+	// プレイヤーの描画処理
+	player_->Draw();
+
+	// 敵の描画処理
+	enemy_->Draw();
 
 	// Scene描画
 	BaseScene::Draw();
