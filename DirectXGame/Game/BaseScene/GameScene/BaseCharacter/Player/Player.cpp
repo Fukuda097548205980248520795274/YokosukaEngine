@@ -52,7 +52,7 @@ void Player::Update()
 	}
 
 	// 向きの値を取得する
-	direction_ = scaleActionGamepad_->GetDirection();
+	direction_ = moveActionGamepad_->GetDirection();
 
 
 	// 本体モデルの更新

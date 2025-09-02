@@ -35,6 +35,8 @@ void MoveActionGamepad::Update()
 	worldTransform_->translation_.x += direction.x * speed_;
 	worldTransform_->translation_.y += direction.y * speed_;
 
+	direction_ = Vector3(direction.x , direction.y , 0.0f);
+
 	// 進む方向を向く
 	worldTransform_->rotation_.y = std::atan2(direction.x, 0.0f);
 	float length = std::sqrt(std::pow(direction.x, 2.0f));

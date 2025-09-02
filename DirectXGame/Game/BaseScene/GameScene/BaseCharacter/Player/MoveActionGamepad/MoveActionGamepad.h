@@ -18,6 +18,12 @@ public:
 	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 向きのGetter
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetDirection()const { return direction_; }
+
 
 private:
 
@@ -33,5 +39,8 @@ private:
 
 	// 速度
 	float speed_ = 0.5f;
+
+	// 向き
+	Vector3 direction_ = { 1.0f , 0.0f , 0.0f };
 };
 

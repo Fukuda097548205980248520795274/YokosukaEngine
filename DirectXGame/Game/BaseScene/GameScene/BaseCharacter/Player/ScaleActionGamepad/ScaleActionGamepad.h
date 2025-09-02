@@ -35,12 +35,6 @@ public:
 	/// <param name="target"></param>
 	void SetTargets(std::list<Enemy*> target) { targets_ = target; }
 
-	/// <summary>
-	/// 向きのGetter
-	/// </summary>
-	/// <returns></returns>
-	Vector3 GetDirection()const { return direction_; }
-
 
 private:
 
@@ -52,9 +46,6 @@ private:
 
 	// ターゲットリスト
 	std::list<Enemy*> targets_;
-
-	// 向き
-	Vector3 direction_ = { 1.0f , 0.0f , 0.0f };
 
 
 	// デッドゾーン
