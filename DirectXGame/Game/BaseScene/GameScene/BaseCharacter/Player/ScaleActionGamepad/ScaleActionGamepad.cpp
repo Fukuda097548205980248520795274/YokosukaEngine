@@ -58,6 +58,8 @@ void ScaleActionGamepad::Update()
 		worldTransform_->translation_.y += direction.y * speed_;
 	}
 
+	direction_ = -1.0f * direction;
+
 	for (Enemy* target : targets_)
 	{
 		if (Dot(Vector2(direction.x, direction.y), stickDirection) <= 0.0f)

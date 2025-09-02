@@ -33,22 +33,10 @@ public:
 	void Draw() override;
 
 	/// <summary>
-	/// 後ろ向きの平面のGetter
+	/// 向きのGetter
 	/// </summary>
 	/// <returns></returns>
-	Plane GetBackPlane()const { return visibility_->GetBackPlane(); }
-
-	/// <summary>
-	/// 上側の平面のGetter
-	/// </summary>
-	/// <returns></returns>
-	Plane GetTopPlane() const { return visibility_->GetTopPlane(); }
-
-	/// <summary>
-	/// 下側の平面のGetter
-	/// </summary>
-	/// <returns></returns>
-	Plane GetBottomPlane()const { return visibility_->GetBottomPlane(); }
+	Vector3 GetDirection()const { return direction_; }
 
 	/// <summary>
 	/// 衝突判定応答
@@ -71,6 +59,9 @@ private:
 	// ゲームパッドの拡縮操作
 	std::unique_ptr<ScaleActionGamepad> scaleActionGamepad_ = nullptr;
 
+
+	// 向き
+	Vector3 direction_ = { 1.0f , 0.0f , 0.0f };
 
 	// ターゲットリスト
 	std::list<Enemy*> targets_;

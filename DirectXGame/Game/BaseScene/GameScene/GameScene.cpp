@@ -43,22 +43,17 @@ void GameScene::Update()
 	}
 
 
+	// プレイヤーの向き
+	Vector3 playerDirction = player_->GetDirection();
 
 	for (std::unique_ptr<Enemy>& enemy : enemies_)
 	{
-		// 敵の当たり判定の球
-		Sphere enemySphere;
-		enemySphere.center = enemy->GetWorldPosition();
-		enemySphere.radius = 1.0f;
+		// 敵の方向
+		Vector3 toEnemy = Normalize(enemy->GetWorldPosition() - player_->GetWorldPosition());
 
-		// 敵がプレイヤーの手前にいるかどうか
-		if (IsCollision(player_->GetBackPlane(), enemySphere))
+		if (Dot(playerDirction, toEnemy) >= 0.75f)
 		{
-			// 視覚の中にいるかどうか
-			if (IsCollision(player_->GetTopPlane(), enemySphere) && IsCollision(player_->GetBottomPlane(), enemySphere))
-			{
-				player_->OnCollision(enemy.get());
-			}
+			player_->OnCollision(enemy.get());
 		}
 	}
 
