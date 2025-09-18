@@ -15,6 +15,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Game* game = new Game();
 	game->Initialize(engine);
 
+	std::unique_ptr<WorldTransform> worldTransform = std::make_unique<WorldTransform>();
+	worldTransform->Initialize();
+	worldTransform->scale_.z = 0.0f;
+
 
 	// メインループ
 	while (engine->ProcessMessage())
@@ -34,6 +38,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// ゲームの更新
 		game->Update();
+
+		worldTransform->UpdateWorldMatrix();
+		Matrix4x4 inverseMatrix = MakeInverseMatrix(worldTransform->worldMatrix_);
 
 		// 調整項目 ImGui
 		GlobalVariables::GetInstance()->Update();

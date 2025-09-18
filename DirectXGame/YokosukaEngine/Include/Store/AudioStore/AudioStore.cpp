@@ -9,7 +9,7 @@ AudioStore::~AudioStore()
 	{
 		CoTaskMemFree(loadAudioStructure_[i].waveFormat);
 	}
-
+	
 	MFShutdown();
 	xAudio2_.Reset();
 }
